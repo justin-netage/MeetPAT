@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'MeetPAT'),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://www.meetpat.co.za'),
 
     /*
     |--------------------------------------------------------------------------
@@ -154,11 +154,11 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        MeetPAT\Providers\AppServiceProvider::class,
+        MeetPAT\Providers\AuthServiceProvider::class,
+        // MeetPAT\Providers\BroadcastServiceProvider::class,
+        MeetPAT\Providers\EventServiceProvider::class,
+        MeetPAT\Providers\RouteServiceProvider::class,
 
     ],
 

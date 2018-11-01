@@ -2,8 +2,7 @@
 
 @section('content')
 
-<h1 id="root"></h1>
+<div id="root"></div>
 
-<div id="example"></div>
 
 @endsection

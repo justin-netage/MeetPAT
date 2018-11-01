@@ -10,5 +10,70 @@
 
 .navbar-laravel {
   background-color: #eeeeee;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
+
+.navbar-laravel, .nav-link
+{
+  margin: 0px;
+  padding: 0px;
+}
+
+.nav-link
+{
+  padding: 12px;
+  border-bottom: 3px solid transparent;
+  font-weight: 700;
+
+}
+.navbar-laravel .nav-link:hover, .nav-link-active
+{
+  border-bottom: 3px solid #039be5;
+  font-weight: 900;
+  background-color: #F8F8FF;
+}
+
+.card {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  border: 2px groove transparent;
+}
+
+.card form label
+{
+  font-weight: 700;
+  color: #424242;
+}
+
+.card input, .card textarea
+{
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+input:focus, textarea:focus
+{
+  box-shadow: none; 
+}
+
+#loader
+{
+  position: fixed;
+  top: 40%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  background-color: transparent; /* Black background with opacity */
+}
+
+.meet_pat span
+{
+  font-weight: 900;
+}
+
+.card
+{
+    margin-top: 48px;
+}
+

@@ -38,7 +38,12 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <p></p>
+                <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut rhoncus sem nec metus auctor ornare in in ex. Nullam lacinia volutpat leo eget pharetra. Phasellus dictum, metus varius placerat consequat, metus libero dictum odio, ut suscipit tellus justo eget elit. Integer ultricies mauris in nulla dignissim, a varius sapien facilisis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer sed gravida lorem, egestas facilisis nibh. Nullam posuere ex sed tincidunt feugiat. Praesent eu arcu sed quam gravida iaculis. Quisque tincidunt eros nisl, sit amet commodo arcu consectetur eget. Proin vel magna eu orci iaculis finibus. 
+                </p>
+                <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut rhoncus sem nec metus auctor ornare in in ex. Nullam lacinia volutpat leo eget pharetra. Phasellus dictum, metus varius placerat consequat, metus libero dictum odio, ut suscipit tellus justo eget elit. Integer ultricies mauris in nulla dignissim, a varius sapien facilisis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer sed gravida lorem, egestas facilisis nibh. Nullam posuere ex sed tincidunt feugiat. Praesent eu arcu sed quam gravida iaculis. Quisque tincidunt eros nisl, sit amet commodo arcu consectetur eget. Proin vel magna eu orci iaculis finibus. 
+                </p>
             </div>
         </div>
     </div>

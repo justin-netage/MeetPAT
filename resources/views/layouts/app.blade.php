@@ -18,6 +18,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('styles')
 </head>
 <body>
     <div clas="container">
@@ -28,7 +29,7 @@
         </div>
     </div>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+        <nav class="navbar sticky-top navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <!-- {{ config('app.name', 'Laravel') }} -->
@@ -40,6 +41,31 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
+                        @if(Request::path() == 'how-it-works')
+                        <!-- <li><a class="nav-link nav-link-active" href="{{ route('how-it-works') }}">How it works</a></li> -->
+                        @else
+                        <!-- <li><a class="nav-link nav-link-inactive" href="{{ route('how-it-works') }}">How it works</a></li> -->
+                        @endif
+                        @if(Request::path() == 'benefits')
+                        <!-- <li><a class="nav-link nav-link-active" href="{{ route('benefits') }}">Benefits</a></li> -->
+                        @else
+                        <!-- <li><a class="nav-link nav-link-inactive" href="{{ route('benefits') }}">Benefits</a></li> -->
+                        @endif
+                        @if(Request::path() == 'insights')
+                        <!-- <li><a class="nav-link nav-link-active" href="{{ route('insights') }}">Insights</a></li> -->
+                        @else
+                        <!-- <li><a class="nav-link nav-link-inactive" href="{{ route('insights') }}">Insights</a></li> -->
+                        @endif
+                        @if(Request::path() == 'onboarding')
+                        <!-- <li><a class="nav-link nav-link-active" href="{{ route('onboarding') }}">Onboarding</a></li> -->
+                        @else
+                        <!-- <li><a class="nav-link nav-link-inactive" href="{{ route('onboarding') }}">Onboarding</a></li> -->
+                        @endif
+                        @if(Request::path() == 'pricing')
+                        <!-- <li><a class="nav-link nav-link-active" href="{{ route('pricing') }}">Pricing</a></li> -->
+                        @else
+                        <!-- <li><a class="nav-link nav-link-inactive" href="{{ route('pricing') }}">Pricing</a></li> -->
+                        @endif
 
                     </ul>
 
@@ -47,13 +73,28 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
+                            <!-- <li class="nav-item"> -->
+                                @if(Request::path() == 'apply')
+                                <!-- <a class="nav-link nav-link-active" href="{{ route('apply') }}">{{ __('Apply') }}</a> -->
+                                @else
+                                <!-- <a class="nav-link nav-link-inactive" href="{{ route('apply') }}">{{ __('Apply') }}</a> -->
+                                @endif
+                            <!-- </li> -->
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    @if(Request::path() == 'contact')
+                                    <a class="nav-link nav-link-active" href="{{ route('contact') }}">{{ __('Contact') }}</a>
+
+                                    @else
+                                        <a class="nav-link nav-link-inactive" href="{{ route('contact') }}">{{ __('Contact') }}</a>
+                                    @endif
                             </li>
                             <li class="nav-item">
-                                @if (Route::has('register'))
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                @endif
+                                    @if(Request::path() == 'Login')
+                                    <a class="nav-link nav-link-active" href="{{ route('login') }}">{{ __('Login') }}</a>
+
+                                    @else
+                                        <a class="nav-link nav-link-inactive" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    @endif
                             </li>
                         @else
                             <li class="nav-item dropdown">

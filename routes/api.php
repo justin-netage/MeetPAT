@@ -16,3 +16,8 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Email Routes
+
+Route::post('/send-message', 'ContactController@send_message')->name('send-message');
+
