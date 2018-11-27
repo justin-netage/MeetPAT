@@ -6,6 +6,7 @@
  */
 
 require('./bootstrap');
+require('./custom');
 
 /**
  * Next, we will create a fresh React component instance and attach it to
@@ -17,3 +18,7 @@ require('./components/Contact');
 require('./components/LoaderAnimation');
 require('./components/ThankYou');
 require('./components/Apply');
+
+// Admin components
+
+require('./components/admin/AllUsers');

@@ -18,16 +18,27 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+
     @yield('styles')
 </head>
 <body>
-    <div clas="container">
-        <div class="col-12 text-center p-5">
-            <a href="{{ url('/') }}">
-                <img src="{{asset('storage/images/site-logo.png')}}" class="img-fluid" alt="meetpat-logo">
-            </a>
+<div class="container">
+    <div class="col-12 text-center p-3">
+        <a href="{{ url('/') }}">
+            <img src="{{asset('storage/images/site-logo.png')}}" class="img-fluid" alt="meetpat-logo">
+        </a>
+    </div>
+</div>
+<!--  -->
+    <div class="wrapper">
+        <div class="badge-beta">
+            <i class="left"></i>
+            <i class="right"></i>
+            BETA
         </div>
     </div>
+<!-- -->
     <div id="app">
         <nav class="navbar sticky-top navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
@@ -41,6 +52,39 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
+                    @guest
+
+                    @else
+                        @if(\Auth::user()->admin)
+                        <!-- Administrators Navigation --> 
+                            @if(Request::path() == 'meetpat-admin/users')
+                            <li><a class="nav-link nav-link-active" href="{{ route('meetpat-users') }}"><i class="fas fa-users-cog"></i>&nbsp;Users</a></li>
+                            @else
+                            <li><a class="nav-link nav-link-inactive" href="{{ route('meetpat-users') }}"><i class="fas fa-users-cog"></i>&nbsp;Users</a></li>
+                            @endif
+                            @if(Request::path() == 'meetpat-admin/users/create')
+                            <li><a class="nav-link nav-link-active" href="{{ route('create-user') }}"><i class="fas fa-user-plus"></i>&nbsp;New User</a></li>
+                            @else
+                            <li><a class="nav-link nav-link-inactive" href="{{ route('create-user') }}"><i class="fas fa-user-plus"></i>&nbsp;New User</a></li>
+                            @endif
+                        @endif
+                        
+                        @if(\Auth::user()->client)
+                        <!-- Clients Navigation --> 
+                            @if(Request::path() == 'meetpat-client')
+                            <li><a class="nav-link nav-link-active" href="{{ route('meetpat-client') }}"><i class="fas fa-home"></i>&nbsp;Dashboard</a></li>
+                            @else
+                            <li><a class="nav-link nav-link-inactive" href="{{ route('meetpat-client') }}"><i class="fas fa-home"></i>&nbsp;Dashboard</a></li>
+                            @endif
+                            @if(Request::path() == 'meetpat-client/sync-platform')
+                            <li><a class="nav-link nav-link-active" href="{{ route('meetpat-client-sync') }}"><i class="fas fa-sync-alt"></i>&nbsp;Sync Platform</a></li>
+                            @else
+                            <li><a class="nav-link nav-link-inactive" href="{{ route('meetpat-client-sync') }}"><i class="fas fa-sync-alt"></i>&nbsp;Sync Platform</a></li>
+                            @endif
+
+                        @endif
+                    @endguest
+                        
                         @if(Request::path() == 'how-it-works')
                         <!-- <li><a class="nav-link nav-link-active" href="{{ route('how-it-works') }}">How it works</a></li> -->
                         @else
@@ -66,7 +110,7 @@
                         @else
                         <!-- <li><a class="nav-link nav-link-inactive" href="{{ route('pricing') }}">Pricing</a></li> -->
                         @endif
-
+                        
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -103,6 +147,11 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                @if(\Auth::user()->admin()->first())
+                                <a class="dropdown-item" href="{{ route('meetpat-admin') }}">
+                                        {{ __('Admin') }}
+                                </a>
+                                @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -121,6 +170,8 @@
         </nav>
 
         <main class="py-4">
+            @include('flash-message')
+
             @yield('content')
         </main>
     </div>

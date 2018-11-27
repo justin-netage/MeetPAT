@@ -27,4 +27,17 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+    public function admin()
+    {
+
+        return $this->hasOne('\MeetPAT\Administrator');
+    }
+
+    public function client()
+    {
+
+        return $this->hasOne('\MeetPAT\MeetpatClient');
+    }
 }
