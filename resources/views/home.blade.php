@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('styles')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.2/rangeslider.min.css" />
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -16,8 +20,14 @@
 
                     You are logged in!
                 </div>
-            </div>
         </div>
     </div>
 </div>
+
+@endsection
+
+@section('scripts')
+
+
+
 @endsection
