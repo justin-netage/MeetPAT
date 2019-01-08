@@ -18,7 +18,10 @@ class AdministratorController extends Controller
     // Get all users
     public function users()
     {
-        $users = \MeetPAT\User::all();
+        $users = \DB::table("users")->select("*")->whereNOTIn('id', function($query) {
+            $query->select('user_id')->from('administrators');
+        })->get();
+
         return $users;
     }
     // Get User Count

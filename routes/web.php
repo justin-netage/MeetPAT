@@ -59,4 +59,6 @@ Route::post('/meetpat-admin/users/create/save', 'AdministratorController@create_
 
 Route::get('/meetpat-client', 'MeetpatClientController@main')->name('meetpat-client')->middleware('auth')->middleware('client');
 Route::get('/meetpat-client/sync-platform', 'MeetpatClientController@sync_platform')->name('meetpat-client-sync')->middleware('auth')->middleware('client');
+Route::get('/meetpat-client/upload-clients', 'MeetpatClientController@upload_clients')->name('meetpat-client-upload')->middleware('auth')->middleware('client');
+
 

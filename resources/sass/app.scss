@@ -92,6 +92,7 @@ td .far, td .fas
 
 .table {
   margin: auto;
+  background-color: #fff;
 }
 
 td {
@@ -195,68 +196,91 @@ td {
 
 // Badge Styling
 
-.wrapper {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  right: 10px;
-  bottom: 10px;
-  background: transparent;
-  border: 1px solid #D4E0D7;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  min-height: 1200px;
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans:400,700');
+
+*{
+  margin: 0;
+  padding: 0;
 }
 
-.badge-beta {
-  height: 50px;
-  background: rgba(88, 199, 119, 0.9);
+body{
+  background: #f0f0f0;
+  font-family: 'Noto Sans', sans-serif;
+}
+
+
+/* The ribbons */
+
+.corner-ribbon{
   width: 200px;
+  background:rgba(255, 255, 255, 0.9);
+  position: absolute;
+  top: 25px;
+  left: -50px;
   text-align: center;
-  font-size: 20px;
   line-height: 50px;
-  font-family: sans-serif;
-  color: #FFF;
+  letter-spacing: 1px;
+  color: #039be5;
   transform: rotate(-45deg);
-  position: relative;
-  top: -2px;
-  left: -70px;
-  box-shadow: inset 0px 0px 0px 4px rgba(255, 255, 255, 0.34);
+  -webkit-transform: rotate(-45deg);
 }
 
-.badge-beta:after {
-  position: absolute;
-  content: '';
-  display: block;
-  height: 100px;
-  width: 100px;
-  background: #EDF1EE;
-  top: -55px;
-  left: 130px;
-transform: rotate(-45deg);
-  box-shadow: -115px -121px 0px 0px #EDF1EE;
+/* Custom styles */
+
+.corner-ribbon.ribbon-sticky{
+  position: fixed;
 }
 
-.badge-beta .left {
-  position: absolute;
-  content: '';
-  display: block;
-  top: 50px;
-  left: 25px;
-  height: 8px;
-  width: 8px;
-  background: linear-gradient(135deg, rgba(90, 146, 106, 1) 50%,rgba(90, 146, 106, 0) 50.1%);
+.corner-ribbon.shadow{
+  box-shadow: 0 0 3px rgba(0,0,0,.3);
 }
-.badge-beta .right {
-  position: absolute;
-  content: '';
-  display: block;
-  top: 50px;
-  left: 157px;
-  height: 8px;
-  width: 8px;
-  background: linear-gradient(135deg, rgba(90, 146, 106, 1) 50%,rgba(90, 146, 106, 0) 50.1%);
-  transform: rotate(90deg);
+
+/* Different positions */
+
+.corner-ribbon.top-left{
+  top: 25px;
+  left: -50px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
 }
+
+.corner-ribbon.top-right{
+  top: 25px;
+  right: -50px;
+  left: auto;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+.corner-ribbon.bottom-left{
+  top: auto;
+  bottom: 25px;
+  left: -50px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+.corner-ribbon.bottom-right{
+  top: auto;
+  right: -50px;
+  bottom: 25px;
+  left: auto;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+/* Colors */
+
+.corner-ribbon.white{background: #f0f0f0; color: #555;}
+.corner-ribbon.black{background: #333;}
+.corner-ribbon.grey{background: #999;}
+.corner-ribbon.blue{background: #39d;}
+.corner-ribbon.green{background: #2c7;}
+.corner-ribbon.turquoise{background: #1b9;}
+.corner-ribbon.purple{background: #95b;}
+.corner-ribbon.red{background: #e43;}
+.corner-ribbon.orange{background: #e82;}
+.corner-ribbon.yellow{background: #ec0;}
 
 .jumbotron-main {
   background-color: #424242;

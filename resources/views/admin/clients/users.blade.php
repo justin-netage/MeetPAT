@@ -22,7 +22,7 @@
                     @foreach($users as $key => $user)
                         @if($user->client)
                         <tr>
-                            <td>{{$key + 1}}</td>
+                            <td>{{$key}}</td>
                             <td>{{$user->name}}</td> 
                             <td><a href="mailto:{{$user->email}}?Subject=MeetPat%20">{{$user->email}}</td>
                             <td>

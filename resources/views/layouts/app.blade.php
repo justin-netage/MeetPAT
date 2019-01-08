@@ -30,14 +30,8 @@
         </a>
     </div>
 </div>
-<!--  -->
-    <div class="wrapper">
-        <div class="badge-beta">
-            <i class="left"></i>
-            <i class="right"></i>
-            BETA
-        </div>
-    </div>
+<!-- Beta Ribbon  -->
+<div class="corner-ribbon top-left shadow">Beta</div>
 <!-- -->
     <div id="app">
         <nav class="navbar sticky-top navbar-expand-md navbar-light navbar-laravel">
@@ -81,7 +75,11 @@
                             @else
                             <li><a class="nav-link nav-link-inactive" href="{{ route('meetpat-client-sync') }}"><i class="fas fa-sync-alt"></i>&nbsp;Sync Platform</a></li>
                             @endif
-
+                            @if(Request::path() == 'meetpat-client/upload-customers')
+                            <li><a class="nav-link nav-link-active" href="{{ route('meetpat-client-upload') }}"><i class="fas fa-file-upload"></i>&nbsp;Upload Customers</a></li>
+                            @else
+                            <li><a class="nav-link nav-link-inactive" href="{{ route('meetpat-client-upload') }}"><i class="fas fa-file-upload"></i></i>&nbsp;Upload Customers</a></li>
+                            @endif
                         @endif
                     @endguest
                         
@@ -175,7 +173,7 @@
             @yield('content')
         </main>
     </div>
-    
+    @yield('modals')
 @yield('scripts')
 </body>
 </html>

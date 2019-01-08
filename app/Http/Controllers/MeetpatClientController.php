@@ -19,4 +19,10 @@ class MeetpatClientController extends Controller
 
         return view('client.dashboard.sync');
     }
+
+    public function upload_clients()
+    {
+
+        return view('client.dashboard.upload_clients');
+    }
 }

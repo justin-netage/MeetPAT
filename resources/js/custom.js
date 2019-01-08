@@ -25,3 +25,37 @@ $('.collapsePasswordChange').on('hidden.bs.collapse', function() {
     $('.PasswordInput').removeClass('is-invalid');
 
 });
+
+
+
+var x = document.getElementsByClassName("ellipsis-js")[0];
+var text_content = "";
+
+if(x)
+{
+    text_content = x.textContent;
+    x.innerHTML = x.textContent.substr(0, 255) + "<a href='#' onclick='seeMore(event);' id='see_more'>[ Read More ]</a>" ;
+}
+
+var seeMore = function(event) {
+    if(x)
+    {   
+        event.preventDefault();
+        x.innerHTML = text_content + "<a href='#' onclick='seeLess(event);' id='see_less'>[ Show Less ]</a>";
+    }
+
+}
+
+var seeLess = function(event) {
+    if(x)
+    {
+        event.preventDefault();
+        x.innerHTML = x.textContent.substr(0, 255) + "<a href='#' onclick='seeMore(event);' id='see_more'>[ Read More ]</a>" ;
+    }
+ }
+
+
+
+
+
+
