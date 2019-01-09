@@ -26,7 +26,7 @@
 <div class="container">
     <div class="col-12 text-center p-3">
         <a href="{{ url('/') }}">
-            <img src="{{asset('storage/images/site-logo.png')}}" class="img-fluid" alt="meetpat-logo">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/site-logo.png')}}" class="img-fluid" alt="meetpat-logo">
         </a>
     </div>
 </div>

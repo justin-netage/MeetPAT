@@ -6,16 +6,16 @@
             <div id="carouselExample" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img class="d-block w-100" src="{{asset('/storage/images/welcome-page/avatar-2155431_1920.png')}}">
+                        <img class="d-block w-100" src="{{Storage::disk('s3')->url('meetpat/public/images/welcome-page/avatar-2155431_1920.png')}}">
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block w-100" src="{{asset('/storage/images/welcome-page/avatar-2191918_1920.png')}}">
+                        <img class="d-block w-100" src="{{Storage::disk('s3')->url('meetpat/public/images/welcome-page/avatar-2191918_1920.png')}}">
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block w-100" src="{{asset('/storage/images/welcome-page/avatar-2191931.png')}}">
+                        <img class="d-block w-100" src="{{Storage::disk('s3')->url('meetpat/public/images/welcome-page/avatar-2191931.png')}}">
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block w-100" src="{{asset('/storage/images/welcome-page/avatar-2191932_1920.png')}}">
+                        <img class="d-block w-100" src="{{Storage::disk('s3')->url('meetpat/public/images/welcome-page/avatar-2191932_1920.png')}}">
                     </div>
                 </div>
                 <!-- <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
