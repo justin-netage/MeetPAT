@@ -44,7 +44,7 @@
   color: #424242;
 }
 
-.card input, .card textarea, .modal input, .modal textarea, .view-password
+.card input, .card textarea, .modal input, .modal textarea, .view-password, .shadow-block
 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
@@ -326,10 +326,23 @@ body{
  color: #F65314;
 }
 
+@media only screen and (max-width: 768px) {
+  .facebook-button
+  {
+    font-size: 14px;
+  }
+}
+@media only screen and (min-width: 769px) {
+  .facebook-button
+  {
+    font-size: 22px;
+  }
+}
+
 .facebook-button
 {
-  padding: 3px;
-  font-size: 26px;
   font-weight: 900;
   color: #3b5998;
+  margin: auto;
+  width: 100%;
 }
