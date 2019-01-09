@@ -66,8 +66,8 @@ Route::get('/meetpat-client/upload-clients', 'MeetpatClientController@upload_cli
 
 Route::get('/fb-callback', function() {
         $fb = new Facebook\Facebook([
-        'app_id' => env('FACEBOOK_APP_SECRET'),
-        'app_secret' => env('FACEBOOK_APP_ID'),
+        'app_id' => env('FACEBOOK_APP_ID'),
+        'app_secret' => env('FACEBOOK_APP_SECRET'),
         'default_graph_version' => 'v2.10',
         ]);
       
@@ -81,8 +81,8 @@ Route::get('/fb-callback', function() {
 
 Route::get('/facebook-login', function() {
     $fb = new Facebook\Facebook([
-        'app_id' => env('FACEBOOK_APP_SECRET'),
-        'app_secret' => env('FACEBOOK_APP_ID'),
+        'app_id' => env('FACEBOOK_APP_ID'),
+        'app_secret' => env('FACEBOOK_APP_SECRET'),
         'default_graph_version' => 'v2.10',
         ]);
       
