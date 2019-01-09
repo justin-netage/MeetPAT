@@ -10,7 +10,6 @@
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
         "league/flysystem-aws-s3-v3": "^1.0",
-        "league/flysystem-sftp": "^1.0",
         "sendgrid/sendgrid": "^7.2"
     },
     "require-dev": {

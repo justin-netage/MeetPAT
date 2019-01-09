@@ -26,7 +26,7 @@ class ContactController extends Controller
 
         $data = [ 'name' => $request->name, 'email' => $request->email, 'message' => $request->message];
 
-        //  \Mail::to('justin@netage.co.za')->send(new ContactSend($data));
+        \Mail::to('justin@netage.co.za')->send(new ContactSend($data));
 
         return response(200);
     }
