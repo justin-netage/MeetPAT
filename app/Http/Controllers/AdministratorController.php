@@ -94,8 +94,9 @@ class AdministratorController extends Controller
             $uppercase = preg_match('@[A-Z]@', $request->new_password);
             $lowercase = preg_match('@[a-z]@', $request->new_password);
             $number    = preg_match('@[0-9]@', $request->new_password);
+            $symbol    = preg_match("@[-!$%^&*()_+|~=`{}\[\]:\";'<>?,.\/]@", $request->new_password);
 
-            if(!$uppercase || !$lowercase || !$number || strlen($request->new_password) < 8) {
+            if(!$uppercase || !$lowercase || !$number || !$symbol || strlen($request->new_password) < 8) {
 
                 $response["password_valid"] = "false";
 

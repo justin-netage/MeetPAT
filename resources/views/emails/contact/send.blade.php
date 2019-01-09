@@ -19,8 +19,6 @@
 <br>
 <b>Query</b>
 
----
-
 {{$message}}
 
 Thanks,<br>

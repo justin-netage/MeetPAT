@@ -510,7 +510,8 @@
                 if(Http_Delete.readyState === 4) {
                     
                     console.log('request complete');
-                    $("#loader").css("display", "none");
+                    // $("#loader").css("display", "none");
+                    location.reload(true);
 
                 }
             };        

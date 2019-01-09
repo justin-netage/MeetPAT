@@ -9,7 +9,7 @@
                 <div class="card-header"><h1>{{ __('Create User') }}</h1></div>
 
                 <div class="card-body">
-                    <form method="POST" id="new-user-form" action="{{ route('create-user-save') }}">
+                    <form method="POST" id="new-user-form" action="{{ route('create-user-save') }}" onsubmit="displayLoader();">
                         @csrf
                         <div class="form-group">
                             <label for="email">{{ __('First Name') }}</label>
@@ -96,24 +96,28 @@
 @section('scripts')
 
 <script>
+
+    function displayLoader() {
+        $("#loader").css("display", "block");
+    }
     // FeatureMethods
 
     function viewPassword(current_el) {
 
-var password_el = $('#PasswordInput');
-var password_icon_el = $('i', '#ViewPassword');
+        var password_el = $('#PasswordInput');
+        var password_icon_el = $('i', '#ViewPassword');
 
-if(password_el.attr('type') == 'password')
-{
-    password_el.attr({type: 'text'});
-    password_icon_el.removeClass();
-    password_icon_el.addClass('fas fa-eye-slash');
+        if(password_el.attr('type') == 'password')
+        {
+            password_el.attr({type: 'text'});
+            password_icon_el.removeClass();
+            password_icon_el.addClass('fas fa-eye-slash');
 
-} else {
-    password_el.attr({type: 'password'});
-    password_icon_el.removeClass();
-    password_icon_el.addClass('fas fa-eye');
-}
+        } else {
+            password_el.attr({type: 'password'});
+            password_icon_el.removeClass();
+            password_icon_el.addClass('fas fa-eye');
+        }
 
 }
 
