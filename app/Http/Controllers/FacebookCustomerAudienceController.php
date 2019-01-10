@@ -21,14 +21,14 @@ class FacebookCustomerAudienceController extends Controller
           
           $helper = $fb->getRedirectLoginHelper();
           
-          if (!$request->session()->exists('facebook_access_token')) {
-            $request->session()->get('facebook_access_token', 'default');
+          if (!isset($_SESSION['facebook_access_token'])) {
+            $_SESSION['facebook_access_token'] = null;
           }
           
-          if (!$request->session()->exists('facebook_access_token')) {
+          if (!$_SESSION['facebook_access_token']) {
             $helper = $fb->getRedirectLoginHelper();
             try {
-                $request->session()->put('key', (string) $helper->getAccessToken());
+              $_SESSION['facebook_access_token'] = (string) $helper->getAccessToken();
             } catch(FacebookResponseException $e) {
               // When Graph returns an error
               echo 'Graph returned an error: ' . $e->getMessage();
@@ -40,17 +40,13 @@ class FacebookCustomerAudienceController extends Controller
             }
           }
           
-          if ($request->session()->exists('facebook_access_token')) {
-            Api::init(
-            env('FACEBOOK_APP_ID'),
-            env('FACEBOOK_APP_SECRET'),
-            $request->session()->get('facebook_access_token') // Your user access token
-              );
+          if ($_SESSION['facebook_access_token']) {
+            echo "You are logged in!";
           } else {
             $permissions = ['ads_management'];
             $loginUrl = $helper->getLoginUrl('https://infinite-coast-17182.herokuapp.com/register-facebook-add-account', $permissions);
+            // echo '<a href="' . $loginUrl . '">Log in with Facebook</a>';
           }
-
-            return view('auth.facebook_ad_account', ['login_url' => $loginUrl, 'login_fb' => $request->session()->get('facebook_access_token')]);
+            return view('auth.facebook_ad_account', ['login_url' => $loginUrl]);
     }
 }
