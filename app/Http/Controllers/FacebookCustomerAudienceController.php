@@ -71,6 +71,14 @@ class FacebookCustomerAudienceController extends Controller
             }
 
           } else {
+            if($user->ad_account) {
+                $fb->setAccessToken($user->ad_account->facebook_access_token);
+
+                if($fb->getUser()) {
+                    return redirect('/meetpat-client/upload-clients');
+                }
+            } 
+
             $permissions = ['ads_management'];
             $loginUrl = $helper->getLoginUrl('https://infinite-coast-17182.herokuapp.com/register-facebook-add-account', $permissions);
             // echo '<a href="' . $loginUrl . '">Log in with Facebook</a>';
