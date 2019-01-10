@@ -16,7 +16,6 @@ class FacebookCustomerAudienceController extends Controller
     {
         $user = \Auth::user();
         $loginUrl = null;
-        $_SESSION['facebook_access_token'] = null;
 
         $fb = new Facebook([
             'app_id' => env('FACEBOOK_APP_ID'),
@@ -48,6 +47,7 @@ class FacebookCustomerAudienceController extends Controller
 
             if($user->ad_account) {
                 $user->ad_account->update(['access_token' => $_SESSION['facebook_access_token']]);
+                $_SESSION['facebook_access_token'] = null;
 
                 return redirect('/meetpat-client/upload-clients');
             } else {
