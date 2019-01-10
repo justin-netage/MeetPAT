@@ -10,12 +10,12 @@
 | the IoC container for the system binding all of the various parts.
 |
 */
+session_start();
 
 $app = new Illuminate\Foundation\Application(
     realpath(__DIR__.'/../')
 );
 
-$app['session']->start();
 
 /*
 |--------------------------------------------------------------------------
