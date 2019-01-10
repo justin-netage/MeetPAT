@@ -45,40 +45,21 @@ class FacebookCustomerAudienceController extends Controller
           if ($_SESSION['facebook_access_token']) {
 
             if($user->ad_account) {
-                $fb->setAccessToken($user->ad_account->facebook_access_token);
-
-                if(!$fb->getUser()) {
-                    $user->ad_account->update(['access_token' => $_SESSION['facebook_access_token']]);
-                }
-
-                return redirect('/meetpat-client/upload-clients');
-
+                $user->ad_account->update(['access_token' => $_SESSION['facebook_access_token']]);
             } else {
-                $new_ad_account = \MeetPAT\FacebookAdAccount::create([
-                    'user_id' => $user->id,
-                    'ad_account_id' => '2182368842043371',
-                    'access_token' => $_SESSION['facebook_access_token']]);
-
+                $new_ad_account = \MeetPAT\FacebookAdAccount::create(['user_id' => $user->id, 'ad_account_id' => '2182368842043371', 'access_token' => $_SESSION['facebook_access_token']]);
+                
                 if($new_ad_account) {
-                    \Session::flash('success', 'Your facebook account has been linked succesfully.');
-
+                    \Session::flash('success', 'Your facebook account has linked successfully.');
                     return redirect('/meetpat-client/upload-clients');
-                } else {
 
-                    \Session::flash('error', 'There was a problem linking your facebook account please contact MeetPAT for assistance.');
+                } else {
+                    \Session::flash('error', 'There was a problem linking your account please contact MeetPAT for asssistance.');
 
                 }
             }
 
           } else {
-            if($user->ad_account) {
-                $fb->setAccessToken($user->ad_account->facebook_access_token);
-
-                if($fb->getUser()) {
-                    return redirect('/meetpat-client/upload-clients');
-                }
-            } 
-
             $permissions = ['ads_management'];
             $loginUrl = $helper->getLoginUrl('https://infinite-coast-17182.herokuapp.com/register-facebook-add-account', $permissions);
             // echo '<a href="' . $loginUrl . '">Log in with Facebook</a>';
