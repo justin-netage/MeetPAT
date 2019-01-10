@@ -14,6 +14,8 @@ class FacebookCustomerAudienceController extends Controller
 
     public function register_ad_account_id(Request $request) 
     {
+        session_start();
+
         $fb = new Facebook([
             'app_id' => env('FACEBOOK_APP_ID'),
             'app_secret' => env('FACEBOOK_APP_SECRET'),
