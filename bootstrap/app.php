@@ -15,6 +15,8 @@ $app = new Illuminate\Foundation\Application(
     realpath(__DIR__.'/../')
 );
 
+$app['session']->start();
+
 /*
 |--------------------------------------------------------------------------
 | Bind Important Interfaces
