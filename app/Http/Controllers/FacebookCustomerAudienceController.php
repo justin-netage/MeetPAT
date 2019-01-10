@@ -66,7 +66,7 @@ class FacebookCustomerAudienceController extends Controller
             if($user->ad_account) {
                 \Session::flash('success', 'Your account has been linked.');
 
-                return redirect('/meetpat/upload-clients');
+                return redirect('/meetpat-client/upload-clients');
             } 
 
             $permissions = ['ads_management'];
