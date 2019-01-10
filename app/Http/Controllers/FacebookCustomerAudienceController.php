@@ -62,6 +62,13 @@ class FacebookCustomerAudienceController extends Controller
             }
 
           } else {
+            
+            if($user->ad_account) {
+                \Session::flash('success', 'Your account has been linked.');
+
+                return redirect('/meetpat/upload-clients');
+            } 
+
             $permissions = ['ads_management'];
             $loginUrl = $helper->getLoginUrl('https://infinite-coast-17182.herokuapp.com/register-facebook-add-account', $permissions);
             // echo '<a href="' . $loginUrl . '">Log in with Facebook</a>';
