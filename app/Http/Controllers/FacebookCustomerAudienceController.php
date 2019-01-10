@@ -45,9 +45,29 @@ class FacebookCustomerAudienceController extends Controller
           if ($_SESSION['facebook_access_token']) {
 
             if($user->ad_account) {
-                $user->ad_account->update(['access_token' => $_SESSION['facebook_access_token']]);
+                $fb->setAccessToken($user->ad_account->facebook_access_token);
+
+                if(!$fb->getUser()) {
+                    $user->ad_account->update(['access_token' => $_SESSION['facebook_access_token']]);
+                }
+
+                return redirect('/meetpat-client/upload-clients');
+
             } else {
-                \MeetPAT\FacebookAdAccount::create(['user_id' => $user->id, 'ad_account_id' => '2182368842043371', 'access_token' => $_SESSION['facebook_access_token']]);
+                $new_ad_account = \MeetPAT\FacebookAdAccount::create([
+                    'user_id' => $user->id,
+                    'ad_account_id' => '2182368842043371',
+                    'access_token' => $_SESSION['facebook_access_token']]);
+
+                if($new_ad_account) {
+                    \Session::flash('success', 'Your facebook account has been linked succesfully.');
+
+                    return redirect('/meetpat-client/upload-clients');
+                } else {
+
+                    \Session::flash('error', 'There was a problem linking your facebook account please contact MeetPAT for assistance.');
+
+                }
             }
 
           } else {

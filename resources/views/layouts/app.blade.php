@@ -161,6 +161,14 @@
                                     </form>
                                 </div>
                             </li>
+                            <li class="nav-item">
+                                    @if(Request::path() == 'contact')
+                                    <a class="nav-link nav-link-active" href="{{ route('contact') }}">{{ __('Contact') }}</a>
+
+                                    @else
+                                        <a class="nav-link nav-link-inactive" href="{{ route('contact') }}">{{ __('Contact') }}</a>
+                                    @endif
+                            </li>
                         @endguest
                     </ul>
                 </div>
