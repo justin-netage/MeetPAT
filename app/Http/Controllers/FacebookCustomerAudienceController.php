@@ -4,6 +4,7 @@ namespace MeetPAT\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Facebook\Facebook;
+use FacebookAds\Api;
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
 
@@ -41,6 +42,11 @@ class FacebookCustomerAudienceController extends Controller
           
           if ($request->session()->exists('facebook_access_token')) {
             echo "You are logged in!";
+            Api::init(
+            env('FACEBOOK_APP_ID'),
+            env('FACEBOOK_APP_SECRET'),
+            $request->session()->get('facebook_access_token') // Your user access token
+              );
           } else {
             $permissions = ['ads_management'];
             $loginUrl = $helper->getLoginUrl('https://infinite-coast-17182.herokuapp.com/register-facebook-add-account', $permissions);
