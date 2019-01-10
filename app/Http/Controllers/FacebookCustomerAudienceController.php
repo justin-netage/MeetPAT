@@ -14,8 +14,8 @@ class FacebookCustomerAudienceController extends Controller
     public function register_ad_account_id(Request $request) 
     {
         $fb = new Facebook([
-            'app_id' => '{your-app-id}',
-            'app_secret' => '{your-app-secret}',
+            'app_id' => env('FACEBOOK_APP_ID'),
+            'app_secret' => env('FACEBOOK_APP_SECRET'),
           ]);
           
           $helper = $fb->getRedirectLoginHelper();
