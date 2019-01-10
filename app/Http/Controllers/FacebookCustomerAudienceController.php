@@ -43,7 +43,7 @@ class FacebookCustomerAudienceController extends Controller
             echo "You are logged in!";
           } else {
             $permissions = ['ads_management'];
-            $loginUrl = $helper->getLoginUrl('http://localhost:8888/marketing-api/', $permissions);
+            $loginUrl = $helper->getLoginUrl('https://infinite-coast-17182.herokuapp.com/register-facebook-add-account', $permissions);
           }
 
             return view('auth.facebook_ad_account', ['login_url' => $loginUrl]);
