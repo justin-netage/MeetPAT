@@ -75,7 +75,7 @@
                             @else
                             <li><a class="nav-link nav-link-inactive" href="{{ route('meetpat-client-sync') }}"><i class="fas fa-sync-alt"></i>&nbsp;Sync Platform</a></li>
                             @endif
-                            @if(Request::path() == 'meetpat-client/upload-customers')
+                            @if(Request::path() == 'meetpat-client/upload-clients')
                             <li><a class="nav-link nav-link-active" href="{{ route('meetpat-client-upload') }}"><i class="fas fa-file-upload"></i>&nbsp;Upload Customers</a></li>
                             @else
                             <li><a class="nav-link nav-link-inactive" href="{{ route('meetpat-client-upload') }}"><i class="fas fa-file-upload"></i></i>&nbsp;Upload Customers</a></li>
@@ -155,11 +155,17 @@
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
-
+                                    <div class="dropdown-divider"></div>
+                                    @if(Request::path() == 'contact')
+                                    <a class="dropdown-item active" href="{{ route('contact') }}">{{ __('Contact') }}</a>
+                                    @else
+                                    <a class="dropdown-item" href="{{ route('contact') }}">{{ __('Contact') }}</a>
+                                    @endif
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
                                 </div>
+
                             </li>
                         @endguest
                     </ul>

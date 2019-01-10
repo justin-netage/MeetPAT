@@ -53,6 +53,8 @@ class FacebookCustomerAudienceController extends Controller
                 
                 if($new_ad_account) {
                     \Session::flash('success', 'Your facebook account has linked successfully.');
+                    // Finally, destroy the session.
+                    session_destroy();
                     return redirect('/meetpat-client/upload-clients');
 
                 } else {
@@ -65,12 +67,13 @@ class FacebookCustomerAudienceController extends Controller
             
             if($user->ad_account) {
                 \Session::flash('success', 'Your account has already been linked.');
-
+                // Finally, destroy the session.
+                session_destroy();
                 return redirect('/meetpat-client/upload-clients');
             } 
 
             $permissions = ['ads_management'];
-            $loginUrl = $helper->getLoginUrl('https://infinite-coast-17182.herokuapp.com/register-facebook-add-account', $permissions);
+            $loginUrl = $helper->getReAuthenticationUrl('https://infinite-coast-17182.herokuapp.com/register-facebook-add-account', $permissions);
             // echo '<a href="' . $loginUrl . '">Log in with Facebook</a>';
           }
             return view('auth.facebook_ad_account', ['login_url' => $loginUrl]);
