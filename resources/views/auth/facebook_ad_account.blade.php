@@ -13,9 +13,4 @@
     </div>
 </div>
 
-{{$login_fb}}
-
-
-
-
 @endsection
