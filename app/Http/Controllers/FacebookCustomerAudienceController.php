@@ -21,11 +21,11 @@ class FacebookCustomerAudienceController extends Controller
           
           $helper = $fb->getRedirectLoginHelper();
           
-          if ($request->session()->exists('facebook_access_token')) {
+          if (!$request->session()->exists('facebook_access_token')) {
             $request->session()->get('facebook_access_token', 'default');
           }
           
-          if ($request->session()->exists('facebook_access_token')) {
+          if (!$request->session()->exists('facebook_access_token')) {
             $helper = $fb->getRedirectLoginHelper();
             try {
                 $request->session()->put('key', (string) $helper->getAccessToken());
@@ -41,7 +41,6 @@ class FacebookCustomerAudienceController extends Controller
           }
           
           if ($request->session()->exists('facebook_access_token')) {
-            echo "You are logged in!";
             Api::init(
             env('FACEBOOK_APP_ID'),
             env('FACEBOOK_APP_SECRET'),
