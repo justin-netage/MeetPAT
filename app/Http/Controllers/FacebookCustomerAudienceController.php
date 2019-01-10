@@ -46,6 +46,8 @@ class FacebookCustomerAudienceController extends Controller
 
             if($user->ad_account) {
                 $user->ad_account->update(['access_token' => $_SESSION['facebook_access_token']]);
+
+                return redirect('/meetpat/upload-clients');
             } else {
                 $new_ad_account = \MeetPAT\FacebookAdAccount::create(['user_id' => $user->id, 'ad_account_id' => '2182368842043371', 'access_token' => $_SESSION['facebook_access_token']]);
                 
