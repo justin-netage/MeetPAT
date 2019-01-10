@@ -20,10 +20,13 @@ class FacebookCustomerAudienceController extends Controller
             'app_id' => env('FACEBOOK_APP_ID'),
             'app_secret' => env('FACEBOOK_APP_SECRET'),
             'default_graph_version' => 'v2.4',
-            'persistent_data_handler'=>'session'
           ]);
           
           $helper = $fb->getRedirectLoginHelper();
+          
+          if (isset($_GET['state'])) {
+            $helper->getPersistentDataHandler()->set('state', $_GET['state']);
+          }
           
           if (!$request->session()->exists('facebook_access_token')) {
             $request->session()->get('facebook_access_token', 'default');
