@@ -46,6 +46,6 @@ class FacebookCustomerAudienceController extends Controller
             $loginUrl = $helper->getLoginUrl('http://localhost:8888/marketing-api/', $permissions);
           }
 
-            return view('auth.facebook_ad_account', ['login_url' => $loginUrl, 'access_token_stored' => $access_token_stored]);
+            return view('auth.facebook_ad_account', ['login_url' => $loginUrl]);
     }
 }
