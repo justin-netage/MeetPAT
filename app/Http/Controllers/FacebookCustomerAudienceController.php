@@ -16,6 +16,8 @@ class FacebookCustomerAudienceController extends Controller
     {
         $user = \Auth::user();
         $loginUrl = null;
+        $_SESSION['facebook_access_token'] = null;
+
         $fb = new Facebook([
             'app_id' => env('FACEBOOK_APP_ID'),
             'app_secret' => env('FACEBOOK_APP_SECRET'),
@@ -64,13 +66,6 @@ class FacebookCustomerAudienceController extends Controller
             }
 
           } else {
-            
-            if($user->ad_account) {
-                \Session::flash('success', 'Your account has already been linked.');
-                // Finally, destroy the session.
-                session_destroy();
-                return redirect('/meetpat-client/upload-clients');
-            } 
 
             $permissions = ['ads_management'];
             $loginUrl = $helper->getReAuthenticationUrl('https://infinite-coast-17182.herokuapp.com/register-facebook-add-account', $permissions);
