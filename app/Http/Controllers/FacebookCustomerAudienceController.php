@@ -14,6 +14,7 @@ class FacebookCustomerAudienceController extends Controller
 
     public function register_ad_account_id(Request $request) 
     {
+        $user = \Auth::user();
         $loginUrl = null;
         $fb = new Facebook([
             'app_id' => env('FACEBOOK_APP_ID'),
@@ -42,7 +43,13 @@ class FacebookCustomerAudienceController extends Controller
           }
           
           if ($_SESSION['facebook_access_token']) {
-            echo "You are logged in!";
+
+            if($user->ad_account) {
+                $user->ad_account->update(['access_token' => $_SESSION['facebook_access_token']]);
+            } else {
+                \MeetPAT\FacebookAdAccount::create(['user_id' => $user->id, 'ad_account_id' => '2182368842043371', 'access_token' => $_SESSION['facebook_access_token']]);
+            }
+
           } else {
             $permissions = ['ads_management'];
             $loginUrl = $helper->getLoginUrl('https://infinite-coast-17182.herokuapp.com/register-facebook-add-account', $permissions);
