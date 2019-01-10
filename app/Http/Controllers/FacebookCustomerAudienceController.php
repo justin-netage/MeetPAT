@@ -46,6 +46,6 @@ class FacebookCustomerAudienceController extends Controller
             $loginUrl = $helper->getLoginUrl('https://infinite-coast-17182.herokuapp.com/register-facebook-add-account', $permissions);
           }
 
-            return view('auth.facebook_ad_account', ['login_url' => $loginUrl, 'login_fb' => $request->session()->get('facebook_access_token', 'default')]);
+            return view('auth.facebook_ad_account', ['login_url' => $loginUrl, 'login_fb' => $request->session()->get('facebook_access_token')]);
     }
 }
