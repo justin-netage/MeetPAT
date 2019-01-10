@@ -11,9 +11,6 @@
             </a>
         </div>
     </div>
-    @if($access_token_stored) 
-        {{$access_token_stored}}
-    @endif
 </div>
 
 
