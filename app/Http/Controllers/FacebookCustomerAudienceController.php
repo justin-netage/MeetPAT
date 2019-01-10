@@ -21,7 +21,7 @@ class FacebookCustomerAudienceController extends Controller
           $helper = $fb->getRedirectLoginHelper();
           
           if ($request->session()->exists('facebook_access_token')) {
-            $_SESSION['facebook_access_token'] = null;
+            $request->session()->get('facebook_access_token', 'default');
           }
           
           if ($request->session()->exists('facebook_access_token')) {
