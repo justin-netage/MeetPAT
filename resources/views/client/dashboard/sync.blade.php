@@ -27,9 +27,9 @@
                     </button>
                 </div>
                 <div class="col-6">
-                    <button type="button" class="btn btn-light btn-lg btn-block facebook-button">
+                    <a href="/register-facebook-add-account" type="button" class="btn btn-light btn-lg btn-block facebook-button">
                         <i class="fab fa-facebook-f"></i>acebook
-                    </button>
+                    </a>
                 </div>
             </div>                
             </div>
