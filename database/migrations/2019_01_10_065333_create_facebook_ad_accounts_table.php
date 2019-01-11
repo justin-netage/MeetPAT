@@ -16,7 +16,7 @@ class CreateFacebookAdAccountsTable extends Migration
         Schema::create('facebook_ad_accounts', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->string('ad_account_id');
+            $table->string('ad_account_id')->nullable();
             $table->longText('access_token');
             $table->timestamps();
         });

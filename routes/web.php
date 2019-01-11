@@ -65,3 +65,13 @@ Route::get('/meetpat-client/upload-clients', 'MeetpatClientController@upload_cli
 // Facebook Login Routes
 
 Route::get('/register-facebook-ad-account', 'FacebookCustomerAudienceController@register_ad_account_id')->name('facebook-ad-account')->middleware('auth')->middleware('client');
+
+// Facebook upload routes
+
+// Upload pages
+Route::get('/meetpat-client/upload-clients/facebook', 'FacebookCustomerAudienceController@upload_facebook')->name('facebook-upload-customers')->middleware('auth')->middleware('client');
+
+// Upload api handler /routes/api.php
+
+// Download link for sample file Facebook Custom Audiences
+Route::get('/meetpat-client/upload-clients/facebook-sample-audience', 'FacebookCustomerAudienceController@download_sample_file')->name('facebook-download-sample')->middleware('auth')->middleware('client');

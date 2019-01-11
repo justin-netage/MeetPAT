@@ -51,7 +51,7 @@ class FacebookCustomerAudienceController extends Controller
 
                 return redirect('/meetpat-client/upload-clients');
             } else {
-                $new_ad_account = \MeetPAT\FacebookAdAccount::create(['user_id' => $user->id, 'ad_account_id' => '2182368842043371', 'access_token' => $_SESSION['facebook_access_token']]);
+                $new_ad_account = \MeetPAT\FacebookAdAccount::create(['user_id' => $user->id, 'access_token' => $_SESSION['facebook_access_token']]);
                 
                 if($new_ad_account) {
                     \Session::flash('success', 'Your facebook account has linked successfully.');
@@ -72,6 +72,17 @@ class FacebookCustomerAudienceController extends Controller
             // echo '<a href="' . $loginUrl . '">Log in with Facebook</a>';
           }
             return view('auth.facebook_ad_account', ['login_url' => $loginUrl]);
+    }
+
+    public function upload_facebook_customers() 
+    {
+
+      return view('client.dashboard.upload_facebook_clients');
+    }
+
+    public function download_sample_file()
+    {
+      return \Storage::disk('s3')->download('meetpat/public/sample/example_audience_file.csv');
     }
     
 }
