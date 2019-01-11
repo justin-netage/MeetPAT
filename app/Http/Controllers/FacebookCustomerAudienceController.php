@@ -82,7 +82,7 @@ class FacebookCustomerAudienceController extends Controller
 
     public function download_sample_file()
     {
-      return \Storage::disk('s3')->download('https://s3.amazonaws.com/meetpat/public/sample/example_audience_file.csv');
+      return \Storage::disk('s3')->get('meetpat/public/sample/example_audience_file.csv');
     }
     
 }
