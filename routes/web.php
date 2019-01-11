@@ -69,7 +69,7 @@ Route::get('/register-facebook-ad-account', 'FacebookCustomerAudienceController@
 // Facebook upload routes
 
 // Upload pages
-Route::get('/meetpat-client/upload-clients/facebook', 'FacebookCustomerAudienceController@upload_facebook')->name('facebook-upload-customers')->middleware('auth')->middleware('client');
+Route::get('/meetpat-client/upload-clients/facebook', 'FacebookCustomerAudienceController@upload_facebook_customers')->name('facebook-upload-customers')->middleware('auth')->middleware('client');
 
 // Upload api handler /routes/api.php
 
