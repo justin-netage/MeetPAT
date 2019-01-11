@@ -64,4 +64,4 @@ Route::get('/meetpat-client/upload-clients', 'MeetpatClientController@upload_cli
 
 // Facebook Login Routes
 
-Route::get('/register-facebook-add-account', 'FacebookCustomerAudienceController@register_ad_account_id')->name('facebook-ad-account')->middleware('auth')->middleware('client');
+Route::get('/register-facebook-ad-account', 'FacebookCustomerAudienceController@register_ad_account_id')->name('facebook-ad-account')->middleware('auth')->middleware('client');

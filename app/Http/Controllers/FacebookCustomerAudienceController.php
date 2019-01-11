@@ -68,9 +68,10 @@ class FacebookCustomerAudienceController extends Controller
           } else {
 
             $permissions = ['ads_management'];
-            $loginUrl = $helper->getReAuthenticationUrl('https://infinite-coast-17182.herokuapp.com/register-facebook-add-account', $permissions);
+            $loginUrl = $helper->getReAuthenticationUrl('https://infinite-coast-17182.herokuapp.com/register-facebook-ad-account', $permissions);
             // echo '<a href="' . $loginUrl . '">Log in with Facebook</a>';
           }
             return view('auth.facebook_ad_account', ['login_url' => $loginUrl]);
     }
+    
 }

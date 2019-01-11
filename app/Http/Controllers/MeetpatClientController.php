@@ -22,7 +22,19 @@ class MeetpatClientController extends Controller
 
     public function upload_clients()
     {
+        $user = \Auth::user();
 
-        return view('client.dashboard.upload_clients');
+        $has_facebook_ad_account = null;
+        $has_google_ad_account = null;
+
+        if($user->ad_account) {
+            $has_facebook_ad_account = true;
+        }
+
+        // if($user->ad_word_account) {
+        //     $has_google_ad_account = true;
+        // }
+
+        return view('client.dashboard.upload_clients', ['has_facebook_ad_account' => $has_facebook_ad_account, 'has_google_ad_account' => $has_google_ad_account]);
     }
 }
