@@ -180,6 +180,7 @@
         </main>
     </div>
     @yield('modals')
-@yield('scripts')
+    
+    @yield('scripts')
 </body>
 </html>

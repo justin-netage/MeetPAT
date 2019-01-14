@@ -42,4 +42,4 @@ Route::post('/meetpat-admin/users/unique-email', 'AdministratorController@unique
 Route::get('/meetpat-admin/generate-password', 'MiscController@generate_password')->name('password-generator');
 
 // MeetPAT Client request handlers
-Route::get('meetpat-client/upload-facebook-custom-audience', 'FacebookCustomerAudienceController@upload_facebook_customers')->name('facebook-upload-customers-request')->middleware('auth')->middleware('client');
+Route::post('meetpat-client/upload-facebook-custom-audience', 'FacebookCustomerAudienceController@upload_facebook_customers_handle')->name('facebook-upload-customers-request')->middleware('auth')->middleware('client');

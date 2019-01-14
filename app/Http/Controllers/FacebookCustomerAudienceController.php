@@ -74,10 +74,30 @@ class FacebookCustomerAudienceController extends Controller
             return view('auth.facebook_ad_account', ['login_url' => $loginUrl]);
     }
 
-    public function upload_facebook_customers() 
+    public function upload_facebook_customers(Request $request) 
     {
-
       return view('client.dashboard.upload_facebook_clients');
+    }
+
+    public function upload_facebook_customers_handle()
+    {
+      $file_extension = null;
+      $reader = null;
+      $spreadsheet = null;
+      $sheetData = null;
+
+      if($request->file('custom_audience')->isValid()) {
+        if($request->file('custom_audience')->extension() == 'csv') {
+          $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+        } else {
+          $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        }
+
+        $spreadsheet = $reader->load($request->file('custom_audience'));
+        $sheetData = $spreadsheet->getActiveSheet()->toArray();
+      }
+
+      $file = $request->file('custom_audience');
     }
 
     public function download_sample_file()
