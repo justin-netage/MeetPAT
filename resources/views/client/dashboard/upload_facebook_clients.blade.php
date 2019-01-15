@@ -24,6 +24,7 @@
                         </div>
                         <a href="{{Storage::disk('s3')->url('meetpat/public/sample/example_audience_file.csv')}}">download sample file</a>
                         <div class="upload-box mb-2 text-center">
+                            <input type="hidden" name="user_id" value="{{\Auth::user()->id}}">
                             <input type="file" name="custom_audience" class="file-input-box" id="exampleFormControlFile1">
                         </div>
                         <div class="form-group mb-0">
