@@ -9,7 +9,7 @@
                 <div class="card-header"><h1>{{ __('Upload New Audience') }}</h1></div>
 
                 <div class="card-body">
-                    <form id="upload-custom-audience" enctype="multipart/form-data" onsubmit="displayLoader(); return false; this.preventDefault();" novalidate>
+                    <form method="POST" action="/api/meetpat-client/upload-facebook-custom-audience" id="upload-custom-audience" enctype="multipart/form-data" onsubmit="displayLoader(); return false; this.preventDefault();" novalidate>
                         @csrf
                         <div class="form-group">
                             <label for="email">{{ __('Audience Name') }}</label>
@@ -46,29 +46,29 @@
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
 <script type="text/javascript">
-    var displayLoader = function () {
-        $("#loader").css("display", "block");
-    };
+//     var displayLoader = function () {
+//         $("#loader").css("display", "block");
+//     };
 
-    $("form#upload-custom-audience").submit(function(e) {
-    e.preventDefault();    
-    var formData = new FormData(this);
+//     $("form#upload-custom-audience").submit(function(e) {
+//     e.preventDefault();    
+//     var formData = new FormData(this);
 
-    $.ajax({
-        url: '/api/meetpat-client/upload-facebook-custom-audience',
-        type: 'POST',
-        data: formData,
-        success: function (data) {
-            alert(data)
-        },
-        cache: false,
-        contentType: false,
-        processData: false
-    });
+//     $.ajax({
+//         url: '/api/meetpat-client/upload-facebook-custom-audience',
+//         type: 'POST',
+//         data: formData,
+//         success: function (data) {
+//             alert(data)
+//         },
+//         cache: false,
+//         contentType: false,
+//         processData: false
+//     });
 
-    $("#loader").css("display", "none");
+//     $("#loader").css("display", "none");
 
-});
+// });
 
    
     
