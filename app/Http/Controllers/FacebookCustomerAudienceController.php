@@ -97,7 +97,7 @@ class FacebookCustomerAudienceController extends Controller
 
       if(env('APP_ENV') == 'production') {
         $directory_used = \Storage::disk('s3')->makeDirectory('client/custom-audience/' . $request->user_id);
-        $file_uploaded = \Storage::disk('s3')->put($imageName, file_get_contents($csv_file), '/client/custom-audience/' . $request->user_id);
+        $file_uploaded = \Storage::disk('s3')->put('client/custom-audience/' . $request->user_id . '/' . $request->audience_name, file_get_contents($csv_file));
       } else {
         $directory_used = \Storage::disk('local')->makeDirectory('client/custom-audience/' . $request->user_id);
         $file_uploaded = \Storage::disk('local')->put('client/custom-audience/' . $request->user_id . '/' . $request->audience_name, file_get_contents($csv_file));
