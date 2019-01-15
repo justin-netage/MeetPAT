@@ -79,7 +79,6 @@ class FacebookCustomerAudienceController extends Controller
 
     public function upload_facebook_customers(Request $request) 
     {
-      $sent = \Storage::disk('s3')->put('text.txt', file_get_contents('C:\inetpub\wwwroot\Netage\MeetPAT\meetpat\text.txt'), 'public');
 
       return view('client.dashboard.upload_facebook_clients');
     }
