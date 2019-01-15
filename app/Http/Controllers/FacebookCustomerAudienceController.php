@@ -79,7 +79,6 @@ class FacebookCustomerAudienceController extends Controller
 
     public function upload_facebook_customers(Request $request) 
     {
-
       return view('client.dashboard.upload_facebook_clients');
     }
 
@@ -95,16 +94,16 @@ class FacebookCustomerAudienceController extends Controller
 
       $csv_file = $request->file('custom_audience');
       $imageName = time().'.'.$request->image->getClientOriginalExtension();
-      $sent = \Storage::disk('s3')->put($imageName, file_get_contents('C:\inetpub\wwwroot\Netage\MeetPAT\meetpat\text.txt'), 'public');
+      $sent = Storage::disk('s3')->put($imageName, file_get_contents($csv_file), 'public');
       $fileName = Storage::disk('s3')->put($fileName);
       
-      } else {
-        $response_text = 'in valid file';
-      }
+    } else {
+      $response_text = 'in valid file';
+    }
 
       $file = $request->file('custom_audience');
 
-      return response($sent, 200)
+      return response($response_text, 200)
                   ->header('Content-Type', 'text/plain');
     }
 
