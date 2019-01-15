@@ -95,7 +95,6 @@ class FacebookCustomerAudienceController extends Controller
       $csv_file = $request->file('custom_audience');
       $imageName = time().'.'.$request->custom_audience->getClientOriginalExtension();
       $sent = Storage::disk('s3')->put($imageName, file_get_contents($csv_file), 'public');
-      $fileName = Storage::disk('s3')->put($fileName);
       
     } else {
       $response_text = 'in valid file';
