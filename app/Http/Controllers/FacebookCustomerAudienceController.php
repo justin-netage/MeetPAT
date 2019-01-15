@@ -7,6 +7,9 @@ use Facebook\Facebook;
 use FacebookAds\Api;
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Illuminate\Support\Facades\Storage;
 
 class FacebookCustomerAudienceController extends Controller
 {
@@ -76,28 +79,34 @@ class FacebookCustomerAudienceController extends Controller
 
     public function upload_facebook_customers(Request $request) 
     {
+      $sent = \Storage::disk('s3')->put('text.txt', file_get_contents('C:\inetpub\wwwroot\Netage\MeetPAT\meetpat\text.txt'), 'public');
+
       return view('client.dashboard.upload_facebook_clients');
     }
 
-    public function upload_facebook_customers_handle()
+    public function upload_facebook_customers_handle(Request $request)
     {
-      $file_extension = null;
-      $reader = null;
-      $spreadsheet = null;
-      $sheetData = null;
+    //   $file_extension = null;
+    //   $reader = null;
+    //   $spreadsheet = null;
+    //   $sheetData = null;
 
-      if($request->file('custom_audience')->isValid()) {
-        if($request->file('custom_audience')->extension() == 'csv') {
-          $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
-        } else {
-          $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-        }
+    // if($request->file('custom_audience')->isValid()) {
+    //   $response_text = 'valid file';
 
-        $spreadsheet = $reader->load($request->file('custom_audience'));
-        $sheetData = $spreadsheet->getActiveSheet()->toArray();
-      }
+    //   $csv_file = $request->file('custom_audience');
+    //   $imageName = time().'.'.$request->image->getClientOriginalExtension();
+      $sent = \Storage::disk('s3')->put($imageName, file_get_contents('C:\inetpub\wwwroot\Netage\MeetPAT\meetpat\text.txt'), 'public');
+      // $fileName = Storage::disk('s3')->put($fileName);
+      
+    // } else {
+    //   $response_text = 'in valid file';
+    // }
 
-      $file = $request->file('custom_audience');
+      // $file = $request->file('custom_audience');
+
+      return response($sent, 200)
+                  ->header('Content-Type', 'text/plain');
     }
 
     public function download_sample_file()

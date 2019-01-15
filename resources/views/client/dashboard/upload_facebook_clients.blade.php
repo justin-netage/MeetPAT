@@ -9,7 +9,7 @@
                 <div class="card-header"><h1>{{ __('Upload New Audience') }}</h1></div>
 
                 <div class="card-body">
-                    <form id="upload-custom-audience" onsubmit="displayLoader(); submit_form(); return false;" novalidate>
+                    <form id="upload-custom-audience" enctype="multipart/form-data" onsubmit="displayLoader(); return false; this.preventDefault();" novalidate>
                         @csrf
                         <div class="form-group">
                             <label for="email">{{ __('Audience Name') }}</label>
@@ -41,28 +41,36 @@
 @endsection
 
 @section('scripts')
-
+<script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
 <script type="text/javascript">
-    // var displayLoader = function () {
-    //     $("#loader").css("display", "block");
-    // };
+    var displayLoader = function () {
+        $("#loader").css("display", "block");
+    };
 
-    // var submit_form = function () {
-    //     var formData = new FormData();
+    $("form#upload-custom-audience").submit(function(e) {
+    e.preventDefault();    
+    var formData = new FormData(this);
 
-    //     formData.append("audience_name", $("#exampleFormControlFile1").files[0]);
+    $.ajax({
+        url: '/api/meetpat-client/upload-facebook-custom-audience',
+        type: 'POST',
+        data: formData,
+        success: function (data) {
+            alert(data)
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
 
-    //     var request = new XMLHttpRequest();
-    //     request.open("POST", "/meetpat-client/upload-facebook-custom-audience");
+    $("#loader").css("display", "none");
 
-    //     console.log(request.send(formData));
-    //     $("#loader").css("display", "none");
+});
 
-    // };
-
-    $(document).ready(function(e) {
-            e.preventDefault();
-    });        
+   
     
 
 </script>
