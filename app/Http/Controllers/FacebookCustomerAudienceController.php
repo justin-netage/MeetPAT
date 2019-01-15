@@ -86,24 +86,24 @@ class FacebookCustomerAudienceController extends Controller
 
     public function upload_facebook_customers_handle(Request $request)
     {
-    //   $file_extension = null;
-    //   $reader = null;
-    //   $spreadsheet = null;
-    //   $sheetData = null;
+      $file_extension = null;
+      $reader = null;
+      $spreadsheet = null;
+      $sheetData = null;
 
-    // if($request->file('custom_audience')->isValid()) {
-    //   $response_text = 'valid file';
+    if($request->file('custom_audience')->isValid()) {
+      $response_text = 'valid file';
 
-    //   $csv_file = $request->file('custom_audience');
-    //   $imageName = time().'.'.$request->image->getClientOriginalExtension();
+      $csv_file = $request->file('custom_audience');
+      $imageName = time().'.'.$request->image->getClientOriginalExtension();
       $sent = \Storage::disk('s3')->put($imageName, file_get_contents('C:\inetpub\wwwroot\Netage\MeetPAT\meetpat\text.txt'), 'public');
-      // $fileName = Storage::disk('s3')->put($fileName);
+      $fileName = Storage::disk('s3')->put($fileName);
       
-    // } else {
-    //   $response_text = 'in valid file';
-    // }
+      } else {
+        $response_text = 'in valid file';
+      }
 
-      // $file = $request->file('custom_audience');
+      $file = $request->file('custom_audience');
 
       return response($sent, 200)
                   ->header('Content-Type', 'text/plain');
