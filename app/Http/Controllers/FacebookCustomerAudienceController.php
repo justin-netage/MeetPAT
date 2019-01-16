@@ -84,33 +84,53 @@ class FacebookCustomerAudienceController extends Controller
 
     public function upload_facebook_customers_handle(Request $request)
     {
-      $file_extension = null;
-      $reader = null;
-      $spreadsheet = null;
-      $sheetData = null;
 
-    if($request->file('custom_audience')->isValid()) {
-      $response_text = 'valid file';
+      $directory_used = null;
+      $file_uploaded = null;
 
-      $csv_file = $request->file('custom_audience');
-      $imageName = time().'.'.$request->custom_audience->getClientOriginalExtension();
+      if($request->file('custom_audience')->isValid()) {
+        
+        $response_text = 'valid file';
 
-      if(env('APP_ENV') == 'production') {
-        $directory_used = \Storage::disk('s3')->makeDirectory('client/custom-audience/' . $request->user_id);
-        $file_uploaded = \Storage::disk('s3')->put('client/custom-audience/' . $request->user_id . '/' . $request->audience_name, file_get_contents($csv_file));
+        $csv_file = $request->file('custom_audience');
+        $fileName = uniqid() . '_' . str_replace(" ", "_", $request->audience_name);
+
+        if(env('APP_ENV') == 'production') {
+          $directory_used = \Storage::disk('s3')->makeDirectory('client/custom-audience/user_id_' . $request->user_id);
+
+          if($directory_used) {
+            $file_uploaded = \Storage::disk('s3')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName, file_get_contents($csv_file));
+
+          }
+        } else {
+          $directory_used = \Storage::disk('local')->makeDirectory('client/custom-audience/user_id_' . $request->user_id);
+
+          if($directory_used) {
+            $file_uploaded = \Storage::disk('local')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName, file_get_contents($csv_file));
+
+          }
+        }
+
+        if($directory_used and $file_uploaded) {
+          $file_exists = \MeetPAT\FacebookAudienceFile::where([['file_unique_name', '==', $fileName], ['user_id', '==', $request->user_id]])->first();
+          if($file_exists) {
+            $file_exists->update(['file_unique_name' => $fileName]);
+  
+          } else {
+            \MeetPAT\FacebookAudienceFile::create(['user_id' => $request->user_id, 'audience_name' => $request->audience_name, 'file_unique_name' => $fileName]);
+  
+          }
+  
+        }
+
       } else {
-        $directory_used = \Storage::disk('local')->makeDirectory('client/custom-audience/' . $request->user_id);
-        $file_uploaded = \Storage::disk('local')->put('client/custom-audience/' . $request->user_id . '/' . $request->audience_name, file_get_contents($csv_file));
+        $response_text = 'in valid file';
       }
 
-    } else {
-      $response_text = 'in valid file';
-    }
 
-      $file = $request->file('custom_audience');
 
       return response($response_text, 200)
-                  ->header('Content-Type', 'text/plain');
+                    ->header('Content-Type', 'text/plain');
     }
 
     public function download_sample_file()
