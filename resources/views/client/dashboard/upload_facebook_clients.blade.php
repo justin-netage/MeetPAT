@@ -2,31 +2,42 @@
 
 @section('content')
 <div id="loader"></div>
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6 col-offset-3">
+            <div id="alert-section"></div>
             <div class="card">
                 <div class="card-header"><h1>{{ __('Upload New Audience') }}</h1></div>
 
                 <div class="card-body">
+                    <h3>Syncing with Facebook Ad Account</h3>
+                    <div id="progress-sync"></div>
                     <form id="upload-custom-audience" enctype="multipart/form-data" onsubmit="displayLoader(); return false; this.preventDefault();" novalidate>
                         @csrf
+                        <input type="hidden" name="user_id" value="<?php echo \Auth::user()->id; ?>">
                         <div class="form-group">
                             <label for="email">{{ __('Audience Name') }}</label>
 
-                                <input id="audience_name" type="text" class="form-control{{ $errors->has('audience_name') ? ' is-invalid' : '' }}" name="audience_name" value="{{ old('audience_name') }}" autofocus>
+                                <input id="audience_name" type="text" placeholder="Enter your new audience name" class="form-control{{ $errors->has('audience_name') ? ' is-invalid' : '' }}" name="audience_name" value="{{ old('audience_name') }}" autofocus>
 
                                 @if ($errors->has('audience_name'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('audience_name') }}</strong>
                                     </span>
                                 @endif
+                                <span class="invalid-feedback" role="alert">
+                                    <strong id="invalid-audience-name">Please provide a new and unique audience name</strong>
+                                </span>
                         </div>
-                        <a href="{{Storage::disk('s3')->url('meetpat/public/sample/example_audience_file.csv')}}">download sample file</a>
+                        <a href="{{Storage::disk('s3')->url('meetpat/public/sample/example_audience_file.csv')}}">download template file</a>
                         <div class="upload-box mb-2 text-center">
-                            <input type="hidden" name="user_id" value="{{\Auth::user()->id}}">
-                            <input type="file" name="custom_audience" class="file-input-box" id="exampleFormControlFile1">
+                            <input type="file" name="audience_file" class="file-input-box" id="audience_file">
                         </div>
+                        <span class="invalid-feedback" id="no-file" role="alert">
+                            <strong id="invalid-file">Please choose an audience file to upload</strong>
+                        </span>
+                        <br />
                         <div class="form-group mb-0">
                             <button type="submit" id="create_user" class="btn btn-primary">
                                 {{ __('Submit Audience') }}
@@ -60,11 +71,72 @@
         type: 'POST',
         data: formData,
         success: function (data) {
-            console.log(data);
+
+            if (data.errors) {
+                $("#alert-section").empty();
+
+                $("#alert-section").append(
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
+                    '<strong>Error!</strong> Please make sure that all fields are valid'+
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+                        '<span aria-hidden="true">&times;</span>'+
+                    '</button>'+
+               ' </div>'
+                )
+                if(data.errors.audience_name) {
+                    $("#audience_name").addClass("is-invalid");
+                    $("#invalid-audience-name").empty();
+                    $("#invalid-audience-name").append(data.errors.audience_name);
+                }
+
+                if(data.errors.audience_file) {
+                    $("#audience_file").addClass("is-invalid");
+                    $("#no-file").css("display", "block");
+                    $(".upload-box").css("border-color", "#e3342f")
+                    $("#invalid-file").empty();
+                    $("#invalid-file").append(data.errors.audience_file);
+                }
+            } else {
+                $("#alert-section").empty();
+
+                $("#alert-section").append(
+                    '<div class="alert alert-success alert-dismissible fade show" role="alert">'+
+                        '<strong>Success!</strong> Your file has been uploaded the sync is now in progress.'+
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+                            '<span aria-hidden="true">&times;</span>'+
+                        '</button>'+
+                ' </div>');
+                $("#upload-custom-audience").css("display", "none");
+                $("#progress-sync").append(
+                    '<div class="progress">' +
+                        '<div id="progress-bar-sync" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>' +
+                    '</div>'
+                );
+                $.ajax({
+                        url: '/api/meetpat-client/request-facebook-api',
+                        type: 'POST',
+                        data: { job_id: data.id },
+                        dataType: "json",
+                        success: function(jobdata) {
+                            console.log($jobdata.responseJSON);
+                        },
+                        error: function(jobdata) {
+                            console.log("there was an error with the request.")
+                        },
+                        complete: function(jobdata) {
+                            console.log(jobdata.responseJSON);
+                        },
+                        cache: false,
+                        contentType: false,
+                        procesData: false
+                    });
+                
+            }
+
         },
         complete: function (data) {
             $("#loader").css("display", "none");
-
+            console.log(data.responseJSON);
         },
         error: function(data) {
             console.log('There was an error with the upload.');
@@ -73,6 +145,33 @@
         contentType: false,
         processData: false
     });
+
+    // validate input-fields
+
+    $("#audience_name").change(function() {
+        //console.log($(this).val());
+        if($(this).val() !== "") {
+            $(this).removeClass("is-invalid");
+        } else {
+            if(!$(this).hasClass("is-invalid")) {
+                $(this).addClass("is-invalid");
+            }
+        }
+    });
+
+    $("#audience_file").change(function() {
+        //console.log($(this).get(0).files.length);
+        if($(this).get(0).files.length > 0) {
+            $(this).removeClass("is-invalid");
+            $("#no-file").css("display", "none");
+            $(".upload-box").css("border-color", "#999");
+        } else {
+            if(!$(this).hasClass("is-invalid")) {
+                $(this).addClass("is-invalid");
+            }
+            
+        }
+    })
 
 
 });

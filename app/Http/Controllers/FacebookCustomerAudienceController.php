@@ -10,6 +10,7 @@ use Facebook\Exceptions\FacebookSDKException;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class FacebookCustomerAudienceController extends Controller
 {
@@ -85,14 +86,26 @@ class FacebookCustomerAudienceController extends Controller
     public function upload_facebook_customers_handle(Request $request)
     {
 
+      $validator = \Validator::make($request->all(), [
+        'audience_name' => 'required|unique:facebook_audience_files,audience_name,' . $request->user_id,
+        'user_id' => 'required',
+        'audience_file' => 'required|mimes:csv,txt',
+    ]);
+    
+    if ($validator->fails())
+    {
+        return response()->json(['errors'=>$validator->errors()]);
+    } else {
+
       $directory_used = null;
       $file_uploaded = null;
-
-      if($request->file('custom_audience')->isValid()) {
+      $csv = null;
+      
+      if($request->file('audience_file')->isValid()) {
         
         $response_text = 'valid file';
 
-        $csv_file = $request->file('custom_audience');
+        $csv_file = $request->file('audience_file');
         $fileName = uniqid() . '_' . str_replace(" ", "_", $request->audience_name);
 
         if(env('APP_ENV') == 'production') {
@@ -120,6 +133,27 @@ class FacebookCustomerAudienceController extends Controller
             \MeetPAT\FacebookAudienceFile::create(['user_id' => $request->user_id, 'audience_name' => $request->audience_name, 'file_unique_name' => $fileName]);
   
           }
+
+          function readCSV($csvFile){
+            $file_handle = fopen($csvFile, 'r');
+            while (!feof($file_handle) ) {
+              $line_of_text[] = fgetcsv($file_handle, 0);
+            }
+            fclose($file_handle);
+            return $line_of_text;
+          }
+           
+          $csv = readCSV($request->file('audience_file')); 
+          foreach ( $csv as $c ) {
+              $firstColumn = $c[0];
+              $secondColumn = $c[1];
+              $thirdColumn = $c[2];  
+              $fourthColumn = $c[3];
+          }
+
+          if($csv) {
+            $new_job = \MeetPAT\FacebookJobQue::create(['user_id' => $request->user_id, 'total_audience' => sizeof($csv) - 1, 'audience_captured' => 0, 'percentage_complete' => 0, 'job_status' => 'ready']);
+          }
   
         }
 
@@ -127,15 +161,35 @@ class FacebookCustomerAudienceController extends Controller
         $response_text = 'in valid file';
       }
 
+      return response()->json($new_job);
+    
+    }
 
+  }
 
-      return response($response_text, 200)
-                    ->header('Content-Type', 'text/plain');
+    // The request handler
+
+    public function facebook_upload_handler(Request $request)
+    {
+      $job = \MeetPAT\FacebookJobQue::find($request->job_id);
+
+      sleep(2);
+
+      $job->increment('audience_captured');
+
+      return response()->json($new_job);
+ 
     }
 
     public function download_sample_file()
     {
       return \Storage::disk('s3')->url('meetpat/public/sample/example_audience_file.csv');
+    }
+
+    public function start_job_que(Request $request)
+    {
+
+      
     }
     
 }
