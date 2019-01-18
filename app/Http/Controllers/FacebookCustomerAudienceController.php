@@ -171,13 +171,30 @@ class FacebookCustomerAudienceController extends Controller
 
     public function facebook_upload_handler(Request $request)
     {
+      // methods
+
+      function get_percentage($total, $number)
+      {
+        if ( $total > 0 ) {
+         return (int)round($number / ($total / 100),2);
+        } else {
+          return 0;
+        }
+      }
+
       $job = \MeetPAT\FacebookJobQue::find($request->job_id);
 
-      sleep(2);
+      if($job) {
+        
+          $job->increment('audience_captured');
+          $job->update(['job_status' => 'busy', 'percentage_complete' => get_percentage($job->total_audience, $job->audience_captured)]);
+        
+      } else {
 
-      $job->increment('audience_captured');
+        return response()->json($request);
+      }
 
-      return response()->json($new_job);
+      return response()->json($job);
  
     }
 

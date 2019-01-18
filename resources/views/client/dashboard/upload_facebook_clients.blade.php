@@ -8,7 +8,7 @@
         <div class="col-md-6 col-offset-3">
             <div id="alert-section"></div>
             <div class="card">
-                <div class="card-header"><h1>{{ __('Upload New Audience') }}</h1></div>
+                <div class="card-header"><h1 id="card-title">{{ __('Upload New Audience') }}</h1></div>
 
                 <div class="card-body">
                     <h3>Syncing with Facebook Ad Account</h3>
@@ -61,6 +61,49 @@
     var displayLoader = function () {
         $("#loader").css("display", "block");
     };
+    var completion_percentage = "0%";
+
+    var run_jobs = function(data_id) {
+
+        $.ajax({
+            url: '/api/meetpat-client/request-facebook-api?job_id=' + data_id,
+            type: 'POST',
+            // data: { job_id: data.id },
+            dataType: "json",
+            success: function(jobdata) {
+
+                if(jobdata.audience_captured < jobdata.total_audience + 1) {
+                    completion_percentage = jobdata.percentage_complete + "%";
+
+                    run_jobs(jobdata.id);
+
+                } else {
+                    completion_percentage = jobdata.percentage_complete + "%";
+                }
+            },
+            error: function(jobdata) {
+                console.log("there was an error with the request.")
+            },
+            complete: function(jobdata) {
+                //$("#progress-bar-sync").css("width", jobdata.percentage_complete + "%");
+            },
+            cache: false,
+            contentType: false,
+            procesData: false
+        });   
+        $("#progress-bar-sync").css("width", completion_percentage);
+
+        if(completion_percentage == '100%') {
+            $("#progress-bar-sync").html("Sync has completed successfully.");
+            $("#progress-bar-sync").addClass("bg-success");
+            $("#progress-bar-sync").removeClass("progress-bar-animated");
+            $("#back-to-dashboard").css("display", "block");
+
+        } else {
+            $("#progress-bar-sync").html(completion_percentage);
+
+        }
+    }
 
     $("form#upload-custom-audience").submit(function(e) {
     e.preventDefault();    
@@ -107,29 +150,17 @@
                         '</button>'+
                 ' </div>');
                 $("#upload-custom-audience").css("display", "none");
+                $("#card-title").html("Sync In Progress");
                 $("#progress-sync").append(
-                    '<div class="progress">' +
-                        '<div id="progress-bar-sync" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>' +
+                    '<div class="progress" style="height: 32px;">' +
+                        '<div id="progress-bar-sync" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">0%</div>' +
+                    '</div><br />' +
+                    '<div class="form-group mb-0">' +
+                    '<a href="/meetpat-client" id="back-to-dashboard" style="display: none" class="btn btn-success btn-lg btn-block">Go Back To Dashboard</a>' +
                     '</div>'
+                    
                 );
-                $.ajax({
-                        url: '/api/meetpat-client/request-facebook-api',
-                        type: 'POST',
-                        data: { job_id: data.id },
-                        dataType: "json",
-                        success: function(jobdata) {
-                            console.log($jobdata.responseJSON);
-                        },
-                        error: function(jobdata) {
-                            console.log("there was an error with the request.")
-                        },
-                        complete: function(jobdata) {
-                            console.log(jobdata.responseJSON);
-                        },
-                        cache: false,
-                        contentType: false,
-                        procesData: false
-                    });
+                run_jobs(data.id);
                 
             }
 
@@ -176,7 +207,20 @@
 
 });
 
-   
+
+// $(document).on('click', '#back-to-dashboard', offBeforeUnload);
+
+
+
+// function offBeforeUnload(event) {
+//     $(window).off('beforeunload');
+// }
+
+// function windowBeforeUnload() {
+//      return "some message";
+// }
+
+// $(window).on('beforeunload', windowBeforeUnload);
     
 
 </script>
