@@ -165,10 +165,10 @@ class FacebookCustomerAudienceController extends Controller
               
               // Test upload to custom audience
 
-              $access_token = 'EAAT6yXCEaKEBAHHzcZC47rObmYVDZCKmiBqhOeVTtSYLfTMkagw2NMboM6VS7IRqYwSWo48i0v5ubtJZBPFMPu668InXtHa1VWg1ZAaQ6CkSwOxMNatfuo6eAwIf0JO9AEMefaaW0s7Hy54nIZCXQBoDbyUUZCIWbvHNV56A51r3EvEUJaZCLPyOsSRaapYZBZBc32TsrNZAMDVIVZCD5wDxepzTJxWCKIAKxYZD';
+              $access_token = 'EAAKaRXpnm10BAMztV56n9LEbE4tMZAdfHsNkOSTtLBFM5LKaEON9RqjZBD6tvBYBo0V4Ovu5dF3DfLEVyRVQzETZBM8g6HX8Fd0GojDmA8fotYuPZAoZAOgpN1FFSvPee7MFU1sB2VulZBsrnwf5AUEGNXe1jflgfRAZCeAFoYCCarxXKUf4PLVUIEEj58Tcgrh8Qkv4IuyuYsV9q54HsLOwMJYOspXXdMZD';
               $app_secret = env('FACEBOOK_APP_SECRET');
               $app_id = env('FACEBOOK_APP_ID');
-              $id = '2298032746891285';
+              $id = '2182368842043371';
 
               $api = Api::init($app_id, $app_secret, $access_token);
               $api->setLogger(new CurlLogger());
