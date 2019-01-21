@@ -165,7 +165,7 @@ class FacebookCustomerAudienceController extends Controller
               
               // Test upload to custom audience
 
-              $access_token = $request->access_token;
+              $access_token = 'EAAT6yXCEaKEBAHHzcZC47rObmYVDZCKmiBqhOeVTtSYLfTMkagw2NMboM6VS7IRqYwSWo48i0v5ubtJZBPFMPu668InXtHa1VWg1ZAaQ6CkSwOxMNatfuo6eAwIf0JO9AEMefaaW0s7Hy54nIZCXQBoDbyUUZCIWbvHNV56A51r3EvEUJaZCLPyOsSRaapYZBZBc32TsrNZAMDVIVZCD5wDxepzTJxWCKIAKxYZD';
               $app_secret = env('FACEBOOK_APP_SECRET');
               $app_id = env('FACEBOOK_APP_ID');
               $id = '2298032746891285';
