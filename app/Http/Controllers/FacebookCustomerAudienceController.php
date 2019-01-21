@@ -7,6 +7,10 @@ use Facebook\Facebook;
 use FacebookAds\Api;
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
+use FacebookAds\Object\AdAccount;
+use FacebookAds\Object\CustomAudience;
+use FacebookAds\Logger\CurlLogger;
+
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Storage;
@@ -85,6 +89,10 @@ class FacebookCustomerAudienceController extends Controller
 
     public function upload_facebook_customers_handle(Request $request)
     {
+      // Main variables
+
+      $user = \MeetPAT\User::find($request->user_id);
+      $client_facebook = $user->ad_account();
 
       $validator = \Validator::make($request->all(), [
         'audience_name' => 'required|unique:facebook_audience_files,audience_name,' . $request->user_id,
@@ -125,12 +133,12 @@ class FacebookCustomerAudienceController extends Controller
         }
 
         if($directory_used and $file_uploaded) {
-          $file_exists = \MeetPAT\FacebookAudienceFile::where([['file_unique_name', '==', $fileName], ['user_id', '==', $request->user_id]])->first();
-          if($file_exists) {
-            $file_exists->update(['file_unique_name' => $fileName]);
+          $audience_file = \MeetPAT\FacebookAudienceFile::where([['file_unique_name', '==', $fileName], ['user_id', '==', $request->user_id]])->first();
+          if($audience_file) {
+            $audience_file->update(['file_unique_name' => $fileName]);
   
           } else {
-            \MeetPAT\FacebookAudienceFile::create(['user_id' => $request->user_id, 'audience_name' => $request->audience_name, 'file_unique_name' => $fileName]);
+            $audience_file = \MeetPAT\FacebookAudienceFile::create(['user_id' => $request->user_id, 'audience_name' => $request->audience_name, 'file_unique_name' => $fileName]);
   
           }
 
@@ -152,7 +160,33 @@ class FacebookCustomerAudienceController extends Controller
           }
 
           if($csv) {
-            $new_job = \MeetPAT\FacebookJobQue::create(['user_id' => $request->user_id, 'total_audience' => sizeof($csv) - 1, 'audience_captured' => 0, 'percentage_complete' => 0, 'job_status' => 'ready']);
+            $new_job = \MeetPAT\FacebookJobQue::create(['user_id' => $request->user_id, 'facebook_audience_file_id' => $audience_file->id, 'total_audience' => sizeof($csv) - 1, 'audience_captured' => 0, 'percentage_complete' => 0, 'job_status' => 'ready']);
+            if($new_job and $client_facebook) {
+              
+              // Test upload to custom audience
+
+              $access_token = $request->access_token;
+              $app_secret = env('FACEBOOK_APP_SECRET');
+              $app_id = env('FACEBOOK_APP_ID');
+              $id = '2298032746891285';
+
+              $api = Api::init($app_id, $app_secret, $access_token);
+              $api->setLogger(new CurlLogger());
+
+              $fields = array(
+              );
+              $params = array(
+                'name' => $audience_file->audience_name,
+                'subtype' => 'CUSTOM',
+                'description' => 'People who purchased on my website',
+                'customer_file_source' => 'USER_PROVIDED_ONLY',
+              );
+
+              echo json_encode((new AdAccount($id))->createCustomAudience(
+                $fields,
+                $params
+              )->exportAllData(), JSON_PRETTY_PRINT);
+            }
           }
   
         }
@@ -171,6 +205,10 @@ class FacebookCustomerAudienceController extends Controller
 
     public function facebook_upload_handler(Request $request)
     {
+      // Main variables
+      $job = \MeetPAT\FacebookJobQue::find($request->job_id);
+      $user = \MeetPAT\User::find($job->user_id);
+      $client_facebook = $user->ad_account();
       // methods
 
       function get_percentage($total, $number)
@@ -181,8 +219,6 @@ class FacebookCustomerAudienceController extends Controller
           return 0;
         }
       }
-
-      $job = \MeetPAT\FacebookJobQue::find($request->job_id);
 
       if($job) {
         

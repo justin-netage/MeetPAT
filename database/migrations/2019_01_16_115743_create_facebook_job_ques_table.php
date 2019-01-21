@@ -16,6 +16,7 @@ class CreateFacebookJobQuesTable extends Migration
         Schema::create('facebook_job_ques', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
+            $table->integer('facebook_audience_file_id');
             $table->integer('total_audience');
             $table->integer('audience_captured');
             $table->integer('percentage_complete');
