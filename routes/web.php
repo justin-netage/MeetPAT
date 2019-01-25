@@ -68,7 +68,7 @@ Route::get('/register-facebook-ad-account', 'FacebookCustomerAudienceController@
 
 // Google Login Routes
 Route::get('/register-google-ad-account', 'GoogleCustomerAudienceController@register_ad_account_id')->name('google-ad-account')->middleware('auth')->middleware('client');
-Route::get('login/google', 'Auth\GoogleLoginController@redirectToProvider');
+Route::get('login/google', 'Auth\GoogleLoginController@google_account_login');
 Route::get('login/google/callback', 'Auth\GoogleLoginController@handleProviderCallback');
 
 // Facebook upload routes
