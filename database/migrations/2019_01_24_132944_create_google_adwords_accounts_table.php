@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFacebookAudienceFilesTable extends Migration
+class CreateGoogleAdwordsAccountsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateFacebookAudienceFilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('facebook_audience_files', function (Blueprint $table) {
+        Schema::create('google_adwords_accounts', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->string('audience_name');
-            $table->string('file_unique_name');
-            $table->enum('file_source_origin', ['customers_and_partners', 'directly_from_customers', 'from_partners']);
+            $table->string('ad_account_id')->nullable();
+            $table->longText('access_token');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateFacebookAudienceFilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('facebook_audience_files');
+        Schema::dropIfExists('google_adwords_accounts');
     }
 }

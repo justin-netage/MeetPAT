@@ -89,15 +89,12 @@ class FacebookCustomerAudienceController extends Controller
 
     public function upload_facebook_customers_handle(Request $request)
     {
-      // Main variables
-
-      $user = \MeetPAT\User::find($request->user_id);
-      $client_facebook = $user->ad_account();
 
       $validator = \Validator::make($request->all(), [
         'audience_name' => 'required|unique:facebook_audience_files,audience_name,' . $request->user_id,
         'user_id' => 'required',
         'audience_file' => 'required|mimes:csv,txt',
+        'file_source_origin' => 'required'
     ]);
     
     if ($validator->fails())
@@ -138,7 +135,7 @@ class FacebookCustomerAudienceController extends Controller
             $audience_file->update(['file_unique_name' => $fileName]);
   
           } else {
-            $audience_file = \MeetPAT\FacebookAudienceFile::create(['user_id' => $request->user_id, 'audience_name' => $request->audience_name, 'file_unique_name' => $fileName]);
+            $audience_file = \MeetPAT\FacebookAudienceFile::create(['user_id' => $request->user_id, 'audience_name' => $request->audience_name, 'file_unique_name' => $fileName, 'file_source_origin' => $request->file_source_origin]);
   
           }
 
@@ -161,32 +158,7 @@ class FacebookCustomerAudienceController extends Controller
 
           if($csv) {
             $new_job = \MeetPAT\FacebookJobQue::create(['user_id' => $request->user_id, 'facebook_audience_file_id' => $audience_file->id, 'total_audience' => sizeof($csv) - 1, 'audience_captured' => 0, 'percentage_complete' => 0, 'job_status' => 'ready']);
-            if($new_job and $client_facebook) {
-              
-              // Test upload to custom audience
-
-              $access_token = env('FACEBOOK_SANDBOX_ACCESS_TOKEN');
-              $app_secret = env('FACEBOOK_APP_SECRET');
-              $app_id = env('FACEBOOK_APP_ID');
-              $id = env('FACEBOOK_SANDBOX_ACCOUNT_ID');
-
-              $api = Api::init($app_id, $app_secret, $access_token);
-              $api->setLogger(new CurlLogger());
-
-              $fields = array(
-              );
-              $params = array(
-                'name' => $audience_file->audience_name,
-                'subtype' => 'CUSTOM',
-                'description' => 'People who purchased on my website',
-                'customer_file_source' => 'USER_PROVIDED_ONLY',
-              );
-
-              echo json_encode((new AdAccount($id))->createCustomAudience(
-                $fields,
-                $params
-              )->exportAllData(), JSON_PRETTY_PRINT);
-            }
+          
           }
   
         }
@@ -237,12 +209,6 @@ class FacebookCustomerAudienceController extends Controller
     public function download_sample_file()
     {
       return \Storage::disk('s3')->url('meetpat/public/sample/example_audience_file.csv');
-    }
-
-    public function start_job_que(Request $request)
-    {
-
-      
     }
     
 }

@@ -8,29 +8,29 @@
         <div class="col-md-6 col-offset-3">
             <div id="alert-section"></div>
             <div class="card">
-                <div class="card-header"><h1 id="card-title">{{ __('Upload New Audience') }}</h1></div>
+                <div class="card-header"><h1 id="card-title">{{ __('Upload New Audience') }} &nbsp;<i class="fab fa-facebook-square" style="color: #3b5998;"></i> </h1></div>
 
                 <div class="card-body">
-                    <h3>Syncing with Facebook Ad Account</h3>
+                    <h3>Add a file with your customer data</h3>
                     <div id="progress-sync"></div>
                     <form id="upload-custom-audience" enctype="multipart/form-data" onsubmit="displayLoader(); return false; this.preventDefault();" novalidate>
                         @csrf
                         <input type="hidden" name="user_id" value="<?php echo \Auth::user()->id; ?>">
                         <div class="form-group">
-                            <label for="email">{{ __('Audience Name') }}</label>
-
-                                <input id="audience_name" type="text" placeholder="Enter your new audience name" class="form-control{{ $errors->has('audience_name') ? ' is-invalid' : '' }}" name="audience_name" value="{{ old('audience_name') }}" autofocus>
-
-                                @if ($errors->has('audience_name'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('audience_name') }}</strong>
-                                    </span>
-                                @endif
-                                <span class="invalid-feedback" role="alert">
-                                    <strong id="invalid-audience-name">Please provide a new and unique audience name</strong>
-                                </span>
+                            <label for="identifiers"><i class="fas fa-info-circle"></i> Use the customer identifiers</label>
+                            <span id="customer-email" class="info-badge badge badge-secondary">Email Address</span>
+                            <span id="customer-phone" class="info-badge badge badge-secondary">Phone Number</span>
                         </div>
-                        <a href="{{Storage::disk('s3')->url('meetpat/public/sample/example_audience_file.csv')}}">download template file</a>
+                        <p><a href="https://www.facebook.com/business/help/606443329504150" style="color: green;">Learn more about how to prepare a customer file with LTV</a></p>
+                        <div class="form-group">
+                            <label>Original Data Source</label>
+                            <select name="file_source_origin" class="form-control" id="origin-of-upload">
+                                <option value="customers_and_partners">Customers and Partners</option>
+                                <option value="directly_from_customers">Directly From Customers</option>
+                                <option value="from_partners">From Partners</option>
+                            </select>
+                        </div>
+                        <a href="{{Storage::disk('s3')->url('meetpat/public/sample/example_audience_file.csv')}}">download template file</a><span> ( Your file must match our template files layout )</span>
                         <div class="upload-box mb-2 text-center">
                             <input type="file" name="audience_file" class="file-input-box" id="audience_file">
                         </div>
@@ -38,6 +38,20 @@
                             <strong id="invalid-file">Please choose an audience file to upload</strong>
                         </span>
                         <br />
+                        <div class="form-group">
+                            <label for="email">{{ __('Audience Name') }}</label>
+
+                            <input id="audience_name" type="text" placeholder="Enter your new audience name" max="50" class="form-control{{ $errors->has('audience_name') ? ' is-invalid' : '' }}" name="audience_name" value="{{ old('audience_name') }}" autofocus>
+
+                            @if ($errors->has('audience_name'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('audience_name') }}</strong>
+                                </span>
+                            @endif
+                            <span class="invalid-feedback" role="alert">
+                                <strong id="invalid-audience-name">Please provide a new and unique audience name</strong>
+                            </span>
+                        </div>
                         <div class="form-group mb-0">
                             <button type="submit" id="create_user" class="btn btn-primary">
                                 {{ __('Submit Audience') }}
@@ -150,7 +164,7 @@
                         '</button>'+
                 ' </div>');
                 $("#upload-custom-audience").css("display", "none");
-                $("#card-title").html("Sync In Progress");
+                $("#card-title").html("Sync In Progress &nbsp;<i class='fab fa-facebook-square' style='color: #3b5998;'></i>");
                 $("#progress-sync").append(
                     '<div class="progress" style="height: 32px;">' +
                         '<div id="progress-bar-sync" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">0%</div>' +
@@ -206,6 +220,35 @@
 
 
 });
+
+$(function () {
+        $('#customer-email').popover({
+            html: true,
+            placement: 'top',
+            trigger: 'click',
+            toggle: 'popover',
+            title: 'Email Address',
+            content: '<ul><b>Examples:</b>' +
+                        '<li>Emily@example.com</li>' +
+                        '<li>John@example.com</li>' +
+                        '<li>Helena@example.com</li>' +
+                     '</ul>'
+        });
+
+        $("#customer-phone").popover({
+            html: true,
+            placement: 'top',
+            trigger: 'click',
+            toggle: 'popover',
+            title: 'Phone number',
+            content: '<ul><b>Examples:</b>' +
+                        '<li>+27123456789</li>' +
+                        '<li>+27604235555</li>' +
+                        '<li>+27826456678</li>' +
+
+                     '</ul>'
+        });
+    });
 
 
 // $(document).on('click', '#back-to-dashboard', offBeforeUnload);

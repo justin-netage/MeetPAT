@@ -66,12 +66,20 @@ Route::get('/meetpat-client/upload-clients', 'MeetpatClientController@upload_cli
 
 Route::get('/register-facebook-ad-account', 'FacebookCustomerAudienceController@register_ad_account_id')->name('facebook-ad-account')->middleware('auth')->middleware('client');
 
+// Google Login Routes
+Route::get('/register-google-ad-account', 'GoogleCustomerAudienceController@register_ad_account_id')->name('google-ad-account')->middleware('auth')->middleware('client');
+Route::get('login/google', 'Auth\LoginController@redirectToProvider');
+Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallback');
+
 // Facebook upload routes
 
 // Upload pages
 Route::get('/meetpat-client/upload-clients/facebook', 'FacebookCustomerAudienceController@upload_facebook_customers')->name('facebook-upload-customers')->middleware('auth')->middleware('client');
+Route::get('/meetpat-client/upload-clients/google', 'GoogleCustomerAudienceController@upload_google_customers')->name('google-upload-customers')->middleware('auth')->middleware('client');
 
 // Upload api handler /routes/api.php
 
 // Download link for sample file Facebook Custom Audiences
 Route::get('/meetpat-client/upload-clients/facebook-sample-audience', 'FacebookCustomerAudienceController@download_sample_file')->name('facebook-download-sample')->middleware('auth')->middleware('client');
+Route::get('/meetpat-client/upload-clients/google-sample-audience', 'GoogleCustomerAudienceController@download_sample_file')->name('google-download-sample')->middleware('auth')->middleware('client');
+
