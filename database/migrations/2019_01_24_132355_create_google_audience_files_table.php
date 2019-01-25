@@ -15,7 +15,6 @@ class CreateGoogleAudienceFilesTable extends Migration
     {
         Schema::create('google_audience_files', function (Blueprint $table) {
             $table->increments('id');
-            $table->increments('id');
             $table->integer('user_id');
             $table->string('audience_name');
             $table->string('file_unique_name');

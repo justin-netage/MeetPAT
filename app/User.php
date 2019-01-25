@@ -43,11 +43,11 @@ class User extends Authenticatable
 
     public function ad_account() 
     {
-        return $this->hasOne('MeetPAT\FacebookAdAccount');
+        return $this->hasOne('\MeetPAT\FacebookAdAccount');
     }
 
     public function ad_word_account()
     {
-        return $this->hasOne('MeetPAT\GoogleAdwordsAccount');
+        return $this->hasOne('\MeetPAT\GoogleAdwordsAccount');
     }
 }
