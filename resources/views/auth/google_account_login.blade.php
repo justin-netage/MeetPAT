@@ -14,12 +14,12 @@
                     <div class="card-body">
                         <div id="progress-sync"></div>
                         <!-- Make route /google/authenticate-code and add controller to save google ads account and access code -->
-                        <form id="upload-custom-audience" action="/google/authenticate-code" onsubmit="displayLoader();">
+                        <form id="upload-custom-audience" method="post" action="/google-authorization/authenticate-authorization-code" onsubmit="displayLoader();">
                         @csrf
                         <div class="form-group">
                             <label for="auth_code">{{ __('Authorization Code') }}</label>
-
-                            <input id="auth_code" type="text" placeholder="Enter your Authorization Code" max="1000" class="form-control{{ $errors->has('auth_code') ? ' is-invalid' : '' }}" name="auth_code" value="{{ old('auth_code') }}" autofocus>
+                            <input type="hidden" name="user_id" value="{{\Auth::user()->id}}">
+                            <input id="auth_code" name="auth_code" type="text" placeholder="Enter your Authorization Code" max="1000" class="form-control{{ $errors->has('auth_code') ? ' is-invalid' : '' }}" name="auth_code" value="{{ old('auth_code') }}" autofocus>
 
                             @if ($errors->has('auth_code'))
                                 <span class="invalid-feedback" role="alert">

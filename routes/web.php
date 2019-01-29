@@ -66,10 +66,13 @@ Route::get('/meetpat-client/upload-clients', 'MeetpatClientController@upload_cli
 
 Route::get('/register-facebook-ad-account', 'FacebookCustomerAudienceController@register_ad_account_id')->name('facebook-ad-account')->middleware('auth')->middleware('client');
 
-// Google Login Routes
+// Google Register Routes
 Route::get('/register-google-ad-account', 'GoogleCustomerAudienceController@register_ad_account_id')->name('google-ad-account')->middleware('auth')->middleware('client');
-Route::get('login/google', 'Auth\GoogleLoginController@google_account_login');
+//Route::get('login/google', 'Auth\GoogleLoginController@google_account_login');
 Route::get('login/google/callback', 'Auth\GoogleLoginController@handleProviderCallback');
+Route::get('/google-authorization/start', 'Auth\GoogleLoginController@google_account_login');
+
+Route::post('/google-authorization/authenticate-authorization-code', 'Auth\GoogleLoginController@authenticate_authorization_code')->name('authenticate-google-code')->middleware('client');
 
 // Facebook upload routes
 
