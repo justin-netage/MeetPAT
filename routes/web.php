@@ -72,7 +72,7 @@ Route::get('/register-google-ad-account', 'GoogleCustomerAudienceController@regi
 Route::get('login/google/callback', 'Auth\GoogleLoginController@handleProviderCallback');
 Route::get('/google-authorization/start', 'Auth\GoogleLoginController@google_account_login');
 
-Route::post('/google-authorization/authenticate-authorization-code', 'Auth\GoogleLoginController@authenticate_authorization_code')->name('authenticate-google-code')->middleware('client');
+Route::post('/google-authorization/authenticate-authorization-code', 'MeetpatClientController@authenticate_authorization_code')->name('authenticate-google-code')->middleware('client');
 
 // Facebook upload routes
 
@@ -86,3 +86,6 @@ Route::get('/meetpat-client/upload-clients/google', 'GoogleCustomerAudienceContr
 Route::get('/meetpat-client/upload-clients/facebook-sample-audience', 'FacebookCustomerAudienceController@download_sample_file')->name('facebook-download-sample')->middleware('auth')->middleware('client');
 Route::get('/meetpat-client/upload-clients/google-sample-audience', 'GoogleCustomerAudienceController@download_sample_file')->name('google-download-sample')->middleware('auth')->middleware('client');
 
+// Update account if token needs to be refreshed or id needs to be added
+Route::get('/meetpat-client/update/facebook', 'MeetpatClientController@update_facebook')->name('update-facebook')->middleware('auth')->middleware('client');
+Route::get('/meetpat-client/update/google', 'MeetpatClientController@update_google')->name('update-google')->middleware('auth')->middleware('client');

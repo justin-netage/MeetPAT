@@ -57,7 +57,7 @@ class FacebookCustomerAudienceController extends Controller
                 $user->ad_account->update(['access_token' => $_SESSION['facebook_access_token']]);
                 $_SESSION['facebook_access_token'] = null;
 
-                return redirect('/meetpat-client/upload-clients');
+                return redirect('/meetpat-client');
             } else {
                 $new_ad_account = \MeetPAT\FacebookAdAccount::create(['user_id' => $user->id, 'access_token' => $_SESSION['facebook_access_token']]);
                 
@@ -65,11 +65,10 @@ class FacebookCustomerAudienceController extends Controller
                     \Session::flash('success', 'Your facebook account has linked successfully.');
                     // Finally, destroy the session.
                     session_destroy();
-                    return redirect('/meetpat-client/upload-clients');
+                    return redirect('/meetpat-client');
 
                 } else {
                     \Session::flash('error', 'There was a problem linking your account please contact MeetPAT for asssistance.');
-
                 }
             }
 
