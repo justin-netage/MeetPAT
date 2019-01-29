@@ -9,7 +9,7 @@
             @if($has_facebook_ad_account)
             <a href="/meetpat-client/update/facebook" class="btn btn-primary btn-lg btn-block rounded-0 shadow-block">Facebook Ad Account</a>
             @else
-            <a href="/register-facebook-ad-account" class="btn btn-primary btn-lg btn-block rounded-0 shadow-block">
+            <a href="/meetpat-client/update/facebook" class="btn btn-primary btn-lg btn-block rounded-0 shadow-block">
                 Register with your Facebook AD Account
             </a>
             @endif
@@ -19,7 +19,7 @@
             @if($has_google_ad_account)
             <a href="/meetpat-client/update/google" class="btn btn-danger btn-lg btn-block rounded-0 shadow-block shadow-block">Google Adwords Account</a>
             @else
-            <a href="/register-google-ad-account" class="btn btn-danger btn-lg btn-block rounded-0 shadow-block">Register with you Google Adwords account</a>
+            <a href="/meetpat-client/update/google" class="btn btn-danger btn-lg btn-block rounded-0 shadow-block">Register with you Google Adwords account</a>
             @endif
         </div>
     </div>
