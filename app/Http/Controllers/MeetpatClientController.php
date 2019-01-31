@@ -181,9 +181,9 @@ class MeetpatClientController extends Controller
         if($authToken) {
             $has_ad_account = \MeetPAT\GoogleAdwordsAccount::where('user_id', $user->id)->first();
             if(!$has_ad_account) {
-                \MeetPAT\GoogleAdwordsAccount::create(['user_id' => $user->id, 'adwords_id' => $request->adwords_id, 'access_token' => $authToken['refresh_token'] ]);
+                \MeetPAT\GoogleAdwordsAccount::create(['user_id' => $user->id, 'ad_account_id' => $request->adwords_id, 'access_token' => $authToken['refresh_token'] ]);
             } else {
-                $has_ad_account->update(['adwords_id' => $request->adwords_id, 'access_token' => $authToken['refresh_token'] ]);
+                $has_ad_account->update(['ad_account_id' => $request->adwords_id, 'access_token' => $authToken['refresh_token'] ]);
             }
             \Session::flash('success', 'Your account has been authorized successfully.');
         } else {
