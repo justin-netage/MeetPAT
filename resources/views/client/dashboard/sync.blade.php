@@ -7,9 +7,9 @@
         <div class="col-md-6 p-0 ">
             <img src="{{\Storage::disk('s3')->url('meetpat/public/images/auth/facebook-custom-audiences-upload.png')}}" height="auto" width="100%" class="shadow-block" />
             @if($has_facebook_ad_account)
-            <a href="/meetpat-client/update/facebook" class="btn btn-primary btn-lg btn-block rounded-0 shadow-block">Facebook Ad Account</a>
+            <a href="/meetpat-client/sync/facebook" class="btn btn-primary btn-lg btn-block rounded-0 shadow-block">Facebook Ad Account</a>
             @else
-            <a href="/meetpat-client/update/facebook" class="btn btn-primary btn-lg btn-block rounded-0 shadow-block">
+            <a href="/meetpat-client/sync/facebook" class="btn btn-primary btn-lg btn-block rounded-0 shadow-block">
                 Register with your Facebook AD Account
             </a>
             @endif
@@ -17,9 +17,9 @@
         <div class="col-md-6 p-0">
             <img src="{{\Storage::disk('s3')->url('meetpat/public/images/auth/google-similar-audiences.jpg')}}" height="auto" width="100%" class="shadow-block" />
             @if($has_google_ad_account)
-            <a href="/meetpat-client/update/google" class="btn btn-danger btn-lg btn-block rounded-0 shadow-block shadow-block">Google Adwords Account</a>
+            <a href="/meetpat-client/sync/google" class="btn btn-danger btn-lg btn-block rounded-0 shadow-block shadow-block">Google Adwords Account</a>
             @else
-            <a href="/meetpat-client/update/google" class="btn btn-danger btn-lg btn-block rounded-0 shadow-block">Register with you Google Adwords account</a>
+            <a href="/meetpat-client/sync/google" class="btn btn-danger btn-lg btn-block rounded-0 shadow-block">Register with you Google Adwords account</a>
             @endif
         </div>
     </div>

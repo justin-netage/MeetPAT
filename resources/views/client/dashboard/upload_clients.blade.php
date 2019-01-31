@@ -10,9 +10,12 @@
             <div class="card">
                 <div class="card-header"><h1 id="card-title">{{ __('Upload New Audience') }} </h1></div>
                 <div class="card-body">
-                    <h3 class="mb-5">Add a file with your customer data</h3>
-                    <div id="progress-sync"></div>
+                    <div id="progress-sync">
+                        
+                    </div>
                     <form id="upload-custom-audience" enctype="multipart/form-data" onsubmit="displayLoader(); return false; this.preventDefault();" novalidate>
+                    <h3 class="mb-5">Add a file with your customer data</h3>
+
                         @csrf
                         <input type="hidden" name="user_id" value="<?php echo \Auth::user()->id; ?>">
                         <div class="form-group row">
@@ -100,47 +103,49 @@
     var displayLoader = function () {
         $("#loader").css("display", "block");
     };
-    var completion_percentage = "0%";
 
-    var run_jobs = function(data_id) {
-
-        $.ajax({
-            url: '/api/meetpat-client/request-facebook-api?job_id=' + data_id,
-            type: 'POST',
-            // data: { job_id: data.id },
-            dataType: "json",
-            success: function(jobdata) {
-
-                if(jobdata.audience_captured < jobdata.total_audience + 1) {
-                    completion_percentage = jobdata.percentage_complete + "%";
-
-                    run_jobs(jobdata.id);
-
-                } else {
-                    completion_percentage = jobdata.percentage_complete + "%";
-                }
-            },
-            error: function(jobdata) {
-                console.log("there was an error with the request.")
-            },
-            complete: function(jobdata) {
-                //$("#progress-bar-sync").css("width", jobdata.percentage_complete + "%");
-            },
-            cache: false,
-            contentType: false,
-            procesData: false
-        });   
-        $("#progress-bar-sync").css("width", completion_percentage);
-
-        if(completion_percentage == '100%') {
-            $("#progress-bar-sync").html("Sync has completed successfully.");
-            $("#progress-bar-sync").addClass("bg-success");
-            $("#progress-bar-sync").removeClass("progress-bar-animated");
-            $("#back-to-dashboard").css("display", "block");
+    var run_job = function(job_data) {
+        if(job_data["platform"] == 'facebook') {
+            $("#facebook_upload_status").html(
+                '<div class="spinner-block">'+
+                    '<div class="spinner spinner-3"></div>'+
+                '</div>'
+            );
+            $.post(
+                '/api/meetpat-client/upload-custom-audience/facebook',
+                job_data,
+                function(returnedData) {
+                    console.log(returnedData);
+                }).done(function() {
+                    $("#facebook_upload_status").html(
+                        '<i class="fas fa-check-circle"></i>'
+                    );
+                }).fail(function() {
+                    $("#facebook_upload_status").html(
+                        '<i class="fas fa-exclamation-circle"></i>'
+                    );
+                });
 
         } else {
-            $("#progress-bar-sync").html(completion_percentage);
-
+            $("#google_upload_status").html(
+                '<div class="spinner-block">'+
+                    '<div class="spinner spinner-3"></div>'+
+                '</div>'
+            );
+            $.post(
+                '/api/meetpat-client/upload-custom-audience/google',
+                job_data,
+                function(returnedData) {
+                    console.log(returnedData);
+                }).done(function() {
+                    $("#google_upload_status").html(
+                        '<i class="fas fa-check-circle"></i>'
+                    );
+                }).fail(function() {
+                    $("#google_upload_status").html(
+                        '<i class="fas fa-exclamation-circle"></i>'
+                    );
+                });
         }
     }
 
@@ -149,7 +154,7 @@
     var formData = new FormData(this);
 
     $.ajax({
-        url: '/api/meetpat-client/upload-facebook-custom-audience',
+        url: '/api/meetpat-client/upload-custom-audience',
         type: 'POST',
         data: formData,
         success: function (data) {
@@ -189,24 +194,55 @@
                         '</button>'+
                 ' </div>');
                 $("#upload-custom-audience").css("display", "none");
-                $("#card-title").html("Sync In Progress &nbsp;<i class='fab fa-facebook-square' style='color: #3b5998;'></i>");
-                $("#progress-sync").append(
-                    '<div class="progress" style="height: 32px;">' +
-                        '<div id="progress-bar-sync" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">0%</div>' +
-                    '</div><br />' +
-                    '<div class="form-group mb-0">' +
-                    '<a href="/meetpat-client" id="back-to-dashboard" style="display: none" class="btn btn-success btn-lg btn-block">Go Back To Dashboard</a>' +
-                    '</div>'
+                $("#card-title").html("Sync In Progress");
+                $("#progress-sync").html(
+                    '<table class="table">' +
+                        '<thead>' +
+                            '<tr>' +
+                            '<th scope="col">Platform</th>' +
+                            '<th scope="col">Status</th>' +
+                            '</tr>' +
+                        '</thead>' +
+                        '<tbody id="sync-table-body">' +
+                        '</tbody>' +
+                    '</table>'
                     
-                );
-                run_jobs(data.id);
+                );                         
                 
             }
 
         },
         complete: function (data) {
             $("#loader").css("display", "none");
-            console.log(data.responseJSON);
+            $("#sync-table-body").append(
+                    '<tr id="facebook_upload">' +
+                        '<td>Facebook</td>' +
+                        '<td id="facebook_upload_status">' +
+                            'pending...' +
+                        '</td>'+
+                    '</tr>'
+            );
+            $("#sync-table-body").append(
+                '<tr id="google_upload">' +
+                    '<td>Google</td>' +
+                    '<td id="google_upload_status">' +
+                        'pending...' +
+                    '</td>'+
+                '</tr>'
+            );   
+            
+            if(data.responseJSON["length"] == 2) {
+                var run_jobs = function(callback) {
+                    run_job(data.responseJSON[0]);
+                    callback();
+                    }
+                run_jobs(function() {
+                    run_job(data.responseJSON[1]);
+                });
+            } else {
+                run_job(data.responseJSON[0]);
+            }
+            
         },
         error: function(data) {
             console.log('There was an error with the upload.');

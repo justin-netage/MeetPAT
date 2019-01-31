@@ -128,39 +128,58 @@ class FacebookCustomerAudienceController extends Controller
           }
         }
 
-        if($directory_used and $file_uploaded) {
-          $audience_file = \MeetPAT\FacebookAudienceFile::where([['file_unique_name', '==', $fileName], ['user_id', '==', $request->user_id]])->first();
-          if($audience_file) {
-            $audience_file->update(['file_unique_name' => $fileName]);
-  
-          } else {
-            $audience_file = \MeetPAT\FacebookAudienceFile::create(['user_id' => $request->user_id, 'audience_name' => $request->audience_name, 'file_unique_name' => $fileName, 'file_source_origin' => $request->file_source_origin]);
-  
-          }
+        // Create Modal and table for new jobs that check for facebook and google syncing custom audiences 
+        // $request->facebook_custom_audience $request->google_custom_audience
+        // Use api routes to handle the jobs if both are used or just one keep status when job is done (They will be handled globally not separately, change all facebook instances that handle separatley and change it to a global handler)
 
-          function readCSV($csvFile){
-            $file_handle = fopen($csvFile, 'r');
-            while (!feof($file_handle) ) {
-              $line_of_text[] = fgetcsv($file_handle, 0);
-            }
-            fclose($file_handle);
-            return $line_of_text;
-          }
-           
-          $csv = readCSV($request->file('audience_file')); 
-          foreach ( $csv as $c ) {
-              $firstColumn = $c[0];
-              $secondColumn = $c[1];
-              $thirdColumn = $c[2];  
-              $fourthColumn = $c[3];
-          }
+        $unique_id = uniqid();
+        $facebook_job = null;
+        $google_job = null;
 
-          if($csv) {
-            $new_job = \MeetPAT\FacebookJobQue::create(['user_id' => $request->user_id, 'facebook_audience_file_id' => $audience_file->id, 'total_audience' => sizeof($csv) - 1, 'audience_captured' => 0, 'percentage_complete' => 0, 'job_status' => 'ready']);
-          
-          }
-  
+        if($facebook_custom_audience) {
+          $facebook_job = \MeetPAT\UploadJobQue::create(['user_id' => $request->user_id, 'unique_id' => $unique_id, 'platform' => $facebook_custom_audience, 'status' => 'pending']);
         }
+
+        if($google_custom_audience) {
+          $google_job = \MeetPAT\UploadJobQue::create(['user_id' => $request->user_id, 'unique_id' => $unique_id, 'platform' => $google_custom_audience, 'status' => 'pending']);
+
+        }
+
+        $new_job = \MeetPAT\UploadJobQue::where('unique_id', $unique_id);
+
+        // if($directory_used and $file_uploaded) {
+        //   $audience_file = \MeetPAT\FacebookAudienceFile::where([['file_unique_name', '==', $fileName], ['user_id', '==', $request->user_id]])->first();
+        //   if($audience_file) {
+        //     $audience_file->update(['file_unique_name' => $fileName]);
+  
+        //   } else {
+        //     $audience_file = \MeetPAT\FacebookAudienceFile::create(['user_id' => $request->user_id, 'audience_name' => $request->audience_name, 'file_unique_name' => $fileName, 'file_source_origin' => $request->file_source_origin]);
+  
+        //   }
+
+        //   function readCSV($csvFile){
+        //     $file_handle = fopen($csvFile, 'r');
+        //     while (!feof($file_handle) ) {
+        //       $line_of_text[] = fgetcsv($file_handle, 0);
+        //     }
+        //     fclose($file_handle);
+        //     return $line_of_text;
+        //   }
+           
+        //   $csv = readCSV($request->file('audience_file')); 
+        //   foreach ( $csv as $c ) {
+        //       $firstColumn = $c[0];
+        //       $secondColumn = $c[1];
+        //       $thirdColumn = $c[2];  
+        //       $fourthColumn = $c[3];
+        //   }
+
+        //   if($csv) {
+        //     $new_job = \MeetPAT\FacebookJobQue::create(['user_id' => $request->user_id, 'facebook_audience_file_id' => $audience_file->id, 'total_audience' => sizeof($csv) - 1, 'audience_captured' => 0, 'percentage_complete' => 0, 'job_status' => 'ready']);
+          
+        //   }
+  
+        // }
 
       } else {
         $response_text = 'in valid file';

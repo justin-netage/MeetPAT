@@ -42,8 +42,11 @@ Route::post('/meetpat-admin/users/unique-email', 'AdministratorController@unique
 Route::get('/meetpat-admin/generate-password', 'MiscController@generate_password')->name('password-generator');
 
 // MeetPAT Client request handlers
-Route::post('meetpat-client/upload-facebook-custom-audience', 'FacebookCustomerAudienceController@upload_facebook_customers_handle')->name('facebook-upload-customers-request');
-Route::post('meetpat-client/request-facebook-api', 'FacebookCustomerAudienceController@facebook_upload_handler')->name('facebook-request-api-handler');
+Route::post('meetpat-client/upload-custom-audience', 'MeetpatClientController@upload_customers_handle')->name('upload-customers-request');
+Route::post('meetpat-client/upload-custom-audience/facebook', 'MeetpatClientController@facebook_custom_audience_handler')->name('upload-facebook-request');
+Route::post('meetpat-client/upload-custom-audience/google', 'MeetpatClientController@google_custom_audience_handler')->name('upload-google-request');
+
+//Route::post('meetpat-client/request-facebook-api', 'FacebookCustomerAudienceController@facebook_upload_handler')->name('facebook-request-api-handler');
 
 Route::post('meetpat-client/upload-google-custom-audience', 'GoogleCustomerAudienceController@upload_google_customers_handle')->name('google-upload-customers-request');
 Route::post('meetpat-client/request-google-api', 'GoogleCustomerAudienceController@google_upload_handler')->name('google-request-api-handler');

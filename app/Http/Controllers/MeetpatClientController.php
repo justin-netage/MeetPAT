@@ -51,7 +51,7 @@ class MeetpatClientController extends Controller
 
     // Update synced accounts
 
-    public function update_facebook()
+    public function sync_facebook()
     {
         $user = \Auth::user();
         $loginUrl = null;
@@ -110,11 +110,11 @@ class MeetpatClientController extends Controller
             // echo '<a href="' . $loginUrl . '">Log in with Facebook</a>';
           }
 
-        return view('client.dashboard.update_facebook_acc', ['login_url' => $loginUrl]);
+        return view('client.dashboard.sync_facebook_acc', ['login_url' => $loginUrl]);
     }
 
 
-    public function update_google()
+    public function sync_google()
     {
         $PRODUCTS = [
             ['AdWords API', 'https://www.googleapis.com/auth/adwords'],
@@ -138,13 +138,14 @@ class MeetpatClientController extends Controller
 
         $auth_uri = $oauth2->buildFullAuthorizationUri();
 
-        return view('client.dashboard.update_google_acc', ['auth_uri' => $auth_uri]);
+        return view('client.dashboard.sync_google_acc', ['auth_uri' => $auth_uri]);
     }
 
 
     public function authenticate_authorization_code(Request $request)
     {
         $validatedData = $request->validate([
+            'adwords_id' => 'required',
             'auth_code' => 'required',
             'user_id' => 'required',
         ]);
@@ -180,9 +181,9 @@ class MeetpatClientController extends Controller
         if($authToken) {
             $has_ad_account = \MeetPAT\GoogleAdwordsAccount::where('user_id', $user->id)->first();
             if(!$has_ad_account) {
-                \MeetPAT\GoogleAdwordsAccount::create(['user_id' => $user->id, 'access_token' => $authToken['refresh_token'] ]);
+                \MeetPAT\GoogleAdwordsAccount::create(['user_id' => $user->id, 'adwords_id' => $request->adwords_id, 'access_token' => $authToken['refresh_token'] ]);
             } else {
-                $has_ad_account->update(['access_token' => $authToken['refresh_token'] ]);
+                $has_ad_account->update(['adwords_id' => $request->adwords_id, 'access_token' => $authToken['refresh_token'] ]);
             }
             \Session::flash('success', 'Your account has been authorized successfully.');
         } else {
@@ -193,9 +194,138 @@ class MeetpatClientController extends Controller
 
     }
 
-    public function handle_update_google_acc(Request $request)
+    public function upload_customers_handle(Request $request)
     {
 
-        return response(200);
+      $validator = \Validator::make($request->all(), [
+        'audience_name' => 'required|unique:facebook_audience_files,audience_name,' . $request->user_id,
+        'user_id' => 'required',
+        'audience_file' => 'required|mimes:csv,txt',
+        'file_source_origin' => 'required'
+    ]);
+    
+    if ($validator->fails())
+    {
+        return response()->json(['errors'=>$validator->errors()]);
+    } else {
+
+      $directory_used = null;
+      $file_uploaded = null;
+      $csv = null;
+      
+      if($request->file('audience_file')->isValid()) {
+        
+        $response_text = 'valid file';
+
+        $csv_file = $request->file('audience_file');
+        $fileName = uniqid() . '_' . str_replace(" ", "_", $request->audience_name);
+
+        // Testing facebook and google API comment out when ready to upload.
+
+        // if(env('APP_ENV') == 'production') {
+        //   $directory_used = \Storage::disk('s3')->makeDirectory('client/custom-audience/user_id_' . $request->user_id);
+
+        //   if($directory_used) {
+        //     $file_uploaded = \Storage::disk('s3')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName, file_get_contents($csv_file));
+
+        //   }
+        // } else {
+        //   $directory_used = \Storage::disk('local')->makeDirectory('client/custom-audience/user_id_' . $request->user_id);
+
+        //   if($directory_used) {
+        //     $file_uploaded = \Storage::disk('local')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName, file_get_contents($csv_file));
+
+        //   }
+        // }
+
+        $unique_id = uniqid();
+        $facebook_job = null;
+        $google_job = null;
+
+        $new_jobs = \MeetPAT\UploadJobQue::where('unique_id', $unique_id)->get();
+
+        if($directory_used and $file_uploaded) {
+          $audience_file = \MeetPAT\AudienceFile::where([['file_unique_name', '==', $fileName], ['user_id', '==', $request->user_id]])->first();
+          if($audience_file) {
+            $audience_file->update(['file_unique_name' => $fileName]);
+  
+          } else {
+            $audience_file = \MeetPAT\AudienceFile::create(['user_id' => $request->user_id, 'audience_name' => $request->audience_name, 'file_unique_name' => $fileName, 'file_source_origin' => $request->file_source_origin]);
+  
+          }
+
+          if($request->facebook_custom_audience) {
+            $facebook_job = \MeetPAT\UploadJobQue::create(['user_id' => $request->user_id, 'unique_id' => $unique_id, 'platform' => 'facebook', 'status' => 'pending', 'file_id' => 2]);
+          }
+  
+          if($request->google_custom_audience) {
+            $google_job = \MeetPAT\UploadJobQue::create(['user_id' => $request->user_id, 'unique_id' => $unique_id, 'platform' => 'google', 'status' => 'pending', 'file_id' => 2]);
+          }
+
+        //   function readCSV($csvFile) {
+        //     $file_handle = fopen($csvFile, 'r');
+        //     while (!feof($file_handle) ) {
+        //       $line_of_text[] = fgetcsv($file_handle, 0);
+        //     }
+        //     fclose($file_handle);
+        //     return $line_of_text;
+        //   }
+           
+        //   $csv = readCSV($request->file('audience_file')); 
+        //   foreach ( $csv as $c ) {
+        //       $firstColumn = $c[0];
+        //       $secondColumn = $c[1];
+        //       $thirdColumn = $c[2];  
+        //       $fourthColumn = $c[3];
+        //   }
+
+        //   if($csv) {
+        //     $new_job = \MeetPAT\FacebookJobQue::create(['user_id' => $request->user_id, 'facebook_audience_file_id' => $audience_file->id, 'total_audience' => sizeof($csv) - 1, 'audience_captured' => 0, 'percentage_complete' => 0, 'job_status' => 'ready']);
+          
+        //   }
+  
+        }
+
+        } else {
+         $response_text = 'in valid file';
+        }
+
+        return response()->json($new_jobs);
+    
+        }
+
+    }
+
+    public function facebook_custom_audience_handler(Request $request)
+    {
+        $job_que = \MeetPAT\UploadJobQue::where([
+            ['unique_id', '=',  $request->unique_id],
+            ['platform', '=', 'facebook'],
+            ])->first();
+
+        $job_que->update(['status' => '']);
+            
+        return response()->json($job_que);
+    }
+
+    public function google_custom_audience_handler(Request $request)
+    {
+        $job_que = \MeetPAT\UploadJobQue::where([
+            ['unique_id', '=',  $request->unique_id],
+            ['platform', '=', 'google'],
+            ])->first();
+
+        return response()->json($job_que);
+    }
+
+    public function update_facebook()
+    {
+        return view('client.dashboard.update_facebook_acc', []);
+    } 
+
+
+    public function update_google()
+    {
+        return view('client.dashboard.update_google_acc', []);
     }
 }

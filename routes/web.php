@@ -87,5 +87,8 @@ Route::get('/meetpat-client/upload-clients/facebook-sample-audience', 'FacebookC
 Route::get('/meetpat-client/upload-clients/google-sample-audience', 'GoogleCustomerAudienceController@download_sample_file')->name('google-download-sample')->middleware('auth')->middleware('client');
 
 // Update account if token needs to be refreshed or id needs to be added
+Route::get('/meetpat-client/sync/facebook', 'MeetpatClientController@sync_facebook')->name('sync-facebook')->middleware('auth')->middleware('client');
+Route::get('/meetpat-client/sync/google', 'MeetpatClientController@sync_google')->name('sync-google')->middleware('auth')->middleware('client');
+
 Route::get('/meetpat-client/update/facebook', 'MeetpatClientController@update_facebook')->name('update-facebook')->middleware('auth')->middleware('client');
 Route::get('/meetpat-client/update/google', 'MeetpatClientController@update_google')->name('update-google')->middleware('auth')->middleware('client');
