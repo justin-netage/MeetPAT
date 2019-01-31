@@ -198,7 +198,7 @@ class MeetpatClientController extends Controller
     {
 
       $validator = \Validator::make($request->all(), [
-        'audience_name' => 'required|unique:facebook_audience_files,audience_name,' . $request->user_id,
+        'audience_name' => 'required|unique:audience_files,audience_name,' . $request->user_id,
         'user_id' => 'required',
         'audience_file' => 'required|mimes:csv,txt',
         'file_source_origin' => 'required'
@@ -233,7 +233,7 @@ class MeetpatClientController extends Controller
           $directory_used = \Storage::disk('local')->makeDirectory('client/custom-audience/user_id_' . $request->user_id);
 
           if($directory_used) {
-            $file_uploaded = \Storage::disk('local')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName, file_get_contents($csv_file));
+            $file_uploaded = \Storage::disk('local')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName . ".csv", file_get_contents($csv_file));
 
           }
         }
@@ -254,11 +254,11 @@ class MeetpatClientController extends Controller
           }
 
           if($request->facebook_custom_audience) {
-            $facebook_job = \MeetPAT\UploadJobQue::create(['user_id' => $request->user_id, 'unique_id' => $unique_id, 'platform' => 'facebook', 'status' => 'pending', 'file_id' => 2]);
+            $facebook_job = \MeetPAT\UploadJobQue::create(['user_id' => $request->user_id, 'unique_id' => $unique_id, 'platform' => 'facebook', 'status' => 'pending', 'file_id' => $audience_file->id]);
           }
   
           if($request->google_custom_audience) {
-            $google_job = \MeetPAT\UploadJobQue::create(['user_id' => $request->user_id, 'unique_id' => $unique_id, 'platform' => 'google', 'status' => 'pending', 'file_id' => 2]);
+            $google_job = \MeetPAT\UploadJobQue::create(['user_id' => $request->user_id, 'unique_id' => $unique_id, 'platform' => 'google', 'status' => 'pending', 'file_id' => $audience_file->id]);
           }
 
           function readCSV($csvFile) {
@@ -303,10 +303,18 @@ class MeetpatClientController extends Controller
             ['unique_id', '=',  $request->unique_id],
             ['platform', '=', 'facebook'],
             ])->first();
-            
-            sleep(5);
-            
-        return response()->json($job_que);
+
+        $file_info = \MeetPAT\AudienceFile::find($job_que->file_id);
+
+        if(env('APP_ENV') == 'production') {
+            $actual_file = \Storage::disk('s3')->get('client/custom-audience/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
+        } else {
+            $actual_file = \Storage::disk('local')->get('client/custom-audience/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
+        }
+
+        $array = array_map("str_getcsv", explode("\n", $actual_file));
+                    
+        return response()->json($array);
     }
 
     public function google_custom_audience_handler(Request $request)
@@ -315,10 +323,18 @@ class MeetpatClientController extends Controller
             ['unique_id', '=',  $request->unique_id],
             ['platform', '=', 'google'],
             ])->first();
+        
+        $file_info = \MeetPAT\AudienceFile::find($job_que->file_id);
 
-            sleep(5);
+        if(env('APP_ENV') == 'production') {
+            $actual_file = \Storage::disk('s3')->get('client/custom-audience/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
+        } else {
+            $actual_file = \Storage::disk('local')->get('client/custom-audience/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
+        }
 
-        return response()->json($job_que);
+        $array = array_map("str_getcsv", explode("\n", $actual_file));
+
+        return response()->json($array);
     }
 
     public function update_facebook()

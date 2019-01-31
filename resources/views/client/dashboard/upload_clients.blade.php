@@ -116,11 +116,13 @@
                 job_data,
                 function(returnedData) {
                     console.log(returnedData);
-                }).done(function() {
+                }).done(function(returnedData) {
+                    //console.log(returnedData);
                     $("#facebook_upload_status").html(
                         '<i class="fas fa-check-circle"></i>'
                     );
-                }).fail(function() {
+                }).fail(function(returnedData) {
+                    console.log(returnedData);
                     $("#facebook_upload_status").html(
                         '<i class="fas fa-exclamation-circle" style="color: red;"></i>'
                     );
@@ -137,11 +139,13 @@
                 job_data,
                 function(returnedData) {
                     console.log(returnedData);
-                }).done(function() {
+                }).done(function(returnedData) {
+                    //console.log(returnedData);
                     $("#google_upload_status").html(
                         '<i class="fas fa-check-circle"></i>'
                     );
-                }).fail(function() {
+                }).fail(function(returnedData) {
+                    console.log(returnedData);
                     $("#google_upload_status").html(
                         '<i class="fas fa-exclamation-circle" style="color: red;"></i>'
                     );
@@ -230,7 +234,7 @@
                     '</td>'+
                 '</tr>'
             );   
-            console.log(data.responseJSON);
+            //console.log(data.responseJSON);
 
             if(data.responseJSON["length"] == 2) {
                 var run_jobs = function(callback) {
