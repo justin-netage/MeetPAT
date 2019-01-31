@@ -122,7 +122,7 @@
                     );
                 }).fail(function() {
                     $("#facebook_upload_status").html(
-                        '<i class="fas fa-exclamation-circle"></i>'
+                        '<i class="fas fa-exclamation-circle" style="color: red;"></i>'
                     );
                 });
 
@@ -143,7 +143,7 @@
                     );
                 }).fail(function() {
                     $("#google_upload_status").html(
-                        '<i class="fas fa-exclamation-circle"></i>'
+                        '<i class="fas fa-exclamation-circle" style="color: red;"></i>'
                     );
                 });
         }
@@ -230,7 +230,8 @@
                     '</td>'+
                 '</tr>'
             );   
-            
+            console.log(data.responseJSON);
+
             if(data.responseJSON["length"] == 2) {
                 var run_jobs = function(callback) {
                     run_job(data.responseJSON[0]);
