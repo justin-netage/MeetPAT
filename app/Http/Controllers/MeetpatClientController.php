@@ -304,6 +304,8 @@ class MeetpatClientController extends Controller
             ['platform', '=', 'facebook'],
             ])->first();
             
+            sleep(5);
+            
         return response()->json($job_que);
     }
 
@@ -313,6 +315,8 @@ class MeetpatClientController extends Controller
             ['unique_id', '=',  $request->unique_id],
             ['platform', '=', 'google'],
             ])->first();
+
+            sleep(5);
 
         return response()->json($job_que);
     }
