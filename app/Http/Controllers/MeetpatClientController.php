@@ -226,7 +226,7 @@ class MeetpatClientController extends Controller
           $directory_used = \Storage::disk('s3')->makeDirectory('client/custom-audience/user_id_' . $request->user_id);
 
           if($directory_used) {
-            $file_uploaded = \Storage::disk('s3')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName, file_get_contents($csv_file));
+            $file_uploaded = \Storage::disk('s3')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName . ".csv", file_get_contents($csv_file));
 
           }
         } else {
