@@ -150,45 +150,75 @@ class MeetpatClientController extends Controller
             'user_id' => 'required',
         ]);
 
-        $PRODUCTS = [
-            ['AdWords API', 'https://www.googleapis.com/auth/adwords'],
-            ['Ad Manager API', 'https://www.googleapis.com/auth/dfp'],
-            ['AdWords API and Ad Manager API', 'https://www.googleapis.com/auth/adwords' . ' '
-                . 'https://www.googleapis.com/auth/dfp']
-        ];
+        // $PRODUCTS = [
+        //     ['AdWords API', 'https://www.googleapis.com/auth/adwords'],
+        //     ['Ad Manager API', 'https://www.googleapis.com/auth/dfp'],
+        //     ['AdWords API and Ad Manager API', 'https://www.googleapis.com/auth/adwords' . ' '
+        //         . 'https://www.googleapis.com/auth/dfp']
+        // ];
 
-        // $scopes = $PRODUCTS[2][1] . ' ' . trim(fgets($stdin));
+        // // $scopes = $PRODUCTS[2][1] . ' ' . trim(fgets($stdin));
 
-        $oauth2 = new OAuth2(
-            [
-                'authorizationUri' => 'https://accounts.google.com/o/oauth2/v2/auth',
-                'redirectUri' => 'urn:ietf:wg:oauth:2.0:oob',
-                'tokenCredentialUri' => CredentialsLoader::TOKEN_CREDENTIAL_URI,
-                'clientId' => env('GOOGLE_CLIENT_ID'),
-                'clientSecret' => env('GOOGLE_CLIENT_SECRET'),
-                'scope' => 'https://www.googleapis.com/auth/adwords' // $scope
-            ]
-        );
+        // $oauth2 = new OAuth2(
+        //     [
+        //         'authorizationUri' => 'https://accounts.google.com/o/oauth2/v2/auth',
+        //         'redirectUri' => 'urn:ietf:wg:oauth:2.0:oob',
+        //         'tokenCredentialUri' => CredentialsLoader::TOKEN_CREDENTIAL_URI,
+        //         'clientId' => env('GOOGLE_CLIENT_ID'),
+        //         'clientSecret' => env('GOOGLE_CLIENT_SECRET'),
+        //         'scope' => 'https://www.googleapis.com/auth/adwords' // $scope
+        //     ]
+        // );
 
         $user = \MeetPAT\User::find($request->user_id);
-        $client = $user->client();
+        // $client = $user->client();
 
-        $code = $request->auth_code;
+        // $code = $request->auth_code;
 
-        $oauth2->setCode($code);
-        $authToken = $oauth2->fetchAuthToken();
+        // $oauth2->setCode($code);
+        // $authToken = $oauth2->fetchAuthToken();
 
-        if($authToken) {
-            $has_ad_account = \MeetPAT\GoogleAdwordsAccount::where('user_id', $user->id)->first();
-            if(!$has_ad_account) {
-                \MeetPAT\GoogleAdwordsAccount::create(['user_id' => $user->id, 'ad_account_id' => $request->adwords_id, 'access_token' => $authToken['refresh_token'] ]);
-            } else {
-                $has_ad_account->update(['ad_account_id' => $request->adwords_id, 'access_token' => $authToken['refresh_token'] ]);
+        // if($authToken) {
+        //     $has_ad_account = \MeetPAT\GoogleAdwordsAccount::where('user_id', $user->id)->first();
+        //     if(!$has_ad_account) {
+        //         \MeetPAT\GoogleAdwordsAccount::create(['user_id' => $user->id, 'ad_account_id' => $request->adwords_id, 'access_token' => $authToken['refresh_token'] ]);
+        //     } else {
+        //         $has_ad_account->update(['ad_account_id' => $request->adwords_id, 'access_token' => $authToken['refresh_token'] ]);
+        //     }
+
+        $fileName = uniqid() . '_' . str_replace(" ", "_", $user->id);
+
+        $ini_file = fopen($fileName . ".ini", "w");
+        fwrite($ini_file, "developerToken = " . env('GOOGLE_MCC_DEVELOPER_TOKEN') . "\n");
+        fwrite($ini_file, "clientCustomerId = " . $request->adwords_id . "\n");
+        fwrite($ini_file, "\n");
+        fwrite($ini_file, "userAgent = " . "Company Name Placeholder. \n");
+        fwrite($ini_file, "\n");
+        fwrite($ini_file, "clientId = " . env('GOOGLE_CLIENT_ID') . "\n");
+        fwrite($ini_file, "clientSecret = " . env('GOOGLE_CLIENT_SECRET') . "\n");
+        fwrite($ini_file, "refreshToekn = " . '1/Bhi8Mk2ErzgUAzM7bk8I0XCAVDJ7Y0ZWEoyPGTssBAQ9oaNM4_kxuic5u9ip2xHM' . "\n");
+        fclose($ini_file);
+
+        if(env('APP_ENV') == 'production') {
+            $directory_used = \Storage::disk('s3')->makeDirectory('client/ad-words-acc/user_id_' . $user->id);
+  
+            if($directory_used) {
+              $file_uploaded = \Storage::disk('s3')->put('client/ad-words-acc/user_id_' . $user->id .'/' . $fileName . ".ini", $ini_file);
+  
             }
-            \Session::flash('success', 'Your account has been authorized successfully.');
-        } else {
-            \Session::flash('error', 'An error occured. Check authorization code or contact MeetPAT for assistance.');
-        }
+          } else {
+            $directory_used = \Storage::disk('local')->makeDirectory('client/ad-words-acc/user_id_' . $user->id);
+  
+            if($directory_used) {
+              $file_uploaded = \Storage::disk('local')->put('client/ad-words-acc/user_id_' . $user->id . '/' . $fileName . ".ini", $ini_file);
+  
+            }
+          }
+
+        //     \Session::flash('success', 'Your account has been authorized successfully.');
+        // } else {
+        //     \Session::flash('error', 'An error occured. Check authorization code or contact MeetPAT for assistance.');
+        // }
 
         return redirect("/meetpat-client");
 

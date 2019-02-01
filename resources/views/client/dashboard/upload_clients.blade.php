@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('styles')
+<link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+@endsection
+
 @section('content')
 <div id="loader"></div>
 
@@ -17,7 +21,7 @@
                     <h3 class="mb-5">Add a file with your customer data</h3>
 
                         @csrf
-                        <input type="hidden" name="user_id" value="<?php echo \Auth::user()->id; ?>">
+                        <input type="hidden" name="user_id" value="{{\Auth::user()->id}}">
                         <div class="form-group row">
                         <span class="switch-label col-sm-8 col-form-label">Facebook</span>
                             <div class="col-sm-4">
@@ -59,9 +63,7 @@
                             </select>
                         </div>
                         <a href="{{Storage::disk('s3')->url('meetpat/public/sample/example_audience_file.csv')}}">download template file</a><span> ( Your file must match our template files layout )</span>
-                        <div class="upload-box mb-2 text-center">
-                            <input type="file" name="audience_file" class="file-input-box" id="audience_file">
-                        </div>
+                        <input type="file" name="audience_file" class="filepond" id="audience_file">
                         <span class="invalid-feedback" id="no-file" role="alert">
                             <strong id="invalid-file">Please choose an audience file to upload</strong>
                         </span>
@@ -99,11 +101,13 @@
     src="https://code.jquery.com/jquery-3.3.1.min.js"
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
+<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
 <script type="text/javascript">
+
     var displayLoader = function () {
         $("#loader").css("display", "block");
     };
-
+    
     var run_job = function(job_data) {
         if(job_data["platform"] == 'facebook') {
             $("#facebook_upload_status").html(
@@ -153,10 +157,24 @@
         }
     }
 
+    var pond = FilePond.create(document.querySelector('input[type="file"]'));
+    $('input[type="file"]').attr('name', 'audience_file');
+
+    FilePond.setOptions({
+        // maximum allowed file size
+        maxFileSize: '5MB',
+        // crop the image to a 1:1 ratio
+        //imageCropAspectRatio: '1:1',
+        // resize the image
+        //imageResizeTargetWidth: 200,
+        // upload to this server end point
+        server: '/api/meetpat-client/upload-custom-audience'
+    });
+
     $("form#upload-custom-audience").submit(function(e) {
     e.preventDefault();    
     var formData = new FormData(this);
-
+    formData.append("audience_file", pond.getFile().file);
     $.ajax({
         url: '/api/meetpat-client/upload-custom-audience',
         type: 'POST',
@@ -164,6 +182,7 @@
         success: function (data) {
 
             if (data.errors) {
+                // console.log(data.errors)
                 $("#alert-section").empty();
 
                 $("#alert-section").append(
@@ -181,7 +200,7 @@
                 }
 
                 if(data.errors.audience_file) {
-                    $("#audience_file").addClass("is-invalid");
+                    // $("#audience_file").addClass("is-invalid");
                     $("#no-file").css("display", "block");
                     $(".upload-box").css("border-color", "#e3342f")
                     $("#invalid-file").empty();
@@ -250,7 +269,7 @@
             
         },
         error: function(data) {
-            console.log('There was an error with the upload.');
+            //console.log(data.responseJSON);
         },
         cache: false,
         contentType: false,
@@ -270,19 +289,19 @@
         }
     });
 
-    $("#audience_file").change(function() {
-        //console.log($(this).get(0).files.length);
-        if($(this).get(0).files.length > 0) {
-            $(this).removeClass("is-invalid");
-            $("#no-file").css("display", "none");
-            $(".upload-box").css("border-color", "#999");
-        } else {
-            if(!$(this).hasClass("is-invalid")) {
-                $(this).addClass("is-invalid");
-            }
+    // $("input[type='file']").change(function() {
+    //     //console.log($(this).get(0).files.length);
+    //     if($(this).get(0).files.length > 0) {
+    //         $(this).removeClass("is-invalid");
+    //         $("#no-file").css("display", "none");
+    //         $(".upload-box").css("border-color", "#999");
+    //     } else {
+    //         if(!$(this).hasClass("is-invalid")) {
+    //             $(this).addClass("is-invalid");
+    //         }
             
-        }
-    })
+    //     }
+    // })
 
 
 });
@@ -335,3 +354,4 @@ $(function () {
 </script>
 
 @endsection
+
