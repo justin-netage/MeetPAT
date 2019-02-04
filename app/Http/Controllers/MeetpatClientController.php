@@ -416,18 +416,14 @@ class MeetpatClientController extends Controller
         $file_info = \MeetPAT\AudienceFile::find($job_que->file_id);
         $ini_file = \MeetPAT\GoogleAccountIniFile::where('user_id', $file_info->user_id)->first();
 
-        if(env('APP_ENV') == 'production') {
-            $actual_ini_file = \Storage::disk('s3')->get('client/ad-words-acc/user_id_' . $ini_file->user_id . '/' . $ini_file->file_unique_name  . ".ini");
-        } else {
-            $actual_ini_file = \Storage::disk('local')->get('client/ad-words-acc/user_id_' . $ini_file->user_id . '/' . $ini_file->file_unique_name  . ".ini");
-        }
+        $actual_ini_file = \Storage::disk('s3')->temporaryUrl('client/ad-words-acc/user_id_' . $ini_file->user_id . '/' . $ini_file->file_unique_name  . ".ini", now()->addMinutes(5));
 
         $array = array_map("str_getcsv", explode("\n", $actual_file));
 
         $oAuth2Credential = (new OAuth2TokenBuilder())->fromFile($actual_ini_file)->build();
 
 
-        return response()->json($oAuth2Credential);
+        return response()->json($actual_ini_file);
     }
 
     public function update_facebook()
