@@ -24,7 +24,7 @@
                         <input type="hidden" name="user_id" value="{{\Auth::user()->id}}">
                         <div class="form-group row">
                         <span class="switch-label col-sm-8 col-form-label">Facebook</span>
-                            <div class="col-sm-4">
+                            <div class="col-sm-4 d-flex flex-column">
                             @if($has_facebook_ad_acc)
 
                                 <label class="switch switch_type1" role="switch">
@@ -32,20 +32,20 @@
                                 <span class="switch__label"></span>
                                 </label>
                             @else
-                            <a href="/meetpat-client/sync-platform" class="btn btn-secondary">Connect</a>
+                            <a href="/meetpat-client/sync-platform" class="btn mt-auto">Connect</a>
                             @endif
                             </div>
                         </div>
                         <div class="form-group row">
                         <span class="switch-label col-sm-8 col-form-label">Google</span>
-                            <div class="col-sm-4">
+                            <div class="col-sm-4 d-flex flex-column">
                             @if($has_google_adwords_acc)
                                 <label class="switch switch_type1 " role="switch">
                                     <input type="checkbox" name="google_custom_audience" class="switch__toggle">
                                     <span class="switch__label"></span>
                                 </label>
                             @else
-                            <a href="/meetpat-client/sync-platform" class="btn">Connect Account</a>
+                            <a href="/meetpat-client/sync-platform" class="btn mt-auto">Connect</a>
                             @endif
                             </div>
                         </div>

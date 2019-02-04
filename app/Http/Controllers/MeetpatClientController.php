@@ -6,6 +6,20 @@ use Illuminate\Http\Request;
 
 use Google\Auth\CredentialsLoader;
 use Google\Auth\OAuth2;
+use Google\AdsApi\AdWords\AdWordsServices;
+use Google\AdsApi\AdWords\AdWordsSession;
+use Google\AdsApi\AdWords\AdWordsSessionBuilder;
+use Google\AdsApi\AdWords\v201809\cm\ConversionTrackerService;
+use Google\AdsApi\AdWords\v201809\cm\Operator;
+use Google\AdsApi\AdWords\v201809\cm\Predicate;
+use Google\AdsApi\AdWords\v201809\cm\PredicateOperator;
+use Google\AdsApi\AdWords\v201809\cm\Selector;
+use Google\AdsApi\AdWords\v201809\rm\AdwordsUserListService;
+use Google\AdsApi\AdWords\v201809\rm\BasicUserList;
+use Google\AdsApi\AdWords\v201809\rm\UserListConversionType;
+use Google\AdsApi\AdWords\v201809\rm\UserListMembershipStatus;
+use Google\AdsApi\AdWords\v201809\rm\UserListOperation;
+use Google\AdsApi\Common\OAuth2TokenBuilder;
 
 use Facebook\Facebook;
 use FacebookAds\Api;
@@ -207,12 +221,29 @@ class MeetpatClientController extends Controller
             $directory_used = \Storage::disk('local')->makeDirectory('client/ad-words-acc/user_id_' . $user->id);
   
             if($directory_used) {
-              $file_uploaded = \Storage::disk('local')->put('client/ad-words-acc/user_id_' . $user->id . '/' . $fileName . ".ini", 'Content');
+              $file_uploaded = \Storage::disk('local')->put('client/ad-words-acc/user_id_' . $user->id . '/' . $fileName . ".ini",
+                'client/ad-words-acc/user_id_' . $user->id .'/' . $fileName . ".ini", 
+                "developerToken = " . env('GOOGLE_MCC_DEVELOPER_TOKEN') . "\n" .
+                "clientCustomerId = " . $request->adwords_id . "\n".
+                "\n".
+                "userAgent = " . "Company Name Placeholder. \n".
+                "\n".
+                "clientId = " . env('GOOGLE_CLIENT_ID') . "\n".
+                "clientSecret = " . env('GOOGLE_CLIENT_SECRET') . "\n".
+                "refreshToekn = " . '1/Bhi8Mk2ErzgUAzM7bk8I0XCAVDJ7Y0ZWEoyPGTssBAQ9oaNM4_kxuic5u9ip2xHM' . "\n");
   
             }
           }
+          $has_ini_file = \MeetPAT\GoogleAccountIniFile::where('user_id', $user->id)->first();
 
-            \Session::flash('success', 'Your account has been authorized successfully.');
+          if($has_ini_file) {
+              $has_ini_file->delete();
+          }
+
+          $new_ini_file = \MeetPAT\GoogleAccountIniFile::create(['user_id' => $user->id, 'file_unique_name' => $fileName]);
+
+          \Session::flash('success', 'Your account has been authorized successfully.');
+
         } else {
             \Session::flash('error', 'An error occured. Check authorization code or contact MeetPAT for assistance.');
         }
@@ -240,8 +271,6 @@ class MeetpatClientController extends Controller
             \Session::flash('error', 'Please authenticate your facebook ad account first.');
 
         }
-
-
 
         return back();
     }
@@ -375,7 +404,7 @@ class MeetpatClientController extends Controller
             ['unique_id', '=',  $request->unique_id],
             ['platform', '=', 'google'],
             ])->first();
-        
+
         $file_info = \MeetPAT\AudienceFile::find($job_que->file_id);
 
         if(env('APP_ENV') == 'production') {
@@ -383,10 +412,22 @@ class MeetpatClientController extends Controller
         } else {
             $actual_file = \Storage::disk('local')->get('client/custom-audience/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
         }
+        
+        $file_info = \MeetPAT\AudienceFile::find($job_que->file_id);
+        $ini_file = \MeetPAT\GoogleAccountIniFile::where('user_id', $file_info->user_id)->first();
+
+        if(env('APP_ENV') == 'production') {
+            $actual_ini_file = \Storage::disk('s3')->get('client/ad-words-acc/user_id_' . $ini_file->user_id . '/' . $ini_file->file_unique_name  . ".ini");
+        } else {
+            $actual_ini_file = \Storage::disk('local')->get('client/ad-words-acc/user_id_' . $ini_file->user_id . '/' . $ini_file->file_unique_name  . ".ini");
+        }
 
         $array = array_map("str_getcsv", explode("\n", $actual_file));
 
-        return response()->json($array);
+        $oAuth2Credential = (new OAuth2TokenBuilder())->fromFile($actual_ini_file)->build();
+
+
+        return response()->json($oAuth2Credential);
     }
 
     public function update_facebook()
