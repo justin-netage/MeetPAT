@@ -156,7 +156,7 @@ class MeetpatClientController extends Controller
                 . 'https://www.googleapis.com/auth/dfp']
         ];
 
-        $scopes = $PRODUCTS[2][1] . ' ' . trim(fgets($stdin));
+        //$scopes = $PRODUCTS[2][1] . ' ' . trim(fgets($stdin));
 
         $oauth2 = new OAuth2(
             [
