@@ -10,7 +10,7 @@
     <div class="row justify-content-center">
         <div class="col-md-6 col-offset-3">
             <div class="card">
-                <div class="card-header"><h1 id="card-title">{{ __('Sync Google Ads Account') }} &nbsp;<i class="fab fa-google"></i> </h1></div>
+                <div class="card-header"><h1 id="card-title">{{ __('Sync Google Account') }} &nbsp;<i class="fab fa-google"></i> </h1></div>
                     <div class="card-body">
                         <div id="progress-sync"></div>
                         <!-- Make route /google/authenticate-code and add controller to save google ads account and access code -->
@@ -37,8 +37,8 @@
                             @endif
                         </div>
                         <div class="form-group mb-0">
-                            <button type="submit" id="create_user" class="btn btn-primary">
-                                {{ __('Submit Code') }}
+                            <button type="submit" id="submit_id" class="btn btn-primary">
+                                {{ __('Submit') }}
                             </button>
                         </div>
                     </form>

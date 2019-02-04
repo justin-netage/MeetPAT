@@ -61,24 +61,19 @@ Route::get('/meetpat-client', 'MeetpatClientController@main')->name('meetpat-cli
 Route::get('/meetpat-client/sync-platform', 'MeetpatClientController@sync_platform')->name('meetpat-client-sync')->middleware('auth')->middleware('client');
 Route::get('/meetpat-client/upload-clients', 'MeetpatClientController@upload_clients')->name('meetpat-client-upload')->middleware('auth')->middleware('client');
 
-
-// Facebook Login Routes
-
-Route::get('/register-facebook-ad-account', 'FacebookCustomerAudienceController@register_ad_account_id')->name('facebook-ad-account')->middleware('auth')->middleware('client');
-
 // Google Register Routes
 Route::get('/register-google-ad-account', 'GoogleCustomerAudienceController@register_ad_account_id')->name('google-ad-account')->middleware('auth')->middleware('client');
 //Route::get('login/google', 'Auth\GoogleLoginController@google_account_login');
-Route::get('login/google/callback', 'Auth\GoogleLoginController@handleProviderCallback');
-Route::get('/google-authorization/start', 'Auth\GoogleLoginController@google_account_login');
+// Route::get('login/google/callback', 'Auth\GoogleLoginController@handleProviderCallback');
+// Route::get('/google-authorization/start', 'Auth\GoogleLoginController@google_account_login');
 
 Route::post('/google-authorization/authenticate-authorization-code', 'MeetpatClientController@authenticate_authorization_code')->name('authenticate-google-code')->middleware('client');
-
+Route::post('/facebook-account-update/add-ad-account-id', 'MeetpatClientController@add_facebook_account_id')->name('add-account-id')->middleware('client');
 // Facebook upload routes
 
 // Upload pages
-Route::get('/meetpat-client/upload-clients/facebook', 'FacebookCustomerAudienceController@upload_facebook_customers')->name('facebook-upload-customers')->middleware('auth')->middleware('client');
-Route::get('/meetpat-client/upload-clients/google', 'GoogleCustomerAudienceController@upload_google_customers')->name('google-upload-customers')->middleware('auth')->middleware('client');
+// Route::get('/meetpat-client/upload-clients/facebook', 'FacebookCustomerAudienceController@upload_facebook_customers')->name('facebook-upload-customers')->middleware('auth')->middleware('client');
+// Route::get('/meetpat-client/upload-clients/google', 'GoogleCustomerAudienceController@upload_google_customers')->name('google-upload-customers')->middleware('auth')->middleware('client');
 
 // Upload api handler /routes/api.php
 
