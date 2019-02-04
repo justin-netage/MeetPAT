@@ -188,29 +188,38 @@ class MeetpatClientController extends Controller
 
         $fileName = uniqid() . '_' . str_replace(" ", "_", $user->id);
 
-        $ini_file = fopen($fileName . ".ini", "w");
-        fwrite($ini_file, "developerToken = " . env('GOOGLE_MCC_DEVELOPER_TOKEN') . "\n");
-        fwrite($ini_file, "clientCustomerId = " . $request->adwords_id . "\n");
-        fwrite($ini_file, "\n");
-        fwrite($ini_file, "userAgent = " . "Company Name Placeholder. \n");
-        fwrite($ini_file, "\n");
-        fwrite($ini_file, "clientId = " . env('GOOGLE_CLIENT_ID') . "\n");
-        fwrite($ini_file, "clientSecret = " . env('GOOGLE_CLIENT_SECRET') . "\n");
-        fwrite($ini_file, "refreshToekn = " . '1/Bhi8Mk2ErzgUAzM7bk8I0XCAVDJ7Y0ZWEoyPGTssBAQ9oaNM4_kxuic5u9ip2xHM' . "\n");
-        fclose($ini_file);
+        // $ini_file = fopen($fileName . ".ini", "w");
+        // fwrite($ini_file, "developerToken = " . env('GOOGLE_MCC_DEVELOPER_TOKEN') . "\n");
+        // fwrite($ini_file, "clientCustomerId = " . $request->adwords_id . "\n");
+        // fwrite($ini_file, "\n");
+        // fwrite($ini_file, "userAgent = " . "Company Name Placeholder. \n");
+        // fwrite($ini_file, "\n");
+        // fwrite($ini_file, "clientId = " . env('GOOGLE_CLIENT_ID') . "\n");
+        // fwrite($ini_file, "clientSecret = " . env('GOOGLE_CLIENT_SECRET') . "\n");
+        // fwrite($ini_file, "refreshToekn = " . '1/Bhi8Mk2ErzgUAzM7bk8I0XCAVDJ7Y0ZWEoyPGTssBAQ9oaNM4_kxuic5u9ip2xHM' . "\n");
+        // fclose($ini_file);
 
         if(env('APP_ENV') == 'production') {
             $directory_used = \Storage::disk('s3')->makeDirectory('client/ad-words-acc/user_id_' . $user->id);
   
             if($directory_used) {
-              $file_uploaded = \Storage::disk('s3')->put('client/ad-words-acc/user_id_' . $user->id .'/' . $fileName . ".ini", $ini_file);
+              $file_uploaded = \Storage::disk('s3')->put('client/ad-words-acc/user_id_' . $user->id .'/' . $fileName . ".ini", 
+              "developerToken = " . env('GOOGLE_MCC_DEVELOPER_TOKEN') . "\n" .
+              "clientCustomerId = " . $request->adwords_id . "\n".
+              "\n".
+              "userAgent = " . "Company Name Placeholder. \n".
+              "\n".
+              "clientId = " . env('GOOGLE_CLIENT_ID') . "\n".
+              "clientSecret = " . env('GOOGLE_CLIENT_SECRET') . "\n".
+              "refreshToekn = " . '1/Bhi8Mk2ErzgUAzM7bk8I0XCAVDJ7Y0ZWEoyPGTssBAQ9oaNM4_kxuic5u9ip2xHM' . "\n"
+            );
   
             }
           } else {
             $directory_used = \Storage::disk('local')->makeDirectory('client/ad-words-acc/user_id_' . $user->id);
   
             if($directory_used) {
-              $file_uploaded = \Storage::disk('local')->put('client/ad-words-acc/user_id_' . $user->id . '/' . $fileName . ".ini", $ini_file);
+              $file_uploaded = \Storage::disk('local')->put('client/ad-words-acc/user_id_' . $user->id . '/' . $fileName . ".ini", 'Content');
   
             }
           }
