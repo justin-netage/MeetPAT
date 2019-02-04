@@ -400,12 +400,15 @@ class MeetpatClientController extends Controller
 
     public function google_custom_audience_handler(Request $request)
     {
+        
         $job_que = \MeetPAT\UploadJobQue::where([
             ['unique_id', '=',  $request->unique_id],
             ['platform', '=', 'google'],
             ])->first();
 
         $file_info = \MeetPAT\AudienceFile::find($job_que->file_id);
+        $user = \MeetPAT\User::find($file_info->user_id);
+        $google_account = $user->google_ad_account;
 
         if(env('APP_ENV') == 'production') {
             $actual_file = \Storage::disk('s3')->get('client/custom-audience/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
@@ -416,14 +419,51 @@ class MeetpatClientController extends Controller
         $file_info = \MeetPAT\AudienceFile::find($job_que->file_id);
         $ini_file = \MeetPAT\GoogleAccountIniFile::where('user_id', $file_info->user_id)->first();
 
-        $actual_ini_file = \Storage::disk('s3')->temporaryUrl('client/ad-words-acc/user_id_' . $ini_file->user_id . '/' . $ini_file->file_unique_name  . ".ini", now()->addMinutes(5));
+        $oAuth2Credential = (new OAuth2TokenBuilder())
+        ->withClientId(env('GOOGLE_CLIENT_ID'))
+        ->withClientSecret(env('GOOGLE_CLIENT_SECRET'))
+        ->withRefreshToken($google_account->access_token)
+        ->build();
+  
+        // Construct an API session configured from the OAuth2 credentials above.
+        $session = (new AdWordsSessionBuilder())
+          ->withDeveloperToken(env('GOOGLE_MCC_DEVELOPER_TOKEN'))
+          ->withOAuth2Credential($oAuth2Credential)
+          ->withClientCustomerId($google_account->ad_account_id)
+          ->build();
 
-        $array = array_map("str_getcsv", explode("\n", $actual_file));
+          $adWordsServices = new AdWordsServices();
+          $userListService = $adWordsServices->get($session, AdwordsUserListService::class);
+          $conversionTrackerService = $adWordsServices->get($session, ConversionTrackerService::class);
+  
+          // Create a conversion type (tag).
+          $conversionType = new UserListConversionType();
+          $conversionType->setName('Mars cruise customers #' . uniqid());
+  
+          // Create a basic user list.
+          $userList = new BasicUserList();
+          $userList->setName('Mars cruise customers #' . uniqid());
+          $userList->setConversionTypes([$conversionType]);
+  
+          // Set additional settings (optional).
+          $userList->setDescription(
+              'A list of mars cruise customers in the last year'
+          );
 
-        $oAuth2Credential = (new OAuth2TokenBuilder())->fromFile($actual_ini_file)->build();
+          // Create a user list operation and add it to the list.
+            $operations = [];
+            $operation = new UserListOperation();
+            $operation->setOperand($userList);
+            $operation->setOperator(Operator::ADD);
+            $operations[] = $operation;
 
+            // Create the user list on the server.
+            $userList = $userListService->mutate($operations)->getValue()[0];
 
-        return response()->json($actual_ini_file);
+  
+        // $array = array_map("str_getcsv", explode("\n", $actual_file));
+
+        return response()->json($userList);
     }
 
     public function update_facebook()
