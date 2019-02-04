@@ -199,50 +199,9 @@ class MeetpatClientController extends Controller
                 $has_ad_account->update(['ad_account_id' => $request->adwords_id, 'access_token' => $authToken['refresh_token'] ]);
             }
 
-        $fileName = uniqid() . '_' . str_replace(" ", "_", $user->id);
+            $fileName = uniqid() . '_' . str_replace(" ", "_", $user->id);
 
-        if(env('APP_ENV') == 'production') {
-            $directory_used = \Storage::disk('s3')->makeDirectory('client/ad-words-acc/user_id_' . $user->id);
-  
-            if($directory_used) {
-              $file_uploaded = \Storage::disk('s3')->put('client/ad-words-acc/user_id_' . $user->id .'/' . $fileName . ".ini", 
-              "developerToken = " . env('GOOGLE_MCC_DEVELOPER_TOKEN') . "\n" .
-              "clientCustomerId = " . $request->adwords_id . "\n".
-              "\n".
-              "userAgent = " . "Company Name Placeholder. \n".
-              "\n".
-              "clientId = " . env('GOOGLE_CLIENT_ID') . "\n".
-              "clientSecret = " . env('GOOGLE_CLIENT_SECRET') . "\n".
-              "refreshToekn = " . '1/Bhi8Mk2ErzgUAzM7bk8I0XCAVDJ7Y0ZWEoyPGTssBAQ9oaNM4_kxuic5u9ip2xHM' . "\n"
-            );
-  
-            }
-          } else {
-            $directory_used = \Storage::disk('local')->makeDirectory('client/ad-words-acc/user_id_' . $user->id);
-  
-            if($directory_used) {
-              $file_uploaded = \Storage::disk('local')->put('client/ad-words-acc/user_id_' . $user->id . '/' . $fileName . ".ini",
-                'client/ad-words-acc/user_id_' . $user->id .'/' . $fileName . ".ini", 
-                "developerToken = " . env('GOOGLE_MCC_DEVELOPER_TOKEN') . "\n" .
-                "clientCustomerId = " . $request->adwords_id . "\n".
-                "\n".
-                "userAgent = " . "Company Name Placeholder. \n".
-                "\n".
-                "clientId = " . env('GOOGLE_CLIENT_ID') . "\n".
-                "clientSecret = " . env('GOOGLE_CLIENT_SECRET') . "\n".
-                "refreshToekn = " . '1/Bhi8Mk2ErzgUAzM7bk8I0XCAVDJ7Y0ZWEoyPGTssBAQ9oaNM4_kxuic5u9ip2xHM' . "\n");
-  
-            }
-          }
-          $has_ini_file = \MeetPAT\GoogleAccountIniFile::where('user_id', $user->id)->first();
-
-          if($has_ini_file) {
-              $has_ini_file->delete();
-          }
-
-          $new_ini_file = \MeetPAT\GoogleAccountIniFile::create(['user_id' => $user->id, 'file_unique_name' => $fileName]);
-
-          \Session::flash('success', 'Your account has been authorized successfully.');
+            \Session::flash('success', 'Your account has been authorized successfully.');
 
         } else {
             \Session::flash('error', 'An error occured. Check authorization code or contact MeetPAT for assistance.');
@@ -417,7 +376,6 @@ class MeetpatClientController extends Controller
         }
         
         $file_info = \MeetPAT\AudienceFile::find($job_que->file_id);
-        $ini_file = \MeetPAT\GoogleAccountIniFile::where('user_id', $file_info->user_id)->first();
 
         $oAuth2Credential = (new OAuth2TokenBuilder())
         ->withClientId(env('GOOGLE_CLIENT_ID'))
