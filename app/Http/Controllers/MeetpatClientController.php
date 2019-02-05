@@ -9,15 +9,14 @@ use Google\Auth\OAuth2;
 use Google\AdsApi\AdWords\AdWordsServices;
 use Google\AdsApi\AdWords\AdWordsSession;
 use Google\AdsApi\AdWords\AdWordsSessionBuilder;
-use Google\AdsApi\AdWords\v201809\cm\ConversionTrackerService;
 use Google\AdsApi\AdWords\v201809\cm\Operator;
-use Google\AdsApi\AdWords\v201809\cm\Predicate;
-use Google\AdsApi\AdWords\v201809\cm\PredicateOperator;
-use Google\AdsApi\AdWords\v201809\cm\Selector;
+use Google\AdsApi\AdWords\v201809\rm\AddressInfo;
 use Google\AdsApi\AdWords\v201809\rm\AdwordsUserListService;
-use Google\AdsApi\AdWords\v201809\rm\BasicUserList;
-use Google\AdsApi\AdWords\v201809\rm\UserListConversionType;
-use Google\AdsApi\AdWords\v201809\rm\UserListMembershipStatus;
+use Google\AdsApi\AdWords\v201809\rm\CrmBasedUserList;
+use Google\AdsApi\AdWords\v201809\rm\CustomerMatchUploadKeyType;
+use Google\AdsApi\AdWords\v201809\rm\Member;
+use Google\AdsApi\AdWords\v201809\rm\MutateMembersOperand;
+use Google\AdsApi\AdWords\v201809\rm\MutateMembersOperation;
 use Google\AdsApi\AdWords\v201809\rm\UserListOperation;
 use Google\AdsApi\Common\OAuth2TokenBuilder;
 
@@ -374,54 +373,88 @@ class MeetpatClientController extends Controller
         } else {
             $actual_file = \Storage::disk('local')->get('client/custom-audience/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
         }
+
+        $array = array_map("str_getcsv", explode("\n", $actual_file));
+        $custom_audience_array = [];
+
+        foreach($array as $member) 
+        {
+            if($member) {
+                array_push($custom_audience_array, $member);
+            }
+        }
+        
+        unset($custom_audience_array[0]);
+        $array_length = count($custom_audience_array);
+        unset($custom_audience_array[$array_length]);
         
         $file_info = \MeetPAT\AudienceFile::find($job_que->file_id);
+
+        // hash function
+        function normalizeAndHash($value)
+        {
+            return hash('sha256', strtolower(trim($value)));
+        }
 
         $oAuth2Credential = (new OAuth2TokenBuilder())
         ->withClientId(env('GOOGLE_CLIENT_ID'))
         ->withClientSecret(env('GOOGLE_CLIENT_SECRET'))
         ->withRefreshToken($google_account->access_token)
         ->build();
-  
+
         // Construct an API session configured from the OAuth2 credentials above.
         $session = (new AdWordsSessionBuilder())
-          ->withDeveloperToken(env('GOOGLE_MCC_DEVELOPER_TOKEN'))
-          ->withOAuth2Credential($oAuth2Credential)
-          ->withClientCustomerId($google_account->ad_account_id)
-          ->build();
+            ->withDeveloperToken(env('GOOGLE_MCC_DEVELOPER_TOKEN'))
+            ->withOAuth2Credential($oAuth2Credential)
+            ->withClientCustomerId($google_account->ad_account_id)
+            ->build();
 
-          $adWordsServices = new AdWordsServices();
-          $userListService = $adWordsServices->get($session, AdwordsUserListService::class);
-          $conversionTrackerService = $adWordsServices->get($session, ConversionTrackerService::class);
-  
-          // Create a conversion type (tag).
-          $conversionType = new UserListConversionType();
-          $conversionType->setName('Mars cruise customers #' . uniqid());
-  
-          // Create a basic user list.
-          $userList = new BasicUserList();
-          $userList->setName('Mars cruise customers #' . uniqid());
-          $userList->setConversionTypes([$conversionType]);
-  
-          // Set additional settings (optional).
-          $userList->setDescription(
-              'A list of mars cruise customers in the last year'
-          );
+        $adWordsServices = new AdWordsServices();
+        
+        $userListService = $adWordsServices->get($session, AdwordsUserListService::class);
 
-          // Create a user list operation and add it to the list.
-            $operations = [];
-            $operation = new UserListOperation();
-            $operation->setOperand($userList);
-            $operation->setOperator(Operator::ADD);
-            $operations[] = $operation;
+        // Create a CRM based iser list.
+        $userList = new CrmBasedUserList();
+        $userList->setName(
+            $file_info->audience_name
+        );
+        $userList->setDescription(
+            'Audience uploaded from MeetPAT.'
+        );
 
-            // Create the user list on the server.
-            $userList = $userListService->mutate($operations)->getValue()[0];
+        // Set life span to unlimitted (10000)
+        $userList->setMembershipLifeSpan(10000);
+        $userList->setUploadKeyType(CustomerMatchUploadKeyType::CONTACT_INFO);
 
-  
-        // $array = array_map("str_getcsv", explode("\n", $actual_file));
+        // Create a user list operation and add it to the list.
+        $operations = [];
+        $operation = new UserListOperation();
+        $operation->setOperand($userList);
+        $operation->setOperator(Operator::ADD);
+        $operations[] = $operation;
 
-        return response()->json($userList);
+        $members = [];
+        //Hash normalized email address based on SHA-256 hashing
+
+        foreach($custom_audience_array as $member)
+        {
+            $memberByEmail = new Member();
+            $memberByEmail->setHashedEmail(self::normalizeAndHash($member[0]));
+            $members[] = $memberByEmail;
+        }
+
+        // Add members to the operand and add the operation to the list.
+        $operand->setMembersList($members);
+        $mutateMembersOperation->setOperand($operand);
+        $mutateMembersOperation->setOperator(Operator::ADD);
+        $mutateMembersOperations[] = $mutateMembersOperation;
+
+        // Add members to the user list based on email addresses.
+        $result = $userListService->mutateMembers($mutateMembersOperations);
+          
+        $job_que->delete();
+
+        return response()->json($custom_audience_array);
     }
 
     public function update_facebook()

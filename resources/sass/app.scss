@@ -482,6 +482,7 @@ body{
 .switch{
   --switchSize: 64px;
   margin-top: 20px;
+  margin-left: 50px;
 }
 
 .switch_type2{
@@ -553,4 +554,9 @@ $small-spinner-dimensions: $main-spinner-dimensions * 0.7; //width and height of
     opacity: 0;
     animation: scale-2 1s linear 0.5s infinite;
   }
+}
+
+.card-body .btn-block
+{
+  margin-top: 96px;
 }

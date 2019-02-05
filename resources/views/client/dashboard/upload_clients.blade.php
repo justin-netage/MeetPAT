@@ -83,7 +83,7 @@
                             </span>
                         </div>
                         <div class="form-group mb-0">
-                            <button type="submit" id="create_user" class="btn btn-primary">
+                            <button type="submit" id="create_user" class="btn btn-primary btn-lg btn-block">
                                 {{ __('Submit Audience') }}
                             </button>
                         </div>
@@ -283,12 +283,7 @@
                 console.log(data.responseJSON.errors);
             } else {
                 $(".card-body").append(
-                    '<div class="alert alert-success alert-dismissible fade show" role="alert">'+
-                        '<strong>Success!</strong> Your audience file has been uploaded.'+
-                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
-                            '<span aria-hidden="true">&times;</span>'+
-                        '</button>'+
-                    '</div>' +
+
                     '<a href="/meetpat-client" class="btn btn-primary btn-lg btn-block">Back to Dashboard</a>'
                 );   
                 $("#alert-section").empty();
@@ -304,12 +299,6 @@
                 if(data.errors == null) {
                     $(document).ajaxStop(function() {
                         $('.card-body').append(
-                            '<div class="alert alert-success fade show" role="alert">'+
-                            '<strong>Success!</strong> Your Account has successfully synched.'+
-                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
-                                '<span aria-hidden="true">&times;</span>'+
-                            '</button>'+
-                            '</div>' +
                             '<a href="/meetpat-client" class="btn btn-primary btn-lg btn-block">Back to Dashboard</a>');
                         $("#alert-section").empty();
 
@@ -320,12 +309,6 @@
                 if(data.errors == null) {
                     $(document).ajaxStop(function() {
                         $('.card-body').append(
-                            '<div class="alert alert-success fade show" role="alert">'+
-                            '<strong>Success!</strong> Your Accounts have successfully synched.'+
-                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
-                                '<span aria-hidden="true">&times;</span>'+
-                            '</button>'+
-                            '</div>' +
                             '<a href="/meetpat-client" class="btn btn-primary btn-lg btn-block">Back to Dashboard</a>');
                             $("#alert-section").empty();
                     });
