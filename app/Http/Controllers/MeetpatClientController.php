@@ -464,7 +464,7 @@ class MeetpatClientController extends Controller
           
         $job_que->delete();
 
-        return response()->json($custom_audience_array);
+        return response()->json($result);
     }
 
     public function update_facebook()
