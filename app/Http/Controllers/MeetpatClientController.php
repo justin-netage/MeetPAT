@@ -433,6 +433,16 @@ class MeetpatClientController extends Controller
         $operation->setOperator(Operator::ADD);
         $operations[] = $operation;
 
+        // Create the user list on the server and print out some information.
+        $userList = $userListService->mutate($operations)->getValue()[0];
+
+        // Create operation to add members to the user list based on email
+        // addresses.
+        $mutateMembersOperations = [];
+        $mutateMembersOperation = new MutateMembersOperation();
+        $operand = new MutateMembersOperand();
+        $operand->setUserListId($userList->getId());
+
         $members = [];
         //Hash normalized email address based on SHA-256 hashing
 
