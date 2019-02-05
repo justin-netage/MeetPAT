@@ -439,7 +439,7 @@ class MeetpatClientController extends Controller
         foreach($custom_audience_array as $member)
         {
             $memberByEmail = new Member();
-            $memberByEmail->setHashedEmail(self::normalizeAndHash($member[0]));
+            $memberByEmail->setHashedEmail(normalizeAndHash($member[0]));
             $members[] = $memberByEmail;
         }
 
