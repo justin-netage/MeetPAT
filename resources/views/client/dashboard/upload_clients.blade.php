@@ -162,13 +162,12 @@
 
     FilePond.setOptions({
         // maximum allowed file size
-        maxFileSize: '5MB',
+        maxFileSize: '200MB',
         // crop the image to a 1:1 ratio
         //imageCropAspectRatio: '1:1',
         // resize the image
         //imageResizeTargetWidth: 200,
         // upload to this server end point
-        server: '/api/meetpat-client/upload-custom-audience'
     });
 
     $("form#upload-custom-audience").submit(function(e) {
