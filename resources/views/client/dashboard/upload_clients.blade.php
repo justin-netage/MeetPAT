@@ -169,7 +169,7 @@
         //imageResizeTargetWidth: 200,
         // upload to this server end point
         server: {
-            url: 'http://127.0.0.1:8000',
+            url: 'https://infinite-coast-17182.herokuapp.com',
             process: {
                 url: '/api/upload-file',
                 method: 'POST',
