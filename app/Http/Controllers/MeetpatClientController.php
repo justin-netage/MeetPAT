@@ -483,9 +483,9 @@ class MeetpatClientController extends Controller
     {
         $csv_file = $request->file('audience_file');
 
-        $directory_used = \Storage::disk('local')->makeDirectory('client/custom-audience/');
+        $directory_used = \Storage::disk('s3')->makeDirectory('client/custom-audience/');
 
-        $file_uploaded = \Storage::disk('local')->put('client/custom-audience/test.csv', fopen($csv_file, 'r+'));
+        $file_uploaded = \Storage::disk('s3')->put('client/custom-audience/test.csv', fopen($csv_file, 'r+'));
 
         return response(200);
 
