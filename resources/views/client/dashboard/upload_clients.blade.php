@@ -168,18 +168,18 @@
         // resize the image
         //imageResizeTargetWidth: 200,
         // upload to this server end point
-        // server: {
-        //     url: 'https://infinite-coast-17182.herokuapp.com',
-        //     process: {
-        //         url: '/api/upload-file',
-        //         method: 'POST',
-        //         withCredentials: false,
-        //         headers: {},
-        //         onerror: function(data) {
-        //             console.log(data);
-        //         }
-        //     }
-        // }
+        server: {
+            url: 'https://infinite-coast-17182.herokuapp.com',
+            process: {
+                url: '/api/upload-file',
+                method: 'POST',
+                withCredentials: false,
+                headers: {},
+                onerror: function(data) {
+                    console.log(data);
+                }
+            }
+        }
     });
 
     $("form#upload-custom-audience").submit(function(e) {
