@@ -168,6 +168,18 @@
         // resize the image
         //imageResizeTargetWidth: 200,
         // upload to this server end point
+        server: {
+            url: 'http://127.0.0.1:8000',
+            process: {
+                url: '/api/upload-file',
+                method: 'POST',
+                withCredentials: false,
+                headers: {},
+                onerror: function(data) {
+                    console.log(data);
+                }
+            }
+        }
     });
 
     $("form#upload-custom-audience").submit(function(e) {

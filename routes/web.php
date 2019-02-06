@@ -87,3 +87,4 @@ Route::get('/meetpat-client/sync/google', 'MeetpatClientController@sync_google')
 
 Route::get('/meetpat-client/update/facebook', 'MeetpatClientController@update_facebook')->name('update-facebook')->middleware('auth')->middleware('client');
 Route::get('/meetpat-client/update/google', 'MeetpatClientController@update_google')->name('update-google')->middleware('auth')->middleware('client');
+
