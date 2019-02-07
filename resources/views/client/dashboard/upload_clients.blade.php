@@ -22,6 +22,7 @@
 
                         @csrf
                         <input type="hidden" name="user_id" value="{{\Auth::user()->id}}">
+                        <input type="hidden" name="file_id" id="fileId">
                         <div class="form-group row">
                         <span class="switch-label col-sm-8 col-form-label">Facebook</span>
                             <div class="col-sm-4 d-flex flex-column">
@@ -169,13 +170,17 @@
         //imageResizeTargetWidth: 200,
         // upload to this server end point
         server: {
-            url: 'https://infinite-coast-17182.herokuapp.com',
+            url: 'http://127.0.0.1:8000/',
             process: {
-                url: '/api/upload-file',
+                url: '/api/upload-file?user_id=' + <?php echo \Auth::user()->id ?>,
                 method: 'POST',
                 withCredentials: false,
                 headers: {},
                 onerror: function(data) {
+                    console.log(data);
+                },
+                onload: function(data) {
+                    $("#fileId").val(data);
                     console.log(data);
                 }
             }

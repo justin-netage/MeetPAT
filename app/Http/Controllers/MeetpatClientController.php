@@ -198,8 +198,6 @@ class MeetpatClientController extends Controller
                 $has_ad_account->update(['ad_account_id' => $request->adwords_id, 'access_token' => $authToken['refresh_token'] ]);
             }
 
-            $fileName = uniqid() . '_' . str_replace(" ", "_", $user->id);
-
             \Session::flash('success', 'Your account has been authorized successfully.');
 
         } else {
@@ -240,7 +238,8 @@ class MeetpatClientController extends Controller
         'audience_name' => 'required|unique:audience_files,audience_name,' . $request->user_id,
         'user_id' => 'required',
         'audience_file' => 'required|mimes:csv,txt',
-        'file_source_origin' => 'required'
+        'file_source_origin' => 'required',
+        'file_id' => 'required',
     ]);
     
     if ($validator->fails())
@@ -248,82 +247,85 @@ class MeetpatClientController extends Controller
         return response()->json(['errors'=>$validator->errors()]);
     } else {
 
-      $directory_used = null;
-      $file_uploaded = null;
-      $csv = null;
+    //   $directory_used = null;
+    //   $file_uploaded = null;
+    //   $csv = null;
       
       if($request->file('audience_file')->isValid()) {
         
         $response_text = 'valid file';
 
-        $csv_file = $request->file('audience_file');
-        $fileName = uniqid() . '_' . str_replace(" ", "_", $request->audience_name);
+        // $csv_file = $request->file('audience_file');
+        // $fileName = uniqid() . '_' . str_replace(" ", "_", $request->audience_name);
 
         // Testing facebook and google API comment out when ready to upload.
 
-        if(env('APP_ENV') == 'production') {
-          $directory_used = \Storage::disk('s3')->makeDirectory('client/custom-audience/user_id_' . $request->user_id);
+        // if(env('APP_ENV') == 'production') {
+        //   $directory_used = \Storage::disk('s3')->makeDirectory('client/custom-audience/user_id_' . $request->user_id);
 
-          if($directory_used) {
-            $file_uploaded = \Storage::disk('s3')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName . ".csv", file_get_contents($csv_file));
+        //   if($directory_used) {
+        //     $file_uploaded = \Storage::disk('s3')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName . ".csv", file_get_contents($csv_file));
 
-          }
-        } else {
-          $directory_used = \Storage::disk('local')->makeDirectory('client/custom-audience/user_id_' . $request->user_id);
+        //   }
+        // } else {
+        //   $directory_used = \Storage::disk('local')->makeDirectory('client/custom-audience/user_id_' . $request->user_id);
 
-          if($directory_used) {
-            $file_uploaded = \Storage::disk('local')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName . ".csv", fopen($csv_file, 'r+'));
+        //   if($directory_used) {
+        //     $file_uploaded = \Storage::disk('local')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName . ".csv", fopen($csv_file, 'r+'));
 
-          }
-        }
+        //   }
+        // }
 
-        $unique_id = uniqid();
+        // $unique_id = uniqid();
         $facebook_job = null;
         $google_job = null;
         $new_jobs = null;
+        $file_exists = null;
 
-        if($directory_used and $file_uploaded) {
-          $audience_file = \MeetPAT\AudienceFile::where([['file_unique_name', '==', $fileName], ['user_id', '==', $request->user_id]])->first();
-          if($audience_file) {
-            $audience_file->update(['file_unique_name' => $fileName]);
-  
-          } else {
-            $audience_file = \MeetPAT\AudienceFile::create(['user_id' => $request->user_id, 'audience_name' => $request->audience_name, 'file_unique_name' => $fileName, 'file_source_origin' => $request->file_source_origin]);
-  
-          }
+        if(env('production')) {
+            $file_exists = Storage::disk('s3')->exists('client/custom-audience/user_id_' . $request->id . '/' . $request->file_id . '.csv');
+        } else {
+            $file_exists = Storage::disk('local')->exists('client/custom-audience/user_id_' . $request->id . '/' . $request->file_id . '.csv');
+        }
 
+        if($file_exists) {
+       
+            $audience_file = \MeetPAT\AudienceFile::create(['user_id' => $request->user_id, 'audience_name' => $request->audience_name, 'file_unique_name' => $request->file_id, 'file_source_origin' => $request->file_source_origin]);
+  
           if($request->facebook_custom_audience) {
-            $facebook_job = \MeetPAT\UploadJobQue::create(['user_id' => $request->user_id, 'unique_id' => $unique_id, 'platform' => 'facebook', 'status' => 'pending', 'file_id' => $audience_file->id]);
+            $facebook_job = \MeetPAT\UploadJobQue::create(['user_id' => $request->user_id, 'unique_id' => $request->file_id, 'platform' => 'facebook', 'status' => 'pending', 'file_id' => $audience_file->id]);
           }
   
           if($request->google_custom_audience) {
-            $google_job = \MeetPAT\UploadJobQue::create(['user_id' => $request->user_id, 'unique_id' => $unique_id, 'platform' => 'google', 'status' => 'pending', 'file_id' => $audience_file->id]);
+            $google_job = \MeetPAT\UploadJobQue::create(['user_id' => $request->user_id, 'unique_id' => $request->file_id, 'platform' => 'google', 'status' => 'pending', 'file_id' => $audience_file->id]);
           }
 
-          function readCSV($csvFile) {
-            $file_handle = fopen($csvFile, 'r');
-            while (!feof($file_handle) ) {
-              $line_of_text[] = fgetcsv($file_handle, 0);
-            }
-            fclose($file_handle);
-            return $line_of_text;
-          }
+        //   function readCSV($csvFile) {
+        //     $file_handle = fopen($csvFile, 'r');
+        //     while (!feof($file_handle) ) {
+        //       $line_of_text[] = fgetcsv($file_handle, 0);
+        //     }
+        //     fclose($file_handle);
+        //     return $line_of_text;
+        //   }
            
-          $csv = readCSV($request->file('audience_file')); 
-          foreach ( $csv as $c ) {
-              $firstColumn = $c[0];
-              $secondColumn = $c[1];
-              $thirdColumn = $c[2];  
-              $fourthColumn = $c[3];
-          }
+        //   $csv = readCSV($request->file('audience_file')); 
+        //   foreach ( $csv as $c ) {
+        //       $firstColumn = $c[0];
+        //       $secondColumn = $c[1];
+        //       $thirdColumn = $c[2];  
+        //       $fourthColumn = $c[3];
+        //   }
 
-          if($csv) {
-            $new_job = \MeetPAT\FacebookJobQue::create(['user_id' => $request->user_id, 'facebook_audience_file_id' => $audience_file->id, 'total_audience' => sizeof($csv) - 1, 'audience_captured' => 0, 'percentage_complete' => 0, 'job_status' => 'ready']);
+        //   if($csv) {
+        //     $new_job = \MeetPAT\FacebookJobQue::create(['user_id' => $request->user_id, 'facebook_audience_file_id' => $audience_file->id, 'total_audience' => sizeof($csv) - 1, 'audience_captured' => 0, 'percentage_complete' => 0, 'job_status' => 'ready']);
           
-          }
+        //   }
 
-        $new_jobs = \MeetPAT\UploadJobQue::where('unique_id', $unique_id)->get();
+        $new_jobs = \MeetPAT\UploadJobQue::where('unique_id', $request->file_id)->get();
   
+        } else {
+            return response("file does not exist :(");
         }
 
         } else {
@@ -482,12 +484,18 @@ class MeetpatClientController extends Controller
     public function handle_upload(Request $request)
     {
         $csv_file = $request->file('audience_file');
+        $fileName = uniqid();
+        if(env('APP_ENV') == 'production')
+        {
+            $directory_used = \Storage::disk('s3')->makeDirectory('client/custom-audience/');
+            $file_uploaded = \Storage::disk('s3')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName  . ".csv", fopen($csv_file, 'r+'));
 
-        $directory_used = \Storage::disk('s3')->makeDirectory('client/custom-audience/');
+        } else {
+            $directory_used = \Storage::disk('local')->makeDirectory('client/custom-audience/');
+            $file_uploaded = \Storage::disk('local')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName  . ".csv", fopen($csv_file, 'r+'));
+        }
 
-        $file_uploaded = \Storage::disk('s3')->put('client/custom-audience/test.csv', fopen($csv_file, 'r+'));
-
-        return response(200);
+        return response($fileName);
 
     }
 }
