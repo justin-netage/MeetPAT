@@ -55,11 +55,12 @@ class MeetpatClientController extends Controller
     public function upload_clients()
     {
         $user = \Auth::user();
+        $env = env('APP_ENV');
 
         $has_google_adwords_acc = $user->google_ad_account;
         $has_facebook_ad_acc = $user->facebook_ad_account;
 
-        return view('client.dashboard.upload_clients', ['has_google_adwords_acc' => $has_google_adwords_acc, 'has_facebook_ad_acc' => $has_facebook_ad_acc]);
+        return view('client.dashboard.upload_clients', ['has_google_adwords_acc' => $has_google_adwords_acc, 'has_facebook_ad_acc' => $has_facebook_ad_acc, 'env' => $env]);
     }
 
     // Update synced accounts
@@ -282,7 +283,7 @@ class MeetpatClientController extends Controller
         $new_jobs = null;
         $file_exists = null;
 
-        if(env('production')) {
+        if(env('APP_ENV') == 'production') {
             $file_exists = Storage::disk('s3')->exists('client/custom-audience/user_id_' . $request->id . '/' . $request->file_id . '.csv');
         } else {
             $file_exists = Storage::disk('local')->exists('client/custom-audience/user_id_' . $request->id . '/' . $request->file_id . '.csv');
