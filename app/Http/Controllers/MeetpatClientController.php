@@ -238,7 +238,6 @@ class MeetpatClientController extends Controller
       $validator = \Validator::make($request->all(), [
         'audience_name' => 'required|unique:audience_files,audience_name,' . $request->user_id,
         'user_id' => 'required',
-        'audience_file' => 'required|mimes:csv,txt',
         'file_source_origin' => 'required',
         'file_id' => 'required',
     ]);
@@ -251,11 +250,7 @@ class MeetpatClientController extends Controller
     //   $directory_used = null;
     //   $file_uploaded = null;
     //   $csv = null;
-      
-      if($request->file('audience_file')->isValid()) {
         
-        $response_text = 'valid file';
-
         // $csv_file = $request->file('audience_file');
         // $fileName = uniqid() . '_' . str_replace(" ", "_", $request->audience_name);
 
@@ -327,10 +322,6 @@ class MeetpatClientController extends Controller
   
         } else {
             return response("file does not exist :(");
-        }
-
-        } else {
-         $response_text = 'in valid file';
         }
 
         return response()->json($new_jobs);
