@@ -166,7 +166,7 @@
     }
 
     var pond = FilePond.create(document.querySelector('input[type="file"]'));
-    $('input[type="file"]').attr('name', 'audience_file');
+    // $('input[type="file"]').attr('name', 'audience_file');
 
     FilePond.setOptions({
         // maximum allowed file size
@@ -198,9 +198,9 @@
     e.preventDefault();    
     var formData = new FormData(this);
 
-    if(pond.getFile()) {
-        formData.append("audience_file", pond.getFile().file);
-    }
+    // if(pond.getFile()) {
+    //     formData.append("audience_file", pond.getFile().file);
+    // }
 
     $.ajax({
         url: '/api/meetpat-client/upload-custom-audience',
