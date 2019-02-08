@@ -52,3 +52,4 @@ Route::post('meetpat-client/upload-google-custom-audience', 'GoogleCustomerAudie
 Route::post('meetpat-client/request-google-api', 'GoogleCustomerAudienceController@google_upload_handler')->name('google-request-api-handler');
 
 Route::post('upload-file', 'MeetpatClientController@handle_upload')->name('uploader');
+Route::post('delete-file', 'MeetpatClientController@handle_delete_upload')->name('delete-file');

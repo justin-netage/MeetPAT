@@ -21,7 +21,7 @@
                     <h3 class="mb-5">Add a file with your customer data</h3>
 
                         @csrf
-                        <input type="hidden" name="user_id" value="{{\Auth::user()->id}}">
+                        <input type="hidden" name="user_id"  id="userId" value="{{\Auth::user()->id}}">
                         <input type="hidden" name="file_id" id="fileId">
                         <div class="form-group row">
                         <span class="switch-label col-sm-8 col-form-label">Facebook</span>
@@ -84,7 +84,7 @@
                             </span>
                         </div>
                         <div class="form-group mb-0">
-                            <button type="submit" id="create_user" class="btn btn-primary btn-lg btn-block">
+                            <button type="submit" id="submit_audience" disabled class="btn btn-primary btn-lg btn-block">
                                 {{ __('Submit Audience') }}
                             </button>
                         </div>
@@ -167,10 +167,24 @@
 
     var pond = FilePond.create(document.querySelector('input[type="file"]'));
     // $('input[type="file"]').attr('name', 'audience_file');
+    const pond_element = document.querySelector('.filepond--root');
+    pond_element.addEventListener('FilePond:removefile', e => {
+        console.log('user wants to remove file.');
+        $.post(
+            '/api/delete-file?file_id=' + $("#fileId").val() + '&user_id=' + $("#userId").val(),
+            function(returnedData) {
+                console.log(returnedData);
+            }).done(function(returnedData) {
+                $("#submit_audience").prop('disabled', true);
+            }).fail(function(returnedData) {
+                console.log(returnedData);
+            });
+        });
 
     FilePond.setOptions({
         // maximum allowed file size
         maxFileSize: '200MB',
+        required: true,
         // crop the image to a 1:1 ratio
         //imageCropAspectRatio: '1:1',
         // resize the image
@@ -185,11 +199,27 @@
                 headers: {},
                 onerror: function(data) {
                     console.log(data);
+                    $("#submit_audience").prop('disabled', true);
+
                 },
                 onload: function(data) {
                     $("#fileId").val(data);
-                    console.log(data);
-                }
+                    $("#submit_audience").prop('disabled', false);
+                    //console.log(data);
+                },
+                revert: (uniqueFileId, load, error) => {
+            
+                        // Should remove the earlier created temp file here
+                        // ...
+
+                        // Can call the error method if something is wrong, should exit after
+                        error('oh my goodness');
+
+                        // Should call the load method when done, no parameters required
+                        load();
+                    },
+
+                
             }
         }
     });
@@ -240,7 +270,7 @@
         },
         complete: function (data) {
             
-            //console.log(data.responseJSON);
+            console.log(data.responseJSON);
             $("#loader").css("display", "none");
             $("#alert-section").empty();
 

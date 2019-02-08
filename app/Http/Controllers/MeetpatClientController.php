@@ -279,9 +279,9 @@ class MeetpatClientController extends Controller
         $file_exists = null;
 
         if(env('APP_ENV') == 'production') {
-            $file_exists = Storage::disk('s3')->exists('client/custom-audience/user_id_' . $request->id . '/' . $request->file_id . '.csv');
+            $file_exists = Storage::disk('s3')->exists('client/custom-audience/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
         } else {
-            $file_exists = Storage::disk('local')->exists('client/custom-audience/user_id_' . $request->id . '/' . $request->file_id . '.csv');
+            $file_exists = Storage::disk('local')->exists('client/custom-audience/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
         }
 
         if($file_exists) {
@@ -362,10 +362,22 @@ class MeetpatClientController extends Controller
         $user = \MeetPAT\User::find($file_info->user_id);
         $google_account = $user->google_ad_account;
 
+        $file_exists = null;
+
         if(env('APP_ENV') == 'production') {
-            $actual_file = \Storage::disk('s3')->get('client/custom-audience/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
+            $file_exists = \Storage::disk('s3')->exists('client/custom-audience/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
         } else {
+            $file_exists = \Storage::disk('local')->exists('client/custom-audience/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
+        }        
+
+        $actual_file = null;
+
+        if(env('APP_ENV') == 'production' and $file_exists) {
+            $actual_file = \Storage::disk('s3')->get('client/custom-audience/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
+        } else if (env('APP_ENV') == 'local' and $file_exists) {
             $actual_file = \Storage::disk('local')->get('client/custom-audience/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
+        } else {
+            return response("file not found.");
         }
 
         $array = array_map("str_getcsv", explode("\n", $actual_file));
@@ -488,6 +500,30 @@ class MeetpatClientController extends Controller
         }
 
         return response($fileName);
+
+    }
+    public function handle_delete_upload(Request $request)
+    {
+        $file_exists = null;
+
+        if(env('APP_ENV') == 'production') {
+            $file_exists = \Storage::disk('s3')->exists('client/custom-audience/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+        } else {
+            $file_exists = \Storage::disk('local')->exists('client/custom-audience/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+        }
+
+        if($file_exists) {
+            if(env('APP_ENV') == 'production') {
+                $file_exists = \Storage::disk('s3')->delete('client/custom-audience/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+            } else {
+                $file_exists = \Storage::disk('local')->delete('client/custom-audience/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+            }
+        } else {
+            return response(500);
+        }
+
+        // return response('File: '. $request->file_id .' -> has been removed');
+        return response(200);
 
     }
 }
