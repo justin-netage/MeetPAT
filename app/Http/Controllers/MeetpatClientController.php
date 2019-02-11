@@ -247,32 +247,6 @@ class MeetpatClientController extends Controller
         return response()->json(['errors'=>$validator->errors()]);
     } else {
 
-    //   $directory_used = null;
-    //   $file_uploaded = null;
-    //   $csv = null;
-        
-        // $csv_file = $request->file('audience_file');
-        // $fileName = uniqid() . '_' . str_replace(" ", "_", $request->audience_name);
-
-        // Testing facebook and google API comment out when ready to upload.
-
-        // if(env('APP_ENV') == 'production') {
-        //   $directory_used = \Storage::disk('s3')->makeDirectory('client/custom-audience/user_id_' . $request->user_id);
-
-        //   if($directory_used) {
-        //     $file_uploaded = \Storage::disk('s3')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName . ".csv", file_get_contents($csv_file));
-
-        //   }
-        // } else {
-        //   $directory_used = \Storage::disk('local')->makeDirectory('client/custom-audience/user_id_' . $request->user_id);
-
-        //   if($directory_used) {
-        //     $file_uploaded = \Storage::disk('local')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName . ".csv", fopen($csv_file, 'r+'));
-
-        //   }
-        // }
-
-        // $unique_id = uniqid();
         $facebook_job = null;
         $google_job = null;
         $new_jobs = null;

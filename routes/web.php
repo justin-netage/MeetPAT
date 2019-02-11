@@ -36,10 +36,10 @@ Route::get('/pricing', 'InformationController@pricing')->name('pricing');
 
 Auth::routes();
 
-// Disable Default registration
-// Route::match(['get', 'post'], 'register', function(){
-//     return redirect(404);
-// });
+// Disable Default registration page
+Route::match(['get', 'post'], 'register', function(){
+    return redirect(404);
+});
 
 // Administrator routes
 
@@ -52,9 +52,6 @@ Route::get('/meetpat-admin/users/create', 'AdministratorController@create_user_v
 
 Route::post('/meetpat-admin/users/create/save', 'AdministratorController@create_user')->name('create-user-save')->middleware('auth')->middleware('admin');
 
-// Route::get('/meetpat-admin/users/{user_id}/edit', 'AdministratorController@edit_user_view')->name('edit-user')->middleware('auth')->middleware('admin');
-// Route::get('/meetpat-admin/users/{user_id}/delete', 'AdministratorController@delete_view')->name('delete-user')->middleware('auth')->middleware('admin');
-
 // MeetPAT Client Routes
 
 Route::get('/meetpat-client', 'MeetpatClientController@main')->name('meetpat-client')->middleware('auth')->middleware('client');
@@ -63,18 +60,12 @@ Route::get('/meetpat-client/upload-clients', 'MeetpatClientController@upload_cli
 
 // Google Register Routes
 Route::get('/register-google-ad-account', 'GoogleCustomerAudienceController@register_ad_account_id')->name('google-ad-account')->middleware('auth')->middleware('client');
-//Route::get('login/google', 'Auth\GoogleLoginController@google_account_login');
-// Route::get('login/google/callback', 'Auth\GoogleLoginController@handleProviderCallback');
-// Route::get('/google-authorization/start', 'Auth\GoogleLoginController@google_account_login');
+
 
 Route::post('/google-authorization/authenticate-authorization-code', 'MeetpatClientController@authenticate_authorization_code')->name('authenticate-google-code')->middleware('client');
 Route::post('/facebook-account-update/add-ad-account-id', 'MeetpatClientController@add_facebook_account_id')->name('add-account-id')->middleware('client');
-// Facebook upload routes
 
 // Upload pages
-// Route::get('/meetpat-client/upload-clients/facebook', 'FacebookCustomerAudienceController@upload_facebook_customers')->name('facebook-upload-customers')->middleware('auth')->middleware('client');
-// Route::get('/meetpat-client/upload-clients/google', 'GoogleCustomerAudienceController@upload_google_customers')->name('google-upload-customers')->middleware('auth')->middleware('client');
-
 // Upload api handler /routes/api.php
 
 // Download link for sample file Facebook Custom Audiences
@@ -87,4 +78,3 @@ Route::get('/meetpat-client/sync/google', 'MeetpatClientController@sync_google')
 
 Route::get('/meetpat-client/update/facebook', 'MeetpatClientController@update_facebook')->name('update-facebook')->middleware('auth')->middleware('client');
 Route::get('/meetpat-client/update/google', 'MeetpatClientController@update_google')->name('update-google')->middleware('auth')->middleware('client');
-

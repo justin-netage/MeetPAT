@@ -211,4 +211,12 @@ class AdministratorController extends Controller
         return view('admin.clients.create_user');
     }
 
+    // route functions for user files to download
+
+    public function display_users()
+    {
+
+        return view('admin.clients.user_files');
+    }
+
 }
