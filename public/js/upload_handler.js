@@ -2,12 +2,7 @@ var displayLoader = function () {
     $("#loader").css("display", "block");
 };
 
-var environment = "<?php echo $env ?>";
-var site_url = "http://127.0.0.1:8000";
-
-if(environment == 'production') {
-    site_url = 'https://infinite-coast-17182.herokuapp.com';
-}
+var site_url = "https://infinite-coast-17182.herokuapp.com";
 
 var run_job = function(job_data) {
     if(job_data["platform"] == 'facebook') {
