@@ -560,3 +560,8 @@ $small-spinner-dimensions: $main-spinner-dimensions * 0.7; //width and height of
 {
   margin-top: 96px;
 }
+
+.user-files-table th, .user-files-table td
+{
+  text-align: center;
+}

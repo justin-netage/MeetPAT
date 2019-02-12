@@ -33,7 +33,8 @@
         ],
         "psr-4": {
             "MeetPAT\\": "app/"
-        }
+        },
+        "files": ["app/Helper.php"]
     },
     "autoload-dev": {
         "psr-4": {

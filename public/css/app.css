@@ -11058,3 +11058,8 @@ body {
   margin-top: 96px;
 }
 
+.user-files-table th,
+.user-files-table td {
+  text-align: center;
+}
+

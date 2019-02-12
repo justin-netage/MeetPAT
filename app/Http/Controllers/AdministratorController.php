@@ -213,10 +213,12 @@ class AdministratorController extends Controller
 
     // route functions for user files to download
 
-    public function display_users()
-    {
+    public function display_user_files($user_id)
+    {   
+        $user = \MeetPAT\User::find($user_id);
+        $client_audience_files = \MeetPAT\AudienceFile::where('user_id', $user_id)->get();
 
-        return view('admin.clients.user_files');
+        return view('admin.clients.user_files', ['audience_files' => $client_audience_files, 'user' => $user]);
     }
 
 }
