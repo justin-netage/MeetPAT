@@ -10,6 +10,7 @@
                 <tr>
                 <th scope="col">#</th>
                 <th scope="col">Audience Name</th>
+                <th scope="col">Original Data Source</th>
                 <th scope="col">Size</th>
                 <th scope="col">Download</th>
                 </tr>
@@ -19,6 +20,7 @@
                 <tr>
                 <th scope="row">{{$key + 1}}</th>
                 <td>{{$audience_file->audience_name}}</td>
+                <td>{{ucwords(str_replace("_", " ", $audience_file->file_source_origin))}}</td>
                 @if(env('APP_ENV') == 'production')
                     @if(\Storage::disk('s3')->exists('client/custom-audience/' . 'user_id_' . $user->id . '/' . $audience_file->file_unique_name . '.csv'))
                         <td>{{round(\Storage::disk('s3')->size('client/custom-audience/' . 'user_id_' . $user->id . '/' . $audience_file->file_unique_name . '.csv') / 1024 / 1024, 2)}} MB</td>
