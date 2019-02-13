@@ -236,7 +236,7 @@ class MeetpatClientController extends Controller
     {
 
       $validator = \Validator::make($request->all(), [
-        'audience_name' => 'required|unique:audience_files,audience_name,user_id,' . $request->user_id,
+        'audience_name' => 'required|unique:audience_files,audience_name,' . $request->user_id,
         'user_id' => 'required',
         'file_source_origin' => 'required',
         'file_id' => 'required',
