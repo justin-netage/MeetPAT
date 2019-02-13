@@ -236,7 +236,7 @@ class MeetpatClientController extends Controller
     {
 
       $validator = \Validator::make($request->all(), [
-        'audience_name' => 'required|unique:audience_files,audience_name,' . $request->user_id,
+        'audience_name' => 'required|max:255|min:2',
         'user_id' => 'required',
         'file_source_origin' => 'required',
         'file_id' => 'required',
@@ -260,7 +260,7 @@ class MeetpatClientController extends Controller
 
         if($file_exists) {
        
-            $audience_file = \MeetPAT\AudienceFile::create(['user_id' => $request->user_id, 'audience_name' => $request->audience_name, 'file_unique_name' => $request->file_id, 'file_source_origin' => $request->file_source_origin]);
+            $audience_file = \MeetPAT\AudienceFile::create(['user_id' => $request->user_id, 'audience_name' => $request->audience_name . " - " . time(), 'file_unique_name' => $request->file_id, 'file_source_origin' => $request->file_source_origin]);
   
           if($request->facebook_custom_audience) {
             $facebook_job = \MeetPAT\UploadJobQue::create(['user_id' => $request->user_id, 'unique_id' => $request->file_id, 'platform' => 'facebook', 'status' => 'pending', 'file_id' => $audience_file->id]);
