@@ -11076,3 +11076,8 @@ fieldset.filepond--file-wrapper {
   top: 25%;
 }
 
+div.filepond--item {
+  position: absolute;
+  margin-top: 25px;
+}
+

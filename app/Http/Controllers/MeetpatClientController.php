@@ -469,24 +469,42 @@ class MeetpatClientController extends Controller
         $fileName = uniqid();
         $path = $_FILES['audience_file']['name'];
         $ext = pathinfo($path, PATHINFO_EXTENSION);
+        $file_content = file_get_contents($csv_file);
+        $firstColumn = null;
 
+
+
+        function readCSV($csvFile) {
+        $file_handle = fopen($csvFile, 'r');
+        while (!feof($file_handle) ) {
+            $line_of_text[] = fgetcsv($file_handle, 0);
+        }
+        fclose($file_handle);
+        return $line_of_text;
+        }
+           
         if($ext == 'csv') {
-            
-            if(env('APP_ENV') == 'production')
-            {
-                $directory_used = \Storage::disk('s3')->makeDirectory('client/custom-audience/');
-                $file_uploaded = \Storage::disk('s3')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName  . ".csv", fopen($csv_file, 'r+'));
-    
+            $csv = readCSV($request->file('audience_file')); 
+            if($csv[0] == ["email","phone","fn","l"]) {
+
+                if(env('APP_ENV') == 'production')
+                {
+                    $directory_used = \Storage::disk('s3')->makeDirectory('client/custom-audience/');
+                    $file_uploaded = \Storage::disk('s3')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName  . ".csv", fopen($csv_file, 'r+'));
+        
+                } else {
+                    $directory_used = \Storage::disk('local')->makeDirectory('client/custom-audience/');
+                    $file_uploaded = \Storage::disk('local')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName  . ".csv", fopen($csv_file, 'r+'));
+                }
             } else {
-                $directory_used = \Storage::disk('local')->makeDirectory('client/custom-audience/');
-                $file_uploaded = \Storage::disk('local')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName  . ".csv", fopen($csv_file, 'r+'));
+                return response()->json(["status" => 500, "error" => "CSV File does not match template."]);
             }
 
         } else {
-            return response(500);
+            return response()->json(["status" => 500]);
         }
         
-        return response($fileName);
+        return response()->json(["status" => 200,"file_id" => $fileName]);
 
     }
     public function handle_delete_upload(Request $request)

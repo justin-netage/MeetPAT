@@ -91,19 +91,26 @@ FilePond.setOptions({
             },
             onload: function(data) {
                 // response 500 if file is invalid
-                //console.log(data);
-                if(data != '500') {
-                    $("#fileId").val(data);
-                    $("#submit_audience").prop('disabled', false);
-                } else {
-                    $("#no-file").show();
-                }
-
+                data = JSON.parse(data);
+                
                 if(pond.getFile().fileExtension != 'csv') {
                     $("#no-file").show();
                     pond.removeFile();
                 } else {
                     $("#no-file").hide();
+                }
+
+                if(data.status != '500') {
+                    $("#fileId").val(data.file_id);
+                    $("#submit_audience").prop('disabled', false);
+                } else {
+                    pond.removeFile();
+                    $("#no-file").show();
+
+                    if(data.error) {
+                        $("#no-file").html(data.error);
+                    } 
+
                 }
                 
             },            
