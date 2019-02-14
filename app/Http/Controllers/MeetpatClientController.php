@@ -448,7 +448,7 @@ class MeetpatClientController extends Controller
           
         $job_que->delete();
 
-        return response()->json($members);
+        return response()->json(200);
     }
 
     public function update_facebook()
@@ -467,16 +467,23 @@ class MeetpatClientController extends Controller
     {
         $csv_file = $request->file('audience_file');
         $fileName = uniqid();
-        if(env('APP_ENV') == 'production')
-        {
-            $directory_used = \Storage::disk('s3')->makeDirectory('client/custom-audience/');
-            $file_uploaded = \Storage::disk('s3')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName  . ".csv", fopen($csv_file, 'r+'));
+        $path = $_FILES['audience_file']['name'];
+        $ext = pathinfo($path, PATHINFO_EXTENSION);
 
+        if($ext == 'csv') {
+            if(env('APP_ENV') == 'production')
+            {
+                $directory_used = \Storage::disk('s3')->makeDirectory('client/custom-audience/');
+                $file_uploaded = \Storage::disk('s3')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName  . ".csv", fopen($csv_file, 'r+'));
+    
+            } else {
+                $directory_used = \Storage::disk('local')->makeDirectory('client/custom-audience/');
+                $file_uploaded = \Storage::disk('local')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName  . ".csv", fopen($csv_file, 'r+'));
+            }
         } else {
-            $directory_used = \Storage::disk('local')->makeDirectory('client/custom-audience/');
-            $file_uploaded = \Storage::disk('local')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName  . ".csv", fopen($csv_file, 'r+'));
+            return response(500);
         }
-
+        
         return response($fileName);
 
     }

@@ -66,7 +66,7 @@
                         <a href="{{Storage::disk('s3')->url('meetpat/public/sample/example_audience_file.csv')}}">download template file</a><span> ( Your file must match our template files layout )</span>
                         <input type="file" name="audience_file" class="filepond" id="audience_file">
                         <span class="invalid-feedback" id="no-file" role="alert">
-                            <strong id="invalid-file">Please choose an audience file to upload</strong>
+                            <strong id="invalid-file">Please choose a valid .csv audience file to upload</strong>
                         </span>
                         <br />
                         <div class="form-group">
@@ -102,6 +102,7 @@
     src="https://code.jquery.com/jquery-3.3.1.min.js"
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
+<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
 <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
 <script type="text/javascript" src="{{ asset('js/upload_handler.js') }}" defer></script>
 

@@ -11063,3 +11063,16 @@ body {
   text-align: center;
 }
 
+.filepond--root {
+  height: 150px;
+}
+
+.filepond--panel-root {
+  border: 2px dotted #2c3340;
+}
+
+div.filepond--drop-label,
+fieldset.filepond--file-wrapper {
+  top: 25%;
+}
+

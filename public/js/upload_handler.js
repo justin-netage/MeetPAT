@@ -2,7 +2,7 @@ var displayLoader = function () {
     $("#loader").css("display", "block");
 };
 
-var site_url = "https://infinite-coast-17182.herokuapp.com";
+var site_url = window.location.protocol + "//" + window.location.host;
 
 var run_job = function(job_data) {
     if(job_data["platform"] == 'facebook') {
@@ -52,20 +52,19 @@ var run_job = function(job_data) {
             });
     }
 }
-
+FilePond.registerPlugin(FilePondPluginFileValidateType);
 var pond = FilePond.create(document.querySelector('input[type="file"]'));
 // $('input[type="file"]').attr('name', 'audience_file');
 const pond_element = document.querySelector('.filepond--root');
 pond_element.addEventListener('FilePond:removefile', e => {
-    console.log('user wants to remove file.');
     $.post(
         '/api/delete-file?file_id=' + $("#fileId").val() + '&user_id=' + $("#userId").val(),
         function(returnedData) {
-            console.log(returnedData);
+            //console.log(returnedData);
         }).done(function(returnedData) {
             $("#submit_audience").prop('disabled', true);
         }).fail(function(returnedData) {
-            console.log(returnedData);
+            //console.log(returnedData);
         });
     });
 
@@ -93,21 +92,15 @@ FilePond.setOptions({
             onload: function(data) {
                 $("#fileId").val(data);
                 $("#submit_audience").prop('disabled', false);
-                //console.log(data);
-            },
-            revert: (uniqueFileId, load, error) => {
-        
-                    // Should remove the earlier created temp file here
-                    // ...
 
-                    // Can call the error method if something is wrong, should exit after
-                    error('oh my goodness');
-
-                    // Should call the load method when done, no parameters required
-                    load();
-                },
-
-            
+                if(pond.getFile().fileExtension != 'csv') {
+                    $("#no-file").show();
+                    pond.removeFile();
+                } else {
+                    $("#no-file").hide();
+                }
+                
+            },            
         }
     }
 });
