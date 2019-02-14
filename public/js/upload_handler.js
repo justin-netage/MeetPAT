@@ -90,8 +90,14 @@ FilePond.setOptions({
 
             },
             onload: function(data) {
-                $("#fileId").val(data);
-                $("#submit_audience").prop('disabled', false);
+                // response 500 if file is invalid
+                //console.log(data);
+                if(data != '500') {
+                    $("#fileId").val(data);
+                    $("#submit_audience").prop('disabled', false);
+                } else {
+                    $("#no-file").show();
+                }
 
                 if(pond.getFile().fileExtension != 'csv') {
                     $("#no-file").show();

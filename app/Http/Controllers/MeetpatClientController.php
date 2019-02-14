@@ -471,6 +471,7 @@ class MeetpatClientController extends Controller
         $ext = pathinfo($path, PATHINFO_EXTENSION);
 
         if($ext == 'csv') {
+            
             if(env('APP_ENV') == 'production')
             {
                 $directory_used = \Storage::disk('s3')->makeDirectory('client/custom-audience/');
@@ -480,6 +481,7 @@ class MeetpatClientController extends Controller
                 $directory_used = \Storage::disk('local')->makeDirectory('client/custom-audience/');
                 $file_uploaded = \Storage::disk('local')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName  . ".csv", fopen($csv_file, 'r+'));
             }
+
         } else {
             return response(500);
         }
