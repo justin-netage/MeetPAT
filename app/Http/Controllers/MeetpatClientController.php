@@ -430,9 +430,9 @@ class MeetpatClientController extends Controller
         {
             $memberByEmail = new Member();
             $memberByEmail->setHashedEmail(normalizeAndHash($member[0]));
-            // $memberByEmail->setHashedPhoneNumber(normalizeAndHash($member[0]));
-            // $memberByEmail->setFirstName($member[0]);
-            // $memberByEmail->setLastName($member[0]);
+            $memberByEmail->setHashedPhoneNumber(normalizeAndHash($member[0]));
+            $memberByEmail->setFirstName($member[0]);
+            $memberByEmail->setLastName($member[0]);
             
             $members[] = $memberByEmail;
         }
@@ -471,8 +471,6 @@ class MeetpatClientController extends Controller
         $ext = pathinfo($path, PATHINFO_EXTENSION);
         $file_content = file_get_contents($csv_file);
         $firstColumn = null;
-
-
 
         function readCSV($csvFile) {
         $file_handle = fopen($csvFile, 'r');
