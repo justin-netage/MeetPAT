@@ -430,9 +430,9 @@ class MeetpatClientController extends Controller
         {
             $memberByEmail = new Member();
             $memberByEmail->setHashedEmail(normalizeAndHash($member[0]));
-            $memberByEmail->setHashedPhoneNumber(normalizeAndHash($member[0]));
-            $memberByEmail->setFirstName($member[0]);
-            $memberByEmail->setLastName($member[0]);
+            $memberByEmail->setHashedPhoneNumber(normalizeAndHash($member[1]));
+            $memberByEmail->setFirstName($member[2]);
+            $memberByEmail->setLastName($member[3]);
             
             $members[] = $memberByEmail;
         }
