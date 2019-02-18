@@ -498,7 +498,7 @@ class MeetpatClientController extends Controller
            
         if($ext == 'csv') {
             $csv = readCSV($request->file('audience_file')); 
-            if($csv[0] == ["email","phone","fn","l"]) {
+            if($csv[0] == ["email","phone","fn","ln"]) {
 
                 if(env('APP_ENV') == 'production')
                 {
