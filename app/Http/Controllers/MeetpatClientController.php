@@ -429,18 +429,18 @@ class MeetpatClientController extends Controller
         foreach($custom_audience_array as $member)
         {
             if(preg_match('/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$/', $member[0])) {
-                
+
                 $memberByEmail = new Member();
                 $memberByEmail->setHashedEmail(normalizeAndHash($member[0]));
     
                 if($member[1] and preg_match('/^\+27\d{9}$/', $member[1])) {
                     $memberByEmail->setHashedPhoneNumber(normalizeAndHash($member[1]));
-                } else if(strln($member[1]) == 10 and $member[1][0] == '0') {
+                } else if(strlen($member[1]) == 10 and $member[1][0] == '0') {
                     $fixed_number = '+27' . substr($member[1], 1);
                     $memberByEmail->setHashedPhoneNumber(normalizeAndHash($fixed_number));
-                } else if (strln($member[1]) == 9) {
+                } else if (strlen($member[1]) == 9) {
                     $fixed_number = '+27' . $member[1];
-                    if(strln($fixed_number) == 12) {
+                    if(strlen($fixed_number) == 12) {
                         $memberByEmail->setHashedPhoneNumber(normalizeAndHash($fixed_number));
                     }
                 }
