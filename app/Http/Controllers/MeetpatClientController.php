@@ -436,12 +436,12 @@ class MeetpatClientController extends Controller
                 $memberByEmail = new Member();
                 $memberByEmail->setHashedEmail(normalizeAndHash($member[0]));
 
-                if($member[2]) {
-                    $memberByEmail->setHashedFirstName(normalizeAndHash($firstName));
-                }
-                if($member[3]) {
-                    $memberByEmail->setHashedLastName(normalizeAndHash($lastName));
-                }
+                // if($member[2]) {
+                //     $memberByEmail->setHashedFirstName(normalizeAndHash($firstName));
+                // }
+                // if($member[3]) {
+                //     $memberByEmail->setHashedLastName(normalizeAndHash($lastName));
+                // }
 
                 if($member[1] and preg_match('/^\+27\d{9}$/', $member[1])) {
                     $memberByEmail->setHashedPhoneNumber(normalizeAndHash($member[1]));
