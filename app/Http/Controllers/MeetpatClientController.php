@@ -428,13 +428,28 @@ class MeetpatClientController extends Controller
 
         foreach($custom_audience_array as $member)
         {
-            $memberByEmail = new Member();
-            $memberByEmail->setHashedEmail(normalizeAndHash($member[0]));
-            $memberByEmail->setHashedPhoneNumber(normalizeAndHash($member[1]));
-            $memberByEmail->setFirstName($member[2]);
-            $memberByEmail->setLastName($member[3]);
-            
-            $members[] = $memberByEmail;
+            if(preg_match('/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$/', $member[0])) {
+                $memberByEmail = new Member();
+                $memberByEmail->setHashedEmail(normalizeAndHash($member[0]));
+    
+                if($member[1] and preg_match('/^\+27\d{9}$/', $member[1])) {
+                    $memberByEmail->setHashedPhoneNumber(normalizeAndHash($member[1]));
+                } else if(strln($member[1]) == 10 and $member[1][0] == '0') {
+                    $fixed_number = '+27' . substr($member[1], 1);
+                    $memberByEmail->setHashedPhoneNumber(normalizeAndHash($fixed_number));
+                }
+    
+                if($member[2]) {
+                    $memberByEmail->setFirstName($member[2]);
+                }
+    
+                if($member[3]) {
+                    $memberByEmail->setLastName($member[3]);
+                }
+    
+                $members[] = $memberByEmail;
+            }
+
         }
 
         // Add members to the operand and add the operation to the list.
@@ -448,7 +463,7 @@ class MeetpatClientController extends Controller
           
         $job_que->delete();
 
-        return response()->json(200);
+        return response()->json(200); #E71F5A
     }
 
     public function update_facebook()
