@@ -430,8 +430,25 @@ class MeetpatClientController extends Controller
         {
             if(preg_match('/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$/', $member[0])) {
 
+                $firstName = $member[2];
+                $lastName = $member[3];
+                $countryCode = 'ZA';
+
+                $addressInfo = new AddressInfo();
+                // First and last name must be normalized and hashed.
+                if($member[2]) {
+                    $addressInfo->setHashedFirstName(normalizeAndHash($firstName));
+                }
+                if($member[3]) {
+                    $addressInfo->setHashedLastName(normalizeAndHash($lastName));
+                }
+                
+                // Country code and zip code are sent in plain text.
+                $addressInfo->setCountryCode($countryCode);
+
                 $memberByEmail = new Member();
                 $memberByEmail->setHashedEmail(normalizeAndHash($member[0]));
+                $memberByEmail->setAddressInfo($addressInfo);
     
                 if($member[1] and preg_match('/^\+27\d{9}$/', $member[1])) {
                     $memberByEmail->setHashedPhoneNumber(normalizeAndHash($member[1]));
@@ -444,15 +461,7 @@ class MeetpatClientController extends Controller
                         $memberByEmail->setHashedPhoneNumber(normalizeAndHash($fixed_number));
                     }
                 }
-    
-                if($member[2]) {
-                    $memberByEmail->setFirstName($member[2]);
-                }
-    
-                if($member[3]) {
-                    $memberByEmail->setLastName($member[3]);
-                }
-    
+
                 $members[] = $memberByEmail;
             }
 
