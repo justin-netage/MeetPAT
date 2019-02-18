@@ -432,24 +432,17 @@ class MeetpatClientController extends Controller
 
                 $firstName = $member[2];
                 $lastName = $member[3];
-                $countryCode = 'ZA';
-
-                $addressInfo = new AddressInfo();
-                // First and last name must be normalized and hashed.
-                if($member[2]) {
-                    $addressInfo->setHashedFirstName(normalizeAndHash($firstName));
-                }
-                if($member[3]) {
-                    $addressInfo->setHashedLastName(normalizeAndHash($lastName));
-                }
                 
-                // Country code and zip code are sent in plain text.
-                $addressInfo->setCountryCode($countryCode);
-
                 $memberByEmail = new Member();
                 $memberByEmail->setHashedEmail(normalizeAndHash($member[0]));
-                $memberByEmail->setAddressInfo($addressInfo);
-    
+
+                if($member[2]) {
+                    $memberByEmail->setHashedFirstName(normalizeAndHash($firstName));
+                }
+                if($member[3]) {
+                    $memberByEmail->setHashedLastName(normalizeAndHash($lastName));
+                }
+
                 if($member[1] and preg_match('/^\+27\d{9}$/', $member[1])) {
                     $memberByEmail->setHashedPhoneNumber(normalizeAndHash($member[1]));
                 } else if(strlen($member[1]) == 10 and $member[1][0] == '0') {
