@@ -119,172 +119,168 @@ FilePond.setOptions({
 });
 
 $("form#upload-custom-audience").submit(function(e) {
-e.preventDefault();    
-var formData = new FormData(this);
+    e.preventDefault();    
+    var formData = new FormData(this);
 
-// if(pond.getFile()) {
-//     formData.append("audience_file", pond.getFile().file);
-// }
+    $.ajax({
+        url: '/api/meetpat-client/upload-custom-audience',
+        type: 'POST',
+        data: formData,
+        success: function (data) {
 
-$.ajax({
-    url: '/api/meetpat-client/upload-custom-audience',
-    type: 'POST',
-    data: formData,
-    success: function (data) {
+            if (data.errors) {
+                // console.log(data.errors)
+                $("#alert-section").empty();
 
-        if (data.errors) {
-            // console.log(data.errors)
-            $("#alert-section").empty();
-
-            $("#alert-section").append(
-            '<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
-                '<strong>Error!</strong> Please make sure that all fields are valid'+
-                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
-                    '<span aria-hidden="true">&times;</span>'+
-                '</button>'+
-           ' </div>'
-            )
-            if(data.errors.audience_name) {
-                $("#audience_name").addClass("is-invalid");
-                $("#invalid-audience-name").empty();
-                $("#invalid-audience-name").append(data.errors.audience_name);
-            }
-
-            if(data.errors.audience_file) {
-                // $("#audience_file").addClass("is-invalid");
-                $("#no-file").css("display", "block");
-                $(".upload-box").css("border-color", "#e3342f")
-                $("#invalid-file").empty();
-                $("#invalid-file").append(data.errors.audience_file);
-            }
-        } else {
-            $("#upload-custom-audience").css("display", "none");
-        }
-
-    },
-    complete: function (data) {
-        
-        console.log(data.responseJSON);
-        $("#loader").css("display", "none");
-        $("#alert-section").empty();
-
-        if(data.responseJSON["length"] > 0) {
-
-            $("#alert-section").append(
-                '<div class="alert alert-success alert-dismissible fade show" role="alert">'+
-                    '<strong>Success!</strong> Your file has been uploaded the sync is now in progress.'+
+                $("#alert-section").append(
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
+                    '<strong>Error!</strong> Please make sure that all fields are valid'+
                     '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
                         '<span aria-hidden="true">&times;</span>'+
                     '</button>'+
-            ' </div>');
-            $("#card-title").html("Sync In Progress");
-            $("#progress-sync").html(
-                '<table class="table">' +
-                    '<tbody id="sync-table-body">' +
-                    '</tbody>' +
-                '</table>'
-                
-            );           
-
-            // Conditional dependant on job que.   
-            if(data.responseJSON["length"] == 2) {
-                $("#sync-table-body").append(
-                    '<tr id="facebook_upload">' +
-                        '<td>Facebook</td>' +
-                        '<td id="facebook_upload_status">' +
-                            'pending...' +
-                        '</td>'+
-                    '</tr>'
-                );
-                $("#sync-table-body").append(
-                    '<tr id="google_upload">' +
-                        '<td>Google</td>' +
-                        '<td id="google_upload_status">' +
-                            'pending...' +
-                        '</td>'+
-                    '</tr>'
-                );   
-            } else {
-                if(data.responseJSON[0]["platform"] == 'facebook') {
-                    $("#sync-table-body").append(
-                    '<tr id="facebook_upload">' +
-                        '<td>Facebook</td>' +
-                        '<td id="facebook_upload_status">' +
-                            'pending...' +
-                        '</td>'+
-                    '</tr>'
-                    );
-                } else {
-                    $("#sync-table-body").append(
-                    '<tr id="google_upload">' +
-                        '<td>Google</td>' +
-                        '<td id="google_upload_status">' +
-                            'pending...' +
-                        '</td>'+
-                    '</tr>'
-                    );   
+            ' </div>'
+                )
+                if(data.errors.audience_name) {
+                    $("#audience_name").addClass("is-invalid");
+                    $("#invalid-audience-name").empty();
+                    $("#invalid-audience-name").append(data.errors.audience_name);
                 }
+
+                if(data.errors.audience_file) {
+                    // $("#audience_file").addClass("is-invalid");
+                    $("#no-file").css("display", "block");
+                    $(".upload-box").css("border-color", "#e3342f")
+                    $("#invalid-file").empty();
+                    $("#invalid-file").append(data.errors.audience_file);
+                }
+            } else {
+                $("#upload-custom-audience").css("display", "none");
+            }
+
+        },
+        complete: function (data) {
+            
+            console.log(data.responseJSON);
+            $("#loader").css("display", "none");
+            $("#alert-section").empty();
+
+            if(data.responseJSON["length"] > 0) {
+
+                $("#alert-section").append(
+                    '<div class="alert alert-success alert-dismissible fade show" role="alert">'+
+                        '<strong>Success!</strong> Your file has been uploaded the sync is now in progress.'+
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+                            '<span aria-hidden="true">&times;</span>'+
+                        '</button>'+
+                ' </div>');
+                $("#card-title").html("Sync In Progress");
+                $("#progress-sync").html(
+                    '<table class="table">' +
+                        '<tbody id="sync-table-body">' +
+                        '</tbody>' +
+                    '</table>'
+                    
+                );           
+
+                // Conditional dependant on job que.   
+                if(data.responseJSON["length"] == 2) {
+                    $("#sync-table-body").append(
+                        '<tr id="facebook_upload">' +
+                            '<td>Facebook</td>' +
+                            '<td id="facebook_upload_status">' +
+                                'pending...' +
+                            '</td>'+
+                        '</tr>'
+                    );
+                    $("#sync-table-body").append(
+                        '<tr id="google_upload">' +
+                            '<td>Google</td>' +
+                            '<td id="google_upload_status">' +
+                                'pending...' +
+                            '</td>'+
+                        '</tr>'
+                    );   
+                } else {
+                    if(data.responseJSON[0]["platform"] == 'facebook') {
+                        $("#sync-table-body").append(
+                        '<tr id="facebook_upload">' +
+                            '<td>Facebook</td>' +
+                            '<td id="facebook_upload_status">' +
+                                'pending...' +
+                            '</td>'+
+                        '</tr>'
+                        );
+                    } else {
+                        $("#sync-table-body").append(
+                        '<tr id="google_upload">' +
+                            '<td>Google</td>' +
+                            '<td id="google_upload_status">' +
+                                'pending...' +
+                            '</td>'+
+                        '</tr>'
+                        );   
+                    }
+                }
+                
+            } else if(data.responseJSON.errors != null) {
+                console.log(data.responseJSON.errors);
+            } else {
+                $(".card-body").append(
+
+                    '<a href="/meetpat-client" class="btn btn-primary btn-lg btn-block">Back to Dashboard</a>'
+                );   
+                $("#alert-section").empty();
+            }
+            if(data.responseJSON["length"] == 2) {
+                var run_jobs = function(callback) {
+                    run_job(data.responseJSON[0]);
+                    callback();
+                    }
+                run_jobs(function() {
+                    run_job(data.responseJSON[1]);
+                });
+                if(data.errors == null) {
+                    $(document).ajaxStop(function() {
+                        $('.card-body').append(
+                            '<a href="/meetpat-client" class="btn btn-primary btn-lg btn-block">Back to Dashboard</a>');
+                        $("#alert-section").empty();
+
+                    });
+                }
+            } else if(data.responseJSON["length"] == 1) {
+                run_job(data.responseJSON[0]);
+                if(data.errors == null) {
+                    $(document).ajaxStop(function() {
+                        $('.card-body').append(
+                            '<a href="/meetpat-client" class="btn btn-primary btn-lg btn-block">Back to Dashboard</a>');
+                            $("#alert-section").empty();
+                    });
+                }
+
+            } else {
+                console.log("No Jobs in que.");
             }
             
-        } else if(data.responseJSON.errors != null) {
-            console.log(data.responseJSON.errors);
+        },
+        error: function(data) {
+            //console.log(data.responseJSON);
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+
+    // validate input-fields
+
+    $("#audience_name").change(function() {
+        //console.log($(this).val());
+        if($(this).val() !== "") {
+            $(this).removeClass("is-invalid");
         } else {
-            $(".card-body").append(
-
-                '<a href="/meetpat-client" class="btn btn-primary btn-lg btn-block">Back to Dashboard</a>'
-            );   
-            $("#alert-section").empty();
-        }
-        if(data.responseJSON["length"] == 2) {
-            var run_jobs = function(callback) {
-                run_job(data.responseJSON[0]);
-                callback();
-                }
-            run_jobs(function() {
-                run_job(data.responseJSON[1]);
-            });
-            if(data.errors == null) {
-                $(document).ajaxStop(function() {
-                    $('.card-body').append(
-                        '<a href="/meetpat-client" class="btn btn-primary btn-lg btn-block">Back to Dashboard</a>');
-                    $("#alert-section").empty();
-
-                });
+            if(!$(this).hasClass("is-invalid")) {
+                $(this).addClass("is-invalid");
             }
-        } else if(data.responseJSON["length"] == 1) {
-            run_job(data.responseJSON[0]);
-            if(data.errors == null) {
-                $(document).ajaxStop(function() {
-                    $('.card-body').append(
-                        '<a href="/meetpat-client" class="btn btn-primary btn-lg btn-block">Back to Dashboard</a>');
-                        $("#alert-section").empty();
-                });
-            }
-
-        } else {
-            console.log("No Jobs in que.");
         }
-        
-    },
-    error: function(data) {
-        //console.log(data.responseJSON);
-    },
-    cache: false,
-    contentType: false,
-    processData: false
-});
-
-// validate input-fields
-
-$("#audience_name").change(function() {
-    //console.log($(this).val());
-    if($(this).val() !== "") {
-        $(this).removeClass("is-invalid");
-    } else {
-        if(!$(this).hasClass("is-invalid")) {
-            $(this).addClass("is-invalid");
-        }
-    }
 });
 
 // $("input[type='file']").change(function() {

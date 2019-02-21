@@ -112,7 +112,7 @@ class MeetpatClientController extends Controller
                     session_destroy();
 
                 } else {
-                    \Session::flash('error', 'There was a problem linking your account please contact MeetPAT for asssistance.');
+                    \Session::flash('error', 'There was a problem linking your account please contact MeetPAT for assistance.');
                 }
             }
 
@@ -211,6 +211,11 @@ class MeetpatClientController extends Controller
 
     public function add_facebook_account_id(Request $request)
     {
+        // Remove session to prevent errors with facebook account synch.
+        if($request->session()->has('facebook_access_token')) {
+            $request->session()->forget('facebook_access_token');
+        }
+
         $validatedData = $request->validate([
             'ad_account_id' => 'required|min:10',
         ]);
@@ -229,7 +234,7 @@ class MeetpatClientController extends Controller
 
         }
 
-        return back();
+        return redirect()->to('/meetpat-client/sync/facebook');
     }
 
     public function upload_customers_handle(Request $request)
@@ -312,6 +317,7 @@ class MeetpatClientController extends Controller
             ])->first();
 
         $file_info = \MeetPAT\AudienceFile::find($job_que->file_id);
+        $user = \MeetPat\AudienceFile::find($job_que->file_id);
 
         if(env('APP_ENV') == 'production') {
             $actual_file = \Storage::disk('s3')->get('client/custom-audience/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
@@ -321,7 +327,7 @@ class MeetpatClientController extends Controller
 
         $array = array_map("str_getcsv", explode("\n", $actual_file));
                     
-        return response()->json($array);
+        return response()->json(200);
     }
 
     public function google_custom_audience_handler(Request $request)
@@ -471,7 +477,7 @@ class MeetpatClientController extends Controller
           
         $job_que->delete();
 
-        return response()->json(200); #E71F5A
+        return response()->json(200);
     }
 
     public function update_facebook()
