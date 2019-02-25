@@ -53,3 +53,8 @@ Route::post('meetpat-client/request-google-api', 'GoogleCustomerAudienceControll
 
 Route::post('upload-file', 'MeetpatClientController@handle_upload')->name('uploader');
 Route::post('delete-file', 'MeetpatClientController@handle_delete_upload')->name('delete-file');
+
+// API route to handle large file of client data
+
+Route::post('meetpat-client/large-data/handler', 'DataVisualisationController@large_data_upload')->name('large-data-handler');
+Route::post('meetpat-client/large-data/upload', 'DataVisualisationController@handle_upload')->name('large-data-upload-handler');

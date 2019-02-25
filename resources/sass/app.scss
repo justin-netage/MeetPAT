@@ -586,3 +586,92 @@ div.filepond--item {
   margin-top: 25px;
 }
 
+.fa-chart-bar, .fa-graduation-cap, .fa-sliders-h
+{
+  font-size: 128px;
+}
+
+.card-link:hover
+{
+  text-decoration: none;
+}
+
+.card-link:hover
+{
+  text-decoration: none;
+}
+
+.card-link .card-header
+{
+  color: #545454;
+}
+
+.card-link .card
+{
+  width: 264px;
+  height: 320px;
+  margin: 0px;
+}
+
+.card-link-success .card:hover
+{
+  background-color: #38C172;
+  box-shadow: none;
+  border: none;
+}
+.card-link-primary .card:hover 
+{
+  background-color: #3490DC; 
+  box-shadow: none;
+  border: none;
+}
+.card-link-secondary .card:hover 
+{
+  background-color: #6C757D;
+  box-shadow: none;
+  border: none;
+}
+
+.card-link-secondary .card:hover p,.card-link-primary .card:hover p,.card-link-success .card:hover p, 
+.card-link-success .card:hover i, .card-link-primary .card:hover i,.card-link-secondary .card:hover i,
+.card-link-success .card:hover .card-header, .card-link-primary .card:hover .card-header,.card-link-secondary .card:hover .card-header
+{
+  color: #fff;
+}
+
+.card-link-success .card:hover .card-header
+{
+  border-color: #38C172;
+}
+.card-link-primary .card:hover .card-header
+{
+  border-color: #3490DC;
+}
+
+.card-link-secondary .card:hover .card-header
+{
+  border-color: #6C757D;
+}
+
+.card-header
+{
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Mobile and Tablet(portrait) */
+
+@media only screen and (max-width: 600px) {
+
+  a.card-link.card-link-secondary, a.card-link.card-link-success
+  {
+    margin-left: 0px;
+  }
+
+  .navbar-laravel, .nav-link
+  {
+    margin: 16px;
+    padding: 0px;
+  }
+
+}

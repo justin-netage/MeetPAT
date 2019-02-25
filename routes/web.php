@@ -56,6 +56,12 @@ Route::get('/meetpat-admin/users/files/{user_id}', 'AdministratorController@disp
 // MeetPAT Client Routes
 
 Route::get('/meetpat-client', 'MeetpatClientController@main')->name('meetpat-client')->middleware('auth')->middleware('client');
+
+// Dashboard Home Links
+Route::get('/meetpat-client/data-visualisation', 'DataVisualisationController@index')->name('meetpat-data-visualisation')->middleware('auth')->middleware('client');
+Route::get('/meetpat-client/tutorials', 'MeetpatClientController@tutorials')->name('meetpat-tutorials')->middleware('auth')->middleware('client');
+
+// Account Sync Pages
 Route::get('/meetpat-client/sync-platform', 'MeetpatClientController@sync_platform')->name('meetpat-client-sync')->middleware('auth')->middleware('client');
 Route::get('/meetpat-client/upload-clients', 'MeetpatClientController@upload_clients')->name('meetpat-client-upload')->middleware('auth')->middleware('client');
 
@@ -79,3 +85,8 @@ Route::get('/meetpat-client/sync/google', 'MeetpatClientController@sync_google')
 
 Route::get('/meetpat-client/update/facebook', 'MeetpatClientController@update_facebook')->name('update-facebook')->middleware('auth')->middleware('client');
 Route::get('/meetpat-client/update/google', 'MeetpatClientController@update_google')->name('update-google')->middleware('auth')->middleware('client');
+
+// Page to upload large file of client data
+
+Route::get('/meetpat-client/upload-client-file-data', 'DataVisualisationController@large_data_upload_form')->name('upload-client-data')->middleware('auth')->middleware('client');
+

@@ -26,6 +26,15 @@ var run_job = function(job_data) {
                 $("#facebook_upload_status").html(
                     '<i class="fas fa-exclamation-circle" style="color: red;"></i>'
                 );
+                $("#alert-section").append(
+                    '<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
+                        '<strong>Error!</strong> There was an error syncing the audience file with facebook. <a href="/contact">Contact MeetPAT</a> for assistance.'+
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+                            '<span aria-hidden="true">&times;</span>'+
+                        '</button>'+
+                ' </div>'
+                );
+
             });
 
     } else {
@@ -48,6 +57,14 @@ var run_job = function(job_data) {
                 console.log(returnedData);
                 $("#google_upload_status").html(
                     '<i class="fas fa-exclamation-circle" style="color: red;"></i>'
+                );
+                $("#alert-section").append(
+                    '<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
+                        '<strong>Error!</strong> There was an error syncing the audience file with Google. <a href="/contact">Contact MeetPAT</a> for assistance.'+
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+                            '<span aria-hidden="true">&times;</span>'+
+                        '</button>'+
+                ' </div>'
                 );
             });
     }

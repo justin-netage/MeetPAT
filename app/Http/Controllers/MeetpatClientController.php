@@ -314,7 +314,7 @@ class MeetpatClientController extends Controller
         $job_que = \MeetPAT\UploadJobQue::where([
             ['unique_id', '=',  $request->unique_id],
             ['platform', '=', 'facebook'],
-            ])->first();
+            ])->first();        
 
         $file_info = \MeetPAT\AudienceFile::find($job_que->file_id);
         $user = \MeetPat\AudienceFile::find($job_que->file_id);
