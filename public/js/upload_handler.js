@@ -32,7 +32,7 @@ var run_job = function(job_data) {
                         '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
                             '<span aria-hidden="true">&times;</span>'+
                         '</button>'+
-                ' </div>'
+                    '</div>'
                 );
 
             });
@@ -341,7 +341,6 @@ $(function () {
                     '<li>+27123456789</li>' +
                     '<li>+27604235555</li>' +
                     '<li>+27826456678</li>' +
-
                  '</ul>'
     });
 });

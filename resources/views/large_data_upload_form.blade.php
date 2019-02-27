@@ -12,12 +12,34 @@
         <div class="col">
         <div id="alert-section"></div>
             <form id="upload-custom-audience" enctype="multipart/form-data" onsubmit="displayLoader();" novalidate>
+                @csrf
                 <input type="hidden" name="user_id"  id="userId" value="{{\Auth::user()->id}}">
                 <input type="hidden" name="file_id" id="fileId">
-                <div class="form-group form-check">
-                    <input type="file" name="audience_file" class="form-file-input" id="audience_file">
-                    <span class="invalid-feedback" id="no-file" role="alert">
-                        <strong id="invalid-file">Please choose a valid .csv audience file to upload</strong>
+                <input type="file" name="audience_file" class="filepond" id="audience_file">
+                <span class="invalid-feedback" id="no-file" role="alert">
+                    <strong id="invalid-file">Please choose a valid .csv audience file to upload</strong>
+                </span>
+                <br />
+                <div class="form-group">
+                    <label>Original Data Source</label>
+                    <select name="file_source_origin" class="form-control" id="origin-of-upload">
+                        <option value="customers_and_partners">Customers and Partners</option>
+                        <option value="directly_from_customers">Directly From Customers</option>
+                        <option value="from_partners">From Partners</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="email">{{ __('Audience Name') }}</label>
+
+                    <input id="audience_name" type="text" placeholder="Enter your new audience name" max="50" class="form-control{{ $errors->has('audience_name') ? ' is-invalid' : '' }}" name="audience_name" value="{{ old('audience_name') }}" autofocus>
+
+                    @if ($errors->has('audience_name'))
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('audience_name') }}</strong>
+                        </span>
+                    @endif
+                    <span class="invalid-feedback" role="alert">
+                        <strong id="invalid-audience-name">Please provide a new and unique audience name</strong>
                     </span>
                 </div>
                 <button type="submit" id="submit_audience" disabled class="btn btn-primary btn-lg btn-block">Submit</button>

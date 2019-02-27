@@ -10,13 +10,14 @@ class DataVisualisationController extends Controller
 
     public function index()
     {
+        $user = \Auth::user();
+        $audience_file = \MeetPAT\AudienceFile::where('user_id', $user->id)->first();
 
-        return view('client.data_visualisation.records');
+        return view('client.data_visualisation.records', ['file_id' => $audience_file->file_unique_name]);
     }
 
     public function large_data_upload_form()
     {
-
         return view('large_data_upload_form');
     }
 
@@ -193,53 +194,12 @@ class DataVisualisationController extends Controller
         unset($array[0]);
         unset($array[sizeof($array)]);
 
-
-        foreach($array as $row)
-        {
-            \MeetPAT\BarkerStreetRecord::create(
-                [
-                    'Idn' => check_value($row[0]),
-                    'FirstName' => check_value($row[1]),
-                    'Surname' => check_value($row[2]),
-                    'MobilePhone1' => check_value(validate_mobile_number($row[3])),
-                    'MobilePhone2' => check_value(validate_mobile_number($row[4])),
-                    'MobilePhone3' => check_value(validate_mobile_number($row[5])),
-                    'WorkPhone1' => check_value(validate_mobile_number($row[6])),
-                    'WorkPhone2' => check_value(validate_mobile_number($row[7])),
-                    'WorkPhone3' => check_value(validate_mobile_number($row[8])),
-                    'HomePhone1' => check_value(validate_mobile_number($row[9])),
-                    'HomePhone2' => check_value(validate_mobile_number($row[10])),
-                    'HomePhone3' => check_value(validate_mobile_number($row[11])),
-                    'AgeGroup' => check_value(get_age_group($row[12])),
-                    'Gender' => check_value(get_gender($row[13])),
-                    'PopulationGroup' => check_value(get_population_group($row[14])),
-                    'DeceasedStatus' => check_value($row[15]),
-                    'MaritalStatus' => check_value($row[16]),
-                    'DirectorshipStatus' => check_value($row[17]),
-                    'HomeOwnerShipStatus' => check_value($row[18]),
-                    'income' => check_value($row[19]),
-                    'incomeBucket' => check_value(find_income_bucket($row[20])),
-                    'LSMGroup' => check_value($row[21]),
-                    'CreditRiskCategory' => check_value(find_category($row[22])),
-                    'ContactCategory' => check_value(find_category($row[23])),
-                    'HasMobilePhone' => check_value($row[24]),
-                    'HasResidentialAddress' => check_value($row[25]),
-                    'Province' => check_value(format_province($row[26])),
-                    'GreaterArea' => check_value($row[27]),
-                    'Area' => check_value($row[28]),
-                    'ResidentialAddress1Line1' => check_value($row[29]),
-                    'ResidentialAddress1Line2' => check_value($row[30]),
-                    'ResidentialAddress1Line3' => check_value($row[31]),
-                    'ResidentialAddress2Line4' => check_value($row[32]),
-                    'ResidentialAddress2PostalCode' => check_value($row[33]),
-                    'PostalAddress1Line1' => check_value($row[34]),
-                    'PostalAddress1Line2' => check_value($row[35]),
-                    'PostalAddress1Line3' => check_value($row[36]),
-                    'PostalAddress1Line4' => check_value($row[37]),
-                    'PostalAddress1PostalCode' => check_value($row[38]),
-                    'email' => check_value($row[39])
-                ]
-            );
+        if($actual_file) {
+       
+            $audience_file = \MeetPAT\AudienceFile::create(['user_id' => $request->user_id, 'audience_name' => $request->audience_name . " - " . time(), 'file_unique_name' => $request->file_id, 'file_source_origin' => $request->file_source_origin]);
+  
+        } else {
+            return response("file does not exist :(");
         }
 
         return response()->json($array);
@@ -298,5 +258,61 @@ class DataVisualisationController extends Controller
         // return response('File: '. $request->file_id .' -> has been removed');
         return response(200);
 
+    }
+
+    public function get_records(Request $request)
+    {
+        $actual_file = null;
+
+        if(env('APP_ENV') == 'production') {
+            $actual_file = \Storage::disk('s3')->get('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id  . ".csv");
+        } else {
+            $actual_file = \Storage::disk('local')->get('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id  . ".csv");
+        }
+
+        $array = array_map("str_getcsv", explode("\n", $actual_file));
+        unset($array[0]);
+        unset($array[sizeof($array)]);
+
+        if($actual_file) {
+       
+            $audience_file = \MeetPAT\AudienceFile::where('user_id', $request->user_id)->first();
+  
+        } else {
+            return response("file does not exist :(");
+        }
+
+        $province = array();
+        foreach ($array as $h) {
+            if($h[26]) {
+                $provinces[] = $h[26];
+            }
+        }
+        $provinces = array_count_values(array_column($array, 26));
+
+        $municipality = array();
+        foreach ($array as $h) {
+            if($h[27]) {
+                $municipality[] = $h[27];
+            }
+        }
+
+        $municipalities = array_count_values(array_column($array, 27));
+
+        // $area = array();
+        // foreach ($array as $h) {
+        //     if($h[27]) {
+        //         $area[] = $h[28];
+        //     }
+        // }
+
+        // $areas = array_count_values(array_column($array, 28));
+
+        return response()->json([ "contacts" => sizeof($array),
+                                  "provinces" =>
+                                    $provinces,
+                                  "municipality" => 
+                                    $municipalities
+                                ]);
     }
 }
