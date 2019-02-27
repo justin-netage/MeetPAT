@@ -219,7 +219,7 @@ class DataVisualisationController extends Controller
             if(env('APP_ENV') == 'production')
             {
                 $directory_used = \Storage::disk('s3')->makeDirectory('client/client-records/');
-                $file_uploaded = \Storage::disk('s3')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName  . ".csv", fopen($csv_file, 'r+'));
+                $file_uploaded = \Storage::disk('s3')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", fopen($csv_file, 'r+'));
     
             } else {
                 $directory_used = \Storage::disk('local')->makeDirectory('client/client-records/');
