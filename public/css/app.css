@@ -11187,3 +11187,7 @@ div.filepond--item {
   padding: 15px;
 }
 
+tspan {
+  font-size: 10px;
+}
+

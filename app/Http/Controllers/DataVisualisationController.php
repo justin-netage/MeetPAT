@@ -282,37 +282,60 @@ class DataVisualisationController extends Controller
             return response("file does not exist :(");
         }
 
-        $province = array();
+        $citizen = 0;
+        $resident = 0;
+        $baby_boomer_generation = 0;
+        $generation_x = 0;
+        $xennials_generation = 0;
+        $millennials_generation = 0;
+        $i_gen = 0;
+
         foreach ($array as $h) {
-            if($h[26]) {
-                $provinces[] = $h[26];
+    
+            if($h[0]) {
+                $citizen++;
             }
+
+            if($h[25] == "True") {
+                $resident++;
+            }
+
+            $year = substr($h[0], 0, 2);
+
+            if($year) {
+                if($year >= 46 and $year <= 64) {
+                    $baby_boomer_generation++;
+                } else if($year >= 65 and $year <= 79) {
+                    $generation_x++;
+                } else if($year >= 75 and $year <= 85) {
+                    $xennials_generation++;
+                } else if($year >= 80 and $year <= 94) {
+                    $millennials_generation++;
+                } else if($year >= 95 and $year <= 12) {
+                    $i_gen++;
+                } 
+            }
+
         }
+
+        $generation = ["Baby Boomer" => $baby_boomer_generation, "Generation X" => $generation_x, "Xennials" => $xennials_generation, "Millennials" => $millennials_generation, "iGen" => $i_gen];
+        
         $provinces = array_count_values(array_column($array, 26));
-
-        $municipality = array();
-        foreach ($array as $h) {
-            if($h[27]) {
-                $municipality[] = $h[27];
-            }
-        }
-
         $municipalities = array_count_values(array_column($array, 27));
-
-        // $area = array();
-        // foreach ($array as $h) {
-        //     if($h[27]) {
-        //         $area[] = $h[28];
-        //     }
-        // }
-
-        // $areas = array_count_values(array_column($array, 28));
+        $ages = array_count_values(array_column($array, 12));
+        $genders = array_count_values(array_column($array, 13));
+        $population_groups = array_count_values(array_column($array, 14));
+        $marital_statuses = array_count_values(array_column($array, 16));
 
         return response()->json([ "contacts" => sizeof($array),
-                                  "provinces" =>
-                                    $provinces,
-                                  "municipality" => 
-                                    $municipalities
+                                  "provinces" => $provinces,
+                                  "municipality" => $municipalities,
+                                  "ages" => $ages,
+                                  "genders" => $genders,
+                                  "population_groups" => $population_groups,
+                                  "citizens_vs_residents" => [ $resident, $citizen ],
+                                  "marital_statuses" => $marital_statuses,
+                                  "generation" => $generation
                                 ]);
     }
 }
