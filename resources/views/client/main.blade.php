@@ -15,12 +15,12 @@
             </div>
         </a>
 
-        <a class="card-link card-link-secondary" href="#">
+        <a class="card-link card-link-secondary" href="/meetpat-client/upload-client-file-data">
             <div class="card border-secondary mb-5">
-                <div class="card-header">Tutorials</div>
+                <div class="card-header">Upload Client Data</div>
                 <div class="card-body text-secondary">
-                    <h5 class="card-title text-center"><i class="fas fa-graduation-cap"></i></h5>
-                    <p class="card-text">Learn more about using MeetPAT's Audience Targeting.</p>
+                    <h5 class="card-title text-center"><i class="fas fa-file-upload"></i></h5>
+                    <p class="card-text">Upload your audience file to view in MeetPAT Audience Records.</p>
                 </div>
             </div>
         </a>

@@ -68,7 +68,7 @@
             </div> 
         </div>
     </div> -->
-    <div class="row p-5">
+    <div class="row">
         <div class="col-12 col-md-2 d-flex align-items-center">
 
         </div>
@@ -134,7 +134,7 @@
             <div id="maritalStatusChart" style="width: 100%; height: 200px;"></div>
         </div>
     </div>
-    <div class="row p-5">
+    <div class="row">
         <div class="col-12 col-md-2 d-flex align-items-center">
 
         </div>
@@ -144,30 +144,30 @@
         <div class="col-12 col-md-2">
         </div>        
     </div>
-    <div class="row p-5">
+    <div class="row">
         <div class="col-12 col-md-4">
             <h3 >Home Owner</h3>
             <hr>
-            <img src="" class="img-fluid"/>
-                        <div class="spinner-block">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/architecture-1836070_640.jpg')}}" class="img-fluid"/>
+            <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
+            <div id="homeOwnerChart" style="width: 100%; height: 200px;"></div>
 
         </div>
         <div class="col-12 col-md-4">
             <h3 >Number of Homes Owned</h3>
             <hr>
-            <img src="" class="img-fluid"/>
-                    <div class="spinner-block">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/graphic-1020366_640.jpg')}}" class="img-fluid"/>
+            <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
-
         </div>
         <div class="col-12 col-md-4">
             <h3 >Average Home Value</h3>
             <hr>
-            <img src="" class="img-fluid"/>
-                        <div class="spinner-block">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/graphic-1020366_640.jpg')}}" class="img-fluid"/>
+            <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
 
@@ -175,16 +175,14 @@
         <div class="col-12 col-md-4">
             <h3 >Car Owner</h3>
             <hr>
-            <img src="" class="img-fluid"/>
-                        <div class="spinner-block">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/graphic-1020366_640.jpg')}}" class="img-fluid"/>
+            <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
-
         </div>
     </div>
-    <div class="row p-5">
+    <div class="row">
         <div class="col-12 col-md-2 d-flex align-items-center">
-
         </div>
         <div class="col-12 col-md-8">
             <h3 class="display-3 text-center">Financial Wellness <br /><small>Financial Factors</small></h3>
@@ -192,30 +190,29 @@
         <div class="col-12 col-md-2">
         </div>        
     </div>
-    <div class="row p-5">
+    <div class="row">
         <div class="col-12 col-md-4">
             <h3 >Blacklisted</h3>
             <hr>
-            <img src="" class="img-fluid"/>
-                        <div class="spinner-block">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/graphic-1020366_640.jpg')}}" class="img-fluid"/>
+            <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
-
         </div>
         <div class="col-12 col-md-4">
             <h3 >Risk Category</h3>
             <hr>
-            <img src="" class="img-fluid"/>
-                        <div class="spinner-block">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/risk-1945683_640.jpg')}}" class="img-fluid"/>
+            <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
-
+            <div id="riskCategoryChart" style="width: 100%; height: 200px;"></div>
         </div>
         <div class="col-12 col-md-4">
             <h3 >Household Income</h3>
             <hr>
-            <img src="" class="img-fluid"/>
-                        <div class="spinner-block">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/coins-1726618_640.jpg')}}" class="img-fluid"/>
+            <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
 
@@ -223,8 +220,8 @@
         <div class="col-12 col-md-4">
             <h3 >Director of a Business</h3>
             <hr>
-            <img src="" class="img-fluid"/>
-                        <div class="spinner-block">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/analytics-2697949_640.jpg')}}" class="img-fluid"/>
+            <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
 

@@ -326,6 +326,8 @@ class DataVisualisationController extends Controller
         $genders = array_count_values(array_column($array, 13));
         $population_groups = array_count_values(array_column($array, 14));
         $marital_statuses = array_count_values(array_column($array, 16));
+        $home_owner = array_count_values(array_column($array, 18));
+        $risk_category = array_count_values(array_column($array, 22));
 
         return response()->json([ "contacts" => sizeof($array),
                                   "provinces" => $provinces,
@@ -335,7 +337,9 @@ class DataVisualisationController extends Controller
                                   "population_groups" => $population_groups,
                                   "citizens_vs_residents" => [ $resident, $citizen ],
                                   "marital_statuses" => $marital_statuses,
-                                  "generation" => $generation
+                                  "generation" => $generation,
+                                  "home_owner" => $home_owner,
+                                  "risk_categories" => $risk_category
                                 ]);
     }
 }

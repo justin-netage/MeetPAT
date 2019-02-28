@@ -380,6 +380,61 @@ var get_generation_chart = function(records_data) {
     columnTemplate.strokeOpacity = 1;      
 }
 
+var get_home_owner_chart = function(records_data) {
+    data_records = [];
+
+    Object.keys(records_data["home_owner"]).forEach(function(key) {
+        data_records.push({"status": key, "records": records_data["home_owner"][key]});
+    });
+    // Themes begin
+    am4core.useTheme(am4themes_animated);
+    // Themes end
+
+    // Create chart instance
+    var chart = am4core.create("homeOwnerChart", am4charts.XYChart);
+
+    // Add data
+    chart.data = data_records;
+
+    // Create axes
+
+    var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+    categoryAxis.dataFields.category = "status";
+    categoryAxis.renderer.grid.template.location = 0;
+    categoryAxis.renderer.minGridDistance = 30;
+
+    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+    // Create series
+    var series = chart.series.push(new am4charts.ColumnSeries());
+    series.dataFields.valueY = "records";
+    series.dataFields.categoryX = "status";
+    series.name = "Statuses";
+    series.columns.template.tooltipText = "{categoryX}: [bold]{valueY}[/]";
+    series.columns.template.fillOpacity = .8;
+
+    var columnTemplate = series.columns.template;
+    columnTemplate.strokeWidth = 3;
+    columnTemplate.strokeOpacity = 1;      
+}
+
+var get_risk_category_chart = function(records_data) {
+    data_records = [];
+
+    Object.keys(records_data["risk_categories"]).forEach(function(key) {
+        data_records.push({"category": key.substring(4,), "records": records_data["risk_categories"][key]});
+    })
+    // Create chart instance
+    var chart = am4core.create("riskCategoryChart", am4charts.PieChart);
+
+    // Add data
+    chart.data = data_records;
+
+    // Add and configure Series
+    var pieSeries = chart.series.push(new am4charts.PieSeries());
+    pieSeries.dataFields.value = "records";
+    pieSeries.dataFields.category = "category";        
+}
 
 $(document).ready(function() {
     var site_url = window.location.protocol + "//" + window.location.host;
@@ -416,6 +471,10 @@ $(document).ready(function() {
                 get_marital_status_chart(data);
             // Tenth Chart
                 get_generation_chart(data);
+            // Eleventh Chart
+                get_home_owner_chart(data);
+            // Twelveth Chart
+                get_risk_category_chart(data);
 
                 $(".spinner-block").hide();
 
