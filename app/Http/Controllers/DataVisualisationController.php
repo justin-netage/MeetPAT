@@ -249,7 +249,7 @@ class DataVisualisationController extends Controller
             $insert_data[] = $data;
         }
         $insert_data = collect($insert_data);
-        $chunks = $insert_data->chunk(500);
+        $chunks = $insert_data->chunk(1000);
 
         foreach($chunks as $chunk) {
             \MeetPAT\BarkerStreetRecord::insert($chunk->toArray());
