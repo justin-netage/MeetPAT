@@ -205,10 +205,7 @@ class DataVisualisationController extends Controller
         
         foreach($array as $row) {        
             $insert_data = array();
-
-            $already_exists = \MeetPAT\BarkerStreetRecord::where('Idn', $row[0])->first();
             
-            if(!$already_exists) {
                 $data = [
                     'Idn' => check_value($row[0]),
                     'FirstName' => check_value($row[1]),
@@ -253,7 +250,6 @@ class DataVisualisationController extends Controller
                 ];
     
                 $insert_data[] = $data;
-            }
             
         }
 
