@@ -146,6 +146,7 @@
             },
             error: function(data) {
                 console.log(data.responseJSON);
+                console.log(data);
                 $("#alert-section").empty();
 
                 $("#alert-section").append(
