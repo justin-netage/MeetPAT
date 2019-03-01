@@ -203,9 +203,7 @@ class DataVisualisationController extends Controller
         }
         
         
-        foreach($array as $row) {        
-            $insert_data = array();
-            
+        foreach($array as $row) {                    
                 $data = [
                     'Idn' => check_value($row[0]),
                     'FirstName' => check_value($row[1]),
