@@ -203,51 +203,56 @@ class DataVisualisationController extends Controller
         }
 
         foreach($array as $row) {
-            $data = [
-                'Idn' => check_value($row[0]),
-                'FirstName' => check_value($row[1]),
-                'Surname' => check_value($row[2]),
-                'MobilePhone1' => check_value(validate_mobile_number($row[3])),
-                'MobilePhone2' => check_value(validate_mobile_number($row[4])),
-                'MobilePhone3' => check_value(validate_mobile_number($row[5])),
-                'WorkPhone1' => check_value(validate_mobile_number($row[6])),
-                'WorkPhone2' => check_value(validate_mobile_number($row[7])),
-                'WorkPhone3' => check_value(validate_mobile_number($row[8])),
-                'HomePhone1' => check_value(validate_mobile_number($row[9])),
-                'HomePhone2' => check_value(validate_mobile_number($row[10])),
-                'HomePhone3' => check_value(validate_mobile_number($row[11])),
-                'AgeGroup' => check_value(get_age_group($row[12])),
-                'Gender' => check_value(get_gender($row[13])),
-                'PopulationGroup' => check_value(get_population_group($row[14])),
-                'DeceasedStatus' => check_value($row[15]),
-                'MaritalStatus' => check_value($row[16]),
-                'DirectorshipStatus' => check_value($row[17]),
-                'HomeOwnerShipStatus' => check_value($row[18]),
-                'income' => check_value($row[19]),
-                'incomeBucket' => check_value(find_income_bucket($row[20])),
-                'LSMGroup' => check_value($row[21]),
-                'CreditRiskCategory' => check_value(find_category($row[22])),
-                'ContactCategory' => check_value(find_category($row[23])),
-                'HasMobilePhone' => check_value($row[24]),
-                'HasResidentialAddress' => check_value($row[25]),
-                'Province' => check_value(format_province($row[26])),
-                'GreaterArea' => check_value($row[27]),
-                'Area' => check_value($row[28]),
-                'ResidentialAddress1Line1' => check_value($row[29]),
-                'ResidentialAddress1Line2' => check_value($row[30]),
-                'ResidentialAddress1Line3' => check_value($row[31]),
-                'ResidentialAddress2Line4' => check_value($row[32]),
-                'ResidentialAddress2PostalCode' => check_value($row[33]),
-                'PostalAddress1Line1' => check_value($row[34]),
-                'PostalAddress1Line2' => check_value($row[35]),
-                'PostalAddress1Line3' => check_value($row[36]),
-                'PostalAddress1Line4' => check_value($row[37]),
-                'PostalAddress1PostalCode' => check_value($row[38]),
-                'email' => check_value($row[39])                
-            ];
-
-            $insert_data[] = $data;
+            $already_exists = \MeetPAT\BarkerStreetRecord::where('Idn', $row[0]);
+            if(!$already_exists) {
+                $data = [
+                    'Idn' => check_value($row[0]),
+                    'FirstName' => check_value($row[1]),
+                    'Surname' => check_value($row[2]),
+                    'MobilePhone1' => check_value(validate_mobile_number($row[3])),
+                    'MobilePhone2' => check_value(validate_mobile_number($row[4])),
+                    'MobilePhone3' => check_value(validate_mobile_number($row[5])),
+                    'WorkPhone1' => check_value(validate_mobile_number($row[6])),
+                    'WorkPhone2' => check_value(validate_mobile_number($row[7])),
+                    'WorkPhone3' => check_value(validate_mobile_number($row[8])),
+                    'HomePhone1' => check_value(validate_mobile_number($row[9])),
+                    'HomePhone2' => check_value(validate_mobile_number($row[10])),
+                    'HomePhone3' => check_value(validate_mobile_number($row[11])),
+                    'AgeGroup' => check_value(get_age_group($row[12])),
+                    'Gender' => check_value(get_gender($row[13])),
+                    'PopulationGroup' => check_value(get_population_group($row[14])),
+                    'DeceasedStatus' => check_value($row[15]),
+                    'MaritalStatus' => check_value($row[16]),
+                    'DirectorshipStatus' => check_value($row[17]),
+                    'HomeOwnerShipStatus' => check_value($row[18]),
+                    'income' => check_value($row[19]),
+                    'incomeBucket' => check_value(find_income_bucket($row[20])),
+                    'LSMGroup' => check_value($row[21]),
+                    'CreditRiskCategory' => check_value(find_category($row[22])),
+                    'ContactCategory' => check_value(find_category($row[23])),
+                    'HasMobilePhone' => check_value($row[24]),
+                    'HasResidentialAddress' => check_value($row[25]),
+                    'Province' => check_value(format_province($row[26])),
+                    'GreaterArea' => check_value($row[27]),
+                    'Area' => check_value($row[28]),
+                    'ResidentialAddress1Line1' => check_value($row[29]),
+                    'ResidentialAddress1Line2' => check_value($row[30]),
+                    'ResidentialAddress1Line3' => check_value($row[31]),
+                    'ResidentialAddress2Line4' => check_value($row[32]),
+                    'ResidentialAddress2PostalCode' => check_value($row[33]),
+                    'PostalAddress1Line1' => check_value($row[34]),
+                    'PostalAddress1Line2' => check_value($row[35]),
+                    'PostalAddress1Line3' => check_value($row[36]),
+                    'PostalAddress1Line4' => check_value($row[37]),
+                    'PostalAddress1PostalCode' => check_value($row[38]),
+                    'email' => check_value($row[39])                
+                ];
+    
+                $insert_data[] = $data;
+            }
+            
         }
+        
         $insert_data = collect($insert_data);
         $chunks = $insert_data->chunk(1000);
 
