@@ -201,8 +201,11 @@ class DataVisualisationController extends Controller
         } else {
             return response("file does not exist :(");
         }
+        
+        
+        foreach($array as $row) {        
+            $insert_data = array();
 
-        foreach($array as $row) {
             $already_exists = \MeetPAT\BarkerStreetRecord::where('Idn', $row[0]);
             if(!$already_exists) {
                 $data = [
@@ -252,7 +255,7 @@ class DataVisualisationController extends Controller
             }
             
         }
-        
+
         $insert_data = collect($insert_data);
         $chunks = $insert_data->chunk(1000);
 
