@@ -208,7 +208,7 @@ class DataVisualisationController extends Controller
 
             $already_exists = \MeetPAT\BarkerStreetRecord::where('Idn', $row[0])->first();
             
-            if($already_exists) {
+            if(!$already_exists) {
                 $data = [
                     'Idn' => check_value($row[0]),
                     'FirstName' => check_value($row[1]),
