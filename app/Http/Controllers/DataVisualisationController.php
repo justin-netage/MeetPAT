@@ -203,7 +203,8 @@ class DataVisualisationController extends Controller
         }
         
         
-        foreach($array as $row) {                    
+        foreach($array as $row) {      
+                          
                 $data = [
                     'Idn' => check_value($row[0]),
                     'FirstName' => check_value($row[1]),
