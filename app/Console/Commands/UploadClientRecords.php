@@ -133,7 +133,7 @@ class UploadClientRecords extends Command
                     return "U";
                     break;
                 default:
-                    return "U";
+                    return "Unkown";
             }
         }
 
