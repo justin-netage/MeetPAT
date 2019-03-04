@@ -92,7 +92,7 @@ class UploadClientRecords extends Command
                     return "08";
                     break;    
                 default:
-                    return '';                                                   
+                    return 'Unknown';                                                   
             }
 
 
@@ -109,7 +109,7 @@ class UploadClientRecords extends Command
                     return "F";
                     break;
                 default:
-                    return '';
+                    return 'Unknown';
             }
         }
 
@@ -195,7 +195,7 @@ class UploadClientRecords extends Command
                     return "NW";
                     break;
                 default:
-                    return '';
+                    return 'Unknown';
             }
         }
 
