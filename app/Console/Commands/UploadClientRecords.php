@@ -4,6 +4,8 @@ namespace MeetPAT\Console\Commands;
 
 use Illuminate\Console\Command;
 
+ini_set('memory_limit', '1024M');
+
 class UploadClientRecords extends Command
 {
     /**
