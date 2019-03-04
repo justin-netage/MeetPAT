@@ -285,7 +285,7 @@ class UploadClientRecords extends Command
                         \MeetPAT\BarkerStreetRecord::insert($chunk->toArray());
                         $job->increment('records_completed', sizeof($chunk));
 
-                        $this->info($job->records_completed);
+                        // $this->info($job->records_completed);
                     }
     
                     }
