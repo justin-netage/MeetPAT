@@ -10,7 +10,7 @@
 <div id="alert-section"></div>
 <form id="credentials">
     <input type="hidden" id="user_id" name="user_id" value="{{Auth::user()->id}}">
-    <input type="hidden" id="file_id" name="file_id" value="{{$file_id}}">
+    <!-- <input type="hidden" id="file_id" name="file_id" value="{{$file_id}}"> -->
 </form>
 
 <div class="container">

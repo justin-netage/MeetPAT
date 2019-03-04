@@ -44,7 +44,7 @@ class UploadClientRecords extends Command
         {
             if($value == '')
             {
-                return null;
+                return '';
             } else {
                 return $value;
             }
@@ -59,7 +59,7 @@ class UploadClientRecords extends Command
                 return $number;
             } else {
 
-                return null;
+                return '';
 
             }
 
@@ -92,7 +92,7 @@ class UploadClientRecords extends Command
                     return "08";
                     break;    
                 default:
-                    return null;                                                   
+                    return '';                                                   
             }
 
 
@@ -109,7 +109,7 @@ class UploadClientRecords extends Command
                     return "F";
                     break;
                 default:
-                    return null;
+                    return '';
             }
         }
 
@@ -195,7 +195,7 @@ class UploadClientRecords extends Command
                     return "NW";
                     break;
                 default:
-                    return null;
+                    return '';
             }
         }
 
@@ -209,7 +209,7 @@ class UploadClientRecords extends Command
                     $job->update(['status' => 'running']);
 
                     $audience_file = \MeetPAT\AudienceFile::find($job->audience_file_id);
-                    $file_exists = null;
+                    $file_exists = '';
 
                     if(env('APP_ENV') == 'production') {
     

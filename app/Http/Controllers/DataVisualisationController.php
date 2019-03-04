@@ -107,84 +107,136 @@ class DataVisualisationController extends Controller
 
     public function get_records(Request $request)
     {
-        $actual_file = null;
+        $records = \MeetPAT\BarkerStreetRecord::whereRaw("find_in_set('".$request->user_id."',affiliated_users)")->get();
+        // $actual_file = null;
 
-        if(env('APP_ENV') == 'production') {
-            $actual_file = \Storage::disk('s3')->get('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id  . ".csv");
-        } else {
-            $actual_file = \Storage::disk('local')->get('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id  . ".csv");
-        }
+        // if(env('APP_ENV') == 'production') {
+        //     $actual_file = \Storage::disk('s3')->get('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id  . ".csv");
+        // } else {
+        //     $actual_file = \Storage::disk('local')->get('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id  . ".csv");
+        // }
 
-        $array = array_map("str_getcsv", explode("\n", $actual_file));
-        unset($array[0]);
-        unset($array[sizeof($array)]);
+        // $array = array_map("str_getcsv", explode("\n", $actual_file));
+        // unset($array[0]);
+        // unset($array[sizeof($array)]);
 
-        if($actual_file) {
+        // if($actual_file) {
        
-            $audience_file = \MeetPAT\AudienceFile::where('user_id', $request->user_id)->first();
+        //     $audience_file = \MeetPAT\AudienceFile::where('user_id', $request->user_id)->first();
   
-        } else {
-            return response("file does not exist :(");
-        }
+        // } else {
+        //     return response("file does not exist :(");
+        // }
 
-        $citizen = 0;
-        $resident = 0;
-        $baby_boomer_generation = 0;
-        $generation_x = 0;
-        $xennials_generation = 0;
-        $millennials_generation = 0;
-        $i_gen = 0;
+        // $citizen = 0;
+        // $resident = 0;
+        // $baby_boomer_generation = 0;
+        // $generation_x = 0;
+        // $xennials_generation = 0;
+        // $millennials_generation = 0;
+        // $i_gen = 0;
 
-        foreach ($array as $h) {
+        // foreach ($array as $h) {
     
-            if($h[0]) {
-                $citizen++;
-            }
+        //     if($h[0]) {
+        //         $citizen++;
+        //     }
 
-            if($h[25] == "True") {
-                $resident++;
-            }
+        //     if($h[25] == "True") {
+        //         $resident++;
+        //     }
 
-            $year = substr($h[0], 0, 2);
+        //     $year = substr($h[0], 0, 2);
 
-            if($year) {
-                if($year >= 46 and $year <= 64) {
-                    $baby_boomer_generation++;
-                } else if($year >= 65 and $year <= 79) {
-                    $generation_x++;
-                } else if($year >= 75 and $year <= 85) {
-                    $xennials_generation++;
-                } else if($year >= 80 and $year <= 94) {
-                    $millennials_generation++;
-                } else if($year >= 95 and $year <= 12) {
-                    $i_gen++;
-                } 
-            }
+        //     if($year) {
+        //         if($year >= 46 and $year <= 64) {
+        //             $baby_boomer_generation++;
+        //         } else if($year >= 65 and $year <= 79) {
+        //             $generation_x++;
+        //         } else if($year >= 75 and $year <= 85) {
+        //             $xennials_generation++;
+        //         } else if($year >= 80 and $year <= 94) {
+        //             $millennials_generation++;
+        //         } else if($year >= 95 and $year <= 12) {
+        //             $i_gen++;
+        //         } 
+        //     }
 
-        }
+        // }
 
-        $generation = ["Baby Boomer" => $baby_boomer_generation, "Generation X" => $generation_x, "Xennials" => $xennials_generation, "Millennials" => $millennials_generation, "iGen" => $i_gen];
+        // $generation = ["Baby Boomer" => $baby_boomer_generation, "Generation X" => $generation_x, "Xennials" => $xennials_generation, "Millennials" => $millennials_generation, "iGen" => $i_gen];
         
-        $provinces = array_count_values(array_column($array, 26));
-        $municipalities = array_count_values(array_column($array, 27));
-        $ages = array_count_values(array_column($array, 12));
-        $genders = array_count_values(array_column($array, 13));
-        $population_groups = array_count_values(array_column($array, 14));
-        $marital_statuses = array_count_values(array_column($array, 16));
-        $home_owner = array_count_values(array_column($array, 18));
-        $risk_category = array_count_values(array_column($array, 22));
+        $provinces = array_count_values(array_column($array, 'Province'));
+        // $municipalities = array_count_values(array_column($array, 27));
+        // $ages = array_count_values(array_column($array, 12));
+        // $genders = array_count_values(array_column($array, 13));
+        // $population_groups = array_count_values(array_column($array, 14));
+        // $marital_statuses = array_count_values(array_column($array, 16));
+        // $home_owner = array_count_values(array_column($array, 18));
+        // $risk_category = array_count_values(array_column($array, 22));
 
-        return response()->json([ "contacts" => sizeof($array),
-                                  "provinces" => $provinces,
-                                  "municipality" => $municipalities,
-                                  "ages" => $ages,
-                                  "genders" => $genders,
-                                  "population_groups" => $population_groups,
-                                  "citizens_vs_residents" => [ $resident, $citizen ],
-                                  "marital_statuses" => $marital_statuses,
-                                  "generation" => $generation,
-                                  "home_owner" => $home_owner,
-                                  "risk_categories" => $risk_category
-                                ]);
+        // return response()->json([ "contacts" => sizeof($array),
+        //                           "provinces" => $provinces,
+        //                           "municipality" => $municipalities,
+        //                           "ages" => $ages,
+        //                           "genders" => $genders,
+        //                           "population_groups" => $population_groups,
+        //                           "citizens_vs_residents" => [ $resident, $citizen ],
+        //                           "marital_statuses" => $marital_statuses,
+        //                           "generation" => $generation,
+        //                           "home_owner" => $home_owner,
+        //                           "risk_categories" => $risk_category
+        //                         ]);
+
+        return response()->json($records);
     }
+
+    public function get_provinces(Request $request) {
+
+        return response()->json($results);
+
+    }
+
+    public function get_municipalities(Request $request) {
+
+        return response()->json($results);
+
+    }
+
+    public function get_ages(Request $request) {
+
+        return response()->json($results);
+
+    }
+
+    public function get_genders(Request $request) {
+
+        return response()->json($results);
+
+    }
+
+    public function get_population_groups(Request $request) {
+
+        return response()->json($results);
+
+    }
+
+    public function get_marital_statuses(Request $request) {
+
+        return response()->json($results);
+
+    }
+
+    public function get_home_owner(Request $request) {
+
+        return response()->json($results);
+
+    }
+
+    public function get_risk_category(Request $request) {
+
+        return response()->json($results);
+
+    }
+
 }
