@@ -59,7 +59,7 @@ class UploadClientRecords extends Command
                 return $number;
             } else {
 
-                return 'Unkown';
+                return 'Unknown';
 
             }
 
@@ -129,11 +129,12 @@ class UploadClientRecords extends Command
                     break;
                 case "Asian":
                     return "A";
-                case "Unkown":
-                    return "Unkown";
+                    break;
+                case "Unknown":
+                    return "Unknown";
                     break;
                 default:
-                    return "Unkown";
+                    return "Unknown";
             }
         }
 
