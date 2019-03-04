@@ -130,7 +130,7 @@ class UploadClientRecords extends Command
                 case "Asian":
                     return "A";
                 case "Unkown":
-                    return "U";
+                    return "Unkown";
                     break;
                 default:
                     return "Unkown";
