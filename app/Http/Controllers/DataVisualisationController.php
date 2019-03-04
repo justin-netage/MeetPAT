@@ -165,6 +165,7 @@ class DataVisualisationController extends Controller
         // }
 
         // $generation = ["Baby Boomer" => $baby_boomer_generation, "Generation X" => $generation_x, "Xennials" => $xennials_generation, "Millennials" => $millennials_generation, "iGen" => $i_gen];
+
         
         $provinces = array_count_values(array_column($array, 'Province'));
         // $municipalities = array_count_values(array_column($array, 27));

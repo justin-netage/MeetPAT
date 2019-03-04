@@ -44,7 +44,7 @@ class UploadClientRecords extends Command
         {
             if($value == '')
             {
-                return '';
+                return 'Unknown';
             } else {
                 return $value;
             }
@@ -59,7 +59,7 @@ class UploadClientRecords extends Command
                 return $number;
             } else {
 
-                return '';
+                return 'Unkown';
 
             }
 

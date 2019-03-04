@@ -28,10 +28,10 @@ class CreateBarkerStreetRecordsTable extends Migration
             $table->string('HomePhone2')->nullable();
             $table->string('HomePhone3')->nullable();
             $table->enum('AgeGroup', ['01', '02', '03', '04', '05', '06', '07', '08', 'Unknown'])->nullable();
-            $table->enum('Gender', ['M', 'F'])->nullable();
+            $table->enum('Gender', ['M', 'F', 'Unkown'])->nullable();
             $table->enum('PopulationGroup', ['B', 'W', 'C', 'A', 'Unknown'])->nullable();
             $table->enum('DeceasedStatus', ['true', 'false', 'Unknown'])->nullable();
-            $table->enum('MaritalStatus', ['true', 'false'])->nullable();
+            $table->enum('MaritalStatus', ['true', 'false', 'Unkown'])->nullable();
             $table->enum('DirectorshipStatus', ['true', 'false', 'Unknown'])->nullable();
             $table->enum('HomeOwnerShipStatus', ['true', 'false', 'Unknown'])->nullable();
             $table->integer('income')->nullable();
@@ -39,8 +39,8 @@ class CreateBarkerStreetRecordsTable extends Migration
             $table->enum('LSMGroup', ['LSM00', 'LSM01', 'LSM02', 'LSM03', 'LSM04', 'LSM05', 'LSM06', 'LSM07', 'LSM08', 'LSM09', 'LSM10', 'Unknown'])->nullable();
             $table->enum('CreditRiskCategory', ['VERY_LOW', 'LOW', 'MEDIUM', 'HIGH', 'VERY_HIGH', 'Unknown'])->nullable();
             $table->enum('ContactCategory', ['VERY_LOW', 'LOW', 'MEDIUM', 'HIGH', 'VERY_HIGH', 'Unknown'])->nullable();
-            $table->enum('HasMobilePhone', ['true', 'false'])->nullable();
-            $table->enum('HasResidentialAddress', ['true', 'false'])->nullable();
+            $table->enum('HasMobilePhone', ['true', 'false', 'Unkown'])->nullable();
+            $table->enum('HasResidentialAddress', ['true', 'false', 'Unkown'])->nullable();
             $table->enum('Province', ['WC', 'EC', 'NC', 'G', 'FS', 'M', 'L', 'NW', 'KN', 'Unknown'])->nullable();
             $table->string('GreaterArea')->nullable();
             $table->string('Area')->nullable();
