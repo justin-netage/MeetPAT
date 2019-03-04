@@ -55,6 +55,7 @@ class CreateBarkerStreetRecordsTable extends Migration
             $table->string('PostalAddress1Line4')->nullable();
             $table->string('PostalAddress1PostalCode')->nullable();
             $table->string('email')->nullable();
+            $table->string('affiliated_users')->nullable(); // comma separated string.
             $table->timestamps();
         });
     }

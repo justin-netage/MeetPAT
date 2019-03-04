@@ -47,6 +47,7 @@ class BarkerStreetRecord extends Model
         'PostalAddress1Line3',
         'PostalAddress1Line4',
         'PostalAddress1PostalCode',
-        'email'
+        'email',
+        'affiliated_users'
     ];
 }
