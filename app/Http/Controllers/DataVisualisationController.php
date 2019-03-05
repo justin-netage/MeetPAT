@@ -128,68 +128,68 @@ class DataVisualisationController extends Controller
         //     return response("file does not exist :(");
         // }
 
-        // $citizen = 0;
-        // $resident = 0;
-        // $baby_boomer_generation = 0;
-        // $generation_x = 0;
-        // $xennials_generation = 0;
-        // $millennials_generation = 0;
-        // $i_gen = 0;
+        $citizen = 0;
+        $resident = 0;
+        $baby_boomer_generation = 0;
+        $generation_x = 0;
+        $xennials_generation = 0;
+        $millennials_generation = 0;
+        $i_gen = 0;
 
-        // foreach ($array as $h) {
+        foreach ($records as $row) {
     
-        //     if($h[0]) {
-        //         $citizen++;
-        //     }
+            if($row->Idn) {
+                $citizen++;
+            }
 
-        //     if($h[25] == "True") {
-        //         $resident++;
-        //     }
+            if($row->HasResidentialAddress == "true") {
+                $resident++;
+            }
 
-        //     $year = substr($h[0], 0, 2);
+            $year = substr($row->Idn, 0, 2);
 
-        //     if($year) {
-        //         if($year >= 46 and $year <= 64) {
-        //             $baby_boomer_generation++;
-        //         } else if($year >= 65 and $year <= 79) {
-        //             $generation_x++;
-        //         } else if($year >= 75 and $year <= 85) {
-        //             $xennials_generation++;
-        //         } else if($year >= 80 and $year <= 94) {
-        //             $millennials_generation++;
-        //         } else if($year >= 95 and $year <= 12) {
-        //             $i_gen++;
-        //         } 
-        //     }
+            if($year) {
+                if($year >= 46 and $year <= 64) {
+                    $baby_boomer_generation++;
+                } else if($year >= 65 and $year <= 79) {
+                    $generation_x++;
+                } else if($year >= 75 and $year <= 85) {
+                    $xennials_generation++;
+                } else if($year >= 80 and $year <= 94) {
+                    $millennials_generation++;
+                } else if($year >= 95 and $year <= 12) {
+                    $i_gen++;
+                } 
+            }
 
-        // }
+        }
 
-        // $generation = ["Baby Boomer" => $baby_boomer_generation, "Generation X" => $generation_x, "Xennials" => $xennials_generation, "Millennials" => $millennials_generation, "iGen" => $i_gen];
+        $generation = ["Baby Boomer" => $baby_boomer_generation, "Generation X" => $generation_x, "Xennials" => $xennials_generation, "Millennials" => $millennials_generation, "iGen" => $i_gen];
 
         
-        $provinces = array_count_values(array_column($array, 'Province'));
-        // $municipalities = array_count_values(array_column($array, 27));
-        // $ages = array_count_values(array_column($array, 12));
-        // $genders = array_count_values(array_column($array, 13));
-        // $population_groups = array_count_values(array_column($array, 14));
-        // $marital_statuses = array_count_values(array_column($array, 16));
-        // $home_owner = array_count_values(array_column($array, 18));
-        // $risk_category = array_count_values(array_column($array, 22));
+        $provinces = array_count_values(array_column($records->toArray(), 'Province'));
+        $municipalities = array_count_values(array_column($records->toArray(), 'Area'));
+        $ages = array_count_values(array_column($records->toArray(), 'AgeGroup'));
+        $genders = array_count_values(array_column($records->toArray(), 'Gender'));
+        $population_groups = array_count_values(array_column($records->toArray(), 'PopulationGroup'));
+        $marital_statuses = array_count_values(array_column($records->toArray(), 'MaritalStatus'));
+        $home_owner = array_count_values(array_column($records->toArray(), 'HomeOwnerShipStatus'));
+        $risk_category = array_count_values(array_column($records->toArray(), 'CreditRiskCategory'));
 
-        // return response()->json([ "contacts" => sizeof($array),
-        //                           "provinces" => $provinces,
-        //                           "municipality" => $municipalities,
-        //                           "ages" => $ages,
-        //                           "genders" => $genders,
-        //                           "population_groups" => $population_groups,
-        //                           "citizens_vs_residents" => [ $resident, $citizen ],
-        //                           "marital_statuses" => $marital_statuses,
-        //                           "generation" => $generation,
-        //                           "home_owner" => $home_owner,
-        //                           "risk_categories" => $risk_category
-        //                         ]);
+        return response()->json([ "contacts" => sizeof($records),
+                                   "provinces" => $provinces,
+                                   "municipality" => $municipalities,
+                                   "ages" => $ages,
+                                   "genders" => $genders,
+                                   "population_groups" => $population_groups,
+                                   "citizens_vs_residents" => [ $resident, $citizen ],
+                                   "marital_statuses" => $marital_statuses,
+                                   "generation" => $generation,
+                                   "home_owner" => $home_owner,
+                                   "risk_categories" => $risk_category
+                                 ]);
 
-        return response()->json($records);
+        return response()->json($provinces);
     }
 
     public function get_provinces(Request $request) {

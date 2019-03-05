@@ -46,7 +46,7 @@
                 <div class="spinner-block">
                     <div class="spinner spinner-3"></div>
                 </div>
-                <div id="municipalityChart" style="height: 100%; min-height: 2000px; width: 100%;"></div>
+                <div id="municipalityChart" style="min-height: 3000px; width: 100%;"></div>
             </div>
         </div>
         <div class="col-12 col-md-4">
