@@ -108,26 +108,8 @@ class DataVisualisationController extends Controller
     public function get_records(Request $request)
     {
         $records = \MeetPAT\BarkerStreetRecord::whereRaw("find_in_set('".$request->user_id."',affiliated_users)")->get();
-        // $actual_file = null;
-
-        // if(env('APP_ENV') == 'production') {
-        //     $actual_file = \Storage::disk('s3')->get('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id  . ".csv");
-        // } else {
-        //     $actual_file = \Storage::disk('local')->get('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id  . ".csv");
-        // }
-
-        // $array = array_map("str_getcsv", explode("\n", $actual_file));
-        // unset($array[0]);
-        // unset($array[sizeof($array)]);
-
-        // if($actual_file) {
-       
-        //     $audience_file = \MeetPAT\AudienceFile::where('user_id', $request->user_id)->first();
-  
-        // } else {
-        //     return response("file does not exist :(");
-        // }
-
+        
+        // Data Algorithms
         $citizen = 0;
         $resident = 0;
         $baby_boomer_generation = 0;
@@ -165,10 +147,7 @@ class DataVisualisationController extends Controller
         }
 
         $generation = ["Baby Boomer" => $baby_boomer_generation, "Generation X" => $generation_x, "Xennials" => $xennials_generation, "Millennials" => $millennials_generation, "iGen" => $i_gen];
-
-        
         $provinces = array_count_values(array_column($records->toArray(), 'Province'));
-        $municipalities = array_count_values(array_column($records->toArray(), 'Area'));
         $ages = array_count_values(array_column($records->toArray(), 'AgeGroup'));
         $genders = array_count_values(array_column($records->toArray(), 'Gender'));
         $population_groups = array_count_values(array_column($records->toArray(), 'PopulationGroup'));
@@ -178,6 +157,11 @@ class DataVisualisationController extends Controller
         $household_income = array_count_values(array_column($records->toArray(), 'incomeBucket'));
         $director_of_business = array_count_values(array_column($records->toArray(), 'DirectorshipStatus'));
 
+        asort($provinces);
+        arsort($ages);
+        arsort($population_groups);
+        arsort($household_income);
+        arsort($generation);
 
         return response()->json([ "contacts" => sizeof($records),
                                    "provinces" => $provinces,
@@ -197,52 +181,15 @@ class DataVisualisationController extends Controller
         return response()->json($provinces);
     }
 
-    public function get_provinces(Request $request) {
-
-        return response()->json($results);
-
-    }
-
     public function get_municipalities(Request $request) {
 
-        return response()->json($results);
+        $records = \MeetPAT\BarkerStreetRecord::select('GreaterArea')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)")->get();
+        $municipalities = array_count_values(array_column($records->toArray(), 'GreaterArea'));
+        asort($municipalities);
+        return response()->json($municipalities);
 
     }
 
-    public function get_ages(Request $request) {
-
-        return response()->json($results);
-
-    }
-
-    public function get_genders(Request $request) {
-
-        return response()->json($results);
-
-    }
-
-    public function get_population_groups(Request $request) {
-
-        return response()->json($results);
-
-    }
-
-    public function get_marital_statuses(Request $request) {
-
-        return response()->json($results);
-
-    }
-
-    public function get_home_owner(Request $request) {
-
-        return response()->json($results);
-
-    }
-
-    public function get_risk_category(Request $request) {
-
-        return response()->json($results);
-
-    }
+    
 
 }

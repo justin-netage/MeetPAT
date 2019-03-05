@@ -71,25 +71,25 @@ class UploadClientRecords extends Command
 
             switch ($age_group) {
                 case "02 Twenties":
-                    return "02";
+                    return "Twenties";
                     break;
                 case "03. Thirties":
-                    return "03";
+                    return "Thirties";
                     break;
                 case "04. Fourties":
-                    return "04";
+                    return "Fourties";
                     break;
                 case "05. Fifties":
-                    return "05";
+                    return "Fifties";
                     break;  
                  case "06. Sixties":
-                    return "05";
+                    return "Sixties";
                     break;  
                 case "07. Senventies":
-                    return "05";
+                    return "Senventies";
                     break;  
                 case "08. Eighty +":
-                    return "08";
+                    return "Eighty +";
                     break;    
                 default:
                     return 'Unknown';                                                   

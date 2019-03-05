@@ -47,53 +47,55 @@ var make_chart_provinces = function(records_data) {
     columnTemplate.strokeWidth = 3;
     columnTemplate.strokeOpacity = 1; 
 
-    
+    $("#contacts-number .spinner-block").hide();
 }
 
-// var make_chart_municipality = function(records_data) {
-//     data_records = [];
+var make_chart_municipality = function(records_data) {
+    data_records = [];
 
-//     Object.keys(records_data["municipality"]).forEach(function(key) {
-//         if(key) {
-//             data_records.push({"municipality": key, "records": records_data["municipality"][key]});
+    Object.keys(records_data).forEach(function(key) {
+        if(key) {
+            data_records.push({"municipality": key, "records": records_data[key]});
 
-//         } else {
-//             data_records.push({"municipality": "Unkown", "records": records_data["municipality"][key]});
+        } else {
+            data_records.push({"municipality": "Unkown", "records": records_data[key]});
 
-//         }
-//     })
-//     // Themes begin
-//     am4core.useTheme(am4themes_animated);
-//     // Themes end
+        }
+    })
+    // Themes begin
+    am4core.useTheme(am4themes_animated);
+    // Themes end
 
-//     // Create chart instance
-//     var chart = am4core.create("municipalityChart", am4charts.XYChart);
+    // Create chart instance
+    var chart = am4core.create("municipalityChart", am4charts.XYChart);
 
-//     // Add data
-//     chart.data = data_records;
+    // Add data
+    chart.data = data_records;
 
-//     // Create axes
+    // Create axes
 
-//     var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
-//     categoryAxis.dataFields.category = "municipality";
-//     categoryAxis.renderer.grid.template.location = 0;
-//     categoryAxis.renderer.minGridDistance = 30;
+    var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+    categoryAxis.dataFields.category = "municipality";
+    categoryAxis.renderer.grid.template.location = 0;
+    categoryAxis.renderer.minGridDistance = 30;
 
-//     var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
+    var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
 
-//     // Create series
-//     var series = chart.series.push(new am4charts.ColumnSeries());
-//     series.dataFields.valueX = "records";
-//     series.dataFields.categoryY = "municipality";
-//     series.name = "Records";
-//     series.columns.template.tooltipText = "{categoryY}: [bold]{valueX}[/]";
-//     series.columns.template.fillOpacity = .8;
+    // Create series
+    var series = chart.series.push(new am4charts.ColumnSeries());
+    series.dataFields.valueX = "records";
+    series.dataFields.categoryY = "municipality";
+    series.name = "Records";
+    series.columns.template.tooltipText = "{categoryY}: [bold]{valueX}[/]";
+    series.columns.template.fillOpacity = .8;
 
-//     var columnTemplate = series.columns.template;
-//     columnTemplate.strokeWidth = 3;
-//     columnTemplate.strokeOpacity = 1; 
+    var columnTemplate = series.columns.template;
+    columnTemplate.strokeWidth = 3;
+    columnTemplate.strokeOpacity = 1; 
     
-// }
+    $("#municipality-graph .spinner-block").hide();
+
+}
 
 var get_chart_map = function(records_data) {
     // Themes begin
@@ -182,7 +184,8 @@ var get_chart_map = function(records_data) {
     var hs = polygonTemplate.states.create("hover");
     hs.properties.fill = am4core.color("#3490DC");
 
-    
+    $("#map-graph .spinner-block").hide();
+
 }
 
 var get_age_chart = function(records_data) {
@@ -202,7 +205,8 @@ var get_age_chart = function(records_data) {
     pieSeries.dataFields.value = "records";
     pieSeries.dataFields.category = "age";
 
-    
+    $("#age-graph .spinner-block").hide();
+
 }
 
 var get_gender_chart = function(records_data) {
@@ -222,7 +226,8 @@ var get_gender_chart = function(records_data) {
     pieSeries.dataFields.value = "records";
     pieSeries.dataFields.category = "gender";
     
-    
+    $("#gender-graph .spinner-block").hide();
+
 }
 
 var get_population_group = function(records_data) {
@@ -268,7 +273,8 @@ var get_population_group = function(records_data) {
     columnTemplate.strokeWidth = 3;
     columnTemplate.strokeOpacity = 1;    
 
-    
+    $("#population-graph .spinner-block").hide();
+
 }
 
 var get_citizen_vs_resident_chart = function(records_data) {
@@ -313,7 +319,8 @@ var get_citizen_vs_resident_chart = function(records_data) {
     columnTemplate.strokeWidth = 3;
     columnTemplate.strokeOpacity = 1;
 
-    
+    $("#c-vs-v-graph .spinner-block").hide();
+
 }
 
 var get_marital_status_chart = function(records_data) {
@@ -353,7 +360,8 @@ var get_marital_status_chart = function(records_data) {
     columnTemplate.strokeWidth = 3;
     columnTemplate.strokeOpacity = 1;      
 
-    
+    $("#marital-status-graph .spinner-block").hide();
+
 }
 
 var get_generation_chart = function(records_data) {
@@ -393,7 +401,8 @@ var get_generation_chart = function(records_data) {
     columnTemplate.strokeWidth = 3;
     columnTemplate.strokeOpacity = 1;      
 
-    
+    $("#generation-graph .spinner-block").hide();
+
 }
 
 var get_home_owner_chart = function(records_data) {
@@ -433,7 +442,8 @@ var get_home_owner_chart = function(records_data) {
     columnTemplate.strokeWidth = 3;
     columnTemplate.strokeOpacity = 1;    
     
-    
+    $("#home-owner-graph .spinner-block").hide();
+
 }
 
 var get_risk_category_chart = function(records_data) {
@@ -453,7 +463,8 @@ var get_risk_category_chart = function(records_data) {
     pieSeries.dataFields.value = "records";
     pieSeries.dataFields.category = "category";  
     
-    
+    $("#risk-category-graph .spinner-block").hide();
+
 }
 
 var get_household_income_chart = function(records_data) {
@@ -493,7 +504,8 @@ var get_household_income_chart = function(records_data) {
     columnTemplate.strokeWidth = 3;
     columnTemplate.strokeOpacity = 1;     
     
-    
+    $("#income-graph .spinner-block").hide();
+
 }
 
 var get_director_of_business_chart = function(records_data) {
@@ -533,7 +545,24 @@ var get_director_of_business_chart = function(records_data) {
     columnTemplate.strokeWidth = 3;
     columnTemplate.strokeOpacity = 1;      
 
-    
+    $("#directors-graph .spinner-block").hide();
+
+}
+
+var get_municipalities = function() {
+    var user_id_number = $("#user_id").val();
+
+    $.post("/api/meetpat-client/get-records/municipalities", {user_id: user_id_number}, function( data ) {
+    }).fail(function(data) {
+        $('#loader').hide();
+        //console.log(data)
+    }).done(function(data) {
+        //console.log(data);
+        make_chart_municipality(data);
+        $("#municipality-graph .spinner-block").hide();
+
+    });
+
 }
 
 $(document).ready(function() {
@@ -547,9 +576,9 @@ $(document).ready(function() {
         $.post("/api/meetpat-client/get-records", {user_id: user_id_number}, function( data ) {
         }).fail(function(data) {
             $('#loader').hide();
-            console.log(data)
+            //console.log(data)
         }).done(function(data) {
-            console.log(data);
+            //console.log(data);
             $('#loader').hide();
                 get_records_count(data);
                 make_chart_provinces(data);
@@ -565,9 +594,10 @@ $(document).ready(function() {
                 get_household_income_chart(data);
                 get_director_of_business_chart(data);
 
-                $(".spinner-block").hide();
-
         });
     }
+
+    
     get_data();
+    get_municipalities()
 });

@@ -60,3 +60,5 @@ Route::post('meetpat-client/large-data/handler', 'DataVisualisationController@la
 Route::post('meetpat-client/large-data/upload', 'DataVisualisationController@handle_upload')->name('large-data-upload-handler');
 
 Route::post('meetpat-client/get-records', 'DataVisualisationController@get_records')->name('get-client-records');
+// Separate calls
+Route::post('meetpat-client/get-records/municipalities', 'DataVisualisationController@get_municipalities')->name('get-client-records-municipalities');

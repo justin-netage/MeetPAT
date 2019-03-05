@@ -15,7 +15,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-12 col-md-2 d-flex align-items-center">
+        <div class="col-12 col-md-2 d-flex align-items-center" id="contacts-number">
             <div id="number_of_records">
                 <div class="spinner-block">
                     <div class="spinner spinner-3"></div>
@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-6" id="province-graph">
             <h3 >Province</h3>
             <hr>
             <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 368px;">
@@ -39,17 +39,17 @@
                 <div id="provincesChart" style="height:500px; width: 100%;"></div>
             </div>
         </div>
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-6" id="municipality-graph">
             <h3 >Municipality</h3>
             <hr>
             <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 368px;">
                 <div class="spinner-block">
                     <div class="spinner spinner-3"></div>
                 </div>
-                <div id="municipalityChart" style="min-height: 3000px; width: 100%;"></div>
+                <div id="municipalityChart" style="min-height: 2500px; width: 100%;"></div>
             </div>
         </div>
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-6" id="map-graph">
             <h3 >Map</h3>
             <hr>
             <div id="chartdiv" style="width: 100%; height: 368px; border: 2px solid #6C757D; border-radius: 5px;">
@@ -59,7 +59,7 @@
             </div>      
         </div>
     </div>
-    <!-- <div class="row p-5">
+    <!-- <div class="row">
         <div class="col-12 col-md-6">
             <h3 >Areas</h3>
             <hr>
@@ -79,7 +79,7 @@
         </div>        
     </div>
     <div class="row">
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-4" id="age-graph">
             <h3 >Age</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/adult-2028245_640.png')}}" background-color: #3490DC;" class="img-fluid"/>
@@ -88,7 +88,7 @@
             </div>
             <div id="agesChart" style="width: 100%; height: 200px;"></div>
         </div>
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-4" id="gender-graph">
             <h3 >Gender</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/man-2933984_640.jpg')}}"  class="img-fluid"/>
@@ -97,7 +97,7 @@
             </div>
             <div id="genderChart" style="width: 100%; height: 200px;"></div>
         </div>
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-4" id="population-graph">
             <h3 >Polulation Group</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/african-american-3671900_640.jpg')}}" class="img-fluid"/>
@@ -106,7 +106,7 @@
             </div>
             <div id="populationGroupChart" style="width: 100%; height: 200px;"></div>
         </div>
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-4" id="generation-graph">
             <h3 >Generation</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/entrepreneur-2934861_640.jpg')}}" class="img-fluid"/>
@@ -115,7 +115,7 @@
             </div>
             <div id="generationChart" style="width: 100%; height: 200px;"></div>
         </div>
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-4" id="c-vs-v-graph">
             <h3 >Citizen VS Resident</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/south-africa-653005_640.png')}}" class="img-fluid"/>
@@ -124,7 +124,7 @@
             </div>
             <div id="citizensVsResidentsChart" style="width: 100%; height: 200px;"></div>
         </div>
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-4" id="marital-status-graph">
             <h3 >Marital Status</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/sunset-698501_640.jpg')}}" class="img-fluid"/>
@@ -145,7 +145,7 @@
         </div>        
     </div>
     <div class="row">
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-4" id="home-owner-graph">
             <h3 >Home Owner</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/architecture-1836070_640.jpg')}}" class="img-fluid"/>
@@ -153,10 +153,9 @@
                 <div class="spinner spinner-3"></div>
             </div>
             <div id="homeOwnerChart" style="width: 100%; height: 200px;"></div>
-
         </div>
         <!-- <div class="col-12 col-md-4">
-            <h3 >Number of Homes Owned</h3>
+            <h3>Number of Homes Owned</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/graphic-1020366_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
@@ -173,7 +172,7 @@
 
         </div> -->
         <!-- <div class="col-12 col-md-4">
-            <h3 >Car Owner</h3>
+            <h3>Car Owner</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/graphic-1020366_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
@@ -199,8 +198,8 @@
                 <div class="spinner spinner-3"></div>
             </div>
         </div> -->
-        <div class="col-12 col-md-4">
-            <h3 >Risk Category</h3>
+        <div class="col-12 col-md-4" id="risk-category-graph">
+            <h3>Risk Category</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/risk-1945683_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
@@ -208,8 +207,8 @@
             </div>
             <div id="riskCategoryChart" style="width: 100%; height: 200px;"></div>
         </div>
-        <div class="col-12 col-md-4">
-            <h3 >Household Income</h3>
+        <div class="col-12 col-md-4" id="income-graph">
+            <h3>Household Income</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/coins-1726618_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
@@ -220,8 +219,8 @@
                 <div id="householdIncomeChart" style="width: 800px; height: 200px;"></div>
             </div>  
         </div>
-        <div class="col-12 col-md-4">
-            <h3 >Director of a Business</h3>
+        <div class="col-12 col-md-4" id="directors-graph">
+            <h3>Director of a Business</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/analytics-2697949_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
