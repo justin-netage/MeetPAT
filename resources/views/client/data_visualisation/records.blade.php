@@ -155,7 +155,7 @@
             <div id="homeOwnerChart" style="width: 100%; height: 200px;"></div>
 
         </div>
-        <div class="col-12 col-md-4">
+        <!-- <div class="col-12 col-md-4">
             <h3 >Number of Homes Owned</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/graphic-1020366_640.jpg')}}" class="img-fluid"/>
@@ -171,15 +171,15 @@
                 <div class="spinner spinner-3"></div>
             </div>
 
-        </div>
-        <div class="col-12 col-md-4">
+        </div> -->
+        <!-- <div class="col-12 col-md-4">
             <h3 >Car Owner</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/graphic-1020366_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
-        </div>
+        </div> -->
     </div>
     <div class="row">
         <div class="col-12 col-md-2 d-flex align-items-center">
@@ -191,14 +191,14 @@
         </div>        
     </div>
     <div class="row">
-        <div class="col-12 col-md-4">
+        <!-- <div class="col-12 col-md-4">
             <h3 >Blacklisted</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/graphic-1020366_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
-        </div>
+        </div> -->
         <div class="col-12 col-md-4">
             <h3 >Risk Category</h3>
             <hr>
@@ -215,6 +215,7 @@
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
+            <div id="householdIncomeChart" style="width: 100%; height: 200px;"></div>
 
         </div>
         <div class="col-12 col-md-4">
@@ -224,7 +225,7 @@
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
-
+            <div id="directorOfBusinessChart" style="width: 100%; height: 200px;"></div>
         </div>
     </div>
 </div>

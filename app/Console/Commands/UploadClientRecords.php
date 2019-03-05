@@ -254,7 +254,7 @@ class UploadClientRecords extends Command
                                 'DirectorshipStatus' => check_value($row[17]),
                                 'HomeOwnerShipStatus' => check_value($row[18]),
                                 'income' => check_value($row[19]),
-                                'incomeBucket' => check_value(find_income_bucket($row[20])),
+                                'incomeBucket' => check_value(find_income_bucket($row[19])),
                                 'LSMGroup' => check_value($row[21]),
                                 'CreditRiskCategory' => check_value(find_category($row[22])),
                                 'ContactCategory' => check_value(find_category($row[23])),

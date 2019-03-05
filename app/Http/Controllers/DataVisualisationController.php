@@ -175,6 +175,9 @@ class DataVisualisationController extends Controller
         $marital_statuses = array_count_values(array_column($records->toArray(), 'MaritalStatus'));
         $home_owner = array_count_values(array_column($records->toArray(), 'HomeOwnerShipStatus'));
         $risk_category = array_count_values(array_column($records->toArray(), 'CreditRiskCategory'));
+        $household_income = array_count_values(array_column($records->toArray(), 'incomeBucket'));
+        $director_of_business = array_count_values(array_column($records->toArray(), 'DirectorshipStatus'));
+
 
         return response()->json([ "contacts" => sizeof($records),
                                    "provinces" => $provinces,
@@ -186,7 +189,9 @@ class DataVisualisationController extends Controller
                                    "marital_statuses" => $marital_statuses,
                                    "generation" => $generation,
                                    "home_owner" => $home_owner,
-                                   "risk_categories" => $risk_category
+                                   "household_income" => $household_income,
+                                   "risk_categories" => $risk_category,
+                                   "director_of_business" => $director_of_business
                                  ]);
 
         return response()->json($provinces);

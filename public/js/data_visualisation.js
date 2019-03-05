@@ -422,7 +422,7 @@ var get_risk_category_chart = function(records_data) {
     data_records = [];
 
     Object.keys(records_data["risk_categories"]).forEach(function(key) {
-        data_records.push({"category": key.substring(4,), "records": records_data["risk_categories"][key]});
+        data_records.push({"category": key, "records": records_data["risk_categories"][key]});
     })
     // Create chart instance
     var chart = am4core.create("riskCategoryChart", am4charts.PieChart);
@@ -434,6 +434,82 @@ var get_risk_category_chart = function(records_data) {
     var pieSeries = chart.series.push(new am4charts.PieSeries());
     pieSeries.dataFields.value = "records";
     pieSeries.dataFields.category = "category";        
+}
+
+var get_household_income_chart = function(records_data) {
+    data_records = [];
+
+    Object.keys(records_data["household_income"]).forEach(function(key) {
+        data_records.push({"bucket": key, "records": records_data["household_income"][key]});
+    });
+    // Themes begin
+    am4core.useTheme(am4themes_animated);
+    // Themes end
+
+    // Create chart instance
+    var chart = am4core.create("householdIncomeChart", am4charts.XYChart);
+
+    // Add data
+    chart.data = data_records;
+
+    // Create axes
+
+    var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+    categoryAxis.dataFields.category = "bucket";
+    categoryAxis.renderer.grid.template.location = 0;
+    categoryAxis.renderer.minGridDistance = 30;
+
+    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+    // Create series
+    var series = chart.series.push(new am4charts.ColumnSeries());
+    series.dataFields.valueY = "records";
+    series.dataFields.categoryX = "bucket";
+    series.name = "Buckets";
+    series.columns.template.tooltipText = "{categoryX}: [bold]{valueY}[/]";
+    series.columns.template.fillOpacity = .8;
+
+    var columnTemplate = series.columns.template;
+    columnTemplate.strokeWidth = 3;
+    columnTemplate.strokeOpacity = 1;      
+}
+
+var get_director_of_business_chart = function(records_data) {
+    data_records = [];
+
+    Object.keys(records_data["director_of_business"]).forEach(function(key) {
+        data_records.push({"bucket": key, "records": records_data["director_of_business"][key]});
+    });
+    // Themes begin
+    am4core.useTheme(am4themes_animated);
+    // Themes end
+
+    // Create chart instance
+    var chart = am4core.create("directorOfBusinessChart", am4charts.XYChart);
+
+    // Add data
+    chart.data = data_records;
+
+    // Create axes
+
+    var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+    categoryAxis.dataFields.category = "director";
+    categoryAxis.renderer.grid.template.location = 0;
+    categoryAxis.renderer.minGridDistance = 30;
+
+    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+    // Create series
+    var series = chart.series.push(new am4charts.ColumnSeries());
+    series.dataFields.valueY = "records";
+    series.dataFields.categoryX = "director";
+    series.name = "Director";
+    series.columns.template.tooltipText = "{categoryX}: [bold]{valueY}[/]";
+    series.columns.template.fillOpacity = .8;
+
+    var columnTemplate = series.columns.template;
+    columnTemplate.strokeWidth = 3;
+    columnTemplate.strokeOpacity = 1;      
 }
 
 $(document).ready(function() {
@@ -476,6 +552,10 @@ $(document).ready(function() {
                 get_home_owner_chart(data);
             // Twelveth Chart
                 get_risk_category_chart(data);
+            // Thirteenth Chart
+                get_household_income_chart(data);
+            // Fourteenth Chart
+                get_director_of_business_chart(data);
 
                 $(".spinner-block").hide();
 
