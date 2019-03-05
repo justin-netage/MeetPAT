@@ -46,6 +46,8 @@ var make_chart_provinces = function(records_data) {
     var columnTemplate = series.columns.template;
     columnTemplate.strokeWidth = 3;
     columnTemplate.strokeOpacity = 1; 
+
+    
 }
 
 // var make_chart_municipality = function(records_data) {
@@ -179,13 +181,15 @@ var get_chart_map = function(records_data) {
     // Create hover state and set alternative fill color
     var hs = polygonTemplate.states.create("hover");
     hs.properties.fill = am4core.color("#3490DC");
+
+    
 }
 
 var get_age_chart = function(records_data) {
     data_records = [];
 
     Object.keys(records_data["ages"]).forEach(function(key) {
-        data_records.push({"age": key.substring(4,), "records": records_data["ages"][key]});
+        data_records.push({"age": key, "records": records_data["ages"][key]});
     })
     // Create chart instance
     var chart = am4core.create("agesChart", am4charts.PieChart);
@@ -197,6 +201,8 @@ var get_age_chart = function(records_data) {
     var pieSeries = chart.series.push(new am4charts.PieSeries());
     pieSeries.dataFields.value = "records";
     pieSeries.dataFields.category = "age";
+
+    
 }
 
 var get_gender_chart = function(records_data) {
@@ -214,7 +220,9 @@ var get_gender_chart = function(records_data) {
     // Add and configure Series
     var pieSeries = chart.series.push(new am4charts.PieSeries());
     pieSeries.dataFields.value = "records";
-    pieSeries.dataFields.category = "gender";    
+    pieSeries.dataFields.category = "gender";
+    
+    
 }
 
 var get_population_group = function(records_data) {
@@ -259,6 +267,8 @@ var get_population_group = function(records_data) {
     var columnTemplate = series.columns.template;
     columnTemplate.strokeWidth = 3;
     columnTemplate.strokeOpacity = 1;    
+
+    
 }
 
 var get_citizen_vs_resident_chart = function(records_data) {
@@ -302,6 +312,8 @@ var get_citizen_vs_resident_chart = function(records_data) {
     var columnTemplate = series.columns.template;
     columnTemplate.strokeWidth = 3;
     columnTemplate.strokeOpacity = 1;
+
+    
 }
 
 var get_marital_status_chart = function(records_data) {
@@ -340,6 +352,8 @@ var get_marital_status_chart = function(records_data) {
     var columnTemplate = series.columns.template;
     columnTemplate.strokeWidth = 3;
     columnTemplate.strokeOpacity = 1;      
+
+    
 }
 
 var get_generation_chart = function(records_data) {
@@ -378,6 +392,8 @@ var get_generation_chart = function(records_data) {
     var columnTemplate = series.columns.template;
     columnTemplate.strokeWidth = 3;
     columnTemplate.strokeOpacity = 1;      
+
+    
 }
 
 var get_home_owner_chart = function(records_data) {
@@ -415,7 +431,9 @@ var get_home_owner_chart = function(records_data) {
 
     var columnTemplate = series.columns.template;
     columnTemplate.strokeWidth = 3;
-    columnTemplate.strokeOpacity = 1;      
+    columnTemplate.strokeOpacity = 1;    
+    
+    
 }
 
 var get_risk_category_chart = function(records_data) {
@@ -433,7 +451,9 @@ var get_risk_category_chart = function(records_data) {
     // Add and configure Series
     var pieSeries = chart.series.push(new am4charts.PieSeries());
     pieSeries.dataFields.value = "records";
-    pieSeries.dataFields.category = "category";        
+    pieSeries.dataFields.category = "category";  
+    
+    
 }
 
 var get_household_income_chart = function(records_data) {
@@ -471,14 +491,16 @@ var get_household_income_chart = function(records_data) {
 
     var columnTemplate = series.columns.template;
     columnTemplate.strokeWidth = 3;
-    columnTemplate.strokeOpacity = 1;      
+    columnTemplate.strokeOpacity = 1;     
+    
+    
 }
 
 var get_director_of_business_chart = function(records_data) {
     data_records = [];
 
     Object.keys(records_data["director_of_business"]).forEach(function(key) {
-        data_records.push({"bucket": key, "records": records_data["director_of_business"][key]});
+        data_records.push({"director": key, "records": records_data["director_of_business"][key]});
     });
     // Themes begin
     am4core.useTheme(am4themes_animated);
@@ -510,6 +532,8 @@ var get_director_of_business_chart = function(records_data) {
     var columnTemplate = series.columns.template;
     columnTemplate.strokeWidth = 3;
     columnTemplate.strokeOpacity = 1;      
+
+    
 }
 
 $(document).ready(function() {
@@ -528,33 +552,17 @@ $(document).ready(function() {
             console.log(data);
             $('#loader').hide();
                 get_records_count(data);
-            // First graph Provinces
                 make_chart_provinces(data);
-            // Second graph municipality
-                //make_chart_municipality(data);
-            // Third graph map
                 get_chart_map(data);
-            // Fourth graph area
-                // make_chart_area(data);
-            // Fifth graph age
                 get_age_chart(data);
-            // Sixth Chart
                 get_gender_chart(data);
-            // Seventh Chart
                 get_population_group(data);
-            // Eighth Chart
                 get_citizen_vs_resident_chart(data);
-            // Ninth Chart
                 get_marital_status_chart(data);
-            // Tenth Chart
                 get_generation_chart(data);
-            // Eleventh Chart
                 get_home_owner_chart(data);
-            // Twelveth Chart
                 get_risk_category_chart(data);
-            // Thirteenth Chart
                 get_household_income_chart(data);
-            // Fourteenth Chart
                 get_director_of_business_chart(data);
 
                 $(".spinner-block").hide();

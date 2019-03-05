@@ -215,8 +215,10 @@
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
-            <div id="householdIncomeChart" style="width: 100%; height: 200px;"></div>
+            <div class="graph-container" class="graph-container" style="overflow-x: scroll; height: 250px; width: 100%;">
 
+                <div id="householdIncomeChart" style="width: 800px; height: 200px;"></div>
+            </div>  
         </div>
         <div class="col-12 col-md-4">
             <h3 >Director of a Business</h3>
