@@ -439,7 +439,7 @@ var get_risk_category_chart = function(records_data) {
 $(document).ready(function() {
     var site_url = window.location.protocol + "//" + window.location.host;
 
-    // var user_id_number = $("#user_id").val();
+    var user_id_number = $("#user_id").val();
     // var file_unique_id = $("#file_id").val();
 
     function get_data() {
