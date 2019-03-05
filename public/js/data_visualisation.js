@@ -439,15 +439,15 @@ var get_risk_category_chart = function(records_data) {
 $(document).ready(function() {
     var site_url = window.location.protocol + "//" + window.location.host;
 
-    var user_id_number = $("#user_id").val();
-    var file_unique_id = $("#file_id").val();
+    // var user_id_number = $("#user_id").val();
+    // var file_unique_id = $("#file_id").val();
 
     function get_data() {
         $('#loader').show();
-        $.post("/api/meetpat-client/get-records", {user_id: user_id_number, file_id: file_unique_id}, function( data ) {
+        $.post("/api/meetpat-client/get-records", {user_id: user_id_number}, function( data ) {
         }).fail(function(data) {
             $('#loader').hide();
-            console.log(data.responseJSON)
+            console.log(data)
         }).done(function(data) {
             console.log(data);
             $('#loader').hide();
