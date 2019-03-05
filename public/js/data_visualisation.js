@@ -1,6 +1,8 @@
 var get_records_count =  function(records_data) {
     var records_count = document.getElementById("number_of_records");
         records_count.innerHTML = records_data["contacts"] + "K<br />Contacts";
+        $("#contacts-number .spinner-block").hide();
+
 }   
 
 var make_chart_provinces = function(records_data) {
@@ -47,7 +49,7 @@ var make_chart_provinces = function(records_data) {
     columnTemplate.strokeWidth = 3;
     columnTemplate.strokeOpacity = 1; 
 
-    $("#contacts-number .spinner-block").hide();
+    $("#province-graph .spinner-block").hide();
 }
 
 var make_chart_municipality = function(records_data) {
