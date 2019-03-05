@@ -178,7 +178,7 @@ class DataVisualisationController extends Controller
 
         return response()->json([ "contacts" => sizeof($records),
                                    "provinces" => $provinces,
-                                   "municipality" => $municipalities,
+        //                           "municipality" => $municipalities,
                                    "ages" => $ages,
                                    "genders" => $genders,
                                    "population_groups" => $population_groups,

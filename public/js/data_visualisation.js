@@ -48,50 +48,50 @@ var make_chart_provinces = function(records_data) {
     columnTemplate.strokeOpacity = 1; 
 }
 
-var make_chart_municipality = function(records_data) {
-    data_records = [];
+// var make_chart_municipality = function(records_data) {
+//     data_records = [];
 
-    Object.keys(records_data["municipality"]).forEach(function(key) {
-        if(key) {
-            data_records.push({"municipality": key, "records": records_data["municipality"][key]});
+//     Object.keys(records_data["municipality"]).forEach(function(key) {
+//         if(key) {
+//             data_records.push({"municipality": key, "records": records_data["municipality"][key]});
 
-        } else {
-            data_records.push({"municipality": "Unkown", "records": records_data["municipality"][key]});
+//         } else {
+//             data_records.push({"municipality": "Unkown", "records": records_data["municipality"][key]});
 
-        }
-    })
-    // Themes begin
-    am4core.useTheme(am4themes_animated);
-    // Themes end
+//         }
+//     })
+//     // Themes begin
+//     am4core.useTheme(am4themes_animated);
+//     // Themes end
 
-    // Create chart instance
-    var chart = am4core.create("municipalityChart", am4charts.XYChart);
+//     // Create chart instance
+//     var chart = am4core.create("municipalityChart", am4charts.XYChart);
 
-    // Add data
-    chart.data = data_records;
+//     // Add data
+//     chart.data = data_records;
 
-    // Create axes
+//     // Create axes
 
-    var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
-    categoryAxis.dataFields.category = "municipality";
-    categoryAxis.renderer.grid.template.location = 0;
-    categoryAxis.renderer.minGridDistance = 30;
+//     var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+//     categoryAxis.dataFields.category = "municipality";
+//     categoryAxis.renderer.grid.template.location = 0;
+//     categoryAxis.renderer.minGridDistance = 30;
 
-    var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
+//     var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
 
-    // Create series
-    var series = chart.series.push(new am4charts.ColumnSeries());
-    series.dataFields.valueX = "records";
-    series.dataFields.categoryY = "municipality";
-    series.name = "Records";
-    series.columns.template.tooltipText = "{categoryY}: [bold]{valueX}[/]";
-    series.columns.template.fillOpacity = .8;
+//     // Create series
+//     var series = chart.series.push(new am4charts.ColumnSeries());
+//     series.dataFields.valueX = "records";
+//     series.dataFields.categoryY = "municipality";
+//     series.name = "Records";
+//     series.columns.template.tooltipText = "{categoryY}: [bold]{valueX}[/]";
+//     series.columns.template.fillOpacity = .8;
 
-    var columnTemplate = series.columns.template;
-    columnTemplate.strokeWidth = 3;
-    columnTemplate.strokeOpacity = 1; 
+//     var columnTemplate = series.columns.template;
+//     columnTemplate.strokeWidth = 3;
+//     columnTemplate.strokeOpacity = 1; 
     
-}
+// }
 
 var get_chart_map = function(records_data) {
     // Themes begin
@@ -455,7 +455,7 @@ $(document).ready(function() {
             // First graph Provinces
                 make_chart_provinces(data);
             // Second graph municipality
-                make_chart_municipality(data);
+                //make_chart_municipality(data);
             // Third graph map
                 get_chart_map(data);
             // Fourth graph area
