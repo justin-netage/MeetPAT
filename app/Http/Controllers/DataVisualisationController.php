@@ -12,7 +12,10 @@ class DataVisualisationController extends Controller
     {
         $user = \Auth::user();
         $records = \MeetPAT\BarkerStreetRecord::whereRaw("find_in_set('".$user->id."',affiliated_users)")->count();
-        $user_jobs_running = \MeetPAT\RecordsJobQue::where(['user_id' => $user->id, 'status' => 'running'])->orWhere(['user_id' => $user->id, 'status' => 'pending'])->first();
+        $user_jobs = \MeetPAT\RecordsJobQue::where('user_id', $user->id);
+        $user_jobs_running = $user_jobs->where(function($q) {
+            $q->where('status', 'pending')->orWhere('status', 'running');
+        })->count();
         //$user_jobs_complete = \MeetPAT\RecordsJobQue::where(['user_id' => $user->id, 'status' => 'done'])->first();
 
         if($user_jobs_running) {
@@ -200,11 +203,12 @@ class DataVisualisationController extends Controller
 
     public function get_job_que(Request $request) {
 
-        $jobs = \MeetPAT\RecordsJobQue::where('user_id', $request->user_id)->where(function($q) {
+        $jobs = \MeetPAT\RecordsJobQue::where('user_id', $request->user_id);
+        $running_jobs = \MeetPAT\RecordsJobQue::where('user_id', $request->user_id)->where(function($q) {
             $q->where('status', 'pending')->orWhere('status', 'running');
-        })->get();
+        })->count();
 
-        return response()->json($jobs->toArray());
+        return response()->json(["jobs" => $jobs->get()->toArray(), "jobs_running" => $running_jobs]);
     
     }
 }

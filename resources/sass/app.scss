@@ -6,7 +6,7 @@
 @import 'variables';
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import '~bootstrap/scss/bootstrap.scss';
 
 .navbar-laravel {
   background-color: #eeeeee;
@@ -697,4 +697,16 @@ div.filepond--item {
 tspan
 {
   font-size: 10px;
+}
+
+.progress
+{
+  height: 36px;
+  background-color: #545454;
+
+}
+
+.progress-bar
+{
+  font-size: 24px;
 }

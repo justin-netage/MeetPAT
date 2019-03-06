@@ -4,18 +4,21 @@
 <form style="display:none">
     <input type="hidden" id="user_id" value="{{\Auth::user()->id}}">
 </form>
-
+<div id="loader"></div>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Records Updating</div>
-
-                <div class="card-body">
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
+                <div class="card-body" id="records-status">
+                    <br />
+                    <p>Updating large amounts of data can take time. Please be patient while your records are being processed.</p>
+                    <br />
+                    <div class="text-center" id="status-loader">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
                     </div>
-                    <p>Updating large ammounts of data can take time. Please be patient while your records are being processed.</p>
                 </div>
         </div>
     </div>
@@ -31,42 +34,77 @@
 
             $percentage = ($records_completed / $records) * 100;
 
-        return $percentage;
+        return Math.trunc($percentage);
     }
     $(document).ready(function() {
-
-        var get_qued_jobs = function() {
-
+            
             var user_id_number = $("#user_id").val();
 
             $.post("/api/meetpat-client/get-job-que", {user_id: user_id_number}, function( data ) {
-                }).fail(function(data) {
-                    console.log(data)
-                    clearInterval();
+                    }).fail(function(data) {
+                        console.log(data)
 
-                }).done(function(data) {
-                    var job = data[0];
+                    }).done(function(data) {
+                        for (var key in data["jobs"]) {
+                            if(data["jobs"][key]['status'] == 'done') {
+                                $("#records-status").append(
+                                '<div class="progress" id="job_' + key + '">' +
+                                '<div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>' +
+                                '</div> <br />'
+                            )
+                            } else {
+                                $("#records-status").append(
+                                '<div class="progress" id="job_' + key + '">' +
+                                '<div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width:' + get_percentage(data["jobs"][key].records, data["jobs"][key].records_completed) + '%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">'+ get_percentage(data["jobs"][key].records, data["jobs"][key].records_completed) + "%" +'</div>' +
+                                '</div> <br />'
+                            )
+                            }
+                            
 
-                    if(job.records !== job.records_completed) {
-                        $(".progress-bar").attr("aria-valuenow", get_percentage(job.records, job.records_completed));
-                        $(".progress-bar").html(get_percentage(job.records, job.records_completed) + "%");
-                        $(".progress-bar").width(get_percentage(job.records, job.records_completed) + "%");
-                    } else {
-                        $(".progress-bar").attr("aria-valuenow", get_percentage(data.records, data.records_completed));
-                        $(".progress-bar").html(get_percentage(job.records, job.records_completed) + "%");
-                        $(".progress-bar").width(get_percentage(job.records, job.records_completed) + "%");
+                        }
 
-                        clearInterval();
-                    }
-
-                    console.log(data);
+                        $("#status-loader").hide();
+                        
                 });
 
-            }   
+                window.setInterval(function() {
 
-            window.setInterval(function() {
-                get_qued_jobs();
+                    $.post("/api/meetpat-client/get-job-que", {user_id: user_id_number}, function( data ) {
+                    }).fail(function(data) {
+                        console.log(data)
+                        window.clearInterval();
+
+                    }).done(function(data) {
+                        
+                        console.log(data)
+
+                        for (var key in data["jobs"]) {
+                            if(data["jobs"][key].records !== data["jobs"][key].records_completed) {
+                                $("#job_" + key + " .progress-bar").attr("aria-valuenow", get_percentage(data["jobs"][key].records, data["jobs"][key].records_completed));
+                                $("#job_" + key + " .progress-bar").html(get_percentage(data["jobs"][key].records, data["jobs"][key].records_completed) + "%");
+                                $("#job_" + key + " .progress-bar").width(get_percentage(data["jobs"][key].records, data["jobs"][key].records_completed) + "%");
+                            } else {
+                                $("#job_" + key + " .progress-bar").attr("aria-valuenow", get_percentage(data["jobs"][key].records, data["jobs"][key].records_completed));
+                                $("#job_" + key + " .progress-bar").html(get_percentage(data["jobs"][key].records, data["jobs"][key].records_completed) + "%");
+                                $("#job_" + key + " .progress-bar").width(get_percentage(data["jobs"][key].records, data["jobs"][key].records_completed) + "%");
+                                
+                            }        
+                            
+                        }
+
+                        if(data["jobs_running"] == 0) {
+                            window.clearInterval();
+                            $("#loader").css("display", "block");
+
+                            window.location = '/meetpat-client/data-visualisation';
+                        }
+
+                });
+                        // if(data["jobs_running"] == 0) {
+                        //     window.location = '/meetpat-client/data-visualisation';
+                        // }
             }, 5000);
+            
 
     });
 
