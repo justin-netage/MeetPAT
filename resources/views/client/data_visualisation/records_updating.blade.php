@@ -50,9 +50,11 @@
                     if(job.records !== job.records_completed) {
                         $(".progress-bar").attr("aria-valuenow", get_percentage(job.records, job.records_completed));
                         $(".progress-bar").html(get_percentage(job.records, job.records_completed) + "%");
+                        $(".progress-bar").width(get_percentage(job.records, job.records_completed) + "%");
                     } else {
                         $(".progress-bar").attr("aria-valuenow", get_percentage(data.records, data.records_completed));
                         $(".progress-bar").html(get_percentage(job.records, job.records_completed) + "%");
+                        $(".progress-bar").width(get_percentage(job.records, job.records_completed) + "%");
 
                         clearInterval();
                     }

@@ -12,7 +12,7 @@ class DataVisualisationController extends Controller
     {
         $user = \Auth::user();
         $records = \MeetPAT\BarkerStreetRecord::whereRaw("find_in_set('".$user->id."',affiliated_users)")->count();
-        $user_jobs_running = \MeetPAT\RecordsJobQue::where(['user_id' => $user->id, 'status' => 'running'])->first();
+        $user_jobs_running = \MeetPAT\RecordsJobQue::where(['user_id' => $user->id, 'status' => 'running'])->orWhere(['user_id' => $user->id, 'status' => 'pending'])->first();
         //$user_jobs_complete = \MeetPAT\RecordsJobQue::where(['user_id' => $user->id, 'status' => 'done'])->first();
 
         if($user_jobs_running) {
