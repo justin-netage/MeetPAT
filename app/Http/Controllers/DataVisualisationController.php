@@ -11,9 +11,18 @@ class DataVisualisationController extends Controller
     public function index()
     {
         $user = \Auth::user();
-        $audience_file = \MeetPAT\AudienceFile::where('user_id', $user->id)->first();
+        $records = \MeetPAT\BarkerStreetRecord::whereRaw("find_in_set('".$user->id."',affiliated_users)")->count();
+        $user_jobs_running = \MeetPAT\RecordsJobQue::where(['user_id' => $user->id, 'status' => 'running'])->first();
+        //$user_jobs_complete = \MeetPAT\RecordsJobQue::where(['user_id' => $user->id, 'status' => 'done'])->first();
 
-        return view('client.data_visualisation.records', ['file_id' => $audience_file->file_unique_name]);
+        if($user_jobs_running) {
+            return view('client.data_visualisation.records_updating');
+        } else if($records) {
+            return view('client.data_visualisation.records');
+        } else {
+            return view('client.data_visualisation.records_none');
+        }
+        
     }
 
     public function large_data_upload_form()
@@ -100,7 +109,6 @@ class DataVisualisationController extends Controller
             return response(500);
         }
 
-        // return response('File: '. $request->file_id .' -> has been removed');
         return response(200);
 
     }
@@ -190,6 +198,13 @@ class DataVisualisationController extends Controller
 
     }
 
-    
+    public function get_job_que(Request $request) {
 
+        $jobs = \MeetPAT\RecordsJobQue::where('user_id', $request->user_id)->where(function($q) {
+            $q->where('status', 'pending')->orWhere('status', 'running');
+        })->get();
+
+        return response()->json($jobs->toArray());
+    
+    }
 }

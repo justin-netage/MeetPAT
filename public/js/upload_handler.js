@@ -72,6 +72,7 @@ var run_job = function(job_data) {
 FilePond.registerPlugin(FilePondPluginFileValidateType);
 var pond = FilePond.create(document.querySelector('input[type="file"]'));
 // $('input[type="file"]').attr('name', 'audience_file');
+
 const pond_element = document.querySelector('.filepond--root');
 pond_element.addEventListener('FilePond:removefile', e => {
     $.post(

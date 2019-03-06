@@ -69,6 +69,18 @@
     var pond = FilePond.create(document.querySelector('input[type="file"]'));
     const pond_element = document.querySelector('.filepond--root');
 
+    pond_element.addEventListener('FilePond:removefile', e => {
+        $.post(
+            '/api/meetpat-client/large-data/delete?file_id=' + $("#fileId").val() + '&user_id=' + $("#userId").val(),
+            function(returnedData) {
+                //console.log(returnedData);
+            }).done(function(returnedData) {
+                $("#submit_audience").prop('disabled', true);
+            }).fail(function(returnedData) {
+                //console.log(returnedData);
+            });
+        });
+
         FilePond.setOptions({
             // maximum allowed file size
             maxFileSize: '200MB',
@@ -128,7 +140,6 @@
             type: 'POST',
             data: formData,
             success: function (data) {
-                console.log(data.responseJSON);
                 $("#alert-section").empty();
 
                 $("#alert-section").append(
@@ -141,12 +152,11 @@
             },
             complete: function (data) {
                 $("#loader").css("display", "none");
-                console.log(data.responseJSON);
+                window.location = '/meetpat-client/data-visualisation';
+
                         
             },
             error: function(data) {
-                console.log(data.responseJSON);
-                console.log(data);
                 $("#alert-section").empty();
 
                 $("#alert-section").append(
