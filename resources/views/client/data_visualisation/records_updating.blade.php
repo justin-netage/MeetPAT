@@ -49,7 +49,7 @@
                             if(data["jobs"][key]['status'] == 'done') {
                                 $("#records-status").append(
                                 '<div class="progress" id="job_' + key + '">' +
-                                '<div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>' +
+                                '<div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">complete</div>' +
                                 '</div> <br />'
                             )
                             } else {
@@ -85,7 +85,7 @@
                                 $("#job_" + key + " .progress-bar").width(get_percentage(data["jobs"][key].records, data["jobs"][key].records_completed) + "%");
                             } else {
                                 $("#job_" + key + " .progress-bar").attr("aria-valuenow", get_percentage(data["jobs"][key].records, data["jobs"][key].records_completed));
-                                $("#job_" + key + " .progress-bar").html(get_percentage(data["jobs"][key].records, data["jobs"][key].records_completed) + "%");
+                                $("#job_" + key + " .progress-bar").html("complete");
                                 $("#job_" + key + " .progress-bar").width(get_percentage(data["jobs"][key].records, data["jobs"][key].records_completed) + "%");
                                 
                             }        
