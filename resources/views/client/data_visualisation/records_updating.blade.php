@@ -121,9 +121,9 @@
 
                         if(data["jobs_running"] == 0) {
                             window.clearInterval();
-                            //$("#loader").css("display", "block");
+                            $("#loader").css("display", "block");
 
-                            //window.location = '/meetpat-client/data-visualisation';
+                            window.location = '/meetpat-client/data-visualisation';
                         }
 
                 });
