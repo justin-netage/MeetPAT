@@ -53,15 +53,15 @@
                                 $("#records-status").append(
                                 '<h5 class="card-title progress-title">'+data["jobs"][key]["audience_file"]["audience_name"]+'</h5>' +
                                 '<div class="progress" id="job_' + key + '">' +
-                                '<div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">complete</div>' +
+                                '<div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">complete</div>' +
                                 '</div> <br />'
                             );
                             } else if(data["jobs"][key]["status"] == 'pending') {
                                 $("#records-status").append(
                                 '<h5 class="card-title progress-title" id="progress_title_'+key+'" style="display: none";>'+data["jobs"][key]["audience_file"]["audience_name"]+'</h5>' +
-                                '<div class="d-flex align-items-center mb-1" id="loader_title_'+key+'">' +
+                                '<div class="d-flex align-items-center loader_title mb-1" id="loader_title_'+key+'">' +
                                 '<strong>'+data["jobs"][key]["audience_file"]["audience_name"]+'</strong>' +
-                                '<div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>' +
+                                '<div class="spinner-border ml-auto spinner-border-sm" role="status" aria-hidden="true"></div>' +
                                 '</div>' +    
                                 '<div class="progress" id="job_' + key + '">' +
                                 '<div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width:' + get_percentage(data["jobs"][key].records, data["jobs"][key].records_completed) + '%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">'+ 
@@ -72,9 +72,9 @@
                             } else {
                                 $("#records-status").append(
                                 '<h5 class="card-title progress-title" id="progress_title_'+key+'" style="display: none";>'+data["jobs"][key]["audience_file"]["audience_name"]+'</h5>' +
-                                '<div class="d-flex align-items-center mb-1" id="loader_title_'+key+'">' +
+                                '<div class="d-flex align-items-center loader_title mb-1" id="loader_title_'+key+'">' +
                                 '<strong>'+data["jobs"][key]["audience_file"]["audience_name"]+'</strong>' +
-                                '<div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>' +
+                                '<div class="spinner-border ml-auto spinner-border-sm" role="status" aria-hidden="true"></div>' +
                                 '</div>' +
                                 '<div class="progress" id="job_' + key + '">' +
                                 '<div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width:' + get_percentage(data["jobs"][key].records, data["jobs"][key].records_completed) + '%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">'+ get_percentage(data["jobs"][key].records, data["jobs"][key].records_completed) + "%" +'</div>' +
