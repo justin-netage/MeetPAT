@@ -3,6 +3,7 @@
 namespace MeetPAT\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class DataVisualisationController extends Controller
 {
@@ -203,7 +204,7 @@ class DataVisualisationController extends Controller
 
     public function get_job_que(Request $request) {
 
-        $jobs = \MeetPAT\RecordsJobQue::where('user_id', $request->user_id);
+        $jobs = \MeetPAT\RecordsJobQue::where('user_id', $request->user_id)->with('audience_file')->orderBy('created_at', 'DESC')->whereDate('created_at', '=', Carbon::today()->toDateString());
         $running_jobs = \MeetPAT\RecordsJobQue::where('user_id', $request->user_id)->where(function($q) {
             $q->where('status', 'pending')->orWhere('status', 'running');
         })->count();
