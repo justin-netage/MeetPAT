@@ -574,9 +574,7 @@ var get_municipalities = function() {
     }).done(function(data) {
         console.log(data);
         make_chart_municipality(data);
-        $("#municipality-graph .spinner-block").hide();
-        get_provinces();
-
+        get_ages();
     });
 
 }
@@ -591,8 +589,7 @@ var get_provinces = function() {
         console.log(data);
         make_chart_provinces(data);
         get_chart_map(data);
-        get_ages();
-        $("#municipality-graph .spinner-block").hide();
+        get_municipalities();
     });
 
 }
@@ -607,7 +604,6 @@ var get_ages = function() {
     }).done(function(data) {
         console.log(data);
         get_age_chart(data);
-        $("#municipality-graph .spinner-block").hide();
         get_genders();
     });
 
@@ -623,7 +619,6 @@ var get_genders = function() {
     }).done(function(data) {
         console.log(data);
         get_gender_chart(data);
-        $("#municipality-graph .spinner-block").hide();
         get_population_groups();
     });
 
@@ -639,7 +634,6 @@ var get_population_groups = function() {
     }).done(function(data) {
         console.log(data);
         get_population_group_chart(data);
-        $("#municipality-graph .spinner-block").hide();
         get_generations();
     });
 
@@ -655,7 +649,6 @@ var get_home_owner = function() {
     }).done(function(data) {
         console.log(data);
         get_home_owner_chart(data);
-        $("#municipality-graph .spinner-block").hide();
         get_risk_category();
     });
 
@@ -671,7 +664,6 @@ var get_household_income = function() {
     }).done(function(data) {
         console.log(data);
         get_household_income_chart(data);
-        $("#municipality-graph .spinner-block").hide();
         get_director_of_business();
     });
 
@@ -687,7 +679,6 @@ var get_risk_category = function() {
     }).done(function(data) {
         console.log(data);
         get_risk_category_chart(data);
-        $("#municipality-graph .spinner-block").hide();
         get_household_income();
     });
 
@@ -703,7 +694,6 @@ var get_director_of_business = function() {
     }).done(function(data) {
         console.log(data);
         get_director_of_business_chart(data);
-        $("#municipality-graph .spinner-block").hide();
         
     });
 
@@ -719,7 +709,6 @@ var get_citizens_and_residents = function() {
     }).done(function(data) {
         console.log(data);
         get_citizen_vs_resident_chart(data);
-        $("#municipality-graph .spinner-block").hide();
         get_marital_statuses();
     });
 
@@ -735,7 +724,6 @@ var get_generations = function() {
     }).done(function(data) {
         console.log(data);
         get_generation_chart(data);
-        $("#municipality-graph .spinner-block").hide();
         get_citizens_and_residents();
     });
 
@@ -751,7 +739,6 @@ var get_marital_statuses = function() {
     }).done(function(data) {
         console.log(data);
         get_marital_status_chart(data);
-        $("#municipality-graph .spinner-block").hide();
         get_home_owner();
     });
 
@@ -761,6 +748,5 @@ var get_marital_statuses = function() {
 
 $(document).ready(function() {
     //var site_url = window.location.protocol + "//" + window.location.host;
-
-    get_municipalities();
+    get_provinces();
 });
