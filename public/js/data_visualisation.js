@@ -9,12 +9,12 @@ var make_chart_provinces = function(records_data) {
 
     data_records = [];
 
-    Object.keys(records_data["provinces"]).forEach(function(key) {
+    Object.keys(records_data).forEach(function(key) {
         if(key) {
-            data_records.push({"country": key, "records": records_data["provinces"][key]});
+            data_records.push({"country": key, "records": records_data[key]});
 
         } else {
-            data_records.push({"country": "Unkown", "records": records_data["provinces"][key]});
+            data_records.push({"country": "Unkown", "records": records_data[key]});
 
         }
     })
@@ -139,39 +139,39 @@ var get_chart_map = function(records_data) {
     polygonSeries.data = [
     {
         id: "ZA-LP",
-        value: records_data["provinces"]["L"]
+        value: records_data["L"]
     },
     {
         id: "ZA-EC",
-        value: records_data["provinces"]["EC"]
+        value: records_data["EC"]
     },
     {
         id: "ZA-NC",
-        value: records_data["provinces"]["NC"]
+        value: records_data["NC"]
     },
     {
         id: "ZA-NW",
-        value: records_data["provinces"]["NW"]
+        value: records_data["NW"]
     },
     {
         id: "ZA-NL",
-        value: records_data["provinces"]["KN"]
+        value: records_data["KN"]
     },
     {
         id: "ZA-WC",
-        value: records_data["provinces"]["WC"]
+        value: records_data["WC"]
     },
     {
         id: "ZA-MP",
-        value: records_data["provinces"]["M"]
+        value: records_data["M"]
     },
     {
         id: "ZA-FS",
-        value: records_data["provinces"]["FS"]
+        value: records_data["FS"]
     },
     {
         id: "ZA-GT",
-        value: records_data["provinces"]["G"]
+        value: records_data["G"]
     }
 
     ];
@@ -193,8 +193,8 @@ var get_chart_map = function(records_data) {
 var get_age_chart = function(records_data) {
     data_records = [];
 
-    Object.keys(records_data["ages"]).forEach(function(key) {
-        data_records.push({"age": key, "records": records_data["ages"][key]});
+    Object.keys(records_data).forEach(function(key) {
+        data_records.push({"age": key, "records": records_data[key]});
     })
     // Create chart instance
     var chart = am4core.create("agesChart", am4charts.PieChart);
@@ -214,8 +214,8 @@ var get_age_chart = function(records_data) {
 var get_gender_chart = function(records_data) {
     data_records = [];
 
-    Object.keys(records_data["genders"]).forEach(function(key) {
-        data_records.push({"gender": key, "records": records_data["genders"][key]});
+    Object.keys(records_data).forEach(function(key) {
+        data_records.push({"gender": key, "records": records_data[key]});
     })
     // Create chart instance
     var chart = am4core.create("genderChart", am4charts.PieChart);
@@ -232,15 +232,15 @@ var get_gender_chart = function(records_data) {
 
 }
 
-var get_population_group = function(records_data) {
+var get_population_group_chart = function(records_data) {
     data_records = [];
 
-    Object.keys(records_data["population_groups"]).forEach(function(key) {
+    Object.keys(records_data).forEach(function(key) {
         if(key) {
-            data_records.push({"group": key, "records": records_data["population_groups"][key]});
+            data_records.push({"group": key, "records": records_data[key]});
 
         } else {
-            data_records.push({"group": "Unkown", "records": records_data["population_groups"][key]});
+            data_records.push({"group": "Unkown", "records": records_data[key]});
 
         }
     })
@@ -292,11 +292,11 @@ var get_citizen_vs_resident_chart = function(records_data) {
     chart.data = [
         {
             "label": "citizens",
-            "records": records_data["citizens_vs_residents"][0]
+            "records": records_data[0]
         },
         {
             "label": "residents",
-            "records": records_data["citizens_vs_residents"][1]
+            "records": records_data[1]
         }
     ];
 
@@ -328,8 +328,8 @@ var get_citizen_vs_resident_chart = function(records_data) {
 var get_marital_status_chart = function(records_data) {
     data_records = [];
 
-    Object.keys(records_data["marital_statuses"]).forEach(function(key) {
-        data_records.push({"status": key, "records": records_data["marital_statuses"][key]});
+    Object.keys(records_data).forEach(function(key) {
+        data_records.push({"status": key, "records": records_data[key]});
     });
     // Themes begin
     am4core.useTheme(am4themes_animated);
@@ -369,8 +369,8 @@ var get_marital_status_chart = function(records_data) {
 var get_generation_chart = function(records_data) {
     data_records = [];
 
-    Object.keys(records_data["generation"]).forEach(function(key) {
-        data_records.push({"generation": key, "records": records_data["generation"][key]});
+    Object.keys(records_data).forEach(function(key) {
+        data_records.push({"generation": key, "records": records_data[key]});
     });
     // Themes begin
     am4core.useTheme(am4themes_animated);
@@ -410,8 +410,8 @@ var get_generation_chart = function(records_data) {
 var get_home_owner_chart = function(records_data) {
     data_records = [];
 
-    Object.keys(records_data["home_owner"]).forEach(function(key) {
-        data_records.push({"status": key, "records": records_data["home_owner"][key]});
+    Object.keys(records_data).forEach(function(key) {
+        data_records.push({"status": key, "records": records_data[key]});
     });
     // Themes begin
     am4core.useTheme(am4themes_animated);
@@ -451,8 +451,8 @@ var get_home_owner_chart = function(records_data) {
 var get_risk_category_chart = function(records_data) {
     data_records = [];
 
-    Object.keys(records_data["risk_categories"]).forEach(function(key) {
-        data_records.push({"category": key, "records": records_data["risk_categories"][key]});
+    Object.keys(records_data).forEach(function(key) {
+        data_records.push({"category": key, "records": records_data[key]});
     })
     // Create chart instance
     var chart = am4core.create("riskCategoryChart", am4charts.PieChart);
@@ -472,8 +472,8 @@ var get_risk_category_chart = function(records_data) {
 var get_household_income_chart = function(records_data) {
     data_records = [];
 
-    Object.keys(records_data["household_income"]).forEach(function(key) {
-        data_records.push({"bucket": key, "records": records_data["household_income"][key]});
+    Object.keys(records_data).forEach(function(key) {
+        data_records.push({"bucket": key, "records": records_data[key]});
     });
     // Themes begin
     am4core.useTheme(am4themes_animated);
@@ -513,8 +513,8 @@ var get_household_income_chart = function(records_data) {
 var get_director_of_business_chart = function(records_data) {
     data_records = [];
 
-    Object.keys(records_data["director_of_business"]).forEach(function(key) {
-        data_records.push({"director": key, "records": records_data["director_of_business"][key]});
+    Object.keys(records_data).forEach(function(key) {
+        data_records.push({"director": key, "records": records_data[key]});
     });
     // Themes begin
     am4core.useTheme(am4themes_animated);
@@ -550,56 +550,204 @@ var get_director_of_business_chart = function(records_data) {
     $("#directors-graph .spinner-block").hide();
 
 }
+var user_id_number = $("#user_id").val();
 
 var get_municipalities = function() {
-    var user_id_number = $("#user_id").val();
 
     $.post("/api/meetpat-client/get-records/municipalities", {user_id: user_id_number}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
-        //console.log(data)
+        console.log(data)
     }).done(function(data) {
-        //console.log(data);
+        console.log(data);
         make_chart_municipality(data);
+        $("#municipality-graph .spinner-block").hide();
+        get_provinces();
+
+    });
+
+}
+
+var get_provinces = function() {
+
+    $.post("/api/meetpat-client/get-records/provinces", {user_id: user_id_number}, function( data ) {
+    }).fail(function(data) {
+        $('#loader').hide();
+        console.log(data)
+    }).done(function(data) {
+        console.log(data);
+        make_chart_provinces(data);
+        get_chart_map(data);
+        get_ages();
+        $("#municipality-graph .spinner-block").hide();
+    });
+
+}
+
+var get_ages = function() {
+    var user_id_number = $("#user_id").val();
+
+    $.post("/api/meetpat-client/get-records/ages", {user_id: user_id_number}, function( data ) {
+    }).fail(function(data) {
+        $('#loader').hide();
+        console.log(data)
+    }).done(function(data) {
+        console.log(data);
+        get_age_chart(data);
+        $("#municipality-graph .spinner-block").hide();
+        get_genders();
+    });
+
+}
+
+var get_genders = function() {
+    var user_id_number = $("#user_id").val();
+
+    $.post("/api/meetpat-client/get-records/genders", {user_id: user_id_number}, function( data ) {
+    }).fail(function(data) {
+        $('#loader').hide();
+        console.log(data)
+    }).done(function(data) {
+        console.log(data);
+        get_gender_chart(data);
+        $("#municipality-graph .spinner-block").hide();
+        get_population_groups();
+    });
+
+}
+
+var get_population_groups = function() {
+    var user_id_number = $("#user_id").val();
+
+    $.post("/api/meetpat-client/get-records/population-groups", {user_id: user_id_number}, function( data ) {
+    }).fail(function(data) {
+        $('#loader').hide();
+        console.log(data)
+    }).done(function(data) {
+        console.log(data);
+        get_population_group_chart(data);
+        $("#municipality-graph .spinner-block").hide();
+        get_home_owner();
+    });
+
+}
+
+var get_home_owner = function() {
+    var user_id_number = $("#user_id").val();
+
+    $.post("/api/meetpat-client/get-records/home-owner", {user_id: user_id_number}, function( data ) {
+    }).fail(function(data) {
+        $('#loader').hide();
+        console.log(data)
+    }).done(function(data) {
+        console.log(data);
+        get_home_owner_chart(data);
+        $("#municipality-graph .spinner-block").hide();
+        get_household_income();
+    });
+
+}
+
+var get_household_income = function() {
+    var user_id_number = $("#user_id").val();
+
+    $.post("/api/meetpat-client/get-records/household-income", {user_id: user_id_number}, function( data ) {
+    }).fail(function(data) {
+        $('#loader').hide();
+        console.log(data)
+    }).done(function(data) {
+        console.log(data);
+        get_household_income_chart(data);
+        $("#municipality-graph .spinner-block").hide();
+        get_risk_category();
+    });
+
+}
+
+var get_risk_category = function() {
+    var user_id_number = $("#user_id").val();
+
+    $.post("/api/meetpat-client/get-records/risk-category", {user_id: user_id_number}, function( data ) {
+    }).fail(function(data) {
+        $('#loader').hide();
+        console.log(data)
+    }).done(function(data) {
+        console.log(data);
+        get_risk_category_chart(data);
+        $("#municipality-graph .spinner-block").hide();
+        get_director_of_business();
+    });
+
+}
+
+var get_director_of_business = function() {
+    var user_id_number = $("#user_id").val();
+
+    $.post("/api/meetpat-client/get-records/director-of-business", {user_id: user_id_number}, function( data ) {
+    }).fail(function(data) {
+        $('#loader').hide();
+        console.log(data)
+    }).done(function(data) {
+        console.log(data);
+        get_director_of_business_chart(data);
+        $("#municipality-graph .spinner-block").hide();
+        get_citizens_and_residents();
+    });
+
+}
+
+var get_citizens_and_residents = function() {
+    var user_id_number = $("#user_id").val();
+
+    $.post("/api/meetpat-client/get-records/citizens-and-residents", {user_id: user_id_number}, function( data ) {
+    }).fail(function(data) {
+        $('#loader').hide();
+        console.log(data)
+    }).done(function(data) {
+        console.log(data);
+        get_citizen_vs_resident_chart(data);
+        $("#municipality-graph .spinner-block").hide();
+        get_generations();
+    });
+
+}
+
+var get_generations = function() {
+    var user_id_number = $("#user_id").val();
+
+    $.post("/api/meetpat-client/get-records/generations", {user_id: user_id_number}, function( data ) {
+    }).fail(function(data) {
+        $('#loader').hide();
+        console.log(data)
+    }).done(function(data) {
+        console.log(data);
+        get_generation_chart(data);
+        $("#municipality-graph .spinner-block").hide();
+        get_marital_statuses();
+    });
+
+}
+
+var get_marital_statuses = function() {
+    var user_id_number = $("#user_id").val();
+
+    $.post("/api/meetpat-client/get-records/marital-statuses", {user_id: user_id_number}, function( data ) {
+    }).fail(function(data) {
+        $('#loader').hide();
+        console.log(data)
+    }).done(function(data) {
+        console.log(data);
+        get_marital_status_chart(data);
         $("#municipality-graph .spinner-block").hide();
 
     });
 
 }
 
+
+
 $(document).ready(function() {
-    var site_url = window.location.protocol + "//" + window.location.host;
+    //var site_url = window.location.protocol + "//" + window.location.host;
 
-    var user_id_number = $("#user_id").val();
-    // var file_unique_id = $("#file_id").val();
-
-    function get_data() {
-        $('#loader').show();
-        $.post("/api/meetpat-client/get-records", {user_id: user_id_number}, function( data ) {
-        }).fail(function(data) {
-            $('#loader').hide();
-            //console.log(data)
-        }).done(function(data) {
-            //console.log(data);
-            $('#loader').hide();
-                get_records_count(data);
-                make_chart_provinces(data);
-                get_chart_map(data);
-                get_age_chart(data);
-                get_gender_chart(data);
-                get_population_group(data);
-                get_citizen_vs_resident_chart(data);
-                get_marital_status_chart(data);
-                get_generation_chart(data);
-                get_home_owner_chart(data);
-                get_risk_category_chart(data);
-                get_household_income_chart(data);
-                get_director_of_business_chart(data);
-
-        });
-    }
-
-    
-    get_data();
-    get_municipalities()
+    get_municipalities();
 });

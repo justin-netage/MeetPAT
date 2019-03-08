@@ -5,6 +5,9 @@ namespace MeetPAT\Http\Controllers;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
+ini_set('memory_limit', '256M');
+
+
 class DataVisualisationController extends Controller
 {
     //
@@ -198,8 +201,154 @@ class DataVisualisationController extends Controller
         $records = \MeetPAT\BarkerStreetRecord::select('GreaterArea')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)")->get();
         $municipalities = array_count_values(array_column($records->toArray(), 'GreaterArea'));
         asort($municipalities);
+
         return response()->json($municipalities);
 
+    }
+
+    public function get_provinces(Request $request)
+    {
+        $records = \MeetPAT\BarkerStreetRecord::select('Province')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)")->get();
+        $provinces = array_count_values(array_column($records->toArray(), 'Province'));
+        asort($provinces);
+
+        return response()->json($provinces);
+    }
+
+    public function get_ages(Request $request)
+    {
+        $records = \MeetPAT\BarkerStreetRecord::select('AgeGroup')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)")->get();
+        $ages = array_count_values(array_column($records->toArray(), 'AgeGroup'));
+        arsort($ages);
+
+        return response()->json($ages);
+
+    }
+
+    public function get_genders(Request $request)
+    {
+        $records = \MeetPAT\BarkerStreetRecord::select('Gender')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)")->get();
+        $genders = array_count_values(array_column($records->toArray(), 'Gender'));
+        arsort($genders);
+
+        return response()->json($genders);
+
+    }
+
+    public function get_population_groups(Request $request)
+    {
+        $records = \MeetPAT\BarkerStreetRecord::select('PopulationGroup')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)")->get();
+        $population_groups = array_count_values(array_column($records->toArray(), 'PopulationGroup'));
+        arsort($population_groups);
+
+        return response()->json($population_groups);
+    }
+
+    public function get_home_owner(Request $request) 
+    {
+        $records = \MeetPAT\BarkerStreetRecord::select('HomeOwnerShipStatus')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)")->get();
+        $home_owner = array_count_values(array_column($records->toArray(), 'HomeOwnerShipStatus'));
+        arsort($home_owner);
+
+        return response()->json($home_owner);
+
+    }
+
+    public function get_household_income(Request $request)
+    {
+        $records = \MeetPAT\BarkerStreetRecord::select('income', 'incomeBucket')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)")->get();
+        $household_income = array_count_values(array_column($records->toArray(), 'incomeBucket'));
+        arsort($household_income);
+
+        return response()->json($household_income);
+    }
+
+    public function get_risk_category(Request $request)
+    {
+        $records = \MeetPAT\BarkerStreetRecord::select('CreditRiskCategory')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)")->get();
+        $risk_category = array_count_values(array_column($records->toArray(), 'CreditRiskCategory'));
+        arsort($risk_category);
+
+        return response()->json($risk_category);
+
+    }
+
+    public function get_director_of_business(Request $request)
+    {
+        $records = \MeetPAT\BarkerStreetRecord::select('DirectorshipStatus')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)")->get();
+        $director_of_business = array_count_values(array_column($records->toArray(), 'DirectorshipStatus'));
+        arsort($director_of_business);
+
+        return response()->json($director_of_business);
+
+    }
+
+
+    public function get_citizens_and_residents(Request $request)
+    {
+        $records = \MeetPAT\BarkerStreetRecord::select('Idn', 'HasResidentialAddress')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)")->get();
+
+        $citizen = 0;
+        $resident = 0;
+
+        foreach ($records as $row) {
+    
+            if($row->Idn) {
+                $citizen++;
+            }
+
+            if($row->HasResidentialAddress == "true") {
+                $resident++;
+            }
+
+        }
+
+        return response()->json([ $resident, $citizen ]);
+    }
+
+    public function get_generations(Request $request)
+    {
+        $records = \MeetPAT\BarkerStreetRecord::select('Idn')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)")->get();
+
+        $baby_boomer_generation = 0;
+        $generation_x = 0;
+        $xennials_generation = 0;
+        $millennials_generation = 0;
+        $i_gen = 0;
+
+        foreach ($records as $row) {
+
+            $year = substr($row->Idn, 0, 2);
+
+            if($year) {
+                if($year >= 46 and $year <= 64) {
+                    $baby_boomer_generation++;
+                } else if($year >= 65 and $year <= 79) {
+                    $generation_x++;
+                } else if($year >= 75 and $year <= 85) {
+                    $xennials_generation++;
+                } else if($year >= 80 and $year <= 94) {
+                    $millennials_generation++;
+                } else if($year >= 95 and $year <= 12) {
+                    $i_gen++;
+                } 
+            }
+
+        }
+
+        $generation = ["Baby Boomer" => $baby_boomer_generation, "Generation X" => $generation_x, "Xennials" => $xennials_generation, "Millennials" => $millennials_generation, "iGen" => $i_gen];
+        arsort($generation);
+        
+        return response()->json($generation);
+    }
+
+    public function get_marital_statuses(Request $request)
+    {
+        $records = \MeetPAT\BarkerStreetRecord::select('MaritalStatus')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)")->get();
+        $marital_statuses = array_count_values(array_column($records->toArray(), 'MaritalStatus'));
+        arsort($marital_statuses);
+
+        return response()->json($marital_statuses);
     }
 
     public function get_job_que(Request $request) {
