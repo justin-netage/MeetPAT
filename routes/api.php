@@ -63,6 +63,7 @@ Route::post('meetpat-client/large-data/delete', 'DataVisualisationController@han
 
 Route::post('meetpat-client/get-records', 'DataVisualisationController@get_records')->name('get-client-records');
 // Separate calls
+Route::post('meetpat-client/get-records/count', 'DataVisualisationController@get_records_count')->name('get-client-records-count');
 Route::post('meetpat-client/get-records/municipalities', 'DataVisualisationController@get_municipalities')->name('get-client-records-municipalities');
 Route::post('meetpat-client/get-records/provinces', 'DataVisualisationController@get_provinces')->name('get-client-records-provinces');
 Route::post('meetpat-client/get-records/ages', 'DataVisualisationController@get_ages')->name('get-client-records-ages');

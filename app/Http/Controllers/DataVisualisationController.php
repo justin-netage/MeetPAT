@@ -120,80 +120,11 @@ class DataVisualisationController extends Controller
 
     }
 
-    public function get_records(Request $request)
+    public function get_records_count(Request $request)
     {
-        $records = \MeetPAT\BarkerStreetRecord::whereRaw("find_in_set('".$request->user_id."',affiliated_users)")->get();
+        $records_count = \MeetPAT\BarkerStreetRecord::whereRaw("find_in_set('".$request->user_id."',affiliated_users)")->count();
         
-        // Data Algorithms
-        $citizen = 0;
-        $resident = 0;
-        $baby_boomer_generation = 0;
-        $generation_x = 0;
-        $xennials_generation = 0;
-        $millennials_generation = 0;
-        $i_gen = 0;
-
-        foreach ($records as $row) {
-    
-            if($row->Idn) {
-                $citizen++;
-            }
-
-            if($row->HasResidentialAddress == "true") {
-                $resident++;
-            }
-
-            $year = substr($row->Idn, 0, 2);
-
-            if($year) {
-                if($year >= 46 and $year <= 64) {
-                    $baby_boomer_generation++;
-                } else if($year >= 65 and $year <= 79) {
-                    $generation_x++;
-                } else if($year >= 75 and $year <= 85) {
-                    $xennials_generation++;
-                } else if($year >= 80 and $year <= 94) {
-                    $millennials_generation++;
-                } else if($year >= 95 and $year <= 12) {
-                    $i_gen++;
-                } 
-            }
-
-        }
-
-        $generation = ["Baby Boomer" => $baby_boomer_generation, "Generation X" => $generation_x, "Xennials" => $xennials_generation, "Millennials" => $millennials_generation, "iGen" => $i_gen];
-        $provinces = array_count_values(array_column($records->toArray(), 'Province'));
-        $ages = array_count_values(array_column($records->toArray(), 'AgeGroup'));
-        $genders = array_count_values(array_column($records->toArray(), 'Gender'));
-        $population_groups = array_count_values(array_column($records->toArray(), 'PopulationGroup'));
-        $marital_statuses = array_count_values(array_column($records->toArray(), 'MaritalStatus'));
-        $home_owner = array_count_values(array_column($records->toArray(), 'HomeOwnerShipStatus'));
-        $risk_category = array_count_values(array_column($records->toArray(), 'CreditRiskCategory'));
-        $household_income = array_count_values(array_column($records->toArray(), 'incomeBucket'));
-        $director_of_business = array_count_values(array_column($records->toArray(), 'DirectorshipStatus'));
-
-        asort($provinces);
-        arsort($ages);
-        arsort($population_groups);
-        arsort($household_income);
-        arsort($generation);
-
-        return response()->json([ "contacts" => sizeof($records),
-                                   "provinces" => $provinces,
-        //                           "municipality" => $municipalities,
-                                   "ages" => $ages,
-                                   "genders" => $genders,
-                                   "population_groups" => $population_groups,
-                                   "citizens_vs_residents" => [ $resident, $citizen ],
-                                   "marital_statuses" => $marital_statuses,
-                                   "generation" => $generation,
-                                   "home_owner" => $home_owner,
-                                   "household_income" => $household_income,
-                                   "risk_categories" => $risk_category,
-                                   "director_of_business" => $director_of_business
-                                 ]);
-
-        return response()->json($provinces);
+        return response($records_count);
     }
 
     public function get_municipalities(Request $request) {

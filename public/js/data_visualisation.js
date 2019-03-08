@@ -1,9 +1,4 @@
-var get_records_count =  function(records_data) {
-    var records_count = document.getElementById("number_of_records");
-        records_count.innerHTML = records_data["contacts"] + "K<br />Contacts";
-        $("#contacts-number .spinner-block").hide();
-
-}   
+// Make charts
 
 var make_chart_provinces = function(records_data) {
 
@@ -551,6 +546,24 @@ var get_director_of_business_chart = function(records_data) {
 
 }
 var user_id_number = $("#user_id").val();
+
+var get_records_count =  function(records_data) {
+        
+    var records_count = document.getElementById("number_of_records");
+        
+    $.post("/api/meetpat-client/get-records/count", {user_id: user_id_number}, function( data ) {
+    }).fail(function(data) {
+        $('#loader').hide();
+        console.log(data)
+    }).done(function(data) {
+        console.log(data);
+        records_count.innerHTML = data + "K<br />Contacts";
+        $("#contacts-number .spinner-block").hide();
+
+    });
+}   
+
+get_records_count();
 
 var get_municipalities = function() {
 
