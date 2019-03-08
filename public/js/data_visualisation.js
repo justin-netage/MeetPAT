@@ -554,9 +554,9 @@ var get_records_count =  function(records_data) {
     $.post("/api/meetpat-client/get-records/count", {user_id: user_id_number}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
-        console.log(data)
+        //console.log(data)
     }).done(function(data) {
-        console.log(data);
+        //console.log(data);
         records_count.innerHTML = data + "K<br />Contacts";
         $("#contacts-number .spinner-block").hide();
 
@@ -570,9 +570,9 @@ var get_municipalities = function() {
     $.post("/api/meetpat-client/get-records/municipalities", {user_id: user_id_number}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
-        console.log(data)
+        //console.log(data)
     }).done(function(data) {
-        console.log(data);
+        //console.log(data);
         make_chart_municipality(data);
         get_ages();
     });
@@ -584,9 +584,9 @@ var get_provinces = function() {
     $.post("/api/meetpat-client/get-records/provinces", {user_id: user_id_number}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
-        console.log(data)
+        //console.log(data)
     }).done(function(data) {
-        console.log(data);
+        //console.log(data);
         make_chart_provinces(data);
         get_chart_map(data);
         get_municipalities();
@@ -600,9 +600,9 @@ var get_ages = function() {
     $.post("/api/meetpat-client/get-records/ages", {user_id: user_id_number}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
-        console.log(data)
+        //console.log(data)
     }).done(function(data) {
-        console.log(data);
+        //console.log(data);
         get_age_chart(data);
         get_genders();
     });
@@ -615,9 +615,9 @@ var get_genders = function() {
     $.post("/api/meetpat-client/get-records/genders", {user_id: user_id_number}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
-        console.log(data)
+        //console.log(data)
     }).done(function(data) {
-        console.log(data);
+        //console.log(data);
         get_gender_chart(data);
         get_population_groups();
     });
@@ -630,9 +630,9 @@ var get_population_groups = function() {
     $.post("/api/meetpat-client/get-records/population-groups", {user_id: user_id_number}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
-        console.log(data)
+        //console.log(data)
     }).done(function(data) {
-        console.log(data);
+        //console.log(data);
         get_population_group_chart(data);
         get_generations();
     });
@@ -645,9 +645,9 @@ var get_home_owner = function() {
     $.post("/api/meetpat-client/get-records/home-owner", {user_id: user_id_number}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
-        console.log(data)
+        //console.log(data)
     }).done(function(data) {
-        console.log(data);
+        //console.log(data);
         get_home_owner_chart(data);
         get_risk_category();
     });
@@ -660,9 +660,9 @@ var get_household_income = function() {
     $.post("/api/meetpat-client/get-records/household-income", {user_id: user_id_number}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
-        console.log(data)
+        //console.log(data)
     }).done(function(data) {
-        console.log(data);
+        //console.log(data);
         get_household_income_chart(data);
         get_director_of_business();
     });
@@ -675,9 +675,9 @@ var get_risk_category = function() {
     $.post("/api/meetpat-client/get-records/risk-category", {user_id: user_id_number}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
-        console.log(data)
+        //console.log(data)
     }).done(function(data) {
-        console.log(data);
+        //console.log(data);
         get_risk_category_chart(data);
         get_household_income();
     });
@@ -690,9 +690,9 @@ var get_director_of_business = function() {
     $.post("/api/meetpat-client/get-records/director-of-business", {user_id: user_id_number}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
-        console.log(data)
+        //console.log(data)
     }).done(function(data) {
-        console.log(data);
+        //console.log(data);
         get_director_of_business_chart(data);
         
     });
@@ -705,9 +705,9 @@ var get_citizens_and_residents = function() {
     $.post("/api/meetpat-client/get-records/citizens-and-residents", {user_id: user_id_number}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
-        console.log(data)
+        //console.log(data)
     }).done(function(data) {
-        console.log(data);
+        //console.log(data);
         get_citizen_vs_resident_chart(data);
         get_marital_statuses();
     });
@@ -720,9 +720,9 @@ var get_generations = function() {
     $.post("/api/meetpat-client/get-records/generations", {user_id: user_id_number}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
-        console.log(data)
+        //console.log(data)
     }).done(function(data) {
-        console.log(data);
+        //console.log(data);
         get_generation_chart(data);
         get_citizens_and_residents();
     });
@@ -735,9 +735,9 @@ var get_marital_statuses = function() {
     $.post("/api/meetpat-client/get-records/marital-statuses", {user_id: user_id_number}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
-        console.log(data)
+        //console.log(data)
     }).done(function(data) {
-        console.log(data);
+        //console.log(data);
         get_marital_status_chart(data);
         get_home_owner();
     });
