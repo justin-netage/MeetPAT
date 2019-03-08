@@ -640,7 +640,7 @@ var get_population_groups = function() {
         console.log(data);
         get_population_group_chart(data);
         $("#municipality-graph .spinner-block").hide();
-        get_home_owner();
+        get_generations();
     });
 
 }
@@ -656,7 +656,7 @@ var get_home_owner = function() {
         console.log(data);
         get_home_owner_chart(data);
         $("#municipality-graph .spinner-block").hide();
-        get_household_income();
+        get_risk_category();
     });
 
 }
@@ -672,7 +672,7 @@ var get_household_income = function() {
         console.log(data);
         get_household_income_chart(data);
         $("#municipality-graph .spinner-block").hide();
-        get_risk_category();
+        get_director_of_business();
     });
 
 }
@@ -688,7 +688,7 @@ var get_risk_category = function() {
         console.log(data);
         get_risk_category_chart(data);
         $("#municipality-graph .spinner-block").hide();
-        get_director_of_business();
+        get_household_income();
     });
 
 }
@@ -704,7 +704,7 @@ var get_director_of_business = function() {
         console.log(data);
         get_director_of_business_chart(data);
         $("#municipality-graph .spinner-block").hide();
-        get_citizens_and_residents();
+        
     });
 
 }
@@ -720,7 +720,7 @@ var get_citizens_and_residents = function() {
         console.log(data);
         get_citizen_vs_resident_chart(data);
         $("#municipality-graph .spinner-block").hide();
-        get_generations();
+        get_marital_statuses();
     });
 
 }
@@ -736,7 +736,7 @@ var get_generations = function() {
         console.log(data);
         get_generation_chart(data);
         $("#municipality-graph .spinner-block").hide();
-        get_marital_statuses();
+        get_citizens_and_residents();
     });
 
 }
@@ -752,7 +752,7 @@ var get_marital_statuses = function() {
         console.log(data);
         get_marital_status_chart(data);
         $("#municipality-graph .spinner-block").hide();
-
+        get_home_owner();
     });
 
 }
