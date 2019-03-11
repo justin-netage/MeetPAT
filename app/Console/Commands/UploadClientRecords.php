@@ -204,6 +204,7 @@ class UploadClientRecords extends Command
         $records_job_que = \MeetPAT\RecordsJobQue::where('status', 'pending')->get();
         $records_job_que_running = \MeetPAT\RecordsJobQue::where('status', 'running')->count();
         $insert_data = array();
+        
         function check_complete($jobs_array) {
             foreach($jobs_array as $job) {
                 if($job->status == 'pending' or $job->status == 'running') {
