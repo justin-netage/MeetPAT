@@ -232,8 +232,8 @@ class UploadClientRecords extends Command
                         unset($array[sizeof($array)]);
                         
                         foreach($array as $row) {      
-                            // $client_already_exists = \MeetPAT\BarkerStreetRecord::where('Idn', $row[0])->first();
-
+                            $client_already_exists = \MeetPAT\BarkerStreetRecord::where('Idn', $row[0])->first();
+                            $this->info('Client: ' . $client_already_exists . '(already exists)');
                             // if(!$client_already_exists) {
                                 $data = [
                                     'Idn' => check_value($row[0]),
