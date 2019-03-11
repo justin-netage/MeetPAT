@@ -293,9 +293,9 @@ class UploadClientRecords extends Command
                              } else {
                                  if(!in_array($audience_file->user_id, explode(",", $client_already_exists->affiliated_users))) {
                                     $client_already_exists->update(['affiliated_users' => ',' . $audience_file->user_id]);
-                                    $job->increment('records_completed', 1);
                                  }
-                                 
+                                 $job->increment('records_completed', 1);
+
                              }
                         
                     }
