@@ -303,6 +303,7 @@ class UploadClientRecords extends Command
     
                     }
                 }
+                
                 $job->update(['status' => 'done']);
 
             }
