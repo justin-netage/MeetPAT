@@ -204,7 +204,7 @@ class UploadClientRecords extends Command
         $records_job_que = \MeetPAT\RecordsJobQue::where('status', 'pending')->get();
         $records_job_que_running = \MeetPAT\RecordsJobQue::where('status', 'running')->count();
         $insert_data = array();
-        
+
         function check_complete($jobs_array) {
             foreach($jobs_array as $job) {
                 if($job->status == 'pending' or $job->status == 'running') {
@@ -299,7 +299,6 @@ class UploadClientRecords extends Command
                                  if(!in_array($audience_file->user_id, explode(",", $client_already_exists->affiliated_users))) {
                                     $client_already_exists->update(['affiliated_users' => ',' . $audience_file->user_id]);
                                  }
-                                 $job->increment('records_completed', 1);
 
                              }
                         
@@ -312,11 +311,9 @@ class UploadClientRecords extends Command
                     foreach($chunks as $chunk) {
                         \MeetPAT\BarkerStreetRecord::insert($chunk->toArray());
                         $job->increment('records_completed', sizeof($chunk));
-
-                        // $this->info($job->records_completed);
                         
                     }
-                    check_complete($all_jobs);
+                        check_complete($all_jobs);
                     }
                 }
 
