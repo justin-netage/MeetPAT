@@ -200,8 +200,17 @@ class UploadClientRecords extends Command
             }
         }
 
+        $all_jobs = \MeetPAT\RecordsJobQue::all();
         $records_job_que = \MeetPAT\RecordsJobQue::where('status', 'pending')->get();
         $records_job_que_running = \MeetPAT\RecordsJobQue::where('status', 'running')->count();
+
+        foreach($all_jobs as $job) {
+            if($job->status == 'pending' or $job->status == 'running') {
+                if($job->records_completed == $job->records) {
+                    $job->update(['status' => 'done']);
+                }
+            }
+        }
 
         if($records_job_que_running == 0) {
             foreach($records_job_que as $job) {
@@ -303,7 +312,7 @@ class UploadClientRecords extends Command
     
                     }
                 }
-                
+
                 $job->update(['status' => 'done']);
 
             }
