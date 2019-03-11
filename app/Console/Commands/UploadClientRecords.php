@@ -234,7 +234,7 @@ class UploadClientRecords extends Command
                         foreach($array as $row) {      
                             $client_already_exists = \MeetPAT\BarkerStreetRecord::where('Idn', $row[0])->first();
                             $this->info('Client: ' . $client_already_exists . '(already exists)');
-                            // if(!$client_already_exists) {
+                             if(!$client_already_exists) {
                                 $data = [
                                     'Idn' => check_value($row[0]),
                                     'FirstName' => check_value($row[1]),
@@ -281,9 +281,10 @@ class UploadClientRecords extends Command
 
                                 $insert_data[] = $data;
 
-                            // } else {
-                            //     $client_already_exists->update(['affiliated_users' => ',' . $audience_file->user_id]);
-                            // }
+                             } else {
+                                 if(!in_array($audience_file->user_id, explode(",", $client_already_exists->affiliated_users)))
+                                 $client_already_exists->update(['affiliated_users' => ',' . $audience_file->user_id]);
+                             }
                         
                     }
                 
