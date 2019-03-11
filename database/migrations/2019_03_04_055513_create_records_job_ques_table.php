@@ -17,9 +17,10 @@ class CreateRecordsJobQuesTable extends Migration
             $table->increments('id');
             $table->integer('audience_file_id');
             $table->integer('user_id');
-            $table->enum('status', ['pending','running','done']);
-            $table->integer('records');
-            $table->integer('records_completed');
+            $table->enum('status', ['pending','running','done'])->default('pending');
+            $table->integer('records_checked')->default(0);
+            $table->integer('records')->default(0);
+            $table->integer('records_completed')->default(0);
             $table->timestamps();
         });
     }

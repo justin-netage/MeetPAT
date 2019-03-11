@@ -204,6 +204,7 @@ class UploadClientRecords extends Command
         $records_job_que = \MeetPAT\RecordsJobQue::where('status', 'pending')->get();
         $records_job_que_running = \MeetPAT\RecordsJobQue::where('status', 'running')->count();
         $insert_data = array();
+        $duplicate_data = 0;
 
         function check_complete($jobs_array) {
             foreach($jobs_array as $job) {
@@ -245,7 +246,7 @@ class UploadClientRecords extends Command
                         unset($array[0]);
                         unset($array[sizeof($array)]);
                         
-                        foreach($array as $row) {      
+                        foreach($array as $key=>$row) {      
                             $client_already_exists = \MeetPAT\BarkerStreetRecord::where('Idn', $row[0])->first();
                             // $this->info('Client: ' . $client_already_exists . '(already exists)');
                              if(!$client_already_exists) {
@@ -297,11 +298,14 @@ class UploadClientRecords extends Command
 
                              } else {
                                  if(!in_array($audience_file->user_id, explode(",", $client_already_exists->affiliated_users))) {
-                                    $client_already_exists->update(['affiliated_users' => ',' . $audience_file->user_id]);
+                                    $client_already_exists->update(['affiliated_users' => $client_already_exists->affiliated_users .',' . $audience_file->user_id]);
                                  }
-
+                                 $duplicate_data++;
+                                 
                              }
-                        
+                             $job->increment('records_checked', 1);
+
+
                     }
                 
                     $insert_data = collect($insert_data);
