@@ -204,8 +204,8 @@ class UploadClientRecords extends Command
         $records_job_que = \MeetPAT\RecordsJobQue::where('status', 'pending')->get();
         $records_job_que_running = \MeetPAT\RecordsJobQue::where('status', 'running')->count();
 
-        function check_complete() {
-            foreach($all_jobs as $job) {
+        function check_complete($jobs_array) {
+            foreach($jobs_array as $job) {
                 if($job->status == 'pending' or $job->status == 'running') {
                     if($job->records_completed == $job->records) {
                         $job->update(['status' => 'done']);
@@ -214,7 +214,7 @@ class UploadClientRecords extends Command
             }
         }
 
-        check_complete();
+        check_complete($all_jobs);
 
         if($records_job_que_running == 0) {
             foreach($records_job_que as $job) {
@@ -315,7 +315,7 @@ class UploadClientRecords extends Command
                         // $this->info($job->records_completed);
                         
                     }
-                    check_complete();
+                    check_complete($all_jobs);
                     }
                 }
 
