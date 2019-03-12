@@ -245,8 +245,11 @@ class UploadClientRecords extends Command
                         $array = array_map("str_getcsv", explode("\n", $actual_file));
                         unset($array[0]);
                         unset($array[sizeof($array)]);
+                        // Remove duplicates in upload file. Check By Idn (ID Number)
+                        $tempArr = array_unique(array_column($array, 0));
+                        $records_array = array_intersect_key($array, $tempArr);
                         
-                        foreach($array as $row) {      
+                        foreach($records_array as $row) {      
                             $client_already_exists = \MeetPAT\BarkerStreetRecord::where('Idn', $row[0])->first();
                             // $this->info('Client: ' . $client_already_exists . '(already exists)');
                              if(!$client_already_exists) {
@@ -329,9 +332,6 @@ class UploadClientRecords extends Command
         } else {
             $this->info('Jobs already running.');
         }
-
-        
-
 
     }
 }

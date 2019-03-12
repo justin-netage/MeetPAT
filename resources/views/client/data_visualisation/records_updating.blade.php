@@ -67,7 +67,9 @@
                                 '<div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width:' + get_percentage(data["jobs"][key].records, data["jobs"][key].records_completed) + '%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">'+ 
                                 'Pending...'+
                                 '</div>' +
-                                '</div> <br />'
+                                '</div> <br />'+
+                                '<span id="recordsChecked_'+ key + '">' + data["jobs"][key]["records_checked"] + '/' + data["jobs"][key]["records"] + '</span>'
+
                             );
                             } else {
                                 $("#records-status").append(
@@ -78,7 +80,8 @@
                                 '</div>' +
                                 '<div class="progress" id="job_' + key + '">' +
                                 '<div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width:' + get_percentage(data["jobs"][key].records, data["jobs"][key].records_completed) + '%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">'+ get_percentage(data["jobs"][key].records, data["jobs"][key].records_completed) + "%" +'</div>' +
-                                '</div> <br />'
+                                '</div> <br />'+
+                                '<span id="recordsChecked_'+ key + '">' + data["jobs"][key]["records_checked"] + '/' + data["jobs"][key]["records"] + '</span>'
                                 );
                             }
                             
@@ -116,7 +119,8 @@
                                 $("#job_" + key + " .progress-bar").addClass('bg-success');
                                 
                             }        
-                            
+                            $("#recordsChecked_" + key ).html(data["jobs"][key]["records_checked"] + '/' + data["jobs"][key]["records"]);
+
                         }
 
                         if(data["jobs_running"] == 0) {
