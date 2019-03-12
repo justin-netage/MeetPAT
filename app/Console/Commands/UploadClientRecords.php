@@ -3,6 +3,7 @@
 namespace MeetPAT\Console\Commands;
 
 use Illuminate\Console\Command;
+use Carbon\Carbon;
 
 ini_set('memory_limit', '512M');
 
@@ -290,7 +291,9 @@ class UploadClientRecords extends Command
                                     'PostalAddress1Line4' => check_value($row[37]),
                                     'PostalAddress1PostalCode' => check_value($row[38]),
                                     'email' => check_value($row[39]),
-                                    'affiliated_users' => $audience_file->user_id
+                                    'affiliated_users' => $audience_file->user_id,
+                                    'created_at' => Carbon::now(),
+                                    'updated_at' => Carbon::now(),
                                 ];
 
                                 $insert_data[] = $data;
