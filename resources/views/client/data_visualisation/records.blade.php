@@ -242,11 +242,11 @@
 
 <!-- <script src="{{asset('bower_components/chart.js/dist/Chart.min.js')}}"></script> -->
 <!-- Resources -->
-<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<!-- <script src="https://www.amcharts.com/lib/4/core.js"></script>
 <script src="https://www.amcharts.com/lib/4/maps.js"></script>
 <script src="https://www.amcharts.com/lib/4/charts.js"></script>
 <script src="https://www.amcharts.com/lib/4/geodata/southAfricaLow.js"></script>
-<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script> -->
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script type="text/javascript" src="{{asset('js/data_visualisation.js')}}"></script>
