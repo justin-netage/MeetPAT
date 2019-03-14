@@ -68,7 +68,7 @@
                                 'Pending...'+
                                 '</div>' +
                                 '</div> <br />'+
-                                '<span id="recordsChecked_'+ key + '">' + data["jobs"][key]["records_checked"] + '/' + data["jobs"][key]["records"] + '</span>'
+                                '<p class="badge badge-pill badge-warning">Checking and removing deuplicate records: <span id="recordsChecked_'+ key + '">' + data["jobs"][key]["records_checked"] + '/' + data["jobs"][key]["records"] + '</span></p>'
 
                             );
                             } else {
@@ -81,7 +81,7 @@
                                 '<div class="progress" id="job_' + key + '">' +
                                 '<div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width:' + get_percentage(data["jobs"][key].records, data["jobs"][key].records_completed) + '%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">'+ get_percentage(data["jobs"][key].records, data["jobs"][key].records_completed) + "%" +'</div>' +
                                 '</div> <br />'+
-                                '<span id="recordsChecked_'+ key + '">' + data["jobs"][key]["records_checked"] + '/' + data["jobs"][key]["records"] + '</span>'
+                                '<p class="badge badge-pill badge-warning">Checking and removing deuplicate records: <span id="recordsChecked_'+ key + '">' + data["jobs"][key]["records_checked"] + '/' + data["jobs"][key]["records"] + '</span></p>'
                                 );
                             }
                             
@@ -124,6 +124,7 @@
                         }
 
                         if(data["jobs_running"] == 0) {
+
                             window.clearInterval();
                             $("#loader").css("display", "block");
 
@@ -134,7 +135,7 @@
                         // if(data["jobs_running"] == 0) {
                         //     window.location = '/meetpat-client/data-visualisation';
                         // }
-            }, 5000);
+            }, 3000);
             
 
     });

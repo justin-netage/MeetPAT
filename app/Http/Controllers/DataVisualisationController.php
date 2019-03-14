@@ -131,7 +131,7 @@ class DataVisualisationController extends Controller
 
         $records = \MeetPAT\BarkerStreetRecord::select('GreaterArea')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)")->get();
         $municipalities = array_count_values(array_column($records->toArray(), 'GreaterArea'));
-        asort($municipalities);
+        arsort($municipalities);
 
         return response()->json($municipalities);
 
@@ -141,7 +141,7 @@ class DataVisualisationController extends Controller
     {
         $records = \MeetPAT\BarkerStreetRecord::select('Province')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)")->get();
         $provinces = array_count_values(array_column($records->toArray(), 'Province'));
-        asort($provinces);
+        arsort($provinces);
 
         return response()->json($provinces);
     }
@@ -234,7 +234,10 @@ class DataVisualisationController extends Controller
 
         }
 
-        return response()->json([ $resident, $citizen ]);
+        $citizens_and_residents = [ "Resident" => $resident, "Citizen" => $citizen ];
+        arsort($citizens_and_residents);
+
+        return response()->json($citizens_and_residents);
     }
 
     public function get_generations(Request $request)
@@ -282,6 +285,16 @@ class DataVisualisationController extends Controller
         return response()->json($marital_statuses);
     }
 
+    public function get_area(Request $request) {
+
+        $records = \MeetPAT\BarkerStreetRecord::select('Area')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)")->get();
+        $areas = array_count_values(array_column($records->toArray(), 'Area'));
+
+        arsort($areas);
+
+        return response()->json($areas);
+    }
+
     public function get_job_que(Request $request) {
 
         $jobs = \MeetPAT\RecordsJobQue::where('user_id', $request->user_id)->with('audience_file')->orderBy('created_at', 'DESC')->whereDate('created_at', '=', Carbon::today()->toDateString());
@@ -292,4 +305,5 @@ class DataVisualisationController extends Controller
         return response()->json(["jobs" => $jobs->get()->toArray(), "jobs_running" => $running_jobs]);
     
     }
+
 }

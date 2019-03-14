@@ -76,6 +76,7 @@ Route::post('meetpat-client/get-records/director-of-business', 'DataVisualisatio
 Route::post('meetpat-client/get-records/citizens-and-residents', 'DataVisualisationController@get_citizens_and_residents')->name('get-client-records-citizens-and-residents');
 Route::post('meetpat-client/get-records/generations', 'DataVisualisationController@get_generations')->name('get-client-records-generations');
 Route::post('meetpat-client/get-records/marital-statuses', 'DataVisualisationController@get_marital_statuses')->name('get-client-records-marital-statuses');
+Route::post('meetpat-client/get-records/areas', 'DataVisualisationController@get_area')->name('get-client-records-areas');
 
 
 // Get Records Job Que Update

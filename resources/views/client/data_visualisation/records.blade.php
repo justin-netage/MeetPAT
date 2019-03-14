@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="col-12 col-md-8">
-            <h3 class="display-3 text-center">Where? <br /><small>Location Targeting</small></h3>
+            <h3 class="display-4 text-center">Where? <br /><small>Location Targeting</small></h3>
         </div>
         <div class="col-12 col-md-2">
         </div>
@@ -31,7 +31,7 @@
         <div class="col-12 col-md-6" id="province-graph">
             <h3 >Province</h3>
             <hr>
-            <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 368px;">
+            <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 250px;">
                 <div class="spinner-block">
                     <div class="spinner spinner-3"></div>
                 </div>    
@@ -41,7 +41,7 @@
         <div class="col-12 col-md-6" id="municipality-graph">
             <h3 >Municipality</h3>
             <hr>
-            <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 368px;">
+            <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 250px;">
                 <div class="spinner-block">
                     <div class="spinner spinner-3"></div>
                 </div>
@@ -49,30 +49,31 @@
             </div>
         </div>
         <div class="col-12 col-md-6" id="map-graph">
-            <h3 >Map</h3>
+            <h3>Map</h3>
             <hr>
-            <div id="chartdiv" style="width: 100%; height: 368px; border: 2px solid #6C757D; border-radius: 5px;">
+            <div id="chartdiv" style="width: 100%; height: 250px;">
                 <div class="spinner-block">
                     <div class="spinner spinner-3"></div>
                 </div>
             </div>      
         </div>
-    </div>
-    <!-- <div class="row">
-        <div class="col-12 col-md-6">
-            <h3 >Areas</h3>
+        <div class="col-12 col-md-6" id="area-graph">
+            <h3>Areas</h3>
             <hr>
-            <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 500px;">
-                <div id="areasChart" style="height: 20000px; min-height: 10000; width: 100%;"></div>
+            <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 250px;">
+                <div class="spinner-block">
+                    <div class="spinner spinner-3"></div>
+                </div>
+                <div id="areasChart" style="width: 100%;"></div>
             </div> 
         </div>
-    </div> -->
+    </div>
     <div class="row">
         <div class="col-12 col-md-2 d-flex align-items-center">
 
         </div>
         <div class="col-12 col-md-8">
-            <h3 class="display-3 text-center">Who? <br /><small>Demographic Targeting</small></h3>
+            <h3 class="display-4 text-center">Who? <br /><small>Demographic Targeting</small></h3>
         </div>
         <div class="col-12 col-md-2">
         </div>        
@@ -82,10 +83,12 @@
             <h3 >Age</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/adult-2028245_640.png')}}" background-color: #3490DC;" class="img-fluid"/>
-            <div class="spinner-block">
-                <div class="spinner spinner-3"></div>
+            <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 200px;">
+                <div class="spinner-block">
+                    <div class="spinner spinner-3"></div>
+                </div>
+                <div id="agesChart" style="width: 100%; height: 300px;"></div>
             </div>
-            <div id="agesChart" style="width: 100%; height: 200px;"></div>
         </div>
         <div class="col-12 col-md-4" id="gender-graph">
             <h3 >Gender</h3>
@@ -138,7 +141,7 @@
 
         </div>
         <div class="col-12 col-md-8">
-            <h3 class="display-3 text-center">Assests Owned? <br /><small>Home and Vehicle Data</small></h3>
+            <h3 class="display-4 text-center">Assets Owned? <br /><small>Home and Vehicle Data</small></h3>
         </div>
         <div class="col-12 col-md-2">
         </div>        
@@ -183,7 +186,7 @@
         <div class="col-12 col-md-2 d-flex align-items-center">
         </div>
         <div class="col-12 col-md-8">
-            <h3 class="display-3 text-center">Financial Wellness <br /><small>Financial Factors</small></h3>
+            <h3 class="display-4 text-center">Financial Wellness <br /><small>Financial Factors</small></h3>
         </div>
         <div class="col-12 col-md-2">
         </div>        
@@ -201,10 +204,12 @@
             <h3>Risk Category</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/risk-1945683_640.jpg')}}" class="img-fluid"/>
+            <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 250px;">
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
-            <div id="riskCategoryChart" style="width: 100%; height: 200px;"></div>
+            <div id="riskCategoryChart" style="width: 100%; height: 300px;"></div>
+            </div>
         </div>
         <div class="col-12 col-md-4" id="income-graph">
             <h3>Household Income</h3>
@@ -213,9 +218,8 @@
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
-            <div class="graph-container" class="graph-container" style="overflow-x: scroll; height: 250px; width: 100%;">
-
-                <div id="householdIncomeChart" style="width: 800px; height: 200px;"></div>
+            <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 250px; width: 100%;">
+                <div id="householdIncomeChart" style="width: 100%px; height: 400px;"></div>
             </div>  
         </div>
         <div class="col-12 col-md-4" id="directors-graph">
@@ -225,7 +229,7 @@
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
-            <div id="directorOfBusinessChart" style="width: 100%; height: 200px;"></div>
+            <div id="directorOfBusinessChart" style="width: 100%; height: 250px;"></div>
         </div>
     </div>
 </div>
@@ -243,6 +247,7 @@
 <script src="https://www.amcharts.com/lib/4/charts.js"></script>
 <script src="https://www.amcharts.com/lib/4/geodata/southAfricaLow.js"></script>
 <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script type="text/javascript" src="{{asset('js/data_visualisation.js')}}"></script>
 @endsection
