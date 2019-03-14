@@ -3,6 +3,10 @@
 google.charts.load('current', {'packages':['corechart', 'geochart', 'bar'],
 'mapsApiKey': 'AIzaSyBMae5h5YHUJ1BdNHshwj_SmJzPe5mglwI'});
 
+function kFormatter(num) {
+    return num > 999 ? (num/1000).toFixed(1) + 'k' : num.toString()
+}
+
 function drawProvinceChart( chart_data ) {
 
     $("#province-graph .spinner-block").hide();    
@@ -10,11 +14,47 @@ function drawProvinceChart( chart_data ) {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Province');
     data.addColumn('number', 'Records');
+    data.addColumn({type: 'string', role: 'annotation'});
 
     var result = Object.keys(chart_data).map(function(key) {
-        return [key, chart_data[key]];
-        });
 
+        var province;
+        
+        switch(key) {
+            case 'G':
+                province = ['Gauteng', chart_data[key], kFormatter(chart_data[key])];
+                break;
+            case 'EC':
+                province = ['Eastern Cape', chart_data[key], kFormatter(chart_data[key])];
+                break;
+            case 'NC':
+                province = ['Northern Cape', chart_data[key], kFormatter(chart_data[key])];
+                break;
+            case 'FS':
+                province = ['Free State', chart_data[key],kFormatter(chart_data[key])];
+                break;
+            case 'L':
+                province = ['Limpopo', chart_data[key], kFormatter(chart_data[key])];
+                break;
+            case 'KN':
+                province = ['KwaZulu Natal', chart_data[key], kFormatter(chart_data[key])];
+                break;
+            case 'M':
+                province = ['Mpumalanga', chart_data[key], kFormatter(chart_data[key])];
+                break;
+            case 'NW':
+                province = ['North West', chart_data[key], kFormatter(chart_data[key])];
+                break;
+            case 'WC':
+                province = ['Western Cape', chart_data[key], kFormatter(chart_data[key])];
+                break;
+            default:
+                province = [key, chart_data[key], kFormatter(chart_data[key])];
+            }
+    
+        return province;
+        });
+        //console.log(result);
         data.addRows(result);
         var chart_options = {
             'width':'100%',
@@ -28,11 +68,6 @@ function drawProvinceChart( chart_data ) {
             },
             'backgroundColor': '#fff',
             'colors': ['#3490DC'],
-            'animation': {
-                'startup':true,
-                'duration': 1000,
-                'easing': 'out'
-            },
             'animation': {
                 'startup':true,
                 'duration': 1000,
@@ -57,8 +92,10 @@ function drawAreaChart(  ) {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Area');
         data.addColumn('number', 'Records');
+        data.addColumn({type: 'string', role: 'annotation'});
+
         var result = Object.keys(chart_data).map(function(key) {
-            return [key, chart_data[key]];
+            return [key, chart_data[key], kFormatter(chart_data[key])];
             });
     
         data.addRows(result);
@@ -94,8 +131,10 @@ function drawAreaChart(  ) {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Municipality');
         data.addColumn('number', 'Records');
+        data.addColumn({type: 'string', role: 'annotation'});
+
         var result = Object.keys(chart_data).map(function(key) {
-            return [key, chart_data[key]];
+            return [key, chart_data[key], kFormatter(chart_data[key])];
           });
 
             data.addRows(result);
@@ -196,8 +235,10 @@ function drawAreaChart(  ) {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Age');
         data.addColumn('number', 'Records');
+        data.addColumn({type: 'string', role: 'annotation'});
+
         var result = Object.keys(chart_data).map(function(key) {
-            return [key, chart_data[key]];
+            return [key, chart_data[key], kFormatter(chart_data[key])];
           });
     
             data.addRows(result);
@@ -240,8 +281,10 @@ function drawAreaChart(  ) {
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Gender');
             data.addColumn('number', 'Records');
+            data.addColumn({type: 'string', role: 'annotation'});
+
             var result = Object.keys(chart_data).map(function(key) {
-                return [key, chart_data[key]];
+                return [key, chart_data[key], kFormatter(chart_data[key])];
             });
         
                 data.addRows(result);
@@ -283,8 +326,10 @@ function drawAreaChart(  ) {
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Group');
             data.addColumn('number', 'Records');
+            data.addColumn({type: 'string', role: 'annotation'});
+
             var result = Object.keys(chart_data).map(function(key) {
-                return [key, chart_data[key]];
+                return [key, chart_data[key], kFormatter(chart_data[key])];
             });
         
             data.addRows(result);
@@ -326,8 +371,10 @@ function drawAreaChart(  ) {
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Generation');
             data.addColumn('number', 'Records');
+            data.addColumn({type: 'string', role: 'annotation'});
+
             var result = Object.keys(chart_data).map(function(key) {
-                return [key, chart_data[key]];
+                return [key, chart_data[key], kFormatter(chart_data[key])];
             });
         
             data.addRows(result);
@@ -370,8 +417,10 @@ var drawCitizensChart = function() {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Citizen or Resident');
         data.addColumn('number', 'Records');
+        data.addColumn({type: 'string', role: 'annotation'});
+
         var result = Object.keys(chart_data).map(function(key) {
-            return [key, chart_data[key]];
+            return [key, chart_data[key], kFormatter(chart_data[key])];
         });
     
             data.addRows(result);
@@ -412,8 +461,10 @@ var drawMaritalStatusChart = function() {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Marital Status');
         data.addColumn('number', 'Records');
+        data.addColumn({type: 'string', role: 'annotation'});
+
         var result = Object.keys(chart_data).map(function(key) {
-            return [key, chart_data[key]];
+            return [key, chart_data[key], kFormatter(chart_data[key])];
         });
     
             data.addRows(result);
@@ -454,8 +505,10 @@ var drawHomeOwnerChart = function() {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Home Owner Status');
         data.addColumn('number', 'Records');
+        data.addColumn({type: 'string', role: 'annotation'});
+
         var result = Object.keys(chart_data).map(function(key) {
-            return [key, chart_data[key]];
+            return [key, chart_data[key], kFormatter(chart_data[key])];
         });
     
             data.addRows(result);
@@ -497,8 +550,10 @@ var drawRiskCategoryChart = function() {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Age');
         data.addColumn('number', 'Records');
+        data.addColumn({type: 'string', role: 'annotation'});
+
         var result = Object.keys(chart_data).map(function(key) {
-            return [key, chart_data[key]];
+            return [key, chart_data[key], kFormatter(chart_data[key])];
           });
     
             data.addRows(result);
@@ -540,8 +595,10 @@ var drawHouseholdIncomeChart = function() {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Income');
         data.addColumn('number', 'Records');
+        data.addColumn({type: 'string', role: 'annotation'});
+
         var result = Object.keys(chart_data).map(function(key) {
-            return [key, chart_data[key]];
+            return [key, chart_data[key], kFormatter(chart_data[key])];
           });
     
             data.addRows(result);
@@ -583,8 +640,10 @@ var drawDirectorOfBusinessChart = function() {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Director of Business');
         data.addColumn('number', 'Records');
+        data.addColumn({type: 'string', role: 'annotation'});
+
         var result = Object.keys(chart_data).map(function(key) {
-            return [key, chart_data[key]];
+            return [key, chart_data[key], kFormatter(chart_data[key])];
         });
     
             data.addRows(result);
@@ -626,7 +685,7 @@ var get_records_count =  function(records_data) {
         //console.log(data)
     }).done(function(data) {
         //console.log(data);
-        records_count.innerHTML = data + "K<br />Contacts";
+        records_count.innerHTML = kFormatter(data) + "<br />Contacts";
         $("#contacts-number .spinner-block").hide();
 
     });
