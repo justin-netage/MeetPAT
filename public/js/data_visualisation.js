@@ -677,7 +677,8 @@ var user_id_number = $("#user_id").val();
 
 var get_records_count =  function(records_data) {
         
-    var records_count = document.getElementById("number_of_records");
+    var records_count = $("#number_of_records");
+    var records_toast = $("#records-toast .toast-body");
         
     $.post("/api/meetpat-client/get-records/count", {user_id: user_id_number}, function( data ) {
     }).fail(function(data) {
@@ -685,7 +686,8 @@ var get_records_count =  function(records_data) {
         //console.log(data)
     }).done(function(data) {
         //console.log(data);
-        records_count.innerHTML = kFormatter(data) + "<br />Contacts";
+        records_count.html("Contacts <br />" + kFormatter(data));
+        records_toast.html(kFormatter(data))
         $("#contacts-number .spinner-block").hide();
 
     });
@@ -788,4 +790,5 @@ var get_marital_statuses = function() {
 $(document).ready(function() {
     //var site_url = window.location.protocol + "//" + window.location.host;
     get_provinces();
+    $("#records-toast").toast('show');
 });
