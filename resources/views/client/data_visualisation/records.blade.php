@@ -28,13 +28,18 @@
 <div class="container">
     <div class="row">
         <div class="col-12 col-md-2 d-flex align-items-center" id="contacts-number">
-            <div id="number_of_records">
-                <div class="d-flex justify-content-center">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="sr-only">Loading...</span>
-                    </div>
+        <div role="alert" aria-live="assertive" id="records-main-toast" aria-atomic="true" class="toast" data-autohide="false">
+        <div class="toast-header">
+            <strong class="mr-auto">Contacts</strong>
+        </div>
+        <div class="toast-body" style="font-size: 24px;">
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
                 </div>
             </div>
+        </div>
+        </div>
         </div>
         <div class="col-12 col-md-8">
             <h3 class="display-4 text-center">Where? <br /><small>Location Targeting</small></h3>
