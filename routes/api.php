@@ -61,22 +61,22 @@ Route::post('meetpat-client/large-data/upload', 'DataVisualisationController@han
 Route::post('meetpat-client/large-data/delete', 'DataVisualisationController@handle_delete_upload')->name('delete-data-upload-handler');
 
 
-Route::post('meetpat-client/get-records', 'DataVisualisationController@get_records')->name('get-client-records');
+Route::get('meetpat-client/get-records', 'DataVisualisationController@get_records')->name('get-client-records');
 // Separate calls
-Route::post('meetpat-client/get-records/count', 'DataVisualisationController@get_records_count')->name('get-client-records-count');
-Route::post('meetpat-client/get-records/municipalities', 'DataVisualisationController@get_municipalities')->name('get-client-records-municipalities');
-Route::post('meetpat-client/get-records/provinces', 'DataVisualisationController@get_provinces')->name('get-client-records-provinces');
-Route::post('meetpat-client/get-records/ages', 'DataVisualisationController@get_ages')->name('get-client-records-ages');
-Route::post('meetpat-client/get-records/genders', 'DataVisualisationController@get_genders')->name('get-client-records-genders');
-Route::post('meetpat-client/get-records/population-groups', 'DataVisualisationController@get_population_groups')->name('get-client-records-population-groups');
-Route::post('meetpat-client/get-records/home-owner', 'DataVisualisationController@get_home_owner')->name('get-client-records-home-owner');
-Route::post('meetpat-client/get-records/household-income', 'DataVisualisationController@get_household_income')->name('get-client-records-household-income');
-Route::post('meetpat-client/get-records/risk-category', 'DataVisualisationController@get_risk_category')->name('get-client-records-risk-category');
-Route::post('meetpat-client/get-records/director-of-business', 'DataVisualisationController@get_director_of_business')->name('get-client-records-director-of-business');
-Route::post('meetpat-client/get-records/citizens-and-residents', 'DataVisualisationController@get_citizens_and_residents')->name('get-client-records-citizens-and-residents');
-Route::post('meetpat-client/get-records/generations', 'DataVisualisationController@get_generations')->name('get-client-records-generations');
-Route::post('meetpat-client/get-records/marital-statuses', 'DataVisualisationController@get_marital_statuses')->name('get-client-records-marital-statuses');
-Route::post('meetpat-client/get-records/areas', 'DataVisualisationController@get_area')->name('get-client-records-areas');
+Route::get('meetpat-client/get-records/count', 'DataVisualisationController@get_records_count')->name('get-client-records-count');
+Route::get('meetpat-client/get-records/municipalities', 'DataVisualisationController@get_municipalities')->name('get-client-records-municipalities');
+Route::get('meetpat-client/get-records/provinces', 'DataVisualisationController@get_provinces')->name('get-client-records-provinces');
+Route::get('meetpat-client/get-records/ages', 'DataVisualisationController@get_ages')->name('get-client-records-ages');
+Route::get('meetpat-client/get-records/genders', 'DataVisualisationController@get_genders')->name('get-client-records-genders');
+Route::get('meetpat-client/get-records/population-groups', 'DataVisualisationController@get_population_groups')->name('get-client-records-population-groups');
+Route::get('meetpat-client/get-records/home-owner', 'DataVisualisationController@get_home_owner')->name('get-client-records-home-owner');
+Route::get('meetpat-client/get-records/household-income', 'DataVisualisationController@get_household_income')->name('get-client-records-household-income');
+Route::get('meetpat-client/get-records/risk-category', 'DataVisualisationController@get_risk_category')->name('get-client-records-risk-category');
+Route::get('meetpat-client/get-records/director-of-business', 'DataVisualisationController@get_director_of_business')->name('get-client-records-director-of-business');
+Route::get('meetpat-client/get-records/citizens-and-residents', 'DataVisualisationController@get_citizens_and_residents')->name('get-client-records-citizens-and-residents');
+Route::get('meetpat-client/get-records/generations', 'DataVisualisationController@get_generations')->name('get-client-records-generations');
+Route::get('meetpat-client/get-records/marital-statuses', 'DataVisualisationController@get_marital_statuses')->name('get-client-records-marital-statuses');
+Route::get('meetpat-client/get-records/areas', 'DataVisualisationController@get_area')->name('get-client-records-areas');
 
 
 // Get Records Job Que Update

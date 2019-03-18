@@ -97,7 +97,7 @@ function drawProvinceChart( chart_data ) {
 
 function drawAreaChart(  ) {
 
-    $.post('/api/meetpat-client/get-records/areas', {user_id: user_id_number, selected_provinces: target_provinces}, function( chart_data ) {
+    $.get('/api/meetpat-client/get-records/areas', {user_id: user_id_number, selected_provinces: target_provinces}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data )
@@ -242,7 +242,7 @@ function drawAreaChart(  ) {
 
   var drawAgeChart = function (  ) {
 
-    $.post('/api/meetpat-client/get-records/ages', {user_id: user_id_number, selected_provinces: target_provinces}, function( chart_data ) {
+    $.get('/api/meetpat-client/get-records/ages', {user_id: user_id_number, selected_provinces: target_provinces}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -290,7 +290,7 @@ function drawAreaChart(  ) {
     }
 
     var drawGenderChart = function() {
-        $.post('/api/meetpat-client/get-records/genders', {user_id: user_id_number, selected_provinces: target_provinces}, function(chart_data) {
+        $.get('/api/meetpat-client/get-records/genders', {user_id: user_id_number, selected_provinces: target_provinces}, function(chart_data) {
 
         }).fail(function( chart_data ) {
             console.log( chart_data )
@@ -334,7 +334,7 @@ function drawAreaChart(  ) {
     }
 
     var drawPopulationChart = function() {
-        $.post('/api/meetpat-client/get-records/population-groups', {user_id: user_id_number, selected_provinces: target_provinces}, function( chart_data ) {
+        $.get('/api/meetpat-client/get-records/population-groups', {user_id: user_id_number, selected_provinces: target_provinces}, function( chart_data ) {
 
         }).fail(function( chart_data ) {
             console.log( chart_data );
@@ -380,7 +380,7 @@ function drawAreaChart(  ) {
 
     var drawGenerationChart = function() {
 
-        $.post('/api/meetpat-client/get-records/generations', {user_id: user_id_number, selected_provinces: target_provinces}, function( chart_data ) {
+        $.get('/api/meetpat-client/get-records/generations', {user_id: user_id_number, selected_provinces: target_provinces}, function( chart_data ) {
 
         }).fail(function( chart_data ) {
             console.log( chart_data );
@@ -426,7 +426,7 @@ function drawAreaChart(  ) {
     }
 
 var drawCitizensChart = function() {
-    $.post('/api/meetpat-client/get-records/citizens-and-residents', {user_id: user_id_number, selected_provinces: target_provinces}, function( chart_data ) {
+    $.get('/api/meetpat-client/get-records/citizens-and-residents', {user_id: user_id_number, selected_provinces: target_provinces}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
 
@@ -470,7 +470,7 @@ var drawCitizensChart = function() {
 }
 
 var drawMaritalStatusChart = function() {
-    $.post('/api/meetpat-client/get-records/marital-statuses', {user_id: user_id_number, selected_provinces: target_provinces}, function( chart_data ) {
+    $.get('/api/meetpat-client/get-records/marital-statuses', {user_id: user_id_number, selected_provinces: target_provinces}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -514,7 +514,7 @@ var drawMaritalStatusChart = function() {
 }
 
 var drawHomeOwnerChart = function() {
-    $.post('/api/meetpat-client/get-records/home-owner', {user_id: user_id_number, selected_provinces: target_provinces}, function( chart_data ) {
+    $.get('/api/meetpat-client/get-records/home-owner', {user_id: user_id_number, selected_provinces: target_provinces}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -558,7 +558,7 @@ var drawHomeOwnerChart = function() {
 }
 
 var drawRiskCategoryChart = function() {
-    $.post('/api/meetpat-client/get-records/risk-category', {user_id: user_id_number, selected_provinces: target_provinces}, function( chart_data ) {
+    $.get('/api/meetpat-client/get-records/risk-category', {user_id: user_id_number, selected_provinces: target_provinces}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -604,7 +604,7 @@ var drawRiskCategoryChart = function() {
 }
 
 var drawHouseholdIncomeChart = function() {
-    $.post('/api/meetpat-client/get-records/household-income', {user_id: user_id_number, selected_provinces: target_provinces}, function( chart_data ) {
+    $.get('/api/meetpat-client/get-records/household-income', {user_id: user_id_number, selected_provinces: target_provinces}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -651,7 +651,7 @@ var drawHouseholdIncomeChart = function() {
 
 var drawDirectorOfBusinessChart = function() {
     
-    $.post('/api/meetpat-client/get-records/director-of-business', {user_id: user_id_number, selected_provinces: target_provinces}, function( chart_data ) {
+    $.get('/api/meetpat-client/get-records/director-of-business', {user_id: user_id_number, selected_provinces: target_provinces}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -701,7 +701,7 @@ var get_records_count =  function(records_data) {
     var records_count = $("#records-main-toast .toast-body");
     var records_toast = $("#records-toast .toast-body");
         
-    $.post("/api/meetpat-client/get-records/count", {user_id: user_id_number, selected_provinces: target_provinces}, function( data ) {
+    $.get("/api/meetpat-client/get-records/count", {user_id: user_id_number, selected_provinces: target_provinces}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
         //console.log(data)
@@ -716,7 +716,7 @@ var get_records_count =  function(records_data) {
 
 var get_municipalities = function() {
 
-    $.post("/api/meetpat-client/get-records/municipalities", {user_id: user_id_number, selected_provinces: target_provinces}, function( data ) {
+    $.get("/api/meetpat-client/get-records/municipalities", {user_id: user_id_number, selected_provinces: target_provinces}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
         //console.log(data)
@@ -732,7 +732,7 @@ var get_provinces = function() {
     // First get count. 
     get_records_count();
 
-    $.post("/api/meetpat-client/get-records/provinces", {user_id: user_id_number, selected_provinces: target_provinces}, function( data ) {
+    $.get("/api/meetpat-client/get-records/provinces", {user_id: user_id_number, selected_provinces: target_provinces}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
         //console.log(data)
