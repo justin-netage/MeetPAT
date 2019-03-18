@@ -46,26 +46,44 @@
         </div>
         <div class="col-12 col-md-2">
         </div>
-    </div>
+    </div><br />
     <div class="row">
         <div class="col-12 col-md-6" id="province-graph">
-            <h3 >Province</h3>
+            <h3 >Province
+                <!-- Default dropright button -->
+        <div class="btn-group dropright float-right">
+        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            filter
+        </button>
+        <div class="dropdown-menu dropdown-menu-form">
+            <!-- Dropdown menu links -->
+            <form style="margin: 12px;" id="province-filter-form">
+                <div id="province_filter">
+                <div class="text-center">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                </div>
+                </div> <br/>
+                <button name="province_submit" id="provinceSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+            </form>
+        </div>
+        </div>
+            </h3>
             <hr>
-            <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 250px;">
                 <div class="spinner-block">
                     <div class="spinner spinner-3"></div>
                 </div>    
-                <div id="provincesChart" style="height:500px; width: 100%;"></div>
-            </div>
+                <div id="provincesChart" style="height:250px; width: 100%;"></div>
         </div>
         <div class="col-12 col-md-6" id="municipality-graph">
-            <h3 >Municipality</h3>
+            <h3>Municipality</h3>
             <hr>
             <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 250px;">
                 <div class="spinner-block">
                     <div class="spinner spinner-3"></div>
                 </div>
-                <div id="municipalityChart" style="min-height: 2500px; width: 100%;"></div>
+                <div id="municipalityChart" style="width: 100%;"></div>
             </div>
         </div>
         <div class="col-12 col-md-6" id="map-graph">
@@ -103,12 +121,10 @@
             <h3 >Age</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/adult-2028245_640.png')}}" background-color: #3490DC;" class="img-fluid"/>
-            <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 200px;">
                 <div class="spinner-block">
                     <div class="spinner spinner-3"></div>
                 </div>
-                <div id="agesChart" style="width: 100%; height: 300px;"></div>
-            </div>
+                <div id="agesChart" style="width: 100%; height: 250px;"></div>
         </div>
         <div class="col-12 col-md-4" id="gender-graph">
             <h3 >Gender</h3>
@@ -224,12 +240,10 @@
             <h3>Risk Category</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/risk-1945683_640.jpg')}}" class="img-fluid"/>
-            <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 250px;">
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
             <div id="riskCategoryChart" style="width: 100%; height: 300px;"></div>
-            </div>
         </div>
         <div class="col-12 col-md-4" id="income-graph">
             <h3>Household Income</h3>
@@ -238,9 +252,7 @@
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
-            <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 250px; width: 100%;">
-                <div id="householdIncomeChart" style="width: 100%px; height: 400px;"></div>
-            </div>  
+                <div id="householdIncomeChart" style="width: 100%px; height: 250px;"></div>
         </div>
         <div class="col-12 col-md-4" id="directors-graph">
             <h3>Director of a Business</h3>
