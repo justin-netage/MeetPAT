@@ -132,6 +132,10 @@ class DataVisualisationController extends Controller
         if($request->selected_age_groups) {
             $records_count = $records_count->whereIn('AgeGroup', $request->selected_age_groups);
         }
+        // Filter By Gender
+        if($request->selected_gender_groups) {
+            $records_count = $records_count->whereIn('Gender', $request->selected_gender_groups);
+        }
 
         return response($records_count->count());
     }
@@ -147,6 +151,10 @@ class DataVisualisationController extends Controller
         // Filter By Age Groups
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+        // Filter By Gender
+        if($request->selected_gender_groups) {
+            $records = $records->whereIn('Gender', $request->selected_gender_groups);
         }
 
         $records = $records->get();
@@ -171,7 +179,11 @@ class DataVisualisationController extends Controller
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
         }
-            
+        // Filter By Gender
+        if($request->selected_gender_groups) {
+            $records = $records->whereIn('Gender', $request->selected_gender_groups);
+        }
+
         $records = $records->get();
         $provinces = array_count_values(array_column($records->toArray(), 'Province'));
         $all_provinces = array_count_values(array_column($all_provinces->toArray(), 'Province'));
@@ -194,6 +206,10 @@ class DataVisualisationController extends Controller
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
         }
+        // Filter By Gender
+        if($request->selected_gender_groups) {
+            $records = $records->whereIn('Gender', $request->selected_gender_groups);
+        }
 
         $records = $records->get();
         $ages = array_count_values(array_column($records->toArray(), 'AgeGroup'));
@@ -208,6 +224,7 @@ class DataVisualisationController extends Controller
     public function get_genders(Request $request)
     {
         $records = \MeetPAT\BarkerStreetRecord::select('Gender')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $all_genders = $records->get();
 
         // Filter By Provinces
         if($request->selected_provinces) {
@@ -217,12 +234,19 @@ class DataVisualisationController extends Controller
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
         }
+        // Filter By Gender
+        if($request->selected_gender_groups) {
+            $records = $records->whereIn('Gender', $request->selected_gender_groups);
+        }
 
         $records = $records->get();
         $genders = array_count_values(array_column($records->toArray(), 'Gender'));
+        $all_genders = array_count_values(array_column($all_genders->toArray(), 'Gender'));
+
+        arsort($all_genders);
         arsort($genders);
 
-        return response()->json($genders);
+        return response()->json(["selected_genders" => $genders, "all_genders" => $genders]);
 
     }
 
@@ -237,6 +261,10 @@ class DataVisualisationController extends Controller
         // Filter By Age Groups
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+        // Filter By Gender
+        if($request->selected_gender_groups) {
+            $records = $records->whereIn('Gender', $request->selected_gender_groups);
         }
 
         $records = $records->get();
@@ -257,6 +285,10 @@ class DataVisualisationController extends Controller
         // Filter By Age Groups
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+        // Filter By Gender
+        if($request->selected_gender_groups) {
+            $records = $records->whereIn('Gender', $request->selected_gender_groups);
         }
 
         $records = $records->get();
@@ -280,6 +312,10 @@ class DataVisualisationController extends Controller
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
         }
+        // Filter By Gender
+        if($request->selected_gender_groups) {
+            $records = $records->whereIn('Gender', $request->selected_gender_groups);
+        }
 
         $records = $records->get();
         $household_income = array_count_values(array_column($records->toArray(), 'incomeBucket'));
@@ -299,6 +335,10 @@ class DataVisualisationController extends Controller
         // Filter By Age Groups
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+        // Filter By Gender
+        if($request->selected_gender_groups) {
+            $records = $records->whereIn('Gender', $request->selected_gender_groups);
         }
 
         $records = $records->get();
@@ -321,6 +361,10 @@ class DataVisualisationController extends Controller
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
         }
+        // Filter By Gender
+        if($request->selected_gender_groups) {
+            $records = $records->whereIn('Gender', $request->selected_gender_groups);
+        }
 
         $records = $records->get();
         $director_of_business = array_count_values(array_column($records->toArray(), 'DirectorshipStatus'));
@@ -342,6 +386,10 @@ class DataVisualisationController extends Controller
         // Filter By Age Groups
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+        // Filter By Gender
+        if($request->selected_gender_groups) {
+            $records = $records->whereIn('Gender', $request->selected_gender_groups);
         }
 
         $records = $records->get();
@@ -378,6 +426,10 @@ class DataVisualisationController extends Controller
         // Filter By Age Groups
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+        // Filter By Gender
+        if($request->selected_gender_groups) {
+            $records = $records->whereIn('Gender', $request->selected_gender_groups);
         }
 
         $records = $records->get();
@@ -426,6 +478,10 @@ class DataVisualisationController extends Controller
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
         }
+        // Filter By Gender
+        if($request->selected_gender_groups) {
+            $records = $records->whereIn('Gender', $request->selected_gender_groups);
+        }
 
         $records = $records->get();
         $marital_statuses = array_count_values(array_column($records->toArray(), 'MaritalStatus'));
@@ -445,6 +501,10 @@ class DataVisualisationController extends Controller
         // Filter By Age Groups
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+        // Filter By Gender
+        if($request->selected_gender_groups) {
+            $records = $records->whereIn('Gender', $request->selected_gender_groups);
         }
 
         $records = $records->get();

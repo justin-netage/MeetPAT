@@ -53,7 +53,7 @@
                 <!-- Default dropright button -->
                 <div class="btn-group dropright float-right">
                     <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        filter
+                       <i class="fas fa-filter"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-form">
                         <!-- Dropdown menu links -->
@@ -118,10 +118,10 @@
     </div>
     <div class="row">
         <div class="col-12 col-md-4" id="age-graph">
-            <h3 >Age
+            <h3>Age
             <div class="btn-group dropright float-right">
             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                filter
+               <i class="fas fa-filter"></i>
             </button>
             <div class="dropdown-menu dropdown-menu-form">
                 <!-- Dropdown menu links -->
@@ -146,7 +146,25 @@
                 <div id="agesChart" style="width: 100%; height: 250px;"></div>
         </div>
         <div class="col-12 col-md-4" id="gender-graph">
-            <h3 >Gender</h3>
+            <h3>Gender
+                <div class="btn-group dropright float-right">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   <i class="fas fa-filter"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-form">
+                    <!-- Dropdown menu links -->
+                    <form style="margin: 12px;" id="gender-filter-form">
+                        <div id="gender_filter">
+                        <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        </div>
+                        </div> <br/>
+                        <button name="gender_submit" id="genderSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                    </form>
+                </div>
+            </h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/man-2933984_640.jpg')}}"  class="img-fluid"/>
             <div class="spinner-block">
@@ -155,7 +173,7 @@
             <div id="genderChart" style="width: 100%; height: 200px;"></div>
         </div>
         <div class="col-12 col-md-4" id="population-graph">
-            <h3 >Polulation Group</h3>
+            <h3>Polulation Group</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/african-american-3671900_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
@@ -164,7 +182,7 @@
             <div id="populationGroupChart" style="width: 100%; height: 200px;"></div>
         </div>
         <div class="col-12 col-md-4" id="generation-graph">
-            <h3 >Generation</h3>
+            <h3>Generation</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/entrepreneur-2934861_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
@@ -173,7 +191,7 @@
             <div id="generationChart" style="width: 100%; height: 200px;"></div>
         </div>
         <div class="col-12 col-md-4" id="c-vs-v-graph">
-            <h3 >Citizen VS Resident</h3>
+            <h3>Citizen VS Resident</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/south-africa-653005_640.png')}}" class="img-fluid"/>
             <div class="spinner-block">
@@ -182,7 +200,7 @@
             <div id="citizensVsResidentsChart" style="width: 100%; height: 200px;"></div>
         </div>
         <div class="col-12 col-md-4" id="marital-status-graph">
-            <h3 >Marital Status</h3>
+            <h3>Marital Status</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/sunset-698501_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
@@ -203,7 +221,7 @@
     </div>
     <div class="row">
         <div class="col-12 col-md-4" id="home-owner-graph">
-            <h3 >Home Owner</h3>
+            <h3>Home Owner</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/architecture-1836070_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
@@ -220,7 +238,7 @@
             </div>
         </div>
         <div class="col-12 col-md-4">
-            <h3 >Average Home Value</h3>
+            <h3>Average Home Value</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/graphic-1020366_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
@@ -248,7 +266,7 @@
     </div>
     <div class="row">
         <!-- <div class="col-12 col-md-4">
-            <h3 >Blacklisted</h3>
+            <h3>Blacklisted</h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/graphic-1020366_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
