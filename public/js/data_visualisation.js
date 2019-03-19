@@ -805,7 +805,6 @@ var get_provinces = function() {
         drawProvinceChart(data["selected_provinces"]);
         drawMapChart(data["selected_provinces"]);
         get_municipalities();
-        console.log(data);
 
     });
 
@@ -936,20 +935,6 @@ $('.apply-filter-button').click(function() {
             target_ages.push($(this).val());
         }
     });
-
-    console.log(target_provinces);
-    console.log(target_municipalities);
-    console.log(target_areas);
-    console.log(target_ages);
-    console.log(target_genders);
-    console.log(target_population_groups);
-    console.log(target_generations);
-    console.log(target_citizen_vs_residents);
-    console.log(target_marital_statuses);
-    console.log(target_home_owners);
-    console.log(target_risk_categories);
-    console.log(target_incomes);
-    console.log(target_directors);
 
     apply_filters();
     get_provinces();
