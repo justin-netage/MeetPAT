@@ -71,7 +71,7 @@ class UploadClientRecords extends Command
         function get_age_group($age_group) {
 
             switch ($age_group) {
-                case "02 Twenties":
+                case "02. Twenties":
                     return "Twenties";
                     break;
                 case "03. Thirties":

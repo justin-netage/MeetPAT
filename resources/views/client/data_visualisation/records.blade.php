@@ -49,26 +49,26 @@
     </div><br />
     <div class="row">
         <div class="col-12 col-md-6" id="province-graph">
-            <h3 >Province
+            <h3>Province
                 <!-- Default dropright button -->
-        <div class="btn-group dropright float-right">
-        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            filter
-        </button>
-        <div class="dropdown-menu dropdown-menu-form">
-            <!-- Dropdown menu links -->
-            <form style="margin: 12px;" id="province-filter-form">
-                <div id="province_filter">
-                <div class="text-center">
-                <div class="spinner-border" role="status">
-                    <span class="sr-only">Loading...</span>
+                <div class="btn-group dropright float-right">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        filter
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-form">
+                        <!-- Dropdown menu links -->
+                        <form style="margin: 12px;" id="province-filter-form">
+                            <div id="province_filter">
+                            <div class="text-center">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            </div>
+                            </div> <br/>
+                            <button name="province_submit" id="provinceSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                        </form>
+                    </div>
                 </div>
-                </div>
-                </div> <br/>
-                <button name="province_submit" id="provinceSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
-            </form>
-        </div>
-        </div>
             </h3>
             <hr>
                 <div class="spinner-block">
@@ -118,7 +118,26 @@
     </div>
     <div class="row">
         <div class="col-12 col-md-4" id="age-graph">
-            <h3 >Age</h3>
+            <h3 >Age
+            <div class="btn-group dropright float-right">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                filter
+            </button>
+            <div class="dropdown-menu dropdown-menu-form">
+                <!-- Dropdown menu links -->
+                <form style="margin: 12px;" id="age-filter-form">
+                    <div id="age_filter">
+                    <div class="text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    </div>
+                    </div> <br/>
+                    <button name="ages_submit" id="agesSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                </form>
+            </div>
+        </div>
+            </h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/adult-2028245_640.png')}}" background-color: #3490DC;" class="img-fluid"/>
                 <div class="spinner-block">

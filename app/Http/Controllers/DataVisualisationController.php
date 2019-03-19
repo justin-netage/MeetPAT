@@ -124,16 +124,15 @@ class DataVisualisationController extends Controller
     {
         $records_count = \MeetPAT\BarkerStreetRecord::whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
 
+        // Filter By Provinces
         if($request->selected_provinces) {
-            foreach($request->selected_provinces as $key=>$province)
-            {
-                if($key == 0) {
-                    $records_count = $records_count->Where('Province', $province);
-                } else {
-                    $records_count = $records_count->orWhere('Province', $province);
-                }
-            }
+            $records_count = $records_count->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Age Groups
+        if($request->selected_age_groups) {
+            $records_count = $records_count->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+
         return response($records_count->count());
     }
 
@@ -141,16 +140,15 @@ class DataVisualisationController extends Controller
 
         $records = \MeetPAT\BarkerStreetRecord::select('GreaterArea')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
 
+        // Filter By Provinces
         if($request->selected_provinces) {
-            foreach($request->selected_provinces as $key=>$province)
-            {
-                if($key == 0) {
-                    $records = $records->Where('Province', $province);
-                } else {
-                    $records = $records->orWhere('Province', $province);
-                }
-            }
+            $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Age Groups
+        if($request->selected_age_groups) {
+            $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+
         $records = $records->get();
 
         $municipalities = array_count_values(array_column($records->toArray(), 'GreaterArea'));
@@ -165,16 +163,14 @@ class DataVisualisationController extends Controller
         $records = \MeetPAT\BarkerStreetRecord::select('Province')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_provinces = $records->get();
 
+        // Filter By Provinces
         if($request->selected_provinces) {
-            foreach($request->selected_provinces as $key=>$province)
-            {
-                if($key == 0) {
-                    $records = $records->Where('Province', $province);
-                } else {
-                    $records = $records->orWhere('Province', $province);
-                }
-            }
+            $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Age Groups
+        if($request->selected_age_groups) {
+            $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
             
         $records = $records->get();
         $provinces = array_count_values(array_column($records->toArray(), 'Province'));
@@ -182,28 +178,30 @@ class DataVisualisationController extends Controller
         arsort($all_provinces);
         arsort($provinces);
 
-        return response()->json(["selected_provinces" => $provinces, "all_provinces" => $all_provinces]);
+        return response()->json(["selected_provinces" => $provinces, "all_provinces" => $all_provinces, "request_provinces" => $request->selected_provinces, 'request_ages' => $request->selected_age_groups]);
     }
 
     public function get_ages(Request $request)
     {
         $records = \MeetPAT\BarkerStreetRecord::select('AgeGroup')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $all_ages = $records->get();
 
+        // Filter By Provinces
         if($request->selected_provinces) {
-            foreach($request->selected_provinces as $key=>$province)
-            {
-                if($key == 0) {
-                    $records = $records->Where('Province', $province);
-                } else {
-                    $records = $records->orWhere('Province', $province);
-                }
-            }
+            $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Age Groups
+        if($request->selected_age_groups) {
+            $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+
         $records = $records->get();
         $ages = array_count_values(array_column($records->toArray(), 'AgeGroup'));
+        $all_ages = array_count_values(array_column($all_ages->toArray(), 'AgeGroup'));
+        arsort($all_ages);
         arsort($ages);
 
-        return response()->json($ages);
+        return response()->json(["selected_ages" => $ages, "all_ages" => $all_ages]);
 
     }
 
@@ -211,16 +209,15 @@ class DataVisualisationController extends Controller
     {
         $records = \MeetPAT\BarkerStreetRecord::select('Gender')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
 
+        // Filter By Provinces
         if($request->selected_provinces) {
-            foreach($request->selected_provinces as $key=>$province)
-            {
-                if($key == 0) {
-                    $records = $records->Where('Province', $province);
-                } else {
-                    $records = $records->orWhere('Province', $province);
-                }
-            }
+            $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Age Groups
+        if($request->selected_age_groups) {
+            $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+
         $records = $records->get();
         $genders = array_count_values(array_column($records->toArray(), 'Gender'));
         arsort($genders);
@@ -232,16 +229,16 @@ class DataVisualisationController extends Controller
     public function get_population_groups(Request $request)
     {
         $records = \MeetPAT\BarkerStreetRecord::select('PopulationGroup')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+
+        // Filter By Provinces
         if($request->selected_provinces) {
-            foreach($request->selected_provinces as $key=>$province)
-            {
-                if($key == 0) {
-                    $records = $records->Where('Province', $province);
-                } else {
-                    $records = $records->orWhere('Province', $province);
-                }
-            }
+            $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Age Groups
+        if($request->selected_age_groups) {
+            $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+
         $records = $records->get();
         $population_groups = array_count_values(array_column($records->toArray(), 'PopulationGroup'));
         arsort($population_groups);
@@ -252,16 +249,16 @@ class DataVisualisationController extends Controller
     public function get_home_owner(Request $request) 
     {
         $records = \MeetPAT\BarkerStreetRecord::select('HomeOwnerShipStatus')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+
+        // Filter By Provinces
         if($request->selected_provinces) {
-            foreach($request->selected_provinces as $key=>$province)
-            {
-                if($key == 0) {
-                    $records = $records->Where('Province', $province);
-                } else {
-                    $records = $records->orWhere('Province', $province);
-                }
-            }
+            $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Age Groups
+        if($request->selected_age_groups) {
+            $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+
         $records = $records->get();
 
         $home_owner = array_count_values(array_column($records->toArray(), 'HomeOwnerShipStatus'));
@@ -274,16 +271,16 @@ class DataVisualisationController extends Controller
     public function get_household_income(Request $request)
     {
         $records = \MeetPAT\BarkerStreetRecord::select('income', 'incomeBucket')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+
+        // Filter By Provinces
         if($request->selected_provinces) {
-            foreach($request->selected_provinces as $key=>$province)
-            {
-                if($key == 0) {
-                    $records = $records->Where('Province', $province);
-                } else {
-                    $records = $records->orWhere('Province', $province);
-                }
-            }
+            $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Age Groups
+        if($request->selected_age_groups) {
+            $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+
         $records = $records->get();
         $household_income = array_count_values(array_column($records->toArray(), 'incomeBucket'));
         arsort($household_income);
@@ -295,16 +292,15 @@ class DataVisualisationController extends Controller
     {
         $records = \MeetPAT\BarkerStreetRecord::select('CreditRiskCategory')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
 
+        // Filter By Provinces
         if($request->selected_provinces) {
-            foreach($request->selected_provinces as $key=>$province)
-            {
-                if($key == 0) {
-                    $records = $records->Where('Province', $province);
-                } else {
-                    $records = $records->orWhere('Province', $province);
-                }
-            }
+            $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Age Groups
+        if($request->selected_age_groups) {
+            $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+
         $records = $records->get();
         $risk_category = array_count_values(array_column($records->toArray(), 'CreditRiskCategory'));
         arsort($risk_category);
@@ -316,16 +312,16 @@ class DataVisualisationController extends Controller
     public function get_director_of_business(Request $request)
     {
         $records = \MeetPAT\BarkerStreetRecord::select('DirectorshipStatus')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+
+        // Filter By Provinces
         if($request->selected_provinces) {
-            foreach($request->selected_provinces as $key=>$province)
-            {
-                if($key == 0) {
-                    $records = $records->Where('Province', $province);
-                } else {
-                    $records = $records->orWhere('Province', $province);
-                }
-            }
+            $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Age Groups
+        if($request->selected_age_groups) {
+            $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+
         $records = $records->get();
         $director_of_business = array_count_values(array_column($records->toArray(), 'DirectorshipStatus'));
         arsort($director_of_business);
@@ -338,18 +334,18 @@ class DataVisualisationController extends Controller
     public function get_citizens_and_residents(Request $request)
     {
         $records = \MeetPAT\BarkerStreetRecord::select('Idn', 'HasResidentialAddress')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+    
+        // Filter By Provinces
         if($request->selected_provinces) {
-            foreach($request->selected_provinces as $key=>$province)
-            {
-                if($key == 0) {
-                    $records = $records->Where('Province', $province);
-                } else {
-                    $records = $records->orWhere('Province', $province);
-                }
-            }
+            $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Age Groups
+        if($request->selected_age_groups) {
+            $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+
         $records = $records->get();
-        
+
         $citizen = 0;
         $resident = 0;
 
@@ -374,16 +370,16 @@ class DataVisualisationController extends Controller
     public function get_generations(Request $request)
     {
         $records = \MeetPAT\BarkerStreetRecord::select('Idn')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        
+        // Filter By Provinces
         if($request->selected_provinces) {
-            foreach($request->selected_provinces as $key=>$province)
-            {
-                if($key == 0) {
-                    $records = $records->Where('Province', $province);
-                } else {
-                    $records = $records->orWhere('Province', $province);
-                }
-            }
+            $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Age Groups
+        if($request->selected_age_groups) {
+            $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+
         $records = $records->get();
 
         $baby_boomer_generation = 0;
@@ -421,16 +417,16 @@ class DataVisualisationController extends Controller
     public function get_marital_statuses(Request $request)
     {
         $records = \MeetPAT\BarkerStreetRecord::select('MaritalStatus')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+
+        // Filter By Provinces
         if($request->selected_provinces) {
-            foreach($request->selected_provinces as $key=>$province)
-            {
-                if($key == 0) {
-                    $records = $records->Where('Province', $province);
-                } else {
-                    $records = $records->orWhere('Province', $province);
-                }
-            }
+            $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Age Groups
+        if($request->selected_age_groups) {
+            $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+
         $records = $records->get();
         $marital_statuses = array_count_values(array_column($records->toArray(), 'MaritalStatus'));
         arsort($marital_statuses);
@@ -441,16 +437,16 @@ class DataVisualisationController extends Controller
     public function get_area(Request $request) {
 
         $records = \MeetPAT\BarkerStreetRecord::select('Area')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        
+        // Filter By Provinces
         if($request->selected_provinces) {
-            foreach($request->selected_provinces as $key=>$province)
-            {
-                if($key == 0) {
-                    $records = $records->Where('Province', $province);
-                } else {
-                    $records = $records->orWhere('Province', $province);
-                }
-            }
+            $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Age Groups
+        if($request->selected_age_groups) {
+            $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+
         $records = $records->get();
         $areas = array_count_values(array_column($records->toArray(), 'Area'));
 
@@ -459,6 +455,7 @@ class DataVisualisationController extends Controller
         return response()->json($areas);
     }
 
+    // Part of Api for Progress Tracking
     public function get_job_que(Request $request) {
 
         $jobs = \MeetPAT\RecordsJobQue::where('user_id', $request->user_id)->with('audience_file')->orderBy('created_at', 'DESC')->whereDate('created_at', '=', Carbon::today()->toDateString());
