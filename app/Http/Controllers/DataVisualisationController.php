@@ -246,7 +246,7 @@ class DataVisualisationController extends Controller
         arsort($all_genders);
         arsort($genders);
 
-        return response()->json(["selected_genders" => $genders, "all_genders" => $genders]);
+        return response()->json(["selected_genders" => $genders, "all_genders" => $all_genders]);
 
     }
 
