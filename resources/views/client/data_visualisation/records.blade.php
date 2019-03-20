@@ -173,7 +173,25 @@
             <div id="genderChart" style="width: 100%; height: 200px;"></div>
         </div>
         <div class="col-12 col-md-4" id="population-graph">
-            <h3>Polulation Group</h3>
+            <h3>Polulation Group
+            <div class="btn-group dropright float-right">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               <i class="fas fa-filter"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-form">
+                <!-- Dropdown menu links -->
+                <form style="margin: 12px;" id="population-group-filter-form">
+                    <div id="population_group_filter">
+                    <div class="text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    </div>
+                    </div> <br/>
+                    <button name="population_groups_submit" id="population_groupsSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                </form>
+            </div>
+            </h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/african-american-3671900_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
@@ -182,7 +200,25 @@
             <div id="populationGroupChart" style="width: 100%; height: 200px;"></div>
         </div>
         <div class="col-12 col-md-4" id="generation-graph">
-            <h3>Generation</h3>
+            <h3>Generation
+                <div class="btn-group dropright float-right">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-filter"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-form">
+                    <!-- Dropdown menu links -->
+                    <form style="margin: 12px;" id="generation-filter-form">
+                        <div id="generation_filter">
+                        <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        </div>
+                        </div> <br/>
+                        <button name="generations_submit" id="generationsSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                    </form>
+                </div>
+            </h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/entrepreneur-2934861_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">

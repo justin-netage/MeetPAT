@@ -201,6 +201,28 @@ class UploadClientRecords extends Command
             }
         }
 
+        function get_generation($id_number) {
+            $year = substr($id_number, 0, 2);
+            $generation;
+            if($year) {
+                if($year >= 46 and $year <= 64) {
+                    $generation = "Baby Boomer";
+                } else if($year >= 65 and $year <= 79) {
+                    $generation = "Generation X";
+                } else if($year >= 75 and $year <= 85) {
+                    $generation = "Xennials";
+                } else if($year >= 80 and $year <= 94) {
+                    $generation = "Millennials";
+                } else if($year >= 95 and $year <= 12) {
+                    $generation = "iGen";
+                } else {
+                    $generation = "Unknown";
+                }
+            }
+
+            return $generation;
+        }
+
         $all_jobs = \MeetPAT\RecordsJobQue::all();
         $records_job_que = \MeetPAT\RecordsJobQue::where('status', 'pending')->get();
         $records_job_que_running = \MeetPAT\RecordsJobQue::where('status', 'running')->count();
@@ -267,6 +289,7 @@ class UploadClientRecords extends Command
                                     'HomePhone2' => check_value(validate_mobile_number($row[10])),
                                     'HomePhone3' => check_value(validate_mobile_number($row[11])),
                                     'AgeGroup' => check_value(get_age_group($row[12])),
+                                    'GenerationGroup' => check_value(get_generation($row[0])),
                                     'Gender' => check_value(get_gender($row[13])),
                                     'PopulationGroup' => check_value(get_population_group($row[14])),
                                     'DeceasedStatus' => check_value($row[15]),

@@ -73,7 +73,7 @@ function drawProvinceChart( chart_data ) {
         var chart_options = {
             'height': result.length * 25,
             'width':'100%',
-            'fontSize': 12,
+            'fontSize': 10,
             'chartArea': {
                 width: '60%',
                 height: '100%'
@@ -98,7 +98,8 @@ function drawProvinceChart( chart_data ) {
 function drawAreaChart(  ) {
 
     $.get('/api/meetpat-client/get-records/areas', {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders, selected_gender_groups: target_genders}, function( chart_data ) {
+         selected_age_groups: target_ages, selected_gender_groups: target_genders, selected_gender_groups: target_genders, 
+         selected_population_groups: target_population_groups}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data )
@@ -119,7 +120,7 @@ function drawAreaChart(  ) {
         var chart_options = {
                         'width':'100%',
                         'height': result.length * 25,
-                        'fontSize': 12,
+                        'fontSize': 10,
                         'chartArea': {
                             width: '60%',
                             height: '100s%'
@@ -160,7 +161,7 @@ function drawAreaChart(  ) {
             var chart_options = {
                             'height': result.length * 25,
                             'width':'100%',
-                            'fontSize': 12,
+                            'fontSize': 10,
                             'chartArea': {
                                 width: '60%',
                                 height: '100%'
@@ -244,7 +245,8 @@ function drawAreaChart(  ) {
   var drawAgeChart = function (  ) {
 
     $.get('/api/meetpat-client/get-records/ages', {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders}, function( chart_data ) {
+         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
+         selected_population_groups: target_population_groups}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -267,7 +269,7 @@ function drawAreaChart(  ) {
             var chart_options = {
                             'height': result.length * 25,
                             'width':'100%',
-                            'fontSize': 12,
+                            'fontSize': 10,
                             'chartArea': {
                                 width: '60%',
                                 height: '100%'
@@ -306,7 +308,8 @@ function drawAreaChart(  ) {
 
     var drawGenderChart = function() {
         $.get('/api/meetpat-client/get-records/genders', {user_id: user_id_number, selected_provinces: target_provinces,
-             selected_age_groups: target_ages, selected_gender_groups: target_genders}, function(chart_data) {
+             selected_age_groups: target_ages, selected_gender_groups: target_genders, 
+             selected_population_groups: target_population_groups}, function(chart_data) {
 
         }).fail(function( chart_data ) {
             console.log( chart_data )
@@ -327,11 +330,14 @@ function drawAreaChart(  ) {
                 // Set chart options
                 var chart_options = {
                                 'width':'100%',
-                                'fontSize': 12,
+                                'fontSize': 10,
                                 'chartArea': {
                                     width: '60%',
                                     height: '75%'
                                     },
+                                vAxis: {
+                                    minValue: 0,
+                                },                                     
                                 'colors': ['#3490DC'],
                                 'animation': {
                                     'startup':true,
@@ -365,32 +371,37 @@ function drawAreaChart(  ) {
 
     var drawPopulationChart = function() {
         $.get('/api/meetpat-client/get-records/population-groups', {user_id: user_id_number, selected_provinces: target_provinces,
-             selected_age_groups: target_ages, selected_gender_groups: target_genders}, function( chart_data ) {
+             selected_age_groups: target_ages, selected_gender_groups: target_genders, 
+             selected_population_groups: target_population_groups}, function( chart_data ) {
 
         }).fail(function( chart_data ) {
             console.log( chart_data );
 
         }).done(function( chart_data ) {
             $("#population-graph .spinner-block").hide();    
+            $("#population_group_filter").empty();
 
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Group');
             data.addColumn('number', 'Records');
             data.addColumn({type: 'string', role: 'annotation'});
 
-            var result = Object.keys(chart_data).map(function(key) {
-                return [key, chart_data[key], kFormatter(chart_data[key])];
+            var result = Object.keys(chart_data["selected_population_groups"]).map(function(key) {
+                return [key, chart_data["selected_population_groups"][key], kFormatter(chart_data["selected_population_groups"][key])];
             });
         
             data.addRows(result);
             // Set chart options
             var chart_options = {
                             'width':'100%',
-                            'fontSize': 12,
+                            'fontSize': 10,
                             'chartArea': {
                                 width: '60%',
                                 height: '75%'
                                 },
+                            vAxis: {
+                                minValue: 0,
+                            },                                 
                             'colors': ['#3490DC'],
                             'animation': {
                                 'startup':true,
@@ -402,6 +413,19 @@ function drawAreaChart(  ) {
                             },
                             'backgroundColor': '#fff'
                         };
+
+                        for (var key in chart_data["all_population_groups"]) {
+                            if(target_population_groups.includes(key)) {
+                                $("#population_group_filter").append(
+                                    '<input type="checkbox" name="' + key + '" id="' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="' + key.toLowerCase() + '_option' +'" class="css-label">' + key + '</label><br />'
+                                );
+                            } else {
+                                $("#population_group_filter").append(
+                                    '<input type="checkbox" name="' + key + '" id="' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox"><label for="' + key.toLowerCase() + '_option' +'" class="css-label">' + key + '</label><br />'
+                                );
+                            }
+                
+                        }
             
                 // Instantiate and draw our chart, passing in some options.
                 var chart = new google.visualization.ColumnChart(document.getElementById('populationGroupChart'));
@@ -412,31 +436,36 @@ function drawAreaChart(  ) {
     var drawGenerationChart = function() {
 
         $.get('/api/meetpat-client/get-records/generations', {user_id: user_id_number, selected_provinces: target_provinces,
-             selected_age_groups: target_ages, selected_gender_groups: target_genders}, function( chart_data ) {
+             selected_age_groups: target_ages, selected_gender_groups: target_genders, 
+             selected_population_groups: target_population_groups}, function( chart_data ) {
 
         }).fail(function( chart_data ) {
             console.log( chart_data );
         }).done(function( chart_data ) {
             $("#generation-graph .spinner-block").hide();    
+            $("#generation_filter").empty();
 
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Generation');
             data.addColumn('number', 'Records');
             data.addColumn({type: 'string', role: 'annotation'});
 
-            var result = Object.keys(chart_data).map(function(key) {
-                return [key, chart_data[key], kFormatter(chart_data[key])];
+            var result = Object.keys(chart_data["selected_generations"]).map(function(key) {
+                return [key, chart_data["selected_generations"][key], kFormatter(chart_data["selected_generations"][key])];
             });
         
             data.addRows(result);
             // Set chart options
             var chart_options = {
                             'width':'100%',
-                            'fontSize': 12,
+                            'fontSize': 10,
                             'chartArea': {
                                 width: '60%',
                                 height: '75%'
                                 },
+                            vAxis: {
+                                minValue: 0,
+                            }, 
                             'colors': ['#3490DC'],
                             'animation': {
                                 'startup':true,
@@ -448,7 +477,18 @@ function drawAreaChart(  ) {
                             },
                             'backgroundColor': '#fff'
                         };
-            
+                        for (var key in chart_data["all_generations"]) {
+                            if(target_generations.includes(key)) {
+                                $("#generation_filter").append(
+                                    '<input type="checkbox" name="' + key + '" id="' + key.toLowerCase().replace(" ", "_") + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="' + key.toLowerCase().replace(" ", "_") + '_option' +'" class="css-label">' + key + '</label><br />'
+                                );
+                            } else {
+                                $("#generation_filter").append(
+                                    '<input type="checkbox" name="' + key + '" id="' + key.toLowerCase().replace(" ", "_") + '_option' +'" value="' + key + '" class="css-checkbox"><label for="' + key.toLowerCase().replace(" ", "_") + '_option' +'" class="css-label">' + key + '</label><br />'
+                                );
+                            }
+                
+                        }            
                 // Instantiate and draw our chart, passing in some options.
                 var chart = new google.visualization.ColumnChart(document.getElementById('generationChart'));
                 chart.draw(data, chart_options);
@@ -459,7 +499,8 @@ function drawAreaChart(  ) {
 
 var drawCitizensChart = function() {
     $.get('/api/meetpat-client/get-records/citizens-and-residents', {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders}, function( chart_data ) {
+         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
+         selected_population_groups: target_population_groups}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -479,11 +520,14 @@ var drawCitizensChart = function() {
             // Set chart options
             var chart_options = {
                             'width':'100%',
-                            'fontSize': 12,
+                            'fontSize': 10,
                             'chartArea': {
                                 width: '60%',
                                 height: '75%'
                                 },
+                            vAxis: {
+                                minValue: 0,
+                            }, 
                             'colors': ['#3490DC'],
                             'animation': {
                                 'startup':true,
@@ -504,7 +548,8 @@ var drawCitizensChart = function() {
 
 var drawMaritalStatusChart = function() {
     $.get('/api/meetpat-client/get-records/marital-statuses', {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders}, function( chart_data ) {
+         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
+         selected_population_groups: target_population_groups}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -524,11 +569,14 @@ var drawMaritalStatusChart = function() {
             // Set chart options
             var chart_options = {
                             'width':'100%',
-                            'fontSize': 12,
+                            'fontSize': 10,
                             'chartArea': {
                                 width: '60%',
                                 height: '75%'
                                 },
+                            vAxis: {
+                                minValue: 0,
+                            },                        
                             'colors': ['#3490DC'],
                             'animation': {
                                 'startup':true,
@@ -549,7 +597,8 @@ var drawMaritalStatusChart = function() {
 
 var drawHomeOwnerChart = function() {
     $.get('/api/meetpat-client/get-records/home-owner', {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders}, function( chart_data ) {
+         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
+         selected_population_groups: target_population_groups}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -569,11 +618,14 @@ var drawHomeOwnerChart = function() {
             // Set chart options
             var chart_options = {
                             'width':'100%',
-                            'fontSize': 12,
+                            'fontSize': 10,
                             'chartArea': {
                                 width: '60%',
                                 height: '75%'
                                 },
+                            vAxis: {
+                                minValue: 0,
+                            }, 
                             'colors': ['#3490DC'],
                             'animation': {
                                 'startup':true,
@@ -594,7 +646,8 @@ var drawHomeOwnerChart = function() {
 
 var drawRiskCategoryChart = function() {
     $.get('/api/meetpat-client/get-records/risk-category', {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders}, function( chart_data ) {
+         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
+         selected_population_groups: target_population_groups}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -616,7 +669,7 @@ var drawRiskCategoryChart = function() {
             var chart_options = {
                             'height': result.length * 25,
                             'width':'100%',
-                            'fontSize': 12,
+                            'fontSize': 10,
                             'chartArea': {
                                 width: '50%',
                                 height: '100%'
@@ -641,7 +694,8 @@ var drawRiskCategoryChart = function() {
 
 var drawHouseholdIncomeChart = function() {
     $.get('/api/meetpat-client/get-records/household-income', {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders}, function( chart_data ) {
+         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
+         selected_population_groups: target_population_groups}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -663,7 +717,7 @@ var drawHouseholdIncomeChart = function() {
             var chart_options = {
                             'height': result.length * 25,
                             'width':'100%',
-                            'fontSize': 12,
+                            'fontSize': 10,
                             'chartArea': {
                                 width: '40%',
                                 height: '100%'
@@ -689,7 +743,8 @@ var drawHouseholdIncomeChart = function() {
 var drawDirectorOfBusinessChart = function() {
     
     $.get('/api/meetpat-client/get-records/director-of-business', {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders}, function( chart_data ) {
+         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
+         selected_population_groups: target_population_groups}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -709,11 +764,14 @@ var drawDirectorOfBusinessChart = function() {
             // Set chart options
             var chart_options = {
                             'width':'100%',
-                            'fontSize': 12,
+                            'fontSize': 10,
                             'chartArea': {
                                 width: '60%',
                                 height: '75%'
                                 },
+                            vAxis: {
+                                minValue: 0,
+                            },                             
                             'colors': ['#3490DC'],
                             'animation': {
                                 'startup':true,
@@ -740,7 +798,8 @@ var get_records_count =  function(records_data) {
     var records_toast = $("#records-toast .toast-body");
         
     $.get("/api/meetpat-client/get-records/count", {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders}, function( data ) {
+         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
+         selected_population_groups: target_population_groups}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
         console.log(data)
@@ -756,7 +815,8 @@ var get_records_count =  function(records_data) {
 var get_municipalities = function() {
 
     $.get("/api/meetpat-client/get-records/municipalities", {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders}, function( data ) {
+         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
+         selected_population_groups: target_population_groups}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
         //console.log(data)
@@ -773,7 +833,8 @@ var get_provinces = function() {
     get_records_count();
 
     $.get("/api/meetpat-client/get-records/provinces", {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders}, function( data ) {
+         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
+         selected_population_groups: target_population_groups}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
         console.log(data)
@@ -904,35 +965,37 @@ var get_marital_statuses = function() {
 // Apply filters function
 
 var apply_filters = function() {
-    el_province_spinner = $("#province-graph .spinner-block").show(); el_province_spinner = $("#provincesChart").empty();
-    el_municipality_spinner = $("#municipality-graph .spinner-block").show(); el_municipality_graph = $("#municipalityChart").empty();
-    el_map_spinner = $("#map-graph .spinner-block").show(); el_map_spinner = $("#chartdiv").empty();
-    el_area_spinner = $("#area-graph .spinner-block").show(); el_area_spinner = $("#areasChart").empty();
-    el_age_spinner = $("#age-graph .spinner-block").show(); el_age_spinner = $("#agesChart").empty();
-    el_gender_spinner = $("#gender-graph .spinner-block").show(); el_gender_spinner = $("#genderChart").empty();
-    el_population_spinner = $("#population-graph .spinner-block").show(); el_population_spinner = $("#populationGroupChart").empty();
-    el_generation_spinner = $("#generation-graph .spinner-block").show(); el_generation_spinner = $("#generationChart").empty();
-    el_c_vs_v_spinner = $("#c-vs-v-graph .spinner-block").show(); el_c_vs_v_spinner = $("#citizensVsResidentsChart").empty();
-    el_marital_status_spinner = $("#marital-status-graph .spinner-block").show(); el_marital_status_spinner = $("#maritalStatusChart").empty();
-    el_home_owner_spinner = $("#home-owner-graph .spinner-block").show(); el_home_owner_spinner = $("#homeOwnerChart").empty();
-    el_risk_category_spinner = $("#risk-category-graph .spinner-block").show();  el_risk_category_spinner = $("#riskCategoryChart").empty();
-    el_income_spinner = $("#income-graph .spinner-block").show(); el_income_spinner = $("#householdIncomeChart").empty();
-    el_directors_spinner = $("#directors-graph .spinner-block").show(); el_directors_spinner = $("#directorOfBusinessChart").empty();
+    $("#province-graph .spinner-block").show(); $("#provincesChart").empty(); $("#province_filter").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
+    $("#municipality-graph .spinner-block").show(); $("#municipalityChart").empty(); 
+    $("#map-graph .spinner-block").show(); $("#chartdiv").empty(); 
+    $("#area-graph .spinner-block").show(); $("#areasChart").empty(); 
+    $("#age-graph .spinner-block").show(); $("#agesChart").empty(); $("#age_filter").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
+    $("#gender-graph .spinner-block").show(); $("#genderChart").empty(); $("#gender_filter").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
+    $("#population-graph .spinner-block").show(); $("#populationGroupChart").empty(); $("#population_group_filter").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
+    $("#generation-graph .spinner-block").show(); $("#generationChart").empty(); $("#generation_filter").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
+    $("#c-vs-v-graph .spinner-block").show(); $("#citizensVsResidentsChart").empty(); //$("#c-vs-v-filter-form").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
+    $("#marital-status-graph .spinner-block").show(); $("#maritalStatusChart").empty(); //$("#marital-status-filter-form").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
+    $("#home-owner-graph .spinner-block").show(); $("#homeOwnerChart").empty(); //$("#home-owner-filter-form").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
+    $("#risk-category-graph .spinner-block").show();  $("#riskCategoryChart").empty(); //$("#risk-category-filter-form").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
+    $("#income-graph .spinner-block").show(); $("#householdIncomeChart").empty(); //$("#household-income-filter-form").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
+    $("#directors-graph .spinner-block").show(); $("#directorOfBusinessChart").empty(); //$("#directer-of-business-filter-form").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
+    
+    $("#records-main-toast .toast-body").html(
+                        '<div class="d-flex justify-content-center">' +
+                            '<div class="spinner-border text-primary" role="status">' +
+                            '<span class="sr-only">Loading...</span>' +
+                            '</div>' +
+                        '</div>'
+    );
+    $("#records-toast .toast-body").html(
+                        '<div class="d-flex justify-content-center">' +
+                            '<div class="spinner-border text-primary" role="status">' +
+                            '<span class="sr-only">Loading...</span>' +
+                            '</div>' +
+                        '</div>'
+    );
 
-    records_count = $("#records-main-toast .toast-body").html(
-                        '<div class="d-flex justify-content-center">' +
-                            '<div class="spinner-border text-primary" role="status">' +
-                            '<span class="sr-only">Loading...</span>' +
-                            '</div>' +
-                        '</div>'
-    );
-    records_toast = $("#records-toast .toast-body").html(
-                        '<div class="d-flex justify-content-center">' +
-                            '<div class="spinner-border text-primary" role="status">' +
-                            '<span class="sr-only">Loading...</span>' +
-                            '</div>' +
-                        '</div>'
-    );
+
 }
 
 $('.apply-filter-button').click(function() {
@@ -968,6 +1031,18 @@ $('.apply-filter-button').click(function() {
     $("#gender-filter-form input[type='checkbox']").each(function() {
         if(this.checked) {
             target_genders.push($(this).val());
+        }
+    });
+
+    $("#population-group-filter-form input[type='checkbox']").each(function() {
+        if(this.checked) {
+            target_population_groups.push($(this).val());
+        }
+    });
+
+    $("#generation-filter-form input[type='checkbox']").each(function() {
+        if(this.checked) {
+            target_generations.push($(this).val());
         }
     });
 

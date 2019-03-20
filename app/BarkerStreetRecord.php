@@ -21,6 +21,7 @@ class BarkerStreetRecord extends Model
         'HomePhone2',
         'HomePhone3',
         'AgeGroup',
+        'GenerationGroup',
         'Gender',
         'PopulationGroup',
         'DeceasedStatus',

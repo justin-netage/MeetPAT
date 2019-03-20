@@ -28,6 +28,7 @@ class CreateBarkerStreetRecordsTable extends Migration
             $table->string('HomePhone2')->nullable();
             $table->string('HomePhone3')->nullable();
             $table->enum('AgeGroup', ['Twenties', 'Thirties', 'Fourties', 'Fifties', 'Sixties', 'Senventies', 'Eighty +', 'Unknown'])->nullable();
+            $table->enum('GenerationGroup', ['Baby Boomer', 'Generation X', 'Xennials', 'Millennials', 'iGen', 'Unknown'])->nullable();
             $table->enum('Gender', ['M', 'F', 'Unknown'])->nullable();
             $table->enum('PopulationGroup', ['B', 'W', 'C', 'A', 'Unknown'])->nullable();
             $table->enum('DeceasedStatus', ['true', 'false', 'Unknown'])->nullable();
