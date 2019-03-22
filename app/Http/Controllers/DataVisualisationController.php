@@ -141,8 +141,8 @@ class DataVisualisationController extends Controller
             $records_count = $records_count->whereIn('PopulationGroup', $request->selected_population_groups);
         }
         // Filter By Generation
-        if($request->selected_population_groups) {
-            $records = $records->whereIn('GenerationGroup', $request->selected_population_groups);
+        if($request->selected_generations) {
+            $records_count = $records_count->whereIn('GenerationGroup', $request->selected_generations);
         }
 
         return response($records_count->count());
@@ -167,6 +167,10 @@ class DataVisualisationController extends Controller
         // Filter By Population Group
         if($request->selected_population_groups) {
             $records = $records->whereIn('PopulationGroup', $request->selected_population_groups);
+        }
+        // Filter By Generation Group
+        if($request->selected_generations) {
+            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
         }
 
         $records = $records->get();
@@ -199,6 +203,10 @@ class DataVisualisationController extends Controller
         if($request->selected_population_groups) {
             $records = $records->whereIn('PopulationGroup', $request->selected_population_groups);
         }
+        // Filter By Generation Group
+        if($request->selected_generations) {
+            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+        }
 
         $records = $records->get();
         $provinces = array_count_values(array_column($records->toArray(), 'Province'));
@@ -229,6 +237,10 @@ class DataVisualisationController extends Controller
         // Filter By Population Group
         if($request->selected_population_groups) {
             $records = $records->whereIn('PopulationGroup', $request->selected_population_groups);
+        }
+        // Filter By Generation
+        if($request->selected_generations) {
+            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
         }
 
         $records = $records->get();
@@ -261,6 +273,10 @@ class DataVisualisationController extends Controller
         // Filter By Population Group
         if($request->selected_population_groups) {
             $records = $records->whereIn('PopulationGroup', $request->selected_population_groups);
+        }
+        // Filter By Generation
+        if($request->selected_generations) {
+            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
         }
 
         $records = $records->get();
@@ -295,6 +311,10 @@ class DataVisualisationController extends Controller
         if($request->selected_population_groups) {
             $records = $records->whereIn('PopulationGroup', $request->selected_population_groups);
         }
+        // Filter By Generation
+        if($request->selected_generations) {
+            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+        }
 
         $records = $records->get();
         $population_groups = array_count_values(array_column($records->toArray(), 'PopulationGroup'));
@@ -326,6 +346,10 @@ class DataVisualisationController extends Controller
         if($request->selected_population_groups) {
             $records = $records->whereIn('PopulationGroup', $request->selected_population_groups);
         }
+        // Filter By Generation
+        if($request->selected_generations) {
+            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+        }
 
         $records = $records->get();
 
@@ -356,6 +380,10 @@ class DataVisualisationController extends Controller
         if($request->selected_population_groups) {
             $records = $records->whereIn('PopulationGroup', $request->selected_population_groups);
         }
+        // Filter By Generation
+        if($request->selected_generations) {
+            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+        }
 
         $records = $records->get();
         $household_income = array_count_values(array_column($records->toArray(), 'incomeBucket'));
@@ -384,6 +412,10 @@ class DataVisualisationController extends Controller
         if($request->selected_population_groups) {
             $records = $records->whereIn('PopulationGroup', $request->selected_population_groups);
         }
+        // Filter By Generation
+        if($request->selected_generations) {
+            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+        }        
 
         $records = $records->get();
         $risk_category = array_count_values(array_column($records->toArray(), 'CreditRiskCategory'));
@@ -412,6 +444,10 @@ class DataVisualisationController extends Controller
         // Filter By Population Group
         if($request->selected_population_groups) {
             $records = $records->whereIn('PopulationGroup', $request->selected_population_groups);
+        }
+        // Filter By Generation
+        if($request->selected_generations) {
+            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
         }
 
         $records = $records->get();
@@ -443,7 +479,11 @@ class DataVisualisationController extends Controller
         if($request->selected_population_groups) {
             $records = $records->whereIn('PopulationGroup', $request->selected_population_groups);
         }
-
+        // Filter By Generation
+        if($request->selected_generations) {
+            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+        }
+        
         $records = $records->get();
 
         $citizen = 0;
@@ -469,7 +509,7 @@ class DataVisualisationController extends Controller
 
     public function get_generations(Request $request)
     {
-        $records = \MeetPAT\BarkerStreetRecord::select('Idn')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\BarkerStreetRecord::select('GenerationGroup')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_generations = $records->get();
         // Filter By Provinces
         if($request->selected_provinces) {
@@ -522,6 +562,10 @@ class DataVisualisationController extends Controller
         if($request->selected_population_groups) {
             $records = $records->whereIn('PopulationGroup', $request->selected_population_groups);
         }
+        // Filter By Generation Group
+        if($request->selected_generations) {
+            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+        }
 
         $records = $records->get();
         $marital_statuses = array_count_values(array_column($records->toArray(), 'MaritalStatus'));
@@ -549,6 +593,10 @@ class DataVisualisationController extends Controller
         // Filter By Population Group
         if($request->selected_population_groups) {
             $records = $records->whereIn('PopulationGroup', $request->selected_population_groups);
+        }
+        // Filter By Generation Group
+        if($request->selected_generations) {
+            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
         }
 
         $records = $records->get();

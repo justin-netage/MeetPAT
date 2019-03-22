@@ -99,7 +99,7 @@ function drawAreaChart(  ) {
 
     $.get('/api/meetpat-client/get-records/areas', {user_id: user_id_number, selected_provinces: target_provinces,
          selected_age_groups: target_ages, selected_gender_groups: target_genders, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups}, function( chart_data ) {
+         selected_population_groups: target_population_groups, selected_generations: target_generations}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data )
@@ -246,7 +246,7 @@ function drawAreaChart(  ) {
 
     $.get('/api/meetpat-client/get-records/ages', {user_id: user_id_number, selected_provinces: target_provinces,
          selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups}, function( chart_data ) {
+         selected_population_groups: target_population_groups, selected_generations: target_generations}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -309,7 +309,7 @@ function drawAreaChart(  ) {
     var drawGenderChart = function() {
         $.get('/api/meetpat-client/get-records/genders', {user_id: user_id_number, selected_provinces: target_provinces,
              selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-             selected_population_groups: target_population_groups}, function(chart_data) {
+             selected_population_groups: target_population_groups, selected_generations: target_generations}, function(chart_data) {
 
         }).fail(function( chart_data ) {
             console.log( chart_data )
@@ -372,7 +372,7 @@ function drawAreaChart(  ) {
     var drawPopulationChart = function() {
         $.get('/api/meetpat-client/get-records/population-groups', {user_id: user_id_number, selected_provinces: target_provinces,
              selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-             selected_population_groups: target_population_groups}, function( chart_data ) {
+             selected_population_groups: target_population_groups, selected_generations: target_generations}, function( chart_data ) {
 
         }).fail(function( chart_data ) {
             console.log( chart_data );
@@ -437,7 +437,7 @@ function drawAreaChart(  ) {
 
         $.get('/api/meetpat-client/get-records/generations', {user_id: user_id_number, selected_provinces: target_provinces,
              selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-             selected_population_groups: target_population_groups}, function( chart_data ) {
+             selected_population_groups: target_population_groups, selected_generations: target_generations}, function( chart_data ) {
 
         }).fail(function( chart_data ) {
             console.log( chart_data );
@@ -500,7 +500,7 @@ function drawAreaChart(  ) {
 var drawCitizensChart = function() {
     $.get('/api/meetpat-client/get-records/citizens-and-residents', {user_id: user_id_number, selected_provinces: target_provinces,
          selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups}, function( chart_data ) {
+         selected_population_groups: target_population_groups, selected_generations: target_generations}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -549,7 +549,7 @@ var drawCitizensChart = function() {
 var drawMaritalStatusChart = function() {
     $.get('/api/meetpat-client/get-records/marital-statuses', {user_id: user_id_number, selected_provinces: target_provinces,
          selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups}, function( chart_data ) {
+         selected_population_groups: target_population_groups, selected_generations: target_generations}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -598,7 +598,7 @@ var drawMaritalStatusChart = function() {
 var drawHomeOwnerChart = function() {
     $.get('/api/meetpat-client/get-records/home-owner', {user_id: user_id_number, selected_provinces: target_provinces,
          selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups}, function( chart_data ) {
+         selected_population_groups: target_population_groups, selected_generations: target_generations}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -647,7 +647,7 @@ var drawHomeOwnerChart = function() {
 var drawRiskCategoryChart = function() {
     $.get('/api/meetpat-client/get-records/risk-category', {user_id: user_id_number, selected_provinces: target_provinces,
          selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups}, function( chart_data ) {
+         selected_population_groups: target_population_groups, selected_generations: target_generations}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -695,7 +695,7 @@ var drawRiskCategoryChart = function() {
 var drawHouseholdIncomeChart = function() {
     $.get('/api/meetpat-client/get-records/household-income', {user_id: user_id_number, selected_provinces: target_provinces,
          selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups}, function( chart_data ) {
+         selected_population_groups: target_population_groups, selected_generations: target_generations}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -744,7 +744,7 @@ var drawDirectorOfBusinessChart = function() {
     
     $.get('/api/meetpat-client/get-records/director-of-business', {user_id: user_id_number, selected_provinces: target_provinces,
          selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups}, function( chart_data ) {
+         selected_population_groups: target_population_groups, selected_generations: target_generations}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -799,7 +799,7 @@ var get_records_count =  function(records_data) {
         
     $.get("/api/meetpat-client/get-records/count", {user_id: user_id_number, selected_provinces: target_provinces,
          selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups}, function( data ) {
+         selected_population_groups: target_population_groups, selected_generations: target_generations}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
         console.log(data)
@@ -816,7 +816,7 @@ var get_municipalities = function() {
 
     $.get("/api/meetpat-client/get-records/municipalities", {user_id: user_id_number, selected_provinces: target_provinces,
          selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups}, function( data ) {
+         selected_population_groups: target_population_groups, selected_generations: target_generations}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
         //console.log(data)
@@ -834,7 +834,7 @@ var get_provinces = function() {
 
     $.get("/api/meetpat-client/get-records/provinces", {user_id: user_id_number, selected_provinces: target_provinces,
          selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups}, function( data ) {
+         selected_population_groups: target_population_groups, selected_generations: target_generations}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
         console.log(data)
