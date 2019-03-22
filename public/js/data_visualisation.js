@@ -730,7 +730,7 @@ var drawRiskCategoryChart = function() {
                             'backgroundColor': '#fff'
                         };
             for (var key in chart_data["all_risk_categories"]) {
-                if(target_provinces.includes(key)) {
+                if(target_risk_categories.includes(key)) {
                     $("#risk_category_filter").append(
                         '<input type="checkbox" name="' + key + '" id="' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="' + key.toLowerCase() + '_option' +'" class="css-label">' + key + '</label><br />'
                     );
