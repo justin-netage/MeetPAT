@@ -400,7 +400,25 @@
                 <div id="householdIncomeChart" style="width: 100%px; height: 250px;"></div>
         </div>
         <div class="col-12 col-md-4" id="directors-graph">
-            <h3>Director of a Business</h3>
+            <h3>Director of a Business
+            <div class="btn-group dropright float-right">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-filter"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-form">
+                    <!-- Dropdown menu links -->
+                    <form style="margin: 12px;" id="directors-filter-form">
+                        <div id="directors_filter">
+                        <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        </div>
+                        </div> <br/>
+                        <button name="directors_submit" id="directorsSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                    </form>
+                </div>                
+            </h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/analytics-2697949_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">

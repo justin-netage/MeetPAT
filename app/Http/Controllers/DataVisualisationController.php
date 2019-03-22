@@ -148,12 +148,10 @@ class DataVisualisationController extends Controller
         if($request->selected_marital_status) {
             $records_count = $records_count->whereIn('MaritalStatus', $request->selected_marital_status);
         }
-
         // Filter By Home Owners
         if($request->selected_home_owners) {
             $records_count = $records_count->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
         }        
-
         // Filter By Risk Categories
         if($request->selected_risk_categories) {
             $records_count = $records_count->whereIn('CreditRiskCategory', $request->selected_risk_categories);
@@ -161,6 +159,10 @@ class DataVisualisationController extends Controller
         // Filter By Household Income
         if($request->selected_household_incomes) {
             $records_count = $records_count->whereIn('incomeBucket', $request->selected_household_incomes);
+        }
+        // Filter By directors
+        if($request->selected_directors) {
+            $records_count = $records_count->whereIn('DirectorshipStatus', $request->selected_directors);
         }
 
         return response($records_count->count());
@@ -194,7 +196,6 @@ class DataVisualisationController extends Controller
         if($request->selected_marital_status) {
             $records = $records->whereIn('MaritalStatus', $request->selected_marital_status);
         }
-
         // Filter By Home Owners
         if($request->selected_home_owners) {
             $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
@@ -203,11 +204,14 @@ class DataVisualisationController extends Controller
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
-
         // Filter By Household Income
         if($request->selected_household_incomes) {
             $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
-        }        
+        }    
+        // Filter By directors
+        if($request->selected_directors) {
+            $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }            
 
         $records = $records->get();
 
@@ -258,6 +262,10 @@ class DataVisualisationController extends Controller
         // Filter By Household Income
         if($request->selected_household_incomes) {
             $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+        }
+        // Filter By directors
+        if($request->selected_directors) {
+            $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
         }
 
         $records = $records->get();
@@ -310,6 +318,10 @@ class DataVisualisationController extends Controller
         if($request->selected_household_incomes) {
             $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
         }
+        // Filter By directors
+        if($request->selected_directors) {
+            $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }
 
         $records = $records->get();
         $ages = array_count_values(array_column($records->toArray(), 'AgeGroup'));
@@ -361,6 +373,10 @@ class DataVisualisationController extends Controller
         // Filter By Household Income
         if($request->selected_household_incomes) {
             $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+        }
+        // Filter By directors
+        if($request->selected_directors) {
+            $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
         }
 
         $records = $records->get();
@@ -415,6 +431,10 @@ class DataVisualisationController extends Controller
         if($request->selected_household_incomes) {
             $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
         }
+        // Filter By directors
+        if($request->selected_directors) {
+            $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }
 
         $records = $records->get();
         $population_groups = array_count_values(array_column($records->toArray(), 'PopulationGroup'));
@@ -466,6 +486,10 @@ class DataVisualisationController extends Controller
         // Filter By Household Income
         if($request->selected_household_incomes) {
             $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+        }
+        // Filter By directors
+        if($request->selected_directors) {
+            $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
         }
 
         $records = $records->get();
@@ -523,6 +547,10 @@ class DataVisualisationController extends Controller
         if($request->selected_household_incomes) {
             $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
         }
+        // Filter By directors
+        if($request->selected_directors) {
+            $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }
 
         $records = $records->get();
         $household_income = array_count_values(array_column($records->toArray(), 'incomeBucket'));
@@ -530,7 +558,7 @@ class DataVisualisationController extends Controller
         arsort($household_income);
         arsort($all_household_incomes);
 
-        return response()->json(["all_household_income" => $all_household_incomes, "selected_household_incomes" => $household_income]);
+        return response()->json(["all_household_incomes" => $all_household_incomes, "selected_household_incomes" => $household_income]);
     }
 
     public function get_risk_category(Request $request)
@@ -575,6 +603,10 @@ class DataVisualisationController extends Controller
         if($request->selected_household_incomes) {
             $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
         }
+        // Filter By directors
+        if($request->selected_directors) {
+            $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }
 
         $records = $records->get();
 
@@ -591,6 +623,7 @@ class DataVisualisationController extends Controller
     public function get_director_of_business(Request $request)
     {
         $records = \MeetPAT\BarkerStreetRecord::select('DirectorshipStatus')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $all_directors = $records->get();
 
         // Filter By Provinces
         if($request->selected_provinces) {
@@ -628,12 +661,19 @@ class DataVisualisationController extends Controller
         if($request->selected_household_incomes) {
             $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
         }
+        // Filter By directors
+        if($request->selected_directors) {
+            $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }
 
         $records = $records->get();
         $director_of_business = array_count_values(array_column($records->toArray(), 'DirectorshipStatus'));
+        $all_directors = array_count_values(array_column($all_directors->toArray(), 'DirectorshipStatus'));
+
+        arsort($all_directors);
         arsort($director_of_business);
 
-        return response()->json($director_of_business);
+        return response()->json(["all_directors" => $all_directors, "selected_directors" => $director_of_business]);
 
     }
 
@@ -677,6 +717,10 @@ class DataVisualisationController extends Controller
         // Filter By Household Income
         if($request->selected_household_incomes) {
             $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+        }
+        // Filter By directors
+        if($request->selected_directors) {
+            $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
         }
 
         $records = $records->get();
@@ -742,6 +786,10 @@ class DataVisualisationController extends Controller
         if($request->selected_household_incomes) {
             $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
         }
+        // Filter By directors
+        if($request->selected_directors) {
+            $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }
 
         $records = $records->get();
         $generations = array_count_values(array_column($records->toArray(), 'GenerationGroup'));
@@ -793,6 +841,10 @@ class DataVisualisationController extends Controller
         if($request->selected_household_incomes) {
             $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
         }
+        // Filter By directors
+        if($request->selected_directors) {
+            $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }
 
         $records = $records->get();
         $marital_statuses = array_count_values(array_column($records->toArray(), 'MaritalStatus'));
@@ -843,7 +895,11 @@ class DataVisualisationController extends Controller
         if($request->selected_household_incomes) {
             $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
         }
-        
+        // Filter By directors
+        if($request->selected_directors) {
+            $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }
+
         $records = $records->get();
         $areas = array_count_values(array_column($records->toArray(), 'Area'));
 
