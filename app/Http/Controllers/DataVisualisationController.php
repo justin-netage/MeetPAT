@@ -144,7 +144,21 @@ class DataVisualisationController extends Controller
         if($request->selected_generations) {
             $records_count = $records_count->whereIn('GenerationGroup', $request->selected_generations);
         }
+        // Filter By Marital Status
+        if($request->selected_marital_status) {
+            $records_count = $records_count->whereIn('MaritalStatus', $request->selected_marital_status);
+        }
 
+        // Filter By Home Owners
+        if($request->selected_home_owners) {
+            $records_count = $records_count->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+        }        
+
+        // Filter By Risk Categories
+        if($request->selected_risk_categories) {
+            $records_count = $records_count->whereIn('CreditRiskCategory', $request->selected_risk_categories);
+        }
+        
         return response($records_count->count());
     }
 
@@ -171,6 +185,19 @@ class DataVisualisationController extends Controller
         // Filter By Generation Group
         if($request->selected_generations) {
             $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+        }
+        // Filter By Marital Status
+        if($request->selected_marital_status) {
+            $records = $records->whereIn('MaritalStatus', $request->selected_marital_status);
+        }
+
+        // Filter By Home Owners
+        if($request->selected_home_owners) {
+            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+        }  
+        // Filter By Risk Categories
+        if($request->selected_risk_categories) {
+            $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
 
         $records = $records->get();
@@ -207,6 +234,18 @@ class DataVisualisationController extends Controller
         if($request->selected_generations) {
             $records = $records->whereIn('GenerationGroup', $request->selected_generations);
         }
+        // Filter By Marital Status
+        if($request->selected_marital_status) {
+            $records = $records->whereIn('MaritalStatus', $request->selected_marital_status);
+        }
+        // Filter By Home Owners
+        if($request->selected_marital_status) {
+            $records = $records_count->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+        }  
+        // Filter By Risk Categories
+        if($request->selected_risk_categories) {
+            $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
+        }
 
         $records = $records->get();
         $provinces = array_count_values(array_column($records->toArray(), 'Province'));
@@ -241,6 +280,18 @@ class DataVisualisationController extends Controller
         // Filter By Generation
         if($request->selected_generations) {
             $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+        }
+        // Filter By Marital Status
+        if($request->selected_marital_status) {
+            $records = $records->whereIn('MaritalStatus', $request->selected_marital_status);
+        }
+        // Filter By Home Owners
+        if($request->selected_home_owners) {
+            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+        }  
+        // Filter By Risk Categories
+        if($request->selected_risk_categories) {
+            $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
 
         $records = $records->get();
@@ -277,6 +328,18 @@ class DataVisualisationController extends Controller
         // Filter By Generation
         if($request->selected_generations) {
             $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+        }
+        // Filter By Marital Status
+        if($request->selected_marital_status) {
+            $records = $records->whereIn('MaritalStatus', $request->selected_marital_status);
+        }
+        // Filter By Home Owners
+        if($request->selected_home_owners) {
+            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+        }  
+        // Filter By Risk Categories
+        if($request->selected_risk_categories) {
+            $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
 
         $records = $records->get();
@@ -315,6 +378,18 @@ class DataVisualisationController extends Controller
         if($request->selected_generations) {
             $records = $records->whereIn('GenerationGroup', $request->selected_generations);
         }
+        // Filter By Marital Status
+        if($request->selected_marital_status) {
+            $records = $records->whereIn('MaritalStatus', $request->selected_marital_status);
+        }
+        // Filter By Home Owners
+        if($request->selected_home_owners) {
+            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+        }   
+        // Filter By Risk Categories
+        if($request->selected_risk_categories) {
+            $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
+        }
 
         $records = $records->get();
         $population_groups = array_count_values(array_column($records->toArray(), 'PopulationGroup'));
@@ -329,6 +404,7 @@ class DataVisualisationController extends Controller
     public function get_home_owner(Request $request) 
     {
         $records = \MeetPAT\BarkerStreetRecord::select('HomeOwnerShipStatus')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $all_home_owners = $records->get();
 
         // Filter By Provinces
         if($request->selected_provinces) {
@@ -350,13 +426,27 @@ class DataVisualisationController extends Controller
         if($request->selected_generations) {
             $records = $records->whereIn('GenerationGroup', $request->selected_generations);
         }
+        // Filter By Marital Status
+        if($request->selected_marital_status) {
+            $records = $records->whereIn('MaritalStatus', $request->selected_marital_status);
+        }
+        // Filter By Home Owners
+        if($request->selected_home_owners) {
+            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+        }  
+        // Filter By Risk Categories
+        if($request->selected_risk_categories) {
+            $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
+        }
 
         $records = $records->get();
 
         $home_owner = array_count_values(array_column($records->toArray(), 'HomeOwnerShipStatus'));
+        $all_home_owners = array_count_values(array_column($all_home_owners->toArray(), 'HomeOwnerShipStatus'));
         arsort($home_owner);
+        arsort($all_home_owners);
 
-        return response()->json($home_owner);
+        return response()->json(["selected_home_owners" => $home_owner, "all_home_owners" => $all_home_owners]);
 
     }
 
@@ -384,6 +474,22 @@ class DataVisualisationController extends Controller
         if($request->selected_generations) {
             $records = $records->whereIn('GenerationGroup', $request->selected_generations);
         }
+        // Filter By Marital Status
+        if($request->selected_marital_status) {
+            $records = $records->whereIn('MaritalStatus', $request->selected_marital_status);
+        }
+        // Filter By Marital Status
+        if($request->selected_marital_status) {
+            $records = $records_count->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+        }  
+        // Filter By Home Owners
+        if($request->selected_home_owners) {
+            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+        }  
+        // Filter By Risk Categories
+        if($request->selected_risk_categories) {
+            $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
+        }
 
         $records = $records->get();
         $household_income = array_count_values(array_column($records->toArray(), 'incomeBucket'));
@@ -395,6 +501,7 @@ class DataVisualisationController extends Controller
     public function get_risk_category(Request $request)
     {
         $records = \MeetPAT\BarkerStreetRecord::select('CreditRiskCategory')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $all_risk_categories = $records->get();
 
         // Filter By Provinces
         if($request->selected_provinces) {
@@ -417,11 +524,28 @@ class DataVisualisationController extends Controller
             $records = $records->whereIn('GenerationGroup', $request->selected_generations);
         }        
 
-        $records = $records->get();
-        $risk_category = array_count_values(array_column($records->toArray(), 'CreditRiskCategory'));
-        arsort($risk_category);
+        // Filter By Marital Status
+        if($request->selected_marital_status) {
+            $records = $records->whereIn('MaritalStatus', $request->selected_marital_status);
+        }
+        // Filter By Home Owners
+        if($request->selected_home_owners) {
+            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+        }  
+        // Filter By Risk Categories
+        if($request->selected_risk_categories) {
+            $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
+        }
 
-        return response()->json($risk_category);
+        $records = $records->get();
+
+        $risk_category = array_count_values(array_column($records->toArray(), 'CreditRiskCategory'));
+        $all_risk_categories = array_count_values(array_column($all_risk_categories->toArray(), 'CreditRiskCategory'));
+        
+        arsort($risk_category);
+        arsort($all_risk_categories);
+
+        return response()->json(["selected_risk_categories" => $risk_category, "all_risk_categories" => $all_risk_categories]);
 
     }
 
@@ -448,6 +572,18 @@ class DataVisualisationController extends Controller
         // Filter By Generation
         if($request->selected_generations) {
             $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+        }
+        // Filter By Marital Status
+        if($request->selected_marital_status) {
+            $records = $records->whereIn('MaritalStatus', $request->selected_marital_status);
+        }
+        // Filter By Home Owners
+        if($request->selected_home_owners) {
+            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+        }  
+        // Filter By Risk Categories
+        if($request->selected_risk_categories) {
+            $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
 
         $records = $records->get();
@@ -483,7 +619,19 @@ class DataVisualisationController extends Controller
         if($request->selected_generations) {
             $records = $records->whereIn('GenerationGroup', $request->selected_generations);
         }
-        
+        // Filter By Marital Status
+        if($request->selected_marital_status) {
+            $records = $records->whereIn('MaritalStatus', $request->selected_marital_status);
+        }
+        // Filter By Home Owners
+        if($request->selected_home_owners) {
+            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+        }  
+        // Filter By Risk Categories
+        if($request->selected_risk_categories) {
+            $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
+        }
+
         $records = $records->get();
 
         $citizen = 0;
@@ -531,6 +679,18 @@ class DataVisualisationController extends Controller
         if($request->selected_generations) {
             $records = $records->whereIn('GenerationGroup', $request->selected_generations);
         }
+        // Filter By Marital Status
+        if($request->selected_marital_status) {
+            $records = $records->whereIn('MaritalStatus', $request->selected_marital_status);
+        }
+        // Filter By Home Owners
+        if($request->selected_home_owners) {
+            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+        }  
+        // Filter By Risk Categories
+        if($request->selected_risk_categories) {
+            $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
+        }
 
         $records = $records->get();
         $generations = array_count_values(array_column($records->toArray(), 'GenerationGroup'));
@@ -545,7 +705,7 @@ class DataVisualisationController extends Controller
     public function get_marital_statuses(Request $request)
     {
         $records = \MeetPAT\BarkerStreetRecord::select('MaritalStatus')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
-
+        $all_marital_status = $records->get();
         // Filter By Provinces
         if($request->selected_provinces) {
             $records = $records->whereIn('Province', $request->selected_provinces);
@@ -566,12 +726,26 @@ class DataVisualisationController extends Controller
         if($request->selected_generations) {
             $records = $records->whereIn('GenerationGroup', $request->selected_generations);
         }
+        // Filter By Marital Status
+        if($request->selected_marital_status) {
+            $records = $records->whereIn('MaritalStatus', $request->selected_marital_status);
+        }
+        // Filter By Home Owners
+        if($request->selected_home_owners) {
+            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+        }  
+        // Filter By Risk Categories
+        if($request->selected_risk_categories) {
+            $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
+        }
 
         $records = $records->get();
         $marital_statuses = array_count_values(array_column($records->toArray(), 'MaritalStatus'));
+        $all_marital_status = array_count_values(array_column($all_marital_status->toArray(), 'MaritalStatus'));
+        arsort($all_marital_status);
         arsort($marital_statuses);
 
-        return response()->json($marital_statuses);
+        return response()->json(["all_marital_status" => $all_marital_status, "selected_marital_status" => $marital_statuses]);
     }
 
     public function get_area(Request $request) {
@@ -597,6 +771,18 @@ class DataVisualisationController extends Controller
         // Filter By Generation Group
         if($request->selected_generations) {
             $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+        }
+        // Filter By Marital Status
+        if($request->selected_marital_status) {
+            $records = $records->whereIn('MaritalStatus', $request->selected_marital_status);
+        }
+        // Filter By Home Owners
+        if($request->selected_home_owners) {
+            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+        }  
+        // Filter By Risk Categories
+        if($request->selected_risk_categories) {
+            $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
 
         $records = $records->get();

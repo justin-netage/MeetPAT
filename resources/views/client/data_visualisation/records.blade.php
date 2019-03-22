@@ -236,7 +236,25 @@
             <div id="citizensVsResidentsChart" style="width: 100%; height: 200px;"></div>
         </div>
         <div class="col-12 col-md-4" id="marital-status-graph">
-            <h3>Marital Status</h3>
+            <h3>Marital Status
+                <div class="btn-group dropright float-right">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-filter"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-form">
+                    <!-- Dropdown menu links -->
+                    <form style="margin: 12px;" id="marital-status-filter-form">
+                        <div id="marital_status_filter">
+                        <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        </div>
+                        </div> <br/>
+                        <button name="marital_status_submit" id="marital_statusSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                    </form>
+                </div>            
+            </h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/sunset-698501_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
@@ -257,7 +275,25 @@
     </div>
     <div class="row">
         <div class="col-12 col-md-4" id="home-owner-graph">
-            <h3>Home Owner</h3>
+            <h3>Home Owner
+            <div class="btn-group dropright float-right">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-filter"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-form">
+                    <!-- Dropdown menu links -->
+                    <form style="margin: 12px;" id="home-owner-filter-form">
+                        <div id="home_owner_filter">
+                        <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        </div>
+                        </div> <br/>
+                        <button name="marital_status_submit" id="marital_statusSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                    </form>
+                </div> 
+            </h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/architecture-1836070_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
@@ -310,7 +346,25 @@
             </div>
         </div> -->
         <div class="col-12 col-md-4" id="risk-category-graph">
-            <h3>Risk Category</h3>
+            <h3>Risk Category
+            <div class="btn-group dropright float-right">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-filter"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-form">
+                    <!-- Dropdown menu links -->
+                    <form style="margin: 12px;" id="risk-categories-filter-form">
+                        <div id="risk_category_filter">
+                        <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        </div>
+                        </div> <br/>
+                        <button name="marital_status_submit" id="marital_statusSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                    </form>
+                </div>
+            </h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/risk-1945683_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
