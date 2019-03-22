@@ -158,7 +158,11 @@ class DataVisualisationController extends Controller
         if($request->selected_risk_categories) {
             $records_count = $records_count->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
-        
+        // Filter By Household Income
+        if($request->selected_household_incomes) {
+            $records_count = $records_count->whereIn('incomeBucket', $request->selected_household_incomes);
+        }
+
         return response($records_count->count());
     }
 
@@ -199,6 +203,11 @@ class DataVisualisationController extends Controller
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
+
+        // Filter By Household Income
+        if($request->selected_household_incomes) {
+            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+        }        
 
         $records = $records->get();
 
@@ -245,6 +254,10 @@ class DataVisualisationController extends Controller
         // Filter By Risk Categories
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
+        }
+        // Filter By Household Income
+        if($request->selected_household_incomes) {
+            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
         }
 
         $records = $records->get();
@@ -293,6 +306,10 @@ class DataVisualisationController extends Controller
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
+        // Filter By Household Income
+        if($request->selected_household_incomes) {
+            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+        }
 
         $records = $records->get();
         $ages = array_count_values(array_column($records->toArray(), 'AgeGroup'));
@@ -340,6 +357,10 @@ class DataVisualisationController extends Controller
         // Filter By Risk Categories
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
+        }
+        // Filter By Household Income
+        if($request->selected_household_incomes) {
+            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
         }
 
         $records = $records->get();
@@ -390,6 +411,10 @@ class DataVisualisationController extends Controller
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
+        // Filter By Household Income
+        if($request->selected_household_incomes) {
+            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+        }
 
         $records = $records->get();
         $population_groups = array_count_values(array_column($records->toArray(), 'PopulationGroup'));
@@ -438,6 +463,10 @@ class DataVisualisationController extends Controller
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
+        // Filter By Household Income
+        if($request->selected_household_incomes) {
+            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+        }
 
         $records = $records->get();
 
@@ -453,7 +482,7 @@ class DataVisualisationController extends Controller
     public function get_household_income(Request $request)
     {
         $records = \MeetPAT\BarkerStreetRecord::select('income', 'incomeBucket')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
-
+        $all_household_incomes = $records->get();
         // Filter By Provinces
         if($request->selected_provinces) {
             $records = $records->whereIn('Province', $request->selected_provinces);
@@ -490,12 +519,18 @@ class DataVisualisationController extends Controller
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
+        // Filter By Household Income
+        if($request->selected_household_incomes) {
+            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+        }
 
         $records = $records->get();
         $household_income = array_count_values(array_column($records->toArray(), 'incomeBucket'));
+        $all_household_incomes = array_count_values(array_column($all_household_incomes->toArray(), 'incomeBucket'));;
         arsort($household_income);
+        arsort($all_household_incomes);
 
-        return response()->json($household_income);
+        return response()->json(["all_household_income" => $all_household_incomes, "selected_household_incomes" => $household_income]);
     }
 
     public function get_risk_category(Request $request)
@@ -535,6 +570,10 @@ class DataVisualisationController extends Controller
         // Filter By Risk Categories
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
+        }
+        // Filter By Household Income
+        if($request->selected_household_incomes) {
+            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
         }
 
         $records = $records->get();
@@ -585,6 +624,10 @@ class DataVisualisationController extends Controller
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
+        // Filter By Household Income
+        if($request->selected_household_incomes) {
+            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+        }
 
         $records = $records->get();
         $director_of_business = array_count_values(array_column($records->toArray(), 'DirectorshipStatus'));
@@ -630,6 +673,10 @@ class DataVisualisationController extends Controller
         // Filter By Risk Categories
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
+        }
+        // Filter By Household Income
+        if($request->selected_household_incomes) {
+            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
         }
 
         $records = $records->get();
@@ -691,6 +738,10 @@ class DataVisualisationController extends Controller
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
+        // Filter By Household Income
+        if($request->selected_household_incomes) {
+            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+        }
 
         $records = $records->get();
         $generations = array_count_values(array_column($records->toArray(), 'GenerationGroup'));
@@ -738,6 +789,10 @@ class DataVisualisationController extends Controller
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
+        // Filter By Household Income
+        if($request->selected_household_incomes) {
+            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+        }
 
         $records = $records->get();
         $marital_statuses = array_count_values(array_column($records->toArray(), 'MaritalStatus'));
@@ -784,7 +839,11 @@ class DataVisualisationController extends Controller
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
-
+        // Filter By Household Income
+        if($request->selected_household_incomes) {
+            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+        }
+        
         $records = $records->get();
         $areas = array_count_values(array_column($records->toArray(), 'Area'));
 

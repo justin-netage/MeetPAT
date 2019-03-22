@@ -290,7 +290,7 @@
                         </div>
                         </div>
                         </div> <br/>
-                        <button name="marital_status_submit" id="marital_statusSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                        <button name="home_owner_submit" id="home_ownersSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
                     </form>
                 </div> 
             </h3>
@@ -361,7 +361,7 @@
                         </div>
                         </div>
                         </div> <br/>
-                        <button name="marital_status_submit" id="marital_statusSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                        <button name="risk_category_submit" id="risk_categoriesSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
                     </form>
                 </div>
             </h3>
@@ -373,7 +373,25 @@
             <div id="riskCategoryChart" style="width: 100%; height: 300px;"></div>
         </div>
         <div class="col-12 col-md-4" id="income-graph">
-            <h3>Household Income</h3>
+            <h3>Household Income
+                <div class="btn-group dropright float-right">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-filter"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-form" style="width: 200px;">
+                    <!-- Dropdown menu links -->
+                    <form style="margin: 12px;" id="household-income-filter-form">
+                        <div id="household_income_filter">
+                        <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        </div>
+                        </div> <br/>
+                        <button name="household_income_submit" id="household_incomesSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                    </form>
+                </div>
+            </h3>
             <hr>
             <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/coins-1726618_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
