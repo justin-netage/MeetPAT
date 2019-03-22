@@ -379,6 +379,30 @@ function drawAreaChart(  ) {
     }
 
     var drawPopulationChart = function() {
+
+        // get ethnic name
+        var get_ethnic_name = function(short_name) {
+            var name;
+            switch(short_name) {
+                case "B":
+                    name = "Black";
+                    break;
+                case "W":
+                    name = "White";
+                    break;
+                case "C":
+                    name = "Coloured";
+                    break;
+                case "A":
+                    name = "Asian";
+                    break;
+                default:
+                    name = "Unkown";
+            }
+
+            return name;
+        }
+
         $.get('/api/meetpat-client/get-records/population-groups', {user_id: user_id_number, selected_provinces: target_provinces,
              selected_age_groups: target_ages, selected_gender_groups: target_genders, 
              selected_population_groups: target_population_groups, selected_generations: target_generations,
@@ -429,11 +453,11 @@ function drawAreaChart(  ) {
                         for (var key in chart_data["all_population_groups"]) {
                             if(target_population_groups.includes(key)) {
                                 $("#population_group_filter").append(
-                                    '<input type="checkbox" name="' + key + '" id="' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="' + key.toLowerCase() + '_option' +'" class="css-label">' + key + '</label><br />'
+                                    '<input type="checkbox" name="' + key + '" id="' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="' + key.toLowerCase() + '_option' +'" class="css-label">' + get_ethnic_name(key) + '</label><br />'
                                 );
                             } else {
                                 $("#population_group_filter").append(
-                                    '<input type="checkbox" name="' + key + '" id="' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox"><label for="' + key.toLowerCase() + '_option' +'" class="css-label">' + key + '</label><br />'
+                                    '<input type="checkbox" name="' + key + '" id="' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox"><label for="' + key.toLowerCase() + '_option' +'" class="css-label">' + get_ethnic_name(key) + '</label><br />'
                                 );
                             }
                 
