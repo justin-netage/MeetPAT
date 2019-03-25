@@ -138,7 +138,7 @@ function drawAreaChart(  ) {
         // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.BarChart(document.getElementById('areasChart'));
         chart.draw(data, chart_options); 
-        //$(".apply-filter-button").prop("disabled", false);
+        $(".apply-filter-button").prop("disabled", false);
         $('.apply-filter-button').html("apply");
         $("#reset-filters-toast .btn").prop("disabled", false);
         $("#reset-filters-toast .btn").html('Reset Filters');
