@@ -102,7 +102,7 @@ function drawAreaChart(  ) {
          selected_population_groups: target_population_groups, selected_generations: target_generations,
          selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
          selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors}, function( chart_data ) {
+         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data )
@@ -254,7 +254,7 @@ function drawAreaChart(  ) {
          selected_population_groups: target_population_groups, selected_generations: target_generations,
          selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
          selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors}, function( chart_data ) {
+         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -320,7 +320,7 @@ function drawAreaChart(  ) {
              selected_population_groups: target_population_groups, selected_generations: target_generations,
              selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
              selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-             selected_directors: target_directors}, function(chart_data) {
+             selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents}, function(chart_data) {
 
         }).fail(function( chart_data ) {
             console.log( chart_data )
@@ -410,7 +410,7 @@ function drawAreaChart(  ) {
              selected_population_groups: target_population_groups, selected_generations: target_generations,
              selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
              selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-             selected_directors: target_directors}, function( chart_data ) {
+             selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents}, function( chart_data ) {
 
         }).fail(function( chart_data ) {
             console.log( chart_data );
@@ -478,7 +478,7 @@ function drawAreaChart(  ) {
              selected_population_groups: target_population_groups, selected_generations: target_generations,
              selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
              selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-             selected_directors: target_directors}, function( chart_data ) {
+             selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents}, function( chart_data ) {
 
         }).fail(function( chart_data ) {
             console.log( chart_data );
@@ -544,12 +544,13 @@ var drawCitizensChart = function() {
          selected_population_groups: target_population_groups, selected_generations: target_generations,
          selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
          selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors}, function( chart_data ) {
+         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
     }).done(function( chart_data ) {
-        $("#c-vs-v-graph .spinner-block").hide();    
+        $("#c-vs-r-graph .spinner-block").hide();    
+        $("#citizen_vs_resident_filter").empty();
 
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Citizen or Resident');
@@ -583,7 +584,30 @@ var drawCitizensChart = function() {
                             },
                             'backgroundColor': '#fff'
                         };
-        
+            if(target_citizen_vs_residents.includes("citizen")) {
+                $('#citizen_vs_resident_filter').append(
+                    '<input type="checkbox" name="citizen" id="citizen_option" value="citizen" class="css-checkbox" checked="checked"><label for="citizen_option" class="css-label">Citizen</label><br />'
+
+                );
+            } else {
+                $('#citizen_vs_resident_filter').append(
+                    '<input type="checkbox" name="citizen" id="citizen_option" value="citizen" class="css-checkbox"><label for="citizen_option" class="css-label">Citizen</label><br />'
+
+                );
+            }
+
+            if(target_citizen_vs_residents.includes('resident')) {
+                $("#citizen_vs_resident_filter").append(
+                    '<input type="checkbox" name="resident" id="resident_option" value="resident" class="css-checkbox" checked="checked"><label for="resident_option" class="css-label">Resident</label><br />'
+    
+                    );
+            } else {
+                $("#citizen_vs_resident_filter").append(
+                    '<input type="checkbox" name="resident" id="resident_option" value="resident" class="css-checkbox"><label for="resident_option" class="css-label">Resident</label><br />'
+    
+                    );
+            }
+
             // Instantiate and draw our chart, passing in some options.
             var chart = new google.visualization.ColumnChart(document.getElementById('citizensVsResidentsChart'));
             chart.draw(data, chart_options);    
@@ -596,7 +620,7 @@ var drawMaritalStatusChart = function() {
          selected_population_groups: target_population_groups, selected_generations: target_generations,
          selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
          selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors}, function( chart_data ) {
+         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -661,7 +685,7 @@ var drawHomeOwnerChart = function() {
          selected_population_groups: target_population_groups, selected_generations: target_generations,
          selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
          selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors}, function( chart_data ) {
+         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -725,7 +749,7 @@ var drawRiskCategoryChart = function() {
          selected_population_groups: target_population_groups, selected_generations: target_generations,
          selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
          selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors}, function( chart_data ) {
+         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -788,7 +812,7 @@ var drawHouseholdIncomeChart = function() {
          selected_population_groups: target_population_groups, selected_generations: target_generations,
          selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
          selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors}, function( chart_data ) {
+         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -852,7 +876,7 @@ var drawDirectorOfBusinessChart = function() {
          selected_population_groups: target_population_groups, selected_generations: target_generations,
          selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
          selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors}, function( chart_data ) {
+         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -922,7 +946,7 @@ var get_records_count =  function(records_data) {
          selected_population_groups: target_population_groups, selected_generations: target_generations,
          selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
          selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors}, function( data ) {
+         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
         console.log(data)
@@ -942,7 +966,7 @@ var get_municipalities = function() {
          selected_population_groups: target_population_groups, selected_generations: target_generations,
          selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
          selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors}, function( data ) {
+         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
         //console.log(data)
@@ -963,7 +987,7 @@ var get_provinces = function() {
          selected_population_groups: target_population_groups, selected_generations: target_generations,
          selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
          selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors}, function( data ) {
+         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
         console.log(data)
@@ -1102,7 +1126,7 @@ var apply_filters = function() {
     $("#gender-graph .spinner-block").show(); $("#genderChart").empty(); $("#gender_filter").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
     $("#population-graph .spinner-block").show(); $("#populationGroupChart").empty(); $("#population_group_filter").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
     $("#generation-graph .spinner-block").show(); $("#generationChart").empty(); $("#generation_filter").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
-    $("#c-vs-v-graph .spinner-block").show(); $("#citizensVsResidentsChart").empty(); //$("#c-vs-v-filter-form").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
+    $("#c-vs-r-graph .spinner-block").show(); $("#citizensVsResidentsChart").empty(); $("#citizen_vs_resident_filter").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
     $("#marital-status-graph .spinner-block").show(); $("#maritalStatusChart").empty(); $("#marital_status_filter").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
     $("#home-owner-graph .spinner-block").show(); $("#homeOwnerChart").empty(); $("#home_owner_filter").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
     $("#risk-category-graph .spinner-block").show();  $("#riskCategoryChart").empty(); $("#risk_category_filter").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
@@ -1203,6 +1227,11 @@ $('.apply-filter-button').click(function() {
     $("#directors-filter-form input[type='checkbox']").each(function() {
         if(this.checked) {
             target_directors.push($(this).val());
+        }
+    });
+    $("#citizen-vs-resident-filter-form input[type='checkbox']").each(function() {
+        if(this.checked) {
+            target_citizen_vs_residents.push($(this).val());
         }
     });
 

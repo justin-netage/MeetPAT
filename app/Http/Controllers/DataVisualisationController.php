@@ -164,6 +164,16 @@ class DataVisualisationController extends Controller
         if($request->selected_directors) {
             $records_count = $records_count->whereIn('DirectorshipStatus', $request->selected_directors);
         }
+        // Filter By Citizens and residents
+        if($request->selected_citizen_vs_residents) {
+            if(in_array("citizen", $request->selected_citizen_vs_residents)) {
+                $records_count = $records_count->where('Idn', '!=', '');
+
+            } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
+                $records_count = $records_count->where('HasResidentialAddress', "true");
+
+            }
+        }
 
         return response($records_count->count());
     }
@@ -212,6 +222,17 @@ class DataVisualisationController extends Controller
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
         }            
+        // Filter By Citizens and residents
+        if($request->selected_citizen_vs_residents) {
+            if(in_array("citizen", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('Idn', '!=', '');
+                
+
+            } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('HasResidentialAddress', "true");
+
+            }
+        }
 
         $records = $records->get();
 
@@ -266,6 +287,17 @@ class DataVisualisationController extends Controller
         // Filter By directors
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }
+        // Filter By Citizens and residents
+        if($request->selected_citizen_vs_residents) {
+            if(in_array("citizen", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('Idn', '!=', '');
+                
+
+            } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('HasResidentialAddress', "true");
+
+            }
         }
 
         $records = $records->get();
@@ -323,6 +355,17 @@ class DataVisualisationController extends Controller
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
         }
+        // Filter By Citizens and residents
+        if($request->selected_citizen_vs_residents) {
+            if(in_array("citizen", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('Idn', '!=', '');
+                
+
+            } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('HasResidentialAddress', "true");
+
+            }
+        }
 
         $records = $records->get();
         $ages = array_count_values(array_column($records->toArray(), 'AgeGroup'));
@@ -378,6 +421,17 @@ class DataVisualisationController extends Controller
         // Filter By directors
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }
+        // Filter By Citizens and residents
+        if($request->selected_citizen_vs_residents) {
+            if(in_array("citizen", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('Idn', '!=', '');
+                
+
+            } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('HasResidentialAddress', "true");
+
+            }
         }
 
         $records = $records->get();
@@ -436,6 +490,17 @@ class DataVisualisationController extends Controller
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
         }
+        // Filter By Citizens and residents
+        if($request->selected_citizen_vs_residents) {
+            if(in_array("citizen", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('Idn', '!=', '');
+                
+
+            } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('HasResidentialAddress', "true");
+
+            }
+        }
 
         $records = $records->get();
         $population_groups = array_count_values(array_column($records->toArray(), 'PopulationGroup'));
@@ -491,6 +556,17 @@ class DataVisualisationController extends Controller
         // Filter By directors
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }
+        // Filter By Citizens and residents
+        if($request->selected_citizen_vs_residents) {
+            if(in_array("citizen", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('Idn', '!=', '');
+                
+
+            } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('HasResidentialAddress', "true");
+
+            }
         }
 
         $records = $records->get();
@@ -552,6 +628,17 @@ class DataVisualisationController extends Controller
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
         }
+        // Filter By Citizens and residents
+        if($request->selected_citizen_vs_residents) {
+            if(in_array("citizen", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('Idn', '!=', '');
+                
+
+            } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('HasResidentialAddress', "true");
+
+            }
+        }
 
         $records = $records->get();
         $household_income = array_count_values(array_column($records->toArray(), 'incomeBucket'));
@@ -607,6 +694,17 @@ class DataVisualisationController extends Controller
         // Filter By directors
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }
+        // Filter By Citizens and residents
+        if($request->selected_citizen_vs_residents) {
+            if(in_array("citizen", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('Idn', '!=', '');
+                
+
+            } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('HasResidentialAddress', "true");
+
+            }
         }
 
         $records = $records->get();
@@ -666,6 +764,17 @@ class DataVisualisationController extends Controller
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
         }
+        // Filter By Citizens and residents
+        if($request->selected_citizen_vs_residents) {
+            if(in_array("citizen", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('Idn', '!=', '');
+                
+
+            } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('HasResidentialAddress', "true");
+
+            }
+        }
 
         $records = $records->get();
         $director_of_business = array_count_values(array_column($records->toArray(), 'DirectorshipStatus'));
@@ -722,6 +831,17 @@ class DataVisualisationController extends Controller
         // Filter By directors
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }
+        // Filter By Citizens and residents
+        if($request->selected_citizen_vs_residents) {
+            if(in_array("citizen", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('Idn', '!=', '');
+                
+
+            } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('HasResidentialAddress', "true");
+
+            }
         }
 
         $records = $records->get();
@@ -791,6 +911,17 @@ class DataVisualisationController extends Controller
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
         }
+        // Filter By Citizens and residents
+        if($request->selected_citizen_vs_residents) {
+            if(in_array("citizen", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('Idn', '!=', '');
+                
+
+            } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('HasResidentialAddress', "true");
+
+            }
+        }
 
         $records = $records->get();
         $generations = array_count_values(array_column($records->toArray(), 'GenerationGroup'));
@@ -846,6 +977,17 @@ class DataVisualisationController extends Controller
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
         }
+        // Filter By Citizens and residents
+        if($request->selected_citizen_vs_residents) {
+            if(in_array("citizen", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('Idn', '!=', '');
+                
+
+            } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('HasResidentialAddress', "true");
+
+            }
+        }
 
         $records = $records->get();
         $marital_statuses = array_count_values(array_column($records->toArray(), 'MaritalStatus'));
@@ -900,7 +1042,18 @@ class DataVisualisationController extends Controller
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
         }
+        // Filter By Citizens and residents
+        if($request->selected_citizen_vs_residents) {
+            if(in_array("citizen", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('Idn', '!=', '');
+                
 
+            } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('HasResidentialAddress', "true");
+
+            }
+        }
+        
         $records = $records->get();
         $areas = array_count_values(array_column($records->toArray(), 'Area'));
 
