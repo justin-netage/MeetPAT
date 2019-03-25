@@ -252,8 +252,8 @@ class DataVisualisationController extends Controller
             $records = $records->whereIn('MaritalStatus', $request->selected_marital_status);
         }
         // Filter By Home Owners
-        if($request->selected_marital_status) {
-            $records = $records_count->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+        if($request->selected_home_owners) {
+            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
         }  
         // Filter By Risk Categories
         if($request->selected_risk_categories) {
@@ -271,10 +271,11 @@ class DataVisualisationController extends Controller
         $records = $records->get();
         $provinces = array_count_values(array_column($records->toArray(), 'Province'));
         $all_provinces = array_count_values(array_column($all_provinces->toArray(), 'Province'));
+
         arsort($all_provinces);
         arsort($provinces);
 
-        return response()->json(["selected_provinces" => $provinces, "all_provinces" => $all_provinces, "request_provinces" => $request->selected_provinces, 'request_ages' => $request->selected_age_groups]);
+        return response()->json(["selected_provinces" => $provinces, "all_provinces" => $all_provinces, "request_provinces" => $request->selected_provinces]);
     }
 
     public function get_ages(Request $request)
@@ -533,7 +534,7 @@ class DataVisualisationController extends Controller
         }
         // Filter By Marital Status
         if($request->selected_marital_status) {
-            $records = $records_count->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_marital_status);
         }  
         // Filter By Home Owners
         if($request->selected_home_owners) {

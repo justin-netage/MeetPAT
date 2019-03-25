@@ -18,6 +18,13 @@
     </div>
   </div>
 </div>
+<div role="alert" aria-live="assertive" id="reset-filters-toast" aria-atomic="true" class="toast d-sm-none d-md-block" data-autohide="false" style="z-index: 9999; position: fixed; bottom: 20; right: 0;">
+  <div class="toast-body" style="font-size: 24px;">
+    <div class="d-flex justify-content-center">
+        <button id="resetFilterToastBtn" class="btn btn-primary btn-block btn-lg" disabled="disabled">Reset Filters</button>
+    </div>
+  </div>
+</div>
 
 <div id="loader" style="display:none;"></div>
 <div id="alert-section"></div>

@@ -138,8 +138,10 @@ function drawAreaChart(  ) {
         // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.BarChart(document.getElementById('areasChart'));
         chart.draw(data, chart_options); 
-        $(".apply-filter-button").prop("disabled", false);
+        //$(".apply-filter-button").prop("disabled", false);
         $('.apply-filter-button').html("apply");
+        $("#reset-filters-toast .btn").prop("disabled", false);
+        $("#reset-filters-toast .btn").html('Reset Filters');
     });
        
 
@@ -1104,8 +1106,8 @@ var apply_filters = function() {
     $("#marital-status-graph .spinner-block").show(); $("#maritalStatusChart").empty(); $("#marital_status_filter").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
     $("#home-owner-graph .spinner-block").show(); $("#homeOwnerChart").empty(); $("#home_owner_filter").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
     $("#risk-category-graph .spinner-block").show();  $("#riskCategoryChart").empty(); $("#risk_category_filter").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
-    $("#income-graph .spinner-block").show(); $("#householdIncomeChart").empty(); //$("#household-income-filter-form").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
-    $("#directors-graph .spinner-block").show(); $("#directorOfBusinessChart").empty(); //$("#directer-of-business-filter-form").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
+    $("#income-graph .spinner-block").show(); $("#householdIncomeChart").empty(); $("#household_income_filter").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
+    $("#directors-graph .spinner-block").show(); $("#directorOfBusinessChart").empty(); $("#directors_filter").html('<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
     
     $("#records-main-toast .toast-body").html(
                         '<div class="d-flex justify-content-center">' +
@@ -1126,8 +1128,10 @@ var apply_filters = function() {
 }
 
 $('.apply-filter-button').click(function() {
+
     $('.apply-filter-button').prop("disabled", true);
     $('.apply-filter-button').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;applying...');
+    $("#reset-filters-toast .btn").prop("disabled", true);
 
     target_provinces = [];
     target_municipalities = [];
@@ -1206,10 +1210,45 @@ $('.apply-filter-button').click(function() {
     get_provinces();
 });
 
+$("#reset-filters-toast").click(function() {
+
+    $("#reset-filters-toast .btn").prop("disabled", true);
+    $("#reset-filters-toast .btn").html(
+        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
+        + '&nbsp;Resetting...'
+    );
+
+    // Selected Targets Arrays
+    target_provinces = [];
+    target_municipalities = [];
+    target_areas = [];
+    target_ages = [];
+    target_genders = [];
+    target_population_groups = [];
+    target_generations = [];
+    target_citizen_vs_residents = [];
+    target_marital_statuses = [];
+    target_home_owners = [];
+    target_risk_categories = [];
+    target_incomes = [];
+    target_directors = [];
+
+    $('input:checkbox').each(function(el) {
+        if($(el).is(':checked')) {
+            $(el).prop('checked', false);
+        }
+    });
+
+    apply_filters();
+    get_provinces();
+});
+
 $(document).ready(function() {
     //var site_url = window.location.protocol + "//" + window.location.host;
     $('#records-main-toast').toast('show');
     $("#records-toast").toast('show');
+    $("#reset-filters-toast").toast('show');
+
     $('.dropdown-menu').on('click', function(e) {
         if($(this).hasClass('dropdown-menu-form')) {
             e.stopPropagation();
