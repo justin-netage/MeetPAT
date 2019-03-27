@@ -313,9 +313,9 @@ function drawAreaChart(  ) {
                                     var parent = this;
                 
                                     $("#age_filters").append('<li id="filter_p_' + $(this).attr("name").toLowerCase() + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                                    $('#filter_p_' + $(this).val().toLowerCase() + ' i').click(function() {
-                                        if($('#filter_p_' + $(parent).val().toLowerCase()).length) {
-                                            $('#filter_p_' + $(parent).val().toLowerCase()).remove();
+                                    $('#filter_age_' + $(this).val().toLowerCase() + ' i').click(function() {
+                                        if($('#age_' + $(parent).attr("name").toLowerCase() + '_option').length) {
+                                            $('#filter_age_' + $(parent).val().toLowerCase()).remove();
                                             $("#age_" + $(parent).val().toLowerCase() + '_option').prop("checked", false);
                                         }
 
@@ -323,8 +323,8 @@ function drawAreaChart(  ) {
                                 } else {
                                     //console.log($(this));
                 
-                                    if($('#filter_p_' + $(this).val().toLowerCase())) {
-                                        $('#filter_p_' + $(this).val().toLowerCase()).remove();
+                                    if($('#filter_age_' + $(this).val().toLowerCase())) {
+                                        $('#filter_age_' + $(this).val().toLowerCase()).remove();
                                     }
                                 }
                             });
@@ -418,7 +418,7 @@ function drawAreaChart(  ) {
                     
                                         $("#gender_filters").append('<li id="filter_g_' + $(this).val().toLowerCase() + '">'+ get_gender_name($(this).val()) +'<i class="fas fa-window-close float-right"></i></li>')
                                         $('#filter_g_' + $(this).val().toLowerCase() + ' i').click(function() {
-                                            if($('#filter_g_' + $(parent).val().toLowerCase()).length) {
+                                            if($('#g_' + $(parent).val().toLowerCase() + '_option').length) {
                                                 $('#filter_g_' + $(parent).val().toLowerCase()).remove();
                                                 $("#g_" + $(parent).val().toLowerCase() + '_option').prop("checked", false);
                                             }
@@ -531,7 +531,7 @@ function drawAreaChart(  ) {
                 
                                     $("#population_group_filters").append('<li id="filter_pop_' + $(this).val().toLowerCase() + '">'+ get_ethnic_name($(this).val()) +'<i class="fas fa-window-close float-right"></i></li>')
                                     $('#filter_pop_' + $(this).val().toLowerCase() + ' i').click(function() {
-                                        if($('#filter_pop_' + $(parent).val().toLowerCase()).length) {
+                                        if($('#pop_' + $(parent).val().toLowerCase() + '_option').length) {
                                             $('#filter_pop_' + $(parent).val().toLowerCase()).remove();
                                             $("#pop_" + $(parent).val().toLowerCase() + '_option').prop("checked", false);
                                         }
@@ -618,7 +618,7 @@ function drawAreaChart(  ) {
                 
                                     $("#generation_filters").append('<li id="filter_gen_' + $(this).val().toLowerCase().replace(" ", "_") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
                                     $('#filter_gen_' + $(this).val().toLowerCase().replace(" ", "_") + ' i').click(function() {
-                                        if($('#filter_gen_' + $(parent).val().toLowerCase().replace(" ", "_")).length) {
+                                        if($('#gen_' + $(parent).val().toLowerCase().replace(" ", "_") + '_option').length) {
                                             $('#filter_gen_' + $(parent).val().toLowerCase().replace(" ", "_")).remove();
                                             $("#gen_" + $(parent).val().toLowerCase().replace(" ", "_") + '_option').prop("checked", false);
                                         }
@@ -828,7 +828,7 @@ var drawMaritalStatusChart = function() {
     
                         $("#marital_status_filters").append('<li id="filter_m_' + $(this).val().toLowerCase() + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
                         $('#filter_m_' + $(this).val().toLowerCase() + ' i').click(function() {
-                            if($('#filter_m_' + $(parent).val().toLowerCase()).length) {
+                            if($('#m_' + $(parent).val().toLowerCase() + '_option').length) {
                                 $('#filter_m_' + $(parent).val().toLowerCase()).remove();
                                 $("#m_" + $(parent).val().toLowerCase() + '_option').prop("checked", false);
                             }
@@ -913,7 +913,7 @@ var drawHomeOwnerChart = function() {
     
                         $("#home_owner_filters").append('<li id="filter_h_' + $(this).val().toLowerCase().replace(" ", "_") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
                         $('#filter_h_' + $(this).val().toLowerCase().replace(" ", "_") + ' i').click(function() {
-                            if($('#filter_h_' + $(parent).val().toLowerCase().replace(" ", "_")).length) {
+                            if($('#h_' + $(parent).val().toLowerCase().replace(" ", "_") + '_option').length) {
                                 $('#filter_h_' + $(parent).val().toLowerCase().replace(" ", "_")).remove();
                                 $("#h_" + $(parent).val().toLowerCase().replace(" ", "_") + '_option').prop("checked", false);
                             }
@@ -997,7 +997,7 @@ var drawRiskCategoryChart = function() {
     
                         $("#risk_category_filters").append('<li id="filter_r_' + $(this).val().toLowerCase().replace(" ", "_") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
                         $('#filter_r_' + $(this).val().toLowerCase().replace(" ", "_") + ' i').click(function() {
-                            if($('#filter_r_' + $(parent).val().toLowerCase().replace(" ", "_")).length) {
+                            if($('#r_' + $(parent).val().toLowerCase().replace(" ", "_") + '_option').length) {
                                 $('#filter_r_' + $(parent).val().toLowerCase().replace(" ", "_")).remove();
                                 $("#r_" + $(parent).val().toLowerCase().replace(" ", "_") + '_option').prop("checked", false);
                             }
@@ -1081,8 +1081,8 @@ var drawHouseholdIncomeChart = function() {
                         var parent = this;
     
                         $("#household_income_filters").append('<li id="filter_hi_' + $(this).val().toLowerCase().replace(/ /g, "_").replace('-', '') + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                        $('#filter_hi_' + $(this).val().toLowerCase().replace(/ /g, "_").replace('-', '') + ' i').click(function() {
-                            if($('#filter_hi_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace('-', '')).length) {
+                        $('#hi_' + $(this).val().toLowerCase().replace(/ /g, "_").replace('-', '') + '_option').click(function() {
+                            if($('#hi_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace('-', '') + '_option').length) {
                                 $('#filter_hi_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace('-', '')).remove();
                                 $("#hi_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace('-', '') + '_option').prop("checked", false);
                             }
@@ -1169,7 +1169,7 @@ var drawDirectorOfBusinessChart = function() {
     
                         $("#directors_filters").append('<li id="filter_d_' + $(this).val().toLowerCase().replace(" ", "_") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
                         $('#filter_d_' + $(this).val().toLowerCase().replace(" ", "_") + ' i').click(function() {
-                            if($('#filter_d_' + $(parent).val().toLowerCase().replace(" ", "_")).length) {
+                            if($('#d_' + $(parent).val().toLowerCase().replace(" ", "_") + '_option').length) {
                                 $('#filter_d_' + $(parent).val().toLowerCase().replace(" ", "_")).remove();
                                 $("#d_" + $(parent).val().toLowerCase().replace(" ", "_") + '_option').prop("checked", false);
                             }
@@ -1309,7 +1309,7 @@ var get_provinces = function() {
 
                     $("#province_filters").append('<li id="filter_p_' + $(this).attr("name").toLowerCase() + '">'+ get_province_name($(this).val()) +'<i class="fas fa-window-close float-right"></i></li>')
                     $('#filter_p_' + $(this).val().toLowerCase() + ' i').click(function() {
-                        if($('#filter_p_' + $(parent).val().toLowerCase()).length) {
+                        if($('#' + $(parent).val().toLowerCase() + '_option').length) {
                             $('#filter_p_' + $(parent).val().toLowerCase()).remove();
                             $("#" + $(parent).val().toLowerCase() + '_option').prop("checked", false);
                         }
