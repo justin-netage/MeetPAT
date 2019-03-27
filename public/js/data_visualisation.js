@@ -1530,7 +1530,8 @@ $("#resetFilterToastBtn").click(function() {
         '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
         + '&nbsp;Resetting...'
     );
-
+    $('.apply-filter-button, apply-changes-button').prop('disabled', true);
+    $('.sidebar-filters ul li').remove();
     // Selected Targets Arrays
     target_provinces = [];
     target_municipalities = [];
