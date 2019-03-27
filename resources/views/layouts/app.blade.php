@@ -23,6 +23,7 @@
     @yield('styles')
 </head>
 <body>
+    @yield('side-bars')
 <div class="container">
     <div class="col-12 text-center p-3">
         <a href="{{ url('/') }}">

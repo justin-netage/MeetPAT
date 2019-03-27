@@ -4,11 +4,50 @@
 
 @endsection
 
+@section('side-bars')
+<div class="right-sidebar sidebar-in" id="right-options-sidebar">
+    <h4>
+        <strong class="mr-auto">Contacts</strong>
+    </h4>
+    <div id="contacts-num-sidebar">
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+    <br />
+    <h4>
+        <strong class="mr-auto">Filters</strong>
+    </h4>
+    <div class="scrollbar" id="style-1">
+        <div class="sidebar-filters force-overflow">
+            <ul id="province_filters" class="list-unstyled"><span class="filter-heading">Province</span></ul>
+            <ul id="age_filters" class="list-unstyled"><span class="filter-heading">Age</span></ul>   
+            <ul id="gender_filters" class="list-unstyled"><span class="filter-heading">Gender</span></ul> 
+            <ul id="population_group_filters" class="list-unstyled"><span class="filter-heading">Population Group</span></ul>
+            <ul id="generation_filters" class="list-unstyled"><span class="filter-heading">Generation</span></ul>
+            <ul id="citizen_vs_resident_filters" class="list-unstyled"><span class="filter-heading">Citizen VS Resident</span></ul>
+            <ul id="marital_status_filters" class="list-unstyled"><span class="filter-heading">Marital Status</span></ul>
+            <ul id="home_owner_filters" class="list-unstyled"><span class="filter-heading">Home Owner</span></ul>
+            <ul id="risk_category_filters" class="list-unstyled"><span class="filter-heading">Risk Category</span></ul>
+            <ul id="household_income_filters" class="list-unstyled"><span class="filter-heading">Household Income</span></ul>
+            <ul id="directors_filters" class="list-unstyled"><span class="filter-heading">Directors</span></ul>
+        </div>
+    </div>
+
+    <button id="sidebarSubmitBtn" class="btn btn-secondary btn-block apply-changes-button" disabled="true" type="button" /><i class="fas fa-sync-alt"></i>&nbsp;Apply Changes</button>
+    <button id="resetFilterToastBtn" class="btn btn-secondary btn-block" disabled="disabled"><i class="fas fa-undo-alt"></i>&nbsp;Reset Filters</button>
+</div>
+<div class="right-sidebar-button sidebar-button-in" id="sidebar-toggle-button"><i class="fas fa-cog"></i></div>
+@endsection
+
 @section('content')
 
-<div role="alert" aria-live="assertive" id="records-toast" aria-atomic="true" class="toast" data-autohide="false" style="z-index: 9999; position: fixed; bottom: 0; right: 0;">
+
+<div role="alert" aria-live="assertive" id="records-toast" aria-atomic="true" class="toast" data-autohide="false" style="z-index: 1020; position: fixed; bottom: 0; right: 0;">
   <div class="toast-header">
-    <strong class="mr-auto">Contacts</strong>
+     <strong class="mr-auto">Contacts</strong>
   </div>
   <div class="toast-body" style="font-size: 24px;">
     <div class="d-flex justify-content-center">
@@ -17,14 +56,14 @@
         </div>
     </div>
   </div>
-</div>
-<div role="alert" aria-live="assertive" id="reset-filters-toast" aria-atomic="true" class="toast d-sm-none d-md-block" data-autohide="false" style="z-index: 9999; position: fixed; bottom: 20; right: 0;">
+</div> 
+<!-- <div role="alert" aria-live="assertive" id="reset-filters-toast" aria-atomic="true" class="toast d-sm-none d-md-block" data-autohide="false" style="z-index: 9999; position: fixed; bottom: 20; right: 0;">
   <div class="toast-body" style="font-size: 24px;">
     <div class="d-flex justify-content-center">
         <button id="resetFilterToastBtn" class="btn btn-primary btn-block btn-lg" disabled="disabled">Reset Filters</button>
     </div>
   </div>
-</div>
+</div> -->
 
 <div id="loader" style="display:none;"></div>
 <div id="alert-section"></div>
@@ -146,7 +185,7 @@
         </div>
             </h3>
             <hr>
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/adult-2028245_640.png')}}" background-color: #3490DC;" class="img-fluid"/>
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/adult-2028245_640.png')}}" background-color: #00A3D9;" class="img-fluid"/>
                 <div class="spinner-block">
                     <div class="spinner spinner-3"></div>
                 </div>

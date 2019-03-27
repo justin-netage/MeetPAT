@@ -1,5 +1,21 @@
 @extends('layouts.app')
 
+@section('side-bars')
+<div class="right-sidebar" id="right-options-sidebar">
+    <h4>
+        <strong class="mr-auto">Contacts</strong>
+    </h4>
+    <div id="records-toast">
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" style="color: #fff;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="right-sidebar-button" id="sidebar-toggle-button"><i class="fas fa-cog"></i></div>
+@endsection
+
 @section('content')
 
 <div class="container">
@@ -38,4 +54,18 @@
     </div>
 </div>
 
+@endsection
+
+@section('scripts')
+<script>
+    
+    $(document).ready(function() {
+        /** Sidebar toggling. */
+
+        $('#sidebar-toggle-button').click(function() {
+            $('#right-options-sidebar').toggleClass("sidebar-in");
+            $('#sidebar-toggle-button').toggleClass("sidebar-button-in");
+        });
+    });
+</script>
 @endsection

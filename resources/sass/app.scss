@@ -621,7 +621,7 @@ div.filepond--item {
 }
 .card-link-primary .card:hover 
 {
-  background-color: #3490DC; 
+  background-color: #00A3D9; 
   box-shadow: none;
   border: none;
 }
@@ -645,7 +645,7 @@ div.filepond--item {
 }
 .card-link-primary .card:hover .card-header
 {
-  border-color: #3490DC;
+  border-color: #00A3D9;
 }
 
 .card-link-secondary .card:hover .card-header
@@ -683,7 +683,7 @@ div.filepond--item {
 
 .display-4 small 
 {
-  color: #3490DC;
+  color: #00A3D9;
 }
 
 #number_of_records
@@ -713,7 +713,7 @@ tspan
 
 .progress-title
 {
-  color: #3490DC;
+  color: #00A3D9;
   font-weight: bold;
 }
 
@@ -755,3 +755,115 @@ background-image:url(https://s3.amazonaws.com/meetpat/public/images/csscheckbox_
 user-select: none;
 }
 
+.right-sidebar strong
+{
+  width: 100%;
+  color: #fff;
+}
+.right-sidebar
+{
+  padding: 8px;
+  position: fixed;
+  z-index: 9999;
+  right:0px;
+  width: 256px;
+  height: 100%;
+  background-color: #00A3D9;
+  box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.3);
+}
+
+.right-sidebar-button
+{
+  position: fixed;
+  z-index: 1021;
+  top: 50%;
+  right: 256px;
+  width: 48px;
+  height: 48px;
+  border-radius: 15px 0px 0px 15px;
+  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.3);
+  background-color: #00A3D9;
+}
+
+.right-sidebar-button i 
+{
+  font-size: 24px;
+  position: absolute;
+  margin: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+}
+
+.sidebar-in
+{
+  right: -512px;
+}
+.sidebar-button-in 
+{
+  right: 0px;
+}
+
+.right-sidebar-button:hover
+{
+  cursor: pointer;
+}
+
+#contacts-num-sidebar
+{
+  border-radius: 2px 2px 2px 2px;
+  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.3);
+  font-size: 24px;
+  width: 100%;
+  padding: 8px;
+  background-color: #fff;
+  color: #545454;
+  text-align: center;
+}
+
+#sidebarSubmitBtn
+{
+  position: absolute;
+  bottom: 54px;
+}
+
+#resetFilterToastBtn
+{
+  position: absolute;
+  bottom: 8px;
+}
+
+.sidebar-filters li
+{
+  border-radius: 2px 2px 2px 2px;
+  text-decoration: none;
+  background-color: #fff;
+  border-bottom: 1px solid #545454;
+  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.3);
+  padding: 8px;
+  margin: 0px;
+  width: 100%;
+}
+
+.sidebar-filters
+{
+  overflow-y: scroll;
+  height: 256px;
+}
+
+.filter-heading
+{
+  font-weight: bold;
+}
+
+.sidebar-filters li i
+{
+  margin-top: 4px;
+  cursor: pointer;
+}
+
+.sidebar-filters li i:hover
+{
+  color: #d54b2e;
+}

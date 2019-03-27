@@ -82,7 +82,7 @@ function drawProvinceChart( chart_data ) {
                 position: 'none'
             },
             'backgroundColor': '#fff',
-            'colors': ['#3490DC'],
+            'colors': ['#00A3D9'],
             'animation': {
                 'startup':true,
                 'duration': 1000,
@@ -128,7 +128,7 @@ function drawAreaChart(  ) {
                             width: '60%',
                             height: '100s%'
                         },
-                        'colors': ['#3490DC'],
+                        'colors': ['#00A3D9'],
                         'legend': {
                             position: 'none'
                         },
@@ -140,8 +140,10 @@ function drawAreaChart(  ) {
         chart.draw(data, chart_options); 
         $(".apply-filter-button").prop("disabled", false);
         $('.apply-filter-button').html("apply");
-        $("#reset-filters-toast .btn").prop("disabled", false);
-        $("#reset-filters-toast .btn").html('Reset Filters');
+        $('#sidebarSubmitBtn').html('<i class="fas fa-sync-alt"></i>&nbsp;Apply Changes');
+        $('#sidebarSubmitBtn').prop("disabled", false);
+        $("#resetFilterToastBtn").prop("disabled", false);
+        $("#resetFilterToastBtn").html('<i class="fas fa-undo-alt"></i>&nbsp;Reset Filters');
     });
        
 
@@ -171,7 +173,7 @@ function drawAreaChart(  ) {
                                 width: '60%',
                                 height: '100%'
                                 },
-                            'colors': ['#3490DC'],
+                            'colors': ['#00A3D9'],
                             'animation': {
                                 'startup':true,
                                 'duration': 1000,
@@ -282,7 +284,7 @@ function drawAreaChart(  ) {
                                 width: '60%',
                                 height: '100%'
                                 },
-                            'colors': ['#3490DC'],
+                            'colors': ['#00A3D9'],
                             'animation': {
                                 'startup':true,
                                 'duration': 1000,
@@ -297,14 +299,35 @@ function drawAreaChart(  ) {
                         for (var key in chart_data["all_ages"]) {
                             if(target_ages.includes(key)) {
                                 $("#age_filter").append(
-                                    '<input type="checkbox" name="' + key + '" id="' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="' + key.toLowerCase() + '_option' +'" class="css-label">' + key + '</label><br />'
+                                    '<input type="checkbox" name="' + key.toLowerCase().replace(" ", "_").replace("+", "plus") + '" id="age_' + key.toLowerCase().replace(" ", "_").replace("+", "plus") + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="age_' + key.toLowerCase().replace(" ", "_").replace("+", "plus") + '_option' +'" class="css-label">' + key + '</label><br />'
                                 );
                             } else {
                                 $("#age_filter").append(
-                                    '<input type="checkbox" name="' + key + '" id="' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox"><label for="' + key.toLowerCase() + '_option' +'" class="css-label">' + key + '</label><br />'
+                                    '<input type="checkbox" name="' + key.toLowerCase().replace(" ", "_").replace("+", "plus") + '" id="age_' + key.toLowerCase().replace(" ", "_").replace("+", "plus") + '_option' +'" value="' + key + '" class="css-checkbox"><label for="age_' + key.toLowerCase().replace(" ", "_").replace("+", "plus") + '_option' +'" class="css-label">' + key + '</label><br />'
                                 );
                             }
+
+                            $('#age_' + key.toLowerCase() + '_option').click(function(){
+                                if($('#age_' + $(this).attr("name").toLowerCase() + '_option').is(":checked")) { 
+                                    //console.log($(this));
+                                    var parent = this;
                 
+                                    $("#age_filters").append('<li id="filter_p_' + $(this).attr("name").toLowerCase() + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                    $('#filter_p_' + $(this).val().toLowerCase() + ' i').click(function() {
+                                        if($('#filter_p_' + $(parent).val().toLowerCase()).length) {
+                                            $('#filter_p_' + $(parent).val().toLowerCase()).remove();
+                                            $("#age_" + $(parent).val().toLowerCase() + '_option').prop("checked", false);
+                                        }
+
+                                    });
+                                } else {
+                                    //console.log($(this));
+                
+                                    if($('#filter_p_' + $(this).val().toLowerCase())) {
+                                        $('#filter_p_' + $(this).val().toLowerCase()).remove();
+                                    }
+                                }
+                            });
                         }
             // Instantiate and draw our chart, passing in some options.
             var chart = new google.visualization.BarChart(document.getElementById('agesChart'));
@@ -315,6 +338,22 @@ function drawAreaChart(  ) {
     }
 
     var drawGenderChart = function() {
+        // get gender name
+        var get_gender_name = function(short_name) {
+            var name;
+            switch(short_name) {
+                case "M":
+                    name = "Male";
+                    break;
+                case "F":
+                    name = "Female";
+                    break;
+                default:
+                    name = "Unkown";
+            }
+
+            return name;
+        }
         $.get('/api/meetpat-client/get-records/genders', {user_id: user_id_number, selected_provinces: target_provinces,
              selected_age_groups: target_ages, selected_gender_groups: target_genders, 
              selected_population_groups: target_population_groups, selected_generations: target_generations,
@@ -349,7 +388,7 @@ function drawAreaChart(  ) {
                                 vAxis: {
                                     minValue: 0,
                                 },                                     
-                                'colors': ['#3490DC'],
+                                'colors': ['#00A3D9'],
                                 'animation': {
                                     'startup':true,
                                     'duration': 1000,
@@ -364,13 +403,35 @@ function drawAreaChart(  ) {
                             for (var key in chart_data["all_genders"]) {
                                 if(target_genders.includes(key)) {
                                     $("#gender_filter").append(
-                                        '<input type="checkbox" name="g_' + key + '" id="g_' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="g_' + key.toLowerCase() + '_option' +'" class="css-label">' + key + '</label><br />'
+                                        '<input type="checkbox" name="g_' + key + '" id="g_' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="g_' + key.toLowerCase() + '_option' +'" class="css-label">' + get_gender_name(key) + '</label><br />'
                                     );
                                 } else {
                                     $("#gender_filter").append(
-                                        '<input type="checkbox" name="g_' + key + '" id="g_' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox"><label for="g_' + key.toLowerCase() + '_option' +'" class="css-label">' + key + '</label><br />'
+                                        '<input type="checkbox" name="g_' + key + '" id="g_' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox"><label for="g_' + key.toLowerCase() + '_option' +'" class="css-label">' + get_gender_name(key) + '</label><br />'
                                     );
                                 }
+
+                                $('#g_' + key.toLowerCase() + '_option').click(function(){
+                                    if($('#g_' + $(this).val().toLowerCase() + '_option').is(":checked")) { 
+                                        //console.log($(this));
+                                        var parent = this;
+                    
+                                        $("#gender_filters").append('<li id="filter_g_' + $(this).val().toLowerCase() + '">'+ get_gender_name($(this).val()) +'<i class="fas fa-window-close float-right"></i></li>')
+                                        $('#filter_g_' + $(this).val().toLowerCase() + ' i').click(function() {
+                                            if($('#filter_g_' + $(parent).val().toLowerCase()).length) {
+                                                $('#filter_g_' + $(parent).val().toLowerCase()).remove();
+                                                $("#g_" + $(parent).val().toLowerCase() + '_option').prop("checked", false);
+                                            }
+
+                                        });
+                                    } else {
+                                        //console.log($(this));
+                    
+                                        if($('#filter_g_' + $(this).val().toLowerCase())) {
+                                            $('#filter_g_' + $(this).val().toLowerCase()).remove();
+                                        }
+                                    }
+                                });
                     
                             }
             
@@ -440,7 +501,7 @@ function drawAreaChart(  ) {
                             vAxis: {
                                 minValue: 0,
                             },                                 
-                            'colors': ['#3490DC'],
+                            'colors': ['#00A3D9'],
                             'animation': {
                                 'startup':true,
                                 'duration': 1000,
@@ -455,13 +516,35 @@ function drawAreaChart(  ) {
                         for (var key in chart_data["all_population_groups"]) {
                             if(target_population_groups.includes(key)) {
                                 $("#population_group_filter").append(
-                                    '<input type="checkbox" name="' + key + '" id="' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="' + key.toLowerCase() + '_option' +'" class="css-label">' + get_ethnic_name(key) + '</label><br />'
+                                    '<input type="checkbox" name="pop_' + key + '" id="pop_' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="pop_' + key.toLowerCase() + '_option' +'" class="css-label">' + get_ethnic_name(key) + '</label><br />'
                                 );
                             } else {
                                 $("#population_group_filter").append(
-                                    '<input type="checkbox" name="' + key + '" id="' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox"><label for="' + key.toLowerCase() + '_option' +'" class="css-label">' + get_ethnic_name(key) + '</label><br />'
+                                    '<input type="checkbox" name="pop_' + key + '" id="pop_' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox"><label for="pop_' + key.toLowerCase() + '_option' +'" class="css-label">' + get_ethnic_name(key) + '</label><br />'
                                 );
                             }
+
+                            $('#pop_' + key.toLowerCase() + '_option').click(function(){
+                                if($('#pop_' + $(this).val().toLowerCase() + '_option').is(":checked")) { 
+                                    //console.log($(this));
+                                    var parent = this;
+                
+                                    $("#population_group_filters").append('<li id="filter_pop_' + $(this).val().toLowerCase() + '">'+ get_ethnic_name($(this).val()) +'<i class="fas fa-window-close float-right"></i></li>')
+                                    $('#filter_pop_' + $(this).val().toLowerCase() + ' i').click(function() {
+                                        if($('#filter_pop_' + $(parent).val().toLowerCase()).length) {
+                                            $('#filter_pop_' + $(parent).val().toLowerCase()).remove();
+                                            $("#pop_" + $(parent).val().toLowerCase() + '_option').prop("checked", false);
+                                        }
+
+                                    });
+                                } else {
+                                    //console.log($(this));
+                
+                                    if($('#filter_pop_' + $(this).val().toLowerCase())) {
+                                        $('#filter_pop_' + $(this).val().toLowerCase()).remove();
+                                    }
+                                }
+                            });
                 
                         }
             
@@ -507,7 +590,7 @@ function drawAreaChart(  ) {
                             vAxis: {
                                 minValue: 0,
                             }, 
-                            'colors': ['#3490DC'],
+                            'colors': ['#00A3D9'],
                             'animation': {
                                 'startup':true,
                                 'duration': 1000,
@@ -521,13 +604,34 @@ function drawAreaChart(  ) {
                         for (var key in chart_data["all_generations"]) {
                             if(target_generations.includes(key)) {
                                 $("#generation_filter").append(
-                                    '<input type="checkbox" name="' + key + '" id="' + key.toLowerCase().replace(" ", "_") + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="' + key.toLowerCase().replace(" ", "_") + '_option' +'" class="css-label">' + key + '</label><br />'
+                                    '<input type="checkbox" name="gen_' + key + '" id="gen_' + key.toLowerCase().replace(" ", "_") + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="gen_' + key.toLowerCase().replace(" ", "_") + '_option' +'" class="css-label">' + key + '</label><br />'
                                 );
                             } else {
                                 $("#generation_filter").append(
-                                    '<input type="checkbox" name="' + key + '" id="' + key.toLowerCase().replace(" ", "_") + '_option' +'" value="' + key + '" class="css-checkbox"><label for="' + key.toLowerCase().replace(" ", "_") + '_option' +'" class="css-label">' + key + '</label><br />'
+                                    '<input type="checkbox" name="gen_' + key + '" id="gen_' + key.toLowerCase().replace(" ", "_") + '_option' +'" value="' + key + '" class="css-checkbox"><label for="gen_' + key.toLowerCase().replace(" ", "_") + '_option' +'" class="css-label">' + key + '</label><br />'
                                 );
                             }
+                            $('#gen_' + key.toLowerCase().replace(" ", "_") + '_option').click(function(){
+                                if($('#gen_' + $(this).val().toLowerCase().replace(" ", "_") + '_option').is(":checked")) { 
+                                    //console.log($(this));
+                                    var parent = this;
+                
+                                    $("#generation_filters").append('<li id="filter_gen_' + $(this).val().toLowerCase().replace(" ", "_") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                    $('#filter_gen_' + $(this).val().toLowerCase().replace(" ", "_") + ' i').click(function() {
+                                        if($('#filter_gen_' + $(parent).val().toLowerCase().replace(" ", "_")).length) {
+                                            $('#filter_gen_' + $(parent).val().toLowerCase().replace(" ", "_")).remove();
+                                            $("#gen_" + $(parent).val().toLowerCase().replace(" ", "_") + '_option').prop("checked", false);
+                                        }
+
+                                    });
+                                } else {
+                                    //console.log($(this));
+                
+                                    if($('#filter_gen_' + $(this).val().toLowerCase().replace(" ", "_") )) {
+                                        $('#filter_gen_' + $(this).val().toLowerCase().replace(" ", "_") ).remove();
+                                    }
+                                }
+                            });
                 
                         }            
                 // Instantiate and draw our chart, passing in some options.
@@ -573,7 +677,7 @@ var drawCitizensChart = function() {
                             vAxis: {
                                 minValue: 0,
                             }, 
-                            'colors': ['#3490DC'],
+                            'colors': ['#00A3D9'],
                             'animation': {
                                 'startup':true,
                                 'duration': 1000,
@@ -607,6 +711,51 @@ var drawCitizensChart = function() {
     
                     );
             }
+            $('#citizen_option').click(function(){
+                if($(this).is(":checked")) { console.log("checked: " + $(this).attr("name" ))};
+            });
+
+            $('#resident_option').click(function(){
+                if($(this).is(":checked")) { console.log("checked: " + $(this).attr("name" ))};
+            });
+
+            $('#citizen_option').click(function(){
+                if($('#citizen_option').is(":checked")) { 
+
+                    $("#generation_filters").append('<li id="filter_citizen_option">Citizen<i class="fas fa-window-close float-right"></i></li>');
+                    $('#filter_citizen_option i').click(function() {
+                        if($('#filter_citizen_option')) {
+                            $('#filter_citizen_option').remove();
+                            $("#citizen_option").prop("checked", false);
+                        }
+
+                    });
+                } else {
+
+                    if($('#filter_citizen_option')){
+                        $('#filter_citizen_option').remove();
+                    }
+                }
+            });
+
+            $('#resident_option').click(function(){
+                if($('#resident_option').is(":checked")) { 
+
+                    $("#generation_filters").append('<li id="filter_resident_option">Resident<i class="fas fa-window-close float-right"></i></li>');
+                    $('#filter_resident_option i').click(function() {
+                        if($('#filter_resident_option')) {
+                            $('#filter_resident_option').remove();
+                            $("#resident_option").prop("checked", false);
+                        }
+
+                    });
+                } else {
+
+                    if($('#filter_resident_option')){
+                        $('#filter_resident_option').remove();
+                    }
+                }
+            });
 
             // Instantiate and draw our chart, passing in some options.
             var chart = new google.visualization.ColumnChart(document.getElementById('citizensVsResidentsChart'));
@@ -649,7 +798,7 @@ var drawMaritalStatusChart = function() {
                             vAxis: {
                                 minValue: 0,
                             },                        
-                            'colors': ['#3490DC'],
+                            'colors': ['#00A3D9'],
                             'animation': {
                                 'startup':true,
                                 'duration': 1000,
@@ -666,12 +815,33 @@ var drawMaritalStatusChart = function() {
                     $("#marital_status_filter").append(
                         '<input type="checkbox" name="m_' + key + '" id="m_' + key + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="m_' + key + '_option' +'" class="css-label">' + key + '</label><br />'
                     );
+
                 } else {
                     $("#marital_status_filter").append(
                         '<input type="checkbox" name="m_' + key + '" id="m_' + key + '_option' +'" value="' + key + '" class="css-checkbox"><label for="m_' + key + '_option' +'" class="css-label">' + key + '</label><br />'
                     );
                 }
+                $('#m_' + key.toLowerCase() + '_option').click(function(){
+                    if($('#m_' + $(this).val().toLowerCase() + '_option').is(":checked")) { 
+                        //console.log($(this));
+                        var parent = this;
     
+                        $("#marital_status_filters").append('<li id="filter_m_' + $(this).val().toLowerCase() + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                        $('#filter_m_' + $(this).val().toLowerCase() + ' i').click(function() {
+                            if($('#filter_m_' + $(parent).val().toLowerCase()).length) {
+                                $('#filter_m_' + $(parent).val().toLowerCase()).remove();
+                                $("#m_" + $(parent).val().toLowerCase() + '_option').prop("checked", false);
+                            }
+
+                        });
+                    } else {
+                        //console.log($(this));
+    
+                        if($('#filter_m_' + $(this).val().toLowerCase())) {
+                            $('#filter_m_' + $(this).val().toLowerCase()).remove();
+                        }
+                    }
+                });
             }            
             // Instantiate and draw our chart, passing in some options.
             var chart = new google.visualization.ColumnChart(document.getElementById('maritalStatusChart'));
@@ -714,7 +884,7 @@ var drawHomeOwnerChart = function() {
                             vAxis: {
                                 minValue: 0,
                             }, 
-                            'colors': ['#3490DC'],
+                            'colors': ['#00A3D9'],
                             'animation': {
                                 'startup':true,
                                 'duration': 1000,
@@ -735,7 +905,28 @@ var drawHomeOwnerChart = function() {
                         '<input type="checkbox" name="h_' + key + '" id="h_' + key + '_option' +'" value="' + key + '" class="css-checkbox"><label for="h_' + key + '_option' +'" class="css-label">' + key + '</label><br />'
                     );
                 }
+                
+                $('#h_' + key.toLowerCase().replace(" ", "_") + '_option').click(function(){
+                    if($('#h_' + $(this).val().toLowerCase().replace(" ", "_") + '_option').is(":checked")) { 
+                        //console.log($(this));
+                        var parent = this;
     
+                        $("#home_owner_filters").append('<li id="filter_h_' + $(this).val().toLowerCase().replace(" ", "_") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                        $('#filter_h_' + $(this).val().toLowerCase().replace(" ", "_") + ' i').click(function() {
+                            if($('#filter_h_' + $(parent).val().toLowerCase().replace(" ", "_")).length) {
+                                $('#filter_h_' + $(parent).val().toLowerCase().replace(" ", "_")).remove();
+                                $("#h_" + $(parent).val().toLowerCase().replace(" ", "_") + '_option').prop("checked", false);
+                            }
+
+                        });
+                    } else {
+                        //console.log($(this));
+    
+                        if($('#filter_h_' + $(this).val().toLowerCase().replace(" ", "_") )) {
+                            $('#filter_h_' + $(this).val().toLowerCase().replace(" ", "_") ).remove();
+                        }
+                    }
+                });
             }              
             // Instantiate and draw our chart, passing in some options.
             var chart = new google.visualization.ColumnChart(document.getElementById('homeOwnerChart'));
@@ -777,7 +968,7 @@ var drawRiskCategoryChart = function() {
                                 width: '50%',
                                 height: '100%'
                                 },
-                            'colors': ['#3490DC'],
+                            'colors': ['#00A3D9'],
                             'animation': {
                                 'startup':true,
                                 'duration': 1000,
@@ -791,13 +982,35 @@ var drawRiskCategoryChart = function() {
             for (var key in chart_data["all_risk_categories"]) {
                 if(target_risk_categories.includes(key)) {
                     $("#risk_category_filter").append(
-                        '<input type="checkbox" name="' + key + '" id="' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="' + key.toLowerCase() + '_option' +'" class="css-label">' + key + '</label><br />'
+                        '<input type="checkbox" name="r_' + key + '" id="r_' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="r_' + key.toLowerCase() + '_option' +'" class="css-label">' + key + '</label><br />'
                     );
                 } else {
                     $("#risk_category_filter").append(
-                        '<input type="checkbox" name="' + key + '" id="' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox"><label for="' + key.toLowerCase() + '_option' +'" class="css-label">' + key + '</label><br />'
+                        '<input type="checkbox" name="r_' + key + '" id="r_' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox"><label for="r_' + key.toLowerCase() + '_option' +'" class="css-label">' + key + '</label><br />'
                     );
                 }
+
+                $('#r_' + key.toLowerCase().replace(" ", "_") + '_option').click(function(){
+                    if($('#r_' + $(this).val().toLowerCase().replace(" ", "_") + '_option').is(":checked")) { 
+                        //console.log($(this));
+                        var parent = this;
+    
+                        $("#risk_category_filters").append('<li id="filter_r_' + $(this).val().toLowerCase().replace(" ", "_") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                        $('#filter_r_' + $(this).val().toLowerCase().replace(" ", "_") + ' i').click(function() {
+                            if($('#filter_r_' + $(parent).val().toLowerCase().replace(" ", "_")).length) {
+                                $('#filter_r_' + $(parent).val().toLowerCase().replace(" ", "_")).remove();
+                                $("#r_" + $(parent).val().toLowerCase().replace(" ", "_") + '_option').prop("checked", false);
+                            }
+
+                        });
+                    } else {
+                        //console.log($(this));
+    
+                        if($('#filter_r_' + $(this).val().toLowerCase().replace(" ", "_") )) {
+                            $('#filter_r_' + $(this).val().toLowerCase().replace(" ", "_") ).remove();
+                        }
+                    }
+                });
     
             }        
             // Instantiate and draw our chart, passing in some options.
@@ -840,7 +1053,7 @@ var drawHouseholdIncomeChart = function() {
                                 width: '40%',
                                 height: '100%'
                                 },
-                            'colors': ['#3490DC'],
+                            'colors': ['#00A3D9'],
                             'animation': {
                                 'startup':true,
                                 'duration': 1000,
@@ -854,13 +1067,35 @@ var drawHouseholdIncomeChart = function() {
             for (var key in chart_data["all_household_incomes"]) {
                 if(target_incomes.includes(key)) {
                     $("#household_income_filter").append(
-                        '<input type="checkbox" name="' + key.toLowerCase().replace(' ', '_').replace('-', '') + '" id="' + key.toLowerCase().replace(' ', '_').replace('-', '') + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="' + key.toLowerCase().replace(' ', '_').replace('-', '') + '_option' +'" class="css-label">' + key + '</label><br />'
+                        '<input type="checkbox" name="hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '') + '" id="hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '') + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '') + '_option' +'" class="css-label">' + key + '</label><br />'
                     );
                 } else {
                     $("#household_income_filter").append(
-                        '<input type="checkbox" name="' + key.toLowerCase().replace(' ', '_').replace('-', '') + '" id="' + key.toLowerCase().replace(' ', '_').replace('-', '') + '_option' +'" value="' + key + '" class="css-checkbox"><label for="' + key.toLowerCase().replace(' ', '_').replace('-', '') + '_option' +'" class="css-label">' + key + '</label><br />'
+                        '<input type="checkbox" name="hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '') + '" id="hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '') + '_option' +'" value="' + key + '" class="css-checkbox"><label for="hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '') + '_option' +'" class="css-label">' + key + '</label><br />'
                     );
                 }
+
+                $('#hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '') + '_option').click(function(){
+                    if($('#hi_' + $(this).val().toLowerCase().replace(/ /g, "_").replace('-', '') + '_option').is(":checked")) { 
+                        //console.log($(this));
+                        var parent = this;
+    
+                        $("#household_income_filters").append('<li id="filter_hi_' + $(this).val().toLowerCase().replace(/ /g, "_").replace('-', '') + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                        $('#filter_hi_' + $(this).val().toLowerCase().replace(/ /g, "_").replace('-', '') + ' i').click(function() {
+                            if($('#filter_hi_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace('-', '')).length) {
+                                $('#filter_hi_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace('-', '')).remove();
+                                $("#hi_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace('-', '') + '_option').prop("checked", false);
+                            }
+
+                        });
+                    } else {
+                        //console.log($(this));
+    
+                        if($('#filter_hi_' + $(this).val().toLowerCase().replace('-', '').replace('  ', '_') )) {
+                            $('#filter_hi_' + $(this).val().toLowerCase().replace('-', '').replace('  ', '_') ).remove();
+                        }
+                    }
+                });
     
             }              
             // Instantiate and draw our chart, passing in some options.
@@ -905,7 +1140,7 @@ var drawDirectorOfBusinessChart = function() {
                             vAxis: {
                                 minValue: 0,
                             },                             
-                            'colors': ['#3490DC'],
+                            'colors': ['#00A3D9'],
                             'animation': {
                                 'startup':true,
                                 'duration': 1000,
@@ -926,6 +1161,28 @@ var drawDirectorOfBusinessChart = function() {
                         '<input type="checkbox" name="d_' + key + '" id="d_' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox"><label for="d_' + key.toLowerCase() + '_option' +'" class="css-label">' + key + '</label><br />'
                     );
                 }
+
+                $('#d_' + key.toLowerCase().replace(" ", "_") + '_option').click(function(){
+                    if($('#d_' + $(this).val().toLowerCase().replace(" ", "_") + '_option').is(":checked")) { 
+                        //console.log($(this));
+                        var parent = this;
+    
+                        $("#directors_filters").append('<li id="filter_d_' + $(this).val().toLowerCase().replace(" ", "_") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                        $('#filter_d_' + $(this).val().toLowerCase().replace(" ", "_") + ' i').click(function() {
+                            if($('#filter_d_' + $(parent).val().toLowerCase().replace(" ", "_")).length) {
+                                $('#filter_d_' + $(parent).val().toLowerCase().replace(" ", "_")).remove();
+                                $("#d_" + $(parent).val().toLowerCase().replace(" ", "_") + '_option').prop("checked", false);
+                            }
+
+                        });
+                    } else {
+                        //console.log($(this));
+    
+                        if($('#filter_d_' + $(this).val().toLowerCase().replace(" ", "_") )) {
+                            $('#filter_d_' + $(this).val().toLowerCase().replace(" ", "_") ).remove();
+                        }
+                    }
+                });
     
             }        
             // Instantiate and draw our chart, passing in some options.
@@ -939,7 +1196,8 @@ var user_id_number = $("#user_id").val();
 var get_records_count =  function(records_data) {
         
     var records_count = $("#records-main-toast .toast-body");
-    var records_toast = $("#records-toast .toast-body");
+    var records_count_toast = $("#records-toast .toast-body");
+    var records_toast = $("#contacts-num-sidebar");
         
     $.get("/api/meetpat-client/get-records/count", {user_id: user_id_number, selected_provinces: target_provinces,
          selected_age_groups: target_ages, selected_gender_groups: target_genders, 
@@ -954,6 +1212,8 @@ var get_records_count =  function(records_data) {
         //console.log(data);
         records_count.html(kFormatter(data));
         records_toast.html(kFormatter(data));
+        records_count_toast.html(kFormatter(data));
+
         $("#contacts-number .spinner-block").hide();
 
     });
@@ -1041,6 +1301,28 @@ var get_provinces = function() {
                     '<input type="checkbox" name="' + key + '" id="' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox"><label for="' + key.toLowerCase() + '_option' +'" class="css-label">' + get_province_name(key) + '</label><br />'
                 );
             }
+
+            $('#' + key.toLowerCase() + '_option').click(function(){
+                if($('#' + $(this).attr("name").toLowerCase() + '_option').is(":checked")) { 
+                    //console.log($(this));
+                    var parent = this;
+
+                    $("#province_filters").append('<li id="filter_p_' + $(this).attr("name").toLowerCase() + '">'+ get_province_name($(this).val()) +'<i class="fas fa-window-close float-right"></i></li>')
+                    $('#filter_p_' + $(this).val().toLowerCase() + ' i').click(function() {
+                        if($('#filter_p_' + $(parent).val().toLowerCase()).length) {
+                            $('#filter_p_' + $(parent).val().toLowerCase()).remove();
+                            $("#" + $(parent).val().toLowerCase() + '_option').prop("checked", false);
+                        }
+
+                    });
+                } else {
+                    //console.log($(this));
+
+                    if($('#filter_p_' + $(this).val().toLowerCase())) {
+                        $('#filter_p_' + $(this).val().toLowerCase()).remove();
+                    }
+                }
+            });
 
         }
 
@@ -1151,11 +1433,13 @@ var apply_filters = function() {
 
 }
 
-$('.apply-filter-button').click(function() {
+$('.apply-filter-button, #sidebarSubmitBtn').click(function() {
 
     $('.apply-filter-button').prop("disabled", true);
+    $('#sidebarSubmitBtn').prop("disabled", true);
     $('.apply-filter-button').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;applying...');
-    $("#reset-filters-toast .btn").prop("disabled", true);
+    $('#sidebarSubmitBtn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;Applying Changes...');
+    $("#resetFilterToastBtn").prop("disabled", true);
 
     target_provinces = [];
     target_municipalities = [];
@@ -1239,10 +1523,10 @@ $('.apply-filter-button').click(function() {
     get_provinces();
 });
 
-$("#reset-filters-toast").click(function() {
+$("#resetFilterToastBtn").click(function() {
 
-    $("#reset-filters-toast .btn").prop("disabled", true);
-    $("#reset-filters-toast .btn").html(
+    $("#resetFilterToastBtn").prop("disabled", true);
+    $("#resetFilterToastBtn").html(
         '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
         + '&nbsp;Resetting...'
     );
@@ -1276,7 +1560,6 @@ $(document).ready(function() {
     //var site_url = window.location.protocol + "//" + window.location.host;
     $('#records-main-toast').toast('show');
     $("#records-toast").toast('show');
-    $("#reset-filters-toast").toast('show');
 
     $('.dropdown-menu').on('click', function(e) {
         if($(this).hasClass('dropdown-menu-form')) {
@@ -1286,5 +1569,18 @@ $(document).ready(function() {
 
     get_provinces();
 
-    
+    /** Sidebar toggling. */
+
+    $('#sidebar-toggle-button').click(function() {
+        if($(this).hasClass("sidebar-button-in")) {
+            $(this).html('<i class="fas fa-arrow-right"></i>');
+        } else {
+            $(this).html('<i class="fas fa-cog"></i>');
+        }
+
+        $('#right-options-sidebar').toggleClass("sidebar-in");
+        $('#sidebar-toggle-button').toggleClass("sidebar-button-in");
+    });
+
+
 });
