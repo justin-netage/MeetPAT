@@ -90,3 +90,8 @@ Route::get('/meetpat-client/update/google', 'MeetpatClientController@update_goog
 
 Route::get('/meetpat-client/upload-client-file-data', 'DataVisualisationController@large_data_upload_form')->name('upload-client-data')->middleware('auth')->middleware('client');
 
+// Routes for user filtered customer audience
+
+Route::post('/meetpat-client/create-selected-contacts', 'MeetpatClientController@create_filtered_audience')->name('sync-selected-contacts')->middleware('auth')->middleware('client');
+Route::post('/meetpat-client/upload-audience-form', 'MeetpatClientController@submit_filtered_audience')->name('submit-filtered-audience')->middleware('auth')->middleware('client');
+Route::get('/meetpat-client/filtered-audience-form/{user_id}/{filtered_list_id}', 'MeetpatClientController@filtered_audience_form')->name('filtered-audience-form')->middleware('auth')->middleware('client');

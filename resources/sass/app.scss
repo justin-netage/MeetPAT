@@ -379,9 +379,9 @@ body{
 .switch{
   --uiSwitchSize: var(--switchSize, 64px);
   --uiSwitchBgColor: var(--switchBgColor, #999);
-  --uiSwitchBgColorActive: var(--switchBgColorActive, #039be5);
+  --uiSwitchBgColorActive: var(--switchBgColorActive, #00A3D9);
   --uiSwitchBorderColorActive: var(--switchBorderColorActive, #fff);
-  --uiSwitchBorderColorFocus: var(--switchBgColorFocus, #039ae5ea);
+  --uiSwitchBorderColorFocus: var(--switchBgColorFocus, #00A3D9);
   --uiSwitchButtonBgColor: var(--switchButtonBgColor, #fff);  
   
   display: inline-block;
@@ -495,7 +495,7 @@ body{
 }
 
 /* spinner-3 styles */
-$basic-dark-color: #3b5998; //color of the spinner
+$basic-dark-color: #00A3D9; //color of the spinner
 $border-width: 4px; //width of spinners border
 $basic-spinner-dimensions: 32px; //width and height of spinner
 $main-spinner-dimensions: $basic-spinner-dimensions - $border-width * 2; //width and height of bigger circle
@@ -810,7 +810,7 @@ user-select: none;
   cursor: pointer;
 }
 
-#contacts-num-sidebar
+#contacts-num-sidebar, #potential-contacts-num-sidebar
 {
   border-radius: 2px 2px 2px 2px;
   box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.3);

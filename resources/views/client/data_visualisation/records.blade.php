@@ -35,7 +35,29 @@
             <ul id="directors_filters" class="list-unstyled"><span class="filter-heading">Directors</span></ul>
         </div>
     </div>
+    <h4>
+        <strong class="mr-auto">Potential Contacts</strong>
+    </h4>
+    <div id="potential-contacts-num-sidebar">?</div><br />
+    <form action="/meetpat-client/create-selected-contacts" method="post">
+        @csrf
+        <input type="hidden" id="user_id" name="user_id" value="{{Auth::user()->id}}">
+        <input type="hidden" id="numberOfContactsId" name="number_of_contacts">
+        <input type="hidden" id="provinceContactsId" name="provinceContacts[]">
+        <input type="hidden" id="AgeContactsId" name="AgeContacts[]">
+        <input type="hidden" id="GenderContactsId" name="GenderContacts[]">
+        <input type="hidden" id="populationContactsId" name="populationContacts[]">
+        <input type="hidden" id="generationContactsId" name="generationContacts[]">
+        <input type="hidden" id="citizenVsResidentsContactsId" name="citizenVsResidentsContacts[]">
+        <input type="hidden" id="maritalStatusContactsId" name="maritalStatusContacts[]">
+        <input type="hidden" id="homeOwnerContactsId" name="homeOwnerContacts[]">
+        <input type="hidden" id="riskCategoryContactsId" name="riskCategoryContacts[]">
+        <input type="hidden" id="houseHoldIncomeContactsId" name="houseHoldIncomeContacts[]">
+        <input type="hidden" id="directorsContactsId" name="directorsContacts[]">
 
+        <button id="audienceSubmitBtn" class="btn btn-secondary btn-block" disabled="true" type="submit" /><i class="fas fa-users"></i>&nbsp;Sync Contacts</button>
+    </form>
+    
     <button id="sidebarSubmitBtn" class="btn btn-secondary btn-block apply-changes-button" disabled="true" type="button" /><i class="fas fa-sync-alt"></i>&nbsp;Apply Changes</button>
     <button id="resetFilterToastBtn" class="btn btn-secondary btn-block" disabled="disabled"><i class="fas fa-undo-alt"></i>&nbsp;Reset Filters</button>
 </div>

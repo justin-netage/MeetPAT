@@ -107,6 +107,7 @@ function drawAreaChart(  ) {
     }).fail(function( chart_data ) {
         console.log( chart_data )
     }).done(function( chart_data ) {
+
         $("#area-graph .spinner-block").hide();    
         //console.log(data);
         var data = new google.visualization.DataTable();
@@ -117,12 +118,12 @@ function drawAreaChart(  ) {
         var result = Object.keys(chart_data).map(function(key) {
             return [key, chart_data[key], kFormatter(chart_data[key])];
             });
-    
-        data.addRows(result);
+        var shorter_result = result.slice(0, 20);
+        data.addRows(shorter_result);
         // Set chart options
         var chart_options = {
                         'width':'100%',
-                        'height': result.length * 25,
+                        'height': shorter_result.length * 25,
                         'fontSize': 10,
                         'chartArea': {
                             width: '60%',
@@ -138,12 +139,6 @@ function drawAreaChart(  ) {
         // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.BarChart(document.getElementById('areasChart'));
         chart.draw(data, chart_options); 
-        $(".apply-filter-button").prop("disabled", false);
-        $('.apply-filter-button').html("apply");
-        $('#sidebarSubmitBtn').html('<i class="fas fa-sync-alt"></i>&nbsp;Apply Changes');
-        $('#sidebarSubmitBtn').prop("disabled", false);
-        $("#resetFilterToastBtn").prop("disabled", false);
-        $("#resetFilterToastBtn").html('<i class="fas fa-undo-alt"></i>&nbsp;Reset Filters');
     });
        
 
@@ -247,6 +242,8 @@ function drawAreaChart(  ) {
       var chart = new google.visualization.GeoChart(document.getElementById('chartdiv'));
 
       chart.draw(data, options);
+      drawAreaChart();
+
   }
 
   var drawAgeChart = function (  ) {
@@ -1188,6 +1185,13 @@ var drawDirectorOfBusinessChart = function() {
             // Instantiate and draw our chart, passing in some options.
             var chart = new google.visualization.ColumnChart(document.getElementById('directorOfBusinessChart'));
             chart.draw(data, chart_options);    
+            $(".apply-filter-button").prop("disabled", false);
+            $('.apply-filter-button').html("apply");
+            $('#sidebarSubmitBtn').html('<i class="fas fa-sync-alt"></i>&nbsp;Apply Changes');
+            $('#sidebarSubmitBtn').prop("disabled", false);
+            $("#resetFilterToastBtn").prop("disabled", false);
+            $("#audienceSubmitBtn").prop("disabled", false);
+            $("#resetFilterToastBtn").html('<i class="fas fa-undo-alt"></i>&nbsp;Reset Filters');
     });
 }
 
@@ -1198,7 +1202,8 @@ var get_records_count =  function(records_data) {
     var records_count = $("#records-main-toast .toast-body");
     var records_count_toast = $("#records-toast .toast-body");
     var records_toast = $("#contacts-num-sidebar");
-        
+    var number_of_contacts = $("#numberOfContactsId");
+
     $.get("/api/meetpat-client/get-records/count", {user_id: user_id_number, selected_provinces: target_provinces,
          selected_age_groups: target_ages, selected_gender_groups: target_genders, 
          selected_population_groups: target_population_groups, selected_generations: target_generations,
@@ -1213,6 +1218,7 @@ var get_records_count =  function(records_data) {
         records_count.html(kFormatter(data));
         records_toast.html(kFormatter(data));
         records_count_toast.html(kFormatter(data));
+        number_of_contacts.val(data);
 
         $("#contacts-number .spinner-block").hide();
 
@@ -1379,8 +1385,6 @@ var get_risk_category = function() {
 var get_director_of_business = function() {
 
     drawDirectorOfBusinessChart();
-    drawAreaChart();
-
 
 }
 
@@ -1437,6 +1441,7 @@ $('.apply-filter-button, #sidebarSubmitBtn').click(function() {
 
     $('.apply-filter-button').prop("disabled", true);
     $('#sidebarSubmitBtn').prop("disabled", true);
+    $('#audienceSubmitBtn').prop("disabled", true);
     $('.apply-filter-button').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;applying...');
     $('#sidebarSubmitBtn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;Applying Changes...');
     $("#resetFilterToastBtn").prop("disabled", true);
@@ -1518,6 +1523,18 @@ $('.apply-filter-button, #sidebarSubmitBtn').click(function() {
             target_citizen_vs_residents.push($(this).val());
         }
     });
+
+    $("#provinceContactsId").val(target_provinces);
+    $("#AgeContactsId").val(target_ages);
+    $("#GenderContactsId").val(target_genders);
+    $("#populationContactsId").val(target_population_groups);
+    $("#generationContactsId").val(target_generations);
+    $("#citizenVsResidentsContactsId").val(target_citizen_vs_residents);
+    $("#maritalStatusContactsId").val(target_marital_statuses);
+    $("#homeOwnerContactsId").val(target_home_owners);
+    $("#riskCategoryContactsId").val(target_risk_categories);
+    $("#houseHoldIncomeContactsId").val(target_home_owners);
+    $("#directorsContactsId").val(target_directors);
 
     apply_filters();
     get_provinces();

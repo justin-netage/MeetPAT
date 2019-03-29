@@ -12023,9 +12023,9 @@ body {
 .switch {
   --uiSwitchSize: var(--switchSize, 64px);
   --uiSwitchBgColor: var(--switchBgColor, #999);
-  --uiSwitchBgColorActive: var(--switchBgColorActive, #039be5);
+  --uiSwitchBgColorActive: var(--switchBgColorActive, #00A3D9);
   --uiSwitchBorderColorActive: var(--switchBorderColorActive, #fff);
-  --uiSwitchBorderColorFocus: var(--switchBgColorFocus, #039ae5ea);
+  --uiSwitchBorderColorFocus: var(--switchBgColorFocus, #00A3D9);
   --uiSwitchButtonBgColor: var(--switchButtonBgColor, #fff);
   display: inline-block;
   position: relative;
@@ -12209,7 +12209,7 @@ body {
 .spinner.spinner-3:before {
   width: 24px;
   height: 24px;
-  border-color: #3b5998;
+  border-color: #00A3D9;
   top: 0px;
   left: 0px;
   -webkit-animation: scale-2 1s linear 0s infinite;
@@ -12219,7 +12219,7 @@ body {
 .spinner.spinner-3:after {
   width: 24px;
   height: 24px;
-  border-color: #3b5998;
+  border-color: #00A3D9;
   top: 0;
   left: 0;
   opacity: 0;
@@ -12476,7 +12476,8 @@ label.css-label {
   cursor: pointer;
 }
 
-#contacts-num-sidebar {
+#contacts-num-sidebar,
+#potential-contacts-num-sidebar {
   border-radius: 2px 2px 2px 2px;
   -webkit-box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.3);
           box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.3);

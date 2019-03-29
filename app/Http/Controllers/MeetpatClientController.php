@@ -558,6 +558,64 @@ class MeetpatClientController extends Controller
         return response(200);
 
     }
+
+    public function create_filtered_audience(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required',
+            'number_of_contacts' => 'required'
+        ]);
+
+        $new_filtered_list = \MeetPAT\UserFilteredAudience::create([
+            'user_id' => $request->user_id,
+            'number_of_contacts' => $request->number_of_contacts,
+            'selected_provinces' => implode($request->provinceContacts) ,
+            'selected_ages' => implode($request->AgeContacts) ,
+            'selected_genders' => implode($request->GenderContacts) ,
+            'selected_population_groups' => implode($request->populationContacts) ,
+            'selected_generations' => implode($request->generationContacts) ,
+            'selected_citizens_vs_residents' => implode($request->citizenVsResidentsContacts) ,
+            'selected_marital_statuses' => implode($request->maritalStatusContacts) ,
+            'selected_home_owners' => implode($request->homeOwnerContacts) ,
+            'selected_risk_categories' => implode($request->riskCategoryContacts) ,
+            'selected_household_incomes' => implode($request->houseHoldIncomeContacts) ,
+            'selected_directors' => implode($request->directorsContacts) ,
+        ]); 
+
+        return redirect()->to('/meetpat-client/upload-audience-form/' . $new_filtered_list->user_id . '/' . $new_filtered_list->id);
+    }
+
+    public function filtered_audience_form($user_id, $filtered_list_id) {
+        $user = \Auth::user();
+        $has_google_adwords_acc = $user->google_ad_account;
+        $has_facebook_ad_acc = $user->facebook_ad_account;
+
+        \MeetPAT\UserFilteredAudience::where('user_id')->truncate();
+
+        $filtered_list = \MeetPAT\UserFilteredAudience::where([ 'id' => $filtered_list_id, 'user_id' => $user_id ])->first();
+
+        if($user->id == $user_id && $filtered_list) {
+            
+            return view('client.filtered_audience.submit', [ 'user_id' => $user_id, 'filtered_list' => $filtered_list, 'has_google_adwords_acc' => $has_google_adwords_acc , 'has_facebook_ad_acc' => $has_facebook_ad_acc]);
+        } else {
+
+            return view('client.filtered_audience.error');
+        }
+    }
+
+    public function submit_filtered_audience(Request $request)  
+    {
+        $request->validate([
+            'upload_to_google' => 'required',
+            'upload_to_facebook' => 'required',
+            'user_id' => 'required',
+            'filtered_list_id' => 'required',
+            'audience_name' => 'required'
+        ]);
+
+
+    }
+
 }
 
 
