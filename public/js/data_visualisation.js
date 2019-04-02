@@ -157,9 +157,9 @@ function drawAreaChart(  ) {
         var idx = lunr(function() {
             this.ref('name');
             this.field('name');
+            this.b(1);
 
             documents.forEach(function (doc) {
-
                 this.add(doc)
             }, this) 
                 
@@ -325,31 +325,31 @@ function drawAreaChart(  ) {
     var value;
         switch(key) {
             case 'G':
-            value =  ['ZA-GT', chart_data[key], '<ul class="list-unstyled"><li><b>Gauteng</b></li><li>'+ chart_data[key] +'</li></ul>'];
+            value =  ['ZA-GT', chart_data[key], '<ul class="list-unstyled"><li><b>Gauteng</b></li><li>'+ kFormatter(chart_data[key]) +'</li></ul>'];
                 break;
             case 'WC':
-            value =  ['ZA-WC', chart_data[key], '<ul class="list-unstyled"><li><b>Western Cape</b></li><li>'+ chart_data[key] +'</li></ul>'];
+            value =  ['ZA-WC', chart_data[key], '<ul class="list-unstyled"><li><b>Western Cape</b></li><li>'+ kFormatter(chart_data[key]) +'</li></ul>'];
                 break;
             case 'EC':
-            value =  ['ZA-EC', chart_data[key], '<ul class="list-unstyled"><li><b>Eastern Cape</b></li><li>'+ chart_data[key] +'</li></ul>'];
+            value =  ['ZA-EC', chart_data[key], '<ul class="list-unstyled"><li><b>Eastern Cape</b></li><li>'+ kFormatter(chart_data[key]) +'</li></ul>'];
                 break;
             case 'M':
-            value =  ['ZA-MP', chart_data[key], '<ul class="list-unstyled"><li><b>Mpumalanga</b></li><li>'+ chart_data[key] +'</li></ul>'];
+            value =  ['ZA-MP', chart_data[key], '<ul class="list-unstyled"><li><b>Mpumalanga</b></li><li>'+ kFormatter(chart_data[key]) +'</li></ul>'];
                 break;  
             case 'FS':
-            value =  ['ZA-FS', chart_data[key], '<ul class="list-unstyled"><li><b>Free State</b></li><li>'+ chart_data[key] +'</li></ul>'];
+            value =  ['ZA-FS', chart_data[key], '<ul class="list-unstyled"><li><b>Free State</b></li><li>'+ kFormatter(chart_data[key]) +'</li></ul>'];
                 break;
             case 'L':
-            value =  ['ZA-LP', chart_data[key], '<ul class="list-unstyled"><li><b>Limpopo</b></li><li>'+ chart_data[key] +'</li></ul>'];
+            value =  ['ZA-LP', chart_data[key], '<ul class="list-unstyled"><li><b>Limpopo</b></li><li>'+ kFormatter(chart_data[key]) +'</li></ul>'];
                 break;  
             case 'KN':
-            value =  ['ZA-NL', chart_data[key], '<ul class="list-unstyled"><li><b>KwaZula Natal</b></li><li>'+ chart_data[key] +'</li></ul>'];
+            value =  ['ZA-NL', chart_data[key], '<ul class="list-unstyled"><li><b>KwaZula Natal</b></li><li>'+ kFormatter(chart_data[key]) +'</li></ul>'];
                 break; 
             case 'NW':
-            value =  ['ZA-NW', chart_data[key], '<ul class="list-unstyled"><li><b>North West Province</b></li><li>'+ chart_data[key] +'</li></ul>'];
+            value =  ['ZA-NW', chart_data[key], '<ul class="list-unstyled"><li><b>North West Province</b></li><li>'+ kFormatter(chart_data[key]) +'</li></ul>'];
                 break;      
             case 'NC':
-            value =  ['ZA-NC', chart_data[key], '<ul class="list-unstyled"><li><b>Northern Cape</b></li><li>'+ chart_data[key] +'</li></ul>'];
+            value =  ['ZA-NC', chart_data[key], '<ul class="list-unstyled"><li><b>Northern Cape</b></li><li>'+ kFormatter(chart_data[key]) +'</li></ul>'];
                 break;
             default:
                 value = "";               
