@@ -181,7 +181,7 @@ function drawAreaChart(  ) {
                             $('#area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').click(function(){
                                 
                                 if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').is(":checked")) { 
-                                    //console.log($(this));
+                                    
                                     var parent = this;
                                     $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '" id="area_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" value="' + result.ref + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" class="css-label">' + result.ref + '<small> ' + kFormatter(chart_data["all_areas"][result.ref]) + '" checked="checked">');
                                     $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
@@ -194,7 +194,7 @@ function drawAreaChart(  ) {
             
                                     });
                                 } else {
-                                    //console.log($(this));
+                                    
                 
                                     if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, ""))) {
                                         $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "")).remove();
@@ -207,7 +207,7 @@ function drawAreaChart(  ) {
                             $('#area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').click(function(){
                                 
                                 if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').is(":checked")) { 
-                                    //console.log($(this));
+                                    
                                     var parent = this;
                                     $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '" id="area_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" value="' + result.ref + '" checked="checked">');
                                     $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
@@ -220,7 +220,7 @@ function drawAreaChart(  ) {
             
                                     });
                                 } else {
-                                    //console.log($(this));
+                                    
                 
                                     if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, ""))) {
                                         $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "")).remove();
@@ -293,7 +293,7 @@ function drawAreaChart(  ) {
 
                             $('#municipality_' + key.toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option').click(function(){
                                 if($('#municipality_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option').is(":checked")) { 
-                                    //console.log($(this));
+                                    
                                     var parent = this;
                 
                                     $("#municipality_filters").append('<li id="filter_p_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
@@ -305,7 +305,7 @@ function drawAreaChart(  ) {
 
                                     });
                                 } else {
-                                    //console.log($(this));
+                                    
                 
                                     if($('#filter_municipality_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\./g, '_'))) {
                                         $('#filter_municipality_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\./g, '_')).remove();
@@ -440,7 +440,7 @@ function drawAreaChart(  ) {
 
                             $('#age_' + key.toLowerCase() + '_option').click(function(){
                                 if($('#age_' + $(this).attr("name").toLowerCase() + '_option').is(":checked")) { 
-                                    //console.log($(this));
+                                    
                                     var parent = this;
                 
                                     $("#age_filters").append('<li id="filter_p_' + $(this).attr("name").toLowerCase() + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
@@ -452,7 +452,7 @@ function drawAreaChart(  ) {
 
                                     });
                                 } else {
-                                    //console.log($(this));
+                                    
                 
                                     if($('#filter_age_' + $(this).val().toLowerCase())) {
                                         $('#filter_age_' + $(this).val().toLowerCase()).remove();
@@ -545,7 +545,7 @@ function drawAreaChart(  ) {
 
                                 $('#g_' + key.toLowerCase() + '_option').click(function(){
                                     if($('#g_' + $(this).val().toLowerCase() + '_option').is(":checked")) { 
-                                        //console.log($(this));
+                                        
                                         var parent = this;
                     
                                         $("#gender_filters").append('<li id="filter_g_' + $(this).val().toLowerCase() + '">'+ get_gender_name($(this).val()) +'<i class="fas fa-window-close float-right"></i></li>')
@@ -557,7 +557,7 @@ function drawAreaChart(  ) {
 
                                         });
                                     } else {
-                                        //console.log($(this));
+                                        
                     
                                         if($('#filter_g_' + $(this).val().toLowerCase())) {
                                             $('#filter_g_' + $(this).val().toLowerCase()).remove();
@@ -659,7 +659,7 @@ function drawAreaChart(  ) {
 
                             $('#pop_' + key.toLowerCase() + '_option').click(function(){
                                 if($('#pop_' + $(this).val().toLowerCase() + '_option').is(":checked")) { 
-                                    //console.log($(this));
+                                    
                                     var parent = this;
                 
                                     $("#population_group_filters").append('<li id="filter_pop_' + $(this).val().toLowerCase() + '">'+ get_ethnic_name($(this).val()) +'<i class="fas fa-window-close float-right"></i></li>')
@@ -671,7 +671,7 @@ function drawAreaChart(  ) {
 
                                     });
                                 } else {
-                                    //console.log($(this));
+                                    
                 
                                     if($('#filter_pop_' + $(this).val().toLowerCase())) {
                                         $('#filter_pop_' + $(this).val().toLowerCase()).remove();
@@ -747,7 +747,7 @@ function drawAreaChart(  ) {
                             }
                             $('#gen_' + key.toLowerCase().replace(/ /g, "_") + '_option').click(function(){
                                 if($('#gen_' + $(this).val().toLowerCase().replace(/ /g, "_") + '_option').is(":checked")) { 
-                                    //console.log($(this));
+                                    
                                     var parent = this;
                 
                                     $("#generation_filters").append('<li id="filter_gen_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
@@ -759,7 +759,7 @@ function drawAreaChart(  ) {
 
                                     });
                                 } else {
-                                    //console.log($(this));
+                                    
                 
                                     if($('#filter_gen_' + $(this).val().toLowerCase().replace(/ /g, "_") )) {
                                         $('#filter_gen_' + $(this).val().toLowerCase().replace(/ /g, "_") ).remove();
@@ -959,7 +959,7 @@ var drawMaritalStatusChart = function() {
                 }
                 $('#m_' + key.toLowerCase() + '_option').click(function(){
                     if($('#m_' + $(this).val().toLowerCase() + '_option').is(":checked")) { 
-                        //console.log($(this));
+                        
                         var parent = this;
     
                         $("#marital_status_filters").append('<li id="filter_m_' + $(this).val().toLowerCase() + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
@@ -971,7 +971,7 @@ var drawMaritalStatusChart = function() {
 
                         });
                     } else {
-                        //console.log($(this));
+                        
     
                         if($('#filter_m_' + $(this).val().toLowerCase())) {
                             $('#filter_m_' + $(this).val().toLowerCase()).remove();
@@ -1045,7 +1045,7 @@ var drawHomeOwnerChart = function() {
                 
                 $('#h_' + key.toLowerCase().replace(/ /g, "_") + '_option').click(function(){
                     if($('#h_' + $(this).val().toLowerCase().replace(/ /g, "_") + '_option').is(":checked")) { 
-                        //console.log($(this));
+                        
                         var parent = this;
     
                         $("#home_owner_filters").append('<li id="filter_h_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
@@ -1057,7 +1057,7 @@ var drawHomeOwnerChart = function() {
 
                         });
                     } else {
-                        //console.log($(this));
+                        
     
                         if($('#filter_h_' + $(this).val().toLowerCase().replace(/ /g, "_") )) {
                             $('#filter_h_' + $(this).val().toLowerCase().replace(/ /g, "_") ).remove();
@@ -1130,7 +1130,7 @@ var drawRiskCategoryChart = function() {
 
                 $('#r_' + key.toLowerCase().replace(/ /g, "_") + '_option').click(function(){
                     if($('#r_' + $(this).val().toLowerCase().replace(/ /g, "_") + '_option').is(":checked")) { 
-                        //console.log($(this));
+                        
                         var parent = this;
     
                         $("#risk_category_filters").append('<li id="filter_r_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
@@ -1142,7 +1142,7 @@ var drawRiskCategoryChart = function() {
 
                         });
                     } else {
-                        //console.log($(this));
+                        
     
                         if($('#filter_r_' + $(this).val().toLowerCase().replace(/ /g, "_") )) {
                             $('#filter_r_' + $(this).val().toLowerCase().replace(/ /g, "_") ).remove();
@@ -1206,32 +1206,32 @@ var drawHouseholdIncomeChart = function() {
             for (var key in chart_data["all_household_incomes"]) {
                 if(target_incomes.includes(key)) {
                     $("#household_income_filter").append(
-                        '<input type="checkbox" name="hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '') + '" id="hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '') + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '') + '_option' +'" class="css-label">' + key + '</label><br />'
+                        '<input type="checkbox" name="hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '" id="hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option' +'" class="css-label">' + key + '</label><br />'
                     );
                 } else {
                     $("#household_income_filter").append(
-                        '<input type="checkbox" name="hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '') + '" id="hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '') + '_option' +'" value="' + key + '" class="css-checkbox"><label for="hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '') + '_option' +'" class="css-label">' + key + '</label><br />'
+                        '<input type="checkbox" name="hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '" id="hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option' +'" value="' + key + '" class="css-checkbox"><label for="hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option' +'" class="css-label">' + key + '</label><br />'
                     );
                 }
 
-                $('#hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '') + '_option').click(function(){
-                    if($('#hi_' + $(this).val().toLowerCase().replace(/ /g, "_").replace('-', '') + '_option').is(":checked")) { 
-                        //console.log($(this));
+                $('#hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option').click(function(){
+                    if($('#hi_' + $(this).val().toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option').is(":checked")) { 
+                        
                         var parent = this;
     
-                        $("#household_income_filters").append('<li id="filter_hi_' + $(this).val().toLowerCase().replace(/ /g, "_").replace('-', '') + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                        $('#hi_' + $(this).val().toLowerCase().replace(/ /g, "_").replace('-', '') + '_option').click(function() {
-                            if($('#hi_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace('-', '') + '_option').length) {
-                                $('#filter_hi_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace('-', '')).remove();
-                                $("#hi_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace('-', '') + '_option').prop("checked", false);
+                        $("#household_income_filters").append('<li id="filter_hi_' + $(this).val().toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                        $('#filter_hi_' + $(this).val().toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + ' i').click(function() {
+                            if($('#hi_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option').length) {
+                                $('#filter_hi_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus')).remove();
+                                $("#hi_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option').prop("checked", false);
                             }
 
                         });
                     } else {
-                        //console.log($(this));
+                        
     
-                        if($('#filter_hi_' + $(this).val().toLowerCase().replace('-', '').replace('  ', '_') )) {
-                            $('#filter_hi_' + $(this).val().toLowerCase().replace('-', '').replace('  ', '_') ).remove();
+                        if($('#filter_hi_' + $(this).val().toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') )) {
+                            $('#filter_hi_' + $(this).val().toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') ).remove();
                         }
                     }
                 });
@@ -1304,7 +1304,7 @@ var drawDirectorOfBusinessChart = function() {
 
                 $('#d_' + key.toLowerCase().replace(/ /g, "_") + '_option').click(function(){
                     if($('#d_' + $(this).val().toLowerCase().replace(/ /g, "_") + '_option').is(":checked")) { 
-                        //console.log($(this));
+                        
                         var parent = this;
     
                         $("#directors_filters").append('<li id="filter_d_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
@@ -1316,7 +1316,7 @@ var drawDirectorOfBusinessChart = function() {
 
                         });
                     } else {
-                        //console.log($(this));
+                        
     
                         if($('#filter_d_' + $(this).val().toLowerCase().replace(/ /g, "_") )) {
                             $('#filter_d_' + $(this).val().toLowerCase().replace(/ /g, "_") ).remove();
@@ -1458,7 +1458,7 @@ var get_provinces = function() {
 
             $('#' + key.toLowerCase() + '_option').click(function(){
                 if($('#' + $(this).attr("name").toLowerCase() + '_option').is(":checked")) { 
-                    //console.log($(this));
+                    
                     var parent = this;
 
                     $("#province_filters").append('<li id="filter_p_' + $(this).attr("name").toLowerCase() + '">'+ get_province_name($(this).val()) +'<i class="fas fa-window-close float-right"></i></li>')
@@ -1470,7 +1470,7 @@ var get_provinces = function() {
 
                     });
                 } else {
-                    //console.log($(this));
+                    
 
                     if($('#filter_p_' + $(this).val().toLowerCase())) {
                         $('#filter_p_' + $(this).val().toLowerCase()).remove();

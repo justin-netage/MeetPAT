@@ -145,7 +145,7 @@
                 <div class="spinner-block">
                     <div class="spinner spinner-3"></div>
                 </div>    
-                <div id="provincesChart" style="height:250px; width: 100%;"></div>
+                <div id="provincesChart" style="height:256px; width: 100%;"></div>
         </div>
         <div class="col-12 col-md-6" id="municipality-graph">
             <h3>Municipality
@@ -153,7 +153,7 @@
                     <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-filter"></i>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-form" style="width: 300px; overflow-y: scroll;">
+                    <div class="dropdown-menu dropdown-menu-form" style="overflow-y: scroll; width: 256px; height: 256px;">
                     <!-- Dropdown menu links -->
                     <form style="margin: 12px;" id="municipality-filter-form">
                         <div id="municipality_filter">
@@ -168,7 +168,7 @@
                 </div>  
             </h3>
             <hr>
-            <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 250px;">
+            <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 256px;">
                 <div class="spinner-block">
                     <div class="spinner spinner-3"></div>
                 </div>
@@ -178,7 +178,7 @@
         <div class="col-12 col-md-6" id="map-graph">
             <h3>Map</h3>
             <hr>
-            <div id="chartdiv" style="width: 100%; height: 250px;">
+            <div id="chartdiv" style="width: 100%; height: 256px;">
                 <div class="spinner-block">
                     <div class="spinner spinner-3"></div>
                 </div>
@@ -188,9 +188,9 @@
             <h3>Areas
                 <div class="btn-group dropleft float-right">
                 <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-filter"></i>
+                <i class="fas fa-search"></i>&nbsp;<i class="fas fa-filter"></i>
                 </button>
-                <div class="dropdown-menu dropdown-menu-form" style="overflow-y: scroll; padding:16px; width: 300px;">
+                <div class="dropdown-menu dropdown-menu-form" style="overflow-y: scroll; padding:16px; width: 256px; height: 256px;">
                     <!-- Dropdown menu links -->
                     <form style="margin: 8px;" id="area-filter-form">
                     <div id="hidden-area-filter-form" style="display:none;">
@@ -213,7 +213,7 @@
                 </div>
             </h3>
             <hr>
-            <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 250px;">
+            <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 256px;">
                 <div class="spinner-block">
                     <div class="spinner spinner-3"></div>
                 </div>
@@ -258,7 +258,7 @@
                 <div class="spinner-block">
                     <div class="spinner spinner-3"></div>
                 </div>
-                <div id="agesChart" style="width: 100%; height: 250px;"></div>
+                <div id="agesChart" style="width: 100%; height: 256px;"></div>
         </div>
         <div class="col-12 col-md-4" id="gender-graph">
             <h3>Gender
@@ -285,7 +285,7 @@
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
-            <div id="genderChart" style="width: 100%; height: 200px;"></div>
+            <div id="genderChart" style="width: 100%; height: 256px;"></div>
         </div>
         <div class="col-12 col-md-4" id="population-graph">
             <h3>Polulation Group
@@ -312,7 +312,7 @@
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
-            <div id="populationGroupChart" style="width: 100%; height: 200px;"></div>
+            <div id="populationGroupChart" style="width: 100%; height: 256px;"></div>
         </div>
         <div class="col-12 col-md-4" id="generation-graph">
             <h3>Generation
@@ -339,7 +339,7 @@
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
-            <div id="generationChart" style="width: 100%; height: 200px;"></div>
+            <div id="generationChart" style="width: 100%; height: 256px;"></div>
         </div>
         <div class="col-12 col-md-4" id="c-vs-r-graph">
             <h3>Citizen VS Resident
@@ -366,7 +366,7 @@
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
-            <div id="citizensVsResidentsChart" style="width: 100%; height: 200px;"></div>
+            <div id="citizensVsResidentsChart" style="width: 100%; height: 256px;"></div>
         </div>
         <div class="col-12 col-md-4" id="marital-status-graph">
             <h3>Marital Status
@@ -393,7 +393,7 @@
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
-            <div id="maritalStatusChart" style="width: 100%; height: 200px;"></div>
+            <div id="maritalStatusChart" style="width: 100%; height: 256px;"></div>
         </div>
     </div>
     <div class="row">
@@ -432,7 +432,7 @@
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
-            <div id="homeOwnerChart" style="width: 100%; height: 200px;"></div>
+            <div id="homeOwnerChart" style="width: 100%; height: 256px;"></div>
         </div>
         <!-- <div class="col-12 col-md-4">
             <h3>Number of Homes Owned</h3>
@@ -511,7 +511,7 @@
                 <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-filter"></i>
                 </button>
-                <div class="dropdown-menu dropdown-menu-form" style="width: 200px;">
+                <div class="dropdown-menu dropdown-menu-form" style="width: 256px;">
                     <!-- Dropdown menu links -->
                     <form style="margin: 12px;" id="household-income-filter-form">
                         <div id="household_income_filter">
@@ -530,7 +530,7 @@
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
-                <div id="householdIncomeChart" style="width: 100%px; height: 250px;"></div>
+                <div id="householdIncomeChart" style="width: 100%px; height: 256px;"></div>
         </div>
         <div class="col-12 col-md-4" id="directors-graph">
             <h3>Director of a Business
@@ -557,7 +557,7 @@
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
-            <div id="directorOfBusinessChart" style="width: 100%; height: 250px;"></div>
+            <div id="directorOfBusinessChart" style="width: 100%; height: 256px;"></div>
         </div>
     </div>
 </div>
