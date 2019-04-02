@@ -325,31 +325,31 @@ function drawAreaChart(  ) {
     var value;
         switch(key) {
             case 'G':
-            value =  ['ZA-GT', chart_data[key]];
+            value =  ['ZA-GT', chart_data[key], '<ul class="list-unstyled"><li><b>Gauteng</b></li><li>'+ chart_data[key] +'</li></ul>'];
                 break;
             case 'WC':
-            value =  ['ZA-WC', chart_data[key]];
+            value =  ['ZA-WC', chart_data[key], '<ul class="list-unstyled"><li><b>Western Cape</b></li><li>'+ chart_data[key] +'</li></ul>'];
                 break;
             case 'EC':
-            value =  ['ZA-EC', chart_data[key]];
+            value =  ['ZA-EC', chart_data[key], '<ul class="list-unstyled"><li><b>Eastern Cape</b></li><li>'+ chart_data[key] +'</li></ul>'];
                 break;
             case 'M':
-            value =  ['ZA-MP', chart_data[key]];
+            value =  ['ZA-MP', chart_data[key], '<ul class="list-unstyled"><li><b>Mpumalanga</b></li><li>'+ chart_data[key] +'</li></ul>'];
                 break;  
             case 'FS':
-            value =  ['ZA-FS', chart_data[key]];
+            value =  ['ZA-FS', chart_data[key], '<ul class="list-unstyled"><li><b>Free State</b></li><li>'+ chart_data[key] +'</li></ul>'];
                 break;
             case 'L':
-            value =  ['ZA-LP', chart_data[key]];
+            value =  ['ZA-LP', chart_data[key], '<ul class="list-unstyled"><li><b>Limpopo</b></li><li>'+ chart_data[key] +'</li></ul>'];
                 break;  
             case 'KN':
-            value =  ['ZA-NL', chart_data[key]];
+            value =  ['ZA-NL', chart_data[key], '<ul class="list-unstyled"><li><b>KwaZula Natal</b></li><li>'+ chart_data[key] +'</li></ul>'];
                 break; 
             case 'NW':
-            value =  ['ZA-NW', chart_data[key]];
+            value =  ['ZA-NW', chart_data[key], '<ul class="list-unstyled"><li><b>North West Province</b></li><li>'+ chart_data[key] +'</li></ul>'];
                 break;      
             case 'NC':
-            value =  ['ZA-NC', chart_data[key]];
+            value =  ['ZA-NC', chart_data[key], '<ul class="list-unstyled"><li><b>Northern Cape</b></li><li>'+ chart_data[key] +'</li></ul>'];
                 break;
             default:
                 value = "";               
@@ -360,7 +360,7 @@ function drawAreaChart(  ) {
     
       });
       
-      result.unshift(['Provinces', 'Popularity']);
+      result.unshift(['Provinces', 'Popularity', {role: 'tooltip', p:{html:true}}]);
       var filtered = result.filter(function (el) {
         return el != "";
       });
@@ -370,7 +370,10 @@ function drawAreaChart(  ) {
       var options = {
           region:'ZA',resolution:'provinces',
           'backgroundColor': '#fff',
-          'colorAxis': {colors: ['#039be5']}
+          'colorAxis': {colors: ['#039be5']},
+          tooltip: {
+            isHtml: true
+        }
         };
 
       var chart = new google.visualization.GeoChart(document.getElementById('chartdiv'));
