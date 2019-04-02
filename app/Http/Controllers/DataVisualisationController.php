@@ -128,6 +128,10 @@ class DataVisualisationController extends Controller
         if($request->selected_provinces) {
             $records_count = $records_count->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Municipalities
+        if($request->selected_municipalities) {
+            $records_count = $records_count->whereIn('GreaterArea', $request->selected_municipalities);
+        }
         // Filter By Age Group
         if($request->selected_age_groups) {
             $records_count = $records_count->whereIn('AgeGroup', $request->selected_age_groups);
@@ -164,6 +168,10 @@ class DataVisualisationController extends Controller
         if($request->selected_directors) {
             $records_count = $records_count->whereIn('DirectorshipStatus', $request->selected_directors);
         }
+        // Filter By areas
+        if($request->selected_areas) {
+            $records_count = $records_count->whereIn('Area', $request->selected_areas);
+        }
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
             if(in_array("citizen", $request->selected_citizen_vs_residents)) {
@@ -181,11 +189,20 @@ class DataVisualisationController extends Controller
     public function get_municipalities(Request $request) {
 
         $records = \MeetPAT\BarkerStreetRecord::select('GreaterArea')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $all_municipalities = $records->get();
 
         // Filter By Provinces
         if($request->selected_provinces) {
             $records = $records->whereIn('Province', $request->selected_provinces);
-        } 
+        }
+        // Filter By Municipalities
+        if($request->selected_municipalities) {
+            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+        }
+        // Filter By Municipalities
+        if($request->selected_directors) {
+            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+        }
         // Filter By Age Groups
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
@@ -221,7 +238,11 @@ class DataVisualisationController extends Controller
         // Filter By directors
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
-        }            
+        }     
+        // Filter By areas
+        if($request->selected_areas) {
+            $records = $records->whereIn('Area', $request->selected_areas);
+        }       
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
             if(in_array("citizen", $request->selected_citizen_vs_residents)) {
@@ -237,9 +258,12 @@ class DataVisualisationController extends Controller
         $records = $records->get();
 
         $municipalities = array_count_values(array_column($records->toArray(), 'GreaterArea'));
-        arsort($municipalities);
+        $all_municipalities = array_count_values(array_column($records->toArray(), 'GreaterArea'));
 
-        return response()->json($municipalities);
+        arsort($municipalities);
+        arsort($all_municipalities);
+
+        return response()->json(["selected_municipalities" => $municipalities, "all_municipalities" => $all_municipalities]);
 
     }
 
@@ -252,6 +276,10 @@ class DataVisualisationController extends Controller
         if($request->selected_provinces) {
             $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Municipalities
+        if($request->selected_municipalities) {
+            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+        }
         // Filter By Age Groups
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
@@ -288,6 +316,10 @@ class DataVisualisationController extends Controller
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
         }
+        // Filter By areas
+        if($request->selected_areas) {
+            $records = $records->whereIn('Area', $request->selected_areas);
+        }
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
             if(in_array("citizen", $request->selected_citizen_vs_residents)) {
@@ -319,6 +351,10 @@ class DataVisualisationController extends Controller
         if($request->selected_provinces) {
             $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Municipalities
+        if($request->selected_municipalities) {
+            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+        }
         // Filter By Age Groups
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
@@ -354,6 +390,10 @@ class DataVisualisationController extends Controller
         // Filter By directors
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }
+        // Filter By areas
+        if($request->selected_areas) {
+            $records = $records->whereIn('Area', $request->selected_areas);
         }
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
@@ -386,6 +426,10 @@ class DataVisualisationController extends Controller
         if($request->selected_provinces) {
             $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Municipalities
+        if($request->selected_municipalities) {
+            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+        }
         // Filter By Age Groups
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
@@ -421,6 +465,10 @@ class DataVisualisationController extends Controller
         // Filter By directors
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }
+        // Filter By areas
+        if($request->selected_areas) {
+            $records = $records->whereIn('Area', $request->selected_areas);
         }
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
@@ -454,6 +502,10 @@ class DataVisualisationController extends Controller
         if($request->selected_provinces) {
             $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Municipalities
+        if($request->selected_municipalities) {
+            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+        }
         // Filter By Age Groups
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
@@ -490,6 +542,10 @@ class DataVisualisationController extends Controller
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
         }
+        // Filter By areas
+        if($request->selected_areas) {
+            $records = $records->whereIn('Area', $request->selected_areas);
+        }
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
             if(in_array("citizen", $request->selected_citizen_vs_residents)) {
@@ -521,6 +577,10 @@ class DataVisualisationController extends Controller
         if($request->selected_provinces) {
             $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Municipalities
+        if($request->selected_municipalities) {
+            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+        }
         // Filter By Age Groups
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
@@ -557,6 +617,10 @@ class DataVisualisationController extends Controller
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
         }
+        // Filter By areas
+        if($request->selected_areas) {
+            $records = $records->whereIn('Area', $request->selected_areas);
+        }
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
             if(in_array("citizen", $request->selected_citizen_vs_residents)) {
@@ -588,6 +652,10 @@ class DataVisualisationController extends Controller
         if($request->selected_provinces) {
             $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Municipalities
+        if($request->selected_municipalities) {
+            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+        }
         // Filter By Age Groups
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
@@ -628,6 +696,10 @@ class DataVisualisationController extends Controller
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
         }
+        // Filter By areas
+        if($request->selected_areas) {
+            $records = $records->whereIn('Area', $request->selected_areas);
+        }
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
             if(in_array("citizen", $request->selected_citizen_vs_residents)) {
@@ -658,6 +730,10 @@ class DataVisualisationController extends Controller
         if($request->selected_provinces) {
             $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Municipalities
+        if($request->selected_municipalities) {
+            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+        }
         // Filter By Age Groups
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
@@ -695,6 +771,10 @@ class DataVisualisationController extends Controller
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
         }
+        // Filter By areas
+        if($request->selected_areas) {
+            $records = $records->whereIn('Area', $request->selected_areas);
+        }
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
             if(in_array("citizen", $request->selected_citizen_vs_residents)) {
@@ -728,6 +808,10 @@ class DataVisualisationController extends Controller
         if($request->selected_provinces) {
             $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Municipalities
+        if($request->selected_municipalities) {
+            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+        }
         // Filter By Age Groups
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
@@ -763,6 +847,10 @@ class DataVisualisationController extends Controller
         // Filter By directors
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }
+        // Filter By areas
+        if($request->selected_areas) {
+            $records = $records->whereIn('Area', $request->selected_areas);
         }
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
@@ -796,6 +884,10 @@ class DataVisualisationController extends Controller
         if($request->selected_provinces) {
             $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Municipalities
+        if($request->selected_municipalities) {
+            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+        }
         // Filter By Age Groups
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
@@ -831,6 +923,10 @@ class DataVisualisationController extends Controller
         // Filter By directors
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }
+        // Filter By areas
+        if($request->selected_areas) {
+            $records = $records->whereIn('Area', $request->selected_areas);
         }
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
@@ -875,6 +971,10 @@ class DataVisualisationController extends Controller
         if($request->selected_provinces) {
             $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Municipalities
+        if($request->selected_municipalities) {
+            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+        }
         // Filter By Age Groups
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
@@ -911,6 +1011,11 @@ class DataVisualisationController extends Controller
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
         }
+        // Filter By areas
+        if($request->selected_areas) {
+            $records = $records->whereIn('Area', $request->selected_areas);
+        }
+
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
             if(in_array("citizen", $request->selected_citizen_vs_residents)) {
@@ -941,6 +1046,10 @@ class DataVisualisationController extends Controller
         if($request->selected_provinces) {
             $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Municipalities
+        if($request->selected_municipalities) {
+            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+        }
         // Filter By Age Groups
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
@@ -988,6 +1097,10 @@ class DataVisualisationController extends Controller
 
             }
         }
+        // Filter By areas
+        if($request->selected_areas) {
+            $records = $records->whereIn('Area', $request->selected_areas);
+        }        
 
         $records = $records->get();
         $marital_statuses = array_count_values(array_column($records->toArray(), 'MaritalStatus'));
@@ -1000,12 +1113,17 @@ class DataVisualisationController extends Controller
 
     public function get_area(Request $request) {
 
-        $records = \MeetPAT\BarkerStreetRecord::select('Area')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
-        
+        $records = \MeetPAT\BarkerStreetRecord::select('Area', 'GreaterArea')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $all_areas = $records->get();
+
         // Filter By Provinces
         if($request->selected_provinces) {
             $records = $records->whereIn('Province', $request->selected_provinces);
         } 
+        // Filter By Municipalities
+        if($request->selected_municipalities) {
+            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+        }
         // Filter By Age Groups
         if($request->selected_age_groups) {
             $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
@@ -1041,6 +1159,10 @@ class DataVisualisationController extends Controller
         // Filter By directors
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }
+        // Filter By areas
+        if($request->selected_areas) {
+            $records = $records->whereIn('Area', $request->selected_areas);
         }
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
@@ -1056,10 +1178,12 @@ class DataVisualisationController extends Controller
         
         $records = $records->get();
         $areas = array_count_values(array_column($records->toArray(), 'Area'));
-
+        $all_areas = array_count_values(array_column($all_areas->toArray(), 'Area'));
+        
         arsort($areas);
+        arsort($all_areas);
 
-        return response()->json($areas);
+        return response()->json(["all_areas" => $all_areas, "selected_areas" => $areas]);
     }
 
     // Part of Api for Progress Tracking

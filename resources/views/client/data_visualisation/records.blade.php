@@ -5,6 +5,8 @@
 @endsection
 
 @section('side-bars')
+<div id="lunr"></div>
+
 <div class="right-sidebar sidebar-in" id="right-options-sidebar">
     <h4>
         <strong class="mr-auto">Contacts</strong>
@@ -23,6 +25,7 @@
     <div class="scrollbar" id="style-1">
         <div class="sidebar-filters force-overflow">
             <ul id="province_filters" class="list-unstyled"><span class="filter-heading">Province</span></ul>
+            <ul id="area_filters" class="list-unstyled"><span class="filter-heading">Area</span></ul>   
             <ul id="age_filters" class="list-unstyled"><span class="filter-heading">Age</span></ul>   
             <ul id="gender_filters" class="list-unstyled"><span class="filter-heading">Gender</span></ul> 
             <ul id="population_group_filters" class="list-unstyled"><span class="filter-heading">Population Group</span></ul>
@@ -145,7 +148,25 @@
                 <div id="provincesChart" style="height:250px; width: 100%;"></div>
         </div>
         <div class="col-12 col-md-6" id="municipality-graph">
-            <h3>Municipality</h3>
+            <h3>Municipality
+                <div class="btn-group dropright float-right">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-filter"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-form" style="width: 300px; overflow-y: scroll;">
+                    <!-- Dropdown menu links -->
+                    <form style="margin: 12px;" id="municipality-filter-form">
+                        <div id="municipality_filter">
+                        <div class="text-center">
+                        <div class="spinner-border mb-2" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        </div>
+                        </div> <br/>
+                        <button name="municipality_submit" id="municipalitySubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                    </form>
+                </div>  
+            </h3>
             <hr>
             <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 250px;">
                 <div class="spinner-block">
@@ -164,7 +185,33 @@
             </div>      
         </div>
         <div class="col-12 col-md-6" id="area-graph">
-            <h3>Areas</h3>
+            <h3>Areas
+                <div class="btn-group dropleft float-right">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-filter"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-form" style="overflow-y: scroll; padding:16px; width: 300px;">
+                    <!-- Dropdown menu links -->
+                    <form style="margin: 8px;" id="area-filter-form">
+                    <div id="hidden-area-filter-form" style="display:none;">
+                        <!-- selected areas from search -->
+                    </div>
+                    <div id="area_filter">
+                        <div id="lunr-search" style="display: none;">
+                            <input type="text" class="form-control mb-2" id="areaSearchInput" autocomplete="off" placeholder="search for area...">
+                            <span style="position:absolute; right: 40px; top:35px;"><i class="fas fa-search"></i></span>
+                            <ul id="lunr-results" class="list-unstyled"></ul>
+                        </div>
+                        <div class="text-center">
+                        <div class="spinner-border mb-2" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        </div>
+                    </div>
+                    <button name="area_submit" id="areaSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                    </form>
+                </div>
+            </h3>
             <hr>
             <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 250px;">
                 <div class="spinner-block">
@@ -487,11 +534,11 @@
         </div>
         <div class="col-12 col-md-4" id="directors-graph">
             <h3>Director of a Business
-            <div class="btn-group dropright float-right">
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-filter"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-form">
+                <div class="btn-group dropright float-right">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-filter"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-form">
                     <!-- Dropdown menu links -->
                     <form style="margin: 12px;" id="directors-filter-form">
                         <div id="directors_filter">
@@ -529,5 +576,7 @@
 <script src="https://www.amcharts.com/lib/4/geodata/southAfricaLow.js"></script>
 <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script> -->
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.0.4/fuse.min.js"></script> -->
+<script src="https://unpkg.com/lunr/lunr.js"></script>
 <script type="text/javascript" src="{{asset('js/data_visualisation.js')}}"></script>
 @endsection

@@ -12529,3 +12529,12 @@ label.css-label {
   color: #d54b2e;
 }
 
+#municipality-graph .dropdown-menu {
+  font-size: 8px;
+  width: 320px;
+}
+
+.css-label small {
+  color: #00A3D9;
+}
+

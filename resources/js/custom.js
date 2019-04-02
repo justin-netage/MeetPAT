@@ -1,4 +1,4 @@
-// Javascript for ameetpat-dmin/users page
+// Javascript for meetpat-admin/users page
 
 // Tooltips
 
