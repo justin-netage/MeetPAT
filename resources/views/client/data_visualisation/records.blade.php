@@ -149,7 +149,7 @@
         </div>
         <div class="col-12 col-md-6" id="municipality-graph">
             <h3>Municipality
-                <div class="btn-group dropright float-right">
+                <div class="btn-group dropleft float-right">
                     <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-filter"></i>
                     </button>
@@ -289,7 +289,7 @@
         </div>
         <div class="col-12 col-md-4" id="population-graph">
             <h3>Polulation Group
-            <div class="btn-group dropright float-right">
+            <div class="btn-group dropleft float-right">
             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                <i class="fas fa-filter"></i>
             </button>
@@ -370,7 +370,7 @@
         </div>
         <div class="col-12 col-md-4" id="marital-status-graph">
             <h3>Marital Status
-                <div class="btn-group dropright float-right">
+                <div class="btn-group dropleft float-right">
                 <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-filter"></i>
                 </button>
@@ -534,7 +534,7 @@
         </div>
         <div class="col-12 col-md-4" id="directors-graph">
             <h3>Director of a Business
-                <div class="btn-group dropright float-right">
+                <div class="btn-group dropleft float-right">
                     <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-filter"></i>
                     </button>
