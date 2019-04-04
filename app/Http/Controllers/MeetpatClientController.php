@@ -775,110 +775,110 @@ class MeetpatClientController extends Controller
 
         $records = $records->get();
 
-        // hash function
-        function normalizeAndHash($value)
-        {
-            return hash('sha256', strtolower(trim($value)));
-        }
+        // // hash function
+        // function normalizeAndHash($value)
+        // {
+        //     return hash('sha256', strtolower(trim($value)));
+        // }
 
-        $oAuth2Credential = (new OAuth2TokenBuilder())
-        ->withClientId(env('GOOGLE_CLIENT_ID'))
-        ->withClientSecret(env('GOOGLE_CLIENT_SECRET'))
-        ->withRefreshToken($google_account->access_token)
-        ->build();
+        // $oAuth2Credential = (new OAuth2TokenBuilder())
+        // ->withClientId(env('GOOGLE_CLIENT_ID'))
+        // ->withClientSecret(env('GOOGLE_CLIENT_SECRET'))
+        // ->withRefreshToken($google_account->access_token)
+        // ->build();
 
-        // Construct an API session configured from the OAuth2 credentials above.
-        $session = (new AdWordsSessionBuilder())
-            ->withDeveloperToken(env('GOOGLE_MCC_DEVELOPER_TOKEN'))
-            ->withOAuth2Credential($oAuth2Credential)
-            ->withClientCustomerId($google_account->ad_account_id)
-            ->build();
+        // // Construct an API session configured from the OAuth2 credentials above.
+        // $session = (new AdWordsSessionBuilder())
+        //     ->withDeveloperToken(env('GOOGLE_MCC_DEVELOPER_TOKEN'))
+        //     ->withOAuth2Credential($oAuth2Credential)
+        //     ->withClientCustomerId($google_account->ad_account_id)
+        //     ->build();
 
-        $adWordsServices = new AdWordsServices();
+        // $adWordsServices = new AdWordsServices();
         
-        $userListService = $adWordsServices->get($session, AdwordsUserListService::class);
+        // $userListService = $adWordsServices->get($session, AdwordsUserListService::class);
 
-        // Create a CRM based iser list.
-        $userList = new CrmBasedUserList();
-        $userList->setName(
-            $filtered_list_name
-        );
-        $userList->setDescription(
-            'Audience uploaded from MeetPAT.'
-        );
+        // // Create a CRM based iser list.
+        // $userList = new CrmBasedUserList();
+        // $userList->setName(
+        //     $filtered_list_name
+        // );
+        // $userList->setDescription(
+        //     'Audience uploaded from MeetPAT.'
+        // );
 
-        // Set life span to unlimitted (10000)
-        $userList->setMembershipLifeSpan(10000);
-        $userList->setUploadKeyType(CustomerMatchUploadKeyType::CONTACT_INFO);
+        // // Set life span to unlimitted (10000)
+        // $userList->setMembershipLifeSpan(10000);
+        // $userList->setUploadKeyType(CustomerMatchUploadKeyType::CONTACT_INFO);
 
-        // Create a user list operation and add it to the list.
-        $operations = [];
-        $operation = new UserListOperation();
-        $operation->setOperand($userList);
-        $operation->setOperator(Operator::ADD);
-        $operations[] = $operation;
+        // // Create a user list operation and add it to the list.
+        // $operations = [];
+        // $operation = new UserListOperation();
+        // $operation->setOperand($userList);
+        // $operation->setOperator(Operator::ADD);
+        // $operations[] = $operation;
 
-        // Create the user list on the server and print out some information.
-        $userList = $userListService->mutate($operations)->getValue()[0];
+        // // Create the user list on the server and print out some information.
+        // $userList = $userListService->mutate($operations)->getValue()[0];
 
-        // Create operation to add members to the user list based on email
-        // addresses.
-        $mutateMembersOperations = [];
-        $mutateMembersOperation = new MutateMembersOperation();
-        $operand = new MutateMembersOperand();
-        $operand->setUserListId($userList->getId());
+        // // Create operation to add members to the user list based on email
+        // // addresses.
+        // $mutateMembersOperations = [];
+        // $mutateMembersOperation = new MutateMembersOperation();
+        // $operand = new MutateMembersOperand();
+        // $operand->setUserListId($userList->getId());
 
-        $members = [];
-        //Hash normalized email address based on SHA-256 hashing
+        // $members = [];
+        // //Hash normalized email address based on SHA-256 hashing
 
-        foreach($records as $member)
-        {
-            if(preg_match('/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$/', $member->email)) {
+        // foreach($records as $member)
+        // {
+        //     if(preg_match('/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$/', $member->email)) {
 
-                // $addressInfo = new AddressInfo();
-                // First and last name must be normalized and hashed.
-                // $addressInfo->setHashedFirstName(normalizeAndHash($member->FirstName));
-                // $addressInfo->setHashedLastName(normalizeAndHash($lastName->Surname));
-                // // Country code and zip code are sent in plain text.
-                // $addressInfo->setCountryCode('ZA');
-                // $addressInfo->setZipCode($member->PostalAddress1PostalCode);
+        //         // $addressInfo = new AddressInfo();
+        //         // First and last name must be normalized and hashed.
+        //         // $addressInfo->setHashedFirstName(normalizeAndHash($member->FirstName));
+        //         // $addressInfo->setHashedLastName(normalizeAndHash($lastName->Surname));
+        //         // // Country code and zip code are sent in plain text.
+        //         // $addressInfo->setCountryCode('ZA');
+        //         // $addressInfo->setZipCode($member->PostalAddress1PostalCode);
                         
-                $memberByEmail = new Member();
-                // $memberByEmail->setAddressInfo($addressInfo);
-                $memberByEmail->setHashedEmail(normalizeAndHash($member->email));
+        //         $memberByEmail = new Member();
+        //         // $memberByEmail->setAddressInfo($addressInfo);
+        //         $memberByEmail->setHashedEmail(normalizeAndHash($member->email));
 
-                if(preg_match('/^\+27\d{9}$/', $member->MobilePhone1)) {
-                    $memberByEmail->setHashedPhoneNumber(normalizeAndHash($member->MobilePhone1));
-                } else if(strlen($member->MobilePhone1) == 10 and $member->MobilePhone1[0] == '0') {
-                    $fixed_number = '+27' . substr($member->MobilePhone1, 1);
-                    $memberByEmail->setHashedPhoneNumber(normalizeAndHash($fixed_number));
-                } else if (strlen($member->MobilePhone1) == 9) {
-                    $fixed_number = '+27' . $member->MobilePhone1;
-                    if(strlen($fixed_number) == 12) {
-                        $memberByEmail->setHashedPhoneNumber(normalizeAndHash($fixed_number));
-                    }
-                } else if(preg_match('/^27\d{9}$/', $member->MobilePhone1)) {
-                    $fixed_number = '+' . $member->MobilePhone1;
-                    $memberByEmail->setHashedPhoneNumber(normalizeAndHash($fixed_number));
-                }
+        //         if(preg_match('/^\+27\d{9}$/', $member->MobilePhone1)) {
+        //             $memberByEmail->setHashedPhoneNumber(normalizeAndHash($member->MobilePhone1));
+        //         } else if(strlen($member->MobilePhone1) == 10 and $member->MobilePhone1[0] == '0') {
+        //             $fixed_number = '+27' . substr($member->MobilePhone1, 1);
+        //             $memberByEmail->setHashedPhoneNumber(normalizeAndHash($fixed_number));
+        //         } else if (strlen($member->MobilePhone1) == 9) {
+        //             $fixed_number = '+27' . $member->MobilePhone1;
+        //             if(strlen($fixed_number) == 12) {
+        //                 $memberByEmail->setHashedPhoneNumber(normalizeAndHash($fixed_number));
+        //             }
+        //         } else if(preg_match('/^27\d{9}$/', $member->MobilePhone1)) {
+        //             $fixed_number = '+' . $member->MobilePhone1;
+        //             $memberByEmail->setHashedPhoneNumber(normalizeAndHash($fixed_number));
+        //         }
 
-                $members[] = $memberByEmail;
-            }
+        //         $members[] = $memberByEmail;
+        //     }
 
-        }
+        // }
 
-        // Add members to the operand and add the operation to the list.
-        $operand->setMembersList($members);
-        $mutateMembersOperation->setOperand($operand);
-        $mutateMembersOperation->setOperator(Operator::ADD);
-        $mutateMembersOperations[] = $mutateMembersOperation;
+        // // Add members to the operand and add the operation to the list.
+        // $operand->setMembersList($members);
+        // $mutateMembersOperation->setOperand($operand);
+        // $mutateMembersOperation->setOperator(Operator::ADD);
+        // $mutateMembersOperations[] = $mutateMembersOperation;
 
-        // Add members to the user list based on email addresses.
-        $result = $userListService->mutateMembers($mutateMembersOperations);
+        // // Add members to the user list based on email addresses.
+        // $result = $userListService->mutateMembers($mutateMembersOperations);
           
-        $job_que->delete();
+        // $job_que->delete();
 
-        return response()->json(["result" => $result->getUserLists()]);
+        return response()->json($records->count);
     }
     // Facebook
     // Run Job Que
