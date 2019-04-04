@@ -859,6 +859,7 @@ class MeetpatClientController extends Controller
                     }
                 } else if(preg_match('/^27\d{9}$/', $member->MobilePhone1)) {
                     $fixed_number = '+' . $member->MobilePhone1;
+                    $memberByEmail->setHashedPhoneNumber(normalizeAndHash($fixed_number));
                 }
 
                 $members[] = $memberByEmail;

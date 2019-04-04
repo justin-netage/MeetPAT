@@ -58,7 +58,7 @@ $(document).ready(function() {
             $.post('/api/meetpat-client/submit-audience/run-job-google', {user_id: user_id, filtered_audience_id: filtered_audience_id}, function() {
             }).fail(function(error) {
                 $("#google-sync-status .status-text").addClass("text-danger");
-                $("#google-sync-status .status-text").html('complete&nbsp;<i class="far fa-times-circle"></i>');
+                $("#google-sync-status .status-text").html('error&nbsp;<i class="far fa-times-circle"></i>');
                 $("#google-sync-status .status-loader").remove();
                 console.log(error);
             }).done(function(data) {
@@ -76,7 +76,7 @@ $(document).ready(function() {
                 $("#facebook-sync-status .status-text").html('Syncing&nbsp;');
             }).fail(function(error) {
                 $("#facebook-sync-status .status-text").addClass("text-danger");
-                $("#facebook-sync-status .status-text").html('complete&nbsp;<i class="far fa-times-circle"></i>');
+                $("#facebook-sync-status .status-text").html('error&nbsp;<i class="far fa-times-circle"></i>');
                 $("#facebook-sync-status .status-loader").remove();
                 console.log(error);
             }).done(function(data) {
