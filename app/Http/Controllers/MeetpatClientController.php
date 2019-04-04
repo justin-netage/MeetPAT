@@ -833,7 +833,7 @@ class MeetpatClientController extends Controller
 
         foreach($records as $member)
         {
-            if(preg_match('/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$/', $member->email)) {
+            // if(preg_match('/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$/', $member->email)) {
 
                 // $addressInfo = new AddressInfo();
                 // First and last name must be normalized and hashed.
@@ -846,24 +846,25 @@ class MeetpatClientController extends Controller
                 $memberByEmail = new Member();
                 // $memberByEmail->setAddressInfo($addressInfo);
                 $memberByEmail->setHashedEmail(normalizeAndHash($member->email));
+                $memberByEmail->setHashedPhoneNumber(normalizeAndHash($member->MobilePhone1));
 
-                if(preg_match('/^\+27\d{9}$/', $member->MobilePhone1)) {
-                    $memberByEmail->setHashedPhoneNumber(normalizeAndHash($member->MobilePhone1));
-                } else if(strlen($member->MobilePhone1) == 10 and $member->MobilePhone1[0] == '0') {
-                    $fixed_number = '+27' . substr($member->MobilePhone1, 1);
-                    $memberByEmail->setHashedPhoneNumber(normalizeAndHash($fixed_number));
-                } else if (strlen($member->MobilePhone1) == 9) {
-                    $fixed_number = '+27' . $member->MobilePhone1;
-                    if(strlen($fixed_number) == 12) {
-                        $memberByEmail->setHashedPhoneNumber(normalizeAndHash($fixed_number));
-                    }
-                } else if(preg_match('/^27\d{9}$/', $member->MobilePhone1)) {
-                    $fixed_number = '+' . $member->MobilePhone1;
-                    $memberByEmail->setHashedPhoneNumber(normalizeAndHash($fixed_number));
-                }
+                // if(preg_match('/^\+27\d{9}$/', $member->MobilePhone1)) {
+                //     $memberByEmail->setHashedPhoneNumber(normalizeAndHash($member->MobilePhone1));
+                // } else if(strlen($member->MobilePhone1) == 10 and $member->MobilePhone1[0] == '0') {
+                //     $fixed_number = '+27' . substr($member->MobilePhone1, 1);
+                //     $memberByEmail->setHashedPhoneNumber(normalizeAndHash($fixed_number));
+                // } else if (strlen($member->MobilePhone1) == 9) {
+                //     $fixed_number = '+27' . $member->MobilePhone1;
+                //     if(strlen($fixed_number) == 12) {
+                //         $memberByEmail->setHashedPhoneNumber(normalizeAndHash($fixed_number));
+                //     }
+                // } else if(preg_match('/^27\d{9}$/', $member->MobilePhone1)) {
+                //     $fixed_number = '+' . $member->MobilePhone1;
+                //     $memberByEmail->setHashedPhoneNumber(normalizeAndHash($fixed_number));
+                // }
 
                 $members[] = $memberByEmail;
-            }
+            // }
 
         }
 
