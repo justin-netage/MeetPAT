@@ -710,55 +710,55 @@ class MeetpatClientController extends Controller
 
         // Filter By Provinces
         if($filtered_list->selected_provinces) {
-            $records = $records->whereIn('Province', $filtered_list->selected_provinces);
+            $records = $records->whereIn('Province', explode(",", $filtered_list->selected_provinces));
         }
         // Filter By Municipalities
         if($filtered_list->selected_municipalities) {
-            $records = $records->whereIn('GreaterArea', $filtered_list->selected_municipalities);
+            $records = $records->whereIn('GreaterArea', explode(",", $filtered_list->selected_municipalities));
         }
         // Filter By Municipalities
         if($filtered_list->selected_directors) {
-            $records = $records->whereIn('GreaterArea', $filtered_list->selected_municipalities);
+            $records = $records->whereIn('GreaterArea', explode(",", $filtered_list->selected_municipalities));
         }
         // Filter By Age Groups
         if($filtered_list->selected_age_groups) {
-            $records = $records->whereIn('AgeGroup', $filtered_list->selected_age_groups);
+            $records = $records->whereIn('AgeGroup', explode(",", $filtered_list->selected_age_groups));
         }
         // Filter By Gender
         if($filtered_list->selected_gender_groups) {
-            $records = $records->whereIn('Gender', $filtered_list->selected_gender_groups);
+            $records = $records->whereIn('Gender', explode(",", $filtered_list->selected_gender_groups));
         }
         // Filter By Population Group
         if($filtered_list->selected_population_groups) {
-            $records = $records->whereIn('PopulationGroup', $filtered_list->selected_population_groups);
+            $records = $records->whereIn('PopulationGroup', explode(",", $filtered_list->selected_population_groups));
         }
         // Filter By Generation Group
         if($filtered_list->selected_generations) {
-            $records = $records->whereIn('GenerationGroup', $filtered_list->selected_generations);
+            $records = $records->whereIn('GenerationGroup', explode(",", $filtered_list->selected_generations));
         }
         // Filter By Marital Status
         if($filtered_list->selected_marital_status) {
-            $records = $records->whereIn('MaritalStatus', $filtered_list->selected_marital_status);
+            $records = $records->whereIn('MaritalStatus', explode(",", $filtered_list->selected_marital_status));
         }
         // Filter By Home Owners
         if($filtered_list->selected_home_owners) {
-            $records = $records->whereIn('HomeOwnerShipStatus', $filtered_list->selected_home_owners);
+            $records = $records->whereIn('HomeOwnerShipStatus', explode(",", $filtered_list->selected_home_owners));
         }  
         // Filter By Risk Categories
         if($filtered_list->selected_risk_categories) {
-            $records = $records->whereIn('CreditRiskCategory', $filtered_list->selected_risk_categories);
+            $records = $records->whereIn('CreditRiskCategory', explode(",", $filtered_list->selected_risk_categories));
         }
         // Filter By Household Income
         if($filtered_list->selected_household_incomes) {
-            $records = $records->whereIn('incomeBucket', $filtered_list->selected_household_incomes);
+            $records = $records->whereIn('incomeBucket', explode(",", $filtered_list->selected_household_incomes));
         }    
         // Filter By directors
         if($filtered_list->selected_directors) {
-            $records = $records->whereIn('DirectorshipStatus', $filtered_list->selected_directors);
+            $records = $records->whereIn('DirectorshipStatus', explode(",", $filtered_list->selected_directors));
         }     
         // Filter By areas
         if($filtered_list->selected_areas) {
-            $records = $records->whereIn('Area', $filtered_list->selected_areas);
+            $records = $records->whereIn('Area', explode(",", $filtered_list->selected_areas));
         }       
         // Filter By Citizens and residents
         if($filtered_list->selected_citizen_vs_residents) {
