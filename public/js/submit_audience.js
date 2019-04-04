@@ -57,8 +57,12 @@ $(document).ready(function() {
             $("#google-sync-status .status-text").html('Syncing&nbsp;');
             $.post('/api/meetpat-client/submit-audience/run-job-google', {user_id: user_id, filtered_audience_id: filtered_audience_id}, function() {
             }).fail(function(error) {
+                $("#google-sync-status .status-text").addClass("text-danger");
+                $("#google-sync-status .status-text").html('complete&nbsp;<i class="far fa-times-circle"></i>');
+                $("#google-sync-status .status-loader").remove();
                 console.log(error);
             }).done(function(data) {
+                $("#google-sync-status .status-text").addClass("text-success");
                 $("#google-sync-status .status-text").html('complete&nbsp;<i class="fas fa-check-square"></i>');
                 $("#google-sync-status .status-loader").remove();
             });
@@ -68,11 +72,15 @@ $(document).ready(function() {
             facebook_sync_status.show();            
             $("#facebook-sync-status .status-text").html('Syncing&nbsp;');
 
-            $.post('/api/meetpat-client/submit-audience/run-job-google', {user_id: user_id, filtered_audience_id: filtered_audience_id}, function() {
+            $.post('/api/meetpat-client/submit-audience/run-job-facebook', {user_id: user_id, filtered_audience_id: filtered_audience_id}, function() {
                 $("#facebook-sync-status .status-text").html('Syncing&nbsp;');
             }).fail(function(error) {
+                $("#facebook-sync-status .status-text").addClass("text-danger");
+                $("#facebook-sync-status .status-text").html('complete&nbsp;<i class="far fa-times-circle"></i>');
+                $("#facebook-sync-status .status-loader").remove();
                 console.log(error);
             }).done(function(data) {
+                $("#facebook-sync-status .status-text").addClass("text-success");
                 $("#facebook-sync-status .status-text").html('complete&nbsp;<i class="fas fa-check-square"></i>');
                 $("#facebook-sync-status .status-loader").remove();
             });
