@@ -706,6 +706,7 @@ class MeetpatClientController extends Controller
 
         // store filtered list data from records database
         $filtered_list = \MeetPAT\UserFilteredAudience::find($request->filtered_audience_id);
+        $filtered_list_name = \MeetPAT\UploadFilteredList::where(['filtered_list_id' => $request->filtered_audience_id, 'platform' => 'google'])->first()->name;
         $records = \MeetPAT\BarkerStreetRecord::whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
 
         // Filter By Provinces
@@ -800,7 +801,7 @@ class MeetpatClientController extends Controller
         // Create a CRM based iser list.
         $userList = new CrmBasedUserList();
         $userList->setName(
-            $filtered_list->audience_name
+            $filtered_list_name
         );
         $userList->setDescription(
             'Audience uploaded from MeetPAT.'
