@@ -878,7 +878,7 @@ class MeetpatClientController extends Controller
           
         // $job_que->delete();
 
-        return response()->json($records->count());
+        return response()->json(["count" => $records->count()]);
     }
     // Facebook
     // Run Job Que

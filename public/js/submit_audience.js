@@ -62,6 +62,7 @@ $(document).ready(function() {
                 $("#google-sync-status .status-loader").remove();
                 console.log(error);
             }).done(function(data) {
+                console.log(data);
                 $("#google-sync-status .status-text").addClass("text-success");
                 $("#google-sync-status .status-text").html('complete&nbsp;<i class="fas fa-check-square"></i>');
                 $("#google-sync-status .status-loader").remove();
@@ -80,6 +81,7 @@ $(document).ready(function() {
                 $("#facebook-sync-status .status-loader").remove();
                 console.log(error);
             }).done(function(data) {
+                console.log(data);
                 $("#facebook-sync-status .status-text").addClass("text-success");
                 $("#facebook-sync-status .status-text").html('complete&nbsp;<i class="fas fa-check-square"></i>');
                 $("#facebook-sync-status .status-loader").remove();
