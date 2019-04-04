@@ -82,3 +82,12 @@ Route::get('meetpat-client/get-records/areas', 'DataVisualisationController@get_
 // Get Records Job Que Update
 
 Route::post('meetpat-client/get-job-que', 'DataVisualisationController@get_job_que')->name('get-client-jobs-in-que');
+
+// Add Filtered list to "Job Que"
+Route::post('meetpat-client/submit-audience/add-to-que', 'MeetpatClientController@add_filtered_list_to_que')->name('add-filtered-list-to-que');
+// Google
+// run Job
+Route::post('/meetpat-client/submit-audience/run-job-google', 'MeetpatClientController@run_google_job_que')->name('run-google-job-que');
+// Facebook
+// run Job
+Route::post('/meetpat-client/submit-audience/run-job-facebook', 'MeetpatClientController@run_facebook_job_que')->name('run-facebook-job-que');

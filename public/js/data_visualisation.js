@@ -1686,6 +1686,7 @@ $('.apply-filter-button, #sidebarSubmitBtn').click(function() {
     });
 
     $("#provinceContactsId").val(target_provinces);
+    $("#areaContactsId").val(target_areas);
     $("#AgeContactsId").val(target_ages);
     $("#GenderContactsId").val(target_genders);
     $("#populationContactsId").val(target_population_groups);
@@ -1694,7 +1695,7 @@ $('.apply-filter-button, #sidebarSubmitBtn').click(function() {
     $("#maritalStatusContactsId").val(target_marital_statuses);
     $("#homeOwnerContactsId").val(target_home_owners);
     $("#riskCategoryContactsId").val(target_risk_categories);
-    $("#houseHoldIncomeContactsId").val(target_home_owners);
+    $("#houseHoldIncomeContactsId").val(target_incomes);
     $("#directorsContactsId").val(target_directors);
 
     apply_filters();

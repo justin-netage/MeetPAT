@@ -18,6 +18,7 @@ class CreateUserFilteredAudiencesTable extends Migration
             $table->string('user_id');
             $table->integer('number_of_contacts');
             $table->string('selected_provinces')->nullable();
+            $table->string('selected_areas')->nullable();
             $table->string('selected_ages')->nullable();
             $table->string('selected_genders')->nullable();
             $table->string('selected_population_groups')->nullable();

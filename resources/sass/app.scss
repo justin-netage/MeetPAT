@@ -878,3 +878,43 @@ user-select: none;
 {
   color: #00A3D9;
 }
+
+.filtered-list-items li span
+{
+  color: #00A3D9;
+  font-size: 18px;
+}
+
+.filtered-list-items li
+{
+  font-size: 18px;
+}
+
+.filter-count i
+{
+  font-size: 24px;
+}
+
+.status-loader
+{
+  margin-top: 4px;
+  margin-right: 8px;
+}
+
+.status-text
+{
+  font-weight: bold;
+}
+
+.status-text, .status-loader
+{
+  color: #00A3D9;
+}
+
+.sync-list li
+{
+  background-color: ghostwhite;
+  padding: 12px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}

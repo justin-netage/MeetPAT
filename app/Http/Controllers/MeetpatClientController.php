@@ -569,7 +569,8 @@ class MeetpatClientController extends Controller
         $new_filtered_list = \MeetPAT\UserFilteredAudience::create([
             'user_id' => $request->user_id,
             'number_of_contacts' => $request->number_of_contacts,
-            'selected_provinces' => implode($request->provinceContacts) ,
+            'selected_provinces' => implode($request->provinceContacts),
+            'selected_areas' => implode($request->areaContacts),
             'selected_ages' => implode($request->AgeContacts) ,
             'selected_genders' => implode($request->GenderContacts) ,
             'selected_population_groups' => implode($request->populationContacts) ,
@@ -581,8 +582,9 @@ class MeetpatClientController extends Controller
             'selected_household_incomes' => implode($request->houseHoldIncomeContacts) ,
             'selected_directors' => implode($request->directorsContacts) ,
         ]); 
+        
 
-        return redirect()->to('/meetpat-client/upload-audience-form/' . $new_filtered_list->user_id . '/' . $new_filtered_list->id);
+        return redirect()->to('/meetpat-client/filtered-audience-form/' . $new_filtered_list->user_id . '/' . $new_filtered_list->id);
     }
 
     public function filtered_audience_form($user_id, $filtered_list_id) {
@@ -590,15 +592,66 @@ class MeetpatClientController extends Controller
         $has_google_adwords_acc = $user->google_ad_account;
         $has_facebook_ad_acc = $user->facebook_ad_account;
 
-        \MeetPAT\UserFilteredAudience::where('user_id')->truncate();
+        //\MeetPAT\UserFilteredAudience::where('user_id')->truncate();
+        $filtered_list = \MeetPAT\UserFilteredAudience::find($filtered_list_id);
+        $filters_array = [];
+        
+        if($filtered_list->selected_provinces) {
+            $filters_array["selected_provinces"] = $filtered_list->selected_provinces;
+        }
 
-        $filtered_list = \MeetPAT\UserFilteredAudience::where([ 'id' => $filtered_list_id, 'user_id' => $user_id ])->first();
+        if($filtered_list->selected_areas) {
+            $filters_array["selected_areas"] = $filtered_list->selected_areas;
+        }
+        
+        if($filtered_list->selected_ages) {
+            $filters_array["selected_ages"] = $filtered_list->selected_ages;
+        }
 
-        if($user->id == $user_id && $filtered_list) {
-            
-            return view('client.filtered_audience.submit', [ 'user_id' => $user_id, 'filtered_list' => $filtered_list, 'has_google_adwords_acc' => $has_google_adwords_acc , 'has_facebook_ad_acc' => $has_facebook_ad_acc]);
+        if($filtered_list->selected_genders) {
+            $filters_array["selected_genders"] = $filtered_list->selected_genders;
+        }
+
+        if($filtered_list->selected_population_groups) {
+            $filters_array["selected_population_groups"] = $filtered_list->selected_population_groups;
+        }
+
+        if($filtered_list->selected_generations) {
+            $filters_array["selected_generations"] = $filtered_list->selected_generations;
+        }
+
+        if($filtered_list->selected_citizens_vs_residents) {
+            $filters_array["selected_citizens_vs_residents"] = $filtered_list->selected_citizens_vs_residents;
+        }
+
+        if($filtered_list->selected_marital_statuses) {
+            $filters_array["selected_marital_statuses"] = $filtered_list->selected_marital_statuses;
+        }
+
+        if($filtered_list->selected_home_owners) {
+            $filters_array["selected_home_owners"] = $filtered_list->selected_home_owners;
+        }
+
+        if($filtered_list->selected_risk_categories) {
+            $filters_array["selected_risk_categories"] = $filtered_list->selected_risk_categories;
+        }
+
+        if($filtered_list->selected_household_incomes) {
+            $filters_array["selected_household_incomes"] = $filtered_list->selected_household_incomes;
+        }
+
+        if($filtered_list->selected_directors) {
+                $filters_array["selected_directors"] = $filtered_list->selected_directors;
+        }
+
+        if($user->id == $user_id and $filtered_list) {
+
+            return view('client.filtered_audience.submit', [ 'user_id' => $user_id, 'filtered_list_id' => $filtered_list_id,
+                                                             'has_google_adwords_acc' => $has_google_adwords_acc,
+                                                             'has_facebook_ad_acc' => $has_facebook_ad_acc,
+                                                             'filtered_list' => $filtered_list,'filters_array' => $filters_array]);
+            // return response()->json($filters_array);
         } else {
-
             return view('client.filtered_audience.error');
         }
     }
@@ -606,16 +659,232 @@ class MeetpatClientController extends Controller
     public function submit_filtered_audience(Request $request)  
     {
         $request->validate([
-            'upload_to_google' => 'required',
-            'upload_to_facebook' => 'required',
+            'facebook_custom_audience' => 'required',
+            'google_custom_audience' => 'required',
             'user_id' => 'required',
-            'filtered_list_id' => 'required',
+            'filtered_audience_id' => 'required',
             'audience_name' => 'required'
         ]);
 
 
     }
 
+    // API Controllers
+
+    // Submit Audience to job Que
+    public function add_filtered_list_to_que(Request $request)
+    {
+        $request->validate([
+            'platform' => 'required',
+            'user_id' => 'required',
+            'filtered_audience_id' => 'required',
+            'audience_name' => ['required', 'regex:/^[a-zA-Z0-9\_ ]*$/']
+        ]);
+
+        $filtered_list_exists = \MeetPAT\UploadFilteredList::where(['filtered_list_id' => $request->filtered_audience_id]);
+        $filtered_list_exists->delete();
+
+        $filtered_list = \MeetPAT\UserFilteredAudience::find($request->filtered_audience_id);
+
+        $new_filtered_list = \MeetPAT\UploadFilteredList::create(['user_id' => $request->user_id, 'platform' => $request->platform, 'status' => 'pending', 'filtered_list_id' => $request->filtered_audience_id, 'audience_name' => $request->audience_name]);
+        
+        return response()->json($new_filtered_list);
+    }
+    // Google
+    // Run Job Que
+    public function run_google_job_que(Request $request)
+    {
+        // Store to remove at end
+        $job_que = \MeetPAT\UploadFilteredList::where([
+            ['user_id', '=',  $request->user_id],
+            ['platform', '=', 'google'],
+            ['filtered_list_id', '=', $request->filtered_audience_id]
+            ])->first();
+
+        $user = \MeetPAT\User::find($request->user_id);
+        $google_account = $user->google_ad_account;
+
+        // store filtered list data from records database
+        $filtered_list = \MeetPAT\UserFilteredAudience::find($request->filtered_audience_id);
+        $records = \MeetPAT\BarkerStreetRecord::whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+
+        // Filter By Provinces
+        if($filtered_list->selected_provinces) {
+            $records = $records->whereIn('Province', $filtered_list->selected_provinces);
+        }
+        // Filter By Municipalities
+        if($filtered_list->selected_municipalities) {
+            $records = $records->whereIn('GreaterArea', $filtered_list->selected_municipalities);
+        }
+        // Filter By Municipalities
+        if($filtered_list->selected_directors) {
+            $records = $records->whereIn('GreaterArea', $filtered_list->selected_municipalities);
+        }
+        // Filter By Age Groups
+        if($filtered_list->selected_age_groups) {
+            $records = $records->whereIn('AgeGroup', $filtered_list->selected_age_groups);
+        }
+        // Filter By Gender
+        if($filtered_list->selected_gender_groups) {
+            $records = $records->whereIn('Gender', $filtered_list->selected_gender_groups);
+        }
+        // Filter By Population Group
+        if($filtered_list->selected_population_groups) {
+            $records = $records->whereIn('PopulationGroup', $filtered_list->selected_population_groups);
+        }
+        // Filter By Generation Group
+        if($filtered_list->selected_generations) {
+            $records = $records->whereIn('GenerationGroup', $filtered_list->selected_generations);
+        }
+        // Filter By Marital Status
+        if($filtered_list->selected_marital_status) {
+            $records = $records->whereIn('MaritalStatus', $filtered_list->selected_marital_status);
+        }
+        // Filter By Home Owners
+        if($filtered_list->selected_home_owners) {
+            $records = $records->whereIn('HomeOwnerShipStatus', $filtered_list->selected_home_owners);
+        }  
+        // Filter By Risk Categories
+        if($filtered_list->selected_risk_categories) {
+            $records = $records->whereIn('CreditRiskCategory', $filtered_list->selected_risk_categories);
+        }
+        // Filter By Household Income
+        if($filtered_list->selected_household_incomes) {
+            $records = $records->whereIn('incomeBucket', $filtered_list->selected_household_incomes);
+        }    
+        // Filter By directors
+        if($filtered_list->selected_directors) {
+            $records = $records->whereIn('DirectorshipStatus', $filtered_list->selected_directors);
+        }     
+        // Filter By areas
+        if($filtered_list->selected_areas) {
+            $records = $records->whereIn('Area', $filtered_list->selected_areas);
+        }       
+        // Filter By Citizens and residents
+        if($filtered_list->selected_citizen_vs_residents) {
+            if(in_array("citizen", $filtered_list->selected_citizen_vs_residents)) {
+                $records = $records->where('Idn', '!=', '');
+                
+
+            } else if(in_array("resident", $filtered_list->selected_citizen_vs_residents)) {
+                $records = $records->where('HasResidentialAddress', "true");
+
+            }
+        }
+
+        $records = $records->get();
+
+        // hash function
+        function normalizeAndHash($value)
+        {
+            return hash('sha256', strtolower(trim($value)));
+        }
+
+        $oAuth2Credential = (new OAuth2TokenBuilder())
+        ->withClientId(env('GOOGLE_CLIENT_ID'))
+        ->withClientSecret(env('GOOGLE_CLIENT_SECRET'))
+        ->withRefreshToken($google_account->access_token)
+        ->build();
+
+        // Construct an API session configured from the OAuth2 credentials above.
+        $session = (new AdWordsSessionBuilder())
+            ->withDeveloperToken(env('GOOGLE_MCC_DEVELOPER_TOKEN'))
+            ->withOAuth2Credential($oAuth2Credential)
+            ->withClientCustomerId($google_account->ad_account_id)
+            ->build();
+
+        $adWordsServices = new AdWordsServices();
+        
+        $userListService = $adWordsServices->get($session, AdwordsUserListService::class);
+
+        // Create a CRM based iser list.
+        $userList = new CrmBasedUserList();
+        $userList->setName(
+            $filtered_list->audience_name
+        );
+        $userList->setDescription(
+            'Audience uploaded from MeetPAT.'
+        );
+
+        // Set life span to unlimitted (10000)
+        $userList->setMembershipLifeSpan(10000);
+        $userList->setUploadKeyType(CustomerMatchUploadKeyType::CONTACT_INFO);
+
+        // Create a user list operation and add it to the list.
+        $operations = [];
+        $operation = new UserListOperation();
+        $operation->setOperand($userList);
+        $operation->setOperator(Operator::ADD);
+        $operations[] = $operation;
+
+        // Create the user list on the server and print out some information.
+        $userList = $userListService->mutate($operations)->getValue()[0];
+
+        // Create operation to add members to the user list based on email
+        // addresses.
+        $mutateMembersOperations = [];
+        $mutateMembersOperation = new MutateMembersOperation();
+        $operand = new MutateMembersOperand();
+        $operand->setUserListId($userList->getId());
+
+        $members = [];
+        //Hash normalized email address based on SHA-256 hashing
+
+        foreach($records as $member)
+        {
+            if(preg_match('/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$/', $member->email)) {
+
+                // $addressInfo = new AddressInfo();
+                // First and last name must be normalized and hashed.
+                // $addressInfo->setHashedFirstName(normalizeAndHash($member->FirstName));
+                // $addressInfo->setHashedLastName(normalizeAndHash($lastName->Surname));
+                // // Country code and zip code are sent in plain text.
+                // $addressInfo->setCountryCode('ZA');
+                // $addressInfo->setZipCode($member->PostalAddress1PostalCode);
+                        
+                $memberByEmail = new Member();
+                // $memberByEmail->setAddressInfo($addressInfo);
+                $memberByEmail->setHashedEmail(normalizeAndHash($member->email));
+
+                if(preg_match('/^\+27\d{9}$/', $member->MobilePhone1)) {
+                    $memberByEmail->setHashedPhoneNumber(normalizeAndHash($member->MobilePhone1));
+                } else if(strlen($member->MobilePhone1) == 10 and $member->MobilePhone1[0] == '0') {
+                    $fixed_number = '+27' . substr($member->MobilePhone1, 1);
+                    $memberByEmail->setHashedPhoneNumber(normalizeAndHash($fixed_number));
+                } else if (strlen($member->MobilePhone1) == 9) {
+                    $fixed_number = '+27' . $member->MobilePhone1;
+                    if(strlen($fixed_number) == 12) {
+                        $memberByEmail->setHashedPhoneNumber(normalizeAndHash($fixed_number));
+                    }
+                } else if(preg_match('/^27\d{9}$/', $member->MobilePhone1)) {
+                    $fixed_number = '+' . $member->MobilePhone1;
+                }
+
+                $members[] = $memberByEmail;
+            }
+
+        }
+
+        // Add members to the operand and add the operation to the list.
+        $operand->setMembersList($members);
+        $mutateMembersOperation->setOperand($operand);
+        $mutateMembersOperation->setOperator(Operator::ADD);
+        $mutateMembersOperations[] = $mutateMembersOperation;
+
+        // Add members to the user list based on email addresses.
+        $result = $userListService->mutateMembers($mutateMembersOperations);
+          
+        $job_que->delete();
+
+        return response()->json(["result" => $result->getUserLists()]);
+    }
+    // Facebook
+    // Run Job Que
+    public function run_facebook_job_que(Request $request)
+    {
+        
+        return response()->json(['status' => 'done']);
+    }    
 }
 
 

@@ -47,6 +47,7 @@
         <input type="hidden" id="user_id" name="user_id" value="{{Auth::user()->id}}">
         <input type="hidden" id="numberOfContactsId" name="number_of_contacts">
         <input type="hidden" id="provinceContactsId" name="provinceContacts[]">
+        <input type="hidden" id="areaContactsId" name="areaContacts[]">
         <input type="hidden" id="AgeContactsId" name="AgeContacts[]">
         <input type="hidden" id="GenderContactsId" name="GenderContacts[]">
         <input type="hidden" id="populationContactsId" name="populationContacts[]">
@@ -578,5 +579,5 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.0.4/fuse.min.js"></script> -->
 <script src="https://unpkg.com/lunr/lunr.js"></script>
-<script type="text/javascript" src="{{asset('js/data_visualisation.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/data_visualisation.min.js')}}"></script>
 @endsection
