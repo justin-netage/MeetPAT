@@ -869,13 +869,13 @@ class MeetpatClientController extends Controller
         }
 
         // Add members to the operand and add the operation to the list.
-        // $operand->setMembersList($members);
-        // $mutateMembersOperation->setOperand($operand);
-        // $mutateMembersOperation->setOperator(Operator::ADD);
-        // $mutateMembersOperations[] = $mutateMembersOperation;
+        $operand->setMembersList($members);
+        $mutateMembersOperation->setOperand($operand);
+        $mutateMembersOperation->setOperator(Operator::ADD);
+        $mutateMembersOperations[] = $mutateMembersOperation;
 
         // Add members to the user list based on email addresses.
-        // $result = $userListService->mutateMembers($mutateMembersOperations);
+        $result = $userListService->mutateMembers($mutateMembersOperations);
           
         $job_que->delete();
 
