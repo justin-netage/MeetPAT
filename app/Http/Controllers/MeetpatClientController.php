@@ -889,6 +889,3 @@ class MeetpatClientController extends Controller
         return response()->json(['status' => 'done']);
     }    
 }
-
-
-

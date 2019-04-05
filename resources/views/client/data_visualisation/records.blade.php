@@ -25,6 +25,7 @@
     <div class="scrollbar" id="style-1">
         <div class="sidebar-filters force-overflow">
             <ul id="province_filters" class="list-unstyled"><span class="filter-heading">Province</span></ul>
+            <ul id="municipality_filters" class="list-unstyled"><span class="filter-heading">Municipalities</span></ul>
             <ul id="area_filters" class="list-unstyled"><span class="filter-heading">Area</span></ul>   
             <ul id="age_filters" class="list-unstyled"><span class="filter-heading">Age</span></ul>   
             <ul id="gender_filters" class="list-unstyled"><span class="filter-heading">Gender</span></ul> 

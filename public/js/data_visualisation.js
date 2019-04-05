@@ -283,11 +283,11 @@ function drawAreaChart(  ) {
                         for (var key in chart_data["all_municipalities"]) {
                             if(target_municipalities.includes(key)) {
                                 $("#municipality_filter").append(
-                                    '<input type="checkbox" name="' + key.toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '" id="municipality_' + key.toLowerCase().replace(/\./g, '_') + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="municipality_' + key.toLowerCase().replace(/\./g, '_') + '_option' +'" class="css-label">' + key + '</label><br />'
+                                    '<input type="checkbox" name="' + key.toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '" id="municipality_' + key.toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="municipality_' + key.toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option' +'" class="css-label">' + key + '</label><br />'
                                 );
                             } else {
                                 $("#municipality_filter").append(
-                                    '<input type="checkbox" name="' + key.toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '" id="municipality_' + key.toLowerCase().replace(/\./g, '_') + '_option' +'" value="' + key + '" class="css-checkbox"><label for="municipality_' + key.toLowerCase().replace(/\./g, '_') + '_option' +'" class="css-label">' + key + '</label><br />'
+                                    '<input type="checkbox" name="' + key.toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '" id="municipality_' + key.toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option' +'" value="' + key + '" class="css-checkbox"><label for="municipality_' + key.toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option' +'" class="css-label">' + key + '</label><br />'
                                 );
                             }
 
@@ -296,9 +296,9 @@ function drawAreaChart(  ) {
                                     
                                     var parent = this;
                 
-                                    $("#municipality_filters").append('<li id="filter_p_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                    $("#municipality_filters").append('<li id="filter_municipality_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
                                     $('#filter_municipality_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + ' i').click(function() {
-                                        if($('#age_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option').length) {
+                                        if($('#municipality_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option').length) {
                                             $('#filter_municipality_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\./g, '_')).remove();
                                             $("#municipality_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option').prop("checked", false);
                                         }
