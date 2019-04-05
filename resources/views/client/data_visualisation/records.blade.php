@@ -61,10 +61,9 @@
         <input type="hidden" id="directorsContactsId" name="directorsContacts[]">
 
         <button id="audienceSubmitBtn" class="btn btn-secondary btn-block" disabled="true" type="submit" /><i class="fas fa-users"></i>&nbsp;Sync Contacts</button>
-    </form>
-    
-    <button id="sidebarSubmitBtn" class="btn btn-secondary btn-block apply-changes-button" disabled="true" type="button" /><i class="fas fa-sync-alt"></i>&nbsp;Apply Changes</button>
-    <button id="resetFilterToastBtn" class="btn btn-secondary btn-block" disabled="disabled"><i class="fas fa-undo-alt"></i>&nbsp;Reset Filters</button>
+        <button id="sidebarSubmitBtn" class="btn btn-secondary btn-block apply-changes-button" disabled="true" type="button" /><i class="fas fa-sync-alt"></i>&nbsp;Apply Changes</button>
+        <button id="resetFilterToastBtn" class="btn btn-secondary btn-block" disabled="disabled"><i class="fas fa-undo-alt"></i>&nbsp;Reset Filters</button>
+    </form>    
 </div>
 <div class="right-sidebar-button sidebar-button-in" id="sidebar-toggle-button"><i class="fas fa-cog"></i></div>
 @endsection
@@ -570,15 +569,8 @@
 
 @section('scripts')
 
-<!-- <script src="{{asset('bower_components/chart.js/dist/Chart.min.js')}}"></script> -->
-<!-- Resources -->
-<!-- <script src="https://www.amcharts.com/lib/4/core.js"></script>
-<script src="https://www.amcharts.com/lib/4/maps.js"></script>
-<script src="https://www.amcharts.com/lib/4/charts.js"></script>
-<script src="https://www.amcharts.com/lib/4/geodata/southAfricaLow.js"></script>
-<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script> -->
+
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.0.4/fuse.min.js"></script> -->
 <script src="https://unpkg.com/lunr/lunr.js"></script>
 <script type="text/javascript" src="{{asset('js/data_visualisation.min.js')}}"></script>
 @endsection

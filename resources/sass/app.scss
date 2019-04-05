@@ -609,7 +609,7 @@ div.filepond--item {
 .card-link .card
 {
   width: 264px;
-  height: 320px;
+  height: 100%;
   margin: 0px;
 }
 
@@ -662,7 +662,9 @@ div.filepond--item {
 /* Mobile and Tablet(portrait) */
 
 @media only screen and (max-width: 600px) {
-
+  .card-link {
+    margin-bottom: 16px;
+  }
   a.card-link.card-link-secondary, a.card-link.card-link-success
   {
     margin-left: 0px;
@@ -822,17 +824,17 @@ user-select: none;
   text-align: center;
 }
 
-#sidebarSubmitBtn
-{
-  position: absolute;
-  bottom: 54px;
-}
+// #sidebarSubmitBtn
+// {
+//   position: absolute;
+//   bottom: 54px;
+// }
 
-#resetFilterToastBtn
-{
-  position: absolute;
-  bottom: 8px;
-}
+// #resetFilterToastBtn
+// {
+//   position: absolute;
+//   bottom: 8px;
+// }
 
 .sidebar-filters li
 {

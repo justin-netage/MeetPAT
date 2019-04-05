@@ -190,6 +190,6 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="{{asset('js/submit_audience.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/submit_audience.min.js')}}"></script>
 
 @endsection

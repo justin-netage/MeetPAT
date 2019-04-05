@@ -188,6 +188,6 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="{{ asset('js/admin_user_ctrl.js') }}" defer></script>
+<script type="text/javascript" src="{{ asset('js/admin_user_ctrl.min.js') }}" defer></script>
 @endsection
 

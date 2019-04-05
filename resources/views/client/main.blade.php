@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
 
         <a class="card-link card-link-primary" href="/meetpat-client/data-visualisation">
-            <div class="card border-primary mb-5">
+            <div class="card border-primary">
                 <div class="card-header">Records</div>
                 <div class="card-body text-primary">
                     <h5 class="card-title text-center"><i class="far fa-chart-bar"></i></h5>
@@ -16,7 +16,7 @@
         </a>
 
         <a class="card-link card-link-secondary" href="/meetpat-client/upload-client-file-data">
-            <div class="card border-secondary mb-5">
+            <div class="card border-secondary">
                 <div class="card-header">Upload Client Data</div>
                 <div class="card-body text-secondary">
                     <h5 class="card-title text-center"><i class="fas fa-file-upload"></i></h5>
@@ -26,7 +26,7 @@
         </a>
 
         <a class="card-link card-link-success" href="#">
-            <div class="card border-success mb-5">
+            <div class="card border-success">
                 <div class="card-header">Account Settings</div>
                 <div class="card-body text-success">
                     <h5 class="card-title text-center"><i class="fas fa-sliders-h"></i></h5>

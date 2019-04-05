@@ -76,10 +76,10 @@
                             @else
                             <li><a class="nav-link nav-link-inactive" href="{{ route('meetpat-client-sync') }}"><i class="fas fa-sync-alt"></i>&nbsp;Sync Platform</a></li>
                             @endif
-                            @if(Request::path() == 'meetpat-client/upload-clients')
-                            <li><a class="nav-link nav-link-active" href="{{ route('meetpat-client-upload') }}"><i class="fas fa-file-upload"></i>&nbsp;Upload Customers</a></li>
+                            @if(Request::path() == 'meetpat-client/upload-client-file-data')
+                            <li><a class="nav-link nav-link-active" href="{{ route('upload-client-data') }}"><i class="fas fa-file-upload"></i>&nbsp;Upload Customers</a></li>
                             @else
-                            <li><a class="nav-link nav-link-inactive" href="{{ route('meetpat-client-upload') }}"><i class="fas fa-file-upload"></i></i>&nbsp;Upload Customers</a></li>
+                            <li><a class="nav-link nav-link-inactive" href="{{ route('upload-client-data') }}"><i class="fas fa-file-upload"></i></i>&nbsp;Upload Customers</a></li>
                             @endif
                         @endif
                     @endguest
