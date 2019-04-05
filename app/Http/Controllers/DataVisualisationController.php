@@ -201,7 +201,7 @@ class DataVisualisationController extends Controller
         }
         // Filter By Municipalities
         if($request->selected_directors) {
-            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+            $records = $records->whereIn('DirectorshipStatus', $request->selected_municipalities);
         }
         // Filter By Age Groups
         if($request->selected_age_groups) {
