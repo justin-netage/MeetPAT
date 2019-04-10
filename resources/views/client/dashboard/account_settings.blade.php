@@ -236,6 +236,28 @@
     </div>
 </div>
 
+<!-- Toasts -->
+
+<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+  <!-- Position it -->
+  <div style="position: absolute; top: 0; right: 0;">
+
+    <!-- Then put toasts within -->
+    <div class="toast" id="success-toast" role="alert" data-delay="5000" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+      <i class="far fa-check-circle rounded mr-2 text-success"></i>
+        <strong class="mr-auto">Success</strong>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="toast-body">
+        Your account details have been updated successfully!
+      </div>
+    </div>
+
+</div>
+
 @endsection
 
 @section('scripts')
@@ -414,12 +436,13 @@ $(document).ready(function() {
             }).done(function(data) {
                 $(parent).prop('disabled', false);
                 $(parent).html('Save Changes');
-                console.log(data);
+                $('#success-toast').toast('show');
+                // console.log(data);
             }).fail(function(error) {
                 $(parent).prop('disabled', false);
                 $(parent).html('Save Changes');
                 $('input, textarea').removeClass('is-valid');
-                console.log(error);
+                // console.log(error);
             });
 
         } 
