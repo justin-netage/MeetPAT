@@ -39,7 +39,13 @@ class MeetpatClientController extends Controller
 
     public function main()
     {
-        return view('client.main');
+        if(\Auth::user()->admin) {
+            return redirect()->to('/meetpat-admin');
+        } else if(\Auth::user()->client->active) {
+            return view('client.main');
+        } else {
+            abort(401);
+        }
     }
 
     public function sync_platform()
@@ -717,17 +723,21 @@ class MeetpatClientController extends Controller
         if($filtered_list->selected_municipalities) {
             $records = $records->whereIn('GreaterArea', explode(",", $filtered_list->selected_municipalities));
         }
-        // Filter By Municipalities
+        // Filter By Areas
+        if($filtered_list->selected_areas) {
+            $records = $records->whereIn('Area', explode(",", $filtered_list->selected_areas));
+        }
+        // Filter By Directorship
         if($filtered_list->selected_directors) {
-            $records = $records->whereIn('GreaterArea', explode(",", $filtered_list->selected_municipalities));
+            $records = $records->whereIn('DirectorshipStatus', explode(",", $filtered_list->selected_directors));
         }
         // Filter By Age Groups
-        if($filtered_list->selected_age_groups) {
-            $records = $records->whereIn('AgeGroup', explode(",", $filtered_list->selected_age_groups));
+        if($filtered_list->selected_ages) {
+            $records = $records->whereIn('AgeGroup', explode(",", $filtered_list->selected_ages));
         }
         // Filter By Gender
-        if($filtered_list->selected_gender_groups) {
-            $records = $records->whereIn('Gender', explode(",", $filtered_list->selected_gender_groups));
+        if($filtered_list->selected_genders) {
+            $records = $records->whereIn('Gender', explode(",", $filtered_list->selected_genders));
         }
         // Filter By Population Group
         if($filtered_list->selected_population_groups) {
@@ -738,8 +748,8 @@ class MeetpatClientController extends Controller
             $records = $records->whereIn('GenerationGroup', explode(",", $filtered_list->selected_generations));
         }
         // Filter By Marital Status
-        if($filtered_list->selected_marital_status) {
-            $records = $records->whereIn('MaritalStatus', explode(",", $filtered_list->selected_marital_status));
+        if($filtered_list->selected_marital_statuses) {
+            $records = $records->whereIn('MaritalStatus', explode(",", $filtered_list->selected_marital_statuses));
         }
         // Filter By Home Owners
         if($filtered_list->selected_home_owners) {
@@ -888,4 +898,58 @@ class MeetpatClientController extends Controller
         
         return response()->json(['status' => 'done']);
     }    
+
+    // Settings
+
+    public function account_settings()
+    {
+        $user = \Auth::user();
+
+        $has_business_details = $user->client_details;
+        $has_facebook_ad_account = $user->facebook_ad_account;
+        $has_google_ad_account = $user->google_ad_account;
+        
+        return view('client.dashboard.account_settings', ['has_facebook_ad_account' => $has_facebook_ad_account,
+                                                          'has_google_ad_account' => $has_google_ad_account,
+                                                          'has_business_details' => $has_business_details
+                                                          ]);
+    }
+
+    public function save_settings(Request $request)
+    {
+        $user = \MeetPAT\User::find($request->user_id);
+        $has_business_details = $user->client_details;
+        
+        if($has_business_details) {
+            $has_business_details->update($request->all());
+        } else {
+            $has_business_details = \MeetPAT\MeetpatClientDetail::create($request->all());
+        }
+
+        return response()->json($has_business_details);
+    }
+
+    public function disconnect_platform(Request $request)
+    {   
+        $user = \MeetPAT\User::find($request->user_id);
+        $google_disconnected = 'false';
+        $facebook_disconnected = 'false';
+
+        if($request->platform == 'google')
+        {
+            $has_google_ad_account = $user->google_ad_account;
+            if($has_google_ad_account) {
+                $google_disconnected = $has_google_ad_account->delete();
+            }
+
+        } else if($request->platform == 'facebook') {
+            $has_facebook_ad_account = $user->facebook_ad_account;   
+            if($has_facebook_ad_account) {
+                $facebook_disconnected = $has_facebook_ad_account->delete();
+            }
+         
+        }
+
+        return response()->json(['status' => '200', 'google_disconnected' => $google_disconnected, 'facebook_disconnected' => $facebook_disconnected]);
+    }
 }

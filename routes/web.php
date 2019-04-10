@@ -55,7 +55,7 @@ Route::post('/meetpat-admin/users/create/save', 'AdministratorController@create_
 Route::get('/meetpat-admin/users/files/{user_id}', 'AdministratorController@display_user_files')->middleware('auth')->middleware('admin');
 // MeetPAT Client Routes
 
-Route::get('/meetpat-client', 'MeetpatClientController@main')->name('meetpat-client')->middleware('auth')->middleware('client');
+Route::get('/meetpat-client', 'MeetpatClientController@main')->name('meetpat-client')->middleware('auth');
 
 // Dashboard Home Links
 Route::get('/meetpat-client/data-visualisation', 'DataVisualisationController@index')->name('meetpat-data-visualisation')->middleware('auth')->middleware('client');
@@ -95,3 +95,7 @@ Route::get('/meetpat-client/upload-client-file-data', 'DataVisualisationControll
 Route::post('/meetpat-client/create-selected-contacts', 'MeetpatClientController@create_filtered_audience')->name('sync-selected-contacts')->middleware('auth')->middleware('client');
 Route::post('/meetpat-client/upload-audience-form', 'MeetpatClientController@submit_filtered_audience')->name('submit-filtered-audience')->middleware('auth')->middleware('client');
 Route::get('/meetpat-client/filtered-audience-form/{user_id}/{filtered_list_id}', 'MeetpatClientController@filtered_audience_form')->name('filtered-audience-form')->middleware('auth')->middleware('client');
+
+// Account Settings
+
+Route::get('/meetpat-client/settings', 'MeetpatClientController@account_settings')->name('account-settings')->middleware('auth')->middleware('client');

@@ -342,7 +342,7 @@ body{
 .facebook-button
 {
   font-weight: 900;
-  color: #3b5998;
+  color: #4267B2;
   margin: auto;
   width: 100%;
 }
@@ -903,6 +903,11 @@ user-select: none;
   margin-right: 8px;
 }
 
+.saving-status-loader
+{
+  margin-bottom: 4px;
+  margin-right: 8px;
+}
 .status-text
 {
   font-weight: bold;
@@ -919,4 +924,19 @@ user-select: none;
   padding: 12px;
   margin-top: 2px;
   margin-bottom: 2px;
+}
+
+.account-settings-list li
+{
+  padding: 16px;
+}
+
+.btn-primary
+{
+  background-color: #00A3D9;
+}
+
+.card-body h4
+{
+  color: #00A3D9;
 }

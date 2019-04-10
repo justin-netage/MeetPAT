@@ -91,3 +91,9 @@ Route::post('/meetpat-client/submit-audience/run-job-google', 'MeetpatClientCont
 // Facebook
 // run Job
 Route::post('/meetpat-client/submit-audience/run-job-facebook', 'MeetpatClientController@run_facebook_job_que')->name('run-facebook-job-que');
+
+//save settings
+Route::post('/meetpat-client/settings/save-changes', 'MeetpatClientController@save_settings')->name('save-settings');
+
+// Disconnect plarform
+Route::post('/meetpat-client/settings/disconnect-platform', 'MeetpatClientController@disconnect_platform')->name('disconnect-platform');

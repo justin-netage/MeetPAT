@@ -25,7 +25,7 @@
             </div>
         </a>
 
-        <a class="card-link card-link-success" href="#">
+        <a class="card-link card-link-success" href="/meetpat-client/settings">
             <div class="card border-success">
                 <div class="card-header">Account Settings</div>
                 <div class="card-body text-success">
