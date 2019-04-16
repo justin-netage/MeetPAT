@@ -118,6 +118,7 @@
                                     <span class="spinner-grow spinner-grow-sm float-right status-loader" role="status"></span>
                                 </div> 
                             </li>
+                            <button class="btn btn-warning float-right" style="display:none;" id="try-google-again"><i class="fas fa-redo-alt"></i>&nbsp;&nbsp;Try Again</button> 
                             <li id="facebook-sync-status" style="display:none;"> 
                                 <div class="clearfix">
                                 Facebook

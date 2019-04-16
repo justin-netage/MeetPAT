@@ -97,6 +97,7 @@ $(document).ready(function() {
                       '</div>'
                     );
                 }
+                $("#try-google-again").show();
 
                 console.log(error);
             }).done(function(data) {
@@ -128,6 +129,11 @@ $(document).ready(function() {
             console.log('Erro: Platform does not exist.');
         }
     }
+
+    $("#try-google-again").on('click', function() {
+        $("#try-google-again").hide();
+        run_pending_job('google');
+    });
     // Submit audience to "Job Que"
     submissionButton.click(function() {
     $("#submit_audience").prop("disabled", true);
