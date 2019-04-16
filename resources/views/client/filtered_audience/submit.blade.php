@@ -108,6 +108,7 @@
             <div class="card">
                 <div class="card-header"><h1 id="card-title">{{ __('Upload New Audience') }} </h1></div>
                 <div class="card-body">
+                    <div id="alert-container"></div>
                     <div id="progress-sync">
                         <ul class="list-unstyled sync-list">
                             <li id="google-sync-status" style="display:none;">
