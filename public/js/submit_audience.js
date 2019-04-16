@@ -58,8 +58,9 @@ $(document).ready(function() {
             $.post('/api/meetpat-client/submit-audience/run-job-google', {user_id: user_id, filtered_audience_id: filtered_audience_id}, function() {
             }).fail(function(error) {
                 $("#google-sync-status .status-text").addClass("text-danger");
+                $("#google-sync-status .status-text").removeClass("text-primary");
                 $("#google-sync-status .status-text").html('error&nbsp;<i class="far fa-times-circle"></i>');
-                $("#google-sync-status .status-loader").remove();
+                $("#google-sync-status .status-loader").hide();
                 if(error.responseJSON.message.includes("AuthenticationError")) {
                     $("#alert-container").append(
                         '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
@@ -104,7 +105,7 @@ $(document).ready(function() {
                 console.log(data);
                 $("#google-sync-status .status-text").addClass("text-success");
                 $("#google-sync-status .status-text").html('complete&nbsp;<i class="fas fa-check-square"></i>');
-                $("#google-sync-status .status-loader").remove();
+                $("#google-sync-status .status-loader").hide();
             });
 
         } else if ('platform' == 'facebook'){
@@ -116,14 +117,16 @@ $(document).ready(function() {
                 $("#facebook-sync-status .status-text").html('Syncing&nbsp;');
             }).fail(function(error) {
                 $("#facebook-sync-status .status-text").addClass("text-danger");
+                $("#facebook-sync-status .status-text").removeClass("text-primary");
+
                 $("#facebook-sync-status .status-text").html('error&nbsp;<i class="far fa-times-circle"></i>');
-                $("#facebook-sync-status .status-loader").remove();
+                $("#facebook-sync-status .status-loader").hide();
                 console.log(error);
             }).done(function(data) {
                 console.log(data);
                 $("#facebook-sync-status .status-text").addClass("text-success");
                 $("#facebook-sync-status .status-text").html('complete&nbsp;<i class="fas fa-check-square"></i>');
-                $("#facebook-sync-status .status-loader").remove();
+                $("#facebook-sync-status .status-loader").hide();
             });
         } else {
             console.log('Erro: Platform does not exist.');
@@ -132,6 +135,9 @@ $(document).ready(function() {
 
     $("#try-google-again").on('click', function() {
         $("#try-google-again").hide();
+        $("#google-sync-status .status-loader").show();
+        $("#google-sync-status .status-text").removeClass("text-danger");
+        $("#google-sync-status .status-text").addClass("text-primary");
         run_pending_job('google');
     });
     // Submit audience to "Job Que"
