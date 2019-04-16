@@ -100,9 +100,9 @@ $(document).ready(function() {
                 }
                 $("#try-google-again").show();
 
-                console.log(error);
+                // console.log(error);
             }).done(function(data) {
-                console.log(data);
+                // console.log(data);
                 $("#google-sync-status .status-text").addClass("text-success");
                 $("#google-sync-status .status-text").html('complete&nbsp;<i class="fas fa-check-square"></i>');
                 $("#google-sync-status .status-loader").hide();
@@ -121,9 +121,9 @@ $(document).ready(function() {
 
                 $("#facebook-sync-status .status-text").html('error&nbsp;<i class="far fa-times-circle"></i>');
                 $("#facebook-sync-status .status-loader").hide();
-                console.log(error);
+                // console.log(error);
             }).done(function(data) {
-                console.log(data);
+                // console.log(data);
                 $("#facebook-sync-status .status-text").addClass("text-success");
                 $("#facebook-sync-status .status-text").html('complete&nbsp;<i class="fas fa-check-square"></i>');
                 $("#facebook-sync-status .status-loader").hide();
@@ -154,19 +154,19 @@ $(document).ready(function() {
         if(platform_google.is(":checked")) {
             $.post('/api/meetpat-client/submit-audience/add-to-que', { user_id: user_id, filtered_audience_id: filtered_audience_id, platform: 'google', audience_name: format_audience_name(audience_name) }, function(  ) {
             }).fail(function(error) {
-                console.log(error);
+                // console.log(error);
             }).done(function(data) {
-                console.log(data);
+                // console.log(data);
                 run_pending_job('google');
                 $("#submit_audience").html('Done');
                 if(platform_facebook.is(":checked")) {
                     $.post('/api/meetpat-client/submit-audience/add-to-que', { user_id: user_id, filtered_audience_id: filtered_audience_id, platform: 'facebook', audience_name: format_audience_name(audience_name) }, function(  ) {
 
                     }).fail(function(error) {
-                        console.log(error);
+                        // console.log(error);
                     }).done(function(data) {
                         run_pending_job('facebook');
-                        console.log(data);
+                        // console.log(data);
                     });
                 }
 
@@ -177,9 +177,9 @@ $(document).ready(function() {
             $.post('/api/meetpat-client/submit-audience/add-to-que', { user_id: user_id, filtered_audience_id: filtered_audience_id, platform: 'facebook', audience_name: format_audience_name(audience_name) }, function(  ) {
 
             }).fail(function(error) {
-                console.log(error);
+                // console.log(error);
             }).done(function(data) {
-                console.log(data);
+                // console.log(data);
                 run_pending_job('facebook');
                 submitAudienceForm_el.hide();
 
