@@ -240,7 +240,7 @@
 
 <div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
   <!-- Position it -->
-  <div style="position: absolute; top: 0; right: 0;">
+  <div style="position: fixed; bottom: 20%; right: 0;">
 
     <!-- Then put toasts within -->
     <div class="toast" id="success-toast" role="alert" data-delay="5000" aria-live="assertive" aria-atomic="true">
