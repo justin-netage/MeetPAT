@@ -60,7 +60,7 @@ $(document).ready(function() {
                 $("#google-sync-status .status-text").addClass("text-danger");
                 $("#google-sync-status .status-text").html('error&nbsp;<i class="far fa-times-circle"></i>');
                 $("#google-sync-status .status-loader").remove();
-                if(error.responseJSON.exception.includes("AuthenticationError")) {
+                if(error.responseJSON.exception.message.includes("AuthenticationError")) {
                     $("#alert-container").append(
                         '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
                         '<strong>Error!</strong> An Authentication error has occured. Please make sure that your Adwords Account ID id correct.' +
@@ -69,7 +69,7 @@ $(document).ready(function() {
                         '</button>' +
                       '</div>'
                     );
-                } else if(error.responseJSON.exception.includes("QuotaCheckError")) {
+                } else if(error.responseJSON.exception.message.includes("QuotaCheckError")) {
                     $("#alert-container").append(
                         '<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
                         '<strong>Error!</strong> Adwords resonded with a Quota Check Error please be sure that you are nor exceeding your account limitations.' +
@@ -78,7 +78,7 @@ $(document).ready(function() {
                         '</button>' +
                         '</div>'                        
                     );
-                } else if(error.responseJSON.exception.includes("CollectionSizeError")) {
+                } else if(error.responseJSON.exception.message.includes("CollectionSizeError")) {
                     $("#alert-container").append(
                         '<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
                         '<strong>Error!</strong> Google Adwoeds responsed with error. There are too few customers in your list.' +
@@ -98,7 +98,6 @@ $(document).ready(function() {
                     );
                 }
 
-                
                 console.log(error);
             }).done(function(data) {
                 console.log(data);
