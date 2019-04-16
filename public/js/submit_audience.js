@@ -62,7 +62,7 @@ $(document).ready(function() {
                 $("#google-sync-status .status-text").html('error&nbsp;<i class="far fa-times-circle"></i>');
                 $("#google-sync-status .status-loader").hide();
                 if(error.responseJSON.message.includes("AuthenticationError")) {
-                    $("#alert-container").append(
+                    $("#alert-container").html(
                         '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
                         '<strong>Error!</strong> An Authentication error has occured. Please make sure that your Adwords Account ID id correct.' +
                         '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
@@ -71,7 +71,7 @@ $(document).ready(function() {
                       '</div>'
                     );
                 } else if(error.responseJSON.message.includes("QuotaCheckError")) {
-                    $("#alert-container").append(
+                    $("#alert-container").html(
                         '<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
                         '<strong>Error!</strong> Adwords resonded with a Quota Check Error please be sure that you are nor exceeding your account limitations.' +
                         '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
@@ -80,7 +80,7 @@ $(document).ready(function() {
                         '</div>'                        
                     );
                 } else if(error.responseJSON.message.includes("CollectionSizeError")) {
-                    $("#alert-container").append(
+                    $("#alert-container").html(
                         '<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
                         '<strong>Error!</strong> Google Adwoeds responsed with error. There are too few customers in your list.' +
                         '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
@@ -89,7 +89,7 @@ $(document).ready(function() {
                       '</div>'
                     );
                 } else {
-                    $("#alert-container").append(
+                    $("#alert-container").html(
                         '<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
                         '<strong>Error!</strong> Something went wrong please contact MeetPAT for assistance.' +
                         '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
@@ -135,9 +135,10 @@ $(document).ready(function() {
 
     $("#try-google-again").on('click', function() {
         $("#try-google-again").hide();
-        $("#google-sync-status .status-loader").show();
         $("#google-sync-status .status-text").removeClass("text-danger");
         $("#google-sync-status .status-text").addClass("text-primary");
+        $("#google-sync-status .status-loader").show();
+
         run_pending_job('google');
     });
     // Submit audience to "Job Que"
