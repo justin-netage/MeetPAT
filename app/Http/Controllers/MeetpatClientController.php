@@ -919,11 +919,29 @@ class MeetpatClientController extends Controller
     {
         $user = \MeetPAT\User::find($request->user_id);
         $has_business_details = $user->client_details;
+        $has_facebook_ad_acc = $user->facebook_ad_account;
+        $has_google_ad_acc = $user->google_ad_account;
         
         if($has_business_details) {
             $has_business_details->update($request->all());
         } else {
             $has_business_details = \MeetPAT\MeetpatClientDetail::create($request->all());
+        }
+
+        if($request->facebook_acc_id != "false") 
+        {
+            if($has_facebook_ad_acc) 
+            {
+                $has_facebook_ad_acc->update(['ad_account_id' => $request->facebook_acc_id]);
+            }
+        }
+
+        if($request->google_acc_id != "false") 
+        {
+            if($has_google_ad_acc)
+            {
+                $has_google_ad_acc->update(['ad_account_id' => $request->google_acc_id]);
+            }
         }
 
         return response()->json($has_business_details);

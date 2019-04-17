@@ -35,6 +35,23 @@
                         <form id="saveChangesForm">
                             @csrf
                             <input type="hidden" name="user_id" value="{{\Auth::user()->id}}">
+                            @if($has_facebook_ad_account or $has_google_ad_account)
+                            <h5>Synced Platform Account ID's</h5>
+                            <hr>
+                                @if($has_facebook_ad_account)
+                                <div class="form-group" id="facebookAccContainer">
+                                    <label for="facebookAccountId">Facebook Ad Account ID</label>
+                                    <input type="text" class="form-control" name="f_ad_account_id" id="facebookAccountId" value="{{$has_facebook_ad_account->ad_account_id}}">
+                                </div>
+
+                                @endif
+                                @if($has_google_ad_account)
+                                <div class="form-group" id="googleAccContainer">
+                                    <label for="googleAccountId">Google Ad Account ID</label>
+                                    <input type="text" class="form-control" name="g_ad_account_id" id="googleAccountId" value="{{$has_google_ad_account->ad_account_id}}">
+                                </div>
+                                @endif
+                            @endif
                             <h5>Personal Information</h5>
                             <hr>
                             <div class="form-row mb-2">
@@ -350,6 +367,39 @@ $(document).ready(function() {
             $(this).addClass('is-valid');
         }
     });
+
+    var facebook_account_id_el = document.getElementById('facebookAccountId');
+    var google_account_id_el = document.getElementById('googleAccountId');
+
+    if(facebook_account_id_el) {
+        $('#facebookAccountId').on('keyup change', function() {
+            if(!$(this).val().match(/^([\d\-])*$/)) {
+                this.setCustomValidity('Invalid');
+                $(this).removeClass('is-valid');
+                $(this).addClass('is-invalid');
+            } else {
+                this.setCustomValidity('');
+                this.removeClass('in-invalid');
+                this.addClass('is-valid');
+            }
+        });
+ 
+    }
+
+    if(google_account_id_el) {
+        $('#googleAccountId').on('keyup change', function() {
+            if(!$(this).val().match(/^([\d]){1,}([\-\d]){1,}([\d]){1,}$/)) {
+                this.setCustomValidity('Invalid ID');
+                $(this).removeClass('is-valid');
+                $(this).addClass('is-invalid');
+            } else {
+                this.setCustomValidity('');
+                $(this).removeClass('is-invalid');
+                $(this).addClass('is-valid');
+            }
+        });
+    }
+
     var user_id = $("input[name=user_id]").val();
     // diconnect platform
     $("#disconnectGoogle, #disconnectFacebook").click(function() {
@@ -369,6 +419,7 @@ $(document).ready(function() {
                 $('#facebookSynced').html(
                     '<a href="/meetpat-client/sync/facebook" class="btn btn-light btn-md"><i class="fas fa-link"></i>&nbsp;connect</a>'
                 );
+                $("#facebookAccContainer").remove();
                 //console.log(data);
             });
         } else if($(this).attr('data-platform') == 'google') {
@@ -388,6 +439,7 @@ $(document).ready(function() {
                 $('#googleSynced').html(
                     '<a href="/meetpat-client/sync/google" class="btn btn-light btn-md"><i class="fas fa-link"></i>&nbsp;connect</a>'
                 );
+                $("#googleAccContainer").remove();
                 //console.log(data);
             });
         } else {
@@ -413,7 +465,31 @@ $(document).ready(function() {
 
         });
         var parent = this;
-        if(fields_valid == 17) {
+        var num_fields_to_check;
+        
+
+        if(facebook_account_id_el && google_account_id_el) {
+            num_fields_to_check = 19;
+        } else if(facebook_account_id_el) {
+            num_fields_to_check = 18;
+        } else if(google_account_id_el) {
+            num_fields_to_check = 18;
+        } else {
+            num_fields_to_check = 17;
+        }
+
+        var f_acc_id = false;
+        var g_acc_id = false;
+
+        if($('input[name=f_ad_account_id]').val()) {
+            f_acc_id = $('input[name=f_ad_account_id]').val();
+        }
+
+        if($('input[name=g_ad_account_id]').val()) {
+            g_acc_id = $('input[name=g_ad_account_id]').val();
+        }
+
+        if(fields_valid == num_fields_to_check) {
             $(this).prop('disabled', true);
             $(this).html(
                     '<span class="spinner-border spinner-border-sm saving-status-loader" role="status" aria-hidden="true"></span>' +
@@ -428,6 +504,7 @@ $(document).ready(function() {
                 'contact_email_address': $('input[name=contact_email_address]').val(),'business_contact_number': $('input[name=business_contact_number]').val(),
                 'business_registration_number': $('input[name=business_registration_number]').val(),'business_vat_number': $('input[name=business_vat_number]').val(),
                 'business_physical_address': $('textarea[name=business_physical_address]').val(), 'business_postal_address': $('textarea[name=business_postal_address]').val(),
+                'google_acc_id': g_acc_id, 'facebook_acc_id': f_acc_id,
 
             }
 
