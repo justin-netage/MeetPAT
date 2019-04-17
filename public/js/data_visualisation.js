@@ -487,7 +487,7 @@ function drawAreaChart(  ) {
                                     
                                     var parent = this;
                 
-                                    $("#age_filters").append('<li id="filter_p_' + $(this).attr("name").toLowerCase() + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                    $("#age_filters").append('<li id="filter_age_' + $(this).attr("name").toLowerCase() + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
                                     $('#filter_age_' + $(this).val().toLowerCase() + ' i').click(function() {
                                         if($('#age_' + $(parent).attr("name").toLowerCase() + '_option').length) {
                                             $('#filter_age_' + $(parent).val().toLowerCase()).remove();
