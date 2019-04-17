@@ -24,19 +24,20 @@
     </h4>
     <div class="scrollbar" id="style-1">
         <div class="sidebar-filters force-overflow">
-            <ul id="province_filters" class="list-unstyled"><span class="filter-heading">Province</span></ul>
-            <ul id="municipality_filters" class="list-unstyled"><span class="filter-heading">Municipalities</span></ul>
-            <ul id="area_filters" class="list-unstyled"><span class="filter-heading">Area</span></ul>   
-            <ul id="age_filters" class="list-unstyled"><span class="filter-heading">Age</span></ul>   
-            <ul id="gender_filters" class="list-unstyled"><span class="filter-heading">Gender</span></ul> 
-            <ul id="population_group_filters" class="list-unstyled"><span class="filter-heading">Population Group</span></ul>
-            <ul id="generation_filters" class="list-unstyled"><span class="filter-heading">Generation</span></ul>
-            <ul id="citizen_vs_resident_filters" class="list-unstyled"><span class="filter-heading">Citizen VS Resident</span></ul>
-            <ul id="marital_status_filters" class="list-unstyled"><span class="filter-heading">Marital Status</span></ul>
-            <ul id="home_owner_filters" class="list-unstyled"><span class="filter-heading">Home Owner</span></ul>
-            <ul id="risk_category_filters" class="list-unstyled"><span class="filter-heading">Risk Category</span></ul>
-            <ul id="household_income_filters" class="list-unstyled"><span class="filter-heading">Household Income</span></ul>
-            <ul id="directors_filters" class="list-unstyled"><span class="filter-heading">Directors</span></ul>
+            <ul id="province_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Province</span></ul>
+            <ul id="municipality_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Municipalities</span></ul>
+            <ul id="area_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Area</span></ul>   
+            <ul id="age_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Age</span></ul>   
+            <ul id="gender_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Gender</span></ul> 
+            <ul id="population_group_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Population Group</span></ul>
+            <ul id="generation_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Generation</span></ul>
+            <ul id="citizen_vs_resident_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Citizen VS Resident</span></ul>
+            <ul id="marital_status_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Marital Status</span></ul>
+            <ul id="home_owner_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Home Owner</span></ul>
+            <ul id="risk_category_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Risk Category</span></ul>
+            <ul id="household_income_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Household Income</span></ul>
+            <ul id="directors_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Directors</span></ul>
+            <ul id="no_filters" class="list-unstyled"><span class="filter-heading">No filters have been added</span></ul>
         </div>
     </div>
     <h4>
@@ -572,5 +573,5 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://unpkg.com/lunr/lunr.js"></script>
-<script type="text/javascript" src="{{asset('js/data_visualisation.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/data_visualisation.js')}}"></script>
 @endsection

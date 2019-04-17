@@ -17,6 +17,40 @@ var target_risk_categories = [];
 var target_incomes = [];
 var target_directors = [];
 
+var checkForFilters = function() {
+    target_provinces_el = document.getElementById("province_filters") ;var target_municipalities_el = document.getElementById("municipality_filters");
+    target_areas_el = document.getElementById("area_filters") ;var target_ages_el = document.getElementById("age_filters");
+    target_genders_el = document.getElementById("gender_filters") ;var target_population_groups_el = document.getElementById("population_group_filters");
+    target_generations_el = document.getElementById("generation_filters") ;var target_citizen_vs_residents_el = document.getElementById("citizen_vs_resident_filters");
+    target_marital_statuses_el = document.getElementById("marital_status_filters") ;var target_home_owners_el = document.getElementById("home_owner_filters");
+    target_risk_categories_el = document.getElementById("risk_category_filters") ;var target_incomes_el = document.getElementById("household_income_filters");
+    target_directors_el = document.getElementById("directors_filters");
+    if(
+        target_provinces_el.childNodes.length > 1 || target_municipalities_el.childNodes.length > 1 ||
+        target_areas_el.childNodes.length > 1 || target_ages_el.childNodes.length > 1 ||
+        target_genders_el.childNodes.length > 1 || target_population_groups_el.childNodes.length > 1 ||
+        target_generations_el.childNodes.length > 1 || target_citizen_vs_residents_el.childNodes.length > 1 ||
+        target_marital_statuses_el.childNodes.length > 1 || target_home_owners_el.childNodes.length > 1 ||
+        target_risk_categories_el.childNodes.length > 1 || target_incomes_el.childNodes.length > 1 ||
+        target_directors_el.childNodes.length > 1
+        ) { $("#no_filters").hide();} else { $("#no_filters").show();}
+
+        if (target_provinces_el.childNodes.length > 1) {$("#province_filters").show()} else {$("#province_filters").hide()};
+        if (target_municipalities_el.childNodes.length > 1) {$("#municipality_filters").show()} else {$("#municipality_filters").hide()};        
+        if (target_areas_el.childNodes.length > 1) {$("#area_filters").show()} else {$("#area_filters").hide()};
+        if (target_ages_el.childNodes.length > 1) {$("#age_filters").show()} else {$("#age_filters").hide()};
+        if (target_genders_el.childNodes.length > 1) {$("#gender_filters").show()} else {$("#gender_filters").hide()};
+        if (target_population_groups_el.childNodes.length > 1) {$("#population_group_filters").show()} else {$("#population_group_filters").hide()};        
+        if (target_generations_el.childNodes.length > 1) {$("#generation_filters").show()} else {$("#generation_filters").hide()};
+        if (target_citizen_vs_residents_el.childNodes.length > 1) {$("#citizen_vs_resident_filters").show()} else {$("#citizen_vs_resident_filters").hide()};
+        if (target_marital_statuses_el.childNodes.length > 1) {$("#marital_status_filters").show()} else {$("#marital_status_filters").hide()};
+        if (target_home_owners_el.childNodes.length > 1) {$("#home_owner_filters").show()} else {$("#home_owner_filters").hide()};
+        if (target_risk_categories_el.childNodes.length > 1) {$("#risk_category_filters").show()} else {$("#risk_category_filters").hide()};
+        if (target_incomes_el.childNodes.length > 1) {$("#household_income_filters").show()} else {$("#household_income_filters").hide()};
+        if (target_directors_el.childNodes.length > 1) {$("#directors_filters").show()} else {$("#directors_filters").hide()};
+
+}
+
 function kFormatter(num) {
     return num > 999 ? (num/1000).toFixed(1) + 'k' : num.toString()
 }
@@ -186,12 +220,13 @@ function drawAreaChart(  ) {
                                     $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '" id="area_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" value="' + result.ref + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" class="css-label">' + result.ref + '<small> ' + kFormatter(chart_data["all_areas"][result.ref]) + '" checked="checked">');
                                     $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
                                     $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + ' i').click(function() {
+                                       
                                         if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').length) {
                                             $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "")).remove();
                                             $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').remove();
                                             $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').prop("checked", false);
                                         }
-            
+                                        checkForFilters();
                                     });
                                 } else {
                                     
@@ -201,11 +236,11 @@ function drawAreaChart(  ) {
                                         $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').remove();
                                     }
                                 }
+                                checkForFilters();
                             });                        
                         } else {
                             $("#lunr-results").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '" id="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox"><label for="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" class="css-label">' + result.ref + '<small> ' + kFormatter(chart_data["all_areas"][result.ref]) + '</small></label><br />');
                             $('#area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').click(function(){
-                                
                                 if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').is(":checked")) { 
                                     
                                     var parent = this;
@@ -217,7 +252,8 @@ function drawAreaChart(  ) {
                                             $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').remove();
                                             $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').prop("checked", false);
                                         }
-            
+                                        checkForFilters();
+
                                     });
                                 } else {
                                     
@@ -228,6 +264,8 @@ function drawAreaChart(  ) {
 
                                     }
                                 }
+                                checkForFilters();
+
                             });                        
                         }
                     }
@@ -302,6 +340,7 @@ function drawAreaChart(  ) {
                                             $('#filter_municipality_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\./g, '_')).remove();
                                             $("#municipality_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option').prop("checked", false);
                                         }
+                                        checkForFilters();
 
                                     });
                                 } else {
@@ -311,6 +350,8 @@ function drawAreaChart(  ) {
                                         $('#filter_municipality_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\./g, '_')).remove();
                                     }
                                 }
+                                checkForFilters();
+
                             });
                         }
             // Instantiate and draw our chart, passing in some options.
@@ -452,6 +493,7 @@ function drawAreaChart(  ) {
                                             $('#filter_age_' + $(parent).val().toLowerCase()).remove();
                                             $("#age_" + $(parent).val().toLowerCase() + '_option').prop("checked", false);
                                         }
+                                        checkForFilters();
 
                                     });
                                 } else {
@@ -461,6 +503,8 @@ function drawAreaChart(  ) {
                                         $('#filter_age_' + $(this).val().toLowerCase()).remove();
                                     }
                                 }
+                                checkForFilters();
+
                             });
                         }
             // Instantiate and draw our chart, passing in some options.
@@ -557,6 +601,7 @@ function drawAreaChart(  ) {
                                                 $('#filter_g_' + $(parent).val().toLowerCase()).remove();
                                                 $("#g_" + $(parent).val().toLowerCase() + '_option').prop("checked", false);
                                             }
+                                            checkForFilters();
 
                                         });
                                     } else {
@@ -566,6 +611,8 @@ function drawAreaChart(  ) {
                                             $('#filter_g_' + $(this).val().toLowerCase()).remove();
                                         }
                                     }
+                                    checkForFilters();
+
                                 });
                     
                             }
@@ -671,6 +718,7 @@ function drawAreaChart(  ) {
                                             $('#filter_pop_' + $(parent).val().toLowerCase()).remove();
                                             $("#pop_" + $(parent).val().toLowerCase() + '_option').prop("checked", false);
                                         }
+                                        checkForFilters();
 
                                     });
                                 } else {
@@ -680,6 +728,8 @@ function drawAreaChart(  ) {
                                         $('#filter_pop_' + $(this).val().toLowerCase()).remove();
                                     }
                                 }
+                                checkForFilters();
+
                             });
                 
                         }
@@ -759,6 +809,7 @@ function drawAreaChart(  ) {
                                             $('#filter_gen_' + $(parent).val().toLowerCase().replace(/ /g, "_")).remove();
                                             $("#gen_" + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').prop("checked", false);
                                         }
+                                        checkForFilters();
 
                                     });
                                 } else {
@@ -768,6 +819,8 @@ function drawAreaChart(  ) {
                                         $('#filter_gen_' + $(this).val().toLowerCase().replace(/ /g, "_") ).remove();
                                     }
                                 }
+                                checkForFilters();
+
                             });
                 
                         }            
@@ -849,13 +902,6 @@ var drawCitizensChart = function() {
     
                     );
             }
-            $('#citizen_option').click(function(){
-                if($(this).is(":checked")) { console.log("checked: " + $(this).attr("name" ))};
-            });
-
-            $('#resident_option').click(function(){
-                if($(this).is(":checked")) { console.log("checked: " + $(this).attr("name" ))};
-            });
 
             $('#citizen_option').click(function(){
                 if($('#citizen_option').is(":checked")) { 
@@ -866,6 +912,7 @@ var drawCitizensChart = function() {
                             $('#filter_citizen_option').remove();
                             $("#citizen_option").prop("checked", false);
                         }
+                        checkForFilters();
 
                     });
                 } else {
@@ -874,6 +921,8 @@ var drawCitizensChart = function() {
                         $('#filter_citizen_option').remove();
                     }
                 }
+                checkForFilters();
+
             });
 
             $('#resident_option').click(function(){
@@ -885,6 +934,7 @@ var drawCitizensChart = function() {
                             $('#filter_resident_option').remove();
                             $("#resident_option").prop("checked", false);
                         }
+                        checkForFilters();
 
                     });
                 } else {
@@ -893,6 +943,8 @@ var drawCitizensChart = function() {
                         $('#filter_resident_option').remove();
                     }
                 }
+                checkForFilters();
+
             });
 
             // Instantiate and draw our chart, passing in some options.
@@ -971,6 +1023,7 @@ var drawMaritalStatusChart = function() {
                                 $('#filter_m_' + $(parent).val().toLowerCase()).remove();
                                 $("#m_" + $(parent).val().toLowerCase() + '_option').prop("checked", false);
                             }
+                            checkForFilters();
 
                         });
                     } else {
@@ -980,6 +1033,8 @@ var drawMaritalStatusChart = function() {
                             $('#filter_m_' + $(this).val().toLowerCase()).remove();
                         }
                     }
+                    checkForFilters();
+
                 });
             }            
             // Instantiate and draw our chart, passing in some options.
@@ -1057,6 +1112,7 @@ var drawHomeOwnerChart = function() {
                                 $('#filter_h_' + $(parent).val().toLowerCase().replace(/ /g, "_")).remove();
                                 $("#h_" + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').prop("checked", false);
                             }
+                            checkForFilters();
 
                         });
                     } else {
@@ -1066,6 +1122,8 @@ var drawHomeOwnerChart = function() {
                             $('#filter_h_' + $(this).val().toLowerCase().replace(/ /g, "_") ).remove();
                         }
                     }
+                    checkForFilters();
+
                 });
             }              
             // Instantiate and draw our chart, passing in some options.
@@ -1142,6 +1200,7 @@ var drawRiskCategoryChart = function() {
                                 $('#filter_r_' + $(parent).val().toLowerCase().replace(/ /g, "_")).remove();
                                 $("#r_" + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').prop("checked", false);
                             }
+                            checkForFilters();
 
                         });
                     } else {
@@ -1151,6 +1210,8 @@ var drawRiskCategoryChart = function() {
                             $('#filter_r_' + $(this).val().toLowerCase().replace(/ /g, "_") ).remove();
                         }
                     }
+                    checkForFilters();
+
                 });
     
             }        
@@ -1228,6 +1289,7 @@ var drawHouseholdIncomeChart = function() {
                                 $('#filter_hi_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus')).remove();
                                 $("#hi_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option').prop("checked", false);
                             }
+                            checkForFilters();
 
                         });
                     } else {
@@ -1237,6 +1299,8 @@ var drawHouseholdIncomeChart = function() {
                             $('#filter_hi_' + $(this).val().toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') ).remove();
                         }
                     }
+                    checkForFilters();
+
                 });
     
             }              
@@ -1316,6 +1380,7 @@ var drawDirectorOfBusinessChart = function() {
                                 $('#filter_d_' + $(parent).val().toLowerCase().replace(/ /g, "_")).remove();
                                 $("#d_" + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').prop("checked", false);
                             }
+                            checkForFilters();
 
                         });
                     } else {
@@ -1325,6 +1390,8 @@ var drawDirectorOfBusinessChart = function() {
                             $('#filter_d_' + $(this).val().toLowerCase().replace(/ /g, "_") ).remove();
                         }
                     }
+                    checkForFilters();
+
                 });
     
             }        
@@ -1470,6 +1537,7 @@ var get_provinces = function() {
                             $('#filter_p_' + $(parent).val().toLowerCase()).remove();
                             $("#" + $(parent).val().toLowerCase() + '_option').prop("checked", false);
                         }
+                        checkForFilters();
 
                     });
                 } else {
@@ -1479,6 +1547,8 @@ var get_provinces = function() {
                         $('#filter_p_' + $(this).val().toLowerCase()).remove();
                     }
                 }
+                checkForFilters();
+
             });
 
         }
@@ -1589,7 +1659,7 @@ var apply_filters = function() {
 }
 
 $('.apply-filter-button, #sidebarSubmitBtn').click(function() {
-
+    checkForFilters();
     $('.apply-filter-button').prop("disabled", true);
     $('#sidebarSubmitBtn').prop("disabled", true);
     $('#audienceSubmitBtn').prop("disabled", true);
@@ -1703,7 +1773,7 @@ $('.apply-filter-button, #sidebarSubmitBtn').click(function() {
 });
 
 $("#resetFilterToastBtn").click(function() {
-
+    checkForFilters();
     $("#resetFilterToastBtn").prop("disabled", true);
     $("#resetFilterToastBtn").html(
         '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'

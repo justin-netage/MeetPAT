@@ -7,8 +7,6 @@
             <div class="card">
                 <div class="card-header"><h1 id="card-title">{{ __('Sync Google Account') }} &nbsp;<i class="fab fa-google"></i> </h1></div>
                     <div class="card-body">
-                        <div id="progress-sync"></div>
-                        <!-- Make route /google/authenticate-code and add controller to save google ads account and access code -->
                         <form id="upload-custom-audience" method="post" action="/google-authorization/authenticate-authorization-code" onsubmit="displayLoader();">
                         @csrf
                         <input type="hidden" name="user_id" value="{{\Auth::user()->id}}">
