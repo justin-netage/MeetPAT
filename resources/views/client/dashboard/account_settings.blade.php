@@ -39,21 +39,21 @@
                             <div id="syncedPlatformContainer">
                                 <h5 id="syncedPlatformHeading">Synced Platform Account ID's</h5>
                                 <hr>
-                                    @if($has_facebook_ad_account)
-                                    <div class="form-group" id="facebookAccContainer">
-                                        <label for="facebookAccountId">Facebook Ad Account ID</label>
-                                        <input type="text" class="form-control" name="f_ad_account_id" id="facebookAccountId" value="{{$has_facebook_ad_account->ad_account_id}}">
-                                    </div>
+                                @if($has_facebook_ad_account)
+                                <div class="form-group" id="facebookAccContainer">
+                                    <label for="facebookAccountId">Facebook Ad Account ID</label>
+                                    <input type="text" class="form-control" name="f_ad_account_id" id="facebookAccountId" value="{{$has_facebook_ad_account->ad_account_id}}">
+                                </div>
 
-                                    @endif
-                                    @if($has_google_ad_account)
-                                    <div class="form-group" id="googleAccContainer">
-                                        <label for="googleAccountId">Google Ad Account ID</label>
-                                        <input type="text" class="form-control" name="g_ad_account_id" id="googleAccountId" value="{{$has_google_ad_account->ad_account_id}}">
-                                    </div>
-                                    @endif
+                                @endif
+                                @if($has_google_ad_account)
+                                <div class="form-group" id="googleAccContainer">
+                                    <label for="googleAccountId">Google Ad Account ID</label>
+                                    <input type="text" class="form-control" name="g_ad_account_id" id="googleAccountId" value="{{$has_google_ad_account->ad_account_id}}">
+                                </div>
                                 @endif
                             </div>
+                            @endif
                             <h5>Personal Information</h5>
                             <hr>
                             <div class="form-row mb-2">
