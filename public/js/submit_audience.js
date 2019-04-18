@@ -100,7 +100,7 @@ $(document).ready(function() {
                 }
                 $("#try-google-again").show();
 
-                // console.log(error);
+                console.log(error);
             }).done(function(data) {
                 // console.log(data);
                 $("#google-sync-status .status-text").addClass("text-success");
