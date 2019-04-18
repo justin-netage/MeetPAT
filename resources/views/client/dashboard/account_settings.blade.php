@@ -36,22 +36,24 @@
                             @csrf
                             <input type="hidden" name="user_id" value="{{\Auth::user()->id}}">
                             @if($has_facebook_ad_account or $has_google_ad_account)
-                            <h5>Synced Platform Account ID's</h5>
-                            <hr>
-                                @if($has_facebook_ad_account)
-                                <div class="form-group" id="facebookAccContainer">
-                                    <label for="facebookAccountId">Facebook Ad Account ID</label>
-                                    <input type="text" class="form-control" name="f_ad_account_id" id="facebookAccountId" value="{{$has_facebook_ad_account->ad_account_id}}">
-                                </div>
+                            <div id="syncedPlatformContainer">
+                                <h5 id="syncedPlatformHeading">Synced Platform Account ID's</h5>
+                                <hr>
+                                    @if($has_facebook_ad_account)
+                                    <div class="form-group" id="facebookAccContainer">
+                                        <label for="facebookAccountId">Facebook Ad Account ID</label>
+                                        <input type="text" class="form-control" name="f_ad_account_id" id="facebookAccountId" value="{{$has_facebook_ad_account->ad_account_id}}">
+                                    </div>
 
+                                    @endif
+                                    @if($has_google_ad_account)
+                                    <div class="form-group" id="googleAccContainer">
+                                        <label for="googleAccountId">Google Ad Account ID</label>
+                                        <input type="text" class="form-control" name="g_ad_account_id" id="googleAccountId" value="{{$has_google_ad_account->ad_account_id}}">
+                                    </div>
+                                    @endif
                                 @endif
-                                @if($has_google_ad_account)
-                                <div class="form-group" id="googleAccContainer">
-                                    <label for="googleAccountId">Google Ad Account ID</label>
-                                    <input type="text" class="form-control" name="g_ad_account_id" id="googleAccountId" value="{{$has_google_ad_account->ad_account_id}}">
-                                </div>
-                                @endif
-                            @endif
+                            </div>
                             <h5>Personal Information</h5>
                             <hr>
                             <div class="form-row mb-2">
@@ -421,6 +423,15 @@ $(document).ready(function() {
                 );
                 $("#facebookAccContainer").remove();
                 //console.log(data);
+                if(document.getElementById('facebookAccContainer') && document.getElementById('googleAccContainer')) {
+                    // do nothing
+                } else if(document.getElementById('facebookAccContainer')) {
+                    // do nothing
+                } else if (document.getElementById('googleAccContainer')) {
+                    // do nothing
+                } else {
+                    $('#syncedPlatformContainer').remove();
+                }
             });
         } else if($(this).attr('data-platform') == 'google') {
             $('#googleSynced').html(
@@ -441,6 +452,15 @@ $(document).ready(function() {
                 );
                 $("#googleAccContainer").remove();
                 //console.log(data);
+                if(document.getElementById('facebookAccContainer') && document.getElementById('googleAccContainer')) {
+                    // do nothing
+                } else if(document.getElementById('facebookAccContainer')) {
+                    // do nothing
+                } else if (document.getElementById('googleAccContainer')) {
+                    // do nothing
+                } else {
+                    $('#syncedPlatformContainer').remove();
+                }
             });
         } else {
             console.error('Error: Invalid option.');
