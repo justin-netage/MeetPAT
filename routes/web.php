@@ -69,7 +69,7 @@ Route::get('/meetpat-client/upload-clients', 'MeetpatClientController@upload_cli
 Route::get('/register-google-ad-account', 'GoogleCustomerAudienceController@register_ad_account_id')->name('google-ad-account')->middleware('auth')->middleware('client');
 
 
-Route::post('/google-authorization/authenticate-authorization-code', 'MeetpatClientController@authenticate_authorization_code')->name('authenticate-google-code')->middleware('client');
+// Route::post('/google-authorization/authenticate-authorization-code', 'MeetpatClientController@authenticate_authorization_code')->name('authenticate-google-code')->middleware('client');
 Route::post('/facebook-account-update/add-ad-account-id', 'MeetpatClientController@add_facebook_account_id')->name('add-account-id')->middleware('client');
 
 // Upload pages

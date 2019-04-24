@@ -205,19 +205,22 @@ class MeetpatClientController extends Controller
                 $has_ad_account->update(['ad_account_id' => $request->adwords_id, 'access_token' => $authToken['refresh_token'] ]);
             }
 
-            \Session::flash('success', 'Your account has been authorized successfully.');
+            // \Session::flash('success', 'Your account has been authorized successfully.');
 
         } else {
-            \Session::flash('error', 'An error occured. Check authorization code or contact MeetPAT for assistance.');
+            return response()->json(['ERROR' => 'Auth Token Faild To Generated', 'message' => 'An Error has occured please contact MeetPAT for assistance.']);
+
+            // \Session::flash('error', 'An error occured. Check authorization code or contact MeetPAT for assistance.');
         }
 
-        return redirect("/meetpat-client");
+        return response()->json(['SUCCESS' => 'Auth Token Generated', 'message' => 'Your account has been synced successfully.']);
+        // return redirect("/meetpat-client");
 
     }
 
     public function add_facebook_account_id(Request $request)
     {
-        // Remove session to prevent errors with facebook account synch.
+        // Remove session to prevent errors with facebook account sync.
         if($request->session()->has('facebook_access_token')) {
             $request->session()->forget('facebook_access_token');
         }

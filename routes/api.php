@@ -79,6 +79,10 @@ Route::get('meetpat-client/get-records/marital-statuses', 'DataVisualisationCont
 Route::get('meetpat-client/get-records/areas', 'DataVisualisationController@get_area')->name('get-client-records-areas');
 
 
+// Get Authentication token
+Route::post('google-authorization/authenticate-authorization-code', 'MeetpatClientController@authenticate_authorization_code')->name('authenticate-google-code');
+
+
 // Get Records Job Que Update
 
 Route::post('meetpat-client/get-job-que', 'DataVisualisationController@get_job_que')->name('get-client-jobs-in-que');
