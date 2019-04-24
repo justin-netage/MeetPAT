@@ -127,6 +127,9 @@
                                 </div>
                             </li>
                         </ul>
+                        <button onclick="window.location.href = '/meetpat-client/data-visualisation' " disabled="disabled" id="back_to_dashboard" class="btn btn-primary btn-lg btn-block d-none">
+                            {{ __('Back To Dashboard') }}
+                        </button>
                     </div>
                     <form id="upload-custom-audience" enctype="multipart/form-data" onsubmit="return false; this.preventDefault();" novalidate>
                         <input type="hidden" name="filtered_audience_id" id="filtered_audience_id" value="{{$filtered_list_id}}">
@@ -175,7 +178,7 @@
                             </span>
                         </div>
                         <div class="form-group mb-0">
-                            <button type="button" id="submit_audience" disabled class="btn btn-primary btn-lg btn-block">
+                            <button type="button" id="submit_audience" disabled="disabled" class="btn btn-primary btn-lg btn-block">
                                 {{ __('Submit Audience') }}
                             </button>
                         </div>

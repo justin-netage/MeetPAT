@@ -106,6 +106,8 @@ $(document).ready(function() {
                 $("#google-sync-status .status-text").addClass("text-success");
                 $("#google-sync-status .status-text").html('complete&nbsp;<i class="fas fa-check-square"></i>');
                 $("#google-sync-status .status-loader").hide();
+            }).always(function() {
+                $("#back_to_dashboard").prop("disabled", false);
             });
 
         } else if ('platform' == 'facebook'){
@@ -127,9 +129,11 @@ $(document).ready(function() {
                 $("#facebook-sync-status .status-text").addClass("text-success");
                 $("#facebook-sync-status .status-text").html('complete&nbsp;<i class="fas fa-check-square"></i>');
                 $("#facebook-sync-status .status-loader").hide();
+            }).always(function() {
+                $("#back_to_dashboard").prop("disabled", false);
             });
         } else {
-            console.log('Erro: Platform does not exist.');
+            console.log('Error: Platform does not exist.');
         }
     }
 
@@ -138,7 +142,7 @@ $(document).ready(function() {
         $("#google-sync-status .status-text").removeClass("text-danger");
         $("#google-sync-status .status-text").addClass("text-primary");
         $("#google-sync-status .status-loader").show();
-
+        $("#back_to_dashboard").prop("disabled", true);
         run_pending_job('google');
     });
     // Submit audience to "Job Que"
@@ -150,9 +154,12 @@ $(document).ready(function() {
     platform_facebook = $("#facebook_custom_audience");
     // Audience Name 
     audience_name = $("#audience_name").val();    
+    
 
         if(platform_google.is(":checked")) {
             $.post('/api/meetpat-client/submit-audience/add-to-que', { user_id: user_id, filtered_audience_id: filtered_audience_id, platform: 'google', audience_name: format_audience_name(audience_name) }, function(  ) {
+                $("#back_to_dashboard").prop("disabled", true);
+
             }).fail(function(error) {
                 // console.log(error);
             }).done(function(data) {
@@ -167,13 +174,19 @@ $(document).ready(function() {
                     }).done(function(data) {
                         run_pending_job('facebook');
                         // console.log(data);
+                    }).always(function() {
+                        $("#back_to_dashboard").prop("disabled", false);
+
                     });
                 }
 
                 submitAudienceForm_el.hide();
+                $("#back_to_dashboard").removeClass("d-none");
 
             });
         } else if(platform_facebook.is(":checked")) {
+            $("#back_to_dashboard").prop("disabled", true);
+
             $.post('/api/meetpat-client/submit-audience/add-to-que', { user_id: user_id, filtered_audience_id: filtered_audience_id, platform: 'facebook', audience_name: format_audience_name(audience_name) }, function(  ) {
 
             }).fail(function(error) {
@@ -182,7 +195,11 @@ $(document).ready(function() {
                 // console.log(data);
                 run_pending_job('facebook');
                 submitAudienceForm_el.hide();
+                $("#back_to_dashboard").removeClass("d-none");
+                
 
+            }).always(function() {
+                $("#back_to_dashboard").prop("disabled", false);
             });
         } else {
             console.log("error: no platform has been selected.");
