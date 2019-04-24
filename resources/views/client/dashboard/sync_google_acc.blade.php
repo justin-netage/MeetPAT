@@ -94,9 +94,8 @@
         });
 
         $("#adwords-id").on('keyup change', function() {
-            checkForm();
 
-            if($(this).val().match(/^([\d]){1,}([\-\d]){1,}([\d]){1,}$/)) {
+            if($(this).val().match(/^([\d]){3,}([\-]){1,}([\d]){3,}([\-]){1,}([\d]){3,}$/)) {
                 this.setCustomValidity('');
                 $(this).addClass('is-valid');
                 $(this).removeClass('is-invalid');
@@ -104,12 +103,12 @@
                 this.setCustomValidity('Invalid');
                 $(this).removeClass('is-valid');
                 $(this).addClass('is-invalid');
-                
             }
+            checkForm();
+
         });
 
         $("#auth-code").on('keyup change', function() {
-            checkForm();
 
             if($("#auth-code").val().length > 0) {
                 this.setCustomValidity('');
@@ -120,6 +119,8 @@
                 $(this).removeClass('is-valid');
                 $(this).addClass('is-invalid');
             }
+            checkForm();
+
         });
 
 
