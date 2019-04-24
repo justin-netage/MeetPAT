@@ -69,7 +69,7 @@
              function( data ) {
 
             }).fail(function( error ) {
-                $('#alert-section').append(
+                $('#alert-section').html(
                     `<div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>Error!</strong> ${error.responseJSON.message}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -80,7 +80,7 @@
                 $("#submit_id").html('Submit');
                 console.log( error );
             }).done(function( data ) {
-                $('#alert-section').append(
+                $('#alert-section').html(
                     `<div class="alert alert-success alert-dismissible fade show" role="alert">
                     <strong>Success!</strong> ${data.message}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
