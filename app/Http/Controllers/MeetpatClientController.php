@@ -267,9 +267,9 @@ class MeetpatClientController extends Controller
         $file_exists = null;
 
         if(env('APP_ENV') == 'production') {
-            $file_exists = Storage::disk('s3')->exists('client/custom-audience/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+            $file_exists = Storage::disk('s3')->exists('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
         } else {
-            $file_exists = Storage::disk('local')->exists('client/custom-audience/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+            $file_exists = Storage::disk('local')->exists('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
         }
 
         if($file_exists) {
@@ -329,9 +329,9 @@ class MeetpatClientController extends Controller
         $user = \MeetPat\AudienceFile::find($job_que->file_id);
 
         if(env('APP_ENV') == 'production') {
-            $actual_file = \Storage::disk('s3')->get('client/custom-audience/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
+            $actual_file = \Storage::disk('s3')->get('client/client-records/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
         } else {
-            $actual_file = \Storage::disk('local')->get('client/custom-audience/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
+            $actual_file = \Storage::disk('local')->get('client/client-records/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
         }
 
         $array = array_map("str_getcsv", explode("\n", $actual_file));
@@ -354,17 +354,17 @@ class MeetpatClientController extends Controller
         $file_exists = null;
 
         if(env('APP_ENV') == 'production') {
-            $file_exists = \Storage::disk('s3')->exists('client/custom-audience/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
+            $file_exists = \Storage::disk('s3')->exists('client/client-records/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
         } else {
-            $file_exists = \Storage::disk('local')->exists('client/custom-audience/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
+            $file_exists = \Storage::disk('local')->exists('client/client-records/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
         }        
 
         $actual_file = null;
 
         if(env('APP_ENV') == 'production' and $file_exists) {
-            $actual_file = \Storage::disk('s3')->get('client/custom-audience/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
+            $actual_file = \Storage::disk('s3')->get('client/client-records/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
         } else if (env('APP_ENV') == 'local' and $file_exists) {
-            $actual_file = \Storage::disk('local')->get('client/custom-audience/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
+            $actual_file = \Storage::disk('local')->get('client/client-records/user_id_' . $file_info->user_id . '/' . $file_info->file_unique_name  . ".csv");
         } else {
             return response("file not found.");
         }
@@ -525,12 +525,12 @@ class MeetpatClientController extends Controller
 
                 if(env('APP_ENV') == 'production')
                 {
-                    $directory_used = \Storage::disk('s3')->makeDirectory('client/custom-audience/');
-                    $file_uploaded = \Storage::disk('s3')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName  . ".csv", fopen($csv_file, 'r+'));
+                    $directory_used = \Storage::disk('s3')->makeDirectory('client/client-records/');
+                    $file_uploaded = \Storage::disk('s3')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", fopen($csv_file, 'r+'));
         
                 } else {
-                    $directory_used = \Storage::disk('local')->makeDirectory('client/custom-audience/');
-                    $file_uploaded = \Storage::disk('local')->put('client/custom-audience/user_id_' . $request->user_id . '/' . $fileName  . ".csv", fopen($csv_file, 'r+'));
+                    $directory_used = \Storage::disk('local')->makeDirectory('client/client-records/');
+                    $file_uploaded = \Storage::disk('local')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", fopen($csv_file, 'r+'));
                 }
             } else {
                 return response()->json(["status" => 500, "error" => "CSV File does not match template."]);
@@ -548,16 +548,16 @@ class MeetpatClientController extends Controller
         $file_exists = null;
 
         if(env('APP_ENV') == 'production') {
-            $file_exists = \Storage::disk('s3')->exists('client/custom-audience/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+            $file_exists = \Storage::disk('s3')->exists('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
         } else {
-            $file_exists = \Storage::disk('local')->exists('client/custom-audience/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+            $file_exists = \Storage::disk('local')->exists('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
         }
 
         if($file_exists) {
             if(env('APP_ENV') == 'production') {
-                $file_exists = \Storage::disk('s3')->delete('client/custom-audience/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+                $file_exists = \Storage::disk('s3')->delete('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
             } else {
-                $file_exists = \Storage::disk('local')->delete('client/custom-audience/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+                $file_exists = \Storage::disk('local')->delete('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
             }
         } else {
             return response(500);
