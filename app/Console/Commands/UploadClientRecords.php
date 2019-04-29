@@ -51,6 +51,16 @@ class UploadClientRecords extends Command
             }
         }
 
+        function validate_email_address($value)
+        {
+            $patern = '/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/';
+            if(preg_match($pattern, $value)) {
+                return $value;
+            } else {
+                return 'Unkown';
+            }
+        }
+
         // validate mobile numbers
 
         function validate_mobile_number($number) {
@@ -272,9 +282,11 @@ class UploadClientRecords extends Command
                         $records_array = array_intersect_key($array, $tempArr);
                         
                         foreach($records_array as $row) {      
-                            $client_already_exists = \MeetPAT\BarkerStreetRecord::where('Idn', $row[0])->first();
+                            $client_already_exists = \MeetPAT\BarkerStreetRecord::where('email', $row[3])->first();
+                            $client_already_exists_phone = \MeetPAT\BarkerStreetRecord::where('MobilePhone1', $row[2])->first();
                             // $this->info('Client: ' . $client_already_exists . '(already exists)');
-                             if(!$client_already_exists) {
+                             if(!$client_already_exists or !$client_already_exists_phone) {
+                                 /* Using new data format
                                 $data = [
                                     'Idn' => check_value($row[0]),
                                     'FirstName' => check_value($row[1]),
@@ -321,6 +333,14 @@ class UploadClientRecords extends Command
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
                                 ];
+                                */
+
+                                $data = [
+                                    "FirstName" => check_value($row[0]),
+                                    "Surname" => check_value($row[1]),
+                                    "MobilePhone1" => check_value(validate_mobile_number($row[2])),
+                                    "email" => check_value(validate_email_address($row[3]))
+                                ];
 
                                 $insert_data[] = $data;
                                 $job->increment('records_checked', 1);
@@ -340,7 +360,9 @@ class UploadClientRecords extends Command
                     $chunks = $insert_data->chunk(1000);
                 
                     foreach($chunks as $chunk) {
-                        \MeetPAT\BarkerStreetRecord::insert($chunk->toArray());
+                        // \MeetPAT\BarkerStreetRecord::insert($chunk->toArray());
+                        // New Handeling method for uploaded contacts
+
                         $job->increment('records_completed', sizeof($chunk));
                         
                     }

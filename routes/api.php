@@ -57,7 +57,7 @@ Route::post('delete-file', 'MeetpatClientController@handle_delete_upload')->name
 // API route to handle large file of client data
 
 Route::post('meetpat-client/large-data/handler', 'DataVisualisationController@large_data_upload')->name('large-data-handler');
-Route::post('meetpat-client/large-data/upload', 'DataVisualisationController@handle_upload')->name('large-data-upload-handler');
+Route::post('meetpat-client/large-data/upload', 'MeetpatClientController@handle_upload')->name('large-data-upload-handler');
 Route::post('meetpat-client/large-data/delete', 'DataVisualisationController@handle_delete_upload')->name('delete-data-upload-handler');
 
 
