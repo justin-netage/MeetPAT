@@ -278,14 +278,14 @@ class UploadClientRecords extends Command
                         unset($array[0]);
                         unset($array[sizeof($array)]);
                         // Remove duplicates in upload file. Check By Idn (ID Number)
-                        $tempArr = array_unique(array_column($array, 0));
+                        $tempArr = array_unique(array_column($array, 3));
                         $records_array = array_intersect_key($array, $tempArr);
                         
                         foreach($records_array as $row) {      
                             $client_already_exists = \MeetPAT\BarkerStreetRecord::where('email', $row[3])->first();
                             $client_already_exists_phone = \MeetPAT\BarkerStreetRecord::where('MobilePhone1', $row[2])->first();
                             // $this->info('Client: ' . $client_already_exists . '(already exists)');
-                             if(!$client_already_exists or !$client_already_exists_phone) {
+                             if($client_already_exists or $client_already_exists_phone) {
                                  /* Using new data format
                                 $data = [
                                     'Idn' => check_value($row[0]),
@@ -347,17 +347,16 @@ class UploadClientRecords extends Command
 
                              } else {
 
-                                if(!$client_already_exists) {
+                                if($client_already_exists) {
                                     if(!in_array($audience_file->user_id, explode(",", $client_already_exists->affiliated_users))) {
                                         $client_already_exists->update(['affiliated_users' => $client_already_exists->affiliated_users .',' . $audience_file->user_id]);
                                      }
-                                } else if(!$client_already_exists_phone) {
+                                } else if($client_already_exists_phone) {
                                     if(!in_array($audience_file->user_id, explode(",", $client_already_exists_phone->affiliated_users))) {
                                         $client_already_exists_phone->update(['affiliated_users' => $client_already_exists_phone->affiliated_users .',' . $audience_file->user_id]);
                                      }
                                 }
                                  
-                                
                                  $job->increment('records_checked', 1);
 
                              }
