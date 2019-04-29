@@ -37,6 +37,7 @@ var displayLoader = function() {
             },
             onload: function(e) {
                 e = JSON.parse(e), "csv" != pond.getFile().fileExtension ? ($("#no-file").show(), pond.removeFile()) : $("#no-file").hide(), "500" != e.status ? ($("#fileId").val(e.file_id), $("#submit_audience").prop("disabled", !1)) : (pond.removeFile(), $("#no-file").show(), e.error && $("#no-file").html(e.error))
+                check_fields();
             }
         }
     }
