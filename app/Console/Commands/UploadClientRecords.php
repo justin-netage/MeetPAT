@@ -335,6 +335,16 @@ class UploadClientRecords extends Command
                                 ];
                                 */
 
+                                if($client_already_exists) {
+                                    if(!in_array($audience_file->user_id, explode(",", $client_already_exists->affiliated_users))) {
+                                        $client_already_exists->update(['affiliated_users' => $client_already_exists->affiliated_users .',' . $audience_file->user_id]);
+                                     }
+                                } else if($client_already_exists_phone) {
+                                    if(!in_array($audience_file->user_id, explode(",", $client_already_exists_phone->affiliated_users))) {
+                                        $client_already_exists_phone->update(['affiliated_users' => $client_already_exists_phone->affiliated_users .',' . $audience_file->user_id]);
+                                     }
+                                }
+
                                 $data = [
                                     "FirstName" => check_value($row[0]),
                                     "Surname" => check_value($row[1]),
@@ -346,16 +356,6 @@ class UploadClientRecords extends Command
                                 $job->increment('records_checked', 1);
 
                              } else {
-
-                                if($client_already_exists) {
-                                    if(!in_array($audience_file->user_id, explode(",", $client_already_exists->affiliated_users))) {
-                                        $client_already_exists->update(['affiliated_users' => $client_already_exists->affiliated_users .',' . $audience_file->user_id]);
-                                     }
-                                } else if($client_already_exists_phone) {
-                                    if(!in_array($audience_file->user_id, explode(",", $client_already_exists_phone->affiliated_users))) {
-                                        $client_already_exists_phone->update(['affiliated_users' => $client_already_exists_phone->affiliated_users .',' . $audience_file->user_id]);
-                                     }
-                                }
                                  
                                  $job->increment('records_checked', 1);
 
