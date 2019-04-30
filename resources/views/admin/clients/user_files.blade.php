@@ -22,17 +22,17 @@
                 <td>{{$audience_file->audience_name}}</td>
                 <td>{{ucwords(str_replace("_", " ", $audience_file->file_source_origin))}}</td>
                 @if(env('APP_ENV') == 'production')
-                    @if(\Storage::disk('s3')->exists('client/custom-audience/' . 'user_id_' . $user->id . '/' . $audience_file->file_unique_name . '.csv'))
-                        <td>{{round(\Storage::disk('s3')->size('client/custom-audience/' . 'user_id_' . $user->id . '/' . $audience_file->file_unique_name . '.csv') / 1024 / 1024, 2)}} MB</td>
-                        <td style="text-align: center;"><a href="{{\Storage::disk('s3')->temporaryUrl('client/custom-audience/' . 'user_id_' . $user->id . '/' . $audience_file->file_unique_name . '.csv', now()->addMinutes(5))}}"><i class="fas fa-file-download"></i></a></td>
+                    @if(\Storage::disk('s3')->exists('client/client-records/' . 'user_id_' . $user->id . '/' . $audience_file->file_unique_name . '.csv'))
+                        <td>{{round(\Storage::disk('s3')->size('client/client-records/' . 'user_id_' . $user->id . '/' . $audience_file->file_unique_name . '.csv') / 1024 / 1024, 2)}} MB</td>
+                        <td style="text-align: center;"><a href="{{\Storage::disk('s3')->temporaryUrl('client/client-records/' . 'user_id_' . $user->id . '/' . $audience_file->file_unique_name . '.csv', now()->addMinutes(5))}}"><i class="fas fa-file-download"></i></a></td>
                     @else
                         <td>N/A</td>
                         <td><i class="far fa-times-circle"></i> file not found</td>
                     @endif
                 @else
-                    @if(\Storage::disk('local')->exists('client/custom-audience/' . 'user_id_' . $user->id . '/' . $audience_file->file_unique_name . '.csv'))
-                        <td>{{round(\Storage::disk('local')->size('client/custom-audience/' . 'user_id_' . $user->id . '/' . $audience_file->file_unique_name . '.csv') / 1024 / 1024, 2)}} MB</td>
-                        <td><a href="{{\Storage::disk('local')->url('client/custom-audience/' . 'user_id_' . $user->id . '/' . $audience_file->file_unique_name . '.csv')}}"><i class="fas fa-file-download"></i></a></td>
+                    @if(\Storage::disk('local')->exists('client/client-records/' . 'user_id_' . $user->id . '/' . $audience_file->file_unique_name . '.csv'))
+                        <td>{{round(\Storage::disk('local')->size('client/client-records/' . 'user_id_' . $user->id . '/' . $audience_file->file_unique_name . '.csv') / 1024 / 1024, 2)}} MB</td>
+                        <td><a href="{{\Storage::disk('local')->url('client/client-records/' . 'user_id_' . $user->id . '/' . $audience_file->file_unique_name . '.csv')}}"><i class="fas fa-file-download"></i></a></td>
                     @else
                         <td>N/A</td>
                         <td><i class="far fa-times-circle"></i> file not found</td>

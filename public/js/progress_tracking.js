@@ -10,7 +10,7 @@ $(document).ready(function() {
 
     $.post("/api/meetpat-client/get-job-que", {user_id: user_id_number}, function( data ) {
             }).fail(function(data) {
-                console.log(data)
+                //console.log(data)
 
             }).done(function(data) {
                 for (var key in data["jobs"]) {
@@ -61,7 +61,7 @@ $(document).ready(function() {
 
             $.post("/api/meetpat-client/get-job-que", {user_id: user_id_number}, function( data ) {
             }).fail(function(data) {
-                console.log(data)
+                //console.log(data)
                 window.clearInterval();
 
             }).done(function(data) {
