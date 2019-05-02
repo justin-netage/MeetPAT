@@ -1,3 +1,10 @@
+var get_percentage = function($records, $records_completed) {
+
+    $percentage = ($records_completed / $records) * 100;
+
+    return Math.trunc($percentage);
+}
+
 // Validation 
 function checkForm(current_form_el) {
     // if(!$(current_form_el)[0].valid()) {
@@ -139,52 +146,52 @@ $("#save_changes_uid_" + user_id).prop("disabled", false);
 
 // Change active status
 function change_status(current_el) {
-$("#loader").css("display", "block");
-$('.message-container').empty();
+    $("#loader").css("display", "block");
+    $('.message-container').empty();
 
-const Http_Active = new XMLHttpRequest();
-const url_active = '/api/meetpat-admin/users/active-status-change';
+    const Http_Active = new XMLHttpRequest();
+    const url_active = '/api/meetpat-admin/users/active-status-change';
 
-Http_Active.overrideMimeType("application/json");    
+    Http_Active.overrideMimeType("application/json");    
 
-var user_id = current_el.dataset.user;
-var params = 'user_id=' + user_id;
+    var user_id = current_el.dataset.user;
+    var params = 'user_id=' + user_id;
 
-Http_Active.open('POST', url_active, true);
-Http_Active.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-Http_Active.send(params);
-Http_Active.onload = function() {
-    var jsonResponse = JSON.parse(Http_Active.responseText);
+    Http_Active.open('POST', url_active, true);
+    Http_Active.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    Http_Active.send(params);
+    Http_Active.onload = function() {
+        var jsonResponse = JSON.parse(Http_Active.responseText);
 
-    if(jsonResponse["user_type"] == "client")
-    {
-        $("i", current_el).removeClass();
-
-        if(jsonResponse['user_was_active'] == 0)
+        if(jsonResponse["user_type"] == "client")
         {
-            $("i", current_el).addClass('fas fa-toggle-on');
+            $("i", current_el).removeClass();
 
+            if(jsonResponse['user_was_active'] == 0)
+            {
+                $("i", current_el).addClass('fas fa-toggle-on');
+
+            } else {
+                $("i", current_el).addClass('fas fa-toggle-off');
+
+            }
+
+            $(".message-container").prepend(`<div id="AlertBoxTemp" class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>Success!</strong> The active status of the selected user has been changed
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>`);
         } else {
-            $("i", current_el).addClass('fas fa-toggle-off');
-
+            $(".message-container").prepend(`<div id="AlertBoxTemp" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Error!</strong> There is an issue with changing the status of the selected users. Please contact support.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>`);
         }
 
-        $(".message-container").prepend(`<div id="AlertBoxTemp" class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>Success!</strong> The active status of the selected user has been changed
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>`);
-    } else {
-        $(".message-container").prepend(`<div id="AlertBoxTemp" class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <strong>Error!</strong> There is an issue with changing the status of the selected users. Please contact support.
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>`);
     }
-
-}
 
     Http_Active.onreadystatechange = function () {
         if(Http_Active.readyState === 4) {
@@ -278,22 +285,22 @@ function saveChanges(current_form_el) {
 }
 
 function deleteUser(current_el) {
-$("#loader").css("display", "block");
+    $("#loader").css("display", "block");
 
-var user_id = current_el.dataset.user;
+    var user_id = current_el.dataset.user;
 
-const Http_Delete = new XMLHttpRequest();
-const url_delete = '/api/meetpat-admin/users/delete';
+    const Http_Delete = new XMLHttpRequest();
+    const url_delete = '/api/meetpat-admin/users/delete';
 
-Http_Delete.overrideMimeType("application/json");  
-Http_Delete.open('POST', url_delete, true);
-Http_Delete.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    Http_Delete.overrideMimeType("application/json");  
+    Http_Delete.open('POST', url_delete, true);
+    Http_Delete.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
-params = 'user_id=' + user_id;
+    params = 'user_id=' + user_id;
 
-Http_Delete.send(params);
+    Http_Delete.send(params);
 
-Http_Delete.onload = function() {
+    Http_Delete.onload = function() {
     var jsonResponse = JSON.parse(Http_Delete.responseText);
 
     $('#DeleteUser__' + user_id).modal('hide');
@@ -316,7 +323,7 @@ Http_Delete.onload = function() {
                                                 </div>`);
         }
 
-}
+    }
 
     Http_Delete.onreadystatechange = function () {
         if(Http_Delete.readyState === 4) {
@@ -353,19 +360,90 @@ if(password_el.attr('type') == 'password')
 
 function generatePassword(current_el) {
 
-var user_id = current_el.dataset.user;
+    var user_id = current_el.dataset.user;
 
-const Http = new XMLHttpRequest();
-const url = '/api/meetpat-admin/generate-password';
-Http.overrideMimeType("application/json");    
-Http.open("GET", url, true);
-Http.send();
-Http.onload = function() {
-var jsonResponse = JSON.parse(Http.responseText);
-$('#PasswordInput_' + user_id).val(jsonResponse["password"]);
-$('#PasswordInput_' + user_id).removeClass("is-invalid");
-$('#PasswordInput_' + user_id).removeClass("is-valid");
-$('#PasswordInput_' + user_id).addClass("is-valid");
-$("#save_changes_uid_" + user_id).prop("disabled", false);
-}
+    const Http = new XMLHttpRequest();
+    const url = '/api/meetpat-admin/generate-password';
+    Http.overrideMimeType("application/json");    
+    Http.open("GET", url, true);
+    Http.send();
+    Http.onload = function() {
+        var jsonResponse = JSON.parse(Http.responseText);
+        $('#PasswordInput_' + user_id).val(jsonResponse["password"]);
+        $('#PasswordInput_' + user_id).removeClass("is-invalid");
+        $('#PasswordInput_' + user_id).removeClass("is-valid");
+        $('#PasswordInput_' + user_id).addClass("is-valid");
+        $("#save_changes_uid_" + user_id).prop("disabled", false);
+    }
 };
+
+$(document).ready(function() {
+
+    $.get('/api/meetpat-admin/users', function() {
+
+    }).done(function(data) {
+
+        data.forEach(function(obj) { 
+            //assigning usable variables for dom elements
+            obj.audience_files = "/meetpat-admin/users/files/" + obj.id
+            obj.edit = obj.id;
+            obj.active = {active: obj.client.active, user_id: obj.id};
+            obj.delete = obj.id;
+
+            if(obj.client_uploads) {
+                obj.uploads = get_percentage(obj.client_uploads.upload_limit, obj.client_uploads.uploads);
+            } else {
+                obj.uploads = 0;
+            }
+            
+        });
+        var tabledata = data;
+
+        var table = new Tabulator("#users-table", {
+            data:tabledata,
+            layout:"fitDataFill",
+            responsiveLayout : "fitDataFill",
+            columns: [
+                {title:"ID", field:"id"},
+                {title:"Name", field:"name"},
+                {title: "Email", field:"email"},
+                {title: "Audience Files", field: "audience_files", "align": "center", formatter:function(cell, formatterParams) {
+                    var value = cell.getValue();
+                    return "<a href='"+ cell.getValue() + "'><i class='fas fa-folder action-link'></i></a>";
+                }},
+                {title: "Edit", field: "edit", formatter:function(cell, formatterParams) {
+                    var value = cell.getValue();
+                    return '<button class="edit-tooltip table_button" data-toggle="modal" data-target="#EditUser_'+ cell.getValue() +'" data-toggle="tooltip" data-html="true" title="<em>edit</em>"><i class="fas fa-pen-alt action-link"></i></button>';
+                }},
+                {title: "Active", field: "active", formatter:function(cell, formatterParams) {
+                    var value = cell.getValue();
+                    if(cell.getValue().active) {
+                        return '<button id="ActiveStatusBtn_'+cell.getValue().user_id+'" onclick="change_status(this)" type="submit" class="active-tooltip table_button ActiveStatusBtn" data-toggle="tooltip" data-html="true" title="<em>status</em>" data-user="'+cell.getValue().user_id+'"><i class="fas fa-toggle-on action-link"></i></button>'
+                    } else {
+                        return '<button id="ActiveStatusBtn_'+cell.getValue().user_id+'" onclick="change_status(this)" type="submit" class="active-tooltip table_button ActiveStatusBtn" data-toggle="tooltip" data-html="true" title="<em>status</em>" data-user="'+cell.getValue().user_id+'"><i class="fas fa-toggle-off action-link"></i></button>'
+                    }
+                    
+                }},
+                {title: "Delete", field: "delete", formatter:function(cell, formatterParams) {
+                    var value = cell.getValue();
+                    return `<button class="delete-tooltip table_button" data-toggle="modal" data-target="#DeleteUser__${cell.getValue()}" data-toggle="tooltip" data-html="true" title="<em>delete</em>">
+                                <i class="far fa-trash-alt action-link"></i>
+                            </button>`;
+                }},
+                {title: "Uploads", field: "uploads", formatter:function(cell, formatterParams) {
+                    var value = cell.getValue();
+                    return `<div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: ${value}%;" aria-valuenow="${value}" aria-valuemin="0" aria-valuemax="100">${value}%</div>
+                            </div>`
+                }}
+            ]
+        });
+
+        console.log(tabledata);
+
+    }).fail(function(error) {
+        console.log(error);
+
+    });
+
+});

@@ -18,9 +18,7 @@ class AdministratorController extends Controller
     // Get all users
     public function users()
     {
-        $users = \DB::table("users")->select("*")->whereNOTIn('id', function($query) {
-            $query->select('user_id')->from('administrators');
-        })->get();
+        $users = \MeetPAT\User::has('client')->with(['client', 'client_uploads'])->get();
 
         return $users;
     }
@@ -204,6 +202,13 @@ class AdministratorController extends Controller
         $users = \MeetPAT\User::all();
 
         return view('admin.clients.users', ['users' => $users]);
+    }
+
+    public function users_view_new()
+    {
+        $users = \MeetPAT\User::all();
+
+        return view('admin.clients.users_new', ['users' => $users]);
     }
 
     public function create_user_view()

@@ -374,6 +374,7 @@ class UploadClientRecords extends Command
                         $job->increment('records_completed', sizeof($chunk));
                         
                     }
+                        \MeetPAT\ClientUploads::update(['uploads' => $job->records_completed]);
                         check_complete($all_jobs);
                     }
                 }
