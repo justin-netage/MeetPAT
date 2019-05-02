@@ -366,15 +366,21 @@ class UploadClientRecords extends Command
                     $insert_data = collect($insert_data);
                     $job->update(['records' => sizeof($insert_data)]);
                     $chunks = $insert_data->chunk(1000);
-                
+                    $uploads = \MeetPAT\ClientUploads::where('user_id', $job->user_id)->first();
+
+                    if(!$uploads)
+                    {
+                        $uploads = \MeetPAT\ClientUploads::create(['user_id' => $job->user_id, 'uploads' => 0, 'upload_limit' => 10000]);
+                    }
+
                     foreach($chunks as $chunk) {
                         // \MeetPAT\BarkerStreetRecord::insert($chunk->toArray());
                         // New Handeling method for uploaded contacts
 
                         $job->increment('records_completed', sizeof($chunk));
-                        
+                        $uploads->increment(['uploads' => sizeof($chunk)]);
+
                     }
-                        \MeetPAT\ClientUploads::update(['uploads' => $job->records_completed]);
                         check_complete($all_jobs);
                     }
                 }
