@@ -378,7 +378,7 @@ class UploadClientRecords extends Command
                         // New Handeling method for uploaded contacts
 
                         $job->increment('records_completed', sizeof($chunk));
-                        $uploads->increment(['uploads' => sizeof($chunk)]);
+                        $uploads->increment('uploads', sizeof($chunk));
 
                     }
                         check_complete($all_jobs);
