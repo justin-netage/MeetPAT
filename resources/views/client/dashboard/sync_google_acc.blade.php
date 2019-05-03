@@ -23,7 +23,7 @@
 
                             <input id="auth-code" name="auth_code" type="text" placeholder="Enter your Authorization Code" max="1000" autocomplete="off" class="form-control{{ $errors->has('auth_code') ? ' is-invalid' : '' }}" name="auth_code" value="{{ old('auth_code') }}">
                             <div class="input-group-append">
-                                <a href="{{$auth_uri}}" target="_blank" class="btn btn-outline-danger shadow-block" type="button" id="button-addon2">Get Code</a>
+                                <a href="{{$auth_uri}}" target="_blank" class="btn btn-outline-danger shadow-block" id="button-addon2">Get Code</a>
                             </div>
                             <span class="invalid-feedback" role="alert">
                                 <strong>Please get your authorization code from Google by clicking "Get Code. Then copy and paste it."</strong>

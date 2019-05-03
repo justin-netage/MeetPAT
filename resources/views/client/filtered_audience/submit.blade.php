@@ -145,7 +145,7 @@
                                 <span class="switch__label"></span>
                                 </label>
                             @else
-                            <a href="/meetpat-client/sync-platform" class="btn mt-auto">Connect</a>
+                            <a href="/meetpat-client/sync/facebook" class="btn mt-auto">Connect</a>
                             @endif
                             </div>
                         </div>
@@ -158,7 +158,7 @@
                                     <span class="switch__label"></span>
                                 </label>
                             @else
-                            <a href="/meetpat-client/sync-platform" class="btn mt-auto">Connect</a>
+                            <a href="/meetpat-client/sync/google" class="btn mt-auto">Connect</a>
                             @endif
                             </div>
                         </div>
