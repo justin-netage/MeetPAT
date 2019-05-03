@@ -200,6 +200,15 @@
                                 </div>
 
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link">credits used&nbsp;<span class="badge badge-pill badge-primary">
+                                @if(\Auth::user()->client_uploads)
+                                    {{\Auth::user()->client_uploads->uploads}} / 10000
+                                @else
+                                    0 / 10000
+                                @endif
+                                </span></a>
+                            </li>
                         @endguest
                     </ul>
                 </div>

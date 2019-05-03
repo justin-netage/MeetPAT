@@ -1,10 +1,12 @@
 @extends('layouts.app')
-
+@section('styles')
+<link href="{{asset('bower_components/tabulator/dist/css/semantic-ui/tabulator_semantic-ui.min.css')}}" rel="stylesheet">
+@endsection
 @section('content')
 <!-- <div id="users"></div> -->
 <div id="loader"></div>
 <div class="message-container"></div>
-<div class="container">
+<div class="container d-none">
     <div class="row">
         <div class="col-12">
             <table class="table table-responsive-sm">
@@ -30,10 +32,10 @@
                                 <a href="/meetpat-admin/users/files/{{$user->id}}"><i class="fas fa-folder"></i></a>
                             </td>
                             <td>
-                                <button class="edit-tooltip table_button" data-toggle="modal" data-target="#EditUser_{{$user->id}}" data-toggle="tooltip" data-html="true" title="<em>edit</em>"><i class="fas fa-pen-alt action-link"></i></button>
+                                <button class="edit-tooltip table_button" data-toggle="modal" data-target="#EditUser_{{$user->id}}" data-toggle="tooltip" data-html="true"><i class="fas fa-pen-alt action-link"></i></button>
                             </td>
                             <td>
-                                <button id="ActiveStatusBtn_{{$user->id}}" onclick="change_status(this)" type="submit" class="active-tooltip table_button ActiveStatusBtn" data-toggle="tooltip" data-html="true" title="<em>status</em>" data-user="{{$user->id}}">
+                                <button id="ActiveStatusBtn_{{$user->id}}" onclick="change_status(this)" type="submit" class="active-tooltip table_button ActiveStatusBtn" data-toggle="tooltip" data-html="true" " data-user="{{$user->id}}">
                                 @if($user->client)
                                     @if($user->client->active)
                                     <i class="fas fa-toggle-on"></i>
@@ -44,7 +46,7 @@
                                 </button>
                             </td>
                             <td>
-                                <button class="delete-tooltip table_button" data-toggle="modal" data-target="#DeleteUser__{{$user->id}}" data-toggle="tooltip" data-html="true" title="<em>delete</em>">
+                                <button class="delete-tooltip table_button" data-toggle="modal" data-target="#DeleteUser__{{$user->id}}" data-toggle="tooltip" data-html="true">
                                     <i class="far fa-trash-alt action-link"></i>
                                 </button>
                             </td>
@@ -56,7 +58,19 @@
         </div>
     </div>
 </div>
-
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+          <div id="users-table">
+            <div class="d-flex justify-content-center">
+              <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('modals')
@@ -188,6 +202,7 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="{{ asset('js/admin_user_ctrl.min.js') }}" defer></script>
+<script type="text/javascript" src="{{asset('bower_components/tabulator/dist/js/tabulator.min.js')}}" defer></script>
+<script type="text/javascript" src="{{ asset('js/admin_user_ctrl.js') }}" defer></script>
 @endsection
 

@@ -47,9 +47,9 @@ Route::get('/meetpat-admin', 'AdministratorController@main')->name('meetpat-admi
 
 // Some User POST Routes are in the API routes file. ~/meetpat/routes/api.php
 // TODO ->middleware('auth');
-Route::get('/meetpat-admin/users', 'AdministratorController@users_view')->name('meetpat-users')->middleware('auth')->middleware('admin');
+//Route::get('/meetpat-admin/users', 'AdministratorController@users_view')->name('meetpat-users')->middleware('auth')->middleware('admin');
 //New User Table using tabulator
-Route::get('/meetpat-admin/users-new', 'AdministratorController@users_view_new')->name('meetpat-users-new')->middleware('auth')->middleware('admin');
+Route::get('/meetpat-admin/users', 'AdministratorController@users_view')->name('meetpat-users')->middleware('auth')->middleware('admin');
 
 Route::get('/meetpat-admin/users/create', 'AdministratorController@create_user_view')->name('create-user')->middleware('auth')->middleware('admin');
 

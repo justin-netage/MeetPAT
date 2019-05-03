@@ -197,18 +197,18 @@ class AdministratorController extends Controller
 
     // Views
 
+    // public function users_view()
+    // {
+    //     $users = \MeetPAT\User::all();
+
+    //     return view('admin.clients.users', ['users' => $users]);
+    // }
+
     public function users_view()
     {
         $users = \MeetPAT\User::all();
 
         return view('admin.clients.users', ['users' => $users]);
-    }
-
-    public function users_view_new()
-    {
-        $users = \MeetPAT\User::all();
-
-        return view('admin.clients.users_new', ['users' => $users]);
     }
 
     public function create_user_view()
