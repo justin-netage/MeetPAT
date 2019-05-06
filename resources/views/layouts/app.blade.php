@@ -67,9 +67,9 @@
                         @if(\Auth::user()->client)
                         <!-- Clients Navigation --> 
                             @if(Request::path() == 'meetpat-client')
-                            <li class="active"><a class="nav-link nav-link-active" href="{{ route('meetpat-client') }}"><i class="fas fa-home"></i>&nbsp;Dashboard</a></li>
+                            <li class="active"><a class="nav-link nav-link-active" href="{{ route('meetpat-client') }}"><i class="fas fa-home"></i>&nbsp;Home</a></li>
                             @else
-                            <li><a class="nav-link nav-link-inactive" href="{{ route('meetpat-client') }}"><i class="fas fa-home"></i>&nbsp;Dashboard</a></li>
+                            <li><a class="nav-link nav-link-inactive" href="{{ route('meetpat-client') }}"><i class="fas fa-home"></i>&nbsp;Home</a></li>
                             @endif
                             @if(Request::path() == 'meetpat-client/sync/facebook' or Request::path() == 'meetpat-client/sync/google')
                             <li class="nav-item dropdown active">

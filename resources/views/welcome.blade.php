@@ -5,10 +5,10 @@
         <div class="col-12">
             <div id="carouselExample" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
+                    <!-- <div class="carousel-item active">
                         <img class="d-block w-100" src="{{Storage::disk('s3')->url('meetpat/public/images/welcome-page/avatar-2155431_1920.png')}}">
-                    </div>
-                    <div class="carousel-item">
+                    </div> -->
+                    <div class="carousel-item active">
                         <img class="d-block w-100" src="{{Storage::disk('s3')->url('meetpat/public/images/welcome-page/avatar-2191918_1920.png')}}">
                     </div>
                     <div class="carousel-item">

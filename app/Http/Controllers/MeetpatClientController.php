@@ -509,6 +509,13 @@ class MeetpatClientController extends Controller
         $ext = pathinfo($path, PATHINFO_EXTENSION);
         $file_content = file_get_contents($csv_file);
         $firstColumn = null;
+        $client_uploads = \MeetPAT\ClientUploads::where(['user_id' => $request->user_id])->first();
+        $uploads_left = 10000;
+
+        if($client_uploads)
+        {
+            $uploads_left = $client_uploads->upload_limit - $client_uploads->uploads;
+        }
 
         function readCSV($csvFile) {
         $file_handle = fopen($csvFile, 'r');
@@ -522,6 +529,10 @@ class MeetpatClientController extends Controller
         if($ext == 'csv') {
             $csv = readCSV($request->file('audience_file')); 
             if($csv[0] == ["FirstName","Surname","MobilePhone1","email"]) {
+
+                if(count($csv) > $uploads_left) {
+                    return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have " . $uploads_left . " uploads available."]);
+                }
 
                 if(env('APP_ENV') == 'production')
                 {
