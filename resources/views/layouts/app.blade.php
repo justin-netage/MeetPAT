@@ -200,6 +200,7 @@
                                 </div>
 
                             </li>
+                            @if(\Auth::user()->client)
                             <li class="nav-item">
                                 <a class="nav-link">credits used&nbsp;<span class="badge badge-pill badge-primary">
                                 @if(\Auth::user()->client_uploads)
@@ -209,6 +210,7 @@
                                 @endif
                                 </span></a>
                             </li>
+                            @endif
                         @endguest
                     </ul>
                 </div>
