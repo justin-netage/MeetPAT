@@ -237,7 +237,8 @@ class UploadClientRecords extends Command
         $records_job_que = \MeetPAT\RecordsJobQue::where('status', 'pending')->get();
         $records_job_que_running = \MeetPAT\RecordsJobQue::where('status', 'running')->count();
         $insert_data = array();
-
+        $insert_data_first = array();
+        
         function check_complete($jobs_array) {
             foreach($jobs_array as $job) {
                 if($job->status == 'pending' or $job->status == 'running') {
@@ -280,12 +281,12 @@ class UploadClientRecords extends Command
                         // Remove duplicates in upload file. Check By Idn (ID Number)
                         $tempArr = array_unique(array_column($array, 3));
                         $records_array = array_intersect_key($array, $tempArr);
-                        $insert_data = collect($records_array);
-                        $chunks = $insert_data->chunk(1000);
+                        $insert_data_first = collect($records_array);
+                        $data_chunks = $insert_data_first->chunk(1000);
     
-                        foreach($chunks as $chunk) {     
+                        foreach($data_chunks as $data_chunk) {     
                             
-                            foreach($chunk as $row) {
+                            foreach($data_chunk as $row) {
                                 $client_already_exists = \MeetPAT\BarkerStreetRecord::where('email', $row[3])->first();
                                 $client_already_exists_phone = \MeetPAT\BarkerStreetRecord::where('MobilePhone1', $row[2])->first();
                                 // $this->info('Client: ' . $client_already_exists . '(already exists)');
