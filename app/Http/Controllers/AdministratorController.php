@@ -269,4 +269,42 @@ class AdministratorController extends Controller
         return response()->json(["message" => "success", "records" => $records_count], 200);
     }
 
+    public function delete_file(Request $request)
+    {
+        $audience_file = \MeetPAT\AudienceFile::find($request->file_id);
+        
+        if ($audience_file)
+        {
+            $file_exists = false;
+            if(env('APP_ENV') == 'production')
+            {
+                $file_exists = \Storage::disk('s3')->exists('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+
+            } else {
+                $file_exists = \Storage::disk('local')->exists('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+
+            }
+
+            if($file_exists)
+            {
+                if(env('APP_ENV') == 'production')
+                {
+                    $file_exists = \Storage::disk('s3')->delete('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+                    $audience_file->delete();
+                } else {
+                    $file_exists = \Storage::disk('local')->delete('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+                    $audience_file->delete();
+                }
+
+            } else {
+                $audience_file->delete();
+            }
+    
+        } else {
+            return response()->json(['message' => 'error', 'text' => 'record not found'], 500);
+        }
+
+        return response()->json(['message' => 'success', 'text' => 'record and file has been removed'], 200);
+    }
+
 }

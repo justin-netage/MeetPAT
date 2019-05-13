@@ -202,6 +202,6 @@
 
 @section('scripts')
 <script type="text/javascript" src="{{asset('bower_components/tabulator/dist/js/tabulator.min.js')}}" defer></script>
-<script type="text/javascript" src="{{ asset('js/admin_user_ctrl.js') }}" defer></script>
+<script type="text/javascript" src="{{ asset('js/admin_user_ctrl.min.js') }}" defer></script>
 @endsection
 

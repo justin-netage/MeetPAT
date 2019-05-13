@@ -39,6 +39,8 @@ Route::post('/meetpat-admin/users/unique-email', 'AdministratorController@unique
 // User settings
 Route::post('/meetpat-admin/settings/clear-uploads', 'AdministratorController@clear_user_uploads')->name('clear-uploads');
 Route::post('/meetpat-admin/settings/remove-affiliate', 'AdministratorController@remove_affiliate')->name('remove-affiliate');
+
+Route::post('/meetpat-admin/delete-file', 'AdministratorController@delete_file')->name('delete-file');
 // End Administrator routes
 
 // Password Generator

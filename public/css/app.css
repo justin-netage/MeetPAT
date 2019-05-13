@@ -11722,6 +11722,10 @@ td .fas,
   margin-right: 12px;
 }
 
+.user-files-table .action-link:hover {
+  background-color: #ECECEC;
+}
+
 .action-link:hover {
   color: #424242;
 }
@@ -11746,6 +11750,11 @@ td {
 .table_button {
   border: none;
   background: #ffffff;
+}
+
+.user-files-table .table_button:hover,
+.user-files-table tr:hover .table_button {
+  background-color: #ECECEC;
 }
 
 .table_button:hover {

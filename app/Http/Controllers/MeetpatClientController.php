@@ -267,9 +267,9 @@ class MeetpatClientController extends Controller
         $file_exists = null;
 
         if(env('APP_ENV') == 'production') {
-            $file_exists = Storage::disk('s3')->exists('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+            $file_exists = \Storage::disk('s3')->exists('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
         } else {
-            $file_exists = Storage::disk('local')->exists('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+            $file_exists = \Storage::disk('local')->exists('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
         }
 
         if($file_exists) {
