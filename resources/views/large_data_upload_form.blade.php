@@ -64,6 +64,6 @@
     crossorigin="anonymous"></script>
 <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
 <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
-<script type="text/javascript" src="{{asset('js/contact_upload.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/contact_upload.min.js')}}"></script>
 
 @endsection
