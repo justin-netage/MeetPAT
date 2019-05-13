@@ -947,3 +947,20 @@ user-select: none;
 {
   color: #00A3D9;
 }
+
+.eraser
+{
+  animation: bobble 1s infinite;
+}
+
+@keyframes bobble {
+  0% {
+      transform: translate3d(0px, 4px, 5px);
+      animation-timing-function: ease-in;
+  }
+  50% {
+      transform: translate3d(0px, 5px, 5px);
+      animation-timing-function: ease-out;
+  }
+
+}

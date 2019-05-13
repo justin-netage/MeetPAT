@@ -6,58 +6,6 @@
 <!-- <div id="users"></div> -->
 <div id="loader"></div>
 <div class="message-container"></div>
-<div class="container d-none">
-    <div class="row">
-        <div class="col-12">
-            <table class="table table-responsive-sm">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">name</th>
-                        <th scope="col">email</th>
-                        <th scope="col">Audience Files</th>
-                        <th scope="col">edit</th>
-                        <th scope="col">active</th>
-                        <th scope="col">delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($users as $key => $user)
-                        @if($user->client)
-                        <tr>
-                            <td>{{$key}}</td>
-                            <td>{{$user->name}}</td> 
-                            <td><a href="mailto:{{$user->email}}?Subject=MeetPat%20">{{$user->email}}</td>
-                            <td>
-                                <a href="/meetpat-admin/users/files/{{$user->id}}"><i class="fas fa-folder"></i></a>
-                            </td>
-                            <td>
-                                <button class="edit-tooltip table_button" data-toggle="modal" data-target="#EditUser_{{$user->id}}" data-toggle="tooltip" data-html="true"><i class="fas fa-pen-alt action-link"></i></button>
-                            </td>
-                            <td>
-                                <button id="ActiveStatusBtn_{{$user->id}}" onclick="change_status(this)" type="submit" class="active-tooltip table_button ActiveStatusBtn" data-toggle="tooltip" data-html="true" " data-user="{{$user->id}}">
-                                @if($user->client)
-                                    @if($user->client->active)
-                                    <i class="fas fa-toggle-on"></i>
-                                    @else
-                                    <i class="fas fa-toggle-off"></i>
-                                    @endif
-                                @endif
-                                </button>
-                            </td>
-                            <td>
-                                <button class="delete-tooltip table_button" data-toggle="modal" data-target="#DeleteUser__{{$user->id}}" data-toggle="tooltip" data-html="true">
-                                    <i class="far fa-trash-alt action-link"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        @endif
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 <div class="container">
     <div class="row">
         <div class="col-12">
@@ -198,7 +146,58 @@
 </div>
 @endforeach
 <!-- End Modals Delete -->
+<!-- Modals Settings -->
+@foreach($users as $key => $user_setting)
+<div class="modal fade" id="SettingsUser__{{$user_setting->id}}" tabindex="-1" role="dialog" aria-labelledby="SettingsModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLabel">User Settings</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+            <div class="col-12">
+              <div class="alert alert-warning" role="alert">
+                <strong>Warning</strong> &mdash; These actions can not be undone.
+              </div>
+            </div>
+            <div class="col-12" id="alertSectionSettings__{{$user_setting->id}}"></div>
+          </div>
+          <div class="row">
+            <label for="clearUploads" class="col-sm-8 col-form-label">User Uploads</label>
+            <div class="col-sm-4">
+              @if($user_setting->client_uploads and $user_setting->client_uploads->uploads)
+              <button class="btn btn-warning float-right" id="clearUploads__{{$user_setting->id}}" value="Reset">
+                <i class="fas fa-undo"></i>&nbsp;Reset
+              </button>
+              @else
+              <button class="btn btn-warning float-right" disabled="disabled" id="clearUploads__{{$user_setting->id}}">
+                <i class="fas fa-undo"></i>&nbsp;Reset
+              </button>
+              @endif
+            </div>
+          </div>
+          <div class="row pt-2">
+            <label for="rmvUsrFrmAffRecs" class="col-sm-8 col-form-label">Remove User From Affiliated Records</label>
+            <div class="col-sm-4">
+              <button class="btn btn-warning float-right" id="rmvUsrFrmAffRecs__{{$user_setting->id}}">
+                <i class="fas fa-eraser"></i>&nbsp;&nbsp;remove
+              </button>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
+      </div>
+    </div>
+  </div>
+</div>
+@endforeach
+<!-- End Modals Settings -->
 @endsection
 
 @section('scripts')

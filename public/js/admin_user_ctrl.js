@@ -389,15 +389,90 @@ $(document).ready(function() {
             obj.edit = obj.id;
             obj.active = {active: obj.client.active, user_id: obj.id};
             obj.delete = obj.id;
+            obj.settings = obj.id;
 
             if(obj.client_uploads) {
-                obj.uploads = get_percentage(obj.client_uploads.upload_limit, obj.client_uploads.uploads);
+                obj.uploads = {user_id: obj.id, uploads: get_percentage(obj.client_uploads.upload_limit, obj.client_uploads.uploads)};
             } else {
-                obj.uploads = 0;
+                obj.uploads = {user_id: obj.id, uploads: 0};
             }
-            
+
+            // Post functions for user settings based on table data
+
+            // Reset uploads buttond
+            $("#clearUploads__" + obj.id).click(function(data) {
+                $("#clearUploads__" + obj.id + ' i').addClass("fa-spin");
+                $.post('/api/meetpat-admin/settings/clear-uploads', {user_id: obj.id}, function(data) {
+                    console.log(data);
+                }).fail(function(error) {
+                    console.log(error);
+                }).done(function(data) {
+                    if(data.message == 'cleared') {
+                        $("#alertSectionSettings__" + obj.id).html(
+                            `<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>Success</strong>  &mdash; User uploads have been cleared.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>`
+                        );
+
+                        $("#userUploadsPercentage__" + obj.id).html("0%");
+                        $("#userUploadsPercentage__" + obj.id).attr("aria-valuenow", 0);
+                        $("#userUploadsPercentage__" + obj.id).removeAttr("style").css("width", "0%");
+                    } else {
+                        $("#alertSectionSettings__" + obj.id).html(
+                            `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Error!</strong>  &mdash; An error has occured please contact support.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>`
+                        );
+                    }
+                    $("#clearUploads__" + obj.id + ' i').removeClass("fa-spin");
+                })
+            });
+
+            $("#rmvUsrFrmAffRecs__" + obj.id).click(function() {
+                $("#rmvUsrFrmAffRecs__" + obj.id + ' i').addClass("eraser");
+                $("#rmvUsrFrmAffRecs__" + obj.id).prop("disabled", true);
+
+                $.post('/api/meetpat-admin/settings/remove-affiliate', {'user_id': obj.id}, function(data) {
+                    console.log(data);
+                }).fail(function(error) {
+                    $("#rmvUsrFrmAffRecs__" + obj.id + ' i').removeClass("eraser");
+                    $("#rmvUsrFrmAffRecs__" + obj.id).prop("disabled", false);
+                    console.log(error);
+                }).done(function(data) {
+                    if(data.message == 'success') {
+                        $("#alertSectionSettings__" + obj.id).html(
+                            `<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>Success</strong>  &mdash; User has been removed from affiliated records.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>`
+                        );
+                    } else {
+                        $("#alertSectionSettings__" + obj.id).html(
+                            `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Error!</strong>  &mdash; An error has occured please contact support.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>`
+                        );
+                    }
+                    $("#rmvUsrFrmAffRecs__" + obj.id + ' i').removeClass("eraser");
+                    $("#rmvUsrFrmAffRecs__" + obj.id).prop("disabled", false);
+                });
+            })
         });
         var tabledata = data;
+
+        
+        
 
         var table = new Tabulator("#users-table", {
             data:tabledata,
@@ -426,15 +501,21 @@ $(document).ready(function() {
                 }},
                 {title: "Delete", field: "delete", formatter:function(cell, formatterParams) {
                     var value = cell.getValue();
-                    return `<button class="delete-tooltip table_button" data-toggle="modal" data-target="#DeleteUser__${cell.getValue()}" data-toggle="tooltip" data-html="true" title="<em>delete</em>">
+                    return `<button class="delete-tooltip table_button" data-toggle="modal" data-target="#DeleteUser__${value}" data-toggle="tooltip" data-html="true" title="<em>delete</em>">
                                 <i class="far fa-trash-alt action-link"></i>
                             </button>`;
                 }},
                 {title: "Uploads", field: "uploads", formatter:function(cell, formatterParams) {
                     var value = cell.getValue();
                     return `<div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: ${value}%;" aria-valuenow="${value}" aria-valuemin="0" aria-valuemax="100">${value}%</div>
+                                <div class="progress-bar" id="userUploadsPercentage__${value.user_id}" role="progressbar" style="width: ${value.uploads}%;" aria-valuenow="${value.uploads}" aria-valuemin="0" aria-valuemax="100">${value.uploads}%</div>
                             </div>`
+                }},
+                {title: "Settings", field: "settings", formatter:function(cell, formatterParams) {
+                    var value = cell.getValue();
+                    return `<button class="settings-tooltip table_button" data-toggle="modal" data-target="#SettingsUser__${value}" data-toggle="tooltip" data-html="true" title="settings">
+                                <i class="fas fa-cogs action-link"></i>
+                            </button>`
                 }}
             ]
         });

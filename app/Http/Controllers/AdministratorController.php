@@ -226,4 +226,47 @@ class AdministratorController extends Controller
         return view('admin.clients.user_files', ['audience_files' => $client_audience_files, 'user' => $user]);
     }
 
+    public function clear_user_uploads(Request $request) {
+        $user = \MeetPAT\User::find($request->user_id);
+
+        if($user->client_uploads)
+        {
+            $user->client_uploads->update(['uploads' => 0]);
+
+        } else {
+            return response()->json(["message" => "failed", "user" => $user]);
+        }
+        
+        return response()->json(["message" => "cleared", "user" => $user]);
+    }
+
+    public function remove_affiliate(Request $request)
+    {
+        $user = \MeetPAT\User::find($request->user_id);
+        $records_count = 0;
+
+        if($user->client)
+        {
+            $records = \MeetPAT\BarkerStreetRecord::whereRaw("find_in_set('".$user->id."',affiliated_users)");
+            if($records->count())
+            {
+                $records_array = $records->get();
+                $first_record = $records->first();
+                
+                $affiliate_array = explode(",", $first_record->affiliated_users);
+                $affiliate_updated = implode(",", array_diff($affiliate_array, array($user->id)));
+                
+                \MeetPAT\BarkerStreetRecord::whereRaw("find_in_set('".$user->id."',affiliated_users)")->update(["affiliated_users" => $affiliate_updated]);
+
+                $records = \MeetPAT\BarkerStreetRecord::whereRaw("find_in_set('".$user->id."',affiliated_users)");
+                $records_count = $records->count();
+            }
+
+        } else {
+            return response()->json(["message" => "error"], 500);
+        }
+
+        return response()->json(["message" => "success", "records" => $records_count], 200);
+    }
+
 }

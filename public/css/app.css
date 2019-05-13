@@ -12591,3 +12591,40 @@ label.css-label {
   color: #00A3D9;
 }
 
+.eraser {
+  -webkit-animation: bobble 1s infinite;
+          animation: bobble 1s infinite;
+}
+
+@-webkit-keyframes bobble {
+  0% {
+    -webkit-transform: translate3d(0px, 4px, 5px);
+            transform: translate3d(0px, 4px, 5px);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+
+  50% {
+    -webkit-transform: translate3d(0px, 5px, 5px);
+            transform: translate3d(0px, 5px, 5px);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+}
+
+@keyframes bobble {
+  0% {
+    -webkit-transform: translate3d(0px, 4px, 5px);
+            transform: translate3d(0px, 4px, 5px);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+
+  50% {
+    -webkit-transform: translate3d(0px, 5px, 5px);
+            transform: translate3d(0px, 5px, 5px);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+}
+
