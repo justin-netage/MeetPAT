@@ -44,7 +44,7 @@ $(document).ready(function() {
                         '<div class="spinner-border ml-auto spinner-border-sm" role="status" aria-hidden="true"></div>' +
                         '</div>' +
                         '<div class="progress" id="job_' + key + '">' +
-                        '<div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width:' + get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_checked']) + '%" aria-valuenow="' + get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_checked']) + '" aria-valuemin="0" aria-valuemax="100">'+ get_percentage(data["jobs"][key].records, data["jobs"][key]['records_completed']) + "%" +'</div>' +
+                        '<div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width:' + get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_checked']) + '%" aria-valuenow="' + get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_checked']) + '" aria-valuemin="0" aria-valuemax="100">'+ get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_checked']) + "%" +'</div>' +
                         '</div> <br />'+
                         '<p class="badge badge-pill badge-warning">Checking and removing duplicate records: <span id="recordsChecked_'+ key + '">' + data["jobs"][key]["records_checked"] + '/' + data["jobs"][key]["records"] + '</span></p>'
                         );
