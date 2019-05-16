@@ -102,3 +102,6 @@ Route::get('/meetpat-client/filtered-audience-form/{user_id}/{filtered_list_id}'
 // Account Settings
 
 Route::get('/meetpat-client/settings', 'MeetpatClientController@account_settings')->name('account-settings')->middleware('auth')->middleware('client');
+
+Route::get('/test-bsapi', 'MiscController@bsapi')->name('bsapi');
+Route::get('/test-bsapi-balances', 'MiscController@bsapi_balance')->name('bsapi-balances');

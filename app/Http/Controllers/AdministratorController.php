@@ -289,10 +289,10 @@ class AdministratorController extends Controller
             {
                 if(env('APP_ENV') == 'production')
                 {
-                    $file_exists = \Storage::disk('s3')->delete('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+                    $file_deleted = \Storage::disk('s3')->delete('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
                     $audience_file->delete();
                 } else {
-                    $file_exists = \Storage::disk('local')->delete('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+                    $file_deleted = \Storage::disk('local')->delete('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
                     $audience_file->delete();
                 }
 
