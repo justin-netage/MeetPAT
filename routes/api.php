@@ -39,8 +39,12 @@ Route::post('/meetpat-admin/users/unique-email', 'AdministratorController@unique
 // User settings
 Route::post('/meetpat-admin/settings/clear-uploads', 'AdministratorController@clear_user_uploads')->name('clear-uploads');
 Route::post('/meetpat-admin/settings/remove-affiliate', 'AdministratorController@remove_affiliate')->name('remove-affiliate');
+Route::post('/meetpat-admin/settings/updated-upload-limit', 'AdministratorController@set_upload_limit')->name('change-upload-limit');
+Route::post('/meetpat-admin/settings/updated-credit-limit', 'AdministratorController@set_similar_audience_limit')->name('change-credit-limit');
 
 Route::post('/meetpat-admin/delete-file', 'AdministratorController@delete_file')->name('delete-file');
+
+
 // End Administrator routes
 
 // Password Generator

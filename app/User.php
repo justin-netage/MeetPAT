@@ -46,6 +46,11 @@ class User extends Authenticatable
         return $this->hasOne('\MeetPAT\ClientUploads', 'user_id');
     }
 
+    public function similar_audience_credits()
+    {
+        return $this->hasOne('\MeetPAT\SimilarAudienceCredit', 'user_id');
+    }
+
     public function client_details()
     {
         return $this->hasOne('\MeetPAT\MeetpatClientDetail', 'user_id');

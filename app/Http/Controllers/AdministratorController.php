@@ -206,7 +206,7 @@ class AdministratorController extends Controller
 
     public function users_view()
     {
-        $users = \MeetPAT\User::all();
+        $users = \MeetPAT\User::with(['client', 'client_uploads', 'similar_audience_credits'])->get();
 
         return view('admin.clients.users', ['users' => $users]);
     }
@@ -305,6 +305,53 @@ class AdministratorController extends Controller
         }
 
         return response()->json(['message' => 'success', 'text' => 'record and file has been removed'], 200);
+    }
+
+    public function set_upload_limit(Request $request) 
+    {
+
+        $user = \MeetPAT\User::find($request->user_id);
+        $user_updated = false;
+
+        if($user->client_uploads)
+        {
+            $user_updated = $user->client_uploads->update(['upload_limit' => $request->new_upload_limit]);
+        } else {
+            $user_updated = \MeetPAT\ClientUploads::create(['user_id' => $user->id, 'upload_limit' => $request->new_upload_limit]);
+        }
+
+        if($user_updated == false)
+        {
+            return response()->json(["status" => "error", "message" => "An error has occured please contact support."], 500);
+        } 
+
+        $client_uploads = \MeetPAT\ClientUploads::where('user_id', $user->id)->first();
+
+        return response()->json(["status" => "success", "message" => "User similar audience credit limit has been updated.", "client_uploads" => $client_uploads], 200);
+    }
+
+    public function set_similar_audience_limit(Request $request) 
+    {
+        $user = \MeetPAT\User::find($request->user_id);
+        $user_updated = false;
+
+        if($user->similar_audience_credits)
+        {
+            $user_updated = $user->similar_audience_credits->update(['credit_limit' => $request->new_credit_limit]);
+            
+        } else {
+            $user_updated = \MeetPAT\SimilarAudienceCredit::create(['user_id' => $user->id, 'credit_limit' => $request->new_credit_limit]);
+
+        }
+
+        if($user_updated == false)
+        {
+            return response()->json(["status" => "error", "message" => "An error has occured please contact support."], 500);
+        } 
+
+        $client_credits = \MeetPAT\SimilarAudienceCredit::where('user_id', $user->id)->first();
+
+        return response()->json(["status" => "success", "message" => "User upload limit has been updated.", "client_uploads" => $client_credits], 200);
     }
 
 }

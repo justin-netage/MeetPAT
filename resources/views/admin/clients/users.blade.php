@@ -166,15 +166,45 @@
             </div>
             <div class="col-12" id="alertSectionSettings__{{$user_setting->id}}"></div>
           </div>
-          <div class="row">
+          <label for="AdjustUploadCredits"><strong>Upload Limit</strong></label>
+          <div class="row pb-2">
+            <div class="col-sm-8">
+              @if($user_setting->client_uploads)
+              <input type="number" class="form-control" id="newUploadLimit__{{$user_setting->id}}" name="new_upload_limit__{{$user_setting->id}}" value="{{$user_setting->client_uploads->upload_limit}}">
+              <div class="invalid-feedback">
+                New limits must be more than current uploads.
+              </div>
+              @else
+              <input type="number" class="form-control" id="newUploadLimit__{{$user_setting->id}}" value="0">
+              @endif
+            </div>
+            <div class="col-sm-4">
+              <button class="btn btn-primary btn-block float-right" id="updateClientUploadLimit__{{$user_setting->id}}" type="button">Save</button>
+            </div>
+          </div>
+          <label for="AdjustUploadCredits"><strong>Potential Audience Credit Limit</strong></label>
+          <div class="row pb-2">
+            <div class="col-sm-8">
+              @if($user_setting->similar_audience_credits)
+              <input type="number" class="form-control" id="newCreditLimit__{{$user_setting->id}}" name="new_credit_limit__{{$user_setting->id}}" value="{{$user_setting->similar_audience_credits->credit_limit}}">
+              @else
+              <input type="number" class="form-control" id="newCreditLimit__{{$user_setting->id}}" value="0">
+              @endif
+            </div>
+            <div class="col-sm-4">
+              <button class="btn btn-primary btn-block float-right" id="updateClientCreditLimit__{{$user_setting->id}}" type="button">Save</button>
+            </div>
+          </div>
+          <hr />
+          <div class="row pt-2">
             <label for="clearUploads" class="col-sm-8 col-form-label">User Uploads</label>
             <div class="col-sm-4">
               @if($user_setting->client_uploads and $user_setting->client_uploads->uploads)
-              <button class="btn btn-warning float-right" id="clearUploads__{{$user_setting->id}}" value="Reset">
+              <button class="btn btn-warning btn-block float-right" id="clearUploads__{{$user_setting->id}}" value="Reset">
                 <i class="fas fa-undo"></i>&nbsp;Reset
               </button>
               @else
-              <button class="btn btn-warning float-right" disabled="disabled" id="clearUploads__{{$user_setting->id}}">
+              <button class="btn btn-warning btn-block float-right" disabled="disabled" id="clearUploads__{{$user_setting->id}}">
                 <i class="fas fa-undo"></i>&nbsp;Reset
               </button>
               @endif
@@ -183,7 +213,7 @@
           <div class="row pt-2">
             <label for="rmvUsrFrmAffRecs" class="col-sm-8 col-form-label">Remove User From Affiliated Records</label>
             <div class="col-sm-4">
-              <button class="btn btn-warning float-right" id="rmvUsrFrmAffRecs__{{$user_setting->id}}">
+              <button class="btn btn-warning btn-block float-right" id="rmvUsrFrmAffRecs__{{$user_setting->id}}">
                 <i class="fas fa-eraser"></i>&nbsp;&nbsp;remove
               </button>
             </div>

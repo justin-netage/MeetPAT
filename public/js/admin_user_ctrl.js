@@ -392,9 +392,9 @@ $(document).ready(function() {
             obj.settings = obj.id;
 
             if(obj.client_uploads) {
-                obj.uploads = {user_id: obj.id, uploads: get_percentage(obj.client_uploads.upload_limit, obj.client_uploads.uploads)};
+                obj.uploads = {user_id: obj.id, uploads_percentage: get_percentage(obj.client_uploads.upload_limit, obj.client_uploads.uploads), client_upload_limit: obj.client_uploads.upload_limit, client_uploads: obj.client_uploads.uploads};
             } else {
-                obj.uploads = {user_id: obj.id, uploads: 0};
+                obj.uploads = {user_id: obj.id, uploads_percentage: 0, client_upload_limit: 0, client_uploads: 0};
             }
 
             // Post functions for user settings based on table data
@@ -467,17 +467,128 @@ $(document).ready(function() {
                     $("#rmvUsrFrmAffRecs__" + obj.id + ' i').removeClass("eraser");
                     $("#rmvUsrFrmAffRecs__" + obj.id).prop("disabled", false);
                 });
-            })
+            });
+
+            $("#updateClientUploadLimit__" + obj.id).click(function() {
+                var parent = this;
+                $(this).prop('disabled', true);
+                $(this).html(
+                    `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                       Saving...`
+                );
+                if($('#newUploadLimit__' + obj.id).val() >= obj.client_uploads.uploads) {
+                    $('#newUploadLimit__' + obj.id).removeClass('is-invalid');
+                    $.post('/api/meetpat-admin/settings/updated-upload-limit', {user_id: obj.id, new_upload_limit: $('#newUploadLimit__' + obj.id).val()}, function(data) {
+                        console.log(data);
+                    }).fail(function(error) {
+                        console.log(error);
+                        $(parent).prop('disabled', false);
+                        $(parent).html("Save");
+                        $("#alertSectionSettings__" + obj.id).html(
+                            `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Error!</strong>  &mdash; An error has occured please contact support.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>`
+                        );
+                    }).done(function(data) {
+                        $(parent).prop('disabled', false);
+                        $(parent).html("Save");
+    
+                        if(data.status == 'success')
+                        {
+                            $("#alertSectionSettings__" + obj.id).html(
+                                `<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong>Success!</strong>  &mdash; User upload limit has been updated.
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>`
+                            );
+    
+                            $("#userUploadsPercentage__" + obj.id).html(obj.uploads.client_uploads + "/" + $('#newUploadLimit__' + obj.id).val());
+                            $("#userUploadsPercentage__" + obj.id).attr("aria-valuenow", get_percentage($('#newUploadLimit__' + obj.id).val(), obj.uploads.client_uploads));
+                            $("#userUploadsPercentage__" + obj.id).removeAttr("style").css("width", get_percentage($('#newUploadLimit__' + obj.id).val(), obj.uploads.client_uploads) + "%");
+                        } else {
+                            $("#alertSectionSettings__" + obj.id).html(
+                                `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>Error!</strong>  &mdash; An error has occured please contact support.
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>`
+                            );
+                        }
+                    });
+                } else {
+                    $(parent).prop('disabled', false);
+                    $(parent).html("Save");
+
+                    $('#newUploadLimit__' + obj.id).addClass('is-invalid');
+                    console.log('Limit needs to be bigger thatn current uploads.');
+                }
+
+                
+            });
+
+            $("#updateClientCreditLimit__" + obj.id).click(function() {
+                var parent = this;
+                $(this).prop('disabled', true);
+                $(this).html(
+                    `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                       Saving...`
+                );
+
+                $.post('/api/meetpat-admin/settings/updated-credit-limit', {user_id: obj.id, new_credit_limit: $('#newCreditLimit__' + obj.id).val()}, function(data) {
+                    console.log(data);
+                }).fail(function(error) {
+                    $(parent).prop('disabled', false);
+                    $(parent).html("Save");
+                    $("#alertSectionSettings__" + obj.id).html(
+                        `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Error!</strong>  &mdash; An error has occured please contact support.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>`
+                    );
+                    console.log(error);
+                }).done(function(data) {
+                    $(parent).prop('disabled', false);
+                    $(parent).html("Save");
+
+                    if(data.status == 'success')
+                    {
+                        $("#alertSectionSettings__" + obj.id).html(
+                            `<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>Success!</strong>  &mdash; User credit limit has been updated.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>`
+                        );
+                    } else {
+                        $("#alertSectionSettings__" + obj.id).html(
+                            `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Error!</strong>  &mdash; An error has occured please contact support.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>`
+                        );
+                    }
+                })
+            });
+
         });
         var tabledata = data;
-
-        
-        
 
         var table = new Tabulator("#users-table", {
             data:tabledata,
             layout:"fitDataFill",
-            responsiveLayout : "fitDataFill",
+            pagination:"local",
+            paginationSize:12,
             columns: [
                 {title:"ID", field:"id"},
                 {title:"Name", field:"name"},
@@ -508,7 +619,7 @@ $(document).ready(function() {
                 {title: "Uploads", field: "uploads", formatter:function(cell, formatterParams) {
                     var value = cell.getValue();
                     return `<div class="progress">
-                                <div class="progress-bar" id="userUploadsPercentage__${value.user_id}" role="progressbar" style="width: ${value.uploads}%;" aria-valuenow="${value.uploads}" aria-valuemin="0" aria-valuemax="100">${value.uploads}%</div>
+                                <div class="progress-bar" id="userUploadsPercentage__${value.user_id}" role="progressbar" style="width: ${value.uploads_percentage}%;" aria-valuenow="${value.uploads_percentage}" aria-valuemin="0" aria-valuemax="100">${value.client_uploads}/${value.client_upload_limit}</div>
                             </div>`
                 }},
                 {title: "Settings", field: "settings", formatter:function(cell, formatterParams) {
