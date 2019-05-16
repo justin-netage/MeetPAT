@@ -70,7 +70,7 @@ function validateEmail(current_input_el) {
 
             }
 
-            console.log(jsonResponse);
+            // console.log(jsonResponse);
             
         }
 
@@ -196,7 +196,7 @@ function change_status(current_el) {
     Http_Active.onreadystatechange = function () {
         if(Http_Active.readyState === 4) {
             
-            console.log('request complete');
+            // console.log('request complete');
             $("#loader").css("display", "none");
 
         }
@@ -268,14 +268,14 @@ function saveChanges(current_form_el) {
         $(".modal-mesage-container_" + jsonResponse["users_id"]).css("display", "block");
     }
         
-        console.log(jsonResponse);
+        // console.log(jsonResponse);
     };
 
 
     Http_Edit.onreadystatechange = function () {
         if(Http_Edit.readyState === 4) {
             
-            console.log('request complete');
+            // console.log('request complete');
             $("#loader").css("display", "none");
 
         }
@@ -328,7 +328,7 @@ function deleteUser(current_el) {
     Http_Delete.onreadystatechange = function () {
         if(Http_Delete.readyState === 4) {
             
-            console.log('request complete');
+            // console.log('request complete');
             // $("#loader").css("display", "none");
             location.reload(true);
 
@@ -403,7 +403,7 @@ $(document).ready(function() {
             $("#clearUploads__" + obj.id).click(function(data) {
                 $("#clearUploads__" + obj.id + ' i').addClass("fa-spin");
                 $.post('/api/meetpat-admin/settings/clear-uploads', {user_id: obj.id}, function(data) {
-                    console.log(data);
+                    // console.log(data);
                 }).fail(function(error) {
                     console.log(error);
                 }).done(function(data) {
@@ -439,7 +439,7 @@ $(document).ready(function() {
                 $("#rmvUsrFrmAffRecs__" + obj.id).prop("disabled", true);
 
                 $.post('/api/meetpat-admin/settings/remove-affiliate', {'user_id': obj.id}, function(data) {
-                    console.log(data);
+                    // console.log(data);
                 }).fail(function(error) {
                     $("#rmvUsrFrmAffRecs__" + obj.id + ' i').removeClass("eraser");
                     $("#rmvUsrFrmAffRecs__" + obj.id).prop("disabled", false);
@@ -479,7 +479,7 @@ $(document).ready(function() {
                 if($('#newUploadLimit__' + obj.id).val() >= obj.client_uploads.uploads) {
                     $('#newUploadLimit__' + obj.id).removeClass('is-invalid');
                     $.post('/api/meetpat-admin/settings/updated-upload-limit', {user_id: obj.id, new_upload_limit: $('#newUploadLimit__' + obj.id).val()}, function(data) {
-                        console.log(data);
+                        // console.log(data);
                     }).fail(function(error) {
                         console.log(error);
                         $(parent).prop('disabled', false);
@@ -526,7 +526,7 @@ $(document).ready(function() {
                     $(parent).html("Save");
 
                     $('#newUploadLimit__' + obj.id).addClass('is-invalid');
-                    console.log('Limit needs to be bigger thatn current uploads.');
+                   
                 }
 
                 
@@ -541,7 +541,7 @@ $(document).ready(function() {
                 );
 
                 $.post('/api/meetpat-admin/settings/updated-credit-limit', {user_id: obj.id, new_credit_limit: $('#newCreditLimit__' + obj.id).val()}, function(data) {
-                    console.log(data);
+                    // console.log(data);
                 }).fail(function(error) {
                     $(parent).prop('disabled', false);
                     $(parent).html("Save");
@@ -568,6 +568,11 @@ $(document).ready(function() {
                                 </button>
                             </div>`
                         );
+
+                        $("#useCreditPercentage__" + obj.id).html(obj.similar_audience_credits.used_credits + "/" + $('#newCreditLimit__' + obj.id).val());
+                        $("#useCreditPercentage__" + obj.id).attr("aria-valuenow", get_percentage($('#newCreditLimit__' + obj.id).val(), obj.similar_audience_credits.used_credits));
+                        $("#useCreditPercentage__" + obj.id).removeAttr("style").css("width", get_percentage($('#newCreditLimit__' + obj.id).val(), obj.similar_audience_credits.used_credits) + "%");
+
                     } else {
                         $("#alertSectionSettings__" + obj.id).html(
                             `<div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -616,12 +621,6 @@ $(document).ready(function() {
                                 <i class="far fa-trash-alt action-link"></i>
                             </button>`;
                 }},
-                {title: "Uploads", field: "uploads", formatter:function(cell, formatterParams) {
-                    var value = cell.getValue();
-                    return `<div class="progress">
-                                <div class="progress-bar" id="userUploadsPercentage__${value.user_id}" role="progressbar" style="width: ${value.uploads_percentage}%;" aria-valuenow="${value.uploads_percentage}" aria-valuemin="0" aria-valuemax="100">${value.client_uploads}/${value.client_upload_limit}</div>
-                            </div>`
-                }},
                 {title: "Settings", field: "settings", formatter:function(cell, formatterParams) {
                     var value = cell.getValue();
                     return `<button class="settings-tooltip table_button" data-toggle="modal" data-target="#SettingsUser__${value}" data-toggle="tooltip" data-html="true" title="settings">
@@ -631,7 +630,7 @@ $(document).ready(function() {
             ]
         });
 
-        console.log(tabledata);
+        // console.log(tabledata);
 
     }).fail(function(error) {
         console.log(error);

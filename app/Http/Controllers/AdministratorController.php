@@ -18,7 +18,7 @@ class AdministratorController extends Controller
     // Get all users
     public function users()
     {
-        $users = \MeetPAT\User::has('client')->with(['client', 'client_uploads'])->get();
+        $users = \MeetPAT\User::has('client')->with(['client', 'client_uploads', 'similar_audience_credits'])->get();
 
         return $users;
     }

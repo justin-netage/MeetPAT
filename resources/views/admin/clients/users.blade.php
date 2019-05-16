@@ -1,3 +1,14 @@
+<?php 
+    function get_percentage($total, $number)
+    {
+      if ( $total > 0 ) {
+       return round($number / ($total / 100),2);
+      } else {
+        return 0;
+      }
+    }
+?>
+
 @extends('layouts.app')
 @section('styles')
 <link href="{{asset('bower_components/tabulator/dist/css/semantic-ui/tabulator_semantic-ui.min.css')}}" rel="stylesheet">
@@ -167,7 +178,16 @@
             <div class="col-12" id="alertSectionSettings__{{$user_setting->id}}"></div>
           </div>
           <label for="AdjustUploadCredits"><strong>Upload Limit</strong></label>
-          <div class="row pb-2">
+          @if($user_setting->client_uploads)
+          <div class="progress">
+              <div class="progress-bar" id="userUploadsPercentage__{{$user_setting->id}}" role="progressbar" style="width: {{get_percentage($user_setting->client_uploads->upload_limit, $user_setting->client_uploads->uploads)}}%;" aria-valuenow="{{get_percentage($user_setting->client_uploads->upload_limit, $user_setting->client_uploads->uploads)}}" aria-valuemin="0" aria-valuemax="100">{{$user_setting->client_uploads->uploads}}/{{$user_setting->client_uploads->upload_limit}}</div>
+          </div>
+          @else
+          <div class="progress">
+              <div class="progress-bar" id="userUploadsPercentage__{{$user_setting->id}}" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0/0</div>
+          </div>
+          @endif
+          <div class="row pb-2 pt-2">
             <div class="col-sm-8">
               @if($user_setting->client_uploads)
               <input type="number" class="form-control" id="newUploadLimit__{{$user_setting->id}}" name="new_upload_limit__{{$user_setting->id}}" value="{{$user_setting->client_uploads->upload_limit}}">
@@ -183,7 +203,16 @@
             </div>
           </div>
           <label for="AdjustUploadCredits"><strong>Potential Audience Credit Limit</strong></label>
-          <div class="row pb-2">
+          @if($user_setting->similar_audience_credits)
+          <div class="progress">
+              <div class="progress-bar" id="useCreditPercentage__{{$user_setting->id}}" role="progressbar" style="width: {{get_percentage($user_setting->similar_audience_credits->credit_limit, $user_setting->similar_audience_credits->used_credits)}}%;" aria-valuenow="{{get_percentage($user_setting->similar_audience_credits->credit_limit, $user_setting->similar_audience_credits->used_credits)}}" aria-valuemin="0" aria-valuemax="100">{{$user_setting->similar_audience_credits->used_credits}}/{{$user_setting->similar_audience_credits->credit_limit}}</div>
+          </div>
+          @else
+          <div class="progress">
+              <div class="progress-bar" id="useCreditPercentage__{{$user_setting->id}}" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0/0</div>
+          </div>
+          @endif
+          <div class="row pb-2 pt-2">
             <div class="col-sm-8">
               @if($user_setting->similar_audience_credits)
               <input type="number" class="form-control" id="newCreditLimit__{{$user_setting->id}}" name="new_credit_limit__{{$user_setting->id}}" value="{{$user_setting->similar_audience_credits->credit_limit}}">
