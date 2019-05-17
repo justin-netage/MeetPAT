@@ -139,7 +139,11 @@ FilePond.setOptions({
 $("form#upload-custom-audience").submit(function(e) {
     e.preventDefault();    
     var formData = new FormData(this);
-
+    $("#submit_audience").prop('disabled', true);
+    $("#submit_audience").html(
+        `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Loading...`
+    );
     $.ajax({
         url: '/api/meetpat-client/upload-custom-audience',
         type: 'POST',
@@ -147,6 +151,8 @@ $("form#upload-custom-audience").submit(function(e) {
         success: function (data) {
 
             if (data.errors) {
+                $("#submit_audience").prop('disabled', false);
+                $("#submit_audience").html('Submit');
                 // console.log(data.errors)
                 $("#alert-section").empty();
 
