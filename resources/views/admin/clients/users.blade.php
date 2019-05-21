@@ -257,6 +257,229 @@
 </div>
 @endforeach
 <!-- End Modals Settings -->
+
+<!-- Modals Company Information -->
+
+@foreach($users as $company_info)
+
+<div class="modal fade" id="CompanyDetails__{{$company_info->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Company Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <h5>Personal Information</h5>
+      <hr>
+      <form id="saveChangesForm">
+      <input type="hidden" name="user_id__{{$company_info->id}}" value="{{$company_info->id}}">
+      <div class="form-row mb-2">
+          <div class="col">
+              <label for="clientFirstName">First Name</label>
+              @if($company_info->client_details)
+              <input type="text" class="form-control" name="client_first_name__{{$company_info->id}}" id="clientFirstName__{{$company_info->id}}" placeholder="First Name" value="{{$company_info->client_details->client_first_name}}" readonly>
+
+              @else
+              <input type="text" class="form-control" name="client_first_name__{{$company_info->id}}" id="clientFirstName__{{$company_info->id}}" placeholder="First Name" value="" readonly>
+              @endif
+                  <div class="invalid-feedback">
+                      Please enter first name.
+                  </div>    
+          </div>
+          <div class="col">
+              <label for="clientLastName">Last Name</label>
+              @if($company_info->client_details)
+              <input type="text" class="form-control" name="client_last_name__{{$company_info->id}}" id="clientLastName__{{$company_info->id}}" placeholder="Last Name" value="{{$company_info->client_details->client_last_name}}" readonly>
+              @else
+              <input type="text" class="form-control" name="client_last_name__{{$company_info->id}}" id="clientLastName__{{$company_info->id}}" placeholder="Last Name" value="" readonly>
+              @endif
+                  <div class="invalid-feedback">
+                      Please enter a last name.
+                  </div>                                
+          </div>
+      </div>
+      <div class="form-row mb-2">
+          <div class="col">
+              <label for="clientEmailAddress">Email Address</label>
+              @if($company_info->client_details)
+              <input type="email" name="client_email_address__{{$company_info->id}}" id="clientEmailAddress__{{$company_info->id}}" class="form-control" placeholder="meet@pat.co.za" value="{{$company_info->client_details->client_email_address}}" readonly>
+
+              @else
+              <input type="email" name="client_email_address__{{$company_info->id}}" id="clientEmailAddress__{{$company_info->id}}" class="form-control" placeholder="meet@pat.co.za" value="" readonly>
+
+              @endif
+                  <div class="invalid-feedback">
+                      Please choose a valid email address.
+                  </div>                                
+          </div>
+          <div class="col">
+              <label for="clientContactNumber">Contact Number</label>
+              @if($company_info->client_details)
+              <input type="text" name="client_contact_number__{{$company_info->id}}" pattern="^(\+27)(\s)(\d){2}(\s)(\d){3}(\s)(\d){4}$" id="clientContactNumber__{{$company_info->id}}" class="form-control" placeholder="+27 71 123 4567" value="{{$company_info->client_details->client_contact_number}}" readonly>
+
+              @else
+              <input type="text" name="client_contact_number__{{$company_info->id}}" pattern="^(\+27)(\s)(\d){2}(\s)(\d){3}(\s)(\d){4}$" id="clientContactNumber__{{$company_info->id}}" class="form-control" placeholder="+27 71 123 4567" value="" readonly>
+
+              @endif
+                  <div class="invalid-feedback">
+                      Please choose a valid contact number in the format "+27 01 234 4567" dont leave out the spaces or the "+27".
+                  </div>                                
+          </div>
+      </div>
+      <div class="form-group">
+          <label for="clientPostalAddress">Postal Address</label>
+              @if($company_info->client_details)
+              <textarea name="client_postal_address__{{$company_info->id}}" id="clientPostalAddress__{{$company_info->id}}" class="form-control" readonly>{{$company_info->client_details->client_postal_address}}</textarea>
+              @else
+              <textarea name="client_postal_address__{{$company_info->id}}" id="clientPostalAddress__{{$company_info->id}}" class="form-control" readonly></textarea>
+              @endif
+              <div class="invalid-feedback">
+                  Please enter a postal address.
+              </div>                                
+      </div>
+      <br />
+      <h5>Business Information</h5>
+      <hr>
+      <div class="form-row mb-2">
+          <label for="businessRegisteredName">Registered Business Name</label>
+          @if($company_info->client_details)
+          <input type="text" name="business_registered_name__{{$company_info->id}}" id="businessRegisteredName__{{$company_info->id}}" placeholder="MeetPAT Perfect Audience Targeting" class="form-control" value="{{$company_info->client_details->business_registered_name}}" readonly>
+
+          @else
+          <input type="text" name="business_registered_name__{{$company_info->id}}" id="businessRegisteredName__{{$company_info->id}}" placeholder="MeetPAT Perfect Audience Targeting" class="form-control" value="" readonly>
+
+          @endif
+              <div class="invalid-feedback">
+                  Please enter a registered business name.
+              </div>                                
+      </div>
+      <div class="form-row mb-2">
+          <div class="col">
+              <label for="contactFirstName">Contact First Name</label>
+              @if($company_info->client_details)
+              <input type="text" name="contact_first_name__{{$company_info->id}}" id="contactFirstName__{{$company_info->id}}" class="form-control" placeholder="First Name" value="{{$company_info->client_details->contact_first_name}}" readonly>
+
+              @else
+              <input type="text" name="contact_first_name__{{$company_info->id}}" id="contactFirstName__{{$company_info->id}}" class="form-control" placeholder="First Name" value="" readonly>
+
+              @endif
+                  <div class="invalid-feedback">
+                      Please enter a first name.
+                  </div>                                
+          </div>
+          <div class="col">
+              <label for="ContactLastName">Contact Last Name</label>
+              @if($company_info->client_details)
+              <input type="text" name="contact_last_name__{{$company_info->id}}" id="contactLastName__{{$company_info->id}}" class="form-control" placeholder="Last Name" value="{{$company_info->client_details->contact_last_name}}" readonly>
+
+              @else
+              <input type="text" name="contact_last_name__{{$company_info->id}}" id="contactLastName__{{$company_info->id}}" class="form-control" placeholder="Last Name" value="" readonly>
+
+              @endif
+                  <div class="invalid-feedback">
+                      Please enter a last name.
+                  </div>                                
+          </div>
+      </div>
+      <div class="form-row mb-2">
+          <div class="col">
+              <label for="businessEmailAddress">Business Email Address</label>
+              @if($company_info->client_details)
+              <input type="email" name="contact_email_address__{{$company_info->id}}" id="businessEmailAddress__{{$company_info->id}}" class="form-control" placeholder="meet@pat.co.za" value="{{$company_info->client_details->contact_email_address}}" readonly>
+
+              @else
+              <input type="email" name="contact_email_address__{{$company_info->id}}" id="businessEmailAddress__{{$company_info->id}}" class="form-control" placeholder="meet@pat.co.za" value="" readonly>
+
+              @endif
+                  <div class="invalid-feedback">
+                      Please enter a valid email address.
+                  </div>                                
+          </div>
+          <div class="col">
+              <label for="businessContactNumber">Business Contact Number</label>
+              @if($company_info->client_details)
+              <input type="text" name="business_contact_number__{{$company_info->id}}" pattern="^(\+27)(\s)(\d){2}(\s)(\d){3}(\s)(\d){4}$" id="businessContactNumber__{{$company_info->id}}" class="form-control" placeholder="+27 71 123 4567" value="{{$company_info->client_details->business_contact_number}}" readonly>
+
+              @else
+              <input type="text" name="business_contact_number__{{$company_info->id}}" pattern="^(\+27)(\s)(\d){2}(\s)(\d){3}(\s)(\d){4}$" id="businessContactNumber__{{$company_info->id}}" class="form-control" placeholder="+27 71 123 4567" value="" readonly>
+
+              @endif
+                  <div class="invalid-feedback">
+                      Please choose a valid contact number in the format "+27 01 234 4567" dont leave out the spaces or the "+27".
+                  </div>                                
+          </div>
+      </div>
+      <div class="form-group">
+          <label for="businessRegistrationNumber">Registration Number</label>
+          @if($company_info->client_details)
+          <input type="text" name="business_registration_number__{{$company_info->id}}" id="businessRegistrationNumber__{{$company_info->id}}" class="form-control" value="{{$company_info->client_details->business_registration_number}}"  readonly/>
+
+          @else
+          <input type="text" name="business_registration_number__{{$company_info->id}}" id="businessRegistrationNumber__{{$company_info->id}}" class="form-control" value=""  readonly/>
+
+          @endif
+              <div class="invalid-feedback">
+                  Please enter a business registration number.
+              </div>                                
+      </div>
+      <div class="form-group">
+          <label for="businessVatNumber">VAT Number</label>
+          @if($company_info->client_details)
+          <input type="text" name="business_vat_number__{{$company_info->id}}" maxlength="10" minlength="10" id="businessVatNumber__{{$company_info->id}}" class="form-control" value="{{$company_info->client_details->business_vat_number}}"  readonly/>
+
+          @else
+          <input type="text" name="business_vat_number__{{$company_info->id}}" maxlength="10" minlength="10" id="businessVatNumber__{{$company_info->id}}" class="form-control" value=""  readonly/>
+
+          @endif
+              <div class="invalid-feedback">
+                  Please enter a valid VAT number.
+              </div>                                
+      </div>
+      <div class="form-group">
+          <label for="businessPhysicalAddress">Physical Address</label>
+          @if($company_info->client_details)
+          <textarea name="business_physical_address__{{$company_info->id}}" id="businessPhysicalAddress__{{$company_info->id}}" class="form-control" readonly>{{$company_info->client_details->business_physical_address}}</textarea>
+
+          @else
+          <textarea name="business_physical_address__{{$company_info->id}}" id="businessPhysicalAddress__{{$company_info->id}}" class="form-control" readonly></textarea>
+
+          @endif
+              <div class="invalid-feedback">
+                  Please enter a physical address.
+              </div>                                
+      </div>
+      <div class="form-group">
+          <label for="businessPostalAddress">Postal Address</label>
+          @if($company_info->client_details)
+          <textarea name="business_postal_address__{{$company_info->id}}" id="businessPostalAddress__{{$company_info->id}}" class="form-control" readonly>{{$company_info->client_details->business_physical_address}}</textarea>
+
+          @else
+          <textarea name="business_postal_address__{{$company_info->id}}" id="businessPostalAddress__{{$company_info->id}}" class="form-control" readonly></textarea>
+
+          @endif
+              <div class="invalid-feedback">
+                  Please enter a postal address.
+              </div>                                
+      </div>
+      <div class="form-group">
+          <button type="button" id="saveChangesBtn__{{$company_info->id}}" class="btn btn-lg btn-primary btn-block d-none">Save Changes</button>
+      </div>
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="companyInfoEdit__{{$company_info->id}}" class="btn btn-primary">Edit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+@endforeach
+<!-- End Modals Company Information -->
+
 @endsection
 
 @section('scripts')

@@ -210,7 +210,6 @@ function change_status(current_el) {
 function saveChanges(current_form_el) {
     $("#loader").css("display", "block");
     $('.message-container').empty();
-
     const Http_Edit = new XMLHttpRequest();
     const url_edit = '/api/meetpat-admin/users/edit';
     
@@ -224,11 +223,17 @@ function saveChanges(current_form_el) {
     var params = 'user_id=' + user_id + '&user_name=' + user_name + '&user_email=' + user_email + '&new_password=' + new_password + '&send_mail=' + send_mail;
     var jsonResponse;
 
+    $('#save_changes_uid_' + user_id).prop('disabled', true);
+    $('#save_changes_uid_' + user_id).html(
+        `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Saving...`
+    );
+
     Http_Edit.open("POST", url_edit, true);
     Http_Edit.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     Http_Edit.onload = function() {
         jsonResponse = JSON.parse(Http_Edit.responseText);
-
+        console.log(jsonResponse);
     if(jsonResponse["email_valid"] == "true" && jsonResponse["user_name_valid"] == "true")
     {
         if(jsonResponse["password_change"] == "true")
@@ -240,10 +245,18 @@ function saveChanges(current_form_el) {
 
             } else {
                 $('#EditUser_' + user_id).modal('hide');
+                $('#save_changes_uid_' + user_id).prop('disabled', false);
+                $('#save_changes_uid_' + user_id).html('Save Changes');
+                $('#clientName__' + user_id).html(user_name);
+                $('#userEmail__' + user_id).html(user_email);
             }
 
         } else {
             $('#EditUser_' + user_id).modal('hide');
+            $('#save_changes_uid_' + user_id).prop('disabled', false);
+            $('#save_changes_uid_' + user_id).html('Save Changes');
+            $('#clientName__' + user_id).html(user_name);
+            $('#userEmail__' + user_id).html(user_email);
         }
 
         if(jsonResponse["sent_mail"] == "true")
@@ -390,6 +403,8 @@ $(document).ready(function() {
             obj.active = {active: obj.client.active, user_id: obj.id};
             obj.delete = obj.id;
             obj.settings = obj.id;
+            obj.details = obj.id;
+            obj.user = {id:obj.id, email: obj.email, name: obj.name};
 
             if(obj.client_uploads) {
                 obj.uploads = {user_id: obj.id, uploads_percentage: get_percentage(obj.client_uploads.upload_limit, obj.client_uploads.uploads), client_upload_limit: obj.client_uploads.upload_limit, client_uploads: obj.client_uploads.uploads};
@@ -586,9 +601,65 @@ $(document).ready(function() {
                 })
             });
 
+            $("#companyInfoEdit__" + obj.id).click(function() {
+                $("#saveChangesBtn__" + obj.id).removeClass("d-none");
+            });
+            $("#saveChangesForm__" + obj.id + " :input").each(function() {
+                $(this).val() || this.setCustomValidity("Invalid")
+            }), $("#clientFirstName__"  + obj.id + ", #contactFirstName__" + obj.id + ", #clientLastName__" + obj.id + ", #contactLastName__" + obj.id + ", #businessRegisteredName__"  + obj.id).on("keyup change", function() {
+                $(this).val().match(/^([a-zA-z ]){2,}$/) ? (this.setCustomValidity(""), $(this).removeClass("is-invalid"), $(this).addClass("is-valid")) : (this.setCustomValidity("Invalid Name"), $(this).removeClass("is-valid"), $(this).addClass("is-invalid"))
+            }), $("#clientPostalAddress__" + obj.id + ", #businessPostalAddress__" + obj.id +", #businessPhysicalAddress__" + obj.id).on("keyup change", function() {
+                $(this).val().length < 2 ? (this.setCustomValidity("Invalid Address"), $(this).removeClass("is-valid"), $(this).addClass("is-invalid")) : (this.setCustomValidity(""), $(this).removeClass("is-invalid"), $(this).addClass("is-valid"))
+            }), $("#clientContactNumber__" + obj.id + ", #businessContactNumber__"  + obj.id).on("keyup change", function() {
+                $(this).val().match(/^(\+27)(\s)(\d){2}(\s)(\d){3}(\s)(\d){4}$/) ? (this.setCustomValidity(""), $(this).removeClass("is-invalid"), $(this).addClass("is-valid")) : (this.setCustomValidity("Invalid phone number"), $(this).removeClass("is-valid"), $(this).addClass("is-invalid"))
+            }), $("#clientEmailAddress__" + obj.id +", #businessEmailAddress__" + obj.id).on("keyup change", function() {
+                $(this).val().match(/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$/) ? (this.setCustomValidity(""), $(this).removeClass("is-invalid"), $(this).addClass("is-valid")) : (this.setCustomValidity("Invalid email address"), $(this).removeClass("is-valid"), $(this).addClass("is-invalid"))
+            }), $("#businessRegistrationNumber__" + obj.id).on("keyup change", function() {
+                $(this).val().match(/^[\d]+$/) ? (this.setCustomValidity(""), $(this).removeClass("is-invalid"), $(this).addClass("is-valid")) : (this.setCustomValidity("Invalid business registration number"), $(this).removeClass("is-valid"), $(this).addClass("is-invalid"))
+            }), $("#businessVatNumber__" + obj.id).on("keyup change", function() {
+                $(this).val().match(/^(\d){10}$/) ? (this.setCustomValidity(""), $(this).removeClass("is-invalid"), $(this).addClass("is-valid")) : (this.setCustomValidity("Invalid VAT number"), $(this).removeClass("is-valid"), $(this).addClass("is-invalid"))
+            });
+        
+            var a = $("input[name=user_id" + obj.id + "]").val();
+            $("#saveChangesBtn__" + obj.id).click(function() {
+                var e = 0;
+                $("#saveChangesForm" + obj.id + " :input").each(function() {
+                    this.checkValidity() ? ($(this).addClass("is-valid"), e++) : $(this).addClass("is-invalid")
+                });
+                var i, n = this;
+                i =  17;
+                var o = !1,
+                    l = !1;
+                    $(this).prop("disabled", !0), $(this).html('<span class="spinner-border spinner-border-sm saving-status-loader" role="status" aria-hidden="true"></span>Saving Changes');
+                    var d = {
+                        user_id: a,
+                        client_first_name: $("input[name=client_first_name__" + obj.id + "]").val(),
+                        client_last_name: $("input[name=client_last_name__" + obj.id + "]").val(),
+                        client_email_address: $("input[name=client_email_address__" + obj.id + "]").val(),
+                        client_contact_number: $("input[name=client_contact_number__" + obj.id +"]").val(),
+                        client_postal_address: $("textarea[name=client_postal_address" + obj.id + "]").val(),
+                        business_registered_name: $("input[name=business_registered_name__" + obj.id + "]").val(),
+                        contact_first_name: $("input[name=contact_first_name__" + obj.id + "]").val(),
+                        contact_last_name: $("input[name=contact_last_name__" + obj.id + "]").val(),
+                        contact_email_address: $("input[name=contact_email_address__" + obj.id + "]").val(),
+                        business_contact_number: $("input[name=business_contact_number__" + obj.id +"]").val(),
+                        business_registration_number: $("input[name=business_registration_number__" + obj.id + "]").val(),
+                        business_vat_number: $("input[name=business_vat_number" + obj.id + "]").val(),
+                        business_physical_address: $("textarea[name=business_physical_address__" + obj.id + "]").val(),
+                        business_postal_address: $("textarea[name=business_postal_address__" + obj.id +"]").val()
+                    };
+                    $.post("/api/meetpat-client/settings/save-changes", d, function(t) {}).done(function(t) {
+                        console.log(d);
+                        console.log("Updated information");
+                        $(this).html("Save Changes");
+                        $("#saveChangesBtn__" + a).addClassClass("d-none");
+                    }).fail(function(t) {
+                        $(n).prop("disabled", !1), $(n).html("Save Changes"), $("input, textarea").removeClass("is-valid")
+                    })
+                });
         });
         var tabledata = data;
-
+        console.log(tabledata)
         var table = new Tabulator("#users-table", {
             data:tabledata,
             layout:"fitDataFill",
@@ -596,35 +667,47 @@ $(document).ready(function() {
             paginationSize:12,
             columns: [
                 {title:"ID", field:"id"},
-                {title:"Name", field:"name"},
-                {title: "Email", field:"email"},
+                {title:"Name", field:"user", formatter:function(cell, formatterParams) {
+                    var value = cell.getValue();
+                    return '<span id="clientName__' + value.id + '">' + value.name + '</span>';
+                }},
+                {title: "Email", field:"user", formatter:function(cell, formatterParams) {
+                    var value = cell.getValue();
+                    return '<a href="mailto:' + value.email + '?Subject=MeetPat" id="userEmail__'+ value.id +'">'+ value.email +'</a>'
+                }},
                 {title: "Audience Files", field: "audience_files", "align": "center", formatter:function(cell, formatterParams) {
                     var value = cell.getValue();
                     return "<a href='"+ cell.getValue() + "'><i class='fas fa-folder action-link'></i></a>";
                 }},
-                {title: "Edit", field: "edit", formatter:function(cell, formatterParams) {
+                {title: "Edit", field: "edit", "align": "center", formatter:function(cell, formatterParams) {
                     var value = cell.getValue();
-                    return '<button class="edit-tooltip table_button" data-toggle="modal" data-target="#EditUser_'+ cell.getValue() +'" data-toggle="tooltip" data-html="true" title="<em>edit</em>"><i class="fas fa-pen-alt action-link"></i></button>';
+                    return '<button class="edit-tooltip table_button" data-toggle="modal" data-target="#EditUser_'+ cell.getValue() +'" data-toggle="tooltip" data-html="true" title="edit"><i class="fas fa-pen-alt action-link"></i></button>';
                 }},
-                {title: "Active", field: "active", formatter:function(cell, formatterParams) {
+                {title: "Active", field: "active", "align": "center", formatter:function(cell, formatterParams) {
                     var value = cell.getValue();
                     if(cell.getValue().active) {
-                        return '<button id="ActiveStatusBtn_'+cell.getValue().user_id+'" onclick="change_status(this)" type="submit" class="active-tooltip table_button ActiveStatusBtn" data-toggle="tooltip" data-html="true" title="<em>status</em>" data-user="'+cell.getValue().user_id+'"><i class="fas fa-toggle-on action-link"></i></button>'
+                        return '<button id="ActiveStatusBtn_'+cell.getValue().user_id+'" onclick="change_status(this)" type="submit" class="active-tooltip table_button ActiveStatusBtn" data-toggle="tooltip" data-html="true" title="status" data-user="'+cell.getValue().user_id+'"><i class="fas fa-toggle-on action-link"></i></button>'
                     } else {
-                        return '<button id="ActiveStatusBtn_'+cell.getValue().user_id+'" onclick="change_status(this)" type="submit" class="active-tooltip table_button ActiveStatusBtn" data-toggle="tooltip" data-html="true" title="<em>status</em>" data-user="'+cell.getValue().user_id+'"><i class="fas fa-toggle-off action-link"></i></button>'
+                        return '<button id="ActiveStatusBtn_'+cell.getValue().user_id+'" onclick="change_status(this)" type="submit" class="active-tooltip table_button ActiveStatusBtn" data-toggle="tooltip" data-html="true" title="status" data-user="'+cell.getValue().user_id+'"><i class="fas fa-toggle-off action-link"></i></button>'
                     }
                     
                 }},
-                {title: "Delete", field: "delete", formatter:function(cell, formatterParams) {
+                {title: "Delete", field: "delete", "align": "center", formatter:function(cell, formatterParams) {
                     var value = cell.getValue();
-                    return `<button class="delete-tooltip table_button" data-toggle="modal" data-target="#DeleteUser__${value}" data-toggle="tooltip" data-html="true" title="<em>delete</em>">
+                    return `<button class="delete-tooltip table_button" data-toggle="modal" data-target="#DeleteUser__${value}" data-toggle="tooltip" data-html="true" title="delete">
                                 <i class="far fa-trash-alt action-link"></i>
                             </button>`;
                 }},
-                {title: "Settings", field: "settings", formatter:function(cell, formatterParams) {
+                {title: "Settings", field: "settings", "align": "center", formatter:function(cell, formatterParams) {
                     var value = cell.getValue();
                     return `<button class="settings-tooltip table_button" data-toggle="modal" data-target="#SettingsUser__${value}" data-toggle="tooltip" data-html="true" title="settings">
                                 <i class="fas fa-cogs action-link"></i>
+                            </button>`
+                }},
+                {title: "Company Details", field: "details", "align": "center", formatter:function(cell, formatterParams) {
+                    var value = cell.getValue();
+                    return `<button class="settings-tooltip table_button" data-toggle="modal" data-target="#CompanyDetails__${value}" data-toggle="tooltip" data-html="true" title="info">
+                                <i class="fas fa-info-circle action-link"></i>
                             </button>`
                 }}
             ]

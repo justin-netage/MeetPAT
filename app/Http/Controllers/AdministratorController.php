@@ -18,7 +18,7 @@ class AdministratorController extends Controller
     // Get all users
     public function users()
     {
-        $users = \MeetPAT\User::has('client')->with(['client', 'client_uploads', 'similar_audience_credits'])->get();
+        $users = \MeetPAT\User::has('client')->with(['client', 'client_uploads', 'similar_audience_credits', 'client_details'])->get();
 
         return $users;
     }
@@ -92,7 +92,7 @@ class AdministratorController extends Controller
             $uppercase = preg_match('@[A-Z]@', $request->new_password);
             $lowercase = preg_match('@[a-z]@', $request->new_password);
             $number    = preg_match('@[0-9]@', $request->new_password);
-            $symbol    = preg_match("@[-!$%^&*()_+|~=`{}\[\]:\";'<>?,.\/]@", $request->new_password);
+            $symbol    = preg_match("@[-!$%^&*()\@_+|~=`{}\[\]:\";'<>?,.\/]@", $request->new_password);
 
             if(!$uppercase || !$lowercase || !$number || !$symbol || strlen($request->new_password) < 8) {
 

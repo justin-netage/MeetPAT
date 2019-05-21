@@ -240,9 +240,9 @@
                                 <textarea name="business_postal_address" id="businessPostalAddress" class="form-control"></textarea>
 
                                 @endif
-                                    <div class="invalid-feedback">
-                                        Please enter a postal address.
-                                    </div>                                
+                                <div class="invalid-feedback">
+                                    Please enter a postal address.
+                                </div>                                
                             </div>
                             <div class="form-group">
                                 <button type="button" id="saveChangesBtn" class="btn btn-lg btn-primary btn-block">Save Changes</button>
