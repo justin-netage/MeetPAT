@@ -110,3 +110,7 @@ Route::post('/meetpat-client/settings/save-changes', 'MeetpatClientController@sa
 
 // Disconnect plarform
 Route::post('/meetpat-client/settings/disconnect-platform', 'MeetpatClientController@disconnect_platform')->name('disconnect-platform');
+
+// Barker Street Access
+
+Route::post('/file-ready', 'ApiController@file_ready')->middleware('auth:api')->name('file-updated');

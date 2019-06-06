@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "79608e0e6f9be226d67aa01de8021c2c",
+    "content-hash": "a520b1ee6e62f75c4f628f0ea05c7d09",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1569,6 +1569,48 @@
             ],
             "description": "Flysystem adapter for the AWS S3 SDK v3.x",
             "time": "2018-10-08T07:53:55+00:00"
+        },
+        {
+            "name": "league/flysystem-sftp",
+            "version": "1.0.19",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/flysystem-sftp.git",
+                "reference": "d1ac352947ddf375ecb42a024d2072c9a294fee9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-sftp/zipball/d1ac352947ddf375ecb42a024d2072c9a294fee9",
+                "reference": "d1ac352947ddf375ecb42a024d2072c9a294fee9",
+                "shasum": ""
+            },
+            "require": {
+                "league/flysystem": "~1.0",
+                "php": ">=5.6.0",
+                "phpseclib/phpseclib": "~2.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "^5.7.25"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "League\\Flysystem\\Sftp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frank de Jonge",
+                    "email": "info@frenky.net"
+                }
+            ],
+            "description": "Flysystem adapter for SFTP",
+            "time": "2019-04-25T10:20:55+00:00"
         },
         {
             "name": "linq/php-linq",
@@ -3276,6 +3318,40 @@
                 "sendgrid"
             ],
             "time": "2018-09-18T21:45:55+00:00"
+        },
+        {
+            "name": "stilliard/csvparser",
+            "version": "v1.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stilliard/CsvParser.git",
+                "reference": "82d13afc228034bc5e7b06f3c1f4390085ebcdbd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stilliard/CsvParser/zipball/82d13afc228034bc5e7b06f3c1f4390085ebcdbd",
+                "reference": "82d13afc228034bc5e7b06f3c1f4390085ebcdbd",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CsvParser\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrew Stilliard",
+                    "email": "andrew.stilliard@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "csv manipulation made simple",
+            "time": "2019-05-23T15:49:39+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

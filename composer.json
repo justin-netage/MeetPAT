@@ -14,10 +14,12 @@
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
         "league/flysystem-aws-s3-v3": "^1.0",
+        "league/flysystem-sftp": "^1.0",
         "linq/php-linq": "^1.0",
         "maatwebsite/excel": "^3.1",
         "phpoffice/phpspreadsheet": "^1.6",
-        "sendgrid/sendgrid": "^7.2"
+        "sendgrid/sendgrid": "^7.2",
+        "stilliard/csvparser": "1.1.5"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

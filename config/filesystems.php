@@ -66,6 +66,14 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
         ],
+        'sftp' => [
+            'driver' => 'sftp',
+            'host' => env('BSA_SFTP_URL'),
+            'username' => env('BSA_SFTP_USERNAME'),
+            'password' => env('BSA_SFTP_PASSWORD'),
+            'port' => 22,
+            
+        ]
 
     ],
 

@@ -329,12 +329,15 @@ class BarkerStreetEnrichment extends Command
     
                                  } else {
                                      $new_data = [
+                                         "ClientFileName" => "meetpatClientFile_" . $audience_file->file_unique_name .".csv",
+                                         "ClientRecordID" => "",
                                          "InputIdn" => "",
-                                         "InputSurname" => check_value($row[1]),
                                          "InputFirstName" => check_value($row[0]),
+                                         "InputSurname" => check_value($row[1]),
                                          "InputPhone" => check_value(validate_mobile_number($row[2])),
                                          "InputEmail" => check_value(validate_email_address($row[3]))
                                      ];
+
                                      $data_to_enrich[] = $new_data;
                                     //  $job->increment('records_checked', 1);
     
@@ -342,66 +345,44 @@ class BarkerStreetEnrichment extends Command
                             }
 
                     }
-                    if($data_to_enrich) 
+                    array_unshift($data_to_enrich, array("ClientFileName", "ClientRecordID", "InputIdn", "InputFirstName", "InputSurname", "InputPhone", "InputEmail"));
+
+                    $parser = new \CsvParser\Parser('|', '', "\n");
+                    $csv = $parser->fromArray($data_to_enrich);
+
+                    if(env('APP_ENV') == 'production')
                     {
-                        $data_to_enrich = collect($data_to_enrich);
-                        $job->update(['records' => sizeof($data_to_enrich)]);
-                        $new_data_chunks = $data_to_enrich->chunk(1000);
-                        $uploads = \MeetPAT\ClientUploads::where('user_id', $job->user_id)->first();
-    
-                        if(!$uploads)
-                        {
-                            $uploads = \MeetPAT\ClientUploads::create(['user_id' => $job->user_id, 'uploads' => 0, 'upload_limit' => 10000]);
-                        }
-    
-                        foreach($new_data_chunks as $new_data_chunk) {
-                            // \MeetPAT\BarkerStreetRecord::insert($new_data_chunk->toArray());
-                            // New Handeling method for uploaded contacts
-    
-                            $curl = curl_init(env('BSAPI_URL') . '/standardEnrichment');
-                            $data_string = json_encode($new_data_chunk);
-    
-                            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
-                            curl_setopt($curl, CURLOPT_POSTFIELDS, 'data=' . rawurlencode($data_string));                                                                
-                            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);      
-                            curl_setopt($curl, CURLINFO_HEADER_OUT, true);                                                                
-                            curl_setopt($curl, CURLOPT_HTTPHEADER, array(                                                                          
-                                'Content-Type: application/x-www-form-urlencoded',    
-                                'accountKey: ' . env('BSAPI_ACC_KEY'))                                                                       
-                            );                                              
-    
-                            $result = curl_exec($curl);
-                            $info = curl_getinfo($curl);
-                            curl_close($curl);
-    
-                            // Add response data to database
-                            if($info["http_code"] == 200) {
-                                $this->info($result);
-                                // $results_array = json_decode($result, true);
-    
-                                // foreach($results_array as $key=>$enriched_data)
-                                // {
-                                //     $results_array[$key]["AgeGroup"] = get_age_group($results_array[$key]["AgeGroup"]);
-                                //     $results_array[$key]["PopulationGroup"] = get_population_group($results_array[$key]["PopulationGroup"]);
-                                //     $results_array[$key]["IncomeBucket"] = get_income_bucket($results_array[$key]["IncomeBucket"]);
-                                //     $results_array[$key]["Province"] = format_province($results_array[$key]["Province"]);
-                                //     $results_array[$key]["Generation"] = get_generation($results_array[$key]["id6"]);
-        
-                                // }
-                                
-                                // \BarkerStreetEnrichedRecord::insert($results_array);
-        
-                                // $job->increment('records_completed', sizeof($new_data_chunk));
-                                // $uploads->increment('uploads', sizeof($new_data_chunk));
-    
-                            } else {
-                                $this->info($result);
-                            }                       
-    
-                        }
+                        \Storage::disk('s3')->put('barker-street/meetpatClientFile_'.$audience_file->file_unique_name.'.csv', ltrim($parser->toString($csv),"0|1|2|3|4|5|6\n"), 'private');
                     } else {
-                        
+                        \Storage::disk('local')->put('barker-street/meetpatClientFile_'.$audience_file->file_unique_name.'.csv', ltrim($parser->toString($csv),"0|1|2|3|4|5|6\n"), 'private');
                     }
+
+                    
+
+                    /** When the file is available from BSA run a separate scheduled task. */
+
+                    // if($data_to_enrich) 
+                    // {
+                    //     $data_to_enrich = collect($data_to_enrich);
+                    //     $job->update(['records' => sizeof($data_to_enrich)]);
+                    //     $new_data_chunks = $data_to_enrich->chunk(1000);
+                    //     $uploads = \MeetPAT\ClientUploads::where('user_id', $job->user_id)->first();
+    
+                    //     if(!$uploads)
+                    //     {
+                    //         $uploads = \MeetPAT\ClientUploads::create(['user_id' => $job->user_id, 'uploads' => 0, 'upload_limit' => 10000]);
+                    //     }
+    
+                    //     foreach($new_data_chunks as $new_data_chunk) {
+                    //         // \MeetPAT\BarkerStreetRecord::insert($new_data_chunk->toArray());
+                    //         // New Handeling method for uploaded contacts
+    
+                            
+    
+                    //     }
+                    // } else {
+                        
+                    // }
 
                     
                         check_complete($all_jobs);

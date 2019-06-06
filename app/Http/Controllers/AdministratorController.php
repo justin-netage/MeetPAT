@@ -5,6 +5,7 @@ namespace MeetPAT\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use MeetPAT\Mail\NewUser;
+use Illuminate\Support\Str;
 
 
 class AdministratorController extends Controller
@@ -48,9 +49,16 @@ class AdministratorController extends Controller
             )
         ]);
 
-        $new_user = \MeetPAT\User::create(['name' => $request->firstname . ' ' . $request->lastname,
-                                             'email' => $request->email,
-                                             'password' => \Hash::make($request->password) ]);
+        if($request->give_api_key) {
+            $new_user = \MeetPAT\User::create(['name' => $request->firstname . ' ' . $request->lastname,
+                                               'email' => $request->email,
+                                               'password' => \Hash::make($request->password),
+                                               'api_token' => Str::random(60) ]);
+        } else {
+            $new_user = \MeetPAT\User::create(['name' => $request->firstname . ' ' . $request->lastname,
+                                               'email' => $request->email,
+                                               'password' => \Hash::make($request->password) ]);            
+                                            }
 
         $new_client = \MeetPAT\MeetpatClient::create(['user_id' => $new_user->id, 'active' => 1]);
 
