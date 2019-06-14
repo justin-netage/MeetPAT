@@ -29,7 +29,7 @@ $(document).ready(function() {
                         '<div class="spinner-border ml-auto spinner-border-sm" role="status" aria-hidden="true"></div>' +
                         '</div>' +    
                         '<div class="progress" id="job_' + key + '">' +
-                        '<div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width:' + get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_checked']) + '%" aria-valuenow="' + get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_checked']) + '" aria-valuemin="0" aria-valuemax="100">'+ 
+                        '<div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width:' + get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_completed']) + '%" aria-valuenow="' + get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_completed']) + '" aria-valuemin="0" aria-valuemax="100">'+ 
                         'Pending...'+
                         '</div>' +
                         '</div> <br />'+
@@ -44,7 +44,7 @@ $(document).ready(function() {
                         '<div class="spinner-border ml-auto spinner-border-sm" role="status" aria-hidden="true"></div>' +
                         '</div>' +
                         '<div class="progress" id="job_' + key + '">' +
-                        '<div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width:' + get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_checked']) + '%" aria-valuenow="' + get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_checked']) + '" aria-valuemin="0" aria-valuemax="100">'+ get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_checked']) + "%" +'</div>' +
+                        '<div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width:' + get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_completed']) + '%" aria-valuenow="' + get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_completed']) + '" aria-valuemin="0" aria-valuemax="100">'+ get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_completed']) + "%" +'</div>' +
                         '</div> <br />'+
                         '<p class="badge badge-pill badge-warning">Checking and removing duplicate records: <span id="recordsChecked_'+ key + '">' + data["jobs"][key]["records_checked"] + '/' + data["jobs"][key]["records"] + '</span></p>'
                         );
@@ -70,15 +70,15 @@ $(document).ready(function() {
 
                 for (var key in data["jobs"]) {
                     if(data["jobs"][key]["records"] !== data["jobs"][key]['records_completed'] && data["jobs"][key]["status"] == "running") {
-                        $("#job_" + key + " .progress-bar").attr("aria-valuenow", get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_checked']));
-                        $("#job_" + key + " .progress-bar").html(get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_checked']) + "%");
-                        $("#job_" + key + " .progress-bar").width(get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_checked']) + "%");
+                        $("#job_" + key + " .progress-bar").attr("aria-valuenow", get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_completed']));
+                        $("#job_" + key + " .progress-bar").html(get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_completed']) + "%");
+                        $("#job_" + key + " .progress-bar").width(get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_completed']) + "%");
                     } else if(data["jobs"][key]["status"] == "done") {
                         $("#loader_title_" + key).remove();
                         $("#progress_title_" + key).show();
-                        $("#job_" + key + " .progress-bar").attr("aria-valuenow", get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_checked']));
+                        $("#job_" + key + " .progress-bar").attr("aria-valuenow", get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_completed']));
                         $("#job_" + key + " .progress-bar").html("complete");
-                        $("#job_" + key + " .progress-bar").width(get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_checked']) + "%");
+                        $("#job_" + key + " .progress-bar").width(get_percentage(data["jobs"][key]["records"], data["jobs"][key]['records_completed']) + "%");
                         $("#job_" + key + " .progress-bar").removeClass('bg-info');
                         $("#job_" + key + " .progress-bar").removeClass('progress-bar-animated');
                         $("#job_" + key + " .progress-bar").addClass('bg-success');

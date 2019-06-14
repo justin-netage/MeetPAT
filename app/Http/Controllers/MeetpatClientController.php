@@ -528,7 +528,7 @@ class MeetpatClientController extends Controller
            
         if($ext == 'csv') {
             $csv = readCSV($request->file('audience_file')); 
-            if($csv[0] == ["Firstname","Surname","MobilePhone","Email"]) {
+            if($csv[0] == ["Firstname","Surname","MobilePhone","Email", "IDNumber"]) {
 
                 if(count($csv) > $uploads_left) {
                     return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have <b>" . $uploads_left . "</b> uploads available."]);
