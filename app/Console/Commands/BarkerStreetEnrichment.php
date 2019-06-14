@@ -50,7 +50,7 @@ class BarkerStreetEnrichment extends Command
                 if(preg_match($pattern, $value)) {
                     return $value;
                 } else {
-                    return 'Unkown';
+                    return $value;
                 }
             }
     
@@ -63,7 +63,7 @@ class BarkerStreetEnrichment extends Command
                     return '+' . $number;
                 } else {
     
-                    return 'Unknown';
+                    return $value;
     
                 }
     
@@ -96,7 +96,7 @@ class BarkerStreetEnrichment extends Command
                         return "Eighty +";
                         break;    
                     default:
-                        return 'Unknown';                                                   
+                        return '';                                                   
                 }
     
     
