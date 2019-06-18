@@ -218,7 +218,14 @@ class ProcessBarkerStreetFiles extends Command
         {
             if($bsa_file_job)
             {
+                $bsa_file_job->update(['job_status' => 'running']);
                 $job_file = \MeetPAT\RecordsJobQue::where('audience_file_id', $bsa_file_job->audience_file_id)->first();
+                $client_uploads = \MeetPAT\ClientUploads::where('user_id', $bsa_file_job->user_id)->first();
+
+                if(!$client_uploads)
+                {
+                    $client_uploads = \MeetPAT\ClientUploads::create(['user_id' => $bsa_file_job->user_id, 'uploads' => 0, 'upload_limit' => 10000]);
+                }
 
                 if(env('APP_ENV') == 'production')
                 {
@@ -238,11 +245,11 @@ class ProcessBarkerStreetFiles extends Command
         
                     $parser = new \CsvParser\Parser('|', "'", "\n");
                     $csv = $parser->fromString($output_file);
-                    $chunks = $parser->toChunks($csv, 100);
+                    $chunks = $parser->toChunks($csv, 1000);
         
                     foreach($chunks as $chunk)
                     {
-                        $chunk->mapRows(function ($row) use ($bsa_file_job, $job_file) {
+                        $chunk->mapRows(function ($row) use ($bsa_file_job, $job_file, $client_uploads) {
                             \MeetPAT\EnrichedRecord::create(
                                 array(
                                     'RecordKey' => $row['RecordKey'],
@@ -297,6 +304,7 @@ class ProcessBarkerStreetFiles extends Command
         
                             $bsa_file_job->increment('records_completed', 1);
                             $job_file->increment('records_completed', 1);
+                            $client_uploads->increment('uploads', 1);                            
     
                          });
                         
@@ -304,7 +312,12 @@ class ProcessBarkerStreetFiles extends Command
     
                     $bsa_file_job->update(['job_status' => 'complete']);
                     $job_file->update(['status' => 'done']);
-                } 
+                } else {
+                    $this->info('Could not find the output file');
+
+                    $bsa_file_job->update(['job_status' => 'error']);
+                    $job_file->update(['status' => 'done']);
+                }
                 
             } else {
                 $this->info('No jobs pending.');

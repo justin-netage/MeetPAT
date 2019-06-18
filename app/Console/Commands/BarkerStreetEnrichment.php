@@ -367,9 +367,8 @@ class BarkerStreetEnrichment extends Command
                     }
                     array_unshift($data_to_enrich, array("ClientFileName", "ClientRecordID", "InputIdn", "InputFirstName", "InputSurname", "InputPhone", "InputEmail"));
 
-                    $parser = new \CsvParser\Parser(',', '', "\n");
+                    $parser = new \CsvParser\Parser('|', '', "\n");
                     $csv = $parser->fromArray($data_to_enrich);
-                    $parser->fieldDelimiter = '|';
                     
                     if(env('APP_ENV') == 'production')
                     {

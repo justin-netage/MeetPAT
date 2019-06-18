@@ -52,6 +52,7 @@ $(document).ready(function() {
                 `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     Submitting...`
             );
+            $("#fieldsetId").prop("disabled", true);
             $.ajax({
                 url: "/api/meetpat-client/large-data/handler",
                 type: "POST",
@@ -66,7 +67,8 @@ $(document).ready(function() {
                 error: function(e) {
                     $("#submit_audience").prop('disabled', false);
                     $("#submit_audience").html('Submit');
-                    $("#alert-section").empty(), $("#alert-section").append('<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Error!</strong> Clients failed to upload.<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> </div>')
+                    $("#alert-section").empty(), $("#alert-section").append('<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Error!</strong> Clients failed to upload.<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> </div>');
+                    $("#fieldsetId").prop("disabled", false);
                 },
                 cache: !1,
                 contentType: !1,
