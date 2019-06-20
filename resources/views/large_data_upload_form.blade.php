@@ -5,7 +5,6 @@
 @endsection
 
 @section('content')
-<div id="loader"></div>
 
 <div class="container">
     <div class="row justify-content-center">
