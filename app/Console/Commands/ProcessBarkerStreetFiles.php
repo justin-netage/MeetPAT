@@ -139,7 +139,13 @@ class ProcessBarkerStreetFiles extends Command
         // find CreditRiskCategory
         function find_category($category)
         {
-            return str_replace(" ", "_", trim(explode('.', $category)[1]));
+            if($category)
+            {
+                return str_replace(" ", "_", trim(explode('.', $category)[1]));
+            } else {
+                return "Unkown";
+            }
+           
         }
 
         // format province
@@ -221,6 +227,7 @@ class ProcessBarkerStreetFiles extends Command
                 $bsa_file_job->update(['job_status' => 'running']);
                 $job_file = \MeetPAT\RecordsJobQue::where('audience_file_id', $bsa_file_job->audience_file_id)->first();
                 $client_uploads = \MeetPAT\ClientUploads::where('user_id', $bsa_file_job->user_id)->first();
+                $job_file->update(['records' => $bsa_file_job->records, 'records_checked' => $bsa_file_job->records]);
 
                 if(!$client_uploads)
                 {

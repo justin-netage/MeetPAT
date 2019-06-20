@@ -4,7 +4,6 @@
 <form style="display:none">
     <input type="hidden" id="user_id" value="{{\Auth::user()->id}}">
 </form>
-<div id="loader"></div>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">

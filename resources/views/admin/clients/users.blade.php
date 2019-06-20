@@ -15,7 +15,6 @@
 @endsection
 @section('content')
 <!-- <div id="users"></div> -->
-<div id="loader"></div>
 <div class="message-container"></div>
 <div class="container">
     <div class="row">

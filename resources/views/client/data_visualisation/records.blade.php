@@ -678,7 +678,6 @@
                 <div id="employersChart" style="width: 100%;"></div>
             </div> 
         </div>
-    </div>
         <div class="col-12 col-md-4" id="directors-graph">
             <h3>Director of a Business
                 <div class="btn-group dropleft float-right">
