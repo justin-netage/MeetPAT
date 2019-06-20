@@ -86,7 +86,11 @@ Route::get('meetpat-client/get-records/citizens-and-residents', 'DataVisualisati
 Route::get('meetpat-client/get-records/generations', 'DataVisualisationController@get_generations')->name('get-client-records-generations');
 Route::get('meetpat-client/get-records/marital-statuses', 'DataVisualisationController@get_marital_statuses')->name('get-client-records-marital-statuses');
 Route::get('meetpat-client/get-records/areas', 'DataVisualisationController@get_area')->name('get-client-records-areas');
-
+Route::get('meetpat-client/get-records/vehicle-owner', 'DataVisualisationController@get_vechicle_owner')->name('get-vehicle-owners');
+Route::get('meetpat-client/get-records/lsm-group', 'DataVisualisationController@get_lsm_group')->name('get-lsm-groups');
+Route::get('meetpat-client/get-records/property-valuation', 'DataVisualisationController@get_property_valuation')->name('get-property-valuations');
+Route::get('meetpat-client/get-records/property-count', 'DataVisualisationController@get_property_count')->name('get-property-counts');
+Route::get('meetpat-client/get-records/employers', 'DataVisualisationController@get_employer')->name('get-employers');
 
 // Get Authentication token
 Route::post('google-authorization/authenticate-authorization-code', 'MeetpatClientController@authenticate_authorization_code')->name('authenticate-google-code');

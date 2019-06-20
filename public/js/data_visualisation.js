@@ -16,15 +16,23 @@ var target_home_owners = [];
 var target_risk_categories = [];
 var target_incomes = [];
 var target_directors = [];
+var target_vehicle_owners = [];
+var target_lsm_groups = [];
+var target_property_valuations = [];
+var target_property_counts = [];
+var target_employers = [];
 
 var checkForFilters = function() {
-    target_provinces_el = document.getElementById("province_filters") ;var target_municipalities_el = document.getElementById("municipality_filters");
-    target_areas_el = document.getElementById("area_filters") ;var target_ages_el = document.getElementById("age_filters");
-    target_genders_el = document.getElementById("gender_filters") ;var target_population_groups_el = document.getElementById("population_group_filters");
-    target_generations_el = document.getElementById("generation_filters") ;var target_citizen_vs_residents_el = document.getElementById("citizen_vs_resident_filters");
-    target_marital_statuses_el = document.getElementById("marital_status_filters") ;var target_home_owners_el = document.getElementById("home_owner_filters");
-    target_risk_categories_el = document.getElementById("risk_category_filters") ;var target_incomes_el = document.getElementById("household_income_filters");
-    target_directors_el = document.getElementById("directors_filters");
+    var target_provinces_el = document.getElementById("province_filters") ;var target_municipalities_el = document.getElementById("municipality_filters");
+    var target_areas_el = document.getElementById("area_filters") ;var target_ages_el = document.getElementById("age_filters");
+    var target_genders_el = document.getElementById("gender_filters") ;var target_population_groups_el = document.getElementById("population_group_filters");
+    var target_generations_el = document.getElementById("generation_filters") ;var target_citizen_vs_residents_el = document.getElementById("citizen_vs_resident_filters");
+    var target_marital_statuses_el = document.getElementById("marital_status_filters") ;var target_home_owners_el = document.getElementById("home_owner_filters");
+    var target_risk_categories_el = document.getElementById("risk_category_filters") ;var target_incomes_el = document.getElementById("household_income_filters");
+    var target_directors_el = document.getElementById("directors_filters") ;var target_vehicle_owners_el = document.getElementById("vehicle_owner_filters");
+    var target_lsm_group_el = document.getElementById("lsm_group_filters") ;var target_property_valuations_el = document.getElementById("property_valuation_filters");
+    var target_property_counts_el = document.getElementById("property_count_filters");var target_employers_el = document.getElementById("employer_filters");
+
     if(
         target_provinces_el.childNodes.length > 1 || target_municipalities_el.childNodes.length > 1 ||
         target_areas_el.childNodes.length > 1 || target_ages_el.childNodes.length > 1 ||
@@ -32,7 +40,9 @@ var checkForFilters = function() {
         target_generations_el.childNodes.length > 1 || target_citizen_vs_residents_el.childNodes.length > 1 ||
         target_marital_statuses_el.childNodes.length > 1 || target_home_owners_el.childNodes.length > 1 ||
         target_risk_categories_el.childNodes.length > 1 || target_incomes_el.childNodes.length > 1 ||
-        target_directors_el.childNodes.length > 1
+        target_directors_el.childNodes.length > 1 || target_vehicle_owners_el.childNodes.length > 1 ||
+        target_lsm_group_el.childNodes.length > 1 || target_property_valuations_el.childNodes.length > 1 ||
+        target_property_counts_el.childNodes.length > 1 || target_employers_el.childNodes.length > 1
         ) { $("#no_filters").hide();} else { $("#no_filters").show();}
 
         if (target_provinces_el.childNodes.length > 1) {$("#province_filters").show()} else {$("#province_filters").hide()};
@@ -48,7 +58,11 @@ var checkForFilters = function() {
         if (target_risk_categories_el.childNodes.length > 1) {$("#risk_category_filters").show()} else {$("#risk_category_filters").hide()};
         if (target_incomes_el.childNodes.length > 1) {$("#household_income_filters").show()} else {$("#household_income_filters").hide()};
         if (target_directors_el.childNodes.length > 1) {$("#directors_filters").show()} else {$("#directors_filters").hide()};
-
+        if (target_vehicle_owners_el.childNodes.length > 1) {$("#vehicle_owner_filters").show()} else {$("#vehicle_owner_filters").hide()};
+        if (target_lsm_group_el.childNodes.length > 1) {$("#lsm_group_filters").show()} else {$("#lsm_group_filters").hide()};
+        if (target_property_valuations_el.childNodes.length > 1) {$("#property_valuation_filters").show()} else {$("#property_valuation_filters").hide()};
+        if (target_property_counts_el.childNodes.length > 1) {$("#property_count_filters").show()} else {$("#property_count_filters").hide()};
+        if (target_employers_el.childNodes.length > 1) {$("#employer_filters").show()} else {$("#employer_filters").hide()};
 }
 
 function kFormatter(num) {
@@ -137,7 +151,10 @@ function drawAreaChart(  ) {
          selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
          selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
          selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas}, function( chart_data ) {
+         selected_municipalities: target_municipalities, selected_areas: target_areas,
+         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
+         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
+         selected_employers: target_employers}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data )
@@ -431,7 +448,10 @@ function drawAreaChart(  ) {
          selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
          selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
          selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas}, function( chart_data ) {
+         selected_municipalities: target_municipalities, selected_areas: target_areas,
+         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
+         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
+         selected_employers: target_employers}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -515,6 +535,101 @@ function drawAreaChart(  ) {
                
     }
 
+    var drawPropertyValuationChart = function (  ) {
+
+        $.get('/api/meetpat-client/get-records/property-valuation', {user_id: user_id_number, selected_provinces: target_provinces,
+             selected_age_groups: target_ages, selected_gender_groups: target_genders, 
+             selected_population_groups: target_population_groups, selected_generations: target_generations,
+             selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
+             selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
+             selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
+             selected_municipalities: target_municipalities, selected_areas: target_areas,
+             selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
+             selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
+             selected_employers: target_employers}, function( chart_data ) {
+    
+        }).fail(function( chart_data ) {
+            console.log( chart_data );
+    
+        }).done(function( chart_data ) {
+            $("#property-valuation-graph .spinner-block").hide();    
+            $("#property_valuation_filter").empty();
+    
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Property Valuation');
+            data.addColumn('number', 'Records');
+            data.addColumn({type: 'string', role: 'annotation'});
+    
+            var result = Object.keys(chart_data["selected_property_valuations"]).map(function(key) {
+                return [key, chart_data["selected_property_valuations"][key], kFormatter(chart_data["selected_property_valuations"][key])];
+              });
+        
+                data.addRows(result);
+                // Set chart options
+                var chart_options = {
+                                'height': result.length * 25,
+                                'width':'100%',
+                                'fontSize': 10,
+                                'chartArea': {
+                                    width: '60%',
+                                    height: '100%'
+                                    },
+                                'colors': ['#00A3D9'],
+                                'animation': {
+                                    'startup':true,
+                                    'duration': 1000,
+                                    'easing': 'out'
+                                },
+                                'legend': {
+                                    position: 'none'
+                                },
+                                'backgroundColor': '#fff'
+                            };
+    
+                            for (var key in chart_data["all_property_valuations"]) {
+                                if(target_ages.includes(key)) {
+                                    $("#property_valuation_filter").append(
+                                        '<input type="checkbox" name="' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus") + '" id="property_valuations_' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="property_valuations_' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option' +'" class="css-label">' + key + '</label><br />'
+                                    );
+                                } else {
+                                    $("#property_valuation_filter").append(
+                                        '<input type="checkbox" name="' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus") + '" id="property_valuations_' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option' +'" value="' + key + '" class="css-checkbox"><label for="property_valuations_' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option' +'" class="css-label">' + key + '</label><br />'
+                                    );
+                                }
+    
+                                $('#property_valuations_' + key.toLowerCase() + '_option').click(function(){
+                                    if($('#property_valuations_' + $(this).attr("name").toLowerCase() + '_option').is(":checked")) { 
+                                        
+                                        var parent = this;
+                    
+                                        $("#property_valuation_filters").append('<li id="filter_property_valuations_' + $(this).attr("name").toLowerCase() + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                        $('#filter_property_valuations_' + $(this).val().toLowerCase() + ' i').click(function() {
+                                            if($('#property_valuations_' + $(parent).attr("name").toLowerCase() + '_option').length) {
+                                                $('#filter_property_valuations_' + $(parent).val().toLowerCase()).remove();
+                                                $("#property_valuations_" + $(parent).val().toLowerCase() + '_option').prop("checked", false);
+                                            }
+                                            checkForFilters();
+    
+                                        });
+                                    } else {
+                                        
+                    
+                                        if($('#filter_property_valuations_' + $(this).val().toLowerCase())) {
+                                            $('#filter_property_valuations_' + $(this).val().toLowerCase()).remove();
+                                        }
+                                    }
+                                    checkForFilters();
+    
+                                });
+                            }
+                // Instantiate and draw our chart, passing in some options.
+                var chart = new google.visualization.BarChart(document.getElementById('propertyValuationChart'));
+                chart.draw(data, chart_options);     
+        });
+    
+                   
+        }
+
     var drawGenderChart = function() {
         // get gender name
         var get_gender_name = function(short_name) {
@@ -538,7 +653,10 @@ function drawAreaChart(  ) {
              selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
              selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
              selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-             selected_municipalities: target_municipalities, selected_areas: target_areas}, function(chart_data) {
+             selected_municipalities: target_municipalities, selected_areas: target_areas,
+             selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
+             selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
+             selected_employers: target_employers}, function(chart_data) {
 
         }).fail(function( chart_data ) {
             console.log( chart_data )
@@ -654,7 +772,10 @@ function drawAreaChart(  ) {
              selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
              selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
              selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-             selected_municipalities: target_municipalities, selected_areas: target_areas}, function( chart_data ) {
+             selected_municipalities: target_municipalities, selected_areas: target_areas,
+             selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
+             selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
+             selected_employers: target_employers}, function( chart_data ) {
 
         }).fail(function( chart_data ) {
             console.log( chart_data );
@@ -748,7 +869,10 @@ function drawAreaChart(  ) {
              selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
              selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
              selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-             selected_municipalities: target_municipalities, selected_areas: target_areas}, function( chart_data ) {
+             selected_municipalities: target_municipalities, selected_areas: target_areas, 
+             selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
+             selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
+             selected_employers: target_employers}, function( chart_data ) {
 
         }).fail(function( chart_data ) {
             console.log( chart_data );
@@ -839,7 +963,10 @@ var drawCitizensChart = function() {
          selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
          selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
          selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas}, function( chart_data ) {
+         selected_municipalities: target_municipalities, selected_areas: target_areas, 
+         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
+         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
+         selected_employers: target_employers}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -960,7 +1087,10 @@ var drawMaritalStatusChart = function() {
          selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
          selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
          selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas, selected_areas: target_areas}, function( chart_data ) {
+         selected_municipalities: target_municipalities, selected_areas: target_areas, selected_areas: target_areas,
+         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
+         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
+         selected_employers: target_employers}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -1050,7 +1180,10 @@ var drawHomeOwnerChart = function() {
          selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
          selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
          selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas}, function( chart_data ) {
+         selected_municipalities: target_municipalities, selected_areas: target_areas,
+         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
+         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
+         selected_employers: target_employers}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -1093,11 +1226,11 @@ var drawHomeOwnerChart = function() {
             for (var key in chart_data["all_home_owners"]) {
                 if(target_home_owners.includes(key)) {
                     $("#home_owner_filter").append(
-                        '<input type="checkbox" name="h_' + key + '" id="h_' + key + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="h_' + key + '_option' +'" class="css-label">' + key + '</label><br />'
+                        '<input type="checkbox" name="h_' + key.toLowerCase() + '" id="h_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox" checked="checked"><label for="h_' + key.toLowerCase() + '_option' +'" class="css-label">' + key.toLowerCase() + '</label><br />'
                     );
                 } else {
                     $("#home_owner_filter").append(
-                        '<input type="checkbox" name="h_' + key + '" id="h_' + key + '_option' +'" value="' + key + '" class="css-checkbox"><label for="h_' + key + '_option' +'" class="css-label">' + key + '</label><br />'
+                        '<input type="checkbox" name="h_' + key.toLowerCase() + '" id="h_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox"><label for="h_' + key.toLowerCase() + '_option' +'" class="css-label">' + key.toLowerCase() + '</label><br />'
                     );
                 }
                 
@@ -1132,6 +1265,441 @@ var drawHomeOwnerChart = function() {
     });
 }
 
+var drawPropertyCountChart = function() {
+    $.get('/api/meetpat-client/get-records/property-count', {user_id: user_id_number, selected_provinces: target_provinces,
+         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
+         selected_population_groups: target_population_groups, selected_generations: target_generations,
+         selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
+         selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
+         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
+         selected_municipalities: target_municipalities, selected_areas: target_areas,
+         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
+         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
+         selected_employers: target_employers}, function( chart_data ) {
+
+    }).fail(function( chart_data ) {
+        console.log( chart_data );
+    }).done(function( chart_data ) {
+        $("#property-count-graph .spinner-block").hide();    
+        $("#property_count_filter").empty();
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Property Count');
+        data.addColumn('number', 'Records');
+        data.addColumn({type: 'string', role: 'annotation'});
+
+        var result = Object.keys(chart_data["selected_property_counts"]).map(function(key) {
+            return [key, chart_data["selected_property_counts"][key], kFormatter(chart_data["selected_property_counts"][key])];
+        });
+    
+            data.addRows(result);
+            // Set chart options
+            var chart_options = {
+                            'width':'100%',
+                            'fontSize': 10,
+                            'chartArea': {
+                                width: '60%',
+                                height: '75%'
+                                },
+                            vAxis: {
+                                minValue: 0,
+                            }, 
+                            'colors': ['#00A3D9'],
+                            'animation': {
+                                'startup':true,
+                                'duration': 1000,
+                                'easing': 'out'
+                            },
+                            'legend': {
+                                position: 'none'
+                            },
+                            'backgroundColor': '#fff'
+                        };
+            for (var key in chart_data["all_property_counts"]) {
+                if(target_home_owners.includes(key)) {
+                    $("#property_count_filter").append(
+                        '<input type="checkbox" name="pc_' + key.toLowerCase() + '" id="pc_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox" checked="checked"><label for="pc_' + key.toLowerCase() + '_option' +'" class="css-label">' + key.toLowerCase() + '</label><br />'
+                    );
+                } else {
+                    $("#property_count_filter").append(
+                        '<input type="checkbox" name="pc_' + key.toLowerCase() + '" id="pc_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox"><label for="pc_' + key.toLowerCase() + '_option' +'" class="css-label">' + key.toLowerCase() + '</label><br />'
+                    );
+                }
+                
+                $('#pc_' + key.toLowerCase().replace(/ /g, "_") + '_option').click(function(){
+                    if($('#pc_' + $(this).val().toLowerCase().replace(/ /g, "_") + '_option').is(":checked")) { 
+                        
+                        var parent = this;
+    
+                        $("#property_count_filters").append('<li id="filter_pc_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                        $('#filter_pc_' + $(this).val().toLowerCase().replace(/ /g, "_") + ' i').click(function() {
+                            if($('#pc_' + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').length) {
+                                $('#filter_pc_' + $(parent).val().toLowerCase().replace(/ /g, "_")).remove();
+                                $("#pc_" + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').prop("checked", false);
+                            }
+                            checkForFilters();
+
+                        });
+                    } else {
+                        
+    
+                        if($('#filter_pc_' + $(this).val().toLowerCase().replace(/ /g, "_") )) {
+                            $('#filter_pc_' + $(this).val().toLowerCase().replace(/ /g, "_") ).remove();
+                        }
+                    }
+                    checkForFilters();
+
+                });
+            }              
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.ColumnChart(document.getElementById('propertyCountChart'));
+            chart.draw(data, chart_options);    
+    });
+}
+
+var drawVehicleOwnerChart = function() {
+    $.get('/api/meetpat-client/get-records/vehicle-owner', {user_id: user_id_number, selected_provinces: target_provinces,
+         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
+         selected_population_groups: target_population_groups, selected_generations: target_generations,
+         selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
+         selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
+         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
+         selected_municipalities: target_municipalities, selected_areas: target_areas,
+         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
+         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
+         selected_employers: target_employers}, function( chart_data ) {
+
+    }).fail(function( chart_data ) {
+        console.log( chart_data );
+    }).done(function( chart_data ) {
+        $("#vehicle-owner-graph .spinner-block").hide();    
+        $("#vehicle_owner_filter").empty();
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Vehicle Owner Status');
+        data.addColumn('number', 'Records');
+        data.addColumn({type: 'string', role: 'annotation'});
+
+        var result = Object.keys(chart_data["selected_vehicle_owners"]).map(function(key) {
+            return [key, chart_data["selected_vehicle_owners"][key], kFormatter(chart_data["selected_vehicle_owners"][key])];
+        });
+    
+            data.addRows(result);
+            // Set chart options
+            var chart_options = {
+                            'width':'100%',
+                            'fontSize': 10,
+                            'chartArea': {
+                                width: '60%',
+                                height: '75%'
+                                },
+                            vAxis: {
+                                minValue: 0,
+                            }, 
+                            'colors': ['#00A3D9'],
+                            'animation': {
+                                'startup':true,
+                                'duration': 1000,
+                                'easing': 'out'
+                            },
+                            'legend': {
+                                position: 'none'
+                            },
+                            'backgroundColor': '#fff'
+                        };
+            for (var key in chart_data["all_vehicle_owners"]) {
+                if(target_vehicle_owners.includes(key)) {
+                    $("#vehicle_owner_filter").append(
+                        '<input type="checkbox" name="vo_' + key.toLowerCase() + '" id="vo_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox" checked="checked"><label for="vo_' + key.toLowerCase() + '_option' +'" class="css-label">' + key.toLowerCase() + '</label><br />'
+                    );
+                } else {
+                    $("#vehicle_owner_filter").append(
+                        '<input type="checkbox" name="vo_' + key.toLowerCase() + '" id="vo_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox"><label for="vo_' + key.toLowerCase() + '_option' +'" class="css-label">' + key.toLowerCase() + '</label><br />'
+                    );
+                }
+                
+                $('#vo_' + key.toLowerCase().replace(/ /g, "_") + '_option').click(function(){
+                    
+                    if($('#vo_' + $(this).val().toLowerCase().replace(/ /g, "_") + '_option').is(":checked")) { 
+                        
+                        var parent = this;
+    
+                        $("#vehicle_owner_filters").append('<li id="filter_vo_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                        $('#filter_vo_' + $(this).val().toLowerCase().replace(/ /g, "_") + ' i').click(function() {
+                            if($('#vo_' + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').length) {
+                                $('#filter_vo_' + $(parent).val().toLowerCase().replace(/ /g, "_")).remove();
+                                $("#vo_" + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').prop("checked", false);
+                            }
+                            checkForFilters();
+
+                        });
+                    } else {
+                        
+    
+                        if($('#filter_vo_' + $(this).val().toLowerCase().replace(/ /g, "_") )) {
+                            $('#filter_vo_' + $(this).val().toLowerCase().replace(/ /g, "_") ).remove();
+                        }
+                    }
+                    checkForFilters();
+
+                });
+            }              
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.ColumnChart(document.getElementById('vehicleOwnerChart'));
+            chart.draw(data, chart_options);    
+    });
+}
+
+var drawLSMGroupChart = function() {
+    $.get('/api/meetpat-client/get-records/lsm-group', {user_id: user_id_number, selected_provinces: target_provinces,
+         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
+         selected_population_groups: target_population_groups, selected_generations: target_generations,
+         selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
+         selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
+         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
+         selected_municipalities: target_municipalities, selected_areas: target_areas,
+         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
+         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
+         selected_employers: target_employers}, function( chart_data ) {
+
+    }).fail(function( chart_data ) {
+        console.log( chart_data );
+    }).done(function( chart_data ) {
+        $("#lsm-group-graph .spinner-block").hide();    
+        $("#lsm_group_filter").empty();
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'LSM Group');
+        data.addColumn('number', 'Records');
+        data.addColumn({type: 'string', role: 'annotation'});
+
+        var result = Object.keys(chart_data["selected_lsm_groups"]).map(function(key) {
+            return [key, chart_data["selected_lsm_groups"][key], kFormatter(chart_data["selected_lsm_groups"][key])];
+        });
+    
+            data.addRows(result);
+            // Set chart options
+            var chart_options = {
+                            'width':'100%',
+                            'fontSize': 10,
+                            'chartArea': {
+                                width: '60%',
+                                height: '75%'
+                                },
+                            vAxis: {
+                                minValue: 0,
+                            }, 
+                            'colors': ['#00A3D9'],
+                            'animation': {
+                                'startup':true,
+                                'duration': 1000,
+                                'easing': 'out'
+                            },
+                            'legend': {
+                                position: 'none'
+                            },
+                            'backgroundColor': '#fff'
+                        };
+            for (var key in chart_data["all_lsm_groups"]) {
+                if(target_lsm_groups.includes(key)) {
+                    $("#lsm_group_filter").append(
+                        '<input type="checkbox" name="lsm_' + key.toLowerCase() + '" id="lsm_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox" checked="checked"><label for="lsm_' + key.toLowerCase() + '_option' +'" class="css-label">' + key.toLowerCase() + '</label><br />'
+                    );
+                } else {
+                    $("#lsm_group_filter").append(
+                        '<input type="checkbox" name="lsm_' + key.toLowerCase() + '" id="lsm_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox"><label for="lsm_' + key.toLowerCase() + '_option' +'" class="css-label">' + key.toLowerCase() + '</label><br />'
+                    );
+                }
+                
+                $('#lsm_' + key.toLowerCase().replace(/ /g, "_") + '_option').click(function(){
+                    
+                    if($('#lsm_' + $(this).val().toLowerCase().replace(/ /g, "_") + '_option').is(":checked")) { 
+                        
+                        var parent = this;
+    
+                        $("#lsm_group_filters").append('<li id="filter_lsm_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                        $('#filter_lsm_' + $(this).val().toLowerCase().replace(/ /g, "_") + ' i').click(function() {
+                            if($('#lsm_' + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').length) {
+                                $('#filter_lsm_' + $(parent).val().toLowerCase().replace(/ /g, "_")).remove();
+                                $("#lsm_" + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').prop("checked", false);
+                            }
+                            checkForFilters();
+
+                        });
+                    } else {
+                        
+    
+                        if($('#filter_lsm_' + $(this).val().toLowerCase().replace(/ /g, "_") )) {
+                            $('#filter_lsm_' + $(this).val().toLowerCase().replace(/ /g, "_") ).remove();
+                        }
+                    }
+                    checkForFilters();
+
+                });
+            }              
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.BarChart(document.getElementById('lsmGroupChart'));
+            chart.draw(data, chart_options);    
+    });
+}
+
+function drawEmployerChart(  ) {
+
+    $.get('/api/meetpat-client/get-records/employers', {user_id: user_id_number, selected_provinces: target_provinces,
+         selected_age_groups: target_ages, selected_gender_groups: target_genders, selected_gender_groups: target_genders, 
+         selected_population_groups: target_population_groups, selected_generations: target_generations,
+         selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
+         selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
+         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
+         selected_municipalities: target_municipalities, selected_areas: target_areas,
+         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
+         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
+         selected_employers: target_employers}, function( chart_data ) {
+
+    }).fail(function( chart_data ) {
+        console.log( chart_data )
+    }).done(function( chart_data ) {
+        
+        $("#employer-graph .spinner-block").hide();    
+        $("#employerSubmitBtn").prop("disabled", false);
+        $("#employer_filter").append(
+            '<div id="lunr-search-employer" style="display: none;">'+
+            '<input type="text" class="form-control mb-2" id="employerSearchInput" autocomplete="off" placeholder="search for employer...">'+
+            '<span style="position:absolute; right: 40px; top:35px;"><i class="fas fa-search"></i></span>'+
+            '<ul id="lunr-results-employer" class="list-unstyled"></ul>' +
+            '</div>'
+        );
+        //console.log(data);
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Employer');
+        data.addColumn('number', 'Records');
+        data.addColumn({type: 'string', role: 'annotation'});
+
+        var result = Object.keys(chart_data["selected_employers"]).map(function(key) {
+            return [key, chart_data["selected_employers"][key], kFormatter(chart_data["selected_employers"][key])];
+            });
+        var shorter_result = result.slice(0, 20);
+        data.addRows(shorter_result);
+        // Set chart options
+        var chart_options = {
+                        'width':'100%',
+                        'height': shorter_result.length * 25,
+                        'fontSize': 10,
+                        'chartArea': {
+                            width: '60%',
+                            height: '100%'
+                        },
+                        'colors': ['#00A3D9'],
+                        'legend': {
+                            position: 'none'
+                        },
+                        'backgroundColor': '#fff'
+                        };
+    
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.BarChart(document.getElementById('employersChart'));
+        chart.draw(data, chart_options); 
+
+        var result = Object.keys(chart_data["all_employers"]).map(function(key) {
+            return {"name": key, "count": kFormatter(chart_data["all_employers"][key])};
+        });
+
+        var documents = result;
+        var idx_employer = lunr(function() {
+            this.ref('name');
+            this.field('name');
+            this.b(1);
+
+            documents.forEach(function (doc) {
+                this.add(doc)
+            }, this) 
+                
+            
+        });
+
+        $("#lunr-search-employer").show();
+        $("#employer-filter-form .text-center").remove();
+        // Append checked inputs to hidden form...
+        document.getElementById('employerSearchInput').addEventListener('keyup', function() {
+            if(idx_employer.search(this.value)) {
+                $("#lunr-results-employer").empty();
+
+                idx_employer.search(this.value).forEach(function(result) {
+                    
+                    if(result.score) {
+                        if($('#employer_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').length) {
+                            $("#lunr-results-employer").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '" id="employer_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox" checked="checked"><label for="employer_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" class="css-label">' + result.ref.substring(0, 24) + '</label><br />');
+                            $('#employer_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').click(function(){
+                                
+                                if($('#employer_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').is(":checked")) { 
+                                    
+                                    var parent = this;
+                                    $("#hidden-employer-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '" id="employer_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" value="' + result.ref + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" class="css-label">' + result.ref.substring(0, 24) + '<small> ' + kFormatter(chart_data["all_employers"][result.ref]) + '" checked="checked">');
+                                    $("#employer_filters").append('<li id="filter_employer_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                    $('#filter_employer_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + ' i').click(function() {
+                                       
+                                        if($('#employer_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').length) {
+                                            $('#filter_employer_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "")).remove();
+                                            $('#employer_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').remove();
+                                            $("#employer_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').prop("checked", false);
+                                        }
+                                        checkForFilters();
+                                    });
+                                } else {
+                                    
+                
+                                    if($('#filter_employer_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, ""))) {
+                                        $('#filter_employer_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "")).remove();
+                                        $('#employer_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').remove();
+                                    }
+                                }
+                                checkForFilters();
+                            });                        
+                        } else {
+                            $("#lunr-results-employer").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '" id="employer_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox"><label for="employer_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" class="css-label">' + result.ref.substring(0, 24) + '<small> ' + kFormatter(chart_data["all_employers"][result.ref]) + '</small></label><br />');
+                            $('#employer_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').click(function(){
+                                if($('#employer_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').is(":checked")) { 
+                                    
+                                    var parent = this;
+                                    $("#hidden-employer-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '" id="employer_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" value="' + result.ref + '" checked="checked">');
+                                    $("#employer_filters").append('<li id="filter_employer_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                    $('#filter_employer_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + ' i').click(function() {
+                                        if($('#employer_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').length) {
+                                            $('#filter_employer_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "")).remove();
+                                            $('#employer_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').remove();
+                                            $("#employer_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').prop("checked", false);
+                                        }
+                                        checkForFilters();
+
+                                    });
+                                } else {
+                                    
+                
+                                    if($('#filter_employer_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, ""))) {
+                                        $('#filter_employer_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "")).remove();
+                                        $('#employer_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').remove();
+
+                                    }
+                                }
+                                checkForFilters();
+
+                            });                        
+                        }
+                    }
+    
+                });
+            } else {
+                $("#lunr-results-employer").empty();
+            }
+
+
+        })
+    });
+       
+    // Create the data table.
+    
+  }
+
 var drawRiskCategoryChart = function() {
     $.get('/api/meetpat-client/get-records/risk-category', {user_id: user_id_number, selected_provinces: target_provinces,
          selected_age_groups: target_ages, selected_gender_groups: target_genders, 
@@ -1139,7 +1707,10 @@ var drawRiskCategoryChart = function() {
          selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
          selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
          selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas}, function( chart_data ) {
+         selected_municipalities: target_municipalities, selected_areas: target_areas,
+         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
+         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
+         selected_employers: target_employers}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -1228,7 +1799,10 @@ var drawHouseholdIncomeChart = function() {
          selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
          selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
          selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas}, function( chart_data ) {
+         selected_municipalities: target_municipalities, selected_areas: target_areas, 
+         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
+         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts, 
+         selected_employers: target_employers}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -1249,23 +1823,25 @@ var drawHouseholdIncomeChart = function() {
             data.addRows(result);
             // Set chart options
             var chart_options = {
-                            'height': result.length * 25,
-                            'width':'100%',
-                            'fontSize': 10,
-                            'chartArea': {
-                                width: '40%',
-                                height: '100%'
-                                },
-                            'colors': ['#00A3D9'],
-                            'animation': {
-                                'startup':true,
-                                'duration': 1000,
-                                'easing': 'out'
-                            },
-                            'legend': {
-                                position: 'none'
-                            },
-                            'backgroundColor': '#fff'
+                                    'width':'100%',
+                                    'fontSize': 10,
+                                    'chartArea': {
+                                        width: '60%',
+                                        height: '75%'
+                                        },
+                                    vAxis: {
+                                        minValue: 0,
+                                    }, 
+                                    'colors': ['#00A3D9'],
+                                    'animation': {
+                                        'startup':true,
+                                        'duration': 1000,
+                                        'easing': 'out'
+                                    },
+                                    'legend': {
+                                        position: 'none'
+                                    },
+                                    'backgroundColor': '#fff'
                         };
             for (var key in chart_data["all_household_incomes"]) {
                 if(target_incomes.includes(key)) {
@@ -1318,7 +1894,10 @@ var drawDirectorOfBusinessChart = function() {
          selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
          selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
          selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas}, function( chart_data ) {
+         selected_municipalities: target_municipalities, selected_areas: target_areas,
+         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
+         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
+         selected_employers: target_employers}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         console.log( chart_data );
@@ -1423,7 +2002,10 @@ var get_records_count =  function(records_data) {
          selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
          selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
          selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas}, function( data ) {
+         selected_municipalities: target_municipalities, selected_areas: target_areas, 
+         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
+         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
+         selected_employers: target_employers}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
         console.log(data)
@@ -1447,7 +2029,10 @@ var get_municipalities = function() {
          selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
          selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
          selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas}, function( data ) {
+         selected_municipalities: target_municipalities, selected_areas: target_areas, selected_vehicle_owners: target_vehicle_owners,
+         selected_property_valuations: target_property_valuations,
+         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
+         selected_employers: target_employers}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
         //console.log(data)
@@ -1471,7 +2056,10 @@ var get_provinces = function() {
          selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
          selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
          selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas}, function( data ) {
+         selected_municipalities: target_municipalities, selected_areas: target_areas,
+         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
+         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
+         selected_employers: target_employers}, function( data ) {
     }).fail(function(data) {
         $('#loader').hide();
         console.log(data)
@@ -1587,19 +2175,49 @@ var get_generations = function() {
 
 var get_home_owner = function() {
 
-        drawHomeOwnerChart();
-        get_risk_category();
+    drawHomeOwnerChart();
+    get_property_valuation();
+}
+
+var get_property_valuation = function() {
+
+    drawPropertyValuationChart();
+    get_property_count();
+}
+
+var get_property_count = function() {
+
+    drawPropertyCountChart();
+    get_vehicle_owner();
+}
+
+var get_vehicle_owner = function() {
+
+    drawVehicleOwnerChart();
+    get_risk_category();
 }
 
 var get_household_income = function() {
 
-        drawHouseholdIncomeChart();
-        get_director_of_business();
+    drawHouseholdIncomeChart();
+    get_employer();
+}
+
+var get_employer = function() {
+
+    drawEmployerChart();
+    get_director_of_business();
 }
 
 var get_risk_category = function() {
 
     drawRiskCategoryChart();
+    get_lsm_group();
+}
+
+var get_lsm_group = function() {
+
+    drawLSMGroupChart();
     get_household_income();
 }
 
@@ -1639,7 +2257,12 @@ var apply_filters = function() {
     $("#risk-category-graph .spinner-block").show();  $("#riskCategoryChart").empty(); $("#risk_category_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
     $("#income-graph .spinner-block").show(); $("#householdIncomeChart").empty(); $("#household_income_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
     $("#directors-graph .spinner-block").show(); $("#directorOfBusinessChart").empty(); $("#directors_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
-    
+    $("#vehicle-owner-graph .spinner-block").show(); $("#vehicleOwnerChart").empty(); $("#vehicle_owner_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
+    $("#lsm-group-graph .spinner-block").show(); $("#lsmGroupChart").empty(); $("#lsm_group_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
+    $("#property-valuation-graph .spinner-block").show(); $("#propertyValuationGroupChart").empty(); $("#property_valuation_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
+    $("#property-count-graph .spinner-block").show(); $("#propertyCountChart").empty(); $("#property_count_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
+    $("#employer-graph .spinner-block").show(); $("#employerChart").empty(); $("#employer_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
+
     $("#records-main-toast .toast-body").html(
                         '<div class="d-flex justify-content-center">' +
                             '<div class="spinner-border text-primary" role="status">' +
@@ -1680,6 +2303,11 @@ $('.apply-filter-button, #sidebarSubmitBtn').click(function() {
     target_risk_categories = [];
     target_incomes = [];
     target_directors = [];
+    target_vehicle_owners = [];
+    target_lsm_groups = [];
+    target_property_valuations = [];
+    target_property_counts = [];
+    target_employers = [];
 
     $("#province-filter-form input[type='checkbox']").each(function() {
         if(this.checked) {
@@ -1723,6 +2351,30 @@ $('.apply-filter-button, #sidebarSubmitBtn').click(function() {
         }
     });
 
+    $("#vehicle-owner-filter-form input[type='checkbox']").each(function() {
+        if(this.checked) {
+            target_vehicle_owners.push($(this).val());
+        }
+    });
+
+    $("#property-valuation-filter-form input[type='checkbox']").each(function() {
+        if(this.checked) {
+            target_property_valuations.push($(this).val());
+        }
+    });
+
+    $("#property-count-filter-form input[type='checkbox']").each(function() {
+        if(this.checked) {
+            target_property_counts.push($(this).val());
+        }
+    });
+
+    $("#lsm-group-filter-form input[type='checkbox']").each(function() {
+        if(this.checked) {
+            target_lsm_groups.push($(this).val());
+        }
+    });
+
     $("#risk-categories-filter-form input[type='checkbox']").each(function() {
         if(this.checked) {
             target_risk_categories.push($(this).val());
@@ -1734,6 +2386,13 @@ $('.apply-filter-button, #sidebarSubmitBtn').click(function() {
             target_incomes.push($(this).val());
         }
     });
+
+    $("#employer-filter-form input[type='checkbox']").each(function() {
+        if(this.checked) {
+            target_employers.push($(this).val());
+        }
+    });
+    
     $("#directors-filter-form input[type='checkbox']").each(function() {
         if(this.checked) {
             target_directors.push($(this).val());
@@ -1767,6 +2426,11 @@ $('.apply-filter-button, #sidebarSubmitBtn').click(function() {
     $("#riskCategoryContactsId").val(target_risk_categories);
     $("#houseHoldIncomeContactsId").val(target_incomes);
     $("#directorsContactsId").val(target_directors);
+    $("#vehicleOwnerContactsId").val(target_vehicle_owners);
+    $("#lsmGroupContactsId").val(target_lsm_groups);
+    $("#propertyValuationContactsId").val(target_property_valuations);
+    $("#propertyCountContactsId").val(target_property_counts);
+    $("#employerContactsId").val(target_employers);
 
     apply_filters();
     get_provinces();
@@ -1795,6 +2459,11 @@ $("#resetFilterToastBtn").click(function() {
     target_risk_categories = [];
     target_incomes = [];
     target_directors = [];
+    target_vehicle_owners = [];
+    target_lsm_groups = [];
+    target_property_valuations = [];
+    target_property_counts = [];
+    target_employers = [];
 
     $('input:checkbox').each(function(el) {
         if($(el).is(':checked')) {
@@ -1811,13 +2480,13 @@ $(document).ready(function() {
     $('#records-main-toast').toast('show');
     $("#records-toast").toast('show');
 
-    $('.dropdown-menu').on('click', function(e) {
+    $('.dropdown-menu, .dropdown-toggle').on('click', function(e) {
         if($(this).hasClass('dropdown-menu-form')) {
             e.stopPropagation();
         }
     });
 
-    get_provinces();
+    get_provinces(); // Starts sequence to fetch data and draw charts.
 
     /** Sidebar toggling. */
 

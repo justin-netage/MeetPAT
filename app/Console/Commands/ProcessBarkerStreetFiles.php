@@ -285,6 +285,7 @@ class ProcessBarkerStreetFiles extends Command
                                     'PropertyValuation' => $row['PropertyValuation'],
                                     'PropertyCount' => $row['PropertyCount'],
                                     'Income' => $row['Income'],
+                                    'CreditRiskCategory' => find_category($row['CreditRiskCategory']),
                                     'IncomeBucket' => get_income_bucket($row['IncomeBucket']),
                                     'LSMGroup' => $row['LSMGroup'],
                                     'HasResidentialAddress' => $row['HasResidentialAddress'],

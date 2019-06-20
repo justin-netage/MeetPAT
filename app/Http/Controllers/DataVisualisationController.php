@@ -15,7 +15,7 @@ class DataVisualisationController extends Controller
     public function index()
     {
         $user = \Auth::user();
-        $records = \MeetPAT\BarkerStreetRecord::whereRaw("find_in_set('".$user->id."',affiliated_users)")->count();
+        $records = \MeetPAT\EnrichedRecord::whereRaw("find_in_set('".$user->id."',affiliated_users)")->count();
         $user_jobs = \MeetPAT\RecordsJobQue::where('user_id', $user->id);
         $user_jobs_running = $user_jobs->where(function($q) {
             $q->where('status', 'pending')->orWhere('status', 'running');
@@ -119,10 +119,13 @@ class DataVisualisationController extends Controller
         return response(200);
 
     }
+    /**
+     * API Routes to get data to populate graph.
+     */
 
     public function get_records_count(Request $request)
     {
-        $records_count = \MeetPAT\BarkerStreetRecord::whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records_count = \MeetPAT\EnrichedRecord::whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
 
         // Filter By Province
         if($request->selected_provinces) {
@@ -146,7 +149,7 @@ class DataVisualisationController extends Controller
         }
         // Filter By Generation
         if($request->selected_generations) {
-            $records_count = $records_count->whereIn('GenerationGroup', $request->selected_generations);
+            $records_count = $records_count->whereIn('Generation', $request->selected_generations);
         }
         // Filter By Marital Status
         if($request->selected_marital_status) {
@@ -154,15 +157,34 @@ class DataVisualisationController extends Controller
         }
         // Filter By Home Owners
         if($request->selected_home_owners) {
-            $records_count = $records_count->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+            $records_count = $records_count->whereIn('HomeOwnershipStatus', $request->selected_home_owners);
         }        
+        // Filter By Property Valuation
+        if($request->selected_property_valuations) {
+            $records_count = $records_count->whereIn('PropertyValuation', $request->selected_property_valuations);
+        } 
+        // Filter By Property Count
+        if($request->selected_property_counts) {
+            $records_count = $records_count->whereIn('PropertyCount', $request->selected_property_counts);
+        }
         // Filter By Risk Categories
         if($request->selected_risk_categories) {
             $records_count = $records_count->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
         // Filter By Household Income
         if($request->selected_household_incomes) {
-            $records_count = $records_count->whereIn('incomeBucket', $request->selected_household_incomes);
+            $records_count = $records_count->whereIn('IncomeBucket', $request->selected_household_incomes);
+        }
+        if($request->selected_employers) {
+            $records_count = $records_count->whereIn('Employer', $request->selected_employers);
+        }
+        // Filter By LSM Group
+        if($request->selected_lsm_groups) {
+            $records_count = $records_count->whereIn('LSMGroup', $request->selected_lsm_groups);
+        }
+        // Filter By Vehicle Ownership
+        if($request->selected_vehicle_owners) {
+            $records_count = $records_count->whereIn('VehicleOwnershipStatus', $request->selected_vehicle_owners);
         }
         // Filter By directors
         if($request->selected_directors) {
@@ -175,7 +197,7 @@ class DataVisualisationController extends Controller
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
             if(in_array("citizen", $request->selected_citizen_vs_residents)) {
-                $records_count = $records_count->where('Idn', '!=', '');
+                $records_count = $records_count->where('id6', '!=', '');
 
             } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
                 $records_count = $records_count->where('HasResidentialAddress', "true");
@@ -188,7 +210,8 @@ class DataVisualisationController extends Controller
 
     public function get_municipalities(Request $request) {
 
-        $records = \MeetPAT\BarkerStreetRecord::select('GreaterArea')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        // $records = \MeetPAT\BarkerStreetRecord::select('GreaterArea')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('Municipality')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_municipalities = $records->get();
 
         // Filter By Provinces
@@ -217,7 +240,7 @@ class DataVisualisationController extends Controller
         }
         // Filter By Generation Group
         if($request->selected_generations) {
-            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+            $records = $records->whereIn('Generation', $request->selected_generations);
         }
         // Filter By Marital Status
         if($request->selected_marital_status) {
@@ -225,16 +248,35 @@ class DataVisualisationController extends Controller
         }
         // Filter By Home Owners
         if($request->selected_home_owners) {
-            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+            $records = $records->whereIn('HomeOwnershipStatus', $request->selected_home_owners);
         }  
+        // Filter By Property Valuation
+        if($request->selected_property_valuations) {
+            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+        } 
+        // Filter By Property Count
+        if($request->selected_property_counts) {
+            $records = $records->whereIn('PropertyCount', $request->selected_property_counts);
+        }
         // Filter By Risk Categories
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
         // Filter By Household Income
         if($request->selected_household_incomes) {
-            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
-        }    
+            $records = $records->whereIn('IncomeBucket', $request->selected_household_incomes);
+        }   
+        if($request->selected_employers) {
+            $records = $records->whereIn('Employer', $request->selected_employers);
+        }
+        // Filter By LSM Group
+        if($request->selected_lsm_groups) {
+            $records = $records->whereIn('LSMGroup', $request->selected_lsm_groups);
+        }
+        // Filter By Vehicle Ownership
+        if($request->selected_vehicle_owners) {
+            $records = $records->whereIn('VehicleOwnershipStatus', $request->selected_vehicle_owners);
+        } 
         // Filter By directors
         if($request->selected_directors) {
             $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
@@ -246,7 +288,7 @@ class DataVisualisationController extends Controller
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
             if(in_array("citizen", $request->selected_citizen_vs_residents)) {
-                $records = $records->where('Idn', '!=', '');
+                $records = $records->where('id6', '!=', '');
                 
 
             } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
@@ -257,8 +299,10 @@ class DataVisualisationController extends Controller
 
         $records = $records->get();
 
-        $municipalities = array_count_values(array_column($records->toArray(), 'GreaterArea'));
-        $all_municipalities = array_count_values(array_column($records->toArray(), 'GreaterArea'));
+        // $municipalities = array_count_values(array_column($records->toArray(), 'GreaterArea'));
+        // $all_municipalities = array_count_values(array_column($records->toArray(), 'GreaterArea'));
+        $municipalities = array_count_values(array_column($records->toArray(), 'Municipality'));
+        $all_municipalities = array_count_values(array_column($records->toArray(), 'Municipality'));
 
         arsort($municipalities);
         arsort($all_municipalities);
@@ -269,7 +313,7 @@ class DataVisualisationController extends Controller
 
     public function get_provinces(Request $request)
     {
-        $records = \MeetPAT\BarkerStreetRecord::select('Province')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('Province')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_provinces = $records->get();
 
         // Filter By Provinces
@@ -294,7 +338,7 @@ class DataVisualisationController extends Controller
         }
         // Filter By Generation Group
         if($request->selected_generations) {
-            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+            $records = $records->whereIn('Generation', $request->selected_generations);
         }
         // Filter By Marital Status
         if($request->selected_marital_status) {
@@ -302,15 +346,34 @@ class DataVisualisationController extends Controller
         }
         // Filter By Home Owners
         if($request->selected_home_owners) {
-            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+            $records = $records->whereIn('HomeOwnershipStatus', $request->selected_home_owners);
         }  
+        // Filter By Property Valuation
+        if($request->selected_property_valuations) {
+            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+        } 
+        // Filter By Property Count
+        if($request->selected_property_counts) {
+            $records = $records->whereIn('PropertyCount', $request->selected_property_counts);
+        }
         // Filter By Risk Categories
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
         // Filter By Household Income
         if($request->selected_household_incomes) {
-            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+            $records = $records->whereIn('IncomeBucket', $request->selected_household_incomes);
+        }
+        if($request->selected_employers) {
+            $records = $records->whereIn('Employer', $request->selected_employers);
+        }
+        // Filter By LSM Group
+        if($request->selected_lsm_groups) {
+            $records = $records->whereIn('LSMGroup', $request->selected_lsm_groups);
+        }
+        // Filter By Vehicle Ownership
+        if($request->selected_vehicle_owners) {
+            $records = $records->whereIn('VehicleOwnershipStatus', $request->selected_vehicle_owners);
         }
         // Filter By directors
         if($request->selected_directors) {
@@ -323,7 +386,7 @@ class DataVisualisationController extends Controller
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
             if(in_array("citizen", $request->selected_citizen_vs_residents)) {
-                $records = $records->where('Idn', '!=', '');
+                $records = $records->where('id6', '!=', '');
                 
 
             } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
@@ -344,7 +407,7 @@ class DataVisualisationController extends Controller
 
     public function get_ages(Request $request)
     {
-        $records = \MeetPAT\BarkerStreetRecord::select('AgeGroup')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('AgeGroup')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_ages = $records->get();
 
         // Filter By Provinces
@@ -369,7 +432,7 @@ class DataVisualisationController extends Controller
         }
         // Filter By Generation
         if($request->selected_generations) {
-            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+            $records = $records->whereIn('Generation', $request->selected_generations);
         }
         // Filter By Marital Status
         if($request->selected_marital_status) {
@@ -377,15 +440,34 @@ class DataVisualisationController extends Controller
         }
         // Filter By Home Owners
         if($request->selected_home_owners) {
-            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+            $records = $records->whereIn('HomeOwnershipStatus', $request->selected_home_owners);
         }  
+        // Filter By Property Valuation
+        if($request->selected_property_valuations) {
+            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+        } 
+        // Filter By Property Count
+        if($request->selected_property_counts) {
+            $records = $records->whereIn('PropertyCount', $request->selected_property_counts);
+        }
         // Filter By Risk Categories
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
         // Filter By Household Income
         if($request->selected_household_incomes) {
-            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+            $records = $records->whereIn('IncomeBucket', $request->selected_household_incomes);
+        }
+        if($request->selected_employers) {
+            $records = $records->whereIn('Employer', $request->selected_employers);
+        }
+        // Filter By LSM Group
+        if($request->selected_lsm_groups) {
+            $records = $records->whereIn('LSMGroup', $request->selected_lsm_groups);
+        }
+        // Filter By Vehicle Ownership
+        if($request->selected_vehicle_owners) {
+            $records = $records->whereIn('VehicleOwnershipStatus', $request->selected_vehicle_owners);
         }
         // Filter By directors
         if($request->selected_directors) {
@@ -398,7 +480,7 @@ class DataVisualisationController extends Controller
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
             if(in_array("citizen", $request->selected_citizen_vs_residents)) {
-                $records = $records->where('Idn', '!=', '');
+                $records = $records->where('id6', '!=', '');
                 
 
             } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
@@ -419,7 +501,7 @@ class DataVisualisationController extends Controller
 
     public function get_genders(Request $request)
     {
-        $records = \MeetPAT\BarkerStreetRecord::select('Gender')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('Gender')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_genders = $records->get();
 
         // Filter By Provinces
@@ -444,7 +526,7 @@ class DataVisualisationController extends Controller
         }
         // Filter By Generation
         if($request->selected_generations) {
-            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+            $records = $records->whereIn('Generation', $request->selected_generations);
         }
         // Filter By Marital Status
         if($request->selected_marital_status) {
@@ -452,15 +534,34 @@ class DataVisualisationController extends Controller
         }
         // Filter By Home Owners
         if($request->selected_home_owners) {
-            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+            $records = $records->whereIn('HomeOwnershipStatus', $request->selected_home_owners);
         }  
+        // Filter By Property Valuation
+        if($request->selected_property_valuations) {
+            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+        } 
+        // Filter By Property Count
+        if($request->selected_property_counts) {
+            $records = $records->whereIn('PropertyCount', $request->selected_property_counts);
+        }
         // Filter By Risk Categories
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
         // Filter By Household Income
         if($request->selected_household_incomes) {
-            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+            $records = $records->whereIn('IncomeBucket', $request->selected_household_incomes);
+        }
+        if($request->selected_employers) {
+            $records = $records->whereIn('Employer', $request->selected_employers);
+        }
+        // Filter By LSM Group
+        if($request->selected_lsm_groups) {
+            $records = $records->whereIn('LSMGroup', $request->selected_lsm_groups);
+        }
+        // Filter By Vehicle Ownership
+        if($request->selected_vehicle_owners) {
+            $records = $records->whereIn('VehicleOwnershipStatus', $request->selected_vehicle_owners);
         }
         // Filter By directors
         if($request->selected_directors) {
@@ -473,7 +574,7 @@ class DataVisualisationController extends Controller
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
             if(in_array("citizen", $request->selected_citizen_vs_residents)) {
-                $records = $records->where('Idn', '!=', '');
+                $records = $records->where('id6', '!=', '');
                 
 
             } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
@@ -495,7 +596,7 @@ class DataVisualisationController extends Controller
 
     public function get_population_groups(Request $request)
     {
-        $records = \MeetPAT\BarkerStreetRecord::select('PopulationGroup')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('PopulationGroup')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_population_groups = $records->get();
 
         // Filter By Provinces
@@ -520,7 +621,7 @@ class DataVisualisationController extends Controller
         }
         // Filter By Generation
         if($request->selected_generations) {
-            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+            $records = $records->whereIn('Generation', $request->selected_generations);
         }
         // Filter By Marital Status
         if($request->selected_marital_status) {
@@ -528,15 +629,34 @@ class DataVisualisationController extends Controller
         }
         // Filter By Home Owners
         if($request->selected_home_owners) {
-            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+            $records = $records->whereIn('HomeOwnershipStatus', $request->selected_home_owners);
         }   
+        // Filter By Property Valuation
+        if($request->selected_property_valuations) {
+            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+        } 
+        // Filter By Property Count
+        if($request->selected_property_counts) {
+            $records = $records->whereIn('PropertyCount', $request->selected_property_counts);
+        }
         // Filter By Risk Categories
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
         // Filter By Household Income
         if($request->selected_household_incomes) {
-            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+            $records = $records->whereIn('IncomeBucket', $request->selected_household_incomes);
+        }
+        if($request->selected_employers) {
+            $records = $records->whereIn('Employer', $request->selected_employers);
+        }
+        // Filter By LSM Group
+        if($request->selected_lsm_groups) {
+            $records = $records->whereIn('LSMGroup', $request->selected_lsm_groups);
+        }
+        // Filter By Vehicle Ownership
+        if($request->selected_vehicle_owners) {
+            $records = $records->whereIn('VehicleOwnershipStatus', $request->selected_vehicle_owners);
         }
         // Filter By directors
         if($request->selected_directors) {
@@ -549,7 +669,7 @@ class DataVisualisationController extends Controller
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
             if(in_array("citizen", $request->selected_citizen_vs_residents)) {
-                $records = $records->where('Idn', '!=', '');
+                $records = $records->where('id6', '!=', '');
                 
 
             } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
@@ -570,7 +690,7 @@ class DataVisualisationController extends Controller
 
     public function get_home_owner(Request $request) 
     {
-        $records = \MeetPAT\BarkerStreetRecord::select('HomeOwnerShipStatus')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('HomeOwnershipStatus')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_home_owners = $records->get();
 
         // Filter By Provinces
@@ -595,7 +715,7 @@ class DataVisualisationController extends Controller
         }
         // Filter By Generation
         if($request->selected_generations) {
-            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+            $records = $records->whereIn('Generation', $request->selected_generations);
         }
         // Filter By Marital Status
         if($request->selected_marital_status) {
@@ -603,15 +723,34 @@ class DataVisualisationController extends Controller
         }
         // Filter By Home Owners
         if($request->selected_home_owners) {
-            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+            $records = $records->whereIn('HomeOwnershipStatus', $request->selected_home_owners);
         }  
+        // Filter By Property Valuation
+        if($request->selected_property_valuations) {
+            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+        } 
+        // Filter By Property Count
+        if($request->selected_property_counts) {
+            $records = $records->whereIn('PropertyCount', $request->selected_property_counts);
+        }
         // Filter By Risk Categories
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
         // Filter By Household Income
         if($request->selected_household_incomes) {
-            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+            $records = $records->whereIn('IncomeBucket', $request->selected_household_incomes);
+        }
+        if($request->selected_employers) {
+            $records = $records->whereIn('Employer', $request->selected_employers);
+        }
+        // Filter By LSM Group
+        if($request->selected_lsm_groups) {
+            $records = $records->whereIn('LSMGroup', $request->selected_lsm_groups);
+        }
+        // Filter By Vehicle Ownership
+        if($request->selected_vehicle_owners) {
+            $records = $records->whereIn('VehicleOwnershipStatus', $request->selected_vehicle_owners);
         }
         // Filter By directors
         if($request->selected_directors) {
@@ -624,7 +763,7 @@ class DataVisualisationController extends Controller
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
             if(in_array("citizen", $request->selected_citizen_vs_residents)) {
-                $records = $records->where('Idn', '!=', '');
+                $records = $records->where('id6', '!=', '');
                 
 
             } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
@@ -635,8 +774,8 @@ class DataVisualisationController extends Controller
 
         $records = $records->get();
 
-        $home_owner = array_count_values(array_column($records->toArray(), 'HomeOwnerShipStatus'));
-        $all_home_owners = array_count_values(array_column($all_home_owners->toArray(), 'HomeOwnerShipStatus'));
+        $home_owner = array_count_values(array_column($records->toArray(), 'HomeOwnershipStatus'));
+        $all_home_owners = array_count_values(array_column($all_home_owners->toArray(), 'HomeOwnershipStatus'));
         arsort($home_owner);
         arsort($all_home_owners);
 
@@ -644,9 +783,103 @@ class DataVisualisationController extends Controller
 
     }
 
+    public function get_vechicle_owner(Request $request)
+    {
+        $records = \MeetPAT\EnrichedRecord::select('VehicleOwnershipStatus')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $all_vehicle_owners = $records->get();
+
+        // Filter By Provinces
+        if($request->selected_provinces) {
+            $records = $records->whereIn('Province', $request->selected_provinces);
+        } 
+        // Filter By Municipalities
+        if($request->selected_municipalities) {
+            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+        }
+        // Filter By Age Groups
+        if($request->selected_age_groups) {
+            $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+        // Filter By Gender
+        if($request->selected_gender_groups) {
+            $records = $records->whereIn('Gender', $request->selected_gender_groups);
+        }
+        // Filter By Population Group
+        if($request->selected_population_groups) {
+            $records = $records->whereIn('PopulationGroup', $request->selected_population_groups);
+        }
+        // Filter By Generation
+        if($request->selected_generations) {
+            $records = $records->whereIn('Generation', $request->selected_generations);
+        }
+        // Filter By Marital Status
+        if($request->selected_marital_status) {
+            $records = $records->whereIn('MaritalStatus', $request->selected_marital_status);
+        }
+        // Filter By Home Owners
+        if($request->selected_home_owners) {
+            $records = $records->whereIn('HomeOwnershipStatus', $request->selected_home_owners);
+        }  
+        // Filter By Property Valuation
+        if($request->selected_property_valuations) {
+            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+        } 
+        // Filter By Property Count
+        if($request->selected_property_counts) {
+            $records = $records->whereIn('PropertyCount', $request->selected_property_counts);
+        }
+        // Filter By Risk Categories
+        if($request->selected_risk_categories) {
+            $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
+        }
+        // Filter By Household Income
+        if($request->selected_household_incomes) {
+            $records = $records->whereIn('IncomeBucket', $request->selected_household_incomes);
+        }
+        if($request->selected_employers) {
+            $records = $records->whereIn('Employer', $request->selected_employers);
+        }
+        // Filter By LSM Group
+        if($request->selected_lsm_groups) {
+            $records = $records->whereIn('LSMGroup', $request->selected_lsm_groups);
+        }
+        // Filter By Vehicle Ownership
+        if($request->selected_vehicle_owners) {
+            $records = $records->whereIn('VehicleOwnershipStatus', $request->selected_vehicle_owners);
+        }
+        // Filter By directors
+        if($request->selected_directors) {
+            $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }
+        // Filter By areas
+        if($request->selected_areas) {
+            $records = $records->whereIn('Area', $request->selected_areas);
+        }
+        // Filter By Citizens and residents
+        if($request->selected_citizen_vs_residents) {
+            if(in_array("citizen", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('id6', '!=', '');
+                
+
+            } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('HasResidentialAddress', "true");
+
+            }
+        }
+
+        $records = $records->get();
+
+        $vehicle_owner = array_count_values(array_column($records->toArray(), 'VehicleOwnershipStatus'));
+        $all_vehicle_owners = array_count_values(array_column($all_vehicle_owners->toArray(), 'VehicleOwnershipStatus'));
+        arsort($vehicle_owner);
+        arsort($all_vehicle_owners);
+
+        return response()->json(["selected_vehicle_owners" => $vehicle_owner, "all_vehicle_owners" => $all_vehicle_owners]);
+    }
+
     public function get_household_income(Request $request)
     {
-        $records = \MeetPAT\BarkerStreetRecord::select('income', 'incomeBucket')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('IncomeBucket')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_household_incomes = $records->get();
         // Filter By Provinces
         if($request->selected_provinces) {
@@ -670,7 +903,7 @@ class DataVisualisationController extends Controller
         }
         // Filter By Generation
         if($request->selected_generations) {
-            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+            $records = $records->whereIn('Generation', $request->selected_generations);
         }
         // Filter By Marital Status
         if($request->selected_marital_status) {
@@ -678,19 +911,38 @@ class DataVisualisationController extends Controller
         }
         // Filter By Marital Status
         if($request->selected_marital_status) {
-            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_marital_status);
+            $records = $records->whereIn('HomeOwnershipStatus', $request->selected_marital_status);
         }  
         // Filter By Home Owners
         if($request->selected_home_owners) {
-            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+            $records = $records->whereIn('HomeOwnershipStatus', $request->selected_home_owners);
         }  
+        // Filter By Property Valuation
+        if($request->selected_property_valuations) {
+            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+        } 
+        // Filter By Property Count
+        if($request->selected_property_counts) {
+            $records = $records->whereIn('PropertyCount', $request->selected_property_counts);
+        }
         // Filter By Risk Categories
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
         // Filter By Household Income
         if($request->selected_household_incomes) {
-            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+            $records = $records->whereIn('IncomeBucket', $request->selected_household_incomes);
+        }
+        if($request->selected_employers) {
+            $records = $records->whereIn('Employer', $request->selected_employers);
+        }
+        // Filter By LSM Group
+        if($request->selected_lsm_groups) {
+            $records = $records->whereIn('LSMGroup', $request->selected_lsm_groups);
+        }
+        // Filter By Vehicle Ownership
+        if($request->selected_vehicle_owners) {
+            $records = $records->whereIn('VehicleOwnershipStatus', $request->selected_vehicle_owners);
         }
         // Filter By directors
         if($request->selected_directors) {
@@ -703,7 +955,7 @@ class DataVisualisationController extends Controller
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
             if(in_array("citizen", $request->selected_citizen_vs_residents)) {
-                $records = $records->where('Idn', '!=', '');
+                $records = $records->where('id6', '!=', '');
                 
 
             } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
@@ -713,17 +965,114 @@ class DataVisualisationController extends Controller
         }
 
         $records = $records->get();
-        $household_income = array_count_values(array_column($records->toArray(), 'incomeBucket'));
-        $all_household_incomes = array_count_values(array_column($all_household_incomes->toArray(), 'incomeBucket'));;
+        $household_income = array_count_values(array_column($records->toArray(), 'IncomeBucket'));
+        $all_household_incomes = array_count_values(array_column($all_household_incomes->toArray(), 'IncomeBucket'));;
         arsort($household_income);
         arsort($all_household_incomes);
 
         return response()->json(["all_household_incomes" => $all_household_incomes, "selected_household_incomes" => $household_income]);
     }
 
+    public function get_employer(Request $request)
+    {
+        $records = \MeetPAT\EnrichedRecord::select('Employer')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $all_employers = $records->get();
+        // Filter By Provinces
+        if($request->selected_provinces) {
+            $records = $records->whereIn('Province', $request->selected_provinces);
+        } 
+        // Filter By Municipalities
+        if($request->selected_municipalities) {
+            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+        }
+        // Filter By Age Groups
+        if($request->selected_age_groups) {
+            $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+        // Filter By Gender
+        if($request->selected_gender_groups) {
+            $records = $records->whereIn('Gender', $request->selected_gender_groups);
+        }
+        // Filter By Population Group
+        if($request->selected_population_groups) {
+            $records = $records->whereIn('PopulationGroup', $request->selected_population_groups);
+        }
+        // Filter By Generation
+        if($request->selected_generations) {
+            $records = $records->whereIn('Generation', $request->selected_generations);
+        }
+        // Filter By Marital Status
+        if($request->selected_marital_status) {
+            $records = $records->whereIn('MaritalStatus', $request->selected_marital_status);
+        }
+        // Filter By Marital Status
+        if($request->selected_marital_status) {
+            $records = $records->whereIn('HomeOwnershipStatus', $request->selected_marital_status);
+        }  
+        // Filter By Home Owners
+        if($request->selected_home_owners) {
+            $records = $records->whereIn('HomeOwnershipStatus', $request->selected_home_owners);
+        }  
+        // Filter By Property Valuation
+        if($request->selected_property_valuations) {
+            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+        } 
+        // Filter By Property Count
+        if($request->selected_property_counts) {
+            $records = $records->whereIn('PropertyCount', $request->selected_property_counts);
+        }
+        // Filter By Risk Categories
+        if($request->selected_risk_categories) {
+            $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
+        }
+        // Filter By Household Income
+        if($request->selected_household_incomes) {
+            $records = $records->whereIn('IncomeBucket', $request->selected_household_incomes);
+        }
+        // Filter By Household Income
+        if($request->selected_employers) {
+            $records = $records->whereIn('Employer', $request->selected_employers);
+        }
+        // Filter By LSM Group
+        if($request->selected_lsm_groups) {
+            $records = $records->whereIn('LSMGroup', $request->selected_lsm_groups);
+        }
+        // Filter By Vehicle Ownership
+        if($request->selected_vehicle_owners) {
+            $records = $records->whereIn('VehicleOwnershipStatus', $request->selected_vehicle_owners);
+        }
+        // Filter By directors
+        if($request->selected_directors) {
+            $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }
+        // Filter By areas
+        if($request->selected_areas) {
+            $records = $records->whereIn('Area', $request->selected_areas);
+        }
+        // Filter By Citizens and residents
+        if($request->selected_citizen_vs_residents) {
+            if(in_array("citizen", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('id6', '!=', '');
+                
+
+            } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('HasResidentialAddress', "true");
+
+            }
+        }
+
+        $records = $records->get();
+        $employer = array_count_values(array_column($records->toArray(), 'Employer'));
+        $all_employers = array_count_values(array_column($all_employers->toArray(), 'Employer'));;
+        arsort($employer);
+        arsort($all_employers);
+
+        return response()->json(["all_employers" => $all_employers, "selected_employers" => $employer]);
+    }
+
     public function get_risk_category(Request $request)
     {
-        $records = \MeetPAT\BarkerStreetRecord::select('CreditRiskCategory')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('CreditRiskCategory')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_risk_categories = $records->get();
 
         // Filter By Provinces
@@ -748,7 +1097,7 @@ class DataVisualisationController extends Controller
         }
         // Filter By Generation
         if($request->selected_generations) {
-            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+            $records = $records->whereIn('Generation', $request->selected_generations);
         }        
 
         // Filter By Marital Status
@@ -757,15 +1106,34 @@ class DataVisualisationController extends Controller
         }
         // Filter By Home Owners
         if($request->selected_home_owners) {
-            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+            $records = $records->whereIn('HomeOwnershipStatus', $request->selected_home_owners);
         }  
+        // Filter By Property Valuation
+        if($request->selected_property_valuations) {
+            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+        } 
+        // Filter By Property Count
+        if($request->selected_property_counts) {
+            $records = $records->whereIn('PropertyCount', $request->selected_property_counts);
+        }
         // Filter By Risk Categories
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
         // Filter By Household Income
         if($request->selected_household_incomes) {
-            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+            $records = $records->whereIn('IncomeBucket', $request->selected_household_incomes);
+        }
+        if($request->selected_employers) {
+            $records = $records->whereIn('Employer', $request->selected_employers);
+        }
+        // Filter By LSM Group
+        if($request->selected_lsm_groups) {
+            $records = $records->whereIn('LSMGroup', $request->selected_lsm_groups);
+        }
+        // Filter By Vehicle Ownership
+        if($request->selected_vehicle_owners) {
+            $records = $records->whereIn('VehicleOwnershipStatus', $request->selected_vehicle_owners);
         }
         // Filter By directors
         if($request->selected_directors) {
@@ -778,7 +1146,7 @@ class DataVisualisationController extends Controller
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
             if(in_array("citizen", $request->selected_citizen_vs_residents)) {
-                $records = $records->where('Idn', '!=', '');
+                $records = $records->where('id6', '!=', '');
                 
 
             } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
@@ -799,9 +1167,296 @@ class DataVisualisationController extends Controller
 
     }
 
+    public function get_lsm_group(Request $request)
+    {
+        $records = \MeetPAT\EnrichedRecord::select('LSMGroup')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $all_lsm_groups = $records->get();
+
+        // Filter By Provinces
+        if($request->selected_provinces) {
+            $records = $records->whereIn('Province', $request->selected_provinces);
+        } 
+        // Filter By Municipalities
+        if($request->selected_municipalities) {
+            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+        }
+        // Filter By Age Groups
+        if($request->selected_age_groups) {
+            $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+        // Filter By Gender
+        if($request->selected_gender_groups) {
+            $records = $records->whereIn('Gender', $request->selected_gender_groups);
+        }
+        // Filter By Population Group
+        if($request->selected_population_groups) {
+            $records = $records->whereIn('PopulationGroup', $request->selected_population_groups);
+        }
+        // Filter By Generation
+        if($request->selected_generations) {
+            $records = $records->whereIn('Generation', $request->selected_generations);
+        }        
+
+        // Filter By Marital Status
+        if($request->selected_marital_status) {
+            $records = $records->whereIn('MaritalStatus', $request->selected_marital_status);
+        }
+        // Filter By Home Owners
+        if($request->selected_home_owners) {
+            $records = $records->whereIn('HomeOwnershipStatus', $request->selected_home_owners);
+        }  
+        // Filter By Property Valuation
+        if($request->selected_property_valuations) {
+            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+        } 
+        // Filter By Property Count
+        if($request->selected_property_counts) {
+            $records = $records->whereIn('PropertyCount', $request->selected_property_counts);
+        }
+        // Filter By Risk Categories
+        if($request->selected_risk_categories) {
+            $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
+        }
+        // Filter By Household Income
+        if($request->selected_household_incomes) {
+            $records = $records->whereIn('IncomeBucket', $request->selected_household_incomes);
+        }
+        if($request->selected_employers) {
+            $records = $records->whereIn('Employer', $request->selected_employers);
+        }
+        // Filter By LSM Group
+        if($request->selected_lsm_groups) {
+            $records = $records->whereIn('LSMGroup', $request->selected_lsm_groups);
+        }
+        // Filter By Vehicle Ownership
+        if($request->selected_vehicle_owners) {
+            $records = $records->whereIn('VehicleOwnershipStatus', $request->selected_vehicle_owners);
+        }
+        // Filter By directors
+        if($request->selected_directors) {
+            $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }
+        // Filter By areas
+        if($request->selected_areas) {
+            $records = $records->whereIn('Area', $request->selected_areas);
+        }
+        // Filter By Citizens and residents
+        if($request->selected_citizen_vs_residents) {
+            if(in_array("citizen", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('id6', '!=', '');
+                
+
+            } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('HasResidentialAddress', "true");
+
+            }
+        }
+
+        $records = $records->get();
+
+        $lsm_group = array_count_values(array_column($records->toArray(), 'LSMGroup'));
+        $all_lsm_groups = array_count_values(array_column($all_lsm_groups->toArray(), 'LSMGroup'));
+        
+        arsort($lsm_group);
+        arsort($all_lsm_groups);
+
+        return response()->json(["selected_lsm_groups" => $lsm_group, "all_lsm_groups" => $all_lsm_groups]);
+
+    }
+
+    public function get_property_valuation(Request $request)
+    {
+        $records = \MeetPAT\EnrichedRecord::select('PropertyValuation')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $all_property_valuations = $records->get();
+
+        // Filter By Provinces
+        if($request->selected_provinces) {
+            $records = $records->whereIn('Province', $request->selected_provinces);
+        } 
+        // Filter By Municipalities
+        if($request->selected_municipalities) {
+            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+        }
+        // Filter By Age Groups
+        if($request->selected_age_groups) {
+            $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+        // Filter By Gender
+        if($request->selected_gender_groups) {
+            $records = $records->whereIn('Gender', $request->selected_gender_groups);
+        }
+        // Filter By Population Group
+        if($request->selected_population_groups) {
+            $records = $records->whereIn('PopulationGroup', $request->selected_population_groups);
+        }
+        // Filter By Generation
+        if($request->selected_generations) {
+            $records = $records->whereIn('Generation', $request->selected_generations);
+        }
+        // Filter By Marital Status
+        if($request->selected_marital_status) {
+            $records = $records->whereIn('MaritalStatus', $request->selected_marital_status);
+        }
+        // Filter By Home Owners
+        if($request->selected_home_owners) {
+            $records = $records->whereIn('HomeOwnershipStatus', $request->selected_home_owners);
+        }  
+        // Filter By Property Valuation
+        if($request->selected_property_valuations) {
+            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+        } 
+        // Filter By Property Count
+        if($request->selected_property_counts) {
+            $records = $records->whereIn('PropertyCount', $request->selected_property_counts);
+        }
+        // Filter By Risk Categories
+        if($request->selected_risk_categories) {
+            $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
+        }
+        // Filter By Household Income
+        if($request->selected_household_incomes) {
+            $records = $records->whereIn('IncomeBucket', $request->selected_household_incomes);
+        }
+        if($request->selected_employers) {
+            $records = $records->whereIn('Employer', $request->selected_employers);
+        }
+        // Filter By LSM Group
+        if($request->selected_lsm_groups) {
+            $records = $records->whereIn('LSMGroup', $request->selected_lsm_groups);
+        }
+        // Filter By Vehicle Ownership
+        if($request->selected_vehicle_owners) {
+            $records = $records->whereIn('VehicleOwnershipStatus', $request->selected_vehicle_owners);
+        }
+        // Filter By directors
+        if($request->selected_directors) {
+            $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }
+        // Filter By areas
+        if($request->selected_areas) {
+            $records = $records->whereIn('Area', $request->selected_areas);
+        }
+        // Filter By Citizens and residents
+        if($request->selected_citizen_vs_residents) {
+            if(in_array("citizen", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('id6', '!=', '');
+                
+
+            } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('HasResidentialAddress', "true");
+
+            }
+        }
+
+        $records = $records->get();
+        $property_valuation = array_count_values(array_column($records->toArray(), 'PropertyValuation'));
+        $all_property_valuations = array_count_values(array_column($all_property_valuations->toArray(), 'PropertyValuation'));
+
+        arsort($all_property_valuations);
+        arsort($property_valuation);
+
+        return response()->json(["all_property_valuations" => $all_property_valuations, "selected_property_valuations" => $property_valuation]);
+
+    }
+
+    public function get_property_count(Request $request)
+    {
+        $records = \MeetPAT\EnrichedRecord::select('PropertyCount')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $all_property_counts = $records->get();
+
+        // Filter By Provinces
+        if($request->selected_provinces) {
+            $records = $records->whereIn('Province', $request->selected_provinces);
+        } 
+        // Filter By Municipalities
+        if($request->selected_municipalities) {
+            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+        }
+        // Filter By Age Groups
+        if($request->selected_age_groups) {
+            $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+        // Filter By Gender
+        if($request->selected_gender_groups) {
+            $records = $records->whereIn('Gender', $request->selected_gender_groups);
+        }
+        // Filter By Population Group
+        if($request->selected_population_groups) {
+            $records = $records->whereIn('PopulationGroup', $request->selected_population_groups);
+        }
+        // Filter By Generation
+        if($request->selected_generations) {
+            $records = $records->whereIn('Generation', $request->selected_generations);
+        }
+        // Filter By Marital Status
+        if($request->selected_marital_status) {
+            $records = $records->whereIn('MaritalStatus', $request->selected_marital_status);
+        }
+        // Filter By Home Owners
+        if($request->selected_home_owners) {
+            $records = $records->whereIn('HomeOwnershipStatus', $request->selected_home_owners);
+        }  
+        // Filter By Property Valuation
+        if($request->selected_property_valuations) {
+            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+        } 
+        // Filter By Property Count
+        if($request->selected_property_counts) {
+            $records = $records->whereIn('PropertyCount', $request->selected_property_counts);
+        }
+        // Filter By Risk Categories
+        if($request->selected_risk_categories) {
+            $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
+        }
+        // Filter By Household Income
+        if($request->selected_household_incomes) {
+            $records = $records->whereIn('IncomeBucket', $request->selected_household_incomes);
+        }
+        if($request->selected_employers) {
+            $records = $records->whereIn('Employer', $request->selected_employers);
+        }
+        // Filter By LSM Group
+        if($request->selected_lsm_groups) {
+            $records = $records->whereIn('LSMGroup', $request->selected_lsm_groups);
+        }
+        // Filter By Vehicle Ownership
+        if($request->selected_vehicle_owners) {
+            $records = $records->whereIn('VehicleOwnershipStatus', $request->selected_vehicle_owners);
+        }
+        // Filter By directors
+        if($request->selected_directors) {
+            $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }
+        // Filter By areas
+        if($request->selected_areas) {
+            $records = $records->whereIn('Area', $request->selected_areas);
+        }
+        // Filter By Citizens and residents
+        if($request->selected_citizen_vs_residents) {
+            if(in_array("citizen", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('id6', '!=', '');
+                
+
+            } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('HasResidentialAddress', "true");
+
+            }
+        }
+
+        $records = $records->get();
+        $property_count = array_count_values(array_column($records->toArray(), 'PropertyCount'));
+        $all_property_counts = array_count_values(array_column($all_property_counts->toArray(), 'PropertyCount'));
+
+        arsort($all_property_counts);
+        arsort($property_count);
+
+        return response()->json(["all_property_counts" => $all_property_counts, "selected_property_counts" => $property_count]);
+
+    }
+
     public function get_director_of_business(Request $request)
     {
-        $records = \MeetPAT\BarkerStreetRecord::select('DirectorshipStatus')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('DirectorshipStatus')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_directors = $records->get();
 
         // Filter By Provinces
@@ -826,7 +1481,7 @@ class DataVisualisationController extends Controller
         }
         // Filter By Generation
         if($request->selected_generations) {
-            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+            $records = $records->whereIn('Generation', $request->selected_generations);
         }
         // Filter By Marital Status
         if($request->selected_marital_status) {
@@ -834,15 +1489,34 @@ class DataVisualisationController extends Controller
         }
         // Filter By Home Owners
         if($request->selected_home_owners) {
-            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+            $records = $records->whereIn('HomeOwnershipStatus', $request->selected_home_owners);
         }  
+        // Filter By Property Valuation
+        if($request->selected_property_valuations) {
+            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+        } 
+        // Filter By Property Count
+        if($request->selected_property_counts) {
+            $records = $records->whereIn('PropertyCount', $request->selected_property_counts);
+        }
         // Filter By Risk Categories
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
         // Filter By Household Income
         if($request->selected_household_incomes) {
-            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+            $records = $records->whereIn('IncomeBucket', $request->selected_household_incomes);
+        }
+        if($request->selected_employers) {
+            $records = $records->whereIn('Employer', $request->selected_employers);
+        }
+        // Filter By LSM Group
+        if($request->selected_lsm_groups) {
+            $records = $records->whereIn('LSMGroup', $request->selected_lsm_groups);
+        }
+        // Filter By Vehicle Ownership
+        if($request->selected_vehicle_owners) {
+            $records = $records->whereIn('VehicleOwnershipStatus', $request->selected_vehicle_owners);
         }
         // Filter By directors
         if($request->selected_directors) {
@@ -855,7 +1529,7 @@ class DataVisualisationController extends Controller
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
             if(in_array("citizen", $request->selected_citizen_vs_residents)) {
-                $records = $records->where('Idn', '!=', '');
+                $records = $records->where('id6', '!=', '');
                 
 
             } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
@@ -878,7 +1552,7 @@ class DataVisualisationController extends Controller
 
     public function get_citizens_and_residents(Request $request)
     {
-        $records = \MeetPAT\BarkerStreetRecord::select('Idn', 'HasResidentialAddress')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('id6', 'HasResidentialAddress')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
     
         // Filter By Provinces
         if($request->selected_provinces) {
@@ -902,7 +1576,7 @@ class DataVisualisationController extends Controller
         }
         // Filter By Generation
         if($request->selected_generations) {
-            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+            $records = $records->whereIn('Generation', $request->selected_generations);
         }
         // Filter By Marital Status
         if($request->selected_marital_status) {
@@ -910,15 +1584,34 @@ class DataVisualisationController extends Controller
         }
         // Filter By Home Owners
         if($request->selected_home_owners) {
-            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+            $records = $records->whereIn('HomeOwnershipStatus', $request->selected_home_owners);
         }  
+        // Filter By Property Valuation
+        if($request->selected_property_valuations) {
+            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+        } 
+        // Filter By Property Count
+        if($request->selected_property_counts) {
+            $records = $records->whereIn('PropertyCount', $request->selected_property_counts);
+        }
         // Filter By Risk Categories
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
         // Filter By Household Income
         if($request->selected_household_incomes) {
-            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+            $records = $records->whereIn('IncomeBucket', $request->selected_household_incomes);
+        }
+        if($request->selected_employers) {
+            $records = $records->whereIn('Employer', $request->selected_employers);
+        }
+        // Filter By LSM Group
+        if($request->selected_lsm_groups) {
+            $records = $records->whereIn('LSMGroup', $request->selected_lsm_groups);
+        }
+        // Filter By Vehicle Ownership
+        if($request->selected_vehicle_owners) {
+            $records = $records->whereIn('VehicleOwnershipStatus', $request->selected_vehicle_owners);
         }
         // Filter By directors
         if($request->selected_directors) {
@@ -931,7 +1624,7 @@ class DataVisualisationController extends Controller
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
             if(in_array("citizen", $request->selected_citizen_vs_residents)) {
-                $records = $records->where('Idn', '!=', '');
+                $records = $records->where('id6', '!=', '');
                 
 
             } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
@@ -947,7 +1640,7 @@ class DataVisualisationController extends Controller
 
         foreach ($records as $row) {
     
-            if($row->Idn) {
+            if($row->id6) {
                 $citizen++;
             }
 
@@ -965,7 +1658,7 @@ class DataVisualisationController extends Controller
 
     public function get_generations(Request $request)
     {
-        $records = \MeetPAT\BarkerStreetRecord::select('GenerationGroup')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('Generation')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_generations = $records->get();
         // Filter By Provinces
         if($request->selected_provinces) {
@@ -989,7 +1682,7 @@ class DataVisualisationController extends Controller
         }
         // Filter By Generation Group
         if($request->selected_generations) {
-            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+            $records = $records->whereIn('Generation', $request->selected_generations);
         }
         // Filter By Marital Status
         if($request->selected_marital_status) {
@@ -997,15 +1690,34 @@ class DataVisualisationController extends Controller
         }
         // Filter By Home Owners
         if($request->selected_home_owners) {
-            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+            $records = $records->whereIn('HomeOwnershipStatus', $request->selected_home_owners);
         }  
+        // Filter By Property Valuation
+        if($request->selected_property_valuations) {
+            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+        } 
+        // Filter By Property Count
+        if($request->selected_property_counts) {
+            $records = $records->whereIn('PropertyCount', $request->selected_property_counts);
+        }
         // Filter By Risk Categories
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
         // Filter By Household Income
         if($request->selected_household_incomes) {
-            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+            $records = $records->whereIn('IncomeBucket', $request->selected_household_incomes);
+        }
+        if($request->selected_employers) {
+            $records = $records->whereIn('Employer', $request->selected_employers);
+        }
+        // Filter By LSM Group
+        if($request->selected_lsm_groups) {
+            $records = $records->whereIn('LSMGroup', $request->selected_lsm_groups);
+        }
+        // Filter By Vehicle Ownership
+        if($request->selected_vehicle_owners) {
+            $records = $records->whereIn('VehicleOwnershipStatus', $request->selected_vehicle_owners);
         }
         // Filter By directors
         if($request->selected_directors) {
@@ -1019,7 +1731,7 @@ class DataVisualisationController extends Controller
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
             if(in_array("citizen", $request->selected_citizen_vs_residents)) {
-                $records = $records->where('Idn', '!=', '');
+                $records = $records->where('id6', '!=', '');
                 
 
             } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
@@ -1029,8 +1741,8 @@ class DataVisualisationController extends Controller
         }
 
         $records = $records->get();
-        $generations = array_count_values(array_column($records->toArray(), 'GenerationGroup'));
-        $all_generations = array_count_values(array_column($all_generations->toArray(), 'GenerationGroup'));
+        $generations = array_count_values(array_column($records->toArray(), 'Generation'));
+        $all_generations = array_count_values(array_column($all_generations->toArray(), 'Generation'));
 
         arsort($generations);
         arsort($all_generations);
@@ -1040,7 +1752,7 @@ class DataVisualisationController extends Controller
 
     public function get_marital_statuses(Request $request)
     {
-        $records = \MeetPAT\BarkerStreetRecord::select('MaritalStatus')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('MaritalStatus')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_marital_status = $records->get();
         // Filter By Provinces
         if($request->selected_provinces) {
@@ -1064,7 +1776,7 @@ class DataVisualisationController extends Controller
         }
         // Filter By Generation Group
         if($request->selected_generations) {
-            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+            $records = $records->whereIn('Generation', $request->selected_generations);
         }
         // Filter By Marital Status
         if($request->selected_marital_status) {
@@ -1072,15 +1784,34 @@ class DataVisualisationController extends Controller
         }
         // Filter By Home Owners
         if($request->selected_home_owners) {
-            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+            $records = $records->whereIn('HomeOwnershipStatus', $request->selected_home_owners);
         }  
+        // Filter By Property Valuation
+        if($request->selected_property_valuations) {
+            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+        } 
+        // Filter By Property Count
+        if($request->selected_property_counts) {
+            $records = $records->whereIn('PropertyCount', $request->selected_property_counts);
+        }
         // Filter By Risk Categories
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
         // Filter By Household Income
         if($request->selected_household_incomes) {
-            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+            $records = $records->whereIn('IncomeBucket', $request->selected_household_incomes);
+        }
+        if($request->selected_employers) {
+            $records = $records->whereIn('Employer', $request->selected_employers);
+        }
+        // Filter By LSM Group
+        if($request->selected_lsm_groups) {
+            $records = $records->whereIn('LSMGroup', $request->selected_lsm_groups);
+        }
+        // Filter By Vehicle Ownership
+        if($request->selected_vehicle_owners) {
+            $records = $records->whereIn('VehicleOwnershipStatus', $request->selected_vehicle_owners);
         }
         // Filter By directors
         if($request->selected_directors) {
@@ -1089,7 +1820,7 @@ class DataVisualisationController extends Controller
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
             if(in_array("citizen", $request->selected_citizen_vs_residents)) {
-                $records = $records->where('Idn', '!=', '');
+                $records = $records->where('id6', '!=', '');
                 
 
             } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
@@ -1113,7 +1844,8 @@ class DataVisualisationController extends Controller
 
     public function get_area(Request $request) {
 
-        $records = \MeetPAT\BarkerStreetRecord::select('Area', 'GreaterArea')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        // $records = \MeetPAT\BarkerStreetRecord::select('Area', 'GreaterArea')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('Area')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_areas = $records->get();
 
         // Filter By Provinces
@@ -1138,7 +1870,7 @@ class DataVisualisationController extends Controller
         }
         // Filter By Generation Group
         if($request->selected_generations) {
-            $records = $records->whereIn('GenerationGroup', $request->selected_generations);
+            $records = $records->whereIn('Generation', $request->selected_generations);
         }
         // Filter By Marital Status
         if($request->selected_marital_status) {
@@ -1146,15 +1878,34 @@ class DataVisualisationController extends Controller
         }
         // Filter By Home Owners
         if($request->selected_home_owners) {
-            $records = $records->whereIn('HomeOwnerShipStatus', $request->selected_home_owners);
+            $records = $records->whereIn('HomeOwnershipStatus', $request->selected_home_owners);
         }  
+        // Filter By Property Valuation
+        if($request->selected_property_valuations) {
+            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+        } 
+        // Filter By Property Count
+        if($request->selected_property_counts) {
+            $records = $records->whereIn('PropertyCount', $request->selected_property_counts);
+        }
         // Filter By Risk Categories
         if($request->selected_risk_categories) {
             $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
         }
         // Filter By Household Income
         if($request->selected_household_incomes) {
-            $records = $records->whereIn('incomeBucket', $request->selected_household_incomes);
+            $records = $records->whereIn('IncomeBucket', $request->selected_household_incomes);
+        }
+        if($request->selected_employers) {
+            $records = $records->whereIn('Employer', $request->selected_employers);
+        }
+        // Filter By LSM Group
+        if($request->selected_lsm_groups) {
+            $records = $records->whereIn('LSMGroup', $request->selected_lsm_groups);
+        }
+        // Filter By Vehicle Ownership
+        if($request->selected_vehicle_owners) {
+            $records = $records->whereIn('VehicleOwnershipStatus', $request->selected_vehicle_owners);
         }
         // Filter By directors
         if($request->selected_directors) {
@@ -1167,7 +1918,7 @@ class DataVisualisationController extends Controller
         // Filter By Citizens and residents
         if($request->selected_citizen_vs_residents) {
             if(in_array("citizen", $request->selected_citizen_vs_residents)) {
-                $records = $records->where('Idn', '!=', '');
+                $records = $records->where('id6', '!=', '');
                 
 
             } else if(in_array("resident", $request->selected_citizen_vs_residents)) {

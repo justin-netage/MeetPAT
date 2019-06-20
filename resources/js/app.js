@@ -16,7 +16,6 @@ require('fuse.js');
  */
 
 require('./components/Contact');
-require('./components/LoaderAnimation');
 require('./components/ThankYou');
 require('./components/Apply');
 

@@ -34,16 +34,24 @@
             <ul id="citizen_vs_resident_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Citizen VS Resident</span></ul>
             <ul id="marital_status_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Marital Status</span></ul>
             <ul id="home_owner_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Home Owner</span></ul>
+            <ul id="property_valuation_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Property Valuation</span></ul>
+            <ul id="property_type_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Property Type</span></ul>
+            <ul id="property_count_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Property Count</span></ul>
+            <ul id="employer_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Employer</span></ul>
+            <ul id="vehicle_owner_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Vehicle Owner</span></ul>
+            <ul id="lsm_group_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">LSM Group</span></ul>
             <ul id="risk_category_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Risk Category</span></ul>
             <ul id="household_income_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Household Income</span></ul>
             <ul id="directors_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Directors</span></ul>
+            <ul id="employer_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Employer</span></ul>
             <ul id="no_filters" class="list-unstyled"><span class="filter-heading">No filters have been added</span></ul>
         </div>
     </div>
-    <h4>
+    <br />
+    <!-- <h4>
         <strong class="mr-auto">Potential Contacts</strong>
-    </h4>
-    <div id="potential-contacts-num-sidebar">?</div><br />
+    </h4> -->
+    <!-- <div id="potential-contacts-num-sidebar">?</div><br /> -->
     <form action="/meetpat-client/create-selected-contacts" method="post">
         @csrf
         <input type="hidden" id="user_id" name="user_id" value="{{Auth::user()->id}}">
@@ -59,11 +67,14 @@
         <input type="hidden" id="homeOwnerContactsId" name="homeOwnerContacts[]">
         <input type="hidden" id="riskCategoryContactsId" name="riskCategoryContacts[]">
         <input type="hidden" id="houseHoldIncomeContactsId" name="houseHoldIncomeContacts[]">
+        <input type="hidden" id="employerContactsId" name="employerContacts[]">
         <input type="hidden" id="directorsContactsId" name="directorsContacts[]">
-
-        <button id="audienceSubmitBtn" class="btn btn-secondary btn-block" disabled="true" type="submit" /><i class="fas fa-users"></i>&nbsp;Sync Contacts</button>
-        <button id="sidebarSubmitBtn" class="btn btn-secondary btn-block apply-changes-button" disabled="true" type="button" /><i class="fas fa-sync-alt"></i>&nbsp;Apply Changes</button>
-        <button id="resetFilterToastBtn" class="btn btn-secondary btn-block" disabled="disabled"><i class="fas fa-undo-alt"></i>&nbsp;Reset Filters</button>
+        <input type="hidden" id="vehicleOwnerContactsId" name="vehicleOwnerContacts[]">
+        <input type="hidden" id="propertyValuationContactsId" name="vehicleOwnerContacts[]">
+        <input type="hidden" id="lsmGroupContactsId" name="lsmGroupContacts[]">
+        <!-- <button id="audienceSubmitBtn" class="btn btn-secondary btn-block" disabled="true" type="submit" /><i class="fas fa-users"></i>&nbsp;Sync Contacts</button> -->
+        <button id="sidebarSubmitBtn" type="button" class="btn btn-secondary btn-block apply-changes-button" disabled="true" type="button" /><i class="fas fa-sync-alt"></i>&nbsp;Apply Changes</button>
+        <button id="resetFilterToastBtn" type="button" class="btn btn-secondary btn-block" disabled="disabled"><i class="fas fa-undo-alt"></i>&nbsp;Reset Filters</button>
     </form>    
 </div>
 <div class="right-sidebar-button sidebar-button-in" id="sidebar-toggle-button"><i class="fas fa-cog"></i></div>
@@ -256,7 +267,6 @@
         </div>
             </h3>
             <hr>
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/adult-2028245_640.png')}}" background-color: #00A3D9;" class="img-fluid"/>
                 <div class="spinner-block">
                     <div class="spinner spinner-3"></div>
                 </div>
@@ -283,7 +293,6 @@
                 </div>
             </h3>
             <hr>
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/man-2933984_640.jpg')}}"  class="img-fluid"/>
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
@@ -310,7 +319,6 @@
             </div>
             </h3>
             <hr>
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/african-american-3671900_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
@@ -337,7 +345,6 @@
                 </div>
             </h3>
             <hr>
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/entrepreneur-2934861_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
@@ -364,7 +371,6 @@
                 </div>
             </h3>
             <hr>
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/south-africa-653005_640.png')}}" class="img-fluid"/>
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
@@ -391,7 +397,6 @@
                 </div>            
             </h3>
             <hr>
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/sunset-698501_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
@@ -430,11 +435,90 @@
                 </div> 
             </h3>
             <hr>
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/architecture-1836070_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
             <div id="homeOwnerChart" style="width: 100%; height: 256px;"></div>
+        </div>
+        <div class="col-12 col-md-4" id="property-valuation-graph">
+            <h3>Property Valuation
+                <div class="btn-group dropleft float-right">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-filter"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-form" style="overflow-y: scroll; padding:16px; width: 256px; height: 256px;">
+                    <!-- Dropdown menu links -->
+                    <form style="margin: 8px;" id="property-valuation-filter-form">
+                    <div id="property_valuation_filter">
+                        <div class="text-center">
+                        <div class="spinner-border mb-2" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        </div>
+                    </div>
+                    <button name="property_valuation_submit" id="propertyValuationSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                    </form>
+                </div>
+            </h3>
+            <hr>
+            <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 216px;">
+                <div class="spinner-block">
+                    <div class="spinner spinner-3"></div>
+                </div>
+                <div id="propertyValuationChart" style="width: 100%;"></div>
+            </div> 
+        </div>
+        <div class="col-12 col-md-4" id="property-count-graph">
+            <h3>Property Count
+            <div class="btn-group dropright float-right">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-filter"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-form">
+                    <!-- Dropdown menu links -->
+                    <form style="margin: 12px;" id="property-count-filter-form">
+                        <div id="property_count_filter">
+                        <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        </div>
+                        </div> <br/>
+                        <button name="property_count_submit" id="property_countsSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                    </form>
+                </div> 
+            </h3>
+            <hr>
+            <div class="spinner-block">
+                <div class="spinner spinner-3"></div>
+            </div>
+            <div id="propertyCountChart" style="width: 100%; height: 256px;"></div>
+        </div>
+        <div class="col-12 col-md-4" id="vehicle-owner-graph">
+            <h3>Vehicle Owner
+            <div class="btn-group dropright float-right">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" data-backdrop="static" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-filter"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-form">
+                    <!-- Dropdown menu links -->
+                    <form style="margin: 12px;" id="vehicle-owner-filter-form">
+                        <div id="vehicle_owner_filter">
+                        <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        </div>
+                        </div> <br/>
+                        <button name="vehicle_owner_submit" id="vehicle_ownersSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                    </form>
+                </div> 
+            </h3>
+            <hr>
+            <div class="spinner-block">
+                <div class="spinner spinner-3"></div>
+            </div>
+            <div id="vehicleOwnerChart" style="width: 100%; height: 256px;"></div>
         </div>
         <!-- <div class="col-12 col-md-4">
             <h3>Number of Homes Owned</h3>
@@ -501,11 +585,36 @@
                 </div>
             </h3>
             <hr>
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/risk-1945683_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
             <div id="riskCategoryChart" style="width: 100%; height: 300px;"></div>
+        </div>
+        <div class="col-12 col-md-4" id="lsm-group-graph">
+            <h3>LSM Group
+            <div class="btn-group dropright float-right">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-filter"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-form">
+                    <!-- Dropdown menu links -->
+                    <form style="margin: 12px;" id="lsm-group-filter-form">
+                        <div id="lsm_group_filter">
+                        <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        </div>
+                        </div> <br/>
+                        <button name="lsm_group_submit" id="lsm_groupSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                    </form>
+                </div>
+            </h3>
+            <hr>
+            <div class="spinner-block">
+                <div class="spinner spinner-3"></div>
+            </div>
+            <div id="lsmGroupChart" style="width: 100%; height: 300px;"></div>
         </div>
         <div class="col-12 col-md-4" id="income-graph">
             <h3>Household Income
@@ -528,12 +637,48 @@
                 </div>
             </h3>
             <hr>
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/coins-1726618_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
-                <div id="householdIncomeChart" style="width: 100%px; height: 256px;"></div>
+            <div id="householdIncomeChart" style="width: 100%; height: 256px;"></div>
         </div>
+        <div class="col-12 col-md-4" id="area-graph">
+            <h3>Employer
+                <div class="btn-group dropleft float-right">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-search"></i>&nbsp;<i class="fas fa-filter"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-form" style="overflow-y: scroll; padding:16px; width: 290px; height: 256px;">
+                    <!-- Dropdown menu links -->
+                    <form style="margin: 8px;" id="employer-filter-form">
+                    <div id="hidden-employer-filter-form" style="display:none;">
+                        <!-- selected employers from search -->
+                    </div>
+                    <div id="employer_filter">
+                        <div id="lunr-search-employer" style="display: none;">
+                            <input type="text" class="form-control mb-2" id="employerSearchInput" autocomplete="off" placeholder="search for employer...">
+                            <span style="position:absolute; right: 40px; top:35px;"><i class="fas fa-search"></i></span>
+                            <ul id="lunr-results-employer" class="list-unstyled"></ul>
+                        </div>
+                        <div class="text-center">
+                        <div class="spinner-border mb-2" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        </div>
+                    </div>
+                    <button name="employer_submit" id="employerSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                    </form>
+                </div>
+            </h3>
+            <hr>
+            <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 256px;">
+                <div class="spinner-block">
+                    <div class="spinner spinner-3"></div>
+                </div>
+                <div id="employersChart" style="width: 100%;"></div>
+            </div> 
+        </div>
+    </div>
         <div class="col-12 col-md-4" id="directors-graph">
             <h3>Director of a Business
                 <div class="btn-group dropleft float-right">
@@ -555,7 +700,6 @@
                 </div>                
             </h3>
             <hr>
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/analytics-2697949_640.jpg')}}" class="img-fluid"/>
             <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
@@ -573,5 +717,5 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://unpkg.com/lunr/lunr.js"></script>
-<script type="text/javascript" src="{{asset('js/data_visualisation.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/data_visualisation.js')}}"></script>
 @endsection
