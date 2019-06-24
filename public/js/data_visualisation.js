@@ -2,6 +2,16 @@
 google.charts.load('current', {'packages':['corechart', 'geochart', 'bar'],
 'mapsApiKey': 'AIzaSyBMae5h5YHUJ1BdNHshwj_SmJzPe5mglwI'});
 
+var keyChanger = function(key_name) {
+    if(key_name == 'True' || key_name == 'true') {
+        return 'Yes';
+    } else if(key_name == 'False' || key_name == 'false') {
+        return 'No';
+    } else {
+        return key_name;
+    }
+}
+
 // Selected Targets Arrays
 var target_provinces = [];
 var target_municipalities = [];
@@ -1128,7 +1138,7 @@ var drawMaritalStatusChart = function() {
         data.addColumn({type: 'string', role: 'annotation'});
 
         var result = Object.keys(chart_data["selected_marital_status"]).map(function(key) {
-            return [key, chart_data["selected_marital_status"][key], kFormatter(chart_data["selected_marital_status"][key])];
+                return [keyChanger(key), chart_data["selected_marital_status"][key], kFormatter(chart_data["selected_marital_status"][key])];
         });
     
             data.addRows(result);
@@ -1158,12 +1168,12 @@ var drawMaritalStatusChart = function() {
             for (var key in chart_data["all_marital_status"]) {
                 if(target_marital_statuses.includes(key)) {
                     $("#marital_status_filter").append(
-                        '<input type="checkbox" name="m_' + key + '" id="m_' + key + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="m_' + key + '_option' +'" class="css-label">' + key + '</label><br />'
+                        '<input type="checkbox" name="m_' + key.toLowerCase() + '" id="m_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox" checked="checked"><label for="m_' + key.toLowerCase() + '_option' +'" class="css-label">' + keyChanger(key) + '</label><br />'
                     );
 
                 } else {
                     $("#marital_status_filter").append(
-                        '<input type="checkbox" name="m_' + key + '" id="m_' + key + '_option' +'" value="' + key + '" class="css-checkbox"><label for="m_' + key + '_option' +'" class="css-label">' + key + '</label><br />'
+                        '<input type="checkbox" name="m_' + key.toLowerCase() + '" id="m_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox"><label for="m_' + key.toLowerCase() + '_option' +'" class="css-label">' + keyChanger(key) + '</label><br />'
                     );
                 }
                 $('#m_' + key.toLowerCase() + '_option').click(function(){
@@ -1171,7 +1181,7 @@ var drawMaritalStatusChart = function() {
                         
                         var parent = this;
     
-                        $("#marital_status_filters").append('<li id="filter_m_' + $(this).val().toLowerCase() + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                        $("#marital_status_filters").append('<li id="filter_m_' + $(this).val().toLowerCase() + '">'+ keyChanger($(this).val()) +'<i class="fas fa-window-close float-right"></i></li>')
                         $('#filter_m_' + $(this).val().toLowerCase() + ' i').click(function() {
                             if($('#m_' + $(parent).val().toLowerCase() + '_option').length) {
                                 $('#filter_m_' + $(parent).val().toLowerCase()).remove();
@@ -1224,7 +1234,7 @@ var drawHomeOwnerChart = function() {
         data.addColumn({type: 'string', role: 'annotation'});
 
         var result = Object.keys(chart_data["selected_home_owners"]).map(function(key) {
-            return [key, chart_data["selected_home_owners"][key], kFormatter(chart_data["selected_home_owners"][key])];
+            return [keyChanger(key), chart_data["selected_home_owners"][key], kFormatter(chart_data["selected_home_owners"][key])];
         });
     
             data.addRows(result);
@@ -1253,11 +1263,11 @@ var drawHomeOwnerChart = function() {
             for (var key in chart_data["all_home_owners"]) {
                 if(target_home_owners.includes(key)) {
                     $("#home_owner_filter").append(
-                        '<input type="checkbox" name="h_' + key.toLowerCase() + '" id="h_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox" checked="checked"><label for="h_' + key.toLowerCase() + '_option' +'" class="css-label">' + key.toLowerCase() + '</label><br />'
+                        '<input type="checkbox" name="h_' + key.toLowerCase() + '" id="h_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox" checked="checked"><label for="h_' + key.toLowerCase() + '_option' +'" class="css-label">' + keyChanger(key) + '</label><br />'
                     );
                 } else {
                     $("#home_owner_filter").append(
-                        '<input type="checkbox" name="h_' + key.toLowerCase() + '" id="h_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox"><label for="h_' + key.toLowerCase() + '_option' +'" class="css-label">' + key.toLowerCase() + '</label><br />'
+                        '<input type="checkbox" name="h_' + key.toLowerCase() + '" id="h_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox"><label for="h_' + key.toLowerCase() + '_option' +'" class="css-label">' + keyChanger(key) + '</label><br />'
                     );
                 }
                 
@@ -1266,7 +1276,7 @@ var drawHomeOwnerChart = function() {
                         
                         var parent = this;
     
-                        $("#home_owner_filters").append('<li id="filter_h_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                        $("#home_owner_filters").append('<li id="filter_h_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ keyChanger($(this).val()) +'<i class="fas fa-window-close float-right"></i></li>')
                         $('#filter_h_' + $(this).val().toLowerCase().replace(/ /g, "_") + ' i').click(function() {
                             if($('#h_' + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').length) {
                                 $('#filter_h_' + $(parent).val().toLowerCase().replace(/ /g, "_")).remove();
@@ -1414,7 +1424,7 @@ var drawVehicleOwnerChart = function() {
         data.addColumn({type: 'string', role: 'annotation'});
 
         var result = Object.keys(chart_data["selected_vehicle_owners"]).map(function(key) {
-            return [key, chart_data["selected_vehicle_owners"][key], kFormatter(chart_data["selected_vehicle_owners"][key])];
+            return [keyChanger(key), chart_data["selected_vehicle_owners"][key], kFormatter(chart_data["selected_vehicle_owners"][key])];
         });
     
             data.addRows(result);
@@ -1443,11 +1453,11 @@ var drawVehicleOwnerChart = function() {
             for (var key in chart_data["all_vehicle_owners"]) {
                 if(target_vehicle_owners.includes(key)) {
                     $("#vehicle_owner_filter").append(
-                        '<input type="checkbox" name="vo_' + key.toLowerCase() + '" id="vo_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox" checked="checked"><label for="vo_' + key.toLowerCase() + '_option' +'" class="css-label">' + key.toLowerCase() + '</label><br />'
+                        '<input type="checkbox" name="vo_' + key.toLowerCase() + '" id="vo_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox" checked="checked"><label for="vo_' + key.toLowerCase() + '_option' +'" class="css-label">' + keyChanger(key) + '</label><br />'
                     );
                 } else {
                     $("#vehicle_owner_filter").append(
-                        '<input type="checkbox" name="vo_' + key.toLowerCase() + '" id="vo_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox"><label for="vo_' + key.toLowerCase() + '_option' +'" class="css-label">' + key.toLowerCase() + '</label><br />'
+                        '<input type="checkbox" name="vo_' + key.toLowerCase() + '" id="vo_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox"><label for="vo_' + key.toLowerCase() + '_option' +'" class="css-label">' + keyChanger(key) + '</label><br />'
                     );
                 }
                 
@@ -1457,7 +1467,7 @@ var drawVehicleOwnerChart = function() {
                         
                         var parent = this;
     
-                        $("#vehicle_owner_filters").append('<li id="filter_vo_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                        $("#vehicle_owner_filters").append('<li id="filter_vo_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ keyChanger($(this).val()) +'<i class="fas fa-window-close float-right"></i></li>')
                         $('#filter_vo_' + $(this).val().toLowerCase().replace(/ /g, "_") + ' i').click(function() {
                             if($('#vo_' + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').length) {
                                 $('#filter_vo_' + $(parent).val().toLowerCase().replace(/ /g, "_")).remove();
@@ -1959,7 +1969,7 @@ var drawDirectorOfBusinessChart = function() {
         data.addColumn({type: 'string', role: 'annotation'});
 
         var result = Object.keys(chart_data["selected_directors"]).map(function(key) {
-            return [key, chart_data["selected_directors"][key], kFormatter(chart_data["selected_directors"][key])];
+            return [keyChanger(key), chart_data["selected_directors"][key], kFormatter(chart_data["selected_directors"][key])];
         });
     
             data.addRows(result);
@@ -1988,11 +1998,11 @@ var drawDirectorOfBusinessChart = function() {
             for (var key in chart_data["all_directors"]) {
                 if(target_directors.includes(key)) {
                     $("#directors_filter").append(
-                        '<input type="checkbox" name="d_' + key + '" id="d_' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="d_' + key.toLowerCase() + '_option' +'" class="css-label">' + key + '</label><br />'
+                        '<input type="checkbox" name="d_' + key + '" id="d_' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="d_' + key.toLowerCase() + '_option' +'" class="css-label">' + keyChanger(key) + '</label><br />'
                     );
                 } else {
                     $("#directors_filter").append(
-                        '<input type="checkbox" name="d_' + key + '" id="d_' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox"><label for="d_' + key.toLowerCase() + '_option' +'" class="css-label">' + key + '</label><br />'
+                        '<input type="checkbox" name="d_' + key + '" id="d_' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox"><label for="d_' + key.toLowerCase() + '_option' +'" class="css-label">' + keyChanger(key) + '</label><br />'
                     );
                 }
 
@@ -2001,7 +2011,7 @@ var drawDirectorOfBusinessChart = function() {
                         
                         var parent = this;
     
-                        $("#directors_filters").append('<li id="filter_d_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                        $("#directors_filters").append('<li id="filter_d_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ keyChanger($(this).val()) +'<i class="fas fa-window-close float-right"></i></li>')
                         $('#filter_d_' + $(this).val().toLowerCase().replace(/ /g, "_") + ' i').click(function() {
                             if($('#d_' + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').length) {
                                 $('#filter_d_' + $(parent).val().toLowerCase().replace(/ /g, "_")).remove();

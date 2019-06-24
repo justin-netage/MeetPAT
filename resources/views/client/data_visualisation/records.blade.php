@@ -447,7 +447,7 @@
                 <div class="media-body">
                     <h3 class="mt-3"><span>Marital Status</span>
                 <!-- Default dropright button -->
-                        <div class="btn-group dropright float-right">
+                        <div class="btn-group dropleft float-right">
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-filter"></i>
                             </button>
@@ -824,5 +824,5 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://unpkg.com/lunr/lunr.js"></script>
-<script type="text/javascript" src="{{asset('js/data_visualisation.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/data_visualisation.js')}}"></script>
 @endsection
