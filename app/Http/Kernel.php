@@ -19,6 +19,8 @@ class Kernel extends HttpKernel
         \MeetPAT\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \MeetPAT\Http\Middleware\TrustProxies::class,
+        // Https force redirect
+        \MeetPAT\Http\Middleware\HttpsProtocol::class,
     ];
 
     /**
