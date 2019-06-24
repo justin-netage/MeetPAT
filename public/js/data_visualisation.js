@@ -129,7 +129,7 @@ function drawProvinceChart( chart_data ) {
             'legend': {
                 position: 'none'
             },
-            'backgroundColor': '#fff',
+            'backgroundColor': '#f7f7f7',
             'colors': ['#00A3D9'],
             'animation': {
                 'startup':true,
@@ -157,10 +157,13 @@ function drawAreaChart(  ) {
          selected_employers: target_employers}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
-        console.log( chart_data )
+        $("#area-graph .spinner-block").hide();
+        $("#area-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
+        $("#area_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
+        //console.log( chart_data )
     }).done(function( chart_data ) {
         
-        $("#area-graph .spinner-block").hide();    
+        $("#area-graph .spinner-block").hide();
         $("#areaSubmitBtn").prop("disabled", false);
         $("#area_filter").append(
             '<div id="lunr-search" style="display: none;">'+
@@ -193,7 +196,7 @@ function drawAreaChart(  ) {
                         'legend': {
                             position: 'none'
                         },
-                        'backgroundColor': '#fff'
+                        'backgroundColor': '#f7f7f7'
                         };
     
         // Instantiate and draw our chart, passing in some options.
@@ -332,7 +335,7 @@ function drawAreaChart(  ) {
                             'legend': {
                                 position: 'none'
                             },
-                            'backgroundColor': '#fff'
+                            'backgroundColor': '#f7f7f7'
                         };
                         
                         for (var key in chart_data["all_municipalities"]) {
@@ -427,7 +430,7 @@ function drawAreaChart(  ) {
 
       var options = {
           region:'ZA',resolution:'provinces',
-          'backgroundColor': '#fff',
+          'backgroundColor': '#f7f7f7',
           'colorAxis': {colors: ['#039be5']},
           tooltip: {
             isHtml: true
@@ -454,7 +457,10 @@ function drawAreaChart(  ) {
          selected_employers: target_employers}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
-        console.log( chart_data );
+        $("#age-graph .spinner-block").hide();
+        $("#age-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
+        $("#age_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
+        //console.log( chart_data );
 
     }).done(function( chart_data ) {
         $("#age-graph .spinner-block").hide();    
@@ -488,7 +494,7 @@ function drawAreaChart(  ) {
                             'legend': {
                                 position: 'none'
                             },
-                            'backgroundColor': '#fff'
+                            'backgroundColor': '#f7f7f7'
                         };
 
                         for (var key in chart_data["all_ages"]) {
@@ -549,7 +555,10 @@ function drawAreaChart(  ) {
              selected_employers: target_employers}, function( chart_data ) {
     
         }).fail(function( chart_data ) {
-            console.log( chart_data );
+            $("#property-valuation-graph .spinner-block").hide();
+            $("#property-valuation-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
+            $("#property_valuation_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
+            //console.log( chart_data );
     
         }).done(function( chart_data ) {
             $("#property-valuation-graph .spinner-block").hide();    
@@ -583,7 +592,7 @@ function drawAreaChart(  ) {
                                 'legend': {
                                     position: 'none'
                                 },
-                                'backgroundColor': '#fff'
+                                'backgroundColor': '#f7f7f7'
                             };
     
                             for (var key in chart_data["all_property_valuations"]) {
@@ -659,7 +668,10 @@ function drawAreaChart(  ) {
              selected_employers: target_employers}, function(chart_data) {
 
         }).fail(function( chart_data ) {
-            console.log( chart_data )
+            $("#gender-graph .spinner-block").hide();
+            $("#gender-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
+            $("#gender_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
+            //console.log( chart_data )
         }).done(function( chart_data ) {
             $("#gender-graph .spinner-block").hide();    
             $("#gender_filter").empty();
@@ -694,7 +706,7 @@ function drawAreaChart(  ) {
                                 'legend': {
                                     position: 'none'
                                 },
-                                'backgroundColor': '#fff'
+                                'backgroundColor': '#f7f7f7'
                             };
 
                             for (var key in chart_data["all_genders"]) {
@@ -778,7 +790,10 @@ function drawAreaChart(  ) {
              selected_employers: target_employers}, function( chart_data ) {
 
         }).fail(function( chart_data ) {
-            console.log( chart_data );
+            $("#population-graph .spinner-block").hide();
+            $("#population-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
+            $("#population_group_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
+            //console.log( chart_data );
 
         }).done(function( chart_data ) {
             $("#population-graph .spinner-block").hide();    
@@ -814,7 +829,7 @@ function drawAreaChart(  ) {
                             'legend': {
                                 position: 'none'
                             },
-                            'backgroundColor': '#fff'
+                            'backgroundColor': '#f7f7f7'
                         };
 
                         for (var key in chart_data["all_population_groups"]) {
@@ -875,7 +890,10 @@ function drawAreaChart(  ) {
              selected_employers: target_employers}, function( chart_data ) {
 
         }).fail(function( chart_data ) {
-            console.log( chart_data );
+            $("#generation-graph .spinner-block").hide();
+            $("#generation-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
+            $("#generation_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
+            //console.log( chart_data );
         }).done(function( chart_data ) {
             $("#generation-graph .spinner-block").hide();    
             $("#generation_filter").empty();
@@ -910,7 +928,7 @@ function drawAreaChart(  ) {
                             'legend': {
                                 position: 'none'
                             },
-                            'backgroundColor': '#fff'
+                            'backgroundColor': '#f7f7f7'
                         };
                         for (var key in chart_data["all_generations"]) {
                             if(target_generations.includes(key)) {
@@ -969,7 +987,10 @@ var drawCitizensChart = function() {
          selected_employers: target_employers}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
-        console.log( chart_data );
+        $("#c-vs-r-graph .spinner-block").hide();
+        $("#c-vs-r-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
+        $("#citizen_vs_resident_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
+        //console.log( chart_data );
     }).done(function( chart_data ) {
         $("#c-vs-r-graph .spinner-block").hide();    
         $("#citizen_vs_resident_filter").empty();
@@ -1004,7 +1025,7 @@ var drawCitizensChart = function() {
                             'legend': {
                                 position: 'none'
                             },
-                            'backgroundColor': '#fff'
+                            'backgroundColor': '#f7f7f7'
                         };
             if(target_citizen_vs_residents.includes("citizen")) {
                 $('#citizen_vs_resident_filter').append(
@@ -1093,7 +1114,10 @@ var drawMaritalStatusChart = function() {
          selected_employers: target_employers}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
-        console.log( chart_data );
+        $("#marital-status-graph .spinner-block").hide();
+        $("#marital-status-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
+        $("#marital_status_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
+        //console.log( chart_data );
     }).done(function( chart_data ) {
         $("#marital-status-graph .spinner-block").hide();    
         $("#marital_status_filter").empty();
@@ -1128,7 +1152,7 @@ var drawMaritalStatusChart = function() {
                             'legend': {
                                 position: 'none'
                             },
-                            'backgroundColor': '#fff'
+                            'backgroundColor': '#f7f7f7'
                         };
 
             for (var key in chart_data["all_marital_status"]) {
@@ -1186,7 +1210,10 @@ var drawHomeOwnerChart = function() {
          selected_employers: target_employers}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
-        console.log( chart_data );
+        $("#home-owner-graph .spinner-block").hide();
+        $("#home-owner-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
+        $("#home_owner_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
+        //console.log( chart_data );
     }).done(function( chart_data ) {
         $("#home-owner-graph .spinner-block").hide();    
         $("#home_owner_filter").empty();
@@ -1221,7 +1248,7 @@ var drawHomeOwnerChart = function() {
                             'legend': {
                                 position: 'none'
                             },
-                            'backgroundColor': '#fff'
+                            'backgroundColor': '#f7f7f7'
                         };
             for (var key in chart_data["all_home_owners"]) {
                 if(target_home_owners.includes(key)) {
@@ -1278,7 +1305,10 @@ var drawPropertyCountChart = function() {
          selected_employers: target_employers}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
-        console.log( chart_data );
+        $("#property-count-graph .spinner-block").hide();
+        $("#property-count-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
+        $("#property_count_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
+        //console.log( chart_data );
     }).done(function( chart_data ) {
         $("#property-count-graph .spinner-block").hide();    
         $("#property_count_filter").empty();
@@ -1313,7 +1343,7 @@ var drawPropertyCountChart = function() {
                             'legend': {
                                 position: 'none'
                             },
-                            'backgroundColor': '#fff'
+                            'backgroundColor': '#f7f7f7'
                         };
             for (var key in chart_data["all_property_counts"]) {
                 if(target_home_owners.includes(key)) {
@@ -1370,7 +1400,10 @@ var drawVehicleOwnerChart = function() {
          selected_employers: target_employers}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
-        console.log( chart_data );
+        $("#vehicle-owner-graph .spinner-block").hide();
+        $("#vehicle-owner-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
+        $("#vehicle_owner_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
+        //console.log( chart_data );
     }).done(function( chart_data ) {
         $("#vehicle-owner-graph .spinner-block").hide();    
         $("#vehicle_owner_filter").empty();
@@ -1405,7 +1438,7 @@ var drawVehicleOwnerChart = function() {
                             'legend': {
                                 position: 'none'
                             },
-                            'backgroundColor': '#fff'
+                            'backgroundColor': '#f7f7f7'
                         };
             for (var key in chart_data["all_vehicle_owners"]) {
                 if(target_vehicle_owners.includes(key)) {
@@ -1463,7 +1496,10 @@ var drawLSMGroupChart = function() {
          selected_employers: target_employers}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
-        console.log( chart_data );
+        $("#lsm-group-graph .spinner-block").hide();
+        $("#lsm-group-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
+        $("#lsm_group_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
+        // console.log( chart_data );
     }).done(function( chart_data ) {
         $("#lsm-group-graph .spinner-block").hide();    
         $("#lsm_group_filter").empty();
@@ -1498,7 +1534,7 @@ var drawLSMGroupChart = function() {
                             'legend': {
                                 position: 'none'
                             },
-                            'backgroundColor': '#fff'
+                            'backgroundColor': '#f7f7f7'
                         };
             for (var key in chart_data["all_lsm_groups"]) {
                 if(target_lsm_groups.includes(key)) {
@@ -1557,7 +1593,10 @@ function drawEmployerChart(  ) {
          selected_employers: target_employers}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
-        console.log( chart_data )
+        $("#employer-graph .spinner-block").hide();
+        $("#employer-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
+        $("#employer_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
+        //console.log( chart_data )
     }).done(function( chart_data ) {
         
         $("#employer-graph .spinner-block").hide();    
@@ -1593,11 +1632,11 @@ function drawEmployerChart(  ) {
                         'legend': {
                             position: 'none'
                         },
-                        'backgroundColor': '#fff'
+                        'backgroundColor': '#f7f7f7'
                         };
     
         // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.BarChart(document.getElementById('employersChart'));
+        var chart = new google.visualization.BarChart(document.getElementById('employerChart'));
         chart.draw(data, chart_options); 
 
         var result = Object.keys(chart_data["all_employers"]).map(function(key) {
@@ -1713,7 +1752,10 @@ var drawRiskCategoryChart = function() {
          selected_employers: target_employers}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
-        console.log( chart_data );
+        $("#risk-category-graph .spinner-block").hide();
+        $("#risk-category-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
+        $("#risk_category_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
+        //console.log( chart_data );
 
     }).done(function( chart_data ) {
         $("#risk-category-graph .spinner-block").hide();    
@@ -1747,7 +1789,7 @@ var drawRiskCategoryChart = function() {
                             'legend': {
                                 position: 'none'
                             },
-                            'backgroundColor': '#fff'
+                            'backgroundColor': '#f7f7f7'
                         };
             for (var key in chart_data["all_risk_categories"]) {
                 if(target_risk_categories.includes(key)) {
@@ -1805,7 +1847,10 @@ var drawHouseholdIncomeChart = function() {
          selected_employers: target_employers}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
-        console.log( chart_data );
+        $("#income-graph .spinner-block").hide();
+        $("#income-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
+        $("#household_income_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
+        //console.log( chart_data );
 
     }).done(function( chart_data ) {
         $("#income-graph .spinner-block").hide();    
@@ -1841,7 +1886,7 @@ var drawHouseholdIncomeChart = function() {
                                     'legend': {
                                         position: 'none'
                                     },
-                                    'backgroundColor': '#fff'
+                                    'backgroundColor': '#f7f7f7'
                         };
             for (var key in chart_data["all_household_incomes"]) {
                 if(target_incomes.includes(key)) {
@@ -1900,7 +1945,10 @@ var drawDirectorOfBusinessChart = function() {
          selected_employers: target_employers}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
-        console.log( chart_data );
+        $("#directors-graph .spinner-block").hide();
+        $("#directors-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
+        $("#directors_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
+        //console.log( chart_data );
     }).done(function( chart_data ) {
         $("#directors-graph .spinner-block").hide();    
         $("#directors_filter").empty();
@@ -1935,7 +1983,7 @@ var drawDirectorOfBusinessChart = function() {
                             'legend': {
                                 position: 'none'
                             },
-                            'backgroundColor': '#fff'
+                            'backgroundColor': '#f7f7f7'
                         };
             for (var key in chart_data["all_directors"]) {
                 if(target_directors.includes(key)) {
@@ -2007,8 +2055,10 @@ var get_records_count =  function(records_data) {
          selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
          selected_employers: target_employers}, function( data ) {
     }).fail(function(data) {
-        $('#loader').hide();
-        console.log(data)
+        $("#contacts-number .spinner-block").hide();
+        $("#contacts-number .toast-body").html('<i class="fas fa-exclamation-circle text-danger"></i>');
+        
+        //console.log(data)
     }).done(function(data) {
         //console.log(data);
         records_count.html(kFormatter(data));
@@ -2034,12 +2084,14 @@ var get_municipalities = function() {
          selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
          selected_employers: target_employers}, function( data ) {
     }).fail(function(data) {
-        $('#loader').hide();
+        $("#municipality-graph .spinner-block").hide();
+        $("#municipality-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
+        $("#municipality_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
         //console.log(data)
     }).done(function(data) {
         $("#municipality-graph .spinner-block").hide();    
         $("#municipality_filter").empty();
-        //console.log(data);
+        ////console.log(data);
         drawMunicipalityChart(data);
         get_ages();
     });
@@ -2061,10 +2113,10 @@ var get_provinces = function() {
          selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
          selected_employers: target_employers}, function( data ) {
     }).fail(function(data) {
-        $('#loader').hide();
-        console.log(data)
+        
+        //console.log(data)
     }).done(function(data) {
-        // console.log(data);
+        // //console.log(data);
         $("#province_filter").empty();
         var get_province_name = function(code) {
             var province_name;
@@ -2259,7 +2311,7 @@ var apply_filters = function() {
     $("#directors-graph .spinner-block").show(); $("#directorOfBusinessChart").empty(); $("#directors_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
     $("#vehicle-owner-graph .spinner-block").show(); $("#vehicleOwnerChart").empty(); $("#vehicle_owner_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
     $("#lsm-group-graph .spinner-block").show(); $("#lsmGroupChart").empty(); $("#lsm_group_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
-    $("#property-valuation-graph .spinner-block").show(); $("#propertyValuationGroupChart").empty(); $("#property_valuation_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
+    $("#property-valuation-graph .spinner-block").show(); $("#propertyValuationChart").empty(); $("#property_valuation_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
     $("#property-count-graph .spinner-block").show(); $("#propertyCountChart").empty(); $("#property_count_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
     $("#employer-graph .spinner-block").show(); $("#employerChart").empty(); $("#employer_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
 

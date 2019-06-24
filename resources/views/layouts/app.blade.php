@@ -90,7 +90,7 @@
                                 </div>
                             </li>
                             @else      
-                            <li class="nav-item dropdown">
+                            <!-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-sync-alt"></i>&nbsp;Sync Platform
                                 </a>
@@ -106,12 +106,17 @@
                                     <a class="dropdown-item" href="/meetpat-client/sync/google">{{ __('Google') }}</a>
                                 @endif
                                 </div>
-                            </li>
+                            </li> -->
                             @endif
                             @if(Request::path() == 'meetpat-client/upload-client-file-data')
-                            <li class="active"><a class="nav-link nav-link-active" href="{{ route('upload-client-data') }}"><i class="fas fa-file-upload"></i>&nbsp;Upload Customers</a></li>
+                            <li class="active"><a class="nav-link nav-link-active" href="{{ route('upload-client-data') }}"><i class="fas fa-file-upload"></i>&nbsp;Upload Contacts</a></li>
                             @else
-                            <li><a class="nav-link nav-link-inactive" href="{{ route('upload-client-data') }}"><i class="fas fa-file-upload"></i></i>&nbsp;Upload Customers</a></li>
+                            <li><a class="nav-link nav-link-inactive" href="{{ route('upload-client-data') }}"><i class="fas fa-file-upload"></i></i>&nbsp;Upload Contacts</a></li>
+                            @endif
+                            @if(Request::path() == 'meetpat-client/data-visualisation')
+                            <li class="active"><a class="nav-link nav-link-active" href="{{ route('meetpat-data-visualisation') }}"><i class="fas fa-chart-line"></i>&nbsp;Dashboard</a></li>
+                            @else
+                            <li><a class="nav-link nav-link-inactive" href="{{ route('meetpat-data-visualisation') }}"><i class="fas fa-chart-line"></i>&nbsp;Dashboard</a></li>
                             @endif
                         @endif
                     @endguest
@@ -174,7 +179,7 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    <!-- {{ Auth::user()->name }} --><i class="far fa-user-circle"></i>&nbsp;&nbsp;Account <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">

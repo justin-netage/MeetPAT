@@ -9,7 +9,7 @@
 @import '~bootstrap/scss/bootstrap.scss';
 
 .navbar-laravel {
-  background-color: #eeeeee;
+  background-color: #f7f7f7;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
@@ -692,7 +692,136 @@ div.filepond--item {
     padding: 0px;
   }
 
+  .data-graph-container h3 span
+  {
+    font-size: 18px;
+    
+  }
+
+  .media .dropdown-toggle
+  {
+    padding: 6px;
+    margin: 0px;
+  }
+
 }
+
+/* iPad Portrait */
+
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (orientation: portrait) {
+    .data-graph-container h3 span
+    {
+      font-size: 18px;
+      
+    }
+  
+    .media .dropdown-toggle
+    {
+      padding: 6px;
+      margin: 0px;
+    }
+}
+
+
+/* iPad Landscape */
+
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (orientation: landscape) {
+    .data-graph-container h3 span
+    {
+      font-size: 18px;
+      
+    }
+  
+    .media .dropdown-toggle
+    {
+      padding: 6px;
+      margin: 0px;
+    }
+}
+
+/* ----------- Kindle Fire HD 7" ----------- */
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 800px) 
+  and (max-device-width: 1280px) 
+  and (orientation: portrait) {
+    .data-graph-container h3 span
+    {
+      font-size: 18px;
+      
+    }
+  
+    .media .dropdown-toggle
+    {
+      padding: 6px;
+      margin: 0px;
+    }
+}
+
+/* Landscape */
+@media only screen 
+  and (min-device-width: 800px) 
+  and (max-device-width: 1280px) 
+  and (orientation: landscape) {
+    .data-graph-container h3 span
+    {
+      font-size: 18px;
+      
+    }
+  
+    .media .dropdown-toggle
+    {
+      padding: 6px;
+      margin: 0px;
+    }
+}
+
+/* ----------- Kindle Fire HD 8.9" ----------- */
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 1200px) 
+  and (max-device-width: 1600px) 
+  and (orientation: portrait) {
+    .data-graph-container h3 span
+    {
+      font-size: 18px;
+      
+    }
+  
+    .media .dropdown-toggle
+    {
+      padding: 6px;
+      margin: 0px;
+    }
+}
+
+/* Landscape */
+@media only screen 
+  and (min-device-width: 1200px) 
+  and (max-device-width: 1600px) 
+  and (orientation: landscape) {
+    .data-graph-container h3 span
+    {
+      font-size: 18px;
+      
+    }
+  
+    .media .dropdown-toggle
+    {
+      padding: 6px;
+      margin: 0px;
+    }
+}
+
+
 
 .display-4
 {
@@ -892,6 +1021,12 @@ user-select: none;
   width: 320px;
 }
 
+.dropdown-menu
+{
+  z-index: 1020;
+  border-radius: 0px;
+}
+
 .css-label small
 {
   color: #00A3D9;
@@ -973,3 +1108,49 @@ user-select: none;
   }
 
 }
+
+.data-icon
+{
+  height: 64px;
+  width: 64px;
+  // margin-right: 25px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 1000;
+}
+
+.data-graph-container h3
+{
+    // padding: 0px;
+    padding-bottom: 6px;
+    padding-left: 64px;
+    margin: 0px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    //border-radius: 0px 0px 4px 4px;
+}
+.dropdown-toggle
+{
+  border-radius: 0px !important;
+}
+.data-graph-container .spinner-block
+{
+  background-color: #f7f7f7;
+  padding-top: 16px;
+  padding-left: 16px;
+}
+
+.data-graph-container .media h3 span{
+  font-size:18px;
+} 
+
+.media img
+{
+  margin-right: 0px !important;
+}
+
+.media
+{
+  margin-bottom: 2px;
+}
+

@@ -132,106 +132,132 @@
         </div>
     </div><br />
     <div class="row">
-        <div class="col-12 col-md-6" id="province-graph">
-            <h3>Province
+        <div class="col-12 col-md-6 data-graph-container" id="province-graph">
+            <div class="media">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+                <div class="media-body">
+                    <h3 class="mt-3"><span>Province</span>
                 <!-- Default dropright button -->
-                <div class="btn-group dropright float-right">
-                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                       <i class="fas fa-filter"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-form">
-                        <!-- Dropdown menu links -->
-                        <form style="margin: 12px;" id="province-filter-form">
-                            <div id="province_filter">
-                            <div class="text-center">
-                            <div class="spinner-border" role="status">
-                                <span class="sr-only">Loading...</span>
+                        <div class="btn-group dropright float-right">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-filter"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-form">
+                                <!-- Dropdown menu links -->
+                                <form style="margin: 12px;" id="province-filter-form">
+                                    <div id="province_filter">
+                                    <div class="text-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    </div>
+                                    </div> <br/>
+                                    <button name="province_submit" id="provinceSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                </form>
                             </div>
-                            </div>
-                            </div> <br/>
-                            <button name="province_submit" id="provinceSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
-                        </form>
-                    </div>
+                        </div>
+                    </h3>
                 </div>
-            </h3>
-            <hr>
+            </div>
+            <div class="graph-container" style="overflow-y: scroll; height: 256px; background-color: #f7f7f7;">
                 <div class="spinner-block">
                     <div class="spinner spinner-3"></div>
                 </div>    
-                <div id="provincesChart" style="height:256px; width: 100%;"></div>
+                <div id="provincesChart" style="width: 100%; background-color: #f7f7f7;"></div>
+            </div>
         </div>
-        <div class="col-12 col-md-6" id="municipality-graph">
-            <h3>Municipality
-                <div class="btn-group dropleft float-right">
-                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-filter"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-form" style="overflow-y: scroll; width: 256px; height: 256px;">
-                    <!-- Dropdown menu links -->
-                    <form style="margin: 12px;" id="municipality-filter-form">
-                        <div id="municipality_filter">
-                        <div class="text-center">
-                        <div class="spinner-border mb-2" role="status">
-                            <span class="sr-only">Loading...</span>
+        <div class="col-12 col-md-6 data-graph-container" id="municipality-graph">
+            <div class="media">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+                <div class="media-body">
+                    <h3 class="mt-3"><span>Municipality</span>
+                <!-- Default dropright button -->
+                        <div class="btn-group dropright float-right">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-filter"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-form" style="overflow-y: scroll; height: 256px;">
+                                <!-- Dropdown menu links -->
+                                <form style="margin: 12px;" id="municipality-filter-form">
+                                    <div id="municipality_filter">
+                                    <div class="text-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    </div>
+                                    </div> <br/>
+                                    <button name="municipality_submit" id="municipalitySubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                </form>
+                            </div>
                         </div>
-                        </div>
-                        </div> <br/>
-                        <button name="municipality_submit" id="municipalitySubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
-                    </form>
-                </div>  
-            </h3>
-            <hr>
-            <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 256px;">
+                    </h3>
+                </div>
+            </div>
+            <div class="graph-container" style="overflow-y: scroll; height: 256px; background-color: #f7f7f7;">
                 <div class="spinner-block">
                     <div class="spinner spinner-3"></div>
                 </div>
                 <div id="municipalityChart" style="width: 100%;"></div>
             </div>
         </div>
-        <div class="col-12 col-md-6" id="map-graph">
-            <h3>Map</h3>
-            <hr>
-            <div id="chartdiv" style="width: 100%; height: 256px;">
-                <div class="spinner-block">
-                    <div class="spinner spinner-3"></div>
-                </div>
-            </div>      
+        <div class="col-12 col-md-6 data-graph-container" id="map-graph">
+        <div class="media">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+            <div class="media-body">
+                <h3 class="mt-3"><span>Map</span></h3>
+                
+            </div>
         </div>
-        <div class="col-12 col-md-6" id="area-graph">
-            <h3>Areas
-                <div class="btn-group dropleft float-right">
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-search"></i>&nbsp;<i class="fas fa-filter"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-form" style="overflow-y: scroll; padding:16px; width: 256px; height: 256px;">
-                    <!-- Dropdown menu links -->
-                    <form style="margin: 8px;" id="area-filter-form">
-                    <div id="hidden-area-filter-form" style="display:none;">
-                        <!-- selected areas from search -->
-                    </div>
-                    <div id="area_filter">
-                        <div id="lunr-search" style="display: none;">
-                            <input type="text" class="form-control mb-2" id="areaSearchInput" autocomplete="off" placeholder="search for area...">
-                            <span style="position:absolute; right: 40px; top:35px;"><i class="fas fa-search"></i></span>
-                            <ul id="lunr-results" class="list-unstyled"></ul>
-                        </div>
-                        <div class="text-center">
-                        <div class="spinner-border mb-2" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                        </div>
-                    </div>
-                    <button name="area_submit" id="areaSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
-                    </form>
-                </div>
-            </h3>
-            <hr>
-            <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 256px;">
+        <div class="graph-container" style="overflow-y: scroll; height: 256px; background-color: #f7f7f7;">
+            <div id="chartdiv" style="width: 100%;">
                 <div class="spinner-block">
                     <div class="spinner spinner-3"></div>
                 </div>
+            </div>  
+        </div>
+        
+        </div>
+        <div class="col-12 col-md-6 data-graph-container" id="area-graph">
+        <div class="media">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+                <div class="media-body">
+                    <h3 class="mt-3"><span>Area</span>
+                <!-- Default dropright button -->
+                        <div class="btn-group dropright float-right">
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-search"></i>&nbsp;<i class="fas fa-filter"></i>
+                        </button>
+                            <div class="dropdown-menu dropdown-menu-form" style="overflow-y: scroll; padding:16px; width: 290px; height: 256px;">
+                                <!-- Dropdown menu links -->
+                                <form style="margin: 8px;" id="area-filter-form">
+                                <div id="hidden-area-filter-form" style="display:none;">
+                                    <!-- selected areas from search -->
+                                </div>
+                                <div id="area_filter">
+                                    <div id="lunr-search" style="display: none;">
+                                        <input type="text" class="form-control mb-2" id="areaSearchInput" autocomplete="off" placeholder="search for area...">
+                                        <span style="position:absolute; right: 40px; top:35px;"><i class="fas fa-search"></i></span>
+                                        <ul id="lunr-results" class="list-unstyled"></ul>
+                                    </div>
+                                    <div class="text-center">
+                                    <div class="spinner-border mb-2" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    </div>
+                                </div>
+                                <button name="area_submit" id="areaSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                </form>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+            </div>
+            <div class="graph-container" style="overflow-y: scroll; height: 256px; background-color: #f7f7f7;">
+                <div class="spinner-block">
+                    <div class="spinner spinner-3"></div>
+                </div>    
                 <div id="areasChart" style="width: 100%;"></div>
-            </div> 
+            </div>
         </div>
     </div>
     <div class="row">
@@ -245,162 +271,209 @@
         </div>        
     </div>
     <div class="row">
-        <div class="col-12 col-md-4" id="age-graph">
-            <h3>Age
-            <div class="btn-group dropright float-right">
-            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               <i class="fas fa-filter"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-form">
-                <!-- Dropdown menu links -->
-                <form style="margin: 12px;" id="age-filter-form">
-                    <div id="age_filter">
-                    <div class="text-center">
-                    <div class="spinner-border" role="status">
-                        <span class="sr-only">Loading...</span>
-                    </div>
-                    </div>
-                    </div> <br/>
-                    <button name="ages_submit" id="agesSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
-                </form>
+        <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="age-graph">
+            <div class="media">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+                <div class="media-body">
+                    <h3 class="mt-3"><span>Age</span>
+                <!-- Default dropright button -->
+                        <div class="btn-group dropright float-right">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-filter"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-form">
+                                <!-- Dropdown menu links -->
+                                <form style="margin: 12px;" id="age-filter-form">
+                                    <div id="age_filter">
+                                    <div class="text-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    </div>
+                                    </div> <br/>
+                                    <button name="ages_submit" id="agesSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                </form>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+            </div>
+            <div class="graph-container" style="overflow-y: scroll; height: 256px; background-color: #f7f7f7;">
+                <div class="spinner-block">
+                    <div class="spinner spinner-3"></div>
+                </div>    
+                <div id="agesChart" style="width: 100%;"></div>
             </div>
         </div>
-            </h3>
-            <hr>
+        <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="gender-graph">
+            <div class="media">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+                <div class="media-body">
+                    <h3 class="mt-3"><span>Gender</span>
+                <!-- Default dropright button -->
+                        <div class="btn-group dropright float-right">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-filter"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-form">
+                                <!-- Dropdown menu links -->
+                                <form style="margin: 12px;" id="gender-filter-form">
+                                    <div id="gender_filter">
+                                    <div class="text-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    </div>
+                                    </div> <br/>
+                                    <button name="gender_submit" id="genderSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                </form>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+            </div>
+            <div class="graph-container" style="overflow-y: scroll; height: 256px; background-color: #f7f7f7;">
+                <div class="spinner-block">
+                    <div class="spinner spinner-3"></div>
+                </div>    
+                <div id="genderChart" style="width: 100%;"></div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="population-graph">
+            <div class="media">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+                <div class="media-body">
+                    <h3 class="mt-3"><span>Population Group</span>
+                <!-- Default dropright button -->
+                        <div class="btn-group dropright float-right">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-filter"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-form">
+                                <!-- Dropdown menu links -->
+                                <form style="margin: 12px;" id="population-group-filter-form">
+                                    <div id="population_group_filter">
+                                    <div class="text-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    </div>
+                                    </div> <br/>
+                                    <button name="population_groups_submit" id="population_groupsSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                </form>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+            </div>
+            <div class="graph-container" style="overflow-y: scroll; height: 256px; background-color: #f7f7f7;">
                 <div class="spinner-block">
                     <div class="spinner spinner-3"></div>
                 </div>
-                <div id="agesChart" style="width: 100%; height: 256px;"></div>
+                <div id="populationGroupChart" style="width: 100%;"></div>
+            </div>
         </div>
-        <div class="col-12 col-md-4" id="gender-graph">
-            <h3>Gender
-                <div class="btn-group dropright float-right">
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                   <i class="fas fa-filter"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-form">
-                    <!-- Dropdown menu links -->
-                    <form style="margin: 12px;" id="gender-filter-form">
-                        <div id="gender_filter">
-                        <div class="text-center">
-                        <div class="spinner-border" role="status">
-                            <span class="sr-only">Loading...</span>
+        <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="generation-graph">
+            <div class="media">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+                <div class="media-body">
+                    <h3 class="mt-3"><span>Generation</span>
+                <!-- Default dropright button -->
+                        <div class="btn-group dropright float-right">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-filter"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-form">
+                                <!-- Dropdown menu links -->
+                                <form style="margin: 12px;" id="generation-filter-form">
+                                    <div id="generation_filter">
+                                    <div class="text-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    </div>
+                                    </div> <br/>
+                                    <button name="generations_submit" id="generationsSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                </form>
+                            </div>
                         </div>
-                        </div>
-                        </div> <br/>
-                        <button name="gender_submit" id="genderSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
-                    </form>
+                    </h3>
                 </div>
-            </h3>
-            <hr>
-            <div class="spinner-block">
-                <div class="spinner spinner-3"></div>
             </div>
-            <div id="genderChart" style="width: 100%; height: 256px;"></div>
-        </div>
-        <div class="col-12 col-md-4" id="population-graph">
-            <h3>Polulation Group
-            <div class="btn-group dropleft float-right">
-            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               <i class="fas fa-filter"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-form">
-                <!-- Dropdown menu links -->
-                <form style="margin: 12px;" id="population-group-filter-form">
-                    <div id="population_group_filter">
-                    <div class="text-center">
-                    <div class="spinner-border" role="status">
-                        <span class="sr-only">Loading...</span>
-                    </div>
-                    </div>
-                    </div> <br/>
-                    <button name="population_groups_submit" id="population_groupsSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
-                </form>
-            </div>
-            </h3>
-            <hr>
-            <div class="spinner-block">
-                <div class="spinner spinner-3"></div>
-            </div>
-            <div id="populationGroupChart" style="width: 100%; height: 256px;"></div>
-        </div>
-        <div class="col-12 col-md-4" id="generation-graph">
-            <h3>Generation
-                <div class="btn-group dropright float-right">
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-filter"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-form">
-                    <!-- Dropdown menu links -->
-                    <form style="margin: 12px;" id="generation-filter-form">
-                        <div id="generation_filter">
-                        <div class="text-center">
-                        <div class="spinner-border" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                        </div>
-                        </div> <br/>
-                        <button name="generations_submit" id="generationsSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
-                    </form>
+            <div class="graph-container" style="overflow-y: scroll; height: 256px; background-color: #f7f7f7;">
+                <div class="spinner-block">
+                    <div class="spinner spinner-3"></div>
                 </div>
-            </h3>
-            <hr>
-            <div class="spinner-block">
-                <div class="spinner spinner-3"></div>
+                <div id="generationChart" style="width: 100%;"></div>
             </div>
-            <div id="generationChart" style="width: 100%; height: 256px;"></div>
         </div>
-        <div class="col-12 col-md-4" id="c-vs-r-graph">
-            <h3>Citizen VS Resident
-                <div class="btn-group dropright float-right">
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-filter"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-form">
-                    <!-- Dropdown menu links -->
-                    <form style="margin: 12px;" id="citizen-vs-resident-filter-form">
-                        <div id="citizen_vs_resident_filter">
-                        <div class="text-center">
-                        <div class="spinner-border" role="status">
-                            <span class="sr-only">Loading...</span>
+        <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="c-vs-r-graph">
+            <div class="media">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+                <div class="media-body">
+                    <h3 class="mt-3"><span>Citizen VS Resident</span>
+                <!-- Default dropright button -->
+                        <div class="btn-group dropright float-right">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-filter"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-form">
+                                <!-- Dropdown menu links -->
+                                <form style="margin: 12px;" id="citizen-vs-resident-filter-form">
+                                    <div id="citizen_vs_resident_filter">
+                                    <div class="text-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    </div>
+                                    </div> <br/>
+                                    <button name="citizen_vs_resident_submit" id="citizenVsResidentSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                </form>
+                            </div>
                         </div>
-                        </div>
-                        </div> <br/>
-                        <button name="citizen_vs_resident_submit" id="citizenVsResidentSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
-                    </form>
+                    </h3>
                 </div>
-            </h3>
-            <hr>
-            <div class="spinner-block">
-                <div class="spinner spinner-3"></div>
             </div>
-            <div id="citizensVsResidentsChart" style="width: 100%; height: 256px;"></div>
+            <div class="graph-container" style="overflow-y: scroll; height: 256px; background-color: #f7f7f7;">
+                <div class="spinner-block">
+                    <div class="spinner spinner-3"></div>
+                </div>
+                <div id="citizensVsResidentsChart" style="width: 100%;"></div>
+            </div>
         </div>
-        <div class="col-12 col-md-4" id="marital-status-graph">
-            <h3>Marital Status
-                <div class="btn-group dropleft float-right">
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-filter"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-form">
-                    <!-- Dropdown menu links -->
-                    <form style="margin: 12px;" id="marital-status-filter-form">
-                        <div id="marital_status_filter">
-                        <div class="text-center">
-                        <div class="spinner-border" role="status">
-                            <span class="sr-only">Loading...</span>
+        <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="marital-status-graph">
+            <div class="media">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Marital Status.png')}}"  class="mr-3 data-icon" alt="icon">
+                <div class="media-body">
+                    <h3 class="mt-3"><span>Marital Status</span>
+                <!-- Default dropright button -->
+                        <div class="btn-group dropright float-right">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-filter"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-form">
+                                <!-- Dropdown menu links -->
+                                <form style="margin: 12px;" id="marital-status-filter-form">
+                                    <div id="marital_status_filter">
+                                    <div class="text-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    </div>
+                                    </div> <br/>
+                                    <button name="marital_status_submit" id="marital_statusSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                </form>
+                            </div>
                         </div>
-                        </div>
-                        </div> <br/>
-                        <button name="marital_status_submit" id="marital_statusSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
-                    </form>
-                </div>            
-            </h3>
-            <hr>
-            <div class="spinner-block">
-                <div class="spinner spinner-3"></div>
+                    </h3>
+                </div>
             </div>
-            <div id="maritalStatusChart" style="width: 100%; height: 256px;"></div>
+            <div class="graph-container" style="overflow-y: scroll; height: 256px; background-color: #f7f7f7;">
+                <div class="spinner-block">
+                    <div class="spinner spinner-3"></div>
+                </div>
+                <div id="maritalStatusChart" style="width: 100%;"></div>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -414,137 +487,142 @@
         </div>        
     </div>
     <div class="row">
-        <div class="col-12 col-md-4" id="home-owner-graph">
-            <h3>Home Owner
-            <div class="btn-group dropright float-right">
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-filter"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-form">
-                    <!-- Dropdown menu links -->
-                    <form style="margin: 12px;" id="home-owner-filter-form">
-                        <div id="home_owner_filter">
-                        <div class="text-center">
-                        <div class="spinner-border" role="status">
-                            <span class="sr-only">Loading...</span>
+        <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="home-owner-graph">
+            <div class="media">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+                <div class="media-body">
+                    <h3 class="mt-3"><span>Home Owner</span>
+                <!-- Default dropright button -->
+                        <div class="btn-group dropright float-right">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-filter"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-form">
+                                <!-- Dropdown menu links -->
+                                <form style="margin: 12px;" id="home-owner-filter-form">
+                                    <div id="home_owner_filter">
+                                    <div class="text-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    </div>
+                                    </div> <br/>
+                                    <button name="home_owner_submit" id="home_ownersSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                </form>
+                            </div>
                         </div>
-                        </div>
-                        </div> <br/>
-                        <button name="home_owner_submit" id="home_ownersSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
-                    </form>
-                </div> 
-            </h3>
-            <hr>
-            <div class="spinner-block">
+                    </h3>
+                </div>
+            </div>
+            <div class="graph-container" style="overflow-y: scroll; height: 256px; background-color: #f7f7f7;">
+                <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
-            <div id="homeOwnerChart" style="width: 100%; height: 256px;"></div>
+            <div id="homeOwnerChart" style="width: 100%;"></div>
+            </div>
         </div>
-        <div class="col-12 col-md-4" id="property-valuation-graph">
-            <h3>Property Valuation
-                <div class="btn-group dropleft float-right">
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-filter"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-form" style="overflow-y: scroll; padding:16px; width: 256px; height: 256px;">
-                    <!-- Dropdown menu links -->
-                    <form style="margin: 8px;" id="property-valuation-filter-form">
-                    <div id="property_valuation_filter">
-                        <div class="text-center">
-                        <div class="spinner-border mb-2" role="status">
-                            <span class="sr-only">Loading...</span>
+        <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="property-valuation-graph">
+            <div class="media">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+                <div class="media-body">
+                    <h3 class="mt-3"><span>Property Valuation</span>
+                <!-- Default dropright button -->
+                        <div class="btn-group dropright float-right">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-filter"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-form">
+                                <!-- Dropdown menu links -->
+                                <form style="margin: 8px;" id="property-valuation-filter-form">
+                                    <div id="property_valuation_filter">
+                                        <div class="text-center">
+                                        <div class="spinner-border mb-2" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <button name="property_valuation_submit" id="propertyValuationSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                </form>
+                            </div>
                         </div>
-                        </div>
-                    </div>
-                    <button name="property_valuation_submit" id="propertyValuationSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
-                    </form>
+                    </h3>
                 </div>
-            </h3>
-            <hr>
-            <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 216px;">
+            </div>
+            <div class="graph-container" style="overflow-y: scroll; height: 256px; background-color: #f7f7f7;">
                 <div class="spinner-block">
                     <div class="spinner spinner-3"></div>
                 </div>
                 <div id="propertyValuationChart" style="width: 100%;"></div>
-            </div> 
-        </div>
-        <div class="col-12 col-md-4" id="property-count-graph">
-            <h3>Property Count
-            <div class="btn-group dropright float-right">
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-filter"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-form">
-                    <!-- Dropdown menu links -->
-                    <form style="margin: 12px;" id="property-count-filter-form">
-                        <div id="property_count_filter">
-                        <div class="text-center">
-                        <div class="spinner-border" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                        </div>
-                        </div> <br/>
-                        <button name="property_count_submit" id="property_countsSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
-                    </form>
-                </div> 
-            </h3>
-            <hr>
-            <div class="spinner-block">
-                <div class="spinner spinner-3"></div>
-            </div>
-            <div id="propertyCountChart" style="width: 100%; height: 256px;"></div>
-        </div>
-        <div class="col-12 col-md-4" id="vehicle-owner-graph">
-            <h3>Vehicle Owner
-            <div class="btn-group dropright float-right">
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" data-backdrop="static" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-filter"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-form">
-                    <!-- Dropdown menu links -->
-                    <form style="margin: 12px;" id="vehicle-owner-filter-form">
-                        <div id="vehicle_owner_filter">
-                        <div class="text-center">
-                        <div class="spinner-border" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                        </div>
-                        </div> <br/>
-                        <button name="vehicle_owner_submit" id="vehicle_ownersSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
-                    </form>
-                </div> 
-            </h3>
-            <hr>
-            <div class="spinner-block">
-                <div class="spinner spinner-3"></div>
-            </div>
-            <div id="vehicleOwnerChart" style="width: 100%; height: 256px;"></div>
-        </div>
-        <!-- <div class="col-12 col-md-4">
-            <h3>Number of Homes Owned</h3>
-            <hr>
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/graphic-1020366_640.jpg')}}" class="img-fluid"/>
-            <div class="spinner-block">
-                <div class="spinner spinner-3"></div>
             </div>
         </div>
-        <div class="col-12 col-md-4">
-            <h3>Average Home Value</h3>
-            <hr>
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/graphic-1020366_640.jpg')}}" class="img-fluid"/>
-            <div class="spinner-block">
-                <div class="spinner spinner-3"></div>
+        <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="property-count-graph">
+            <div class="media">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/No of Homes.png')}}"  class="mr-3 data-icon" alt="icon">
+                <div class="media-body">
+                    <h3 class="mt-3"><span>Property Count</span>
+                <!-- Default dropright button -->
+                        <div class="btn-group dropright float-right">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-filter"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-form">
+                                <!-- Dropdown menu links -->
+                                <form style="margin: 12px;" id="property-count-filter-form">
+                                    <div id="property_count_filter">
+                                    <div class="text-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    </div>
+                                    </div> <br/>
+                                    <button name="property_count_submit" id="property_countsSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                </form>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
             </div>
-
-        </div> -->
-        <!-- <div class="col-12 col-md-4">
-            <h3>Car Owner</h3>
-            <hr>
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/graphic-1020366_640.jpg')}}" class="img-fluid"/>
-            <div class="spinner-block">
-                <div class="spinner spinner-3"></div>
+            <div class="graph-container" style="overflow-y: scroll; height: 256px; background-color: #f7f7f7;">
+                <div class="spinner-block">
+                    <div class="spinner spinner-3"></div>
+                </div>
+                <div id="propertyCountChart" style="width: 100%;"></div>
             </div>
-        </div> -->
+        </div>
+        <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="vehicle-owner-graph">
+            <div class="media">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Car Owner.png')}}"  class="mr-3 data-icon" alt="icon">
+                <div class="media-body">
+                    <h3 class="mt-3"><span>Vehicle Owner</span>
+                <!-- Default dropright button -->
+                        <div class="btn-group dropright float-right">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-filter"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-form">
+                                <!-- Dropdown menu links -->
+                                <form style="margin: 12px;" id="vehicle-owner-filter-form">
+                                    <div id="vehicle_owner_filter">
+                                    <div class="text-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    </div>
+                                    </div> <br/>
+                                    <button name="vehicle_owner_submit" id="vehicle_ownersSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                </form>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+            </div>
+            <div class="graph-container" style="overflow-y: scroll; height: 256px; background-color: #f7f7f7;">
+                <div class="spinner-block">
+                    <div class="spinner spinner-3"></div>
+                </div>
+                <div id="vehicleOwnerChart" style="width: 100%;"></div>
+            </div>
+        </div>
     </div>
     <div class="row">
         <div class="col-12 col-md-2 d-flex align-items-center">
@@ -556,153 +634,183 @@
         </div>        
     </div>
     <div class="row">
-        <!-- <div class="col-12 col-md-4">
-            <h3>Blacklisted</h3>
-            <hr>
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-visualisation-images/graphic-1020366_640.jpg')}}" class="img-fluid"/>
-            <div class="spinner-block">
-                <div class="spinner spinner-3"></div>
-            </div>
-        </div> -->
-        <div class="col-12 col-md-4" id="risk-category-graph">
-            <h3>Risk Category
-            <div class="btn-group dropright float-right">
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-filter"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-form">
-                    <!-- Dropdown menu links -->
-                    <form style="margin: 12px;" id="risk-categories-filter-form">
-                        <div id="risk_category_filter">
-                        <div class="text-center">
-                        <div class="spinner-border" role="status">
-                            <span class="sr-only">Loading...</span>
+        <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="risk-category-graph">
+            <div class="media">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+                <div class="media-body">
+                    <h3 class="mt-3"><span>Risk Category</span>
+                <!-- Default dropright button -->
+                        <div class="btn-group dropright float-right">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-filter"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-form">
+                                <!-- Dropdown menu links -->
+                                <form style="margin: 12px;" id="risk-categories-filter-form">
+                                    <div id="risk_category_filter">
+                                    <div class="text-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    </div>
+                                    </div> <br/>
+                                    <button name="risk_category_submit" id="risk_categoriesSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                </form>
+                            </div>
                         </div>
-                        </div>
-                        </div> <br/>
-                        <button name="risk_category_submit" id="risk_categoriesSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
-                    </form>
+                    </h3>
                 </div>
-            </h3>
-            <hr>
-            <div class="spinner-block">
-                <div class="spinner spinner-3"></div>
             </div>
-            <div id="riskCategoryChart" style="width: 100%; height: 300px;"></div>
-        </div>
-        <div class="col-12 col-md-4" id="lsm-group-graph">
-            <h3>LSM Group
-            <div class="btn-group dropright float-right">
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-filter"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-form">
-                    <!-- Dropdown menu links -->
-                    <form style="margin: 12px;" id="lsm-group-filter-form">
-                        <div id="lsm_group_filter">
-                        <div class="text-center">
-                        <div class="spinner-border" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                        </div>
-                        </div> <br/>
-                        <button name="lsm_group_submit" id="lsm_groupSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
-                    </form>
-                </div>
-            </h3>
-            <hr>
-            <div class="spinner-block">
-                <div class="spinner spinner-3"></div>
-            </div>
-            <div id="lsmGroupChart" style="width: 100%; height: 300px;"></div>
-        </div>
-        <div class="col-12 col-md-4" id="income-graph">
-            <h3>Household Income
-                <div class="btn-group dropright float-right">
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-filter"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-form" style="width: 256px;">
-                    <!-- Dropdown menu links -->
-                    <form style="margin: 12px;" id="household-income-filter-form">
-                        <div id="household_income_filter">
-                        <div class="text-center">
-                        <div class="spinner-border" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                        </div>
-                        </div> <br/>
-                        <button name="household_income_submit" id="household_incomesSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
-                    </form>
-                </div>
-            </h3>
-            <hr>
-            <div class="spinner-block">
-                <div class="spinner spinner-3"></div>
-            </div>
-            <div id="householdIncomeChart" style="width: 100%; height: 256px;"></div>
-        </div>
-        <div class="col-12 col-md-4" id="area-graph">
-            <h3>Employer
-                <div class="btn-group dropleft float-right">
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-search"></i>&nbsp;<i class="fas fa-filter"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-form" style="overflow-y: scroll; padding:16px; width: 290px; height: 256px;">
-                    <!-- Dropdown menu links -->
-                    <form style="margin: 8px;" id="employer-filter-form">
-                    <div id="hidden-employer-filter-form" style="display:none;">
-                        <!-- selected employers from search -->
-                    </div>
-                    <div id="employer_filter">
-                        <div id="lunr-search-employer" style="display: none;">
-                            <input type="text" class="form-control mb-2" id="employerSearchInput" autocomplete="off" placeholder="search for employer...">
-                            <span style="position:absolute; right: 40px; top:35px;"><i class="fas fa-search"></i></span>
-                            <ul id="lunr-results-employer" class="list-unstyled"></ul>
-                        </div>
-                        <div class="text-center">
-                        <div class="spinner-border mb-2" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                        </div>
-                    </div>
-                    <button name="employer_submit" id="employerSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
-                    </form>
-                </div>
-            </h3>
-            <hr>
-            <div class="graph-container" class="graph-container" style="overflow-y: scroll; height: 256px;">
+            <div class="graph-container" style="overflow-y: scroll; height: 256px; background-color: #f7f7f7;">
                 <div class="spinner-block">
                     <div class="spinner spinner-3"></div>
                 </div>
-                <div id="employersChart" style="width: 100%;"></div>
-            </div> 
+                <div id="riskCategoryChart" style="width: 100%;"></div>
+            </div>
         </div>
-        <div class="col-12 col-md-4" id="directors-graph">
-            <h3>Director of a Business
-                <div class="btn-group dropleft float-right">
-                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-filter"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-form">
-                    <!-- Dropdown menu links -->
-                    <form style="margin: 12px;" id="directors-filter-form">
-                        <div id="directors_filter">
-                        <div class="text-center">
-                        <div class="spinner-border" role="status">
-                            <span class="sr-only">Loading...</span>
+        <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="lsm-group-graph">
+            <div class="media">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+                <div class="media-body">
+                    <h3 class="mt-3"><span>LSM Group</span>
+                <!-- Default dropright button -->
+                        <div class="btn-group dropright float-right">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-filter"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-form">
+                                <!-- Dropdown menu links -->
+                                <form style="margin: 12px;" id="lsm-group-filter-form">
+                                    <div id="lsm_group_filter">
+                                    <div class="text-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    </div>
+                                    </div> <br/>
+                                    <button name="lsm_group_submit" id="lsm_groupSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                </form>
+                            </div>
                         </div>
+                    </h3>
+                </div>
+            </div>
+            <div class="graph-container" style="overflow-y: scroll; height: 256px; background-color: #f7f7f7;">
+                <div class="spinner-block">
+                    <div class="spinner spinner-3"></div>
+                </div>
+                <div id="lsmGroupChart" style="width: 100%;"></div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="income-graph">
+            <div class="media">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+                <div class="media-body">
+                    <h3 class="mt-3"><span>Household Income</span>
+                <!-- Default dropright button -->
+                        <div class="btn-group dropright float-right">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-filter"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-form" style="width: 200px;">
+                                <!-- Dropdown menu links -->
+                                <form style="margin: 12px;" id="household-income-filter-form">
+                                    <div id="household_income_filter">
+                                    <div class="text-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    </div>
+                                    </div> <br/>
+                                    <button name="household_income_submit" id="household_incomesSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                </form>
+                            </div>
                         </div>
-                        </div> <br/>
-                        <button name="directors_submit" id="directorsSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
-                    </form>
-                </div>                
-            </h3>
-            <hr>
-            <div class="spinner-block">
+                    </h3>
+                </div>
+            </div>
+            <div class="graph-container" style="overflow-y: scroll; height: 256px; background-color: #f7f7f7;">
+                <div class="spinner-block">
                 <div class="spinner spinner-3"></div>
             </div>
-            <div id="directorOfBusinessChart" style="width: 100%; height: 256px;"></div>
+            <div id="householdIncomeChart" style="width: 100%;"></div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="employer-graph">
+        <div class="media">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+                <div class="media-body">
+                    <h3 class="mt-3"><span>Employer</span>
+                <!-- Default dropright button -->
+                        <div class="btn-group dropright float-right">
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-search"></i>&nbsp;<i class="fas fa-filter"></i>
+                        </button>
+                            <div class="dropdown-menu dropdown-menu-form" style="overflow-y: scroll; padding:16px; width: 290px; height: 256px;">
+                                <!-- Dropdown menu links -->
+                                <form style="margin: 8px;" id="employer-filter-form">
+                                    <div id="hidden-employer-filter-form" style="display:none;">
+                                        <!-- selected employers from search -->
+                                    </div>
+                                    <div id="employer_filter">
+                                        <div id="lunr-search-employer" style="display: none;">
+                                            <input type="text" class="form-control mb-2" id="employerSearchInput" autocomplete="off" placeholder="search for employer...">
+                                            <span style="position:absolute; right: 40px; top:35px;"><i class="fas fa-search"></i></span>
+                                            <ul id="lunr-results-employer" class="list-unstyled"></ul>
+                                        </div>
+                                        <div class="text-center">
+                                        <div class="spinner-border mb-2" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <button name="employer_submit" id="employerSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                </form>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+            </div>
+            <div class="graph-container" style="overflow-y: scroll; height: 256px; background-color: #f7f7f7;">
+                <div class="spinner-block">
+                    <div class="spinner spinner-3"></div>
+                </div>
+                <div id="employerChart" style="width: 100%;"></div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="directors-graph">
+            <div class="media">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+                <div class="media-body">
+                    <h3 class="mt-3"><span>Company Director</span>
+                <!-- Default dropright button -->
+                        <div class="btn-group dropright float-right">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-filter"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-form">
+                                <!-- Dropdown menu links -->
+                                <form style="margin: 12px;" id="directors-filter-form">
+                                    <div id="directors_filter">
+                                    <div class="text-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    </div>
+                                    </div> <br/>
+                                    <button name="directors_submit" id="directorsSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                </form>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+            </div>
+            <div class="graph-container" style="overflow-y: scroll; height: 256px; background-color: #f7f7f7;">
+                <div class="spinner-block">
+                    <div class="spinner spinner-3"></div>
+                </div>
+                <div id="directorOfBusinessChart" style="width: 100%;"></div>
+            </div>
         </div>
     </div>
 </div>
@@ -716,5 +824,5 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://unpkg.com/lunr/lunr.js"></script>
-<script type="text/javascript" src="{{asset('js/data_visualisation.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/data_visualisation.min.js')}}"></script>
 @endsection
