@@ -352,7 +352,7 @@ class BarkerStreetEnrichment extends Command
                                          "ClientFileName" => "meetpat_" . $audience_file->file_unique_name .".csv",
                                          "ClientRecordID" => $audience_file->file_unique_name,
                                          "InputIdn" => $row['IDNumber'],
-                                         "InputFirstName" => $row['Firstname'],
+                                         "InputFirstName" => $row['FirstName'],
                                          "InputSurname" => $row['Surname'],
                                          "InputPhone" => validate_mobile_number($row['MobilePhone']),
                                          "InputEmail" => validate_email_address($row['Email'])
