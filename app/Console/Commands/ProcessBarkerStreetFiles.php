@@ -233,11 +233,11 @@ class ProcessBarkerStreetFiles extends Command
                         return 'R7 000 000+';
                         break;
                     default:
-                        return '';
+                        return NULL;
                         break;
                 }
             } else {
-                return '';
+                return NULL;
             }
             
         }
