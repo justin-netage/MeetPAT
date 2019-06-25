@@ -39,6 +39,7 @@ class EnrichedRecord extends Model
                             'HomeOwnershipStatus',
                             'PrimaryPropertyType',
                             'PropertyValuation',
+                            'PropertyValuationBucket',
                             'PropertyCount',
                             'Income',
                             'CreditRiskCategory',

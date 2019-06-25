@@ -212,6 +212,36 @@ class ProcessBarkerStreetFiles extends Command
             }
         }
 
+        function get_valuation_bucket($property_value)
+        {
+            if($property_value)
+            {
+                switch ($property_value) {
+                    case ($property_value > 0 and $property_value <= 1000000):
+                        return 'R0 - R1 000 000';
+                        break;
+                    case ($property_value > 1000000 and $property_value <= 2000000):
+                        return 'R1 000 000 - R2 000 000';
+                        break;
+                    case ($property_value > 2000000 and $property_value <= 4000000):
+                        return 'R2 000 000 - R4 000 000';
+                        break;
+                    case ($property_value > 2000000 and $property_value <= 4000000):
+                        return 'R4 000 000 - R6 000 000';
+                        break;
+                    case ($property_value >= 7000000):
+                        return 'R7 000 000+';
+                        break;
+                    default:
+                        return '';
+                        break;
+                }
+            } else {
+                return '';
+            }
+            
+        }
+
         /**
          * Look for ready barker street files to run in que
          */
@@ -290,6 +320,7 @@ class ProcessBarkerStreetFiles extends Command
                                     'HomeOwnershipStatus' => $row['HomeOwnershipStatus'],
                                     'PrimaryPropertyType' => $row['PrimaryPropertyType'],
                                     'PropertyValuation' => $row['PropertyValuation'],
+                                    'PropertyValuationBucket' => get_valuation_bucket($row['PropertyValuation']),
                                     'PropertyCount' => $row['PropertyCount'],
                                     'Income' => $row['Income'],
                                     'CreditRiskCategory' => find_category($row['CreditRiskCategory']),
