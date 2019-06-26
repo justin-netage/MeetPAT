@@ -11645,6 +11645,13 @@ label.css-label {
   border-radius: 0px;
 }
 
+nav .dropdown-menu {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
 .css-label small {
   color: #00A3D9;
 }
@@ -11773,5 +11780,11 @@ label.css-label {
 
 .media {
   margin-bottom: 2px;
+}
+
+.account-name,
+.account-name:hover {
+  background-color: #545454;
+  color: #fff;
 }
 

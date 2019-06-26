@@ -188,17 +188,18 @@
                                         {{ __('Admin') }}
                                 </a>
                                 @endif
+                                    <span class="dropdown-item account-name">{{\Auth::user()->name}}</span>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
                                     <div class="dropdown-divider"></div>
-                                    @if(Request::path() == 'contact')
+                                    <!-- @if(Request::path() == 'contact')
                                     <a class="dropdown-item active" href="{{ route('contact') }}">{{ __('Contact') }}</a>
                                     @else
                                     <a class="dropdown-item" href="{{ route('contact') }}">{{ __('Contact') }}</a>
-                                    @endif
+                                    @endif -->
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>

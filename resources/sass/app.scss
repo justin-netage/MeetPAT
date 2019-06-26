@@ -1025,6 +1025,15 @@ user-select: none;
 {
   z-index: 1019;
   border-radius: 0px;
+
+}
+
+nav .dropdown-menu
+{
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 
 .css-label small
@@ -1152,5 +1161,11 @@ user-select: none;
 .media
 {
   margin-bottom: 2px;
+}
+
+.account-name, .account-name:hover
+{
+  background-color: #545454;
+  color: #fff;
 }
 
