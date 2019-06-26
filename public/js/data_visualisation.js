@@ -133,6 +133,7 @@ function drawProvinceChart( chart_data ) {
             'width':'100%',
             'fontSize': 10,
             'chartArea': {
+                top: '20',
                 width: '60%',
                 height: '100%'
             },
@@ -199,6 +200,8 @@ function drawAreaChart(  ) {
                         'height': shorter_result.length * 25,
                         'fontSize': 10,
                         'chartArea': {
+                            top: '20',
+                            top: '20',
                             width: '60%',
                             height: '100%'
                         },
@@ -333,6 +336,7 @@ function drawAreaChart(  ) {
                             'width':'100%',
                             'fontSize': 10,
                             'chartArea': {
+                                top: '20',
                                 width: '60%',
                                 height: '100%'
                                 },
@@ -492,6 +496,7 @@ function drawAreaChart(  ) {
                             'width':'100%',
                             'fontSize': 10,
                             'chartArea': {
+                                top: '20',
                                 width: '60%',
                                 height: '100%'
                                 },
@@ -590,6 +595,7 @@ function drawAreaChart(  ) {
                                 'width':'100%',
                                 'fontSize': 10,
                                 'chartArea': {
+                                    top: '20',
                                     width: '60%',
                                     height: '100%'
                                     },
@@ -608,24 +614,24 @@ function drawAreaChart(  ) {
                             for (var key in chart_data["all_property_valuations"]) {
                                 if(target_ages.includes(key)) {
                                     $("#property_valuation_filter").append(
-                                        '<input type="checkbox" name="' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus") + '" id="property_valuations_' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="property_valuations_' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option' +'" class="css-label">' + key + '</label><br />'
+                                        '<input type="checkbox" name="' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "").replace("-", "") + '" id="property_valuations_' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="property_valuations_' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" class="css-label">' + key + '</label><br />'
                                     );
                                 } else {
                                     $("#property_valuation_filter").append(
-                                        '<input type="checkbox" name="' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus") + '" id="property_valuations_' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option' +'" value="' + key + '" class="css-checkbox"><label for="property_valuations_' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option' +'" class="css-label">' + key + '</label><br />'
+                                        '<input type="checkbox" name="' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '" id="property_valuations_' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" value="' + key + '" class="css-checkbox"><label for="property_valuations_' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" class="css-label">' + key + '</label><br />'
                                     );
                                 }
     
-                                $('#property_valuations_' + key.toLowerCase() + '_option').click(function(){
-                                    if($('#property_valuations_' + $(this).attr("name").toLowerCase() + '_option').is(":checked")) { 
+                                $('#property_valuations_' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option').click(function(){
+                                    if($('#property_valuations_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option').is(":checked")) { 
                                         
                                         var parent = this;
                     
-                                        $("#property_valuation_filters").append('<li id="filter_property_valuations_' + $(this).attr("name").toLowerCase() + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                                        $('#filter_property_valuations_' + $(this).val().toLowerCase() + ' i').click(function() {
-                                            if($('#property_valuations_' + $(parent).attr("name").toLowerCase() + '_option').length) {
-                                                $('#filter_property_valuations_' + $(parent).val().toLowerCase()).remove();
-                                                $("#property_valuations_" + $(parent).val().toLowerCase() + '_option').prop("checked", false);
+                                        $("#property_valuation_filters").append('<li id="filter_property_valuations_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                        $('#filter_property_valuations_' + $(this).val().toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + ' i').click(function() {
+                                            if($('#property_valuations_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option').length) {
+                                                $('#filter_property_valuations_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "")).remove();
+                                                $("#property_valuations_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option').prop("checked", false);
                                             }
                                             checkForFilters();
     
@@ -633,8 +639,8 @@ function drawAreaChart(  ) {
                                     } else {
                                         
                     
-                                        if($('#filter_property_valuations_' + $(this).val().toLowerCase())) {
-                                            $('#filter_property_valuations_' + $(this).val().toLowerCase()).remove();
+                                        if($('#filter_property_valuations_' + $(this).val().toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", ""))) {
+                                            $('#filter_property_valuations_' + $(this).val().toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "")).remove();
                                         }
                                     }
                                     checkForFilters();
@@ -701,6 +707,7 @@ function drawAreaChart(  ) {
                                 'width':'100%',
                                 'fontSize': 10,
                                 'chartArea': {
+                                    top: '20',
                                     width: '60%',
                                     height: '75%'
                                     },
@@ -767,25 +774,18 @@ function drawAreaChart(  ) {
 
         // get ethnic name
         var get_ethnic_name = function(short_name) {
-            var name;
             switch(short_name) {
                 case "B":
-                    name = "Black";
-                    break;
+                    return "Black";
                 case "W":
-                    name = "White";
-                    break;
+                    return "White";
                 case "C":
-                    name = "Coloured";
-                    break;
+                    return "Coloured";
                 case "A":
-                    name = "Asian";
-                    break;
+                    return "Asian";
                 default:
-                    name = "Unkown";
+                    return "Unkown";
             }
-
-            return name;
         }
 
         $.get('/api/meetpat-client/get-records/population-groups', {user_id: user_id_number, selected_provinces: target_provinces,
@@ -815,7 +815,7 @@ function drawAreaChart(  ) {
             data.addColumn({type: 'string', role: 'annotation'});
 
             var result = Object.keys(chart_data["selected_population_groups"]).map(function(key) {
-                return [key, chart_data["selected_population_groups"][key], kFormatter(chart_data["selected_population_groups"][key])];
+                return [get_ethnic_name(key), chart_data["selected_population_groups"][key], kFormatter(chart_data["selected_population_groups"][key])];
             });
         
             data.addRows(result);
@@ -824,6 +824,7 @@ function drawAreaChart(  ) {
                             'width':'100%',
                             'fontSize': 10,
                             'chartArea': {
+                                top: '20',
                                 width: '60%',
                                 height: '75%'
                                 },
@@ -923,6 +924,7 @@ function drawAreaChart(  ) {
                             'width':'100%',
                             'fontSize': 10,
                             'chartArea': {
+                                top: '20',
                                 width: '60%',
                                 height: '75%'
                                 },
@@ -1020,6 +1022,7 @@ var drawCitizensChart = function() {
                             'width':'100%',
                             'fontSize': 10,
                             'chartArea': {
+                                top: '20',
                                 width: '60%',
                                 height: '75%'
                                 },
@@ -1147,6 +1150,7 @@ var drawMaritalStatusChart = function() {
                             'width':'100%',
                             'fontSize': 10,
                             'chartArea': {
+                                top: '20',
                                 width: '60%',
                                 height: '75%'
                                 },
@@ -1243,6 +1247,7 @@ var drawHomeOwnerChart = function() {
                             'width':'100%',
                             'fontSize': 10,
                             'chartArea': {
+                                top: '20',
                                 width: '60%',
                                 height: '75%'
                                 },
@@ -1338,6 +1343,7 @@ var drawPropertyCountChart = function() {
                             'width':'100%',
                             'fontSize': 10,
                             'chartArea': {
+                                top: '20',
                                 width: '60%',
                                 height: '75%'
                                 },
@@ -1433,6 +1439,7 @@ var drawVehicleOwnerChart = function() {
                             'width':'100%',
                             'fontSize': 10,
                             'chartArea': {
+                                top: '20',
                                 width: '60%',
                                 height: '75%'
                                 },
@@ -1529,6 +1536,7 @@ var drawLSMGroupChart = function() {
                             'width':'100%',
                             'fontSize': 10,
                             'chartArea': {
+                                top: '20',
                                 width: '60%',
                                 height: '75%'
                                 },
@@ -1635,6 +1643,7 @@ function drawEmployerChart(  ) {
                         'height': shorter_result.length * 25,
                         'fontSize': 10,
                         'chartArea': {
+                            top: '20',
                             width: '60%',
                             height: '100%'
                         },
@@ -1787,6 +1796,7 @@ var drawRiskCategoryChart = function() {
                             'width':'100%',
                             'fontSize': 10,
                             'chartArea': {
+                                top: '20',
                                 width: '50%',
                                 height: '100%'
                                 },
@@ -1881,6 +1891,7 @@ var drawHouseholdIncomeChart = function() {
                                     'width':'100%',
                                     'fontSize': 10,
                                     'chartArea': {
+                                        top: '20',
                                         width: '60%',
                                         height: '75%'
                                         },
@@ -1978,6 +1989,7 @@ var drawDirectorOfBusinessChart = function() {
                             'width':'100%',
                             'fontSize': 10,
                             'chartArea': {
+                                top: '20',
                                 width: '60%',
                                 height: '75%'
                                 },

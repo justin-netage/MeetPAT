@@ -161,7 +161,7 @@ class DataVisualisationController extends Controller
         }        
         // Filter By Property Valuation
         if($request->selected_property_valuations) {
-            $records_count = $records_count->whereIn('PropertyValuation', $request->selected_property_valuations);
+            $records_count = $records_count->whereIn('PropertyValuationBucket', $request->selected_property_valuations);
         } 
         // Filter By Property Count
         if($request->selected_property_counts) {
@@ -210,8 +210,8 @@ class DataVisualisationController extends Controller
 
     public function get_municipalities(Request $request) {
 
-        // $records = \MeetPAT\BarkerStreetRecord::select('GreaterArea')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
-        $records = \MeetPAT\EnrichedRecord::select('Municipality')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        // $records = \MeetPAT\BarkerStreetRecord::select('GreaterArea')->where([['PropertyValuationBucket', '!=', null]])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('Municipality')->where([['Municipality', '!=', null]])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_municipalities = $records->get();
 
         // Filter By Provinces
@@ -252,7 +252,7 @@ class DataVisualisationController extends Controller
         }  
         // Filter By Property Valuation
         if($request->selected_property_valuations) {
-            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+            $records = $records->whereIn('PropertyValuationBucket', $request->selected_property_valuations);
         } 
         // Filter By Property Count
         if($request->selected_property_counts) {
@@ -313,7 +313,7 @@ class DataVisualisationController extends Controller
 
     public function get_provinces(Request $request)
     {
-        $records = \MeetPAT\EnrichedRecord::select('Province')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('Province')->where([['Province', '!=', null]])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_provinces = $records->get();
 
         // Filter By Provinces
@@ -350,7 +350,7 @@ class DataVisualisationController extends Controller
         }  
         // Filter By Property Valuation
         if($request->selected_property_valuations) {
-            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+            $records = $records->whereIn('PropertyValuationBucket', $request->selected_property_valuations);
         } 
         // Filter By Property Count
         if($request->selected_property_counts) {
@@ -407,7 +407,7 @@ class DataVisualisationController extends Controller
 
     public function get_ages(Request $request)
     {
-        $records = \MeetPAT\EnrichedRecord::select('AgeGroup')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('AgeGroup')->where([['AgeGroup', '!=', null]])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_ages = $records->get();
 
         // Filter By Provinces
@@ -444,7 +444,7 @@ class DataVisualisationController extends Controller
         }  
         // Filter By Property Valuation
         if($request->selected_property_valuations) {
-            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+            $records = $records->whereIn('PropertyValuationBucket', $request->selected_property_valuations);
         } 
         // Filter By Property Count
         if($request->selected_property_counts) {
@@ -501,7 +501,7 @@ class DataVisualisationController extends Controller
 
     public function get_genders(Request $request)
     {
-        $records = \MeetPAT\EnrichedRecord::select('Gender')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('Gender')->where([['Gender', '!=', null]])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_genders = $records->get();
 
         // Filter By Provinces
@@ -538,7 +538,7 @@ class DataVisualisationController extends Controller
         }  
         // Filter By Property Valuation
         if($request->selected_property_valuations) {
-            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+            $records = $records->whereIn('PropertyValuationBucket', $request->selected_property_valuations);
         } 
         // Filter By Property Count
         if($request->selected_property_counts) {
@@ -596,7 +596,7 @@ class DataVisualisationController extends Controller
 
     public function get_population_groups(Request $request)
     {
-        $records = \MeetPAT\EnrichedRecord::select('PopulationGroup')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('PopulationGroup')->where([['PopulationGroup', '!=', null]])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_population_groups = $records->get();
 
         // Filter By Provinces
@@ -633,7 +633,7 @@ class DataVisualisationController extends Controller
         }   
         // Filter By Property Valuation
         if($request->selected_property_valuations) {
-            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+            $records = $records->whereIn('PropertyValuationBucket', $request->selected_property_valuations);
         } 
         // Filter By Property Count
         if($request->selected_property_counts) {
@@ -690,7 +690,7 @@ class DataVisualisationController extends Controller
 
     public function get_home_owner(Request $request) 
     {
-        $records = \MeetPAT\EnrichedRecord::select('HomeOwnershipStatus')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('HomeOwnershipStatus')->where([['HomeOwnershipStatus', '!=', null]])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_home_owners = $records->get();
 
         // Filter By Provinces
@@ -727,7 +727,7 @@ class DataVisualisationController extends Controller
         }  
         // Filter By Property Valuation
         if($request->selected_property_valuations) {
-            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+            $records = $records->whereIn('PropertyValuationBucket', $request->selected_property_valuations);
         } 
         // Filter By Property Count
         if($request->selected_property_counts) {
@@ -785,7 +785,7 @@ class DataVisualisationController extends Controller
 
     public function get_vechicle_owner(Request $request)
     {
-        $records = \MeetPAT\EnrichedRecord::select('VehicleOwnershipStatus')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('VehicleOwnershipStatus')->where([['VehicleOwnershipStatus', '!=', null]])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_vehicle_owners = $records->get();
 
         // Filter By Provinces
@@ -822,7 +822,7 @@ class DataVisualisationController extends Controller
         }  
         // Filter By Property Valuation
         if($request->selected_property_valuations) {
-            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+            $records = $records->whereIn('PropertyValuationBucket', $request->selected_property_valuations);
         } 
         // Filter By Property Count
         if($request->selected_property_counts) {
@@ -879,7 +879,7 @@ class DataVisualisationController extends Controller
 
     public function get_household_income(Request $request)
     {
-        $records = \MeetPAT\EnrichedRecord::select('IncomeBucket')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('IncomeBucket')->where([['IncomeBucket', '!=', null]])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_household_incomes = $records->get();
         // Filter By Provinces
         if($request->selected_provinces) {
@@ -919,7 +919,7 @@ class DataVisualisationController extends Controller
         }  
         // Filter By Property Valuation
         if($request->selected_property_valuations) {
-            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+            $records = $records->whereIn('PropertyValuationBucket', $request->selected_property_valuations);
         } 
         // Filter By Property Count
         if($request->selected_property_counts) {
@@ -975,7 +975,7 @@ class DataVisualisationController extends Controller
 
     public function get_employer(Request $request)
     {
-        $records = \MeetPAT\EnrichedRecord::select('Employer')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('Employer')->where([['Employer', '!=', null]])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_employers = $records->get();
         // Filter By Provinces
         if($request->selected_provinces) {
@@ -1015,7 +1015,7 @@ class DataVisualisationController extends Controller
         }  
         // Filter By Property Valuation
         if($request->selected_property_valuations) {
-            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+            $records = $records->whereIn('PropertyValuationBucket', $request->selected_property_valuations);
         } 
         // Filter By Property Count
         if($request->selected_property_counts) {
@@ -1072,7 +1072,7 @@ class DataVisualisationController extends Controller
 
     public function get_risk_category(Request $request)
     {
-        $records = \MeetPAT\EnrichedRecord::select('CreditRiskCategory')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('CreditRiskCategory')->where([['CreditRiskCategory', '!=', null]])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_risk_categories = $records->get();
 
         // Filter By Provinces
@@ -1110,7 +1110,7 @@ class DataVisualisationController extends Controller
         }  
         // Filter By Property Valuation
         if($request->selected_property_valuations) {
-            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+            $records = $records->whereIn('PropertyValuationBucket', $request->selected_property_valuations);
         } 
         // Filter By Property Count
         if($request->selected_property_counts) {
@@ -1169,7 +1169,7 @@ class DataVisualisationController extends Controller
 
     public function get_lsm_group(Request $request)
     {
-        $records = \MeetPAT\EnrichedRecord::select('LSMGroup')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('LSMGroup')->where([['LSMGroup', '!=', null]])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_lsm_groups = $records->get();
 
         // Filter By Provinces
@@ -1207,7 +1207,7 @@ class DataVisualisationController extends Controller
         }  
         // Filter By Property Valuation
         if($request->selected_property_valuations) {
-            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+            $records = $records->whereIn('PropertyValuationBucket', $request->selected_property_valuations);
         } 
         // Filter By Property Count
         if($request->selected_property_counts) {
@@ -1266,7 +1266,7 @@ class DataVisualisationController extends Controller
 
     public function get_property_valuation(Request $request)
     {
-        $records = \MeetPAT\EnrichedRecord::select('PropertyValuation')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('PropertyValuationBucket')->where([['PropertyValuationBucket', '!=', null]])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_property_valuations = $records->get();
 
         // Filter By Provinces
@@ -1303,7 +1303,7 @@ class DataVisualisationController extends Controller
         }  
         // Filter By Property Valuation
         if($request->selected_property_valuations) {
-            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+            $records = $records->whereIn('PropertyValuationBucket', $request->selected_property_valuations);
         } 
         // Filter By Property Count
         if($request->selected_property_counts) {
@@ -1349,8 +1349,8 @@ class DataVisualisationController extends Controller
         }
 
         $records = $records->get();
-        $property_valuation = array_count_values(array_column($records->toArray(), 'PropertyValuation'));
-        $all_property_valuations = array_count_values(array_column($all_property_valuations->toArray(), 'PropertyValuation'));
+        $property_valuation = array_count_values(array_column($records->toArray(), 'PropertyValuationBucket'));
+        $all_property_valuations = array_count_values(array_column($all_property_valuations->toArray(), 'PropertyValuationBucket'));
 
         arsort($all_property_valuations);
         arsort($property_valuation);
@@ -1361,7 +1361,7 @@ class DataVisualisationController extends Controller
 
     public function get_property_count(Request $request)
     {
-        $records = \MeetPAT\EnrichedRecord::select('PropertyCount')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('PropertyCount')->where([['PropertyCount', '!=', null]])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_property_counts = $records->get();
 
         // Filter By Provinces
@@ -1398,7 +1398,7 @@ class DataVisualisationController extends Controller
         }  
         // Filter By Property Valuation
         if($request->selected_property_valuations) {
-            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+            $records = $records->whereIn('PropertyValuationBucket', $request->selected_property_valuations);
         } 
         // Filter By Property Count
         if($request->selected_property_counts) {
@@ -1456,7 +1456,7 @@ class DataVisualisationController extends Controller
 
     public function get_director_of_business(Request $request)
     {
-        $records = \MeetPAT\EnrichedRecord::select('DirectorshipStatus')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('DirectorshipStatus')->where([['DirectorshipStatus', '!=', null]])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_directors = $records->get();
 
         // Filter By Provinces
@@ -1493,7 +1493,7 @@ class DataVisualisationController extends Controller
         }  
         // Filter By Property Valuation
         if($request->selected_property_valuations) {
-            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+            $records = $records->whereIn('PropertyValuationBucket', $request->selected_property_valuations);
         } 
         // Filter By Property Count
         if($request->selected_property_counts) {
@@ -1588,7 +1588,7 @@ class DataVisualisationController extends Controller
         }  
         // Filter By Property Valuation
         if($request->selected_property_valuations) {
-            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+            $records = $records->whereIn('PropertyValuationBucket', $request->selected_property_valuations);
         } 
         // Filter By Property Count
         if($request->selected_property_counts) {
@@ -1658,7 +1658,7 @@ class DataVisualisationController extends Controller
 
     public function get_generations(Request $request)
     {
-        $records = \MeetPAT\EnrichedRecord::select('Generation')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('Generation')->where([['Generation', '!=', null]])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_generations = $records->get();
         // Filter By Provinces
         if($request->selected_provinces) {
@@ -1694,7 +1694,7 @@ class DataVisualisationController extends Controller
         }  
         // Filter By Property Valuation
         if($request->selected_property_valuations) {
-            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+            $records = $records->whereIn('PropertyValuationBucket', $request->selected_property_valuations);
         } 
         // Filter By Property Count
         if($request->selected_property_counts) {
@@ -1752,7 +1752,7 @@ class DataVisualisationController extends Controller
 
     public function get_marital_statuses(Request $request)
     {
-        $records = \MeetPAT\EnrichedRecord::select('MaritalStatus')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('MaritalStatus')->where([['MaritalStatus', '!=', null]])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_marital_status = $records->get();
         // Filter By Provinces
         if($request->selected_provinces) {
@@ -1788,7 +1788,7 @@ class DataVisualisationController extends Controller
         }  
         // Filter By Property Valuation
         if($request->selected_property_valuations) {
-            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+            $records = $records->whereIn('PropertyValuationBucket', $request->selected_property_valuations);
         } 
         // Filter By Property Count
         if($request->selected_property_counts) {
@@ -1844,8 +1844,8 @@ class DataVisualisationController extends Controller
 
     public function get_area(Request $request) {
 
-        // $records = \MeetPAT\BarkerStreetRecord::select('Area', 'GreaterArea')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
-        $records = \MeetPAT\EnrichedRecord::select('Area')->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        // $records = \MeetPAT\BarkerStreetRecord::select('Area', 'GreaterArea')->where([['PropertyValuationBucket', '!=', null]])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('Area')->where([['Area', '!=', null]])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_areas = $records->get();
 
         // Filter By Provinces
@@ -1882,7 +1882,7 @@ class DataVisualisationController extends Controller
         }  
         // Filter By Property Valuation
         if($request->selected_property_valuations) {
-            $records = $records->whereIn('PropertyValuation', $request->selected_property_valuations);
+            $records = $records->whereIn('PropertyValuationBucket', $request->selected_property_valuations);
         } 
         // Filter By Property Count
         if($request->selected_property_counts) {
