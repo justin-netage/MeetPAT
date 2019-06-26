@@ -492,7 +492,7 @@ function drawAreaChart(  ) {
             data.addRows(result);
             // Set chart options
             var chart_options = {
-                            'height': result.length * 25,
+                            // 'height': result.length * 25,
                             'width':'100%',
                             'fontSize': 10,
                             'chartArea': {
@@ -591,7 +591,7 @@ function drawAreaChart(  ) {
                 data.addRows(result);
                 // Set chart options
                 var chart_options = {
-                                'height': result.length * 25,
+                                // 'height': '30%',
                                 'width':'100%',
                                 'fontSize': 10,
                                 'chartArea': {
@@ -612,7 +612,7 @@ function drawAreaChart(  ) {
                             };
     
                             for (var key in chart_data["all_property_valuations"]) {
-                                if(target_ages.includes(key)) {
+                                if(target_property_valuations.includes(key)) {
                                     $("#property_valuation_filter").append(
                                         '<input type="checkbox" name="' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "").replace("-", "") + '" id="property_valuations_' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="property_valuations_' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" class="css-label">' + key + '</label><br />'
                                     );
@@ -1792,7 +1792,7 @@ var drawRiskCategoryChart = function() {
             data.addRows(result);
             // Set chart options
             var chart_options = {
-                            'height': result.length * 25,
+                            // 'height': result.length * 25,
                             'width':'100%',
                             'fontSize': 10,
                             'chartArea': {

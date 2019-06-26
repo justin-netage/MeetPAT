@@ -531,7 +531,7 @@
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-filter"></i>
                             </button>
-                            <div class="dropdown-menu dropdown-menu-form">
+                            <div class="dropdown-menu dropdown-menu-form" style="width: 228px;">
                                 <!-- Dropdown menu links -->
                                 <form style="margin: 8px;" id="property-valuation-filter-form">
                                     <div id="property_valuation_filter">
