@@ -133,7 +133,7 @@ class DataVisualisationController extends Controller
         } 
         // Filter By Municipalities
         if($request->selected_municipalities) {
-            $records_count = $records_count->whereIn('GreaterArea', $request->selected_municipalities);
+            $records_count = $records_count->whereIn('Municipality', $request->selected_municipalities);
         }
         // Filter By Age Group
         if($request->selected_age_groups) {
@@ -220,7 +220,7 @@ class DataVisualisationController extends Controller
         }
         // Filter By Municipalities
         if($request->selected_municipalities) {
-            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+            $records = $records->whereIn('Municipality', $request->selected_municipalities);
         }
         // Filter By Municipalities
         if($request->selected_directors) {
@@ -322,7 +322,7 @@ class DataVisualisationController extends Controller
         } 
         // Filter By Municipalities
         if($request->selected_municipalities) {
-            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+            $records = $records->whereIn('Municipality', $request->selected_municipalities);
         }
         // Filter By Age Groups
         if($request->selected_age_groups) {
@@ -416,7 +416,7 @@ class DataVisualisationController extends Controller
         } 
         // Filter By Municipalities
         if($request->selected_municipalities) {
-            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+            $records = $records->whereIn('Municipality', $request->selected_municipalities);
         }
         // Filter By Age Groups
         if($request->selected_age_groups) {
@@ -510,7 +510,7 @@ class DataVisualisationController extends Controller
         } 
         // Filter By Municipalities
         if($request->selected_municipalities) {
-            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+            $records = $records->whereIn('Municipality', $request->selected_municipalities);
         }
         // Filter By Age Groups
         if($request->selected_age_groups) {
@@ -605,7 +605,7 @@ class DataVisualisationController extends Controller
         } 
         // Filter By Municipalities
         if($request->selected_municipalities) {
-            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+            $records = $records->whereIn('Municipality', $request->selected_municipalities);
         }
         // Filter By Age Groups
         if($request->selected_age_groups) {
@@ -699,7 +699,7 @@ class DataVisualisationController extends Controller
         } 
         // Filter By Municipalities
         if($request->selected_municipalities) {
-            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+            $records = $records->whereIn('Municipality', $request->selected_municipalities);
         }
         // Filter By Age Groups
         if($request->selected_age_groups) {
@@ -794,7 +794,7 @@ class DataVisualisationController extends Controller
         } 
         // Filter By Municipalities
         if($request->selected_municipalities) {
-            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+            $records = $records->whereIn('Municipality', $request->selected_municipalities);
         }
         // Filter By Age Groups
         if($request->selected_age_groups) {
@@ -887,7 +887,7 @@ class DataVisualisationController extends Controller
         } 
         // Filter By Municipalities
         if($request->selected_municipalities) {
-            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+            $records = $records->whereIn('Municipality', $request->selected_municipalities);
         }
         // Filter By Age Groups
         if($request->selected_age_groups) {
@@ -983,7 +983,7 @@ class DataVisualisationController extends Controller
         } 
         // Filter By Municipalities
         if($request->selected_municipalities) {
-            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+            $records = $records->whereIn('Municipality', $request->selected_municipalities);
         }
         // Filter By Age Groups
         if($request->selected_age_groups) {
@@ -1081,7 +1081,7 @@ class DataVisualisationController extends Controller
         } 
         // Filter By Municipalities
         if($request->selected_municipalities) {
-            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+            $records = $records->whereIn('Municipality', $request->selected_municipalities);
         }
         // Filter By Age Groups
         if($request->selected_age_groups) {
@@ -1178,7 +1178,7 @@ class DataVisualisationController extends Controller
         } 
         // Filter By Municipalities
         if($request->selected_municipalities) {
-            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+            $records = $records->whereIn('Municipality', $request->selected_municipalities);
         }
         // Filter By Age Groups
         if($request->selected_age_groups) {
@@ -1275,7 +1275,7 @@ class DataVisualisationController extends Controller
         } 
         // Filter By Municipalities
         if($request->selected_municipalities) {
-            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+            $records = $records->whereIn('Municipality', $request->selected_municipalities);
         }
         // Filter By Age Groups
         if($request->selected_age_groups) {
@@ -1370,7 +1370,7 @@ class DataVisualisationController extends Controller
         } 
         // Filter By Municipalities
         if($request->selected_municipalities) {
-            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+            $records = $records->whereIn('Municipality', $request->selected_municipalities);
         }
         // Filter By Age Groups
         if($request->selected_age_groups) {
@@ -1465,7 +1465,7 @@ class DataVisualisationController extends Controller
         } 
         // Filter By Municipalities
         if($request->selected_municipalities) {
-            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+            $records = $records->whereIn('Municipality', $request->selected_municipalities);
         }
         // Filter By Age Groups
         if($request->selected_age_groups) {
@@ -1560,7 +1560,7 @@ class DataVisualisationController extends Controller
         } 
         // Filter By Municipalities
         if($request->selected_municipalities) {
-            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+            $records = $records->whereIn('Municipality', $request->selected_municipalities);
         }
         // Filter By Age Groups
         if($request->selected_age_groups) {
@@ -1666,7 +1666,7 @@ class DataVisualisationController extends Controller
         } 
         // Filter By Municipalities
         if($request->selected_municipalities) {
-            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+            $records = $records->whereIn('Municipality', $request->selected_municipalities);
         }
         // Filter By Age Groups
         if($request->selected_age_groups) {
@@ -1760,7 +1760,7 @@ class DataVisualisationController extends Controller
         } 
         // Filter By Municipalities
         if($request->selected_municipalities) {
-            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+            $records = $records->whereIn('Municipality', $request->selected_municipalities);
         }
         // Filter By Age Groups
         if($request->selected_age_groups) {
@@ -1854,7 +1854,7 @@ class DataVisualisationController extends Controller
         } 
         // Filter By Municipalities
         if($request->selected_municipalities) {
-            $records = $records->whereIn('GreaterArea', $request->selected_municipalities);
+            $records = $records->whereIn('Municipality', $request->selected_municipalities);
         }
         // Filter By Age Groups
         if($request->selected_age_groups) {

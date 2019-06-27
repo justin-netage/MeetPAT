@@ -125,7 +125,7 @@
         </div>
         </div>
         </div>
-        <div class="col-12 col-md-8">
+        <div class="col-12 col-md-8 heading-row">
             <h3 class="display-4 text-center">Where? <br /><small>Location Targeting</small></h3>
         </div>
         <div class="col-12 col-md-2">
@@ -264,7 +264,7 @@
         <div class="col-12 col-md-2 d-flex align-items-center">
 
         </div>
-        <div class="col-12 col-md-8">
+        <div class="col-12 col-md-8 heading-row">
             <h3 class="display-4 text-center">Who? <br /><small>Demographic Targeting</small></h3>
         </div>
         <div class="col-12 col-md-2">
@@ -480,7 +480,7 @@
         <div class="col-12 col-md-2 d-flex align-items-center">
 
         </div>
-        <div class="col-12 col-md-8">
+        <div class="col-12 col-md-8 heading-row">
             <h3 class="display-4 text-center">Assets Owned? <br /><small>Home and Vehicle Data</small></h3>
         </div>
         <div class="col-12 col-md-2">
@@ -627,7 +627,7 @@
     <div class="row">
         <div class="col-12 col-md-2 d-flex align-items-center">
         </div>
-        <div class="col-12 col-md-8">
+        <div class="col-12 col-md-8 heading-row">
             <h3 class="display-4 text-center">Financial Wellness <br /><small>Financial Factors</small></h3>
         </div>
         <div class="col-12 col-md-2">
@@ -824,5 +824,5 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://unpkg.com/lunr/lunr.js"></script>
-<script type="text/javascript" src="{{asset('js/data_visualisation.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/data_visualisation.js')}}"></script>
 @endsection

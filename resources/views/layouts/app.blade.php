@@ -194,7 +194,7 @@
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
-                                    <div class="dropdown-divider"></div>
+                                    <!-- <div class="dropdown-divider"></div> -->
                                     <!-- @if(Request::path() == 'contact')
                                     <a class="dropdown-item active" href="{{ route('contact') }}">{{ __('Contact') }}</a>
                                     @else
