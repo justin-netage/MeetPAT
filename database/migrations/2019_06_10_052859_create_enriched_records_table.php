@@ -19,22 +19,22 @@ class CreateEnrichedRecordsTable extends Migration
             $table->string('ClientFileName')->nullable();
             $table->string('ClientRecordID')->nullable();
             $table->string('id6')->nullable();
-            $table->string('FirstName')->nullable();
-            $table->string('Middlename')->nullable();
-            $table->string('Surname')->nullable();
-            $table->string('CleanPhone')->nullable();
-            $table->string('Email1')->nullable();
-            $table->string('Email2')->nullable();
-            $table->string('Email3')->nullable();
-            $table->string('MobilePhone1')->nullable();
-            $table->string('MobilePhone2')->nullable();
-            $table->string('MobilePhone3')->nullable();
-            $table->string('WorkPhone1')->nullable();
-            $table->string('WorkPhone2')->nullable();
-            $table->string('WorkPhone3')->nullable();
-            $table->string('HomePhone1')->nullable();
-            $table->string('HomePhone2')->nullable();
-            $table->string('HomePhone3')->nullable();
+            $table->longText('FirstName')->nullable();
+            $table->longText('Middlename')->nullable();
+            $table->longText('Surname')->nullable();
+            $table->longText('CleanPhone')->nullable();
+            $table->longText('Email1')->nullable();
+            $table->longText('Email2')->nullable();
+            $table->longText('Email3')->nullable();
+            $table->longText('MobilePhone1')->nullable();
+            $table->longText('MobilePhone2')->nullable();
+            $table->longText('MobilePhone3')->nullable();
+            $table->longText('WorkPhone1')->nullable();
+            $table->longText('WorkPhone2')->nullable();
+            $table->longText('WorkPhone3')->nullable();
+            $table->longText('HomePhone1')->nullable();
+            $table->longText('HomePhone2')->nullable();
+            $table->longText('HomePhone3')->nullable();
             $table->enum('ContactCategory', ['Very Low', 'Low', 'Medium', 'High', 'Very High', 'Unkown'])->nullable();
             $table->enum('AgeGroup', ['Twenties', 'Thirties', 'Fourties', 'Fifties', 'Sixties', 'Senventies', 'Eighty +', 'Unknown'])->nullable();
             $table->enum('Gender', ['M', 'F', 'Unknown'])->nullable();;
@@ -56,12 +56,12 @@ class CreateEnrichedRecordsTable extends Migration
             $table->string('Municipality')->nullable();
             $table->string('Employer')->nullable();
             $table->enum('VehicleOwnershipStatus', ['True', 'False', 'Unkown'])->nullable();
-            $table->string('InputIdn')->nullable();
-            $table->string('InputFirstName')->nullable();
-            $table->string('InputSurname')->nullable();
-            $table->string('InputPhone')->nullable();
-            $table->string('InputEmail')->nullable();
-            $table->string('affiliated_users')->nullable(); // comma separated string.
+            $table->longText('InputIdn')->nullable();
+            $table->longText('InputFirstName')->nullable();
+            $table->longText('InputSurname')->nullable();
+            $table->longText('InputPhone')->nullable();
+            $table->longText('InputEmail')->nullable();
+            $table->longText('affiliated_users')->nullable(); // comma separated string.
             $table->timestamps();
         });
     }
