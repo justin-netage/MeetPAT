@@ -2519,6 +2519,8 @@ $("#resetFilterToastBtn").click(function() {
     );
     $('.apply-filter-button, .apply-changes-button').prop('disabled', true);
     $('.sidebar-filters ul li').remove();
+    $('.sidebar-filters ul').hide();
+    $("#no_filters").show();
     // Selected Targets Arrays
     target_provinces = [];
     target_municipalities = [];

@@ -73,7 +73,7 @@
         <input type="hidden" id="propertyValuationContactsId" name="vehicleOwnerContacts[]">
         <input type="hidden" id="lsmGroupContactsId" name="lsmGroupContacts[]">
         <!-- <button id="audienceSubmitBtn" class="btn btn-secondary btn-block" disabled="true" type="submit" /><i class="fas fa-users"></i>&nbsp;Sync Contacts</button> -->
-        <button id="sidebarSubmitBtn" type="button" class="btn btn-secondary btn-block apply-changes-button" disabled="true" type="button" /><i class="fas fa-sync-alt"></i>&nbsp;Apply Changes</button>
+        <button id="sidebarSubmitBtn" type="button" class="btn btn-secondary btn-block apply-changes-button" disabled="true" type="button" /><i class="fas fa-sync-alt"></i>&nbsp;Apply Filters</button>
         <button id="resetFilterToastBtn" type="button" class="btn btn-secondary btn-block" disabled="disabled"><i class="fas fa-undo-alt"></i>&nbsp;Reset Filters</button>
     </form>    
 </div>
