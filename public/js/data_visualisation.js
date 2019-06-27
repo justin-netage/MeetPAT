@@ -2049,7 +2049,7 @@ var drawDirectorOfBusinessChart = function() {
             chart.draw(data, chart_options);    
             $(".apply-filter-button").prop("disabled", false);
             $('.apply-filter-button').html("apply");
-            $('#sidebarSubmitBtn').html('<i class="fas fa-sync-alt"></i>&nbsp;Apply Changes');
+            $('#sidebarSubmitBtn').html('<i class="fas fa-sync-alt"></i>&nbsp;Apply Filters');
             $('#sidebarSubmitBtn').prop("disabled", false);
             $("#resetFilterToastBtn").prop("disabled", false);
             $("#audienceSubmitBtn").prop("disabled", false);
@@ -2361,7 +2361,7 @@ $('.apply-filter-button, #sidebarSubmitBtn').click(function() {
     $('#sidebarSubmitBtn').prop("disabled", true);
     $('#audienceSubmitBtn').prop("disabled", true);
     $('.apply-filter-button').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;applying...');
-    $('#sidebarSubmitBtn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;Applying Changes...');
+    $('#sidebarSubmitBtn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;Applying Filters...');
     $("#resetFilterToastBtn").prop("disabled", true);
 
     target_provinces = [];
