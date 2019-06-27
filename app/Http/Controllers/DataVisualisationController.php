@@ -34,7 +34,18 @@ class DataVisualisationController extends Controller
 
     public function large_data_upload_form()
     {
-        return view('large_data_upload_form');
+        $user = \Auth::user();
+        $user_jobs = \MeetPAT\RecordsJobQue::where('user_id', $user->id);
+        $user_jobs_running = $user_jobs->where(function($q) {
+            $q->where('status', 'pending')->orWhere('status', 'running');
+        })->count();
+        if($user_jobs_running)
+        {
+            return redirect('meetpat-client/data-visualisation');
+        } else {
+            return view('large_data_upload_form');
+        }
+        
     }
 
     public function large_data_upload(Request $request)

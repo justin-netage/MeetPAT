@@ -38,18 +38,6 @@ class ProcessBarkerStreetFiles extends Command
      */
     public function handle()
     {
-        // Hash
-        function normalizeAndHash($value)
-        {
-            if($value)
-            {
-                return hash('sha256', strtolower(trim($value)));
-            } else {
-                return $value;
-            }
-            
-        }
-
         // Formatters
 
         // get age group ( AgeGroup ) from ex. 03. Thirties 
@@ -277,8 +265,11 @@ class ProcessBarkerStreetFiles extends Command
                     if(env('APP_ENV') == 'production')
                     {
                         $output_file = \Storage::disk('sftp')->get('Output/' . $bsa_file_job->file_unique_name . '.csv');
+                        $store_file = \Storage::disk('s3')->put('enriched-data/' . $bsa_file_job->file_unique_name . '.csv', $output_file);
                     } else {
                         $output_file = \Storage::disk('local')->get('Output/' . $bsa_file_job->file_unique_name . '.csv');
+                        $store_file = \Storage::disk('local')->put('enriched-data/' . $bsa_file_job->file_unique_name . '.csv', $output_file);
+
                     }
         
                     $parser = new \CsvParser\Parser('|', "'", "\n");
@@ -294,22 +285,22 @@ class ProcessBarkerStreetFiles extends Command
                                     'ClientFileName' => $row['ClientFileName'],
                                     'ClientRecordID' => $row['ClientRecordID'],
                                     'id6' => $row['id6'],
-                                    'FirstName' => normalizeAndHash($row['Firstname']),
-                                    'Middlename' => normalizeAndHash($row['Middlename']),
-                                    'Surname' => normalizeAndHash($row['Surname']),
-                                    'CleanPhone' => normalizeAndHash($row['CleanPhone']),
-                                    'Email1' => normalizeAndHash($row['Email1']),
-                                    'Email2' => normalizeAndHash($row['Email2']),
-                                    'Email3' => normalizeAndHash($row['Email3']),
-                                    'MobilePhone1' => normalizeAndHash($row['MobilePhone1']),
-                                    'MobilePhone2' => normalizeAndHash($row['MobilePhone2']),
-                                    'MobilePhone3' => normalizeAndHash($row['MobilePhone3']),
-                                    'WorkPhone1' => normalizeAndHash($row['WorkPhone1']),
-                                    'WorkPhone2' => normalizeAndHash($row['WorkPhone2']),
-                                    'WorkPhone3' => normalizeAndHash($row['WorkPhone3']),
-                                    'HomePhone1' => normalizeAndHash($row['HomePhone1']),
-                                    'HomePhone2' => normalizeAndHash($row['HomePhone2']),
-                                    'HomePhone3' => normalizeAndHash($row['HomePhone3']),
+                                    'FirstName' => encrypt($row['Firstname']),
+                                    'Middlename' => encrypt($row['Middlename']),
+                                    'Surname' => encrypt($row['Surname']),
+                                    'CleanPhone' => encrypt($row['CleanPhone']),
+                                    'Email1' => encrypt($row['Email1']),
+                                    'Email2' => encrypt($row['Email2']),
+                                    'Email3' => encrypt($row['Email3']),
+                                    'MobilePhone1' => encrypt($row['MobilePhone1']),
+                                    'MobilePhone2' => encrypt($row['MobilePhone2']),
+                                    'MobilePhone3' => encrypt($row['MobilePhone3']),
+                                    'WorkPhone1' => encrypt($row['WorkPhone1']),
+                                    'WorkPhone2' => encrypt($row['WorkPhone2']),
+                                    'WorkPhone3' => encrypt($row['WorkPhone3']),
+                                    'HomePhone1' => encrypt($row['HomePhone1']),
+                                    'HomePhone2' => encrypt($row['HomePhone2']),
+                                    'HomePhone3' => encrypt($row['HomePhone3']),
                                     'ContactCategory' => get_contact_category($row['ContactCategory']),
                                     'AgeGroup' => get_age_group($row['AgeGroup']),
                                     'Gender' => get_gender($row['Gender']),
@@ -333,11 +324,11 @@ class ProcessBarkerStreetFiles extends Command
                                     'Municipality' => $row['Municipality'],
                                     'Employer' => $row['Employer'],
                                     'VehicleOwnershipStatus' => $row['VehicleOwnershipStatus'],
-                                    'InputIdn' => normalizeAndHash($row['InputIdn']),
-                                    'InputFirstName' => normalizeAndHash($row['InputFirstName']),
-                                    'InputSurname' => normalizeAndHash($row['InputSurname']),
-                                    'InputPhone' => normalizeAndHash($row['InputPhone']),
-                                    'InputEmail' => normalizeAndHash($row['InputEmail']),
+                                    'InputIdn' => encrypt($row['InputIdn']),
+                                    'InputFirstName' => encrypt($row['InputFirstName']),
+                                    'InputSurname' => encrypt($row['InputSurname']),
+                                    'InputPhone' => encrypt($row['InputPhone']),
+                                    'InputEmail' => encrypt($row['InputEmail']),
                                     'affiliated_users' => $bsa_file_job->user_id,
                                 )
                             );
