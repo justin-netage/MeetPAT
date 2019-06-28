@@ -45,8 +45,6 @@ class DataVisualisationController extends Controller
         } else {
             return view('large_data_upload_form');
         }
-
-        \MeetPAT\Jobs\ProcessFile::dispatch()->onQueue('Prepare BSA File');
         
     }
 
@@ -75,7 +73,7 @@ class DataVisualisationController extends Controller
         } else {
             return response("file does not exist :(");
         }
-        
+        \MeetPAT\Jobs\ProcessFile::dispatch()->onQueue('Prepare BSA File');
         return response()->json($created_job_que);
     }
 
