@@ -73,9 +73,6 @@ class ApiController extends Controller
             return response()->json(array("status" => "fail", "message" => "output_file_name has not been provided."), 400);
         }
 
-        // Queue Job for processing files.
-        \MeetPAT\Jobs\ProcessFile::dispatch()->onQueue('Process File');
-
         return response()->json(array("status" => "success", "message" => "File ready and queued for processing."), 200);
     }
 }
