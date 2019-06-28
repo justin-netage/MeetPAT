@@ -73,7 +73,7 @@ class DataVisualisationController extends Controller
         } else {
             return response("file does not exist :(");
         }
-        \MeetPAT\Jobs\ProcessFile::dispatch()->onQueue('Prepare BSA File');
+        \MeetPAT\Jobs\EnrichRecords::dispatch()->onQueue('Prepare BSA File');
         return response()->json($created_job_que);
     }
 
