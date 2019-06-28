@@ -89,12 +89,12 @@ class EnrichRecords implements ShouldQueue
                         foreach($data_chunks as $data_chunk) {     
                             
                             foreach($csv_parser->toArray($data_chunk) as $row) {
-                                $exists_email1 = \MeetPAT\EnrichedRecord::where('Email1', normalizeAndHash($row['Email']))->first();
-                                $exists_email2 = \MeetPAT\EnrichedRecord::where('Email2', normalizeAndHash($row['Email']))->first();
-                                $exists_email3 = \MeetPAT\EnrichedRecord::where('Email3', normalizeAndHash($row['Email']))->first();
-                                $exists_phone1 = \MeetPAT\EnrichedRecord::where('MobilePhone1', normalizeAndHash($row['MobilePhone']))->first();
-                                $exists_phone2 = \MeetPAT\EnrichedRecord::where('MobilePhone2', normalizeAndHash($row['MobilePhone']))->first();
-                                $exists_phone3 = \MeetPAT\EnrichedRecord::where('MobilePhone3', normalizeAndHash($row['MobilePhone']))->first();
+                                $exists_email1 = \MeetPAT\EnrichedRecord::where('Email1', $row['Email'])->first();
+                                $exists_email2 = \MeetPAT\EnrichedRecord::where('Email2', $row['Email'])->first();
+                                $exists_email3 = \MeetPAT\EnrichedRecord::where('Email3', $row['Email'])->first();
+                                $exists_phone1 = \MeetPAT\EnrichedRecord::where('MobilePhone1', $row['MobilePhone'])->first();
+                                $exists_phone2 = \MeetPAT\EnrichedRecord::where('MobilePhone2', $row['MobilePhone'])->first();
+                                $exists_phone3 = \MeetPAT\EnrichedRecord::where('MobilePhone3', $row['MobilePhone'])->first();
                                 // $this->info('Client: ' . $client_already_exists . '(already exists)');
                                  if($exists_email1 or $exists_email2 or $exists_email3 or $exists_phone1 or $exists_phone2 or $exists_phone3) {
     
@@ -144,8 +144,8 @@ class EnrichRecords implements ShouldQueue
                                          "InputIdn" => $row['IDNumber'],
                                          "InputFirstName" => $row['FirstName'],
                                          "InputSurname" => $row['Surname'],
-                                         "InputPhone" => validate_mobile_number($row['MobilePhone']),
-                                         "InputEmail" => validate_email_address($row['Email'])
+                                         "InputPhone" => $row['MobilePhone'],
+                                         "InputEmail" => $row['Email']
                                      ];
 
                                      $data_to_enrich[] = $new_data;
