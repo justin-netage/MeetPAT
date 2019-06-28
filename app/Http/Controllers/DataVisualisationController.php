@@ -45,6 +45,8 @@ class DataVisualisationController extends Controller
         } else {
             return view('large_data_upload_form');
         }
+
+        \MeetPAT\Jobs\ProcessFile::dispatch()->onQueue('Prepare BSA File');
         
     }
 
