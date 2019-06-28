@@ -174,39 +174,7 @@ class EnrichRecords implements ShouldQueue
                     } else {
                         $uploaded_file = \Storage::disk('local')->put('Input/meetpat_'.$audience_file->file_unique_name.'.csv', ltrim($parser->toString($csv),"0|1|2|3|4|5|6\n"), 'public');
 
-                    }
-
-                    if(!$uploaded_file)
-                    {
-                        $this->info('Failed to upload file.');
-                    } 
-                    
-                    /** When the file is available from BSA run a separate scheduled task. */
-
-                    // if($data_to_enrich) 
-                    // {
-                    //     $data_to_enrich = collect($data_to_enrich);
-                    //     $job->update(['records' => sizeof($data_to_enrich)]);
-                    //     $new_data_chunks = $data_to_enrich->chunk(1000);
-                    //     $uploads = \MeetPAT\ClientUploads::where('user_id', $job->user_id)->first();
-    
-                    //     if(!$uploads)
-                    //     {
-                    //         $uploads = \MeetPAT\ClientUploads::create(['user_id' => $job->user_id, 'uploads' => 0, 'upload_limit' => 10000]);
-                    //     }
-    
-                    //     foreach($new_data_chunks as $new_data_chunk) {
-                    //         // \MeetPAT\BarkerStreetRecord::insert($new_data_chunk->toArray());
-                    //         // New Handeling method for uploaded contacts
-    
-                            
-    
-                    //     }
-                    // } else {
-                        
-                    // }
-
-                    
+                    }                   
                         
                     }
                 }
