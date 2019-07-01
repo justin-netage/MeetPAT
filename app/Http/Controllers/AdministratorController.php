@@ -61,7 +61,8 @@ class AdministratorController extends Controller
                                             }
 
         $new_client = \MeetPAT\MeetpatClient::create(['user_id' => $new_user->id, 'active' => 1]);
-
+        $uploads = \MeetPAT\ClientUploads::create(["user_id" => $new_user->id, "upload_limit" => 10000, "uploads" => 0]);
+        
         if($request->send_email)
         {
             $data = [ 'name' => $request->name, 'email' => $request->email, 'password' => $request->password, 'message' => ''];

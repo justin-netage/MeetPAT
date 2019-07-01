@@ -210,9 +210,9 @@
                             <li class="nav-item">
                                 <a class="nav-link">credits used&nbsp;<span class="badge badge-pill badge-primary">
                                 @if(\Auth::user()->client_uploads)
-                                    {{\Auth::user()->client_uploads->uploads}} / 10000
+                                    {{\Auth::user()->client_uploads->uploads}} / {{\Auth::user()->client_uploads->upload_limit}}
                                 @else
-                                    0 / 10000
+                                    0 / 0
                                 @endif
                                 </span></a>
                             </li>
