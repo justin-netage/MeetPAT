@@ -92,6 +92,8 @@ Route::get('meetpat-client/get-records/property-valuation', 'DataVisualisationCo
 Route::get('meetpat-client/get-records/property-count', 'DataVisualisationController@get_property_count')->name('get-property-counts');
 Route::get('meetpat-client/get-records/employers', 'DataVisualisationController@get_employer')->name('get-employers');
 
+Route::post('meetpat-client/filtered-audience/save', 'DataVisualisationController@save_filtered_audience')->name('save-filtered-audience');
+
 // Get Authentication token
 Route::post('google-authorization/authenticate-authorization-code', 'MeetpatClientController@authenticate_authorization_code')->name('authenticate-google-code');
 

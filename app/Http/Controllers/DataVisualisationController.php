@@ -1180,7 +1180,7 @@ class DataVisualisationController extends Controller
 
     public function get_lsm_group(Request $request)
     {
-        $records = \MeetPAT\EnrichedRecord::select('LSMGroup')->where([['LSMGroup', '!=', null], ['LSMGroup', '!=', 'Unknown']])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\EnrichedRecord::select('LSMGroup')->where([['LSMGroup', '!=', null], ['LSMGroup', '!=', 'Unknown'], ['LSMGroup', '!=', 'LSM00']])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
         $all_lsm_groups = $records->get();
 
         // Filter By Provinces
@@ -1958,6 +1958,94 @@ class DataVisualisationController extends Controller
 
         return response()->json(["jobs" => $jobs->get()->toArray(), "jobs_running" => $running_jobs]);
     
+    }
+
+    // Store client filtered audience file
+    public function save_filtered_audience(Request $request)
+    {
+        $records = \MeetPAT\EnrichedRecord::whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $all_areas = $records->get();
+
+        // Filter By Provinces
+        if($request->selected_provinces) {
+            $records = $records->whereIn('Province', $request->selected_provinces);
+        } 
+        // Filter By Municipalities
+        if($request->selected_municipalities) {
+            $records = $records->whereIn('Municipality', $request->selected_municipalities);
+        }
+        // Filter By Age Groups
+        if($request->selected_age_groups) {
+            $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        }
+        // Filter By Gender
+        if($request->selected_gender_groups) {
+            $records = $records->whereIn('Gender', $request->selected_gender_groups);
+        }
+        // Filter By Population Group
+        if($request->selected_population_groups) {
+            $records = $records->whereIn('PopulationGroup', $request->selected_population_groups);
+        }
+        // Filter By Generation Group
+        if($request->selected_generations) {
+            $records = $records->whereIn('Generation', $request->selected_generations);
+        }
+        // Filter By Marital Status
+        if($request->selected_marital_status) {
+            $records = $records->whereIn('MaritalStatus', $request->selected_marital_status);
+        }
+        // Filter By Home Owners
+        if($request->selected_home_owners) {
+            $records = $records->whereIn('HomeOwnershipStatus', $request->selected_home_owners);
+        }  
+        // Filter By Property Valuation
+        if($request->selected_property_valuations) {
+            $records = $records->whereIn('PropertyValuationBucket', $request->selected_property_valuations);
+        } 
+        // Filter By Property Count
+        if($request->selected_property_counts) {
+            $records = $records->whereIn('PropertyCount', $request->selected_property_counts);
+        }
+        // Filter By Risk Categories
+        if($request->selected_risk_categories) {
+            $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
+        }
+        // Filter By Household Income
+        if($request->selected_household_incomes) {
+            $records = $records->whereIn('IncomeBucket', $request->selected_household_incomes);
+        }
+        if($request->selected_employers) {
+            $records = $records->whereIn('Employer', $request->selected_employers);
+        }
+        // Filter By LSM Group
+        if($request->selected_lsm_groups) {
+            $records = $records->whereIn('LSMGroup', $request->selected_lsm_groups);
+        }
+        // Filter By Vehicle Ownership
+        if($request->selected_vehicle_owners) {
+            $records = $records->whereIn('VehicleOwnershipStatus', $request->selected_vehicle_owners);
+        }
+        // Filter By directors
+        if($request->selected_directors) {
+            $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        }
+        // Filter By areas
+        if($request->selected_areas) {
+            $records = $records->whereIn('Area', $request->selected_areas);
+        }
+        // Filter By Citizens and residents
+        if($request->selected_citizen_vs_residents) {
+            if(in_array("citizen", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('id6', '!=', '');
+                
+
+            } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
+                $records = $records->where('HasResidentialAddress', "true");
+
+            }
+        }
+
+        return response()->json();
     }
 
 }

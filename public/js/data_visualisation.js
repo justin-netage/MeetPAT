@@ -2589,4 +2589,20 @@ $(document).ready(function() {
     //   lunr_result = idx.search("modularity");
 
     //   //console.log(lunr_result);
+
+    $("#downloadSubmitBtn").click(function() {
+        
+        var filter_form_data = {};
+        $("#filtersForm").serializeArray().map(function(filter) {
+            return filter_form_data[filter['name']] = filter['value'];
+        })
+
+        $.post('/api/meetpat-client/filtered-audience/save', filter_form_data, function(data) {
+            console.log(data)
+        }).fail(function(data) {
+            console.log(data)
+        }).done(function() {
+
+        });
+    });
 });

@@ -52,7 +52,7 @@
         <strong class="mr-auto">Potential Contacts</strong>
     </h4> -->
     <!-- <div id="potential-contacts-num-sidebar">?</div><br /> -->
-    <form action="/meetpat-client/create-selected-contacts" method="post">
+    <form id="filtersForm" action="/meetpat-client/create-selected-contacts" method="post">
         @csrf
         <input type="hidden" id="user_id" name="user_id" value="{{Auth::user()->id}}">
         <input type="hidden" id="numberOfContactsId" name="number_of_contacts">
@@ -75,6 +75,7 @@
         <!-- <button id="audienceSubmitBtn" class="btn btn-secondary btn-block" disabled="true" type="submit" /><i class="fas fa-users"></i>&nbsp;Sync Contacts</button> -->
         <button id="sidebarSubmitBtn" type="button" class="btn btn-secondary btn-block apply-changes-button" disabled="true" type="button" /><i class="fas fa-sync-alt"></i>&nbsp;Apply Filters</button>
         <button id="resetFilterToastBtn" type="button" class="btn btn-secondary btn-block" disabled="disabled"><i class="fas fa-undo-alt"></i>&nbsp;Reset Filters</button>
+        <button id="downloadSubmitBtn" class="btn btn-secondary btn-block"  disabled="true" type="button" /><i class="far fa-save"></i>&nbsp;Save Contacts</button>
     </form>    
 </div>
 <div class="right-sidebar-button sidebar-button-in" id="sidebar-toggle-button"><i class="fas fa-cog"></i></div>
