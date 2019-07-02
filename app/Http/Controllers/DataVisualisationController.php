@@ -1963,89 +1963,249 @@ class DataVisualisationController extends Controller
     // Store client filtered audience file
     public function save_filtered_audience(Request $request)
     {
-        $records = \MeetPAT\EnrichedRecord::whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
-        $all_areas = $records->get();
+        $records = \MeetPAT\EnrichedRecord::select(['FirstName',
+        'Middlename','Surname','CleanPhone','Email1','Email2','Email3',
+        'MobilePhone1','MobilePhone2','MobilePhone3','WorkPhone1','WorkPhone2',
+        'WorkPhone3','HomePhone1','HomePhone2','HomePhone3','ContactCategory',
+        'AgeGroup','Gender','PopulationGroup','DeceasedStatus','Generation',
+        'MaritalStatus','DirectorshipStatus','HomeOwnershipStatus','PrimaryPropertyType','PropertyValuation',
+        'PropertyValuationBucket','PropertyCount','Income','CreditRiskCategory','IncomeBucket',
+        'LSMGroup','HasResidentialAddress','Province','Area','Municipality',
+        'Employer','VehicleOwnershipStatus'])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+
 
         // Filter By Provinces
-        if($request->selected_provinces) {
-            $records = $records->whereIn('Province', $request->selected_provinces);
+        if($request->provinceContacts[0]) {
+            $records = $records->whereIn('Province', $request->provinceContacts);
         } 
         // Filter By Municipalities
-        if($request->selected_municipalities) {
-            $records = $records->whereIn('Municipality', $request->selected_municipalities);
+        if($request->municipalityContacts[0]) {
+            $records = $records->whereIn('Municipality', $request->municipalityContacts);
         }
         // Filter By Age Groups
-        if($request->selected_age_groups) {
-            $records = $records->whereIn('AgeGroup', $request->selected_age_groups);
+        if($request->AgeContacts[0]) {
+            $records = $records->whereIn('AgeGroup', $request->AgeContacts);
         }
         // Filter By Gender
-        if($request->selected_gender_groups) {
-            $records = $records->whereIn('Gender', $request->selected_gender_groups);
+        if($request->GenderContacts[0]) {
+            $records = $records->whereIn('Gender', $request->GenderContacts);
         }
         // Filter By Population Group
-        if($request->selected_population_groups) {
-            $records = $records->whereIn('PopulationGroup', $request->selected_population_groups);
+        if($request->populationContacts[0]) {
+            $records = $records->whereIn('PopulationGroup', $request->populationContacts);
         }
         // Filter By Generation Group
-        if($request->selected_generations) {
-            $records = $records->whereIn('Generation', $request->selected_generations);
+        if($request->generationContacts[0]) {
+            $records = $records->whereIn('Generation', $request->generationContacts);
         }
         // Filter By Marital Status
-        if($request->selected_marital_status) {
-            $records = $records->whereIn('MaritalStatus', $request->selected_marital_status);
+        if($request->maritalStatusContacts[0]) {
+            $records = $records->whereIn('MaritalStatus', $request->maritalStatusContacts);
         }
         // Filter By Home Owners
-        if($request->selected_home_owners) {
-            $records = $records->whereIn('HomeOwnershipStatus', $request->selected_home_owners);
+        if($request->homeOwnerContacts[0]) {
+            $records = $records->whereIn('HomeOwnershipStatus', $request->homeOwnerContacts);
         }  
         // Filter By Property Valuation
-        if($request->selected_property_valuations) {
-            $records = $records->whereIn('PropertyValuationBucket', $request->selected_property_valuations);
+        if($request->propertyValuationContacts[0]) {
+            $records = $records->whereIn('PropertyValuationBucket', $request->propertyValuationContacts);
         } 
         // Filter By Property Count
-        if($request->selected_property_counts) {
-            $records = $records->whereIn('PropertyCount', $request->selected_property_counts);
+        if($request->propertyCountContacts[0]) {
+            $records = $records->whereIn('PropertyCount', $request->propertyCountContacts);
         }
         // Filter By Risk Categories
-        if($request->selected_risk_categories) {
-            $records = $records->whereIn('CreditRiskCategory', $request->selected_risk_categories);
+        if($request->riskCategoryContacts[0]) {
+            $records = $records->whereIn('CreditRiskCategory', $request->riskCategoryContacts);
         }
         // Filter By Household Income
-        if($request->selected_household_incomes) {
-            $records = $records->whereIn('IncomeBucket', $request->selected_household_incomes);
+        if($request->houseHoldIncomeContacts[0]) {
+            $records = $records->whereIn('IncomeBucket', $request->houseHoldIncomeContacts);
         }
-        if($request->selected_employers) {
-            $records = $records->whereIn('Employer', $request->selected_employers);
+        if($request->employerContacts[0]) {
+            $records = $records->whereIn('Employer', $request->employerContacts);
         }
         // Filter By LSM Group
-        if($request->selected_lsm_groups) {
-            $records = $records->whereIn('LSMGroup', $request->selected_lsm_groups);
+        if($request->lsmGroupContacts[0]) {
+            $records = $records->whereIn('LSMGroup', $request->lsmGroupContacts);
         }
         // Filter By Vehicle Ownership
-        if($request->selected_vehicle_owners) {
-            $records = $records->whereIn('VehicleOwnershipStatus', $request->selected_vehicle_owners);
+        if($request->vehicleOwnerContacts[0]) {
+            $records = $records->whereIn('VehicleOwnershipStatus', $request->vehicleOwnerContacts);
         }
         // Filter By directors
-        if($request->selected_directors) {
-            $records = $records->whereIn('DirectorshipStatus', $request->selected_directors);
+        if($request->directorsContacts[0]) {
+            $records = $records->whereIn('DirectorshipStatus', $request->directorsContacts);
         }
         // Filter By areas
-        if($request->selected_areas) {
-            $records = $records->whereIn('Area', $request->selected_areas);
+        if($request->areaContacts[0]) {
+            $records = $records->whereIn('Area', $request->areaContacts);
         }
         // Filter By Citizens and residents
-        if($request->selected_citizen_vs_residents) {
-            if(in_array("citizen", $request->selected_citizen_vs_residents)) {
+        if($request->citizenVsResidentsContacts[0]) {
+            if(in_array("citizen", $request->citizenVsResidentsContacts)) {
                 $records = $records->where('id6', '!=', '');
                 
 
-            } else if(in_array("resident", $request->selected_citizen_vs_residents)) {
+            } else if(in_array("resident", $request->citizenVsResidentsContacts)) {
                 $records = $records->where('HasResidentialAddress', "true");
 
             }
         }
 
-        return response()->json();
+        $records = $records->get()->toArray();
+        $decryptded_array = [];
+        foreach($records as $record)
+        {
+            if($record["FirstName"]) {
+                $record["FirstName"] = decrypt($record["FirstName"]);
+            } 
+
+            if($record["Middlename"]) {
+                $record["Middlename"] = decrypt($record["Middlename"]);
+            }
+
+            if($record["Surname"]) {
+                $record["Surname"] = decrypt($record["Surname"]);
+            }
+            
+            if($record["CleanPhone"]) {
+                $record["CleanPhone"] = decrypt($record["CleanPhone"]);
+            }
+
+            if($record["Email1"]) {
+                $record["Email1"] = decrypt($record["Email1"]);
+            }
+
+            if($record["Email2"]) {
+                $record["Email2"] = decrypt($record["Email2"]);
+            }
+
+            if($record["Email3"]) {
+                $record["Email3"] = decrypt($record["Email3"]);
+            }
+
+            if($record["MobilePhone1"]) {
+                $record["MobilePhone1"] = decrypt($record["MobilePhone1"]);
+            }
+
+            if($record["MobilePhone2"]) {
+                $record["MobilePhone2"] = decrypt($record["MobilePhone2"]);
+            }
+
+            if($record["MobilePhone3"]) {
+                $record["MobilePhone3"] = decrypt($record["MobilePhone3"]);
+            }
+
+            if($record["WorkPhone1"]) {
+                $record["WorkPhone1"] = decrypt($record["WorkPhone1"]);
+            }
+
+            if($record["WorkPhone2"]) {
+                $record["WorkPhone2"] = decrypt($record["WorkPhone2"]);
+            }
+
+            if($record["WorkPhone3"]) {
+                $record["WorkPhone3"] = decrypt($record["WorkPhone3"]);
+            }
+
+            if($record["HomePhone1"]) {
+                $record["HomePhone1"] = decrypt($record["HomePhone1"]);
+            }
+
+            if($record["HomePhone2"]) {
+                $record["HomePhone2"] = decrypt($record["HomePhone2"]);
+            }
+
+            if($record["HomePhone3"]) {
+                $record["HomePhone3"] = decrypt($record["HomePhone3"]);
+            }
+
+            array_push($decryptded_array, $record);
+        }
+
+        $parser = new \CsvParser\Parser(',', '', "\n");
+        $csv = $parser->fromArray($decryptded_array); 
+        $csv_str = $parser->toString($csv);
+        $fileName = uniqid() . "_" . time();
+
+        if(env('APP_ENV') == 'production')
+        {
+            $directory_used = \Storage::disk('s3')->makeDirectory('client/saved-audiences/');
+            $file_uploaded = \Storage::disk('s3')->put('client/saved-audiences/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
+
+        } else {
+            $directory_used = \Storage::disk('local')->makeDirectory('client/saved-audiences/');
+            $file_uploaded = \Storage::disk('local')->put('client/saved-audiences/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
+        }
+
+        $saved_audience = \MeetPAT\SavedFilteredAudienceFile::create(["user_id" => $request->user_id, "file_unique_name" => $fileName, "file_name" => $request->file_name]);
+
+        return response()->json(["saved_file" => $saved_audience]);
+    }
+
+    public function get_saved_audiences(Request $request)
+    {
+        $files = \MeetPAT\SavedFilteredAudienceFile::where('user_id', $request->user_id)->get()->toArray();
+        $new_array = [];
+
+        foreach($files as $file)
+        {
+            
+            if(env('APP_ENV') == 'production')
+            {
+                $file_exists = \Storage::disk('s3')->exists('client/saved-audiences/user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.csv');
+                
+                if($file_exists)
+                {
+                    $file["link"] = \Storage::disk('s3')->temporaryUrl('client/saved-audiences/' . 'user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.csv', now()->addMinutes(1440));
+    
+                } else {
+                    $file["link"] = "404";
+                }
+
+            } else {
+                $file_exists = \Storage::disk('local')->exists('client/saved-audiences/user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.csv');
+                
+                if($file_exists)
+                {
+                    $file["link"] = \Storage::disk('local')->url('client/saved-audiences/' . 'user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.csv');
+    
+                } else {
+                    $file["link"] = "404";
+                }
+            }
+
+            array_push($new_array, $file);
+
+        }
+
+        return response()->json($new_array);
+    }
+
+    public function delete_filtered_audience_file(Request $request)
+    {
+        
+        $file = \MeetPAT\SavedFilteredAudienceFile::where([["file_unique_name", '=', $request->file_unique_name], ["user_id", "=", $request->user_id ]])->first();
+        $file_deleted = $file->delete();
+
+        return response()->json(["message" => "successfully deleted file."]);
+    }
+
+    public function save_file_names(Request $request)
+    {
+
+        foreach(array_keys($request->all()) as $value)
+        {
+            $saved_file = \MeetPAT\SavedFilteredAudienceFile::where([["file_unique_name", "=", $value], ["user_id", "=", $request->user_id]])->first();
+            if($saved_file)
+            {
+                $saved_file->update([ "file_name" => $request[$value] ]);
+            }
+            
+        }
+
+        return response()->json(["message" => "success", "data" => $request->user_id]);
     }
 
 }

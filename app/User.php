@@ -65,4 +65,9 @@ class User extends Authenticatable
     {
         return $this->hasOne('\MeetPAT\GoogleAdwordsAccount', 'user_id');
     }
+
+    public function saved_audience_files()
+    {
+        return $this->hasMany('\MeetPAT\SavedFilteredAudienceFile', 'user_id');
+    }
 }

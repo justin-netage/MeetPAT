@@ -92,8 +92,10 @@ Route::get('meetpat-client/get-records/property-valuation', 'DataVisualisationCo
 Route::get('meetpat-client/get-records/property-count', 'DataVisualisationController@get_property_count')->name('get-property-counts');
 Route::get('meetpat-client/get-records/employers', 'DataVisualisationController@get_employer')->name('get-employers');
 
+Route::get('meetpat-client/get-saved-audiences', 'DataVisualisationController@get_saved_audiences')->name('get-audience-files');
 Route::post('meetpat-client/filtered-audience/save', 'DataVisualisationController@save_filtered_audience')->name('save-filtered-audience');
-
+Route::post('meetpat-client/delete-saved-audience-file', 'DataVisualisationController@delete_filtered_audience_file')->name('delete-filtered-audience-file');
+Route::post('meetpat-client/save-filename-edits', 'DataVisualisationController@save_file_names')->name('save-filtered-audience-file-names');
 // Get Authentication token
 Route::post('google-authorization/authenticate-authorization-code', 'MeetpatClientController@authenticate_authorization_code')->name('authenticate-google-code');
 

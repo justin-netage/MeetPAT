@@ -129,7 +129,7 @@ function drawProvinceChart( chart_data ) {
         //console.log(result);
         data.addRows(result);
         var chart_options = {
-            'height': result.length * 25,
+            // 'height': result.length * 25,
             'width':'100%',
             'fontSize': 10,
             'chartArea': {
@@ -2054,6 +2054,7 @@ var drawDirectorOfBusinessChart = function() {
             $("#resetFilterToastBtn").prop("disabled", false);
             $("#audienceSubmitBtn").prop("disabled", false);
             $("#resetFilterToastBtn").html('<i class="fas fa-undo-alt"></i>&nbsp;Reset Filters');
+            $("#downloadSubmitBtn").prop("disabled", false);
     });
 }
 
@@ -2363,6 +2364,7 @@ $('.apply-filter-button, #sidebarSubmitBtn').click(function() {
     $('.apply-filter-button').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;applying...');
     $('#sidebarSubmitBtn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;Applying Filters...');
     $("#resetFilterToastBtn").prop("disabled", true);
+    $(".apply-filter-button").prop("disabled", true);
 
     target_provinces = [];
     target_municipalities = [];
@@ -2490,6 +2492,7 @@ $('.apply-filter-button, #sidebarSubmitBtn').click(function() {
 
     $("#provinceContactsId").val(target_provinces);
     $("#areaContactsId").val(target_areas);
+    $("#municipalityContactsID").val(target_municipalities);
     $("#AgeContactsId").val(target_ages);
     $("#GenderContactsId").val(target_genders);
     $("#populationContactsId").val(target_population_groups);
@@ -2551,7 +2554,87 @@ $("#resetFilterToastBtn").click(function() {
     get_provinces();
 });
 
+var get_saved_audiences = function() {
+    $("#userSavedFiles").html(
+        `<div class="d-flex justify-content-center w-100">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>`
+    )
+    $.get('/api/meetpat-client/get-saved-audiences', {user_id: user_id_number}, function(data) {
+        $("#userSavedFiles .d-flex").remove();
+        console.log(data);
+        if(data.length)
+        {
+            data.forEach(function(audience_file) {
+                if(audience_file.file_name) {
+                    $("#userSavedFiles").append(
+                        `<div class="col-9 mb-1" id="file_name_${audience_file.file_unique_name}">
+                        <input id="input_${audience_file.file_unique_name}" class="form-control" name="${audience_file.file_unique_name}" value="${audience_file.file_name}" readonly>
+                        </div>
+                        <div class="col-3 mb-1" id="file_actions_${audience_file.file_unique_name}">
+                            <div class="btn-group float-right" role="group" aria-label="Basic example">
+                                <a type="button" id="download_${audience_file.file_unique_name}" href="${audience_file.link}" class="btn btn-light"><i class="fas fa-file-download"></i></a>
+                                <button type="button" id="edit_${audience_file.file_unique_name}" class="btn btn-light"><i class="far fa-edit"></i></button>
+                                <button type="button" id="delete_${audience_file.file_unique_name}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                            </div>
+                        </div>`
+                    )
+                } else {
+                    $("#userSavedFiles").append(
+                        `<div class="col-9 mb-1" id="file_name_${audience_file.file_unique_name}">
+                        <input id="input_${audience_file.file_unique_name}" class="form-control" name="${audience_file.file_unique_name}" value="${audience_file.file_unique_name}" readonly>
+                        </div>
+                        <div class="col-3 mb-1" id="file_actions_${audience_file.file_unique_name}">
+                            <div class="btn-group float-right" role="group" aria-label="Basic example">
+                                <a type="button" id="download_${audience_file.file_unique_name}" href="${audience_file.link}" class="btn btn-light"><i class="fas fa-file-download"></i></a>
+                                <button type="button" id="edit_${audience_file.file_unique_name}" class="btn btn-light"><i class="far fa-edit"></i></button>
+                                <button type="button" id="delete_${audience_file.file_unique_name}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                            </div>
+                        </div>`
+                    )
+                }
+                
+                $("#delete_" + audience_file.file_unique_name).click(function() {
+                    $(this).html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span class="sr-only">Loading...</span>`);
+                    $.post('/api/meetpat-client/delete-saved-audience-file', {user_id: user_id_number, file_unique_name: audience_file.file_unique_name}, function(data) {
+                        $("#file_name_" + audience_file.file_unique_name).remove();
+                        $("#file_actions_" + audience_file.file_unique_name).remove();
+                        console.log(data);
+                    }).fail(function(data) {
+                        $(this).html(`<i class="fas fa-trash-alt"></i>`);
+                        console.log(data);
+                    }).done(function() {
+
+                    });
+                });
+
+                $("#edit_" + audience_file.file_unique_name).click(function() {
+                    if($("#input_" + audience_file.file_unique_name).attr("readonly"))
+                    {
+                        $("#input_" + audience_file.file_unique_name).removeAttr("readonly");
+                    } else {
+                        $("#input_" + audience_file.file_unique_name).attr("readonly", true);
+                    }
+                    
+                });
+
+            });
+            
+        } else {
+            $("#userSavedFiles").append('<div class="col-12">You haved not saved any audiences yet.</div>');
+        }
+        console.log(data);
+    }).fail(function(data) {
+        console.log(data);
+    }).done(function() {
+
+    });
+}
+
 $(document).ready(function() {
+    get_saved_audiences();
     //var site_url = window.location.protocol + "//" + window.location.host;
     $('#records-main-toast').toast('show');
     $("#records-toast").toast('show');
@@ -2560,6 +2643,14 @@ $(document).ready(function() {
         if($(this).hasClass('dropdown-menu-form')) {
             e.stopPropagation();
         }
+    });
+
+    $("#SavedAudiencesModal").on('show.bs.modal', function() {
+        $("#SaveAudienceModal").modal("hide");
+    });
+    
+    $("#SaveAudienceModal").on('show.bs.modal', function() {
+        $("#SavedAudiencesModal").modal("hide");
     });
 
     get_provinces(); // Starts sequence to fetch data and draw charts.
@@ -2590,19 +2681,69 @@ $(document).ready(function() {
 
     //   //console.log(lunr_result);
 
+    $("#nameFile").on('input', function() {
+        if($("#nameFile").val().length > 1 && $("#nameFile").val().match(/^([A-z\_0-9])\w+$/g))
+        {
+            $("#nameFile").removeClass("is-invalid");
+            $("#nameFile").addClass("is-valid");
+            $("#downloadSubmitBtn").prop("disabled", false);
+        } else {
+            $("#nameFile").removeClass("is-valid");
+            $("#nameFile").addClass("is-invalid");
+            $("#downloadSubmitBtn").prop("disabled", true);
+        }
+    });
+
     $("#downloadSubmitBtn").click(function() {
         
         var filter_form_data = {};
         $("#filtersForm").serializeArray().map(function(filter) {
             return filter_form_data[filter['name']] = filter['value'];
-        })
+        });
+
+        filter_form_data["file_name"] = $("#nameFile").val();
+        
+        $("#downloadSubmitBtn").prop("disabled", true);
+        $("#downloadSubmitBtn").html(
+            '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
+            + '&nbsp;Saving...'
+        );
 
         $.post('/api/meetpat-client/filtered-audience/save', filter_form_data, function(data) {
-            console.log(data)
+            console.log(data);
+            $('#SavedAudiencesModal').modal('show');
+            get_saved_audiences();
         }).fail(function(data) {
-            console.log(data)
+            
+            $("#downloadSubmitBtn").prop("disabled", false);
+            $("#downloadSubmitBtn").html(
+                '<i class="far fa-save"></i>&nbsp;Save Contacts'
+            );
+            console.log(data);
+        }).done(function() {
+            
+            $("#downloadSubmitBtn").prop("disabled", false);
+            $("#downloadSubmitBtn").html(
+                '<i class="far fa-save"></i>&nbsp;Save Contacts'
+            );
+        });
+    });
+
+    $("#saveFileNameEdits").click(function() {
+        var edit_form_data = {};
+        $("#savedAudiencesForm").serializeArray().map(function(filter) {
+            return edit_form_data[filter['name']] = filter['value'];
+        });
+
+        edit_form_data["user_id"] = user_id_number;
+
+        $.post('/api/meetpat-client/save-filename-edits', edit_form_data, function(data) {
+            console.log(data);
+        }).fail(function(data) {
+            console.log(data);
         }).done(function() {
 
         });
+
     });
 });

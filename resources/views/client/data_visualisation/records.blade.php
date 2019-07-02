@@ -58,6 +58,7 @@
         <input type="hidden" id="numberOfContactsId" name="number_of_contacts">
         <input type="hidden" id="provinceContactsId" name="provinceContacts[]">
         <input type="hidden" id="areaContactsId" name="areaContacts[]">
+        <input type="hidden" id="municipalityContactsId" name="municipalityContacts[]">
         <input type="hidden" id="AgeContactsId" name="AgeContacts[]">
         <input type="hidden" id="GenderContactsId" name="GenderContacts[]">
         <input type="hidden" id="populationContactsId" name="populationContacts[]">
@@ -70,12 +71,15 @@
         <input type="hidden" id="employerContactsId" name="employerContacts[]">
         <input type="hidden" id="directorsContactsId" name="directorsContacts[]">
         <input type="hidden" id="vehicleOwnerContactsId" name="vehicleOwnerContacts[]">
-        <input type="hidden" id="propertyValuationContactsId" name="vehicleOwnerContacts[]">
+        <input type="hidden" id="propertyCountContactsId" name="propertyCountContacts[]">
+        <input type="hidden" id="propertyValuationContactsId" name="propertyValuationContacts[]">
         <input type="hidden" id="lsmGroupContactsId" name="lsmGroupContacts[]">
         <!-- <button id="audienceSubmitBtn" class="btn btn-secondary btn-block" disabled="true" type="submit" /><i class="fas fa-users"></i>&nbsp;Sync Contacts</button> -->
         <button id="sidebarSubmitBtn" type="button" class="btn btn-secondary btn-block apply-changes-button" disabled="true" type="button" /><i class="fas fa-sync-alt"></i>&nbsp;Apply Filters</button>
         <button id="resetFilterToastBtn" type="button" class="btn btn-secondary btn-block" disabled="disabled"><i class="fas fa-undo-alt"></i>&nbsp;Reset Filters</button>
-        <button id="downloadSubmitBtn" class="btn btn-secondary btn-block"  disabled="true" type="button" /><i class="far fa-save"></i>&nbsp;Save Contacts</button>
+        <button class="btn btn-secondary btn-block" type="button" data-toggle="modal" data-target="#SaveAudienceModal"><i class="far fa-save"></i>&nbsp;Save Audience</button>
+        <button class="btn btn-secondary btn-block" type="button" data-toggle="modal" data-target="#SavedAudiencesModal"><i class="far fa-save"></i>&nbsp;Saved Audience Files</button>
+
     </form>    
 </div>
 <div class="right-sidebar-button sidebar-button-in" id="sidebar-toggle-button"><i class="fas fa-cog"></i></div>
@@ -816,7 +820,69 @@
     </div>
 </div>
 
+@section('modals')
+<!-- Modal -->
+<div class="modal fade" id="SavedAudiencesModal" tabindex="-1" role="dialog" aria-labelledby="SavedAudiencesModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <form id="savedAudiencesForm">
+      <div class="modal-header">
+        <h5 class="modal-title" id="SavedAudiencesModalLabel">Saved Filtered Audiences</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-warning mb-2" role="alert">
+            <strong>Warning</strong> - Deleting a file will remove it permanently.
+        </div>
+        <div class="row" id="userSavedFiles">
+            
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="saveFileNameEdits" class="btn btn-primary">Save changes</button>
+      </div>
+     </form>
+    </div>
+  </div>
+</div>
 
+<div class="modal fade" id="SaveAudienceModal" tabindex="-1" role="dialog" aria-labelledby="SaveAudienceModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+  <form id="saveAudienceForm">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="SaveAudienceLabel">Save Audience</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <div class="alert alert-warning" role="alert">
+        Your filtered audience will be saved as a CSV file.
+      </div>       
+      <div class="form-group">
+          <label for="nameFile">Name File</label>
+          <div class="input-group">
+            <input type="text" id="nameFile" name="name_file" class="form-control" placeholder="filename">
+            <div class="invalid-feedback">
+            Please use letters, numbers and underscores instead of spaces.
+            </div>
+          </div>
+      </div>   
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id="downloadSubmitBtn" type="button" disabled="true" class="btn btn-primary">Save Audience</button>
+      </div>
+    </div>
+    </form>
+  </div>
+</div>
+@endsection
 
 @endsection
 
@@ -825,5 +891,5 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://unpkg.com/lunr/lunr.js"></script>
-<script type="text/javascript" src="{{asset('js/data_visualisation.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/data_visualisation.min.js')}}"></script>
 @endsection
