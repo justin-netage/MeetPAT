@@ -73,7 +73,7 @@ class DataVisualisationController extends Controller
         } else {
             return response("file does not exist :(");
         }
-        \MeetPAT\Jobs\EnrichRecords::dispatch();
+        \MeetPAT\Jobs\TestJob::dispatch();
         return response()->json($created_job_que);
     }
 
