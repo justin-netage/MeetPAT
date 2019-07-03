@@ -2601,10 +2601,10 @@ var get_saved_audiences = function() {
                     $.post('/api/meetpat-client/delete-saved-audience-file', {user_id: user_id_number, file_unique_name: audience_file.file_unique_name}, function(data) {
                         $("#file_name_" + audience_file.file_unique_name).remove();
                         $("#file_actions_" + audience_file.file_unique_name).remove();
-                        console.log(data);
+                        //console.log(data);
                     }).fail(function(data) {
                         $(this).html(`<i class="fas fa-trash-alt"></i>`);
-                        console.log(data);
+                        //console.log(data);
                     }).done(function() {
 
                     });
@@ -2625,9 +2625,9 @@ var get_saved_audiences = function() {
         } else {
             $("#userSavedFiles").append('<div class="col-12">You haved not saved any audiences yet.</div>');
         }
-        console.log(data);
+        //console.log(data);
     }).fail(function(data) {
-        console.log(data);
+        //console.log(data);
     }).done(function() {
 
     });
@@ -2702,7 +2702,7 @@ $(document).ready(function() {
         });
 
         filter_form_data["file_name"] = $("#nameFile").val();
-        
+        console.log(filter_form_data);
         $("#downloadSubmitBtn").prop("disabled", true);
         $("#downloadSubmitBtn").html(
             '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
@@ -2738,9 +2738,9 @@ $(document).ready(function() {
         edit_form_data["user_id"] = user_id_number;
 
         $.post('/api/meetpat-client/save-filename-edits', edit_form_data, function(data) {
-            console.log(data);
+            //console.log(data);
         }).fail(function(data) {
-            console.log(data);
+            //console.log(data);
         }).done(function() {
 
         });

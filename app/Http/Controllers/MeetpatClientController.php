@@ -517,10 +517,10 @@ class MeetpatClientController extends Controller
             $uploads_left = $client_uploads->upload_limit - $client_uploads->uploads;
         }
 
-        function readCSV($csvFile) {
+        function readCSV($csvFile, $delimiter=",") {
         $file_handle = fopen($csvFile, 'r');
         while (!feof($file_handle) ) {
-            $line_of_text[] = fgetcsv($file_handle, 0);
+            $line_of_text[] = fgetcsv($file_handle, 0, $delimiter);
         }
         fclose($file_handle);
         return $line_of_text;
@@ -544,7 +544,34 @@ class MeetpatClientController extends Controller
                     $file_uploaded = \Storage::disk('local')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", fopen($csv_file, 'r+'));
                 }
             } else {
-                return response()->json(["status" => 500, "error" => "CSV File does not match template."]);
+                $csv_array = readCSV($request->file('audience_file'), ";");
+
+                if($csv_array[0] == ["FirstName","Surname","MobilePhone","Email", "IDNumber"])
+                {
+                    $parser = new \CsvParser\Parser(';', "'", "\n");
+
+                    $csv = $parser->fromString($file_content);
+                    $parser->fieldDelimiter = ",";
+                    $parser->fieldEnclosure = "";
+                    $csv_str = $parser->toString($csv);
+
+                    if(count($csv) > $uploads_left + 1) {
+                        return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have <b>" . $uploads_left . "</b> uploads available."]);
+                    }
+    
+                    if(env('APP_ENV') == 'production')
+                    {
+                        $directory_used = \Storage::disk('s3')->makeDirectory('client/client-records/');
+                        $file_uploaded = \Storage::disk('s3')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
+            
+                    } else {
+                        $directory_used = \Storage::disk('local')->makeDirectory('client/client-records/');
+                        $file_uploaded = \Storage::disk('local')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
+                    }
+                } else {
+                    return response()->json(["status" => 500, "error" => "CSV File does not match template."]);
+                }
+                
             }
 
         } else {

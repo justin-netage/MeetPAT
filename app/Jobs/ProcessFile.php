@@ -226,118 +226,115 @@ class ProcessFile implements ShouldQueue
         $bsa_running_jobs = \MeetPAT\BarkerStreetFile::where('job_status', 'running')->count();
         $bsa_file_job = \MeetPAT\BarkerStreetFile::where('job_status', 'pending')->first();
 
-        if($bsa_running_jobs == 0)
+        if($bsa_file_job)
         {
-            if($bsa_file_job)
+            $bsa_file_job->update(['job_status' => 'running']);
+            $job_file = \MeetPAT\RecordsJobQue::where('audience_file_id', $bsa_file_job->audience_file_id)->first();
+            $client_uploads = \MeetPAT\ClientUploads::where('user_id', $bsa_file_job->user_id)->first();
+            $job_file->update(['records' => $bsa_file_job->records, 'records_checked' => $bsa_file_job->records]);
+
+            if(!$client_uploads)
             {
-                $bsa_file_job->update(['job_status' => 'running']);
-                $job_file = \MeetPAT\RecordsJobQue::where('audience_file_id', $bsa_file_job->audience_file_id)->first();
-                $client_uploads = \MeetPAT\ClientUploads::where('user_id', $bsa_file_job->user_id)->first();
-                $job_file->update(['records' => $bsa_file_job->records, 'records_checked' => $bsa_file_job->records]);
+                $client_uploads = \MeetPAT\ClientUploads::create(['user_id' => $bsa_file_job->user_id, 'uploads' => 0, 'upload_limit' => 10000]);
+            }
 
-                if(!$client_uploads)
-                {
-                    $client_uploads = \MeetPAT\ClientUploads::create(['user_id' => $bsa_file_job->user_id, 'uploads' => 0, 'upload_limit' => 10000]);
-                }
+            if(env('APP_ENV') == 'production')
+            {
+                $output_file_exists = \Storage::disk('sftp')->exists('Output/' . $bsa_file_job->file_unique_name . '.csv');
+            } else {
+                $output_file_exists = \Storage::disk('local')->exists('Output/' . $bsa_file_job->file_unique_name . '.csv');
+            }
 
+            if($output_file_exists)
+            {
                 if(env('APP_ENV') == 'production')
                 {
-                    $output_file_exists = \Storage::disk('sftp')->exists('Output/' . $bsa_file_job->file_unique_name . '.csv');
+                    $output_file = \Storage::disk('sftp')->get('Output/' . $bsa_file_job->file_unique_name . '.csv');
+                    $store_file = \Storage::disk('s3')->put('enriched-data/' . $bsa_file_job->file_unique_name . '.csv', $output_file);
                 } else {
-                    $output_file_exists = \Storage::disk('local')->exists('Output/' . $bsa_file_job->file_unique_name . '.csv');
-                }
+                    $output_file = \Storage::disk('local')->get('Output/' . $bsa_file_job->file_unique_name . '.csv');
+                    $store_file = \Storage::disk('local')->put('enriched-data/' . $bsa_file_job->file_unique_name . '.csv', $output_file);
 
-                if($output_file_exists)
+                }
+    
+                $parser = new \CsvParser\Parser('|', "'", "\n");
+                $csv = $parser->fromString($output_file);
+                $chunks = $parser->toChunks($csv, 1000);
+    
+                foreach($chunks as $chunk)
                 {
-                    if(env('APP_ENV') == 'production')
-                    {
-                        $output_file = \Storage::disk('sftp')->get('Output/' . $bsa_file_job->file_unique_name . '.csv');
-                        $store_file = \Storage::disk('s3')->put('enriched-data/' . $bsa_file_job->file_unique_name . '.csv', $output_file);
-                    } else {
-                        $output_file = \Storage::disk('local')->get('Output/' . $bsa_file_job->file_unique_name . '.csv');
-                        $store_file = \Storage::disk('local')->put('enriched-data/' . $bsa_file_job->file_unique_name . '.csv', $output_file);
-
-                    }
-        
-                    $parser = new \CsvParser\Parser('|', "'", "\n");
-                    $csv = $parser->fromString($output_file);
-                    $chunks = $parser->toChunks($csv, 1000);
-        
-                    foreach($chunks as $chunk)
-                    {
-                        $chunk->mapRows(function ($row) use ($bsa_file_job, $job_file, $client_uploads) {
-                            \MeetPAT\EnrichedRecord::create(
-                                array(
-                                    'RecordKey' => $row['RecordKey'],
-                                    'ClientFileName' => $row['ClientFileName'],
-                                    'ClientRecordID' => $row['ClientRecordID'],
-                                    'id6' => $row['id6'],
-                                    'FirstName' => encrypt($row['Firstname']),
-                                    'Middlename' => encrypt($row['Middlename']),
-                                    'Surname' => encrypt($row['Surname']),
-                                    'CleanPhone' => encrypt($row['CleanPhone']),
-                                    'Email1' => encrypt($row['Email1']),
-                                    'Email2' => encrypt($row['Email2']),
-                                    'Email3' => encrypt($row['Email3']),
-                                    'MobilePhone1' => encrypt($row['MobilePhone1']),
-                                    'MobilePhone2' => encrypt($row['MobilePhone2']),
-                                    'MobilePhone3' => encrypt($row['MobilePhone3']),
-                                    'WorkPhone1' => encrypt($row['WorkPhone1']),
-                                    'WorkPhone2' => encrypt($row['WorkPhone2']),
-                                    'WorkPhone3' => encrypt($row['WorkPhone3']),
-                                    'HomePhone1' => encrypt($row['HomePhone1']),
-                                    'HomePhone2' => encrypt($row['HomePhone2']),
-                                    'HomePhone3' => encrypt($row['HomePhone3']),
-                                    'ContactCategory' => $this->get_contact_category($row['ContactCategory']),
-                                    'AgeGroup' => $this->get_age_group($row['AgeGroup']),
-                                    'Gender' => $this->get_gender($row['Gender']),
-                                    'PopulationGroup' => $this->get_population_group($row['PopulationGroup']),
-                                    'DeceasedStatus' => $row['DeceasedStatus'],
-                                    'Generation' => $this->get_generation($row['id6']),
-                                    'MaritalStatus' => $row['MaritalStatus'],
-                                    'DirectorshipStatus' => $row['DirectorshipStatus'],
-                                    'HomeOwnershipStatus' => $row['HomeOwnershipStatus'],
-                                    'PrimaryPropertyType' => $row['PrimaryPropertyType'],
-                                    'PropertyValuation' => $row['PropertyValuation'],
-                                    'PropertyValuationBucket' => $this->get_valuation_bucket($row['PropertyValuation']),
-                                    'PropertyCount' => $row['PropertyCount'],
-                                    'Income' => $row['Income'],
-                                    'CreditRiskCategory' => $this->find_category($row['CreditRiskCategory']),
-                                    'IncomeBucket' => $this->get_income_bucket($row['IncomeBucket']),
-                                    'LSMGroup' => $row['LSMGroup'],
-                                    'HasResidentialAddress' => $row['HasResidentialAddress'],
-                                    'Province' => $this->format_province($row['Province']),
-                                    'Area' => $row['Area'],
-                                    'Municipality' => $row['Municipality'],
-                                    'Employer' => $row['Employer'],
-                                    'VehicleOwnershipStatus' => $row['VehicleOwnershipStatus'],
-                                    'InputIdn' => encrypt($row['InputIdn']),
-                                    'InputFirstName' => encrypt($row['InputFirstName']),
-                                    'InputSurname' => encrypt($row['InputSurname']),
-                                    'InputPhone' => encrypt($row['InputPhone']),
-                                    'InputEmail' => encrypt($row['InputEmail']),
-                                    'affiliated_users' => $bsa_file_job->user_id,
-                                )
-                            );
-        
-                            $bsa_file_job->increment('records_completed', 1);
-                            $job_file->increment('records_completed', 1);
-                            $client_uploads->increment('uploads', 1);                            
+                    $chunk->mapRows(function ($row) use ($bsa_file_job, $job_file, $client_uploads) {
+                        \MeetPAT\EnrichedRecord::create(
+                            array(
+                                'RecordKey' => $row['RecordKey'],
+                                'ClientFileName' => $row['ClientFileName'],
+                                'ClientRecordID' => $row['ClientRecordID'],
+                                'id6' => $row['id6'],
+                                'FirstName' => encrypt($row['Firstname']),
+                                'Middlename' => encrypt($row['Middlename']),
+                                'Surname' => encrypt($row['Surname']),
+                                'CleanPhone' => encrypt($row['CleanPhone']),
+                                'Email1' => encrypt($row['Email1']),
+                                'Email2' => encrypt($row['Email2']),
+                                'Email3' => encrypt($row['Email3']),
+                                'MobilePhone1' => encrypt($row['MobilePhone1']),
+                                'MobilePhone2' => encrypt($row['MobilePhone2']),
+                                'MobilePhone3' => encrypt($row['MobilePhone3']),
+                                'WorkPhone1' => encrypt($row['WorkPhone1']),
+                                'WorkPhone2' => encrypt($row['WorkPhone2']),
+                                'WorkPhone3' => encrypt($row['WorkPhone3']),
+                                'HomePhone1' => encrypt($row['HomePhone1']),
+                                'HomePhone2' => encrypt($row['HomePhone2']),
+                                'HomePhone3' => encrypt($row['HomePhone3']),
+                                'ContactCategory' => $this->get_contact_category($row['ContactCategory']),
+                                'AgeGroup' => $this->get_age_group($row['AgeGroup']),
+                                'Gender' => $this->get_gender($row['Gender']),
+                                'PopulationGroup' => $this->get_population_group($row['PopulationGroup']),
+                                'DeceasedStatus' => $row['DeceasedStatus'],
+                                'Generation' => $this->get_generation($row['id6']),
+                                'MaritalStatus' => $row['MaritalStatus'],
+                                'DirectorshipStatus' => $row['DirectorshipStatus'],
+                                'HomeOwnershipStatus' => $row['HomeOwnershipStatus'],
+                                'PrimaryPropertyType' => $row['PrimaryPropertyType'],
+                                'PropertyValuation' => $row['PropertyValuation'],
+                                'PropertyValuationBucket' => $this->get_valuation_bucket($row['PropertyValuation']),
+                                'PropertyCount' => $row['PropertyCount'],
+                                'Income' => $row['Income'],
+                                'CreditRiskCategory' => $this->find_category($row['CreditRiskCategory']),
+                                'IncomeBucket' => $this->get_income_bucket($row['IncomeBucket']),
+                                'LSMGroup' => $row['LSMGroup'],
+                                'HasResidentialAddress' => $row['HasResidentialAddress'],
+                                'Province' => $this->format_province($row['Province']),
+                                'Area' => $row['Area'],
+                                'Municipality' => $row['Municipality'],
+                                'Employer' => $row['Employer'],
+                                'VehicleOwnershipStatus' => $row['VehicleOwnershipStatus'],
+                                'InputIdn' => encrypt($row['InputIdn']),
+                                'InputFirstName' => encrypt($row['InputFirstName']),
+                                'InputSurname' => encrypt($row['InputSurname']),
+                                'InputPhone' => encrypt($row['InputPhone']),
+                                'InputEmail' => encrypt($row['InputEmail']),
+                                'affiliated_users' => $bsa_file_job->user_id,
+                            )
+                        );
     
-                         });
-                        
-                    }
-    
-                    $bsa_file_job->update(['job_status' => 'complete']);
-                    $job_file->update(['status' => 'done']);
-                } else {
-                    $this->info('Could not find the output file');
+                        $bsa_file_job->increment('records_completed', 1);
+                        $job_file->increment('records_completed', 1);
+                        $client_uploads->increment('uploads', 1);                            
 
-                    $bsa_file_job->update(['job_status' => 'error']);
-                    $job_file->update(['status' => 'done']);
+                        });
+                    
                 }
-                
-            } 
+
+                $bsa_file_job->update(['job_status' => 'complete']);
+                $job_file->update(['status' => 'done']);
+            } else {
+                $this->info('Could not find the output file');
+
+                $bsa_file_job->update(['job_status' => 'error']);
+                $job_file->update(['status' => 'done']);
+            }
+            
         } 
     }
 }

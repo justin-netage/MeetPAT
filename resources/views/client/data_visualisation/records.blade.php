@@ -891,5 +891,5 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://unpkg.com/lunr/lunr.js"></script>
-<script type="text/javascript" src="{{asset('js/data_visualisation.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/data_visualisation.js')}}"></script>
 @endsection

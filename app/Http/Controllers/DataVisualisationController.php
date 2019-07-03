@@ -73,7 +73,7 @@ class DataVisualisationController extends Controller
         } else {
             return response("file does not exist :(");
         }
-        \MeetPAT\Jobs\EnrichRecords::dispatch();
+        \MeetPAT\Jobs\EnrichRecords::dispatch()->onQueue('enrich');
         return response()->json($created_job_que);
     }
 
@@ -1976,78 +1976,78 @@ class DataVisualisationController extends Controller
 
         // Filter By Provinces
         if($request->provinceContacts[0]) {
-            $records = $records->whereIn('Province', $request->provinceContacts);
+            $records = $records->whereIn('Province', explode(",", $request->provinceContacts[0]));
         } 
         // Filter By Municipalities
         if($request->municipalityContacts[0]) {
-            $records = $records->whereIn('Municipality', $request->municipalityContacts);
+            $records = $records->whereIn('Municipality', explode(",", $request->municipalityContacts[0]));
         }
         // Filter By Age Groups
         if($request->AgeContacts[0]) {
-            $records = $records->whereIn('AgeGroup', $request->AgeContacts);
+            $records = $records->whereIn('AgeGroup', explode(",", $request->AgeContacts[0]));
         }
         // Filter By Gender
         if($request->GenderContacts[0]) {
-            $records = $records->whereIn('Gender', $request->GenderContacts);
+            $records = $records->whereIn('Gender', explode(",", $request->GenderContacts[0]));
         }
         // Filter By Population Group
         if($request->populationContacts[0]) {
-            $records = $records->whereIn('PopulationGroup', $request->populationContacts);
+            $records = $records->whereIn('PopulationGroup', explode(",", $request->populationContacts[0]));
         }
         // Filter By Generation Group
         if($request->generationContacts[0]) {
-            $records = $records->whereIn('Generation', $request->generationContacts);
+            $records = $records->whereIn('Generation', explode(",", $request->generationContacts[0]));
         }
         // Filter By Marital Status
         if($request->maritalStatusContacts[0]) {
-            $records = $records->whereIn('MaritalStatus', $request->maritalStatusContacts);
+            $records = $records->whereIn('MaritalStatus', explode(",", $request->maritalStatusContacts[0]));
         }
         // Filter By Home Owners
         if($request->homeOwnerContacts[0]) {
-            $records = $records->whereIn('HomeOwnershipStatus', $request->homeOwnerContacts);
+            $records = $records->whereIn('HomeOwnershipStatus', explode(",", $request->homeOwnerContacts[0]));
         }  
         // Filter By Property Valuation
         if($request->propertyValuationContacts[0]) {
-            $records = $records->whereIn('PropertyValuationBucket', $request->propertyValuationContacts);
+            $records = $records->whereIn('PropertyValuationBucket', explode(",", $request->propertyValuationContacts[0]));
         } 
         // Filter By Property Count
         if($request->propertyCountContacts[0]) {
-            $records = $records->whereIn('PropertyCount', $request->propertyCountContacts);
+            $records = $records->whereIn('PropertyCount', explode(",", $request->propertyCountContacts[0]));
         }
         // Filter By Risk Categories
         if($request->riskCategoryContacts[0]) {
-            $records = $records->whereIn('CreditRiskCategory', $request->riskCategoryContacts);
+            $records = $records->whereIn('CreditRiskCategory', explode(",", $request->riskCategoryContacts[0]));
         }
         // Filter By Household Income
         if($request->houseHoldIncomeContacts[0]) {
-            $records = $records->whereIn('IncomeBucket', $request->houseHoldIncomeContacts);
+            $records = $records->whereIn('IncomeBucket', explode(",", $request->houseHoldIncomeContacts[0]));
         }
         if($request->employerContacts[0]) {
-            $records = $records->whereIn('Employer', $request->employerContacts);
+            $records = $records->whereIn('Employer', explode(",", $request->employerContacts[0]));
         }
         // Filter By LSM Group
         if($request->lsmGroupContacts[0]) {
-            $records = $records->whereIn('LSMGroup', $request->lsmGroupContacts);
+            $records = $records->whereIn('LSMGroup', explode(",", $request->lsmGroupContacts[0]));
         }
         // Filter By Vehicle Ownership
         if($request->vehicleOwnerContacts[0]) {
-            $records = $records->whereIn('VehicleOwnershipStatus', $request->vehicleOwnerContacts);
+            $records = $records->whereIn('VehicleOwnershipStatus', explode(",", $request->vehicleOwnerContacts[0]));
         }
         // Filter By directors
         if($request->directorsContacts[0]) {
-            $records = $records->whereIn('DirectorshipStatus', $request->directorsContacts);
+            $records = $records->whereIn('DirectorshipStatus', explode(",", $request->directorsContacts[0]));
         }
         // Filter By areas
         if($request->areaContacts[0]) {
-            $records = $records->whereIn('Area', $request->areaContacts);
+            $records = $records->whereIn('Area', explode(",", $request->areaContacts[0]));
         }
         // Filter By Citizens and residents
         if($request->citizenVsResidentsContacts[0]) {
-            if(in_array("citizen", $request->citizenVsResidentsContacts)) {
+            if(in_array("citizen", explode(",", $request->citizenVsResidentsContacts[0]))) {
                 $records = $records->where('id6', '!=', '');
                 
 
-            } else if(in_array("resident", $request->citizenVsResidentsContacts)) {
+            } else if(in_array("resident", explode(",", $request->citizenVsResidentsContacts[0]))) {
                 $records = $records->where('HasResidentialAddress', "true");
 
             }
@@ -2141,7 +2141,7 @@ class DataVisualisationController extends Controller
 
         $saved_audience = \MeetPAT\SavedFilteredAudienceFile::create(["user_id" => $request->user_id, "file_unique_name" => $fileName, "file_name" => $request->file_name]);
 
-        return response()->json(["saved_file" => $saved_audience]);
+        return response()->json(["saved_file" => $saved_audience, "request" => $request->provinceContacts]);
     }
 
     public function get_saved_audiences(Request $request)
