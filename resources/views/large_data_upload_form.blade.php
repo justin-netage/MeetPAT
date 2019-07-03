@@ -33,7 +33,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="email">{{ __('Audience Name') }}</label>
+                                <label for="email">{{ __('Name Your File') }}</label>
 
                                 <input id="audience_name" type="text" placeholder="Enter your new audience name" max="50" class="form-control{{ $errors->has('audience_name') ? ' is-invalid' : '' }}" name="audience_name" value="{{ old('audience_name') }}" autofocus>
 

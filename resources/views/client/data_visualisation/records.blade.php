@@ -76,7 +76,7 @@
         <input type="hidden" id="lsmGroupContactsId" name="lsmGroupContacts[]">
         <!-- <button id="audienceSubmitBtn" class="btn btn-secondary btn-block" disabled="true" type="submit" /><i class="fas fa-users"></i>&nbsp;Sync Contacts</button> -->
         <button id="sidebarSubmitBtn" type="button" class="btn btn-secondary btn-block apply-changes-button" disabled="true" type="button" /><i class="fas fa-sync-alt"></i>&nbsp;Apply Filters</button>
-        <button id="resetFilterToastBtn" type="button" class="btn btn-secondary btn-block" disabled="disabled"><i class="fas fa-undo-alt"></i>&nbsp;Reset Filters</button>
+        <button type="button" id="resetFilterToastBtn" class="btn btn-secondary btn-block" disabled="disabled"><i class="fas fa-undo-alt"></i>&nbsp;Reset Filters</button>
         <button class="btn btn-secondary btn-block" type="button" data-toggle="modal" data-target="#SaveAudienceModal"><i class="far fa-save"></i>&nbsp;Save Audience</button>
         <button class="btn btn-secondary btn-block" type="button" data-toggle="modal" data-target="#SavedAudiencesModal"><i class="far fa-save"></i>&nbsp;Saved Audience Files</button>
 
@@ -87,7 +87,13 @@
 
 @section('content')
 
-
+<div role="alert" aria-live="assertive" id="reset-filters-toast" aria-atomic="true" class="toast" data-autohide="false" style="z-index: 9998; position: fixed; bottom: 20; right: 0;">
+  <div class="toast-body" style="font-size: 24px;">
+    <div class="d-flex justify-content-center">
+        <button id="resetFilterToastBtn2" class="btn btn-primary btn-block btn-lg" disabled="disabled">Reset Filters</button>
+    </div>
+  </div>
+</div>
 <div role="alert" aria-live="assertive" id="records-toast" aria-atomic="true" class="toast" data-autohide="false" style="z-index: 1020; position: fixed; bottom: 0; right: 0;">
   <div class="toast-header">
      <strong class="mr-auto">Contacts</strong>
@@ -100,14 +106,6 @@
     </div>
   </div>
 </div> 
-<!-- <div role="alert" aria-live="assertive" id="reset-filters-toast" aria-atomic="true" class="toast d-sm-none d-md-block" data-autohide="false" style="z-index: 9999; position: fixed; bottom: 20; right: 0;">
-  <div class="toast-body" style="font-size: 24px;">
-    <div class="d-flex justify-content-center">
-        <button id="resetFilterToastBtn" class="btn btn-primary btn-block btn-lg" disabled="disabled">Reset Filters</button>
-    </div>
-  </div>
-</div> -->
-
 <div id="loader" style="display:none;"></div>
 <div id="alert-section"></div>
 <form id="credentials">
@@ -139,7 +137,7 @@
     <div class="row">
         <div class="col-12 col-md-6 data-graph-container" id="province-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Province.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Province</span>
                 <!-- Default dropright button -->
@@ -207,7 +205,7 @@
         </div>
         <div class="col-12 col-md-6 data-graph-container" id="map-graph">
         <div class="media">
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/MAP.png')}}"  class="mr-3 data-icon" alt="icon">
             <div class="media-body">
                 <h3 class="mt-3"><span>Map</span></h3>
                 
@@ -224,7 +222,7 @@
         </div>
         <div class="col-12 col-md-6 data-graph-container" id="area-graph">
         <div class="media">
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Area.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Area</span>
                 <!-- Default dropright button -->
@@ -278,7 +276,7 @@
     <div class="row">
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="age-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Age.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Age</span>
                 <!-- Default dropright button -->
@@ -312,7 +310,7 @@
         </div>
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="gender-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Gender.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Gender</span>
                 <!-- Default dropright button -->
@@ -346,7 +344,7 @@
         </div>
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="population-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Population Group.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Population Group</span>
                 <!-- Default dropright button -->
@@ -380,7 +378,7 @@
         </div>
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="generation-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Generation.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Generation</span>
                 <!-- Default dropright button -->
@@ -414,7 +412,7 @@
         </div>
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="c-vs-r-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Citizen vs Resident.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Citizen VS Resident</span>
                 <!-- Default dropright button -->
@@ -494,7 +492,7 @@
     <div class="row">
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="home-owner-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Home Owner.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Home Owner</span>
                 <!-- Default dropright button -->
@@ -528,7 +526,7 @@
         </div>
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="property-valuation-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Home Value.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Property Valuation</span>
                 <!-- Default dropright button -->
@@ -641,7 +639,7 @@
     <div class="row">
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="risk-category-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Risk.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Risk Category</span>
                 <!-- Default dropright button -->
@@ -675,7 +673,7 @@
         </div>
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="lsm-group-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/LSM Group.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>LSM Group</span>
                 <!-- Default dropright button -->
@@ -709,7 +707,7 @@
         </div>
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="income-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Popular Name Icon.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('meetpat/public/images/data-icons/Household Income.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Household Income</span>
                 <!-- Default dropright button -->
@@ -891,5 +889,5 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://unpkg.com/lunr/lunr.js"></script>
-<script type="text/javascript" src="{{asset('js/data_visualisation.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/data_visualisation.min.js')}}"></script>
 @endsection

@@ -2121,6 +2121,66 @@ class DataVisualisationController extends Controller
                 $record["HomePhone3"] = decrypt($record["HomePhone3"]);
             }
 
+            if($record["MaritalStatus"])
+            {
+                if($record["MaritalStatus"] == "True")
+                {
+                    $record["MaritalStatus"] = "Yes";
+                } else {
+                    $record["MaritalStatus"] = "No";
+                }
+            }
+
+            if($record["HomeOwnershipStatus"])
+            {
+                if($record["HomeOwnershipStatus"] == "True")
+                {
+                    $record["HomeOwnershipStatus"] = "Yes";
+                } else {
+                    $record["HomeOwnershipStatus"] = "No";
+                }
+            }
+
+            if($record["VehicleOwnershipStatus"])
+            {
+                if($record["VehicleOwnershipStatus"] == "True")
+                {
+                    $record["VehicleOwnershipStatus"] = "Yes";
+                } else {
+                    $record["VehicleOwnershipStatus"] = "No";
+                }
+            }
+
+            if($record["DirectorshipStatus"])
+            {
+                if($record["DirectorshipStatus"] == "True")
+                {
+                    $record["DirectorshipStatus"] = "Yes";
+                } else {
+                    $record["DirectorshipStatus"] = "No";
+                }
+            }
+
+            if($record["DeceasedStatus"])
+            {
+                if($record["DeceasedStatus"] == "True")
+                {
+                    $record["DeceasedStatus"] = "Yes";
+                } else {
+                    $record["DeceasedStatus"] = "No";
+                }
+            }
+
+            if($record["HasResidentialAddress"])
+            {
+                if($record["HasResidentialAddress"] == "True")
+                {
+                    $record["HasResidentialAddress"] = "Yes";
+                } else {
+                    $record["HasResidentialAddress"] = "No";
+                }
+            }
+
             array_push($decryptded_array, $record);
         }
 

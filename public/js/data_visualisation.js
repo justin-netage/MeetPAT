@@ -2051,9 +2051,9 @@ var drawDirectorOfBusinessChart = function() {
             $('.apply-filter-button').html("apply");
             $('#sidebarSubmitBtn').html('<i class="fas fa-sync-alt"></i>&nbsp;Apply Filters');
             $('#sidebarSubmitBtn').prop("disabled", false);
-            $("#resetFilterToastBtn").prop("disabled", false);
+            $("#resetFilterToastBtn, #resetFilterToastBtn2").prop("disabled", false);
             $("#audienceSubmitBtn").prop("disabled", false);
-            $("#resetFilterToastBtn").html('<i class="fas fa-undo-alt"></i>&nbsp;Reset Filters');
+            $("#resetFilterToastBtn, #resetFilterToastBtn2").html('<i class="fas fa-undo-alt"></i>&nbsp;Reset Filters');
             $("#downloadSubmitBtn").prop("disabled", false);
     });
 }
@@ -2363,7 +2363,7 @@ $('.apply-filter-button, #sidebarSubmitBtn').click(function() {
     $('#audienceSubmitBtn').prop("disabled", true);
     $('.apply-filter-button').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;applying...');
     $('#sidebarSubmitBtn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;Applying Filters...');
-    $("#resetFilterToastBtn").prop("disabled", true);
+    $("#resetFilterToastBtn, #resetFilterToastBtn2").prop("disabled", true);
     $(".apply-filter-button").prop("disabled", true);
 
     target_provinces = [];
@@ -2513,10 +2513,10 @@ $('.apply-filter-button, #sidebarSubmitBtn').click(function() {
     get_provinces();
 });
 
-$("#resetFilterToastBtn").click(function() {
+$("#resetFilterToastBtn, #resetFilterToastBtn2").click(function() {
     checkForFilters();
-    $("#resetFilterToastBtn").prop("disabled", true);
-    $("#resetFilterToastBtn").html(
+    $("#resetFilterToastBtn, #resetFilterToastBtn2").prop("disabled", true);
+    $("#resetFilterToastBtn, #resetFilterToastBtn2").html(
         '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
         + '&nbsp;Resetting...'
     );
@@ -2639,6 +2639,23 @@ $(document).ready(function() {
     $('#records-main-toast').toast('show');
     $("#records-toast").toast('show');
 
+    if($(window).width() > 769)
+    {
+        $("#reset-filters-toast").toast('show');
+    } else {
+        $("#reset-filters-toast").toast('hide'); 
+    }
+
+    window.addEventListener("resize", function() {
+        if($(window).width() > 769)
+        {
+        $("#reset-filters-toast").toast('show');
+        } else {
+            $("#reset-filters-toast").toast('hide'); 
+        }
+    });
+    
+    
     $('.dropdown-menu, .dropdown-toggle').on('click', function(e) {
         if($(this).hasClass('dropdown-menu-form')) {
             e.stopPropagation();

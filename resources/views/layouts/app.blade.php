@@ -67,9 +67,9 @@
                         @if(\Auth::user()->client)
                         <!-- Clients Navigation --> 
                             @if(Request::path() == 'meetpat-client')
-                            <li class="active"><a class="nav-link nav-link-active" href="{{ route('meetpat-client') }}"><i class="fas fa-home"></i>&nbsp;Home</a></li>
+                            <!-- <li class="active"><a class="nav-link nav-link-active" href="{{ route('meetpat-client') }}"><i class="fas fa-home"></i>&nbsp;Home</a></li> -->
                             @else
-                            <li><a class="nav-link nav-link-inactive" href="{{ route('meetpat-client') }}"><i class="fas fa-home"></i>&nbsp;Home</a></li>
+                            <!-- <li><a class="nav-link nav-link-inactive" href="{{ route('meetpat-client') }}"><i class="fas fa-home"></i>&nbsp;Home</a></li> -->
                             @endif
                             @if(Request::path() == 'meetpat-client/sync/facebook' or Request::path() == 'meetpat-client/sync/google')
                             <li class="nav-item dropdown active">
@@ -109,14 +109,19 @@
                             </li> -->
                             @endif
                             @if(Request::path() == 'meetpat-client/upload-client-file-data')
-                            <li class="active"><a class="nav-link nav-link-active" href="{{ route('upload-client-data') }}"><i class="fas fa-file-upload"></i>&nbsp;Upload Contacts</a></li>
+                            <li class="active"><a class="nav-link nav-link-active" href="{{ route('upload-client-data') }}"><i class="fas fa-file-upload"></i>&nbsp;Upload Client Data</a></li>
                             @else
-                            <li><a class="nav-link nav-link-inactive" href="{{ route('upload-client-data') }}"><i class="fas fa-file-upload"></i></i>&nbsp;Upload Contacts</a></li>
+                            <li><a class="nav-link nav-link-inactive" href="{{ route('upload-client-data') }}"><i class="fas fa-file-upload"></i></i>&nbsp;Upload Client Data</a></li>
                             @endif
                             @if(Request::path() == 'meetpat-client/data-visualisation')
                             <li class="active"><a class="nav-link nav-link-active" href="{{ route('meetpat-data-visualisation') }}"><i class="fas fa-chart-line"></i>&nbsp;Dashboard</a></li>
                             @else
                             <li><a class="nav-link nav-link-inactive" href="{{ route('meetpat-data-visualisation') }}"><i class="fas fa-chart-line"></i>&nbsp;Dashboard</a></li>
+                            @endif
+                            @if(Request::path() == 'meetpat-client/settings')
+                            <li class="active"><a class="nav-link nav-link-active" href="{{ route('account-settings') }}"><i class="fas fa-chart-line"></i>&nbsp;Account Settings</a></li>
+                            @else
+                            <li><a class="nav-link nav-link-inactive" href="{{ route('account-settings') }}"><i class="fas fa-user-cog"></i>&nbsp;Account Settings</a></li>
                             @endif
                         @endif
                     @endguest

@@ -9,26 +9,26 @@
 
             <div class="card-body">
                 <ul class="list-unstyled account-settings-list">
-                    <h4>Sync Platforms</h4>
+                    <!-- <h4>Sync Platforms</h4>
                     <hr>
                     <li>Facebook Ad Account
-                        <span class="float-right" id="facebookSynced">
+                        <span class="float-right" id="facebookSynced"> -->
                         @if($has_facebook_ad_account)
-                        <button type="button" id="disconnectFacebook" class="btn btn-danger btn-md" data-platform="facebook"><i class="fas fa-unlink"></i>&nbsp;disconnect</button>
+                        <!-- <button type="button" id="disconnectFacebook" class="btn btn-danger btn-md" data-platform="facebook"><i class="fas fa-unlink"></i>&nbsp;disconnect</button> -->
                         @else
-                        <a href="/meetpat-client/sync/facebook" class="btn btn-light btn-md"><i class="fas fa-link"></i>&nbsp;connect</a>
+                        <!-- <a href="/meetpat-client/sync/facebook" class="btn btn-light btn-md"><i class="fas fa-link"></i>&nbsp;connect</a> -->
                         @endif
-                        </span>
+                        <!-- </span>
                     </li>
                     <li>Google Ad Account
-                        <span class="float-right" id="googleSynced">
+                        <span class="float-right" id="googleSynced"> -->
                         @if($has_google_ad_account)
-                        <button type="button" id="disconnectGoogle" class="btn btn-danger btn-md" data-platform="google"><i class="fas fa-unlink"></i>&nbsp;disconnect</button>
+                        <!-- <button type="button" id="disconnectGoogle" class="btn btn-danger btn-md" data-platform="google"><i class="fas fa-unlink"></i>&nbsp;disconnect</button> -->
                         @else
-                        <a href="/meetpat-client/sync/google" class="btn btn-light btn-md"><i class="fas fa-link"></i>&nbsp;connect</a>
+                        <!-- <a href="/meetpat-client/sync/google" class="btn btn-light btn-md"><i class="fas fa-link"></i>&nbsp;connect</a> -->
                         @endif
-                        </span>
-                    </li>
+                        <!-- </span>
+                    </li> -->
                     <h4>Account Details</h4>
                     <hr>
                     <li id="companyDetails" class="company-details">
@@ -36,23 +36,23 @@
                             @csrf
                             <input type="hidden" name="user_id" value="{{\Auth::user()->id}}">
                             @if($has_facebook_ad_account or $has_google_ad_account)
-                            <div id="syncedPlatformContainer">
+                            <!-- <div id="syncedPlatformContainer">
                                 <h5 id="syncedPlatformHeading">Synced Platform Account ID's</h5>
-                                <hr>
+                                <hr> -->
                                 @if($has_facebook_ad_account)
-                                <div class="form-group" id="facebookAccContainer">
+                                <!-- <div class="form-group" id="facebookAccContainer">
                                     <label for="facebookAccountId">Facebook Ad Account ID</label>
                                     <input type="text" class="form-control" name="f_ad_account_id" id="facebookAccountId" value="{{$has_facebook_ad_account->ad_account_id}}">
-                                </div>
+                                </div> -->
 
                                 @endif
                                 @if($has_google_ad_account)
-                                <div class="form-group" id="googleAccContainer">
+                                <!-- <div class="form-group" id="googleAccContainer">
                                     <label for="googleAccountId">Google Ad Account ID</label>
                                     <input type="text" class="form-control" name="g_ad_account_id" id="googleAccountId" value="{{$has_google_ad_account->ad_account_id}}">
-                                </div>
+                                </div> -->
                                 @endif
-                            </div>
+                            <!-- </div> -->
                             @endif
                             <h5>Personal Information</h5>
                             <hr>
