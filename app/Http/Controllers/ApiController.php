@@ -3,6 +3,7 @@
 namespace MeetPAT\Http\Controllers;
 
 use Illuminate\Http\Request;
+ini_set('memory_limit', '-1');
 
 class ApiController extends Controller
 {
