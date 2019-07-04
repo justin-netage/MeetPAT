@@ -33,11 +33,13 @@ class ApiController extends Controller
                 /**
                  * Use csv parser to get file data information.
                  */
-
-                $parser = new \CsvParser\Parser('|', "'", "\n");
-                $file_data = $parser->fromString($actual_file);
-                $file_data_array = $parser->toArray($file_data);
-
+                $csv = new \ParseCsv\Csv();
+                $csv->delimiter = "|";
+                $csv->parse($actual_file);
+                // $parser = new \CsvParser\Parser('|', "'", "\n");
+                // $file_data = $parser->fromString($actual_file);
+                // $file_data_array = $parser->toArray($file_data);
+                $file_data_array = $csv->data;
                 // $array = array_map("str_getcsv", explode("\n", $actual_file));
                 //          unset($array[0]);
 

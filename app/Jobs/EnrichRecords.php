@@ -71,11 +71,16 @@ class EnrichRecords implements ShouldQueue
                         $actual_file = \Storage::disk('local')->get('client/client-records/user_id_' . $audience_file->user_id . '/' . $audience_file->file_unique_name  . ".csv");
                     }
 
-                    $csv_parser = new \CsvParser\Parser(',', '"', "\n");
-                    $csv_obj = $csv_parser->fromString($actual_file);
+                    // $csv_parser = new \CsvParser\Parser(',', '"', "\n");
+                    // $csv_obj = $csv_parser->fromString($actual_file);
+
+                    $csv_p = new \ParseCsv\Csv();
+                    $csv_p->delimeter = ",";
+                    $csv_p->parse($actual_file);
+
                     // $csv_obj->removeDuplicates('Email');
                     // $csv_obj->removeDuplicates('MobilePhone');
-                    
+                    /** Old */
                     // $array = array_map("str_getcsv", explode("\n", $actual_file));
                     // unset($array[0]);
                     // unset($array[sizeof($array)]);
@@ -84,12 +89,15 @@ class EnrichRecords implements ShouldQueue
                     // $records_array = array_intersect_key($array, $tempArr);
                     // $insert_data_first = collect($records_array);
                     // $data_chunks = $insert_data_first->chunk(1000);
-                    $all_records = \MeetPAT\EnrichedRecord::all();
-                    $data_to_enrich = array();
-                    $data_chunks = $csv_parser->toChunks($csv_obj, 1000);
+                    /** Previous */
+                    // $all_records = \MeetPAT\EnrichedRecord::all();
+                    // $data_to_enrich = array();
+                    // $data_chunks = $csv_parser->toChunks($csv_obj, 1000);
+                    $data_chunks = array_chunk($csv_p->data);
+
                     foreach($data_chunks as $data_chunk) {     
                         
-                        foreach($csv_parser->toArray($data_chunk) as $row) {
+                        foreach($data_chunk as $row) {
                             $exists_email1 = \MeetPAT\EnrichedRecord::where('Email1', $row['Email'])->first();
                             $exists_email2 = \MeetPAT\EnrichedRecord::where('Email2', $row['Email'])->first();
                             $exists_email3 = \MeetPAT\EnrichedRecord::where('Email3', $row['Email'])->first();

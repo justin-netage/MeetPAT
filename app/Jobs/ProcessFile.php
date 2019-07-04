@@ -258,10 +258,14 @@ class ProcessFile implements ShouldQueue
                     $store_file = \Storage::disk('local')->put('enriched-data/' . $bsa_file_job->file_unique_name . '.csv', $output_file);
 
                 }
-    
-                $parser = new \CsvParser\Parser('|', "'", "\n");
-                $csv = $parser->fromString($output_file);
-                $chunks = $parser->toChunks($csv, 1000);
+                $parser = new \ParseCsv\Csv();
+                $parser->delimiter = "|";
+                $chunks = $parser->data;
+                /** Old */
+
+                // $parser = new \CsvParser\Parser('|', "'", "\n");
+                // $csv = $parser->fromString($output_file);
+                // $chunks = $parser->toChunks($csv, 1000);
     
                 foreach($chunks as $chunk)
                 {

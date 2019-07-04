@@ -548,14 +548,16 @@ class MeetpatClientController extends Controller
 
                 if($csv_array[0] == ["FirstName","Surname","MobilePhone","Email", "IDNumber"])
                 {
-                    $parser = new \CsvParser\Parser(';', "'", "\n");
+                    //$parser = new \CsvParser\Parser(';', "'", "\n");
+                    $csv_p = new \ParseCsv\Csv();
+                    $csv_p->delimeter = ";";
+                    $csv_p->parse($csv);
+                    // $csv = $parser->fromString($file_content);
+                    // $parser->fieldDelimiter = ",";
+                    // $parser->fieldEnclosure = "";
+                    // $csv_str = $parser->toString($csv);
 
-                    $csv = $parser->fromString($file_content);
-                    $parser->fieldDelimiter = ",";
-                    $parser->fieldEnclosure = "";
-                    $csv_str = $parser->toString($csv);
-
-                    if(count($csv_array) > $uploads_left + 1) {
+                    if(sizeof($csv_p->data) > $uploads_left + 1) {
                         return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have <b>" . $uploads_left . "</b> uploads available."]);
                     }
     
