@@ -260,7 +260,7 @@ class ProcessFile implements ShouldQueue
                 }
                 $parser = new \ParseCsv\Csv();
                 $parser->delimiter = "|";
-                $chunks = $parser->data;
+                $chunks = array_chunk($parser->data, 1000);
                 /** Old */
 
                 // $parser = new \CsvParser\Parser('|', "'", "\n");
