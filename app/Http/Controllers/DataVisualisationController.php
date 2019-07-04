@@ -5,7 +5,7 @@ namespace MeetPAT\Http\Controllers;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
-ini_set('memory_limit', '256M');
+ini_set('memory_limit', '-1');
 
 
 class DataVisualisationController extends Controller
