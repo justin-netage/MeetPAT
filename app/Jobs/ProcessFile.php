@@ -260,6 +260,7 @@ class ProcessFile implements ShouldQueue
                 }
                 $parser = new \ParseCsv\Csv();
                 $parser->delimiter = "|";
+                $parser->parse($output_file);
                 $chunks = array_chunk($parser->data, 1000);
                 /** Old */
 
@@ -269,7 +270,8 @@ class ProcessFile implements ShouldQueue
     
                 foreach($chunks as $chunk)
                 {
-                    $chunk->mapRows(function ($row) use ($bsa_file_job, $job_file, $client_uploads) {
+                    foreach($chunk as $row)
+                    {
                         \MeetPAT\EnrichedRecord::create(
                             array(
                                 'RecordKey' => $row['RecordKey'],
@@ -326,10 +328,9 @@ class ProcessFile implements ShouldQueue
     
                         $bsa_file_job->increment('records_completed', 1);
                         $job_file->increment('records_completed', 1);
-                        $client_uploads->increment('uploads', 1);                            
-
-                        });
-                    
+                        $client_uploads->increment('uploads', 1);   
+                    }
+   
                 }
 
                 $bsa_file_job->update(['job_status' => 'complete']);
