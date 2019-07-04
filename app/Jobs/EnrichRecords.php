@@ -93,7 +93,7 @@ class EnrichRecords implements ShouldQueue
                     // $all_records = \MeetPAT\EnrichedRecord::all();
                     // $data_to_enrich = array();
                     // $data_chunks = $csv_parser->toChunks($csv_obj, 1000);
-                    $data_chunks = array_chunk($csv_p->data);
+                    $data_chunks = array_chunk($csv_p->data, 1000);
 
                     foreach($data_chunks as $data_chunk) {     
                         
