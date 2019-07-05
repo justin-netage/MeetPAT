@@ -48,7 +48,7 @@ class EnrichRecords implements ShouldQueue
             }
         }
 
-        $job_pending = \MeetPAT\RecordsJobQueue::where("status", "pending")->first();
+        $job_pending = \MeetPAT\RecordsJobQue::where("status", "pending")->first();
 
            
         $job_pending->update(['status' => 'running']);
