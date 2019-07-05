@@ -225,7 +225,7 @@ class ProcessFile implements ShouldQueue
     public function handle()
     {
         //
-        $bsa_running_jobs = \MeetPAT\BarkerStreetFile::where('job_status', 'running')->count();
+        //$bsa_running_jobs = \MeetPAT\BarkerStreetFile::where('job_status', 'running')->count();
         $bsa_file_job = \MeetPAT\BarkerStreetFile::where('job_status', 'pending')->first();
 
         if($bsa_file_job)
