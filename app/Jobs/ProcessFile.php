@@ -336,8 +336,7 @@ class ProcessFile implements ShouldQueue
                 $bsa_file_job->update(['job_status' => 'complete']);
                 $job_file->update(['status' => 'done']);
             } else {
-                $this->info('Could not find the output file');
-
+            
                 $bsa_file_job->update(['job_status' => 'error']);
                 $job_file->update(['status' => 'done']);
             }

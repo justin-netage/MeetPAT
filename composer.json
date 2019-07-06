@@ -20,6 +20,7 @@
         "maatwebsite/excel": "^3.1",
         "parsecsv/php-parsecsv": "^1.1",
         "phpoffice/phpspreadsheet": "^1.6",
+        "predis/predis": "^1.1",
         "sendgrid/sendgrid": "^7.2",
         "stilliard/csvparser": "1.1.5",
         "tom-lingham/searchy": "^2.0"
