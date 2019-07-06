@@ -108,42 +108,42 @@ class EnrichRecords implements ShouldQueue
                     // $exists_phone3 = \MeetPAT\EnrichedRecord::where('MobilePhone3', $row['MobilePhone'])->first();
 
                     /** New method */
-                    $exists_email1 = $all_records->filter(function($record) use($row) {
+                    $exists_email1 = $all_records->get()->filter(function($record) use($row) {
                         if(decrypt($record["Email1"]) == $row["Email"])
                         {
                             return $record;
                         }
                     })->first();
 
-                    $exists_email2 = $all_records->filter(function($record) use($row) {
+                    $exists_email2 = $all_records->get()->filter(function($record) use($row) {
                         if(decrypt($record["Email2"]) == $row["Email"])
                         {
                             return $record;
                         }
                     })->first();
 
-                    $exists_email3 = $all_records->filter(function($record) use($row) {
+                    $exists_email3 = $all_records->get()->filter(function($record) use($row) {
                         if(decrypt($record["Email3"]) == $row["Email"])
                         {
                             return $record;
                         }
                     })->first();
 
-                    $exists_phone1 = $all_records->filter(function($record) use($row) {
+                    $exists_phone1 = $all_records->get()->filter(function($record) use($row) {
                         if(decrypt($record["MobilePhone1"]) == $row["MobilePhone"])
                         {
                             return $record;
                         }
                     })->first();
 
-                    $exists_phone2 = $all_records->filter(function($record) use($row) {
+                    $exists_phone2 = $all_records->get()->filter(function($record) use($row) {
                         if(decrypt($record["MobilePhone2"]) == $row["MobilePhone"])
                         {
                             return $record;
                         }
                     })->first();
 
-                    $exists_phone3 = $all_records->filter(function($record) use($row) {
+                    $exists_phone3 = $all_records->get()->filter(function($record) use($row) {
                         if(decrypt($record["MobilePhone3"]) == $row["MobilePhone"])
                         {
                             return $record;
