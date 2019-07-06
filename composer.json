@@ -21,7 +21,8 @@
         "parsecsv/php-parsecsv": "^1.1",
         "phpoffice/phpspreadsheet": "^1.6",
         "sendgrid/sendgrid": "^7.2",
-        "stilliard/csvparser": "1.1.5"
+        "stilliard/csvparser": "1.1.5",
+        "tom-lingham/searchy": "^2.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
