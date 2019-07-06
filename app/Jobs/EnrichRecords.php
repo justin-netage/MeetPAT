@@ -90,10 +90,11 @@ class EnrichRecords implements ShouldQueue
             // $insert_data_first = collect($records_array);
             // $data_chunks = $insert_data_first->chunk(1000);
             /** Previous */
-            $all_records = \MeetPAT\EnrichedRecord::all();
+            $all_records = \MeetPAT\EnrichedRecord::select("Email1", "Email2", "Email3", "MobilePhone1","MobilePhone2","MobilePhone3")->all();
             // $data_to_enrich = array();
             // $data_chunks = $csv_parser->toChunks($csv_obj, 1000);
             $data_chunks = array_chunk($csv_p->data, 1000);
+            $update_array = [];
 
             foreach($data_chunks as $data_chunk) {     
                 
@@ -146,37 +147,27 @@ class EnrichRecords implements ShouldQueue
                         if(decrypt($record["MobilePhone3"]) == $row["MobilePhone"])
                         {
                             return $record;
+
                         }
                     })->first();
 
                     // $this->info('Client: ' . $client_already_exists . '(already exists)');
                         if($exists_email1 or $exists_email2 or $exists_email3 or $exists_phone1 or $exists_phone2 or $exists_phone3) {
 
-                        if($exists_email1) {
-                            if(!in_array($audience_file->user_id, explode(",", $exists_email1->affiliated_users))) {
-                                $exists_email1->update(['affiliated_users' => $exists_email1->affiliated_users .',' . $audience_file->user_id]);
-                                }
-                        } else if($exists_email2) {
-                            if(!in_array($audience_file->user_id, explode(",", $exists_email2->affiliated_users))) {
-                                $exists_email2->update(['affiliated_users' => $exists_email2->affiliated_users .',' . $audience_file->user_id]);
-                                }
-                        } else if($exists_email3) {
-                            if(!in_array($audience_file->user_id, explode(",", $exists_email3->affiliated_users))) {
-                                $exists_email3->update(['affiliated_users' => $exists_email3->affiliated_users .',' . $audience_file->user_id]);
-                                }
-                        } else if($exists_phone1) {
-                            if(!in_array($audience_file->user_id, explode(",", $exists_phone1->affiliated_users))) {
-                                $exists_phone1->update(['affiliated_users' => $exists_phone1->affiliated_users .',' . $audience_file->user_id]);
-                                }
-                        } else if($exists_phone2) {
-                            if(!in_array($audience_file->user_id, explode(",", $exists_phone2->affiliated_users))) {
-                                $exists_phone2->update(['affiliated_users' => $exists_phone2->affiliated_users .',' . $audience_file->user_id]);
-                                }
-                        } else if($exists_phone3) {
-                            if(!in_array($audience_file->user_id, explode(",", $exists_phone3->affiliated_users))) {
-                                $exists_phone3->update(['affiliated_users' => $exists_phone3->affiliated_users .',' . $audience_file->user_id]);
-                                }
-                        }
+                            if($exists_email1) {
+                                array_push($update_array, $exists_email1->id);
+                            } else if($exists_email2) {
+                                array_push($update_array, $exists_email2->id);
+                            } else if($exists_email3) {
+                                array_push($update_array, $exists_email3->id);
+                            } else if($exists_phone1) {
+                                array_push($update_array, $exists_phone1->id);
+                            } else if($exists_phone2) {
+                                array_push($update_array, $exists_phone2->id);
+                            } else if($exists_phone3) {
+                                array_push($update_array, $exists_phone3->id);
+                            }
+                        
 
                         // Not Used.
                         // $data = [
@@ -207,8 +198,13 @@ class EnrichRecords implements ShouldQueue
 
                         }
                 }
+                
 
         }
+
+        //Update all exiting with affiliated user records
+        \MeetPAT\EnrichedRecord::select("affiliated_users")->whereIn("id", $update_array)->update(["affiliated_users" => \DB::raw('CONCAT(affiliated_users, " ,", ' . '"' . $audience_file->user_id . '")')]);
+
         array_unshift($data_to_enrich, array("ClientFileName", "ClientRecordID", "InputIdn", "InputFirstName", "InputSurname", "InputPhone", "InputEmail"));
 
         $parser = new \CsvParser\Parser('|', '', "\n");
