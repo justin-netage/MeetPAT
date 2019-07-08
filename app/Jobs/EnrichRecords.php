@@ -99,13 +99,25 @@ class EnrichRecords implements ShouldQueue
             foreach($data_chunks as $data_chunk) {     
                 
                 foreach($data_chunk as $row) {
+                    // Fuzzy Match using laravel searchy
+                    $email_exists = Searchy::search('enriched_records')->fields('Email1', 'Email2', 'Email3')->query($row['Email']);
+                    $phone_exists = Searchy::search('enriched_records')->fields('MobilePhone1', 'MobilePhone1', 'MobilePhone1')->query($row['MobilePhone']);
+                    
+                    if($email_exists)
+                    {
+                        array_push($update_array, \MeetPAT\EnrichedRecord::hydrate(Searchy::enriched_records('Email1', 'Email2', 'Email3')->query($row['Email'])->get()->toArray())->first()->id);
+                    } else if($phone_exists) {
+                        array_push($update_array, \MeetPAT\EnrichedRecord::hydrate(Searchy::enriched_records('MobilePhone1', 'MobilePhone1', 'MobilePhone1')->query($row['MobilePhone'])->get()->toArray())->first()->id);
+
+                    }
+
                     /** Old method */
-                    $exists_email1 = \MeetPAT\EnrichedRecord::where('Email1', $row['Email'])->first();
-                    $exists_email2 = \MeetPAT\EnrichedRecord::where('Email2', $row['Email'])->first();
-                    $exists_email3 = \MeetPAT\EnrichedRecord::where('Email3', $row['Email'])->first();
-                    $exists_phone1 = \MeetPAT\EnrichedRecord::where('MobilePhone1', $row['MobilePhone'])->first();
-                    $exists_phone2 = \MeetPAT\EnrichedRecord::where('MobilePhone2', $row['MobilePhone'])->first();
-                    $exists_phone3 = \MeetPAT\EnrichedRecord::where('MobilePhone3', $row['MobilePhone'])->first();
+                    // $exists_email1 = \MeetPAT\EnrichedRecord::where('Email1', $row['Email'])->first();
+                    // $exists_email2 = \MeetPAT\EnrichedRecord::where('Email2', $row['Email'])->first();
+                    // $exists_email3 = \MeetPAT\EnrichedRecord::where('Email3', $row['Email'])->first();
+                    // $exists_phone1 = \MeetPAT\EnrichedRecord::where('MobilePhone1', $row['MobilePhone'])->first();
+                    // $exists_phone2 = \MeetPAT\EnrichedRecord::where('MobilePhone2', $row['MobilePhone'])->first();
+                    // $exists_phone3 = \MeetPAT\EnrichedRecord::where('MobilePhone3', $row['MobilePhone'])->first();
 
                     /** New method */
                     // $exists_email1 = $all_records->get()->filter(function($record) use($row) {
@@ -152,21 +164,13 @@ class EnrichRecords implements ShouldQueue
                     // })->first();
 
                     // $this->info('Client: ' . $client_already_exists . '(already exists)');
-                        if($exists_email1 or $exists_email2 or $exists_email3 or $exists_phone1 or $exists_phone2 or $exists_phone3) {
+                    if($email_exists or $phone_exists) {
 
-                            if($exists_email1) {
-                                array_push($update_array, $exists_email1->id);
-                            } else if($exists_email2) {
-                                array_push($update_array, $exists_email2->id);
-                            } else if($exists_email3) {
-                                array_push($update_array, $exists_email3->id);
-                            } else if($exists_phone1) {
-                                array_push($update_array, $exists_phone1->id);
-                            } else if($exists_phone2) {
-                                array_push($update_array, $exists_phone2->id);
-                            } else if($exists_phone3) {
-                                array_push($update_array, $exists_phone3->id);
-                            }
+                        if($email_exists) {
+                            array_push($update_array, $email_exists->id);
+                        } else if($phone_exists) {
+                            array_push($update_array, $phone_exists->id);
+                        }
                         
 
                         // Not Used.
