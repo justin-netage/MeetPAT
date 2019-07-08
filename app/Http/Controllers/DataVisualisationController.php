@@ -2058,67 +2058,67 @@ class DataVisualisationController extends Controller
         foreach($records as $record)
         {
             if($record["FirstName"]) {
-                $record["FirstName"] = decrypt($record["FirstName"]);
+                $record["FirstName"] = $record["FirstName"];
             } 
 
             if($record["Middlename"]) {
-                $record["Middlename"] = decrypt($record["Middlename"]);
+                $record["Middlename"] = $record["Middlename"];
             }
 
             if($record["Surname"]) {
-                $record["Surname"] = decrypt($record["Surname"]);
+                $record["Surname"] = $record["Surname"];
             }
             
             if($record["CleanPhone"]) {
-                $record["CleanPhone"] = decrypt($record["CleanPhone"]);
+                $record["CleanPhone"] = $record["CleanPhone"];
             }
 
             if($record["Email1"]) {
-                $record["Email1"] = decrypt($record["Email1"]);
+                $record["Email1"] = $record["Email1"];
             }
 
             if($record["Email2"]) {
-                $record["Email2"] = decrypt($record["Email2"]);
+                $record["Email2"] = $record["Email2"];
             }
 
             if($record["Email3"]) {
-                $record["Email3"] = decrypt($record["Email3"]);
+                $record["Email3"] = $record["Email3"];
             }
 
             if($record["MobilePhone1"]) {
-                $record["MobilePhone1"] = decrypt($record["MobilePhone1"]);
+                $record["MobilePhone1"] = $record["MobilePhone1"];
             }
 
             if($record["MobilePhone2"]) {
-                $record["MobilePhone2"] = decrypt($record["MobilePhone2"]);
+                $record["MobilePhone2"] = $record["MobilePhone2"];
             }
 
             if($record["MobilePhone3"]) {
-                $record["MobilePhone3"] = decrypt($record["MobilePhone3"]);
+                $record["MobilePhone3"] = $record["MobilePhone3"];
             }
 
             if($record["WorkPhone1"]) {
-                $record["WorkPhone1"] = decrypt($record["WorkPhone1"]);
+                $record["WorkPhone1"] = $record["WorkPhone1"];
             }
 
             if($record["WorkPhone2"]) {
-                $record["WorkPhone2"] = decrypt($record["WorkPhone2"]);
+                $record["WorkPhone2"] = $record["WorkPhone2"];
             }
 
             if($record["WorkPhone3"]) {
-                $record["WorkPhone3"] = decrypt($record["WorkPhone3"]);
+                $record["WorkPhone3"] = $record["WorkPhone3"];
             }
 
             if($record["HomePhone1"]) {
-                $record["HomePhone1"] = decrypt($record["HomePhone1"]);
+                $record["HomePhone1"] = $record["HomePhone1"];
             }
 
             if($record["HomePhone2"]) {
-                $record["HomePhone2"] = decrypt($record["HomePhone2"]);
+                $record["HomePhone2"] = $record["HomePhone2"];
             }
 
             if($record["HomePhone3"]) {
-                $record["HomePhone3"] = decrypt($record["HomePhone3"]);
+                $record["HomePhone3"] = $record["HomePhone3"];
             }
 
             if($record["MaritalStatus"])

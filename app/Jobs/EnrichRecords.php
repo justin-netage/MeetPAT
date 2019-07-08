@@ -100,56 +100,56 @@ class EnrichRecords implements ShouldQueue
                 
                 foreach($data_chunk as $row) {
                     /** Old method */
-                    // $exists_email1 = \MeetPAT\EnrichedRecord::where('Email1', $row['Email'])->first();
-                    // $exists_email2 = \MeetPAT\EnrichedRecord::where('Email2', $row['Email'])->first();
-                    // $exists_email3 = \MeetPAT\EnrichedRecord::where('Email3', $row['Email'])->first();
-                    // $exists_phone1 = \MeetPAT\EnrichedRecord::where('MobilePhone1', $row['MobilePhone'])->first();
-                    // $exists_phone2 = \MeetPAT\EnrichedRecord::where('MobilePhone2', $row['MobilePhone'])->first();
-                    // $exists_phone3 = \MeetPAT\EnrichedRecord::where('MobilePhone3', $row['MobilePhone'])->first();
+                    $exists_email1 = \MeetPAT\EnrichedRecord::where('Email1', $row['Email'])->first();
+                    $exists_email2 = \MeetPAT\EnrichedRecord::where('Email2', $row['Email'])->first();
+                    $exists_email3 = \MeetPAT\EnrichedRecord::where('Email3', $row['Email'])->first();
+                    $exists_phone1 = \MeetPAT\EnrichedRecord::where('MobilePhone1', $row['MobilePhone'])->first();
+                    $exists_phone2 = \MeetPAT\EnrichedRecord::where('MobilePhone2', $row['MobilePhone'])->first();
+                    $exists_phone3 = \MeetPAT\EnrichedRecord::where('MobilePhone3', $row['MobilePhone'])->first();
 
                     /** New method */
-                    $exists_email1 = $all_records->get()->filter(function($record) use($row) {
-                        if(decrypt($record["Email1"]) == $row["Email"])
-                        {
-                            return $record;
-                        }
-                    })->first();
+                    // $exists_email1 = $all_records->get()->filter(function($record) use($row) {
+                    //     if(decrypt($record["Email1"]) == $row["Email"])
+                    //     {
+                    //         return $record;
+                    //     }
+                    // })->first();
 
-                    $exists_email2 = $all_records->get()->filter(function($record) use($row) {
-                        if(decrypt($record["Email2"]) == $row["Email"])
-                        {
-                            return $record;
-                        }
-                    })->first();
+                    // $exists_email2 = $all_records->get()->filter(function($record) use($row) {
+                    //     if(decrypt($record["Email2"]) == $row["Email"])
+                    //     {
+                    //         return $record;
+                    //     }
+                    // })->first();
 
-                    $exists_email3 = $all_records->get()->filter(function($record) use($row) {
-                        if(decrypt($record["Email3"]) == $row["Email"])
-                        {
-                            return $record;
-                        }
-                    })->first();
+                    // $exists_email3 = $all_records->get()->filter(function($record) use($row) {
+                    //     if(decrypt($record["Email3"]) == $row["Email"])
+                    //     {
+                    //         return $record;
+                    //     }
+                    // })->first();
 
-                    $exists_phone1 = $all_records->get()->filter(function($record) use($row) {
-                        if(decrypt($record["MobilePhone1"]) == $row["MobilePhone"])
-                        {
-                            return $record;
-                        }
-                    })->first();
+                    // $exists_phone1 = $all_records->get()->filter(function($record) use($row) {
+                    //     if(decrypt($record["MobilePhone1"]) == $row["MobilePhone"])
+                    //     {
+                    //         return $record;
+                    //     }
+                    // })->first();
 
-                    $exists_phone2 = $all_records->get()->filter(function($record) use($row) {
-                        if(decrypt($record["MobilePhone2"]) == $row["MobilePhone"])
-                        {
-                            return $record;
-                        }
-                    })->first();
+                    // $exists_phone2 = $all_records->get()->filter(function($record) use($row) {
+                    //     if(decrypt($record["MobilePhone2"]) == $row["MobilePhone"])
+                    //     {
+                    //         return $record;
+                    //     }
+                    // })->first();
 
-                    $exists_phone3 = $all_records->get()->filter(function($record) use($row) {
-                        if(decrypt($record["MobilePhone3"]) == $row["MobilePhone"])
-                        {
-                            return $record;
+                    // $exists_phone3 = $all_records->get()->filter(function($record) use($row) {
+                    //     if(decrypt($record["MobilePhone3"]) == $row["MobilePhone"])
+                    //     {
+                    //         return $record;
 
-                        }
-                    })->first();
+                    //     }
+                    // })->first();
 
                     // $this->info('Client: ' . $client_already_exists . '(already exists)');
                         if($exists_email1 or $exists_email2 or $exists_email3 or $exists_phone1 or $exists_phone2 or $exists_phone3) {
@@ -202,7 +202,7 @@ class EnrichRecords implements ShouldQueue
 
         }
 
-        //Update all exiting with affiliated user records
+        //Update all exising records with affiliated user records
         \MeetPAT\EnrichedRecord::select("affiliated_users")->whereIn("id", $update_array)->update(["affiliated_users" => \DB::raw('CONCAT(affiliated_users, " ,", ' . '"' . $audience_file->user_id . '")')]);
 
         array_unshift($data_to_enrich, array("ClientFileName", "ClientRecordID", "InputIdn", "InputFirstName", "InputSurname", "InputPhone", "InputEmail"));

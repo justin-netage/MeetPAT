@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "488f455d801e53b99687505b36b6833c",
+    "content-hash": "20867d548ba477db4096d87a2374563e",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -88,6 +88,59 @@
                 "sdk"
             ],
             "time": "2019-01-04T23:01:07+00:00"
+        },
+        {
+            "name": "baopham/dynamodb",
+            "version": "4.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/baopham/laravel-dynamodb.git",
+                "reference": "77239f92f04077fbbaaa2fe14151018878baa249"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/baopham/laravel-dynamodb/zipball/77239f92f04077fbbaaa2fe14151018878baa249",
+                "reference": "77239f92f04077fbbaaa2fe14151018878baa249",
+                "shasum": ""
+            },
+            "require": {
+                "aws/aws-sdk-php": "^3.0.0",
+                "illuminate/database": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.* || 5.6.* || 5.7.* || 5.8.*",
+                "illuminate/support": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.* || 5.6.* || 5.7.* || 5.8.*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "BaoPham\\DynamoDb\\DynamoDbServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "BaoPham\\DynamoDb\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bao Pham",
+                    "email": "gbaopham@gmail.com"
+                }
+            ],
+            "description": "Eloquent syntax for DynamoDB",
+            "keywords": [
+                "aws",
+                "dynamodb",
+                "laravel"
+            ],
+            "time": "2019-03-22T19:04:47+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",

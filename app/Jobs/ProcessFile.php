@@ -262,6 +262,8 @@ class ProcessFile implements ShouldQueue
                 $parser->delimiter = "|";
                 $parser->parse($output_file);
                 $chunks = array_chunk($parser->data, 1000);
+
+                $insert_array = [];
                 /** Old */
 
                 // $parser = new \CsvParser\Parser('|', "'", "\n");
@@ -272,59 +274,112 @@ class ProcessFile implements ShouldQueue
                 {
                     foreach($chunk as $row)
                     {
-                        \MeetPAT\EnrichedRecord::create(
-                            array(
-                                'RecordKey' => $row['RecordKey'],
-                                'ClientFileName' => $row['ClientFileName'],
-                                'ClientRecordID' => $row['ClientRecordID'],
-                                'id6' => $row['id6'],
-                                'FirstName' => encrypt($row['Firstname']),
-                                'Middlename' => encrypt($row['Middlename']),
-                                'Surname' => encrypt($row['Surname']),
-                                'CleanPhone' => encrypt($row['CleanPhone']),
-                                'Email1' => encrypt($row['Email1']),
-                                'Email2' => encrypt($row['Email2']),
-                                'Email3' => encrypt($row['Email3']),
-                                'MobilePhone1' => encrypt($row['MobilePhone1']),
-                                'MobilePhone2' => encrypt($row['MobilePhone2']),
-                                'MobilePhone3' => encrypt($row['MobilePhone3']),
-                                'WorkPhone1' => encrypt($row['WorkPhone1']),
-                                'WorkPhone2' => encrypt($row['WorkPhone2']),
-                                'WorkPhone3' => encrypt($row['WorkPhone3']),
-                                'HomePhone1' => encrypt($row['HomePhone1']),
-                                'HomePhone2' => encrypt($row['HomePhone2']),
-                                'HomePhone3' => encrypt($row['HomePhone3']),
-                                'ContactCategory' => $this->get_contact_category($row['ContactCategory']),
-                                'AgeGroup' => $this->get_age_group($row['AgeGroup']),
-                                'Gender' => $this->get_gender($row['Gender']),
-                                'PopulationGroup' => $this->get_population_group($row['PopulationGroup']),
-                                'DeceasedStatus' => $row['DeceasedStatus'],
-                                'Generation' => $this->get_generation($row['id6']),
-                                'MaritalStatus' => $row['MaritalStatus'],
-                                'DirectorshipStatus' => $row['DirectorshipStatus'],
-                                'HomeOwnershipStatus' => $row['HomeOwnershipStatus'],
-                                'PrimaryPropertyType' => $row['PrimaryPropertyType'],
-                                'PropertyValuation' => $row['PropertyValuation'],
-                                'PropertyValuationBucket' => $this->get_valuation_bucket($row['PropertyValuation']),
-                                'PropertyCount' => $row['PropertyCount'],
-                                'Income' => $row['Income'],
-                                'CreditRiskCategory' => $this->find_category($row['CreditRiskCategory']),
-                                'IncomeBucket' => $this->get_income_bucket($row['IncomeBucket']),
-                                'LSMGroup' => $row['LSMGroup'],
-                                'HasResidentialAddress' => $row['HasResidentialAddress'],
-                                'Province' => $this->format_province($row['Province']),
-                                'Area' => $row['Area'],
-                                'Municipality' => $row['Municipality'],
-                                'Employer' => $row['Employer'],
-                                'VehicleOwnershipStatus' => $row['VehicleOwnershipStatus'],
-                                'InputIdn' => encrypt($row['InputIdn']),
-                                'InputFirstName' => encrypt($row['InputFirstName']),
-                                'InputSurname' => encrypt($row['InputSurname']),
-                                'InputPhone' => encrypt($row['InputPhone']),
-                                'InputEmail' => encrypt($row['InputEmail']),
-                                'affiliated_users' => $bsa_file_job->user_id,
-                            )
-                        );
+                        array_push($insert_array, array(
+                            'RecordKey' => $row['RecordKey'],
+                            'ClientFileName' => $row['ClientFileName'],
+                            'ClientRecordID' => $row['ClientRecordID'],
+                            'id6' => $row['id6'],
+                            'FirstName' => $row['Firstname'],
+                            'Middlename' => $row['Middlename'],
+                            'Surname' => $row['Surname'],
+                            'CleanPhone' => $row['CleanPhone'],
+                            'Email1' => $row['Email1'],
+                            'Email2' => $row['Email2'],
+                            'Email3' => $row['Email3'],
+                            'MobilePhone1' => $row['MobilePhone1'],
+                            'MobilePhone2' => $row['MobilePhone2'],
+                            'MobilePhone3' => $row['MobilePhone3'],
+                            'WorkPhone1' => $row['WorkPhone1'],
+                            'WorkPhone2' => $row['WorkPhone2'],
+                            'WorkPhone3' => $row['WorkPhone3'],
+                            'HomePhone1' => $row['HomePhone1'],
+                            'HomePhone2' => $row['HomePhone2'],
+                            'HomePhone3' => $row['HomePhone3'],
+                            'ContactCategory' => $this->get_contact_category($row['ContactCategory']),
+                            'AgeGroup' => $this->get_age_group($row['AgeGroup']),
+                            'Gender' => $this->get_gender($row['Gender']),
+                            'PopulationGroup' => $this->get_population_group($row['PopulationGroup']),
+                            'DeceasedStatus' => $row['DeceasedStatus'],
+                            'Generation' => $this->get_generation($row['id6']),
+                            'MaritalStatus' => $row['MaritalStatus'],
+                            'DirectorshipStatus' => $row['DirectorshipStatus'],
+                            'HomeOwnershipStatus' => $row['HomeOwnershipStatus'],
+                            'PrimaryPropertyType' => $row['PrimaryPropertyType'],
+                            'PropertyValuation' => $row['PropertyValuation'],
+                            'PropertyValuationBucket' => $this->get_valuation_bucket($row['PropertyValuation']),
+                            'PropertyCount' => $row['PropertyCount'],
+                            'Income' => $row['Income'],
+                            'CreditRiskCategory' => $this->find_category($row['CreditRiskCategory']),
+                            'IncomeBucket' => $this->get_income_bucket($row['IncomeBucket']),
+                            'LSMGroup' => $row['LSMGroup'],
+                            'HasResidentialAddress' => $row['HasResidentialAddress'],
+                            'Province' => $this->format_province($row['Province']),
+                            'Area' => $row['Area'],
+                            'Municipality' => $row['Municipality'],
+                            'Employer' => $row['Employer'],
+                            'VehicleOwnershipStatus' => $row['VehicleOwnershipStatus'],
+                            'InputIdn' => $row['InputIdn'],
+                            'InputFirstName' => $row['InputFirstName'],
+                            'InputSurname' => $row['InputSurname'],
+                            'InputPhone' => $row['InputPhone'],
+                            'InputEmail' => $row['InputEmail'],
+                            'affiliated_users' => $bsa_file_job->user_id,
+                        ));
+
+
+                        // \MeetPAT\EnrichedRecord::create(
+                        //     array(
+                        //         'RecordKey' => $row['RecordKey'],
+                        //         'ClientFileName' => $row['ClientFileName'],
+                        //         'ClientRecordID' => $row['ClientRecordID'],
+                        //         'id6' => $row['id6'],
+                        //         'FirstName' => $row['Firstname'],
+                        //         'Middlename' => $row['Middlename'],
+                        //         'Surname' => $row['Surname'],
+                        //         'CleanPhone' => $row['CleanPhone'],
+                        //         'Email1' => $row['Email1'],
+                        //         'Email2' => $row['Email2'],
+                        //         'Email3' => $row['Email3'],
+                        //         'MobilePhone1' => $row['MobilePhone1'],
+                        //         'MobilePhone2' => $row['MobilePhone2'],
+                        //         'MobilePhone3' => $row['MobilePhone3'],
+                        //         'WorkPhone1' => $row['WorkPhone1'],
+                        //         'WorkPhone2' => $row['WorkPhone2'],
+                        //         'WorkPhone3' => $row['WorkPhone3'],
+                        //         'HomePhone1' => $row['HomePhone1'],
+                        //         'HomePhone2' => $row['HomePhone2'],
+                        //         'HomePhone3' => $row['HomePhone3'],
+                        //         'ContactCategory' => $this->get_contact_category($row['ContactCategory']),
+                        //         'AgeGroup' => $this->get_age_group($row['AgeGroup']),
+                        //         'Gender' => $this->get_gender($row['Gender']),
+                        //         'PopulationGroup' => $this->get_population_group($row['PopulationGroup']),
+                        //         'DeceasedStatus' => $row['DeceasedStatus'],
+                        //         'Generation' => $this->get_generation($row['id6']),
+                        //         'MaritalStatus' => $row['MaritalStatus'],
+                        //         'DirectorshipStatus' => $row['DirectorshipStatus'],
+                        //         'HomeOwnershipStatus' => $row['HomeOwnershipStatus'],
+                        //         'PrimaryPropertyType' => $row['PrimaryPropertyType'],
+                        //         'PropertyValuation' => $row['PropertyValuation'],
+                        //         'PropertyValuationBucket' => $this->get_valuation_bucket($row['PropertyValuation']),
+                        //         'PropertyCount' => $row['PropertyCount'],
+                        //         'Income' => $row['Income'],
+                        //         'CreditRiskCategory' => $this->find_category($row['CreditRiskCategory']),
+                        //         'IncomeBucket' => $this->get_income_bucket($row['IncomeBucket']),
+                        //         'LSMGroup' => $row['LSMGroup'],
+                        //         'HasResidentialAddress' => $row['HasResidentialAddress'],
+                        //         'Province' => $this->format_province($row['Province']),
+                        //         'Area' => $row['Area'],
+                        //         'Municipality' => $row['Municipality'],
+                        //         'Employer' => $row['Employer'],
+                        //         'VehicleOwnershipStatus' => $row['VehicleOwnershipStatus'],
+                        //         'InputIdn' => $row['InputIdn'],
+                        //         'InputFirstName' => $row['InputFirstName'],
+                        //         'InputSurname' => $row['InputSurname'],
+                        //         'InputPhone' => $row['InputPhone'],
+                        //         'InputEmail' => $row['InputEmail'],
+                        //         'affiliated_users' => $bsa_file_job->user_id,
+                        //     )
+                        // );
     
                         $bsa_file_job->increment('records_completed', 1);
                         $job_file->increment('records_completed', 1);
@@ -332,6 +387,8 @@ class ProcessFile implements ShouldQueue
                     }
    
                 }
+
+                \MeetPAT\EnrichedRecord::insert($insert_array);
 
                 $bsa_file_job->update(['job_status' => 'complete']);
                 $job_file->update(['status' => 'done']);
