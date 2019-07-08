@@ -103,13 +103,6 @@ class EnrichRecords implements ShouldQueue
                     $email_exists = \Searchy::search('enriched_records')->fields('Email1', 'Email2', 'Email3')->query($row['Email'])->having('relevance', '>', 200)->get()->toArray();
                     $phone_exists = \Searchy::search('enriched_records')->fields('MobilePhone1', 'MobilePhone1', 'MobilePhone1', 'CleanPhone')->query($row['MobilePhone'])->having('relevance', '>', 200)->get()->toArray();
                     
-                    if($email_exists)
-                    {
-                        array_push($update_array, \MeetPAT\EnrichedRecord::hydrate(\Searchy::enriched_records('Email1', 'Email2', 'Email3')->query($row['Email'])->get()->toArray())->first()->id);
-                    } else if($phone_exists) {
-                        array_push($update_array, \MeetPAT\EnrichedRecord::hydrate(\Searchy::enriched_records('MobilePhone1', 'MobilePhone1', 'MobilePhone1')->query($row['MobilePhone'])->get()->toArray())->first()->id);
-                    }
-
                     /** Old method */
                     // $exists_email1 = \MeetPAT\EnrichedRecord::where('Email1', $row['Email'])->first();
                     // $exists_email2 = \MeetPAT\EnrichedRecord::where('Email2', $row['Email'])->first();
@@ -165,10 +158,11 @@ class EnrichRecords implements ShouldQueue
                     // $this->info('Client: ' . $client_already_exists . '(already exists)');
                     if($email_exists or $phone_exists) {
 
-                        if($email_exists) {
-                            array_push($update_array, $email_exists->id);
+                        if($email_exists)
+                        {
+                            array_push($update_array, \MeetPAT\EnrichedRecord::hydrate(\Searchy::enriched_records('Email1', 'Email2', 'Email3')->query($row['Email'])->get()->toArray())->first()->id);
                         } else if($phone_exists) {
-                            array_push($update_array, $phone_exists->id);
+                            array_push($update_array, \MeetPAT\EnrichedRecord::hydrate(\Searchy::enriched_records('MobilePhone1', 'MobilePhone1', 'MobilePhone1', 'CleanPhone')->query($row['MobilePhone'])->get()->toArray())->first()->id);
                         }
                         
 
