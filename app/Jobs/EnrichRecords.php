@@ -177,8 +177,6 @@ class EnrichRecords implements ShouldQueue
 
                         // $insert_data[] = $data;
 
-                        $job_pending->increment('records_checked', 1);
-
                         } else {
                             $new_data = [
                                 "ClientFileName" => "meetpat_" . $audience_file->file_unique_name .".csv",
@@ -195,7 +193,7 @@ class EnrichRecords implements ShouldQueue
 
                         }
                 }
-                
+                $job_pending->increment('records_checked', sizeof($data_chunk));
 
         }
 
