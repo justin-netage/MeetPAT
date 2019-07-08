@@ -189,7 +189,6 @@ class EnrichRecords implements ShouldQueue
                             ];
 
                             $data_to_enrich[] = $new_data;
-                            $job_pending->increment('records_checked', 1);
 
                         }
                 }
