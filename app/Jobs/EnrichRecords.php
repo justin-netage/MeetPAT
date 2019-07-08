@@ -160,9 +160,9 @@ class EnrichRecords implements ShouldQueue
 
                         if($email_exists)
                         {
-                            array_push($update_array, \MeetPAT\EnrichedRecord::hydrate(\Searchy::enriched_records('Email1', 'Email2', 'Email3')->query($row['Email'])->get()->toArray())->first()->id);
+                            array_push($update_array, $email_exists[0]->id);
                         } else if($phone_exists) {
-                            array_push($update_array, \MeetPAT\EnrichedRecord::hydrate(\Searchy::enriched_records('MobilePhone1', 'MobilePhone1', 'MobilePhone1', 'CleanPhone')->query($row['MobilePhone'])->get()->toArray())->first()->id);
+                            array_push($update_array, $phone_exists[0]->id);
                         }
                         
 
