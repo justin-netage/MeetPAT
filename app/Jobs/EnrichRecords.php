@@ -100,15 +100,14 @@ class EnrichRecords implements ShouldQueue
                 
                 foreach($data_chunk as $row) {
                     // Fuzzy Match using laravel searchy
-                    $email_exists = Searchy::search('enriched_records')->fields('Email1', 'Email2', 'Email3')->query($row['Email']);
-                    $phone_exists = Searchy::search('enriched_records')->fields('MobilePhone1', 'MobilePhone1', 'MobilePhone1')->query($row['MobilePhone']);
+                    $email_exists = Searchy::search('enriched_records')->fields('Email1', 'Email2', 'Email3')->query($row['Email'])->having('relevance', '>', 200)->get()->toArray();
+                    $phone_exists = Searchy::search('enriched_records')->fields('MobilePhone1', 'MobilePhone1', 'MobilePhone1', 'CleanPhone')->query($row['MobilePhone'])->having('relevance', '>', 200)->get()->toArray();
                     
                     if($email_exists)
                     {
                         array_push($update_array, \MeetPAT\EnrichedRecord::hydrate(Searchy::enriched_records('Email1', 'Email2', 'Email3')->query($row['Email'])->get()->toArray())->first()->id);
                     } else if($phone_exists) {
                         array_push($update_array, \MeetPAT\EnrichedRecord::hydrate(Searchy::enriched_records('MobilePhone1', 'MobilePhone1', 'MobilePhone1')->query($row['MobilePhone'])->get()->toArray())->first()->id);
-
                     }
 
                     /** Old method */
