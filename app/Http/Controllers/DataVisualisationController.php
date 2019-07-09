@@ -1951,12 +1951,12 @@ class DataVisualisationController extends Controller
     // Part of Api for Progress Tracking
     public function get_job_que(Request $request) {
 
-        $jobs = \MeetPAT\RecordsJobQue::where('user_id', $request->user_id)->with('audience_file')->orderBy('created_at', 'DESC')->whereDate('created_at', '=', Carbon::today()->toDateString());
+        $jobs = \MeetPAT\RecordsJobQue::where('user_id', $request->user_id)->with('audience_file')->orderBy('created_at', 'DESC');
         $running_jobs = \MeetPAT\RecordsJobQue::where('user_id', $request->user_id)->where(function($q) {
             $q->where('status', 'pending')->orWhere('status', 'running');
         })->count();
 
-        return response()->json(["jobs" => $jobs->get()->toArray(), "jobs_running" => $running_jobs]);
+        return response()->json(["jobs" => $jobs->get(), "jobs_running" => $running_jobs]);
     
     }
 

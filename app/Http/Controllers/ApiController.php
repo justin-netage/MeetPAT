@@ -52,7 +52,9 @@ class ApiController extends Controller
 
                 $audience_file = \MeetPAT\AudienceFile::where('file_unique_name', $filname_arr[count($filname_arr)-2])->first();
 
-                if($audience_file)
+                $job_exists = \MeetPAT\BarkerStreetFile::where('audience_file_id', $audience_file->id)->first();
+
+                if($audience_file and !$job_exists)
                 {
                     $barker_stree_file = \MeetPAT\BarkerStreetFile::create(array(
                      "file_unique_name" => $request->output_file_name,                     
@@ -62,8 +64,9 @@ class ApiController extends Controller
                      "records" => sizeof($file_data_array)
                      )
                     );
-
-                } else {
+                } else if($job_exists) {
+                    return response()->json(array("status" => "fail", "message" => "found reference file on server already. Job already completed."), 400);
+                } else if(!$audience_file) {
                     return response()->json(array("status" => "fail", "message" => "reference to file could not be found on server."), 400);
                 }
 
@@ -75,6 +78,7 @@ class ApiController extends Controller
         } else {
             return response()->json(array("status" => "fail", "message" => "output_file_name has not been provided."), 400);
         }
+        
         \MeetPAT\Jobs\ProcessFile::dispatch();
         return response()->json(array("status" => "success", "message" => "File ready and queued for processing."), 200);
     }
