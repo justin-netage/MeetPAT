@@ -796,7 +796,7 @@ function drawAreaChart(  ) {
              directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
              municipality: target_municipalities.join(","), area: target_areas.join(","),
              vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
-             lsm_groups: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+             lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
              employer: target_employers.join(",")}, function( chart_data ) {
 
         }).fail(function( chart_data ) {
@@ -895,7 +895,7 @@ function drawAreaChart(  ) {
              marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
              risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
              directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
-             municipality: target_municipalities.join(","), area: target_areas, 
+             municipality: target_municipalities.join(","), area: target_areas.join(","), 
              vehicle_ownerhip_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
              lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
              employer: target_employers.join(",")}, function( chart_data ) {
@@ -987,16 +987,16 @@ function drawAreaChart(  ) {
     }
 
 var drawCitizensChart = function() {
-    $.get('/api/meetpat-client/get-records/citizens-and-residents', {user_id: user_id_number, province: target_provinces,
-         age_group: target_ages, gender: target_genders, 
-         population_group: target_population_groups, generations: target_generations,
-         marital_status: target_marital_statuses, home_owners: target_home_owners,
-         risk_category: target_risk_categories, income_bucket: target_incomes,
-         directors: target_directors, citizen_vs_resident: target_citizen_vs_residents,
-         municipality: target_municipalities, area: target_areas, 
-         vehicle_owners: target_vehicle_owners, property_valuations: target_property_valuations,
-         lsm_groups: target_lsm_groups, property_count: target_property_counts,
-         employer: target_employers}, function( chart_data ) {
+    $.get('/api/meetpat-client/get-records/citizens-and-residents', {user_id: user_id_number, province: target_provinces.join(","),
+         age_group: target_ages.join(","), gender: target_genders.join(","), 
+         population_group: target_population_groups.join(","), generation: target_generations.join(","),
+         marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
+         risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
+         directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
+         municipality: target_municipalities.join(","), area: target_areas.join(","), 
+         vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         employer: target_employers.join(",")}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#c-vs-r-graph .spinner-block").hide();
@@ -1599,16 +1599,16 @@ var drawLSMGroupChart = function() {
 
 function drawEmployerChart(  ) {
 
-    $.get('/api/meetpat-client/get-records/employers', {user_id: user_id_number, province: target_provinces,
-         age_group: target_ages, gender: target_genders,
-         population_group: target_population_groups, generation: target_generations,
-         marital_status: target_marital_statuses, home_ownership_status: target_home_owners,
-         risk_category: target_risk_categories, income_bucket: target_incomes,
-         directorship_status: target_directors, citizen_vs_resident: target_citizen_vs_residents,
-         municipality: target_municipalities, area: target_areas,
-         vehicle_ownership_status: target_vehicle_owners, property_valuation_bucket: target_property_valuations,
-         lsm_groups: target_lsm_groups, property_count: target_property_counts,
-         employer: target_employers}, function( chart_data ) {
+    $.get('/api/meetpat-client/get-records/employers', {user_id: user_id_number, province: target_provinces.join(","),
+         age_group: target_ages.join(","), gender: target_genders.join(","),
+         population_group: target_population_groups.join(","), generation: target_generations.join(","),
+         marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
+         risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
+         directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
+         municipality: target_municipalities.join(","), area: target_areas.join(","),
+         vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         employer: target_employers.join(",")}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#employer-graph .spinner-block").hide();
@@ -1759,16 +1759,16 @@ function drawEmployerChart(  ) {
   }
 
 var drawRiskCategoryChart = function() {
-    $.get('/api/meetpat-client/get-records/risk-category', {user_id: user_id_number, province: target_provinces,
-         age_group: target_ages, gender: target_genders, 
-         population_group: target_population_groups, generation: target_generations,
-         marital_status: target_marital_statuses, home_ownership_status: target_home_owners,
-         risk_category: target_risk_categories, income_bucket: target_incomes,
-         directorship_status: target_directors, citizen_vs_resident: target_citizen_vs_residents,
-         municipality: target_municipalities, area: target_areas,
-         vehicle_ownership_status: target_vehicle_owners, property_valuation_bucket: target_property_valuations,
-         lsm_group: target_lsm_groups, property_count: target_property_counts,
-         employer: target_employers}, function( chart_data ) {
+    $.get('/api/meetpat-client/get-records/risk-category', {user_id: user_id_number, province: target_provinces.join(","),
+         age_group: target_ages.join(","), gender: target_genders.join(","), 
+         population_group: target_population_groups.join(","), generation: target_generations.join(","),
+         marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
+         risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
+         directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
+         municipality: target_municipalities.join(","), area: target_areas.join(","),
+         vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         employer: target_employers.join(",")}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#risk-category-graph .spinner-block").hide();
@@ -2129,7 +2129,7 @@ var get_provinces = function() {
          age_group: target_ages.join(","), gender: target_genders.join(","), 
          population_group: target_population_groups.join(","), generation: target_generations.join(","),
          marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
-         risk_category: target_risk_categories.join(","), income_bucket: target_incomes,
+         risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
          directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
          municipality: target_municipalities.join(","), area: target_areas.join(","),
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
