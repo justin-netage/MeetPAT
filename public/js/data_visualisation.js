@@ -92,36 +92,36 @@ function drawProvinceChart( chart_data ) {
 
         var province;
         
-        switch(key) {
+        switch(chart_data[key]["province"]) {
             case 'G':
-                province = ['Gauteng', chart_data[key], kFormatter(chart_data[key])];
+                province = ['Gauteng', chart_data[key]["audience"], kFormatter(chart_data[key]["audience"])];
                 break;
             case 'EC':
-                province = ['Eastern Cape', chart_data[key], kFormatter(chart_data[key])];
+                province = ['Eastern Cape', chart_data[key]["audience"], kFormatter(chart_data[key]["audience"])];
                 break;
             case 'NC':
-                province = ['Northern Cape', chart_data[key], kFormatter(chart_data[key])];
+                province = ['Northern Cape', chart_data[key]["audience"], kFormatter(chart_data[key]["audience"])];
                 break;
             case 'FS':
-                province = ['Free State', chart_data[key],kFormatter(chart_data[key])];
+                province = ['Free State', chart_data[key]["audience"],kFormatter(chart_data[key]["audience"])];
                 break;
             case 'L':
-                province = ['Limpopo', chart_data[key], kFormatter(chart_data[key])];
+                province = ['Limpopo', chart_data[key]["audience"], kFormatter(chart_data[key]["audience"])];
                 break;
             case 'KN':
-                province = ['KwaZulu Natal', chart_data[key], kFormatter(chart_data[key])];
+                province = ['KwaZulu Natal', chart_data[key]["audience"], kFormatter(chart_data[key]["audience"])];
                 break;
             case 'M':
-                province = ['Mpumalanga', chart_data[key], kFormatter(chart_data[key])];
+                province = ['Mpumalanga', chart_data[key]["audience"], kFormatter(chart_data[key]["audience"])];
                 break;
             case 'NW':
-                province = ['North West', chart_data[key], kFormatter(chart_data[key])];
+                province = ['North West', chart_data[key]["audience"], kFormatter(chart_data[key]["audience"])];
                 break;
             case 'WC':
-                province = ['Western Cape', chart_data[key], kFormatter(chart_data[key])];
+                province = ['Western Cape', chart_data[key]["audience"], kFormatter(chart_data[key]["audience"])];
                 break;
             default:
-                province = [key, chart_data[key], kFormatter(chart_data[key])];
+                province = [chart_data[key]["province"], chart_data[key]["audience"], kFormatter(chart_data[key]["audience"])];
             }
     
         return province;
@@ -156,16 +156,16 @@ function drawProvinceChart( chart_data ) {
 
 function drawAreaChart(  ) {
 
-    $.get('/api/meetpat-client/get-records/areas', {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups, selected_generations: target_generations,
-         selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
-         selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas,
-         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
-         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
-         selected_employers: target_employers}, function( chart_data ) {
+    $.get('/api/meetpat-client/get-records/areas', {user_id: user_id_number, province: target_provinces.join(","),
+         age_group: target_ages.join(","), gender: target_genders.join(","), 
+         population_group: target_population_groups.join(","), generation: target_generations.join(","),
+         marital_status: target_marital_statuses.join(","), home_owners: target_home_owners.join(","),
+         risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
+         directors: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
+         municipality: target_municipalities.join(","), area: target_areas.join(","),
+         vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         employer: target_employers.join(",")}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#area-graph .spinner-block").hide();
@@ -189,8 +189,8 @@ function drawAreaChart(  ) {
         data.addColumn('number', 'Records');
         data.addColumn({type: 'string', role: 'annotation'});
 
-        var result = Object.keys(chart_data["selected_areas"]).map(function(key) {
-            return [key, chart_data["selected_areas"][key], kFormatter(chart_data["selected_areas"][key])];
+        var result = Object.keys(chart_data["all"]).map(function(key) {
+            return [chart_data["all"][key]["area"], chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
             });
         var shorter_result = result.slice(0, 20);
         data.addRows(shorter_result);
@@ -216,11 +216,11 @@ function drawAreaChart(  ) {
         var chart = new google.visualization.BarChart(document.getElementById('areasChart'));
         chart.draw(data, chart_options); 
 
-        var result = Object.keys(chart_data["all_areas"]).map(function(key) {
-            return {"name": key, "count": kFormatter(chart_data["all_areas"][key])};
+        var results = Object.keys(chart_data["all"]).map(function(key) {
+            return {"name": chart_data["all"][key]["area"], "count": kFormatter(chart_data["all"][key]["audience"])};
         });
 
-        var documents = result;
+        var documents = results;
         var idx = lunr(function() {
             this.ref('name');
             this.field('name');
@@ -243,47 +243,47 @@ function drawAreaChart(  ) {
                 idx.search(this.value).forEach(function(result) {
                     
                     if(result.score) {
-                        if($('#area_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').length) {
-                            $("#lunr-results").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '" id="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox" checked="checked"><label for="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" class="css-label">' + result.ref + '</label><br />');
-                            $('#area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').click(function(){
+                        if($('#area_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
+                            $("#lunr-results").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox" checked="checked"><label for="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result.ref + '<small> ' + kFormatter(results.filter(obj => {if(obj.name === result.ref) { return obj.count}}).map(function(obj) { return obj.count})[0]) + '</small></label><br />');
+                            $('#area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
                                 
-                                if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').is(":checked")) { 
+                                if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
                                     
                                     var parent = this;
-                                    $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '" id="area_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" value="' + result.ref + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" class="css-label">' + result.ref + '<small> ' + kFormatter(chart_data["all_areas"][result.ref]) + '" checked="checked">');
-                                    $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                                    $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + ' i').click(function() {
+                                    $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result.ref + '" checked="checked">' + '<small> ' + kFormatter(results.filter(obj => {if(obj.name === result.ref) { return obj.count}}).map(function(obj) { return obj.count})[0]) + '</small></label><br />');
+                                    $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                    $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
                                        
-                                        if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').length) {
-                                            $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "")).remove();
-                                            $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').remove();
-                                            $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').prop("checked", false);
+                                        if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
+                                            $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
+                                            $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
+                                            $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
                                         }
                                         checkForFilters();
                                     });
                                 } else {
                                     
                 
-                                    if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, ""))) {
-                                        $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "")).remove();
-                                        $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').remove();
+                                    if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
+                                        $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
+                                        $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
                                     }
                                 }
                                 checkForFilters();
                             });                        
                         } else {
-                            $("#lunr-results").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '" id="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox"><label for="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" class="css-label">' + result.ref + '<small> ' + kFormatter(chart_data["all_areas"][result.ref]) + '</small></label><br />');
-                            $('#area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').click(function(){
-                                if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').is(":checked")) { 
+                            $("#lunr-results").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox"><label for="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result.ref + '<small> ' + kFormatter(results.filter(obj => {if(obj.name === result.ref) { return obj.count}}).map(function(obj) { return obj.count})[0]) + '</small></label><br />');
+                            $('#area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
+                                if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
                                     
                                     var parent = this;
-                                    $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '" id="area_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" value="' + result.ref + '" checked="checked">');
-                                    $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                                    $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + ' i').click(function() {
-                                        if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').length) {
-                                            $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "")).remove();
-                                            $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').remove();
-                                            $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').prop("checked", false);
+                                    $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" checked="checked">');
+                                    $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                    $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
+                                        if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
+                                            $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
+                                            $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
+                                            $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
                                         }
                                         checkForFilters();
 
@@ -291,9 +291,9 @@ function drawAreaChart(  ) {
                                 } else {
                                     
                 
-                                    if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, ""))) {
-                                        $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "")).remove();
-                                        $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').remove();
+                                    if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
+                                        $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
+                                        $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
 
                                     }
                                 }
@@ -325,8 +325,8 @@ function drawAreaChart(  ) {
         data.addColumn('number', 'Records');
         data.addColumn({type: 'string', role: 'annotation'});
 
-        var result = Object.keys(chart_data["selected_municipalities"]).map(function(key) {
-            return [key, chart_data["selected_municipalities"][key], kFormatter(chart_data["selected_municipalities"][key])];
+        var result = Object.keys(chart_data["all"]).map(function(key) {
+            return [chart_data["all"][key]["municipality"], chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
           });
 
             data.addRows(result);
@@ -352,18 +352,18 @@ function drawAreaChart(  ) {
                             'backgroundColor': '#f7f7f7'
                         };
                         
-                        for (var key in chart_data["all_municipalities"]) {
-                            if(target_municipalities.includes(key)) {
+                        for (var key in chart_data["distinct"]) {
+                            if(target_municipalities.includes(chart_data["distinct"][key]["municipality"])) {
                                 $("#municipality_filter").append(
-                                    '<input type="checkbox" name="' + key.toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '" id="municipality_' + key.toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="municipality_' + key.toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option' +'" class="css-label">' + key + '</label><br />'
+                                    '<input type="checkbox" name="' + chart_data["distinct"][key]["municipality"].toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '" id="municipality_' + chart_data["distinct"][key]["municipality"].toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option' +'" value="' + chart_data["distinct"][key]["municipality"] + '" class="css-checkbox" checked="checked"><label for="municipality_' + chart_data["distinct"][key]["municipality"].toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option' +'" class="css-label">' + chart_data["distinct"][key]["municipality"] + '</label><br />'
                                 );
                             } else {
                                 $("#municipality_filter").append(
-                                    '<input type="checkbox" name="' + key.toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '" id="municipality_' + key.toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option' +'" value="' + key + '" class="css-checkbox"><label for="municipality_' + key.toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option' +'" class="css-label">' + key + '</label><br />'
+                                    '<input type="checkbox" name="' + chart_data["distinct"][key]["municipality"].toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '" id="municipality_' + chart_data["distinct"][key]["municipality"].toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option' +'" value="' + chart_data["distinct"][key]["municipality"] + '" class="css-checkbox"><label for="municipality_' + chart_data["distinct"][key]["municipality"].toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option' +'" class="css-label">' + chart_data["distinct"][key]["municipality"] + '</label><br />'
                                 );
                             }
 
-                            $('#municipality_' + key.toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option').click(function(){
+                            $('#municipality_' + chart_data["distinct"][key]["municipality"].toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option').click(function(){
                                 if($('#municipality_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option').is(":checked")) { 
                                     
                                     var parent = this;
@@ -398,33 +398,33 @@ function drawAreaChart(  ) {
     $("#map-graph .spinner-block").hide();    
     var result = Object.keys(chart_data).map(function(key) {
     var value;
-        switch(key) {
+        switch(chart_data[key]["province"]) {
             case 'G':
-            value =  ['ZA-GT', chart_data[key], '<ul class="list-unstyled"><li><b>Gauteng</b></li><li>'+ kFormatter(chart_data[key]) +'</li></ul>'];
+            value =  ['ZA-GT', chart_data[key]["audience"], '<ul class="list-unstyled"><li><b>Gauteng</b></li><li>'+ kFormatter(chart_data[key]["audience"]) +'</li></ul>'];
                 break;
             case 'WC':
-            value =  ['ZA-WC', chart_data[key], '<ul class="list-unstyled"><li><b>Western Cape</b></li><li>'+ kFormatter(chart_data[key]) +'</li></ul>'];
+            value =  ['ZA-WC', chart_data[key]["audience"], '<ul class="list-unstyled"><li><b>Western Cape</b></li><li>'+ kFormatter(chart_data[key]["audience"]) +'</li></ul>'];
                 break;
             case 'EC':
-            value =  ['ZA-EC', chart_data[key], '<ul class="list-unstyled"><li><b>Eastern Cape</b></li><li>'+ kFormatter(chart_data[key]) +'</li></ul>'];
+            value =  ['ZA-EC', chart_data[key]["audience"], '<ul class="list-unstyled"><li><b>Eastern Cape</b></li><li>'+ kFormatter(chart_data[key]["audience"]) +'</li></ul>'];
                 break;
             case 'M':
-            value =  ['ZA-MP', chart_data[key], '<ul class="list-unstyled"><li><b>Mpumalanga</b></li><li>'+ kFormatter(chart_data[key]) +'</li></ul>'];
+            value =  ['ZA-MP', chart_data[key]["audience"], '<ul class="list-unstyled"><li><b>Mpumalanga</b></li><li>'+ kFormatter(chart_data[key]["audience"]) +'</li></ul>'];
                 break;  
             case 'FS':
-            value =  ['ZA-FS', chart_data[key], '<ul class="list-unstyled"><li><b>Free State</b></li><li>'+ kFormatter(chart_data[key]) +'</li></ul>'];
+            value =  ['ZA-FS', chart_data[key]["audience"], '<ul class="list-unstyled"><li><b>Free State</b></li><li>'+ kFormatter(chart_data[key]["audience"]) +'</li></ul>'];
                 break;
             case 'L':
-            value =  ['ZA-LP', chart_data[key], '<ul class="list-unstyled"><li><b>Limpopo</b></li><li>'+ kFormatter(chart_data[key]) +'</li></ul>'];
+            value =  ['ZA-LP', chart_data[key]["audience"], '<ul class="list-unstyled"><li><b>Limpopo</b></li><li>'+ kFormatter(chart_data[key]["audience"]) +'</li></ul>'];
                 break;  
             case 'KN':
-            value =  ['ZA-NL', chart_data[key], '<ul class="list-unstyled"><li><b>KwaZula Natal</b></li><li>'+ kFormatter(chart_data[key]) +'</li></ul>'];
+            value =  ['ZA-NL', chart_data[key]["audience"], '<ul class="list-unstyled"><li><b>KwaZula Natal</b></li><li>'+ kFormatter(chart_data[key]["audience"]) +'</li></ul>'];
                 break; 
             case 'NW':
-            value =  ['ZA-NW', chart_data[key], '<ul class="list-unstyled"><li><b>North West Province</b></li><li>'+ kFormatter(chart_data[key]) +'</li></ul>'];
+            value =  ['ZA-NW', chart_data[key]["audience"], '<ul class="list-unstyled"><li><b>North West Province</b></li><li>'+ kFormatter(chart_data[key]["audience"]) +'</li></ul>'];
                 break;      
             case 'NC':
-            value =  ['ZA-NC', chart_data[key], '<ul class="list-unstyled"><li><b>Northern Cape</b></li><li>'+ kFormatter(chart_data[key]) +'</li></ul>'];
+            value =  ['ZA-NC', chart_data[key]["audience"], '<ul class="list-unstyled"><li><b>Northern Cape</b></li><li>'+ kFormatter(chart_data[key]["audience"]) +'</li></ul>'];
                 break;
             default:
                 value = "";               
@@ -459,16 +459,16 @@ function drawAreaChart(  ) {
 
   var drawAgeChart = function (  ) {
 
-    $.get('/api/meetpat-client/get-records/ages', {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups, selected_generations: target_generations,
-         selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
-         selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas,
-         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
-         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
-         selected_employers: target_employers}, function( chart_data ) {
+    $.get('/api/meetpat-client/get-records/ages', {user_id: user_id_number, province: target_provinces.join(","),
+         age_group: target_ages.join(","), gender: target_genders.join(","), 
+         population_group: target_population_groups.join(","), generation: target_generations.join(","),
+         marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
+         risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
+         directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
+         municipality: target_municipalities.join(","), area: target_areas.join(","),
+         vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         employer: target_employers.join(",")}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#age-graph .spinner-block").hide();
@@ -485,8 +485,8 @@ function drawAreaChart(  ) {
         data.addColumn('number', 'Records');
         data.addColumn({type: 'string', role: 'annotation'});
 
-        var result = Object.keys(chart_data["selected_ages"]).map(function(key) {
-            return [key, chart_data["selected_ages"][key], kFormatter(chart_data["selected_ages"][key])];
+        var result = Object.keys(chart_data["all"]).map(function(key) {
+            return [chart_data["all"][key]["ageGroup"], chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
           });
     
             data.addRows(result);
@@ -512,18 +512,18 @@ function drawAreaChart(  ) {
                             'backgroundColor': '#f7f7f7'
                         };
 
-                        for (var key in chart_data["all_ages"]) {
-                            if(target_ages.includes(key)) {
+                        for (var key in chart_data["distinct"]) {
+                            if(target_ages.includes(chart_data["distinct"][key]["ageGroup"])) {
                                 $("#age_filter").append(
-                                    '<input type="checkbox" name="' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus") + '" id="age_' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="age_' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option' +'" class="css-label">' + key + '</label><br />'
+                                    '<input type="checkbox" name="' + chart_data["distinct"][key]["ageGroup"].toLowerCase().replace(/ /g, "_").replace("+", "plus") + '" id="age_' + chart_data["distinct"][key]["ageGroup"].toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option' +'" value="' + chart_data["distinct"][key]["ageGroup"] + '" class="css-checkbox" checked="checked"><label for="age_' + chart_data["distinct"][key]["ageGroup"].toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option' +'" class="css-label">' + chart_data["distinct"][key]["ageGroup"] + '</label><br />'
                                 );
                             } else {
                                 $("#age_filter").append(
-                                    '<input type="checkbox" name="' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus") + '" id="age_' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option' +'" value="' + key + '" class="css-checkbox"><label for="age_' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option' +'" class="css-label">' + key + '</label><br />'
+                                    '<input type="checkbox" name="' + chart_data["distinct"][key]["ageGroup"].toLowerCase().replace(/ /g, "_").replace("+", "plus") + '" id="age_' + chart_data["distinct"][key]["ageGroup"].toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option' +'" value="' + chart_data["distinct"][key]["ageGroup"] + '" class="css-checkbox"><label for="age_' + chart_data["distinct"][key]["ageGroup"].toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option' +'" class="css-label">' + chart_data["distinct"][key]["ageGroup"] + '</label><br />'
                                 );
                             }
 
-                            $('#age_' + key.toLowerCase() + '_option').click(function(){
+                            $('#age_' + chart_data["distinct"][key]["ageGroup"].toLowerCase() + '_option').click(function(){
                                 if($('#age_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option').is(":checked")) { 
                                     
                                     var parent = this;
@@ -558,16 +558,16 @@ function drawAreaChart(  ) {
 
     var drawPropertyValuationChart = function (  ) {
 
-        $.get('/api/meetpat-client/get-records/property-valuation', {user_id: user_id_number, selected_provinces: target_provinces,
-             selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-             selected_population_groups: target_population_groups, selected_generations: target_generations,
-             selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
-             selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-             selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-             selected_municipalities: target_municipalities, selected_areas: target_areas,
-             selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
-             selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
-             selected_employers: target_employers}, function( chart_data ) {
+        $.get('/api/meetpat-client/get-records/property-valuation', {user_id: user_id_number, province: target_provinces.join(","),
+             age_group: target_ages.join(","), gender: target_genders.join(","), 
+             population_group: target_population_groups.join(","), generation: target_generations.join(","),
+             marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
+             risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
+             directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
+             municipality: target_municipalities.join(","), area: target_areas.join(","),
+             vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
+             lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+             employer: target_employers.join(",")}, function( chart_data ) {
     
         }).fail(function( chart_data ) {
             $("#property-valuation-graph .spinner-block").hide();
@@ -584,8 +584,8 @@ function drawAreaChart(  ) {
             data.addColumn('number', 'Records');
             data.addColumn({type: 'string', role: 'annotation'});
     
-            var result = Object.keys(chart_data["selected_property_valuations"]).map(function(key) {
-                return [key, chart_data["selected_property_valuations"][key], kFormatter(chart_data["selected_property_valuations"][key])];
+            var result = Object.keys(chart_data["all"]).map(function(key) {
+                return [chart_data["all"][key]["propertyValuationBucket"], chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
               });
         
                 data.addRows(result);
@@ -611,18 +611,18 @@ function drawAreaChart(  ) {
                                 'backgroundColor': '#f7f7f7'
                             };
     
-                            for (var key in chart_data["all_property_valuations"]) {
-                                if(target_property_valuations.includes(key)) {
+                            for (var key in chart_data["distinct"]) {
+                                if(target_property_valuations.includes(chart_data["distinct"][key]["propertyValuationBucket"])) {
                                     $("#property_valuation_filter").append(
-                                        '<input type="checkbox" name="' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "").replace("-", "") + '" id="property_valuations_' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="property_valuations_' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" class="css-label">' + key + '</label><br />'
+                                        '<input type="checkbox" name="' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "").replace("-", "") + '" id="property_valuations_' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" value="' + chart_data["distinct"][key]["propertyValuationBucket"] + '" class="css-checkbox" checked="checked"><label for="property_valuations_' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" class="css-label">' + chart_data["distinct"][key]["propertyValuationBucket"] + '</label><br />'
                                     );
                                 } else {
                                     $("#property_valuation_filter").append(
-                                        '<input type="checkbox" name="' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '" id="property_valuations_' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" value="' + key + '" class="css-checkbox"><label for="property_valuations_' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" class="css-label">' + key + '</label><br />'
+                                        '<input type="checkbox" name="' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '" id="property_valuations_' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" value="' + chart_data["distinct"][key]["propertyValuationBucket"] + '" class="css-checkbox"><label for="property_valuations_' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" class="css-label">' + chart_data["distinct"][key]["propertyValuationBucket"] + '</label><br />'
                                     );
                                 }
     
-                                $('#property_valuations_' + key.toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option').click(function(){
+                                $('#property_valuations_' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option').click(function(){
                                     if($('#property_valuations_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option').is(":checked")) { 
                                         
                                         var parent = this;
@@ -672,16 +672,16 @@ function drawAreaChart(  ) {
 
             return name;
         }
-        $.get('/api/meetpat-client/get-records/genders', {user_id: user_id_number, selected_provinces: target_provinces,
-             selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-             selected_population_groups: target_population_groups, selected_generations: target_generations,
-             selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
-             selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-             selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-             selected_municipalities: target_municipalities, selected_areas: target_areas,
-             selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
-             selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
-             selected_employers: target_employers}, function(chart_data) {
+        $.get('/api/meetpat-client/get-records/genders', {user_id: user_id_number, province: target_provinces.join(","),
+             age_group: target_ages.join(","), gender: target_genders.join(","), 
+             population_group: target_population_groups.join(","), generation: target_generations.join(","),
+             marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
+             risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
+             directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
+             municipality: target_municipalities.join(","), area: target_areas.join(","),
+             vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
+             lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+             employer: target_employers.join(",")}, function(chart_data) {
 
         }).fail(function( chart_data ) {
             $("#gender-graph .spinner-block").hide();
@@ -697,8 +697,8 @@ function drawAreaChart(  ) {
             data.addColumn('number', 'Records');
             data.addColumn({type: 'string', role: 'annotation'});
 
-            var result = Object.keys(chart_data["selected_genders"]).map(function(key) {
-                return [key, chart_data["selected_genders"][key], kFormatter(chart_data["selected_genders"][key])];
+            var result = Object.keys(chart_data["all"]).map(function(key) {
+                return [chart_data["all"][key]["gender"], chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
             });
         
                 data.addRows(result);
@@ -726,18 +726,18 @@ function drawAreaChart(  ) {
                                 'backgroundColor': '#f7f7f7'
                             };
 
-                            for (var key in chart_data["all_genders"]) {
-                                if(target_genders.includes(key)) {
+                            for (var key in chart_data["distinct"]) {
+                                if(target_genders.includes(chart_data["distinct"][key]["gender"])) {
                                     $("#gender_filter").append(
-                                        '<input type="checkbox" name="g_' + key + '" id="g_' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="g_' + key.toLowerCase() + '_option' +'" class="css-label">' + get_gender_name(key) + '</label><br />'
+                                        '<input type="checkbox" name="g_' + chart_data["distinct"][key]["gender"] + '" id="g_' + chart_data["distinct"][key]["gender"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["gender"] + '" class="css-checkbox" checked="checked"><label for="g_' + chart_data["distinct"][key]["gender"].toLowerCase() + '_option' +'" class="css-label">' + get_gender_name(chart_data["distinct"][key]["gender"]) + '</label><br />'
                                     );
                                 } else {
                                     $("#gender_filter").append(
-                                        '<input type="checkbox" name="g_' + key + '" id="g_' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox"><label for="g_' + key.toLowerCase() + '_option' +'" class="css-label">' + get_gender_name(key) + '</label><br />'
+                                        '<input type="checkbox" name="g_' + chart_data["distinct"][key]["gender"] + '" id="g_' + chart_data["distinct"][key]["gender"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["gender"] + '" class="css-checkbox"><label for="g_' + chart_data["distinct"][key]["gender"].toLowerCase() + '_option' +'" class="css-label">' + get_gender_name(chart_data["distinct"][key]["gender"]) + '</label><br />'
                                     );
                                 }
 
-                                $('#g_' + key.toLowerCase() + '_option').click(function(){
+                                $('#g_' + chart_data["distinct"][key]["gender"].toLowerCase() + '_option').click(function(){
                                     if($('#g_' + $(this).val().toLowerCase() + '_option').is(":checked")) { 
                                         
                                         var parent = this;
@@ -788,16 +788,16 @@ function drawAreaChart(  ) {
             }
         }
 
-        $.get('/api/meetpat-client/get-records/population-groups', {user_id: user_id_number, selected_provinces: target_provinces,
-             selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-             selected_population_groups: target_population_groups, selected_generations: target_generations,
-             selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
-             selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-             selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-             selected_municipalities: target_municipalities, selected_areas: target_areas,
-             selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
-             selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
-             selected_employers: target_employers}, function( chart_data ) {
+        $.get('/api/meetpat-client/get-records/population-groups', {user_id: user_id_number, province: target_provinces.join(","),
+             age_group: target_ages.join(","), gender: target_genders.join(","), 
+             population_group: target_population_groups.join(","), generation: target_generations.join(","),
+             marital_status: target_marital_statuses.join(","), home_owners: target_home_owners.join(","),
+             risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
+             directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
+             municipality: target_municipalities.join(","), area: target_areas.join(","),
+             vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
+             lsm_groups: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+             employer: target_employers.join(",")}, function( chart_data ) {
 
         }).fail(function( chart_data ) {
             $("#population-graph .spinner-block").hide();
@@ -814,8 +814,8 @@ function drawAreaChart(  ) {
             data.addColumn('number', 'Records');
             data.addColumn({type: 'string', role: 'annotation'});
 
-            var result = Object.keys(chart_data["selected_population_groups"]).map(function(key) {
-                return [get_ethnic_name(key), chart_data["selected_population_groups"][key], kFormatter(chart_data["selected_population_groups"][key])];
+            var result = Object.keys(chart_data["all"]).map(function(key) {
+                return [get_ethnic_name(chart_data["all"][key]["populationGroup"]), chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
             });
         
             data.addRows(result);
@@ -843,18 +843,18 @@ function drawAreaChart(  ) {
                             'backgroundColor': '#f7f7f7'
                         };
 
-                        for (var key in chart_data["all_population_groups"]) {
-                            if(target_population_groups.includes(key)) {
+                        for (var key in chart_data["distinct"]) {
+                            if(target_population_groups.includes(chart_data["distinct"][key]["populationGroup"])) {
                                 $("#population_group_filter").append(
-                                    '<input type="checkbox" name="pop_' + key + '" id="pop_' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="pop_' + key.toLowerCase() + '_option' +'" class="css-label">' + get_ethnic_name(key) + '</label><br />'
+                                    '<input type="checkbox" name="pop_' + chart_data["distinct"][key]["populationGroup"] + '" id="pop_' + chart_data["distinct"][key]["populationGroup"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["populationGroup"] + '" class="css-checkbox" checked="checked"><label for="pop_' + chart_data["distinct"][key]["populationGroup"].toLowerCase() + '_option' +'" class="css-label">' + get_ethnic_name(chart_data["distinct"][key]["populationGroup"]) + '</label><br />'
                                 );
                             } else {
                                 $("#population_group_filter").append(
-                                    '<input type="checkbox" name="pop_' + key + '" id="pop_' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox"><label for="pop_' + key.toLowerCase() + '_option' +'" class="css-label">' + get_ethnic_name(key) + '</label><br />'
+                                    '<input type="checkbox" name="pop_' + chart_data["distinct"][key]["populationGroup"] + '" id="pop_' + chart_data["distinct"][key]["populationGroup"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["populationGroup"] + '" class="css-checkbox"><label for="pop_' + chart_data["distinct"][key]["populationGroup"].toLowerCase() + '_option' +'" class="css-label">' + get_ethnic_name(chart_data["distinct"][key]["populationGroup"]) + '</label><br />'
                                 );
                             }
 
-                            $('#pop_' + key.toLowerCase() + '_option').click(function(){
+                            $('#pop_' + chart_data["distinct"][key]["populationGroup"].toLowerCase() + '_option').click(function(){
                                 if($('#pop_' + $(this).val().toLowerCase() + '_option').is(":checked")) { 
                                     
                                     var parent = this;
@@ -889,16 +889,16 @@ function drawAreaChart(  ) {
 
     var drawGenerationChart = function() {
 
-        $.get('/api/meetpat-client/get-records/generations', {user_id: user_id_number, selected_provinces: target_provinces,
-             selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-             selected_population_groups: target_population_groups, selected_generations: target_generations,
-             selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
-             selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-             selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-             selected_municipalities: target_municipalities, selected_areas: target_areas, 
-             selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
-             selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
-             selected_employers: target_employers}, function( chart_data ) {
+        $.get('/api/meetpat-client/get-records/generations', {user_id: user_id_number, province: target_provinces.join(","),
+             age_group: target_ages.join(","), gender: target_genders.join(","), 
+             population_group: target_population_groups.join(","), generation: target_generations.join(","),
+             marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
+             risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
+             directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
+             municipality: target_municipalities.join(","), area: target_areas, 
+             vehicle_ownerhip_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
+             lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+             employer: target_employers.join(",")}, function( chart_data ) {
 
         }).fail(function( chart_data ) {
             $("#generation-graph .spinner-block").hide();
@@ -914,8 +914,8 @@ function drawAreaChart(  ) {
             data.addColumn('number', 'Records');
             data.addColumn({type: 'string', role: 'annotation'});
 
-            var result = Object.keys(chart_data["selected_generations"]).map(function(key) {
-                return [key, chart_data["selected_generations"][key], kFormatter(chart_data["selected_generations"][key])];
+            var result = Object.keys(chart_data["all"]).map(function(key) {
+                return [chart_data["all"][key]["generation"], chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
             });
         
             data.addRows(result);
@@ -942,17 +942,17 @@ function drawAreaChart(  ) {
                             },
                             'backgroundColor': '#f7f7f7'
                         };
-                        for (var key in chart_data["all_generations"]) {
-                            if(target_generations.includes(key)) {
+                        for (var key in chart_data["distinct"]) {
+                            if(target_generations.includes(chart_data["distinct"][key]["generation"])) {
                                 $("#generation_filter").append(
-                                    '<input type="checkbox" name="gen_' + key + '" id="gen_' + key.toLowerCase().replace(/ /g, "_") + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="gen_' + key.toLowerCase().replace(/ /g, "_") + '_option' +'" class="css-label">' + key + '</label><br />'
+                                    '<input type="checkbox" name="gen_' + chart_data["distinct"][key]["generation"] + '" id="gen_' + chart_data["distinct"][key]["generation"].toLowerCase().replace(/ /g, "_") + '_option' +'" value="' + chart_data["distinct"][key]["generation"] + '" class="css-checkbox" checked="checked"><label for="gen_' + chart_data["distinct"][key]["generation"].toLowerCase().replace(/ /g, "_") + '_option' +'" class="css-label">' + chart_data["distinct"][key]["generation"] + '</label><br />'
                                 );
                             } else {
                                 $("#generation_filter").append(
-                                    '<input type="checkbox" name="gen_' + key + '" id="gen_' + key.toLowerCase().replace(/ /g, "_") + '_option' +'" value="' + key + '" class="css-checkbox"><label for="gen_' + key.toLowerCase().replace(/ /g, "_") + '_option' +'" class="css-label">' + key + '</label><br />'
+                                    '<input type="checkbox" name="gen_' + chart_data["distinct"][key]["generation"] + '" id="gen_' + chart_data["distinct"][key]["generation"].toLowerCase().replace(/ /g, "_") + '_option' +'" value="' + chart_data["distinct"][key]["generation"] + '" class="css-checkbox"><label for="gen_' + chart_data["distinct"][key]["generation"].toLowerCase().replace(/ /g, "_") + '_option' +'" class="css-label">' + chart_data["distinct"][key]["generation"] + '</label><br />'
                                 );
                             }
-                            $('#gen_' + key.toLowerCase().replace(/ /g, "_") + '_option').click(function(){
+                            $('#gen_' + chart_data["distinct"][key]["generation"].toLowerCase().replace(/ /g, "_") + '_option').click(function(){
                                 if($('#gen_' + $(this).val().toLowerCase().replace(/ /g, "_") + '_option').is(":checked")) { 
                                     
                                     var parent = this;
@@ -987,16 +987,16 @@ function drawAreaChart(  ) {
     }
 
 var drawCitizensChart = function() {
-    $.get('/api/meetpat-client/get-records/citizens-and-residents', {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups, selected_generations: target_generations,
-         selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
-         selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas, 
-         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
-         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
-         selected_employers: target_employers}, function( chart_data ) {
+    $.get('/api/meetpat-client/get-records/citizens-and-residents', {user_id: user_id_number, province: target_provinces,
+         age_group: target_ages, gender: target_genders, 
+         population_group: target_population_groups, generations: target_generations,
+         marital_status: target_marital_statuses, home_owners: target_home_owners,
+         risk_category: target_risk_categories, income_bucket: target_incomes,
+         directors: target_directors, citizen_vs_resident: target_citizen_vs_residents,
+         municipality: target_municipalities, area: target_areas, 
+         vehicle_owners: target_vehicle_owners, property_valuations: target_property_valuations,
+         lsm_groups: target_lsm_groups, property_count: target_property_counts,
+         employer: target_employers}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#c-vs-r-graph .spinner-block").hide();
@@ -1115,16 +1115,16 @@ var drawCitizensChart = function() {
 }
 
 var drawMaritalStatusChart = function() {
-    $.get('/api/meetpat-client/get-records/marital-statuses', {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups, selected_generations: target_generations,
-         selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
-         selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas, selected_areas: target_areas,
-         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
-         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
-         selected_employers: target_employers}, function( chart_data ) {
+    $.get('/api/meetpat-client/get-records/marital-statuses', {user_id: user_id_number, province: target_provinces.join(","),
+         age_group: target_ages.join(","), gender: target_genders.join(","), 
+         population_group: target_population_groups.join(","), generation: target_generations.join(","),
+         marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
+         risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
+         directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
+         municipality: target_municipalities.join(","), area: target_areas.join(","),
+         vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         employer: target_employers.join(",")}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#marital-status-graph .spinner-block").hide();
@@ -1140,8 +1140,8 @@ var drawMaritalStatusChart = function() {
         data.addColumn('number', 'Records');
         data.addColumn({type: 'string', role: 'annotation'});
 
-        var result = Object.keys(chart_data["selected_marital_status"]).map(function(key) {
-                return [keyChanger(key), chart_data["selected_marital_status"][key], kFormatter(chart_data["selected_marital_status"][key])];
+        var result = Object.keys(chart_data["all"]).map(function(key) {
+                return [keyChanger(chart_data["all"][key]["marital_status"]), chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
         });
     
             data.addRows(result);
@@ -1169,18 +1169,18 @@ var drawMaritalStatusChart = function() {
                             'backgroundColor': '#f7f7f7'
                         };
 
-            for (var key in chart_data["all_marital_status"]) {
-                if(target_marital_statuses.includes(key)) {
+            for (var key in chart_data["distinct"]) {
+                if(target_marital_statuses.includes(chart_data["distinct"][key]["maritalStatus"])) {
                     $("#marital_status_filter").append(
-                        '<input type="checkbox" name="m_' + key.toLowerCase() + '" id="m_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox" checked="checked"><label for="m_' + key.toLowerCase() + '_option' +'" class="css-label">' + keyChanger(key) + '</label><br />'
+                        '<input type="checkbox" name="m_' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '" id="m_' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '" class="css-checkbox" checked="checked"><label for="m_' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChanger(chart_data["distinct"][key]["maritalStatus"]) + '</label><br />'
                     );
 
                 } else {
                     $("#marital_status_filter").append(
-                        '<input type="checkbox" name="m_' + key.toLowerCase() + '" id="m_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox"><label for="m_' + key.toLowerCase() + '_option' +'" class="css-label">' + keyChanger(key) + '</label><br />'
+                        '<input type="checkbox" name="m_' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '" id="m_' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '" class="css-checkbox"><label for="m_' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChanger(chart_data["distinct"][key]["maritalStatus"]) + '</label><br />'
                     );
                 }
-                $('#m_' + key.toLowerCase() + '_option').click(function(){
+                $('#m_' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '_option').click(function(){
                     if($('#m_' + $(this).val().toLowerCase() + '_option').is(":checked")) { 
                         
                         var parent = this;
@@ -1212,16 +1212,16 @@ var drawMaritalStatusChart = function() {
 }
 
 var drawHomeOwnerChart = function() {
-    $.get('/api/meetpat-client/get-records/home-owner', {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups, selected_generations: target_generations,
-         selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
-         selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas,
-         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
-         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
-         selected_employers: target_employers}, function( chart_data ) {
+    $.get('/api/meetpat-client/get-records/home-owner', {user_id: user_id_number, province: target_provinces.join(","),
+         age_group: target_ages.join(","), gender: target_genders.join(","), 
+         population_group: target_population_groups.join(","), generation: target_generations.join(","),
+         marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
+         risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
+         directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
+         municipality: target_municipalities.join(","), area: target_areas.join(","),
+         vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         employer: target_employers.join(",")}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#home-owner-graph .spinner-block").hide();
@@ -1237,8 +1237,8 @@ var drawHomeOwnerChart = function() {
         data.addColumn('number', 'Records');
         data.addColumn({type: 'string', role: 'annotation'});
 
-        var result = Object.keys(chart_data["selected_home_owners"]).map(function(key) {
-            return [keyChanger(key), chart_data["selected_home_owners"][key], kFormatter(chart_data["selected_home_owners"][key])];
+        var result = Object.keys(chart_data["all"]).map(function(key) {
+            return [keyChanger(chart_data["all"][key]["homeOwnershipStatus"]), chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
         });
     
             data.addRows(result);
@@ -1265,18 +1265,18 @@ var drawHomeOwnerChart = function() {
                             },
                             'backgroundColor': '#f7f7f7'
                         };
-            for (var key in chart_data["all_home_owners"]) {
-                if(target_home_owners.includes(key)) {
+            for (var key in chart_data["distinct"]) {
+                if(target_home_owners.includes(chart_data["distinct"][key]["homeOwnershipStatus"])) {
                     $("#home_owner_filter").append(
-                        '<input type="checkbox" name="h_' + key.toLowerCase() + '" id="h_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox" checked="checked"><label for="h_' + key.toLowerCase() + '_option' +'" class="css-label">' + keyChanger(key) + '</label><br />'
+                        '<input type="checkbox" name="h_' + chart_data["distinct"][key]["homeOwnershipStatus"].toLowerCase() + '" id="h_' + chart_data["distinct"][key]["homeOwnershipStatus"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["homeOwnershipStatus"].toLowerCase() + '" class="css-checkbox" checked="checked"><label for="h_' + chart_data["distinct"][key]["homeOwnershipStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChanger(chart_data["distinct"][key]["homeOwnershipStatus"]) + '</label><br />'
                     );
                 } else {
                     $("#home_owner_filter").append(
-                        '<input type="checkbox" name="h_' + key.toLowerCase() + '" id="h_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox"><label for="h_' + key.toLowerCase() + '_option' +'" class="css-label">' + keyChanger(key) + '</label><br />'
+                        '<input type="checkbox" name="h_' + chart_data["distinct"][key]["homeOwnershipStatus"].toLowerCase() + '" id="h_' + chart_data["distinct"][key]["homeOwnershipStatus"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["homeOwnershipStatus"].toLowerCase() + '" class="css-checkbox"><label for="h_' + chart_data["distinct"][key]["homeOwnershipStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChanger(chart_data["distinct"][key]["homeOwnershipStatus"]) + '</label><br />'
                     );
                 }
                 
-                $('#h_' + key.toLowerCase().replace(/ /g, "_") + '_option').click(function(){
+                $('#h_' + chart_data["distinct"][key]["homeOwnershipStatus"].toLowerCase().replace(/ /g, "_") + '_option').click(function(){
                     if($('#h_' + $(this).val().toLowerCase().replace(/ /g, "_") + '_option').is(":checked")) { 
                         
                         var parent = this;
@@ -1308,16 +1308,16 @@ var drawHomeOwnerChart = function() {
 }
 
 var drawPropertyCountChart = function() {
-    $.get('/api/meetpat-client/get-records/property-count', {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups, selected_generations: target_generations,
-         selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
-         selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas,
-         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
-         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
-         selected_employers: target_employers}, function( chart_data ) {
+    $.get('/api/meetpat-client/get-records/property-count', {user_id: user_id_number, province: target_provinces.join(","),
+         age: target_ages.join(","), gender: target_genders.join(","), 
+         population_group: target_population_groups.join(","), generation: target_generations.join(","),
+         marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
+         risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
+         directors: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
+         municipality: target_municipalities.join(","), area: target_areas.join(","),
+         vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         employer: target_employers.join(",")}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#property-count-graph .spinner-block").hide();
@@ -1333,8 +1333,8 @@ var drawPropertyCountChart = function() {
         data.addColumn('number', 'Records');
         data.addColumn({type: 'string', role: 'annotation'});
 
-        var result = Object.keys(chart_data["selected_property_counts"]).map(function(key) {
-            return [key, chart_data["selected_property_counts"][key], kFormatter(chart_data["selected_property_counts"][key])];
+        var result = Object.keys(chart_data["all"]).map(function(key) {
+            return [chart_data["all"][key]["propertyCount"], chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
         });
     
             data.addRows(result);
@@ -1361,18 +1361,18 @@ var drawPropertyCountChart = function() {
                             },
                             'backgroundColor': '#f7f7f7'
                         };
-            for (var key in chart_data["all_property_counts"]) {
-                if(target_home_owners.includes(key)) {
+            for (var key in chart_data["distinct"]) {
+                if(target_home_owners.includes(chart_data["distinct"][key]["propertyCount"])) {
                     $("#property_count_filter").append(
-                        '<input type="checkbox" name="pc_' + key.toLowerCase() + '" id="pc_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox" checked="checked"><label for="pc_' + key.toLowerCase() + '_option' +'" class="css-label">' + key.toLowerCase() + '</label><br />'
+                        '<input type="checkbox" name="pc_' + chart_data["distinct"][key]["propertyCount"].toLowerCase() + '" id="pc_' + chart_data["distinct"][key]["propertyCount"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["propertyCount"].toLowerCase() + '" class="css-checkbox" checked="checked"><label for="pc_' + chart_data["distinct"][key]["propertyCount"].toLowerCase() + '_option' +'" class="css-label">' + chart_data["distinct"][key]["propertyCount"].toLowerCase() + '</label><br />'
                     );
                 } else {
                     $("#property_count_filter").append(
-                        '<input type="checkbox" name="pc_' + key.toLowerCase() + '" id="pc_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox"><label for="pc_' + key.toLowerCase() + '_option' +'" class="css-label">' + key.toLowerCase() + '</label><br />'
+                        '<input type="checkbox" name="pc_' + chart_data["distinct"][key]["propertyCount"].toLowerCase() + '" id="pc_' + chart_data["distinct"][key]["propertyCount"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["propertyCount"].toLowerCase() + '" class="css-checkbox"><label for="pc_' + chart_data["distinct"][key]["propertyCount"].toLowerCase() + '_option' +'" class="css-label">' + chart_data["distinct"][key]["propertyCount"].toLowerCase() + '</label><br />'
                     );
                 }
                 
-                $('#pc_' + key.toLowerCase().replace(/ /g, "_") + '_option').click(function(){
+                $('#pc_' + chart_data["distinct"][key]["propertyCount"].toLowerCase().replace(/ /g, "_") + '_option').click(function(){
                     if($('#pc_' + $(this).val().toLowerCase().replace(/ /g, "_") + '_option').is(":checked")) { 
                         
                         var parent = this;
@@ -1404,16 +1404,16 @@ var drawPropertyCountChart = function() {
 }
 
 var drawVehicleOwnerChart = function() {
-    $.get('/api/meetpat-client/get-records/vehicle-owner', {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups, selected_generations: target_generations,
-         selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
-         selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas,
-         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
-         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
-         selected_employers: target_employers}, function( chart_data ) {
+    $.get('/api/meetpat-client/get-records/vehicle-owner', {user_id: user_id_number, province: target_provinces.join(","),
+         age_group: target_ages.join(","), gender: target_genders.join(","), 
+         population_group: target_population_groups.join(","), generation: target_generations.join(","),
+         marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
+         risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
+         directors: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
+         municipality: target_municipalities.join(","), area: target_areas.join(","),
+         vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         employer: target_employers.join(",")}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#vehicle-owner-graph .spinner-block").hide();
@@ -1429,8 +1429,8 @@ var drawVehicleOwnerChart = function() {
         data.addColumn('number', 'Records');
         data.addColumn({type: 'string', role: 'annotation'});
 
-        var result = Object.keys(chart_data["selected_vehicle_owners"]).map(function(key) {
-            return [keyChanger(key), chart_data["selected_vehicle_owners"][key], kFormatter(chart_data["selected_vehicle_owners"][key])];
+        var result = Object.keys(chart_data["all"]).map(function(key) {
+            return [keyChanger(chart_data["all"][key]["vehicleOwnershipStatus"]), chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
         });
     
             data.addRows(result);
@@ -1457,18 +1457,18 @@ var drawVehicleOwnerChart = function() {
                             },
                             'backgroundColor': '#f7f7f7'
                         };
-            for (var key in chart_data["all_vehicle_owners"]) {
-                if(target_vehicle_owners.includes(key)) {
+            for (var key in chart_data["distinct"]) {
+                if(target_vehicle_owners.includes(chart_data["distinct"][key]["vehicleOwnershipStatus"])) {
                     $("#vehicle_owner_filter").append(
-                        '<input type="checkbox" name="vo_' + key.toLowerCase() + '" id="vo_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox" checked="checked"><label for="vo_' + key.toLowerCase() + '_option' +'" class="css-label">' + keyChanger(key) + '</label><br />'
+                        '<input type="checkbox" name="vo_' + chart_data["distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '" id="vo_' + chart_data["distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '" class="css-checkbox" checked="checked"><label for="vo_' + chart_data["distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChanger(chart_data["distinct"][key]["vehicleOwnershipStatus"]) + '</label><br />'
                     );
                 } else {
                     $("#vehicle_owner_filter").append(
-                        '<input type="checkbox" name="vo_' + key.toLowerCase() + '" id="vo_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox"><label for="vo_' + key.toLowerCase() + '_option' +'" class="css-label">' + keyChanger(key) + '</label><br />'
+                        '<input type="checkbox" name="vo_' + chart_data["distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '" id="vo_' + chart_data["distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '" class="css-checkbox"><label for="vo_' + chart_data["distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChanger(chart_data["distinct"][key]["vehicleOwnershipStatus"]) + '</label><br />'
                     );
                 }
                 
-                $('#vo_' + key.toLowerCase().replace(/ /g, "_") + '_option').click(function(){
+                $('#vo_' + chart_data["distinct"][key]["vehicleOwnershipStatus"].toLowerCase().replace(/ /g, "_") + '_option').click(function(){
                     
                     if($('#vo_' + $(this).val().toLowerCase().replace(/ /g, "_") + '_option').is(":checked")) { 
                         
@@ -1501,16 +1501,16 @@ var drawVehicleOwnerChart = function() {
 }
 
 var drawLSMGroupChart = function() {
-    $.get('/api/meetpat-client/get-records/lsm-group', {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups, selected_generations: target_generations,
-         selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
-         selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas,
-         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
-         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
-         selected_employers: target_employers}, function( chart_data ) {
+    $.get('/api/meetpat-client/get-records/lsm-group', {user_id: user_id_number, province: target_provinces.join(","),
+         age_group: target_ages.join(","), gender: target_genders.join(","), 
+         population_group: target_population_groups.join(","), generation: target_generations.join(","),
+         marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
+         risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
+         directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
+         municipality: target_municipalities.join(","), area: target_areas.join(","),
+         vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         employer: target_employers.join(",")}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#lsm-group-graph .spinner-block").hide();
@@ -1526,8 +1526,8 @@ var drawLSMGroupChart = function() {
         data.addColumn('number', 'Records');
         data.addColumn({type: 'string', role: 'annotation'});
 
-        var result = Object.keys(chart_data["selected_lsm_groups"]).map(function(key) {
-            return [key, chart_data["selected_lsm_groups"][key], kFormatter(chart_data["selected_lsm_groups"][key])];
+        var result = Object.keys(chart_data["all"]).map(function(key) {
+            return [chart_data["all"][key]["lsmGroup"], chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
         });
     
             data.addRows(result);
@@ -1554,18 +1554,18 @@ var drawLSMGroupChart = function() {
                             },
                             'backgroundColor': '#f7f7f7'
                         };
-            for (var key in chart_data["all_lsm_groups"]) {
-                if(target_lsm_groups.includes(key)) {
+            for (var key in chart_data["distinct"]) {
+                if(target_lsm_groups.includes(chart_data["distinct"][key]["lsmGroup"])) {
                     $("#lsm_group_filter").append(
-                        '<input type="checkbox" name="lsm_' + key.toLowerCase() + '" id="lsm_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox" checked="checked"><label for="lsm_' + key.toLowerCase() + '_option' +'" class="css-label">' + key.toLowerCase() + '</label><br />'
+                        '<input type="checkbox" name="lsm_' + chart_data["distinct"][key]["lsmGroup"].toLowerCase() + '" id="lsm_' + chart_data["distinct"][key]["lsmGroup"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["lsmGroup"].toLowerCase() + '" class="css-checkbox" checked="checked"><label for="lsm_' + chart_data["distinct"][key]["lsmGroup"].toLowerCase() + '_option' +'" class="css-label">' + chart_data["distinct"][key]["lsmGroup"].toLowerCase() + '</label><br />'
                     );
                 } else {
                     $("#lsm_group_filter").append(
-                        '<input type="checkbox" name="lsm_' + key.toLowerCase() + '" id="lsm_' + key.toLowerCase() + '_option' +'" value="' + key.toLowerCase() + '" class="css-checkbox"><label for="lsm_' + key.toLowerCase() + '_option' +'" class="css-label">' + key.toLowerCase() + '</label><br />'
+                        '<input type="checkbox" name="lsm_' + chart_data["distinct"][key]["lsmGroup"].toLowerCase() + '" id="lsm_' + chart_data["distinct"][key]["lsmGroup"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["lsmGroup"].toLowerCase() + '" class="css-checkbox"><label for="lsm_' + chart_data["distinct"][key]["lsmGroup"].toLowerCase() + '_option' +'" class="css-label">' + chart_data["distinct"][key]["lsmGroup"].toLowerCase() + '</label><br />'
                     );
                 }
                 
-                $('#lsm_' + key.toLowerCase().replace(/ /g, "_") + '_option').click(function(){
+                $('#lsm_' + chart_data["distinct"][key]["lsmGroup"].toLowerCase().replace(/ /g, "_") + '_option').click(function(){
                     
                     if($('#lsm_' + $(this).val().toLowerCase().replace(/ /g, "_") + '_option').is(":checked")) { 
                         
@@ -1599,16 +1599,16 @@ var drawLSMGroupChart = function() {
 
 function drawEmployerChart(  ) {
 
-    $.get('/api/meetpat-client/get-records/employers', {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups, selected_generations: target_generations,
-         selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
-         selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas,
-         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
-         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
-         selected_employers: target_employers}, function( chart_data ) {
+    $.get('/api/meetpat-client/get-records/employers', {user_id: user_id_number, province: target_provinces,
+         age_group: target_ages, gender: target_genders,
+         population_group: target_population_groups, generation: target_generations,
+         marital_status: target_marital_statuses, home_ownership_status: target_home_owners,
+         risk_category: target_risk_categories, income_bucket: target_incomes,
+         directorship_status: target_directors, citizen_vs_resident: target_citizen_vs_residents,
+         municipality: target_municipalities, area: target_areas,
+         vehicle_ownership_status: target_vehicle_owners, property_valuation_bucket: target_property_valuations,
+         lsm_groups: target_lsm_groups, property_count: target_property_counts,
+         employer: target_employers}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#employer-graph .spinner-block").hide();
@@ -1632,10 +1632,10 @@ function drawEmployerChart(  ) {
         data.addColumn('number', 'Records');
         data.addColumn({type: 'string', role: 'annotation'});
 
-        var result = Object.keys(chart_data["selected_employers"]).map(function(key) {
-            return [key, chart_data["selected_employers"][key], kFormatter(chart_data["selected_employers"][key])];
+        var results = Object.keys(chart_data["all"]).map(function(key) {
+            return [chart_data["all"][key]["employer"], chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
             });
-        var shorter_result = result.slice(0, 20);
+        var shorter_result = results.slice(0, 20);
         data.addRows(shorter_result);
         // Set chart options
         var chart_options = {
@@ -1658,11 +1658,11 @@ function drawEmployerChart(  ) {
         var chart = new google.visualization.BarChart(document.getElementById('employerChart'));
         chart.draw(data, chart_options); 
 
-        var result = Object.keys(chart_data["all_employers"]).map(function(key) {
-            return {"name": key, "count": kFormatter(chart_data["all_employers"][key])};
+        var results = Object.keys(chart_data["all"]).map(function(key) {
+            return {"name": chart_data["all"][key]["employer"], "count": kFormatter(chart_data["all"][key]["audience"])};
         });
 
-        var documents = result;
+        var documents = results;
         var idx_employer = lunr(function() {
             this.ref('name');
             this.field('name');
@@ -1685,47 +1685,47 @@ function drawEmployerChart(  ) {
                 idx_employer.search(this.value).forEach(function(result) {
                     
                     if(result.score) {
-                        if($('#employer_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').length) {
-                            $("#lunr-results-employer").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '" id="employer_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox" checked="checked"><label for="employer_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" class="css-label">' + result.ref.substring(0, 24) + '</label><br />');
-                            $('#employer_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').click(function(){
+                        if($('#employer_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
+                            $("#lunr-results-employer").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="employer_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox" checked="checked"><label for="employer_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result.ref.substring(0, 24) + '<small> ' + kFormatter(results.filter(obj => {if(obj.name === result.ref) { return obj.count}}).map(function(obj) { return obj.count})[0]) + '</small></label><br />');
+                            $('#employer_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
                                 
-                                if($('#employer_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').is(":checked")) { 
+                                if($('#employer_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
                                     
                                     var parent = this;
-                                    $("#hidden-employer-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '" id="employer_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" value="' + result.ref + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" class="css-label">' + result.ref.substring(0, 24) + '<small> ' + kFormatter(chart_data["all_employers"][result.ref]) + '" checked="checked">');
-                                    $("#employer_filters").append('<li id="filter_employer_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                                    $('#filter_employer_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + ' i').click(function() {
+                                    $("#hidden-employer-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="employer_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result.ref.substring(0, 24) + '" checked="checked"><small>' + kFormatter(results.filter(obj => {if(obj.name === result.ref) { return obj.count}}).map(function(obj) { return obj.count})[0]) + "</small></label><br />");
+                                    $("#employer_filters").append('<li id="filter_employer_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                    $('#filter_employer_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
                                        
-                                        if($('#employer_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').length) {
-                                            $('#filter_employer_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "")).remove();
-                                            $('#employer_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').remove();
-                                            $("#employer_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').prop("checked", false);
+                                        if($('#employer_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
+                                            $('#filter_employer_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
+                                            $('#employer_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
+                                            $("#employer_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
                                         }
                                         checkForFilters();
                                     });
                                 } else {
                                     
                 
-                                    if($('#filter_employer_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, ""))) {
-                                        $('#filter_employer_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "")).remove();
-                                        $('#employer_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').remove();
+                                    if($('#filter_employer_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
+                                        $('#filter_employer_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
+                                        $('#employer_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
                                     }
                                 }
                                 checkForFilters();
                             });                        
                         } else {
-                            $("#lunr-results-employer").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '" id="employer_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox"><label for="employer_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" class="css-label">' + result.ref.substring(0, 24) + '<small> ' + kFormatter(chart_data["all_employers"][result.ref]) + '</small></label><br />');
-                            $('#employer_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').click(function(){
-                                if($('#employer_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').is(":checked")) { 
+                            $("#lunr-results-employer").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="employer_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox"><label for="employer_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result.ref.substring(0, 24) + '<small> ' + kFormatter(results.filter(obj => {if(obj.name === result.ref) { return obj.count}}).map(function(obj) { return obj.count})[0]) + '</small></label><br />');
+                            $('#employer_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
+                                if($('#employer_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
                                     
                                     var parent = this;
-                                    $("#hidden-employer-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '" id="employer_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option' +'" value="' + result.ref + '" checked="checked">');
-                                    $("#employer_filters").append('<li id="filter_employer_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                                    $('#filter_employer_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + ' i').click(function() {
-                                        if($('#employer_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').length) {
-                                            $('#filter_employer_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "")).remove();
-                                            $('#employer_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').remove();
-                                            $("#employer_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').prop("checked", false);
+                                    $("#hidden-employer-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="employer_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" checked="checked">');
+                                    $("#employer_filters").append('<li id="filter_employer_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                    $('#filter_employer_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
+                                        if($('#employer_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
+                                            $('#filter_employer_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
+                                            $('#employer_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
+                                            $("#employer_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
                                         }
                                         checkForFilters();
 
@@ -1733,9 +1733,9 @@ function drawEmployerChart(  ) {
                                 } else {
                                     
                 
-                                    if($('#filter_employer_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, ""))) {
-                                        $('#filter_employer_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "")).remove();
-                                        $('#employer_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\'/g, "") + '_option').remove();
+                                    if($('#filter_employer_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
+                                        $('#filter_employer_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
+                                        $('#employer_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
 
                                     }
                                 }
@@ -1759,16 +1759,16 @@ function drawEmployerChart(  ) {
   }
 
 var drawRiskCategoryChart = function() {
-    $.get('/api/meetpat-client/get-records/risk-category', {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups, selected_generations: target_generations,
-         selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
-         selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas,
-         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
-         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
-         selected_employers: target_employers}, function( chart_data ) {
+    $.get('/api/meetpat-client/get-records/risk-category', {user_id: user_id_number, province: target_provinces,
+         age_group: target_ages, gender: target_genders, 
+         population_group: target_population_groups, generation: target_generations,
+         marital_status: target_marital_statuses, home_ownership_status: target_home_owners,
+         risk_category: target_risk_categories, income_bucket: target_incomes,
+         directorship_status: target_directors, citizen_vs_resident: target_citizen_vs_residents,
+         municipality: target_municipalities, area: target_areas,
+         vehicle_ownership_status: target_vehicle_owners, property_valuation_bucket: target_property_valuations,
+         lsm_group: target_lsm_groups, property_count: target_property_counts,
+         employer: target_employers}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#risk-category-graph .spinner-block").hide();
@@ -1785,8 +1785,8 @@ var drawRiskCategoryChart = function() {
         data.addColumn('number', 'Records');
         data.addColumn({type: 'string', role: 'annotation'});
 
-        var result = Object.keys(chart_data["selected_risk_categories"]).map(function(key) {
-            return [key, chart_data["selected_risk_categories"][key], kFormatter(chart_data["selected_risk_categories"][key])];
+        var result = Object.keys(chart_data["all"]).map(function(key) {
+            return [chart_data["all"][key]["riskCategory"], chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
           });
     
             data.addRows(result);
@@ -1811,18 +1811,18 @@ var drawRiskCategoryChart = function() {
                             },
                             'backgroundColor': '#f7f7f7'
                         };
-            for (var key in chart_data["all_risk_categories"]) {
-                if(target_risk_categories.includes(key)) {
+            for (var key in chart_data["distinct"]) {
+                if(target_risk_categories.includes(chart_data["distinct"][key]["riskCategory"])) {
                     $("#risk_category_filter").append(
-                        '<input type="checkbox" name="r_' + key + '" id="r_' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="r_' + key.toLowerCase() + '_option' +'" class="css-label">' + key + '</label><br />'
+                        '<input type="checkbox" name="r_' + chart_data["distinct"][key]["riskCategory"] + '" id="r_' + chart_data["distinct"][key]["riskCategory"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["riskCategory"] + '" class="css-checkbox" checked="checked"><label for="r_' + chart_data["distinct"][key]["riskCategory"].toLowerCase() + '_option' +'" class="css-label">' + chart_data["distinct"][key]["riskCategory"] + '</label><br />'
                     );
                 } else {
                     $("#risk_category_filter").append(
-                        '<input type="checkbox" name="r_' + key + '" id="r_' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox"><label for="r_' + key.toLowerCase() + '_option' +'" class="css-label">' + key + '</label><br />'
+                        '<input type="checkbox" name="r_' + chart_data["distinct"][key]["riskCategory"] + '" id="r_' + chart_data["distinct"][key]["riskCategory"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["riskCategory"] + '" class="css-checkbox"><label for="r_' + chart_data["distinct"][key]["riskCategory"].toLowerCase() + '_option' +'" class="css-label">' + chart_data["distinct"][key]["riskCategory"] + '</label><br />'
                     );
                 }
 
-                $('#r_' + key.toLowerCase().replace(/ /g, "_") + '_option').click(function(){
+                $('#r_' + chart_data["distinct"][key]["riskCategory"].toLowerCase().replace(/ /g, "_") + '_option').click(function(){
                     if($('#r_' + $(this).val().toLowerCase().replace(/ /g, "_") + '_option').is(":checked")) { 
                         
                         var parent = this;
@@ -1855,16 +1855,16 @@ var drawRiskCategoryChart = function() {
 }
 
 var drawHouseholdIncomeChart = function() {
-    $.get('/api/meetpat-client/get-records/household-income', {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups, selected_generations: target_generations,
-         selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
-         selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas, 
-         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
-         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts, 
-         selected_employers: target_employers}, function( chart_data ) {
+    $.get('/api/meetpat-client/get-records/household-income', {user_id: user_id_number, province: target_provinces.join(","),
+         age_group: target_ages.join(","), gender: target_genders.join(","), 
+         population_group: target_population_groups.join(","), generation: target_generations.join(","),
+         marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
+         risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
+         directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
+         municipality: target_municipalities.join(","), area: target_areas.join(","), 
+         vehicle_owners: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","), 
+         employer: target_employers.join(",")}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#income-graph .spinner-block").hide();
@@ -1881,8 +1881,8 @@ var drawHouseholdIncomeChart = function() {
         data.addColumn('number', 'Records');
         data.addColumn({type: 'string', role: 'annotation'});
 
-        var result = Object.keys(chart_data["selected_household_incomes"]).map(function(key) {
-            return [key, chart_data["selected_household_incomes"][key], kFormatter(chart_data["selected_household_incomes"][key])];
+        var result = Object.keys(chart_data["all"]).map(function(key) {
+            return [chart_data["all"][key]["incomeBucket"], chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
           });
     
             data.addRows(result);
@@ -1909,18 +1909,18 @@ var drawHouseholdIncomeChart = function() {
                                     },
                                     'backgroundColor': '#f7f7f7'
                         };
-            for (var key in chart_data["all_household_incomes"]) {
-                if(target_incomes.includes(key)) {
+            for (var key in chart_data["distinct"]) {
+                if(target_incomes.includes(chart_data["distinct"][key]["incomeBucket"])) {
                     $("#household_income_filter").append(
-                        '<input type="checkbox" name="hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '" id="hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option' +'" class="css-label">' + key + '</label><br />'
+                        '<input type="checkbox" name="hi_' + chart_data["distinct"][key]["incomeBucket"].toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '" id="hi_' + chart_data["distinct"][key]["incomeBucket"].toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option' +'" value="' + chart_data["distinct"][key]["incomeBucket"] + '" class="css-checkbox" checked="checked"><label for="hi_' + chart_data["distinct"][key]["incomeBucket"].toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option' +'" class="css-label">' + chart_data["distinct"][key]["incomeBucket"] + '</label><br />'
                     );
                 } else {
                     $("#household_income_filter").append(
-                        '<input type="checkbox" name="hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '" id="hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option' +'" value="' + key + '" class="css-checkbox"><label for="hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option' +'" class="css-label">' + key + '</label><br />'
+                        '<input type="checkbox" name="hi_' + chart_data["distinct"][key]["incomeBucket"].toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '" id="hi_' + chart_data["distinct"][key]["incomeBucket"].toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option' +'" value="' + chart_data["distinct"][key]["incomeBucket"] + '" class="css-checkbox"><label for="hi_' + chart_data["distinct"][key]["incomeBucket"].toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option' +'" class="css-label">' + chart_data["distinct"][key]["incomeBucket"] + '</label><br />'
                     );
                 }
 
-                $('#hi_' + key.toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option').click(function(){
+                $('#hi_' + chart_data["distinct"][key]["incomeBucket"].toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option').click(function(){
                     if($('#hi_' + $(this).val().toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option').is(":checked")) { 
                         
                         var parent = this;
@@ -1954,16 +1954,16 @@ var drawHouseholdIncomeChart = function() {
 
 var drawDirectorOfBusinessChart = function() {
     
-    $.get('/api/meetpat-client/get-records/director-of-business', {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups, selected_generations: target_generations,
-         selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
-         selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas,
-         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
-         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
-         selected_employers: target_employers}, function( chart_data ) {
+    $.get('/api/meetpat-client/get-records/director-of-business', {user_id: user_id_number, province: target_provinces.join(","),
+         age_group: target_ages.join(","), gender: target_genders.join(","), 
+         population_group: target_population_groups.join(","), generation: target_generations.join(","),
+         marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
+         risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
+         directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
+         municipality: target_municipalities.join(","), area: target_areas.join(","),
+         vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         employer: target_employers.join(",")}, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#directors-graph .spinner-block").hide();
@@ -1979,8 +1979,8 @@ var drawDirectorOfBusinessChart = function() {
         data.addColumn('number', 'Records');
         data.addColumn({type: 'string', role: 'annotation'});
 
-        var result = Object.keys(chart_data["selected_directors"]).map(function(key) {
-            return [keyChanger(key), chart_data["selected_directors"][key], kFormatter(chart_data["selected_directors"][key])];
+        var result = Object.keys(chart_data["all"]).map(function(key) {
+            return [keyChanger(chart_data["all"][key]["directorshipStatus"]), chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
         });
     
             data.addRows(result);
@@ -2007,18 +2007,18 @@ var drawDirectorOfBusinessChart = function() {
                             },
                             'backgroundColor': '#f7f7f7'
                         };
-            for (var key in chart_data["all_directors"]) {
-                if(target_directors.includes(key)) {
+            for (var key in chart_data["distinct"]) {
+                if(target_directors.includes(chart_data["distinct"][key]["directorshipStatus"])) {
                     $("#directors_filter").append(
-                        '<input type="checkbox" name="d_' + key + '" id="d_' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="d_' + key.toLowerCase() + '_option' +'" class="css-label">' + keyChanger(key) + '</label><br />'
+                        '<input type="checkbox" name="d_' + chart_data["distinct"][key]["directorshipStatus"] + '" id="d_' + chart_data["distinct"][key]["directorshipStatus"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["directorshipStatus"] + '" class="css-checkbox" checked="checked"><label for="d_' + chart_data["distinct"][key]["directorshipStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChanger(chart_data["distinct"][key]["directorshipStatus"]) + '</label><br />'
                     );
                 } else {
                     $("#directors_filter").append(
-                        '<input type="checkbox" name="d_' + key + '" id="d_' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox"><label for="d_' + key.toLowerCase() + '_option' +'" class="css-label">' + keyChanger(key) + '</label><br />'
+                        '<input type="checkbox" name="d_' + chart_data["distinct"][key]["directorshipStatus"] + '" id="d_' + chart_data["distinct"][key]["directorshipStatus"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["directorshipStatus"] + '" class="css-checkbox"><label for="d_' + chart_data["distinct"][key]["directorshipStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChanger(chart_data["distinct"][key]["directorshipStatus"]) + '</label><br />'
                     );
                 }
 
-                $('#d_' + key.toLowerCase().replace(/ /g, "_") + '_option').click(function(){
+                $('#d_' + chart_data["distinct"][key]["directorshipStatus"].toLowerCase().replace(/ /g, "_") + '_option').click(function(){
                     if($('#d_' + $(this).val().toLowerCase().replace(/ /g, "_") + '_option').is(":checked")) { 
                         
                         var parent = this;
@@ -2067,16 +2067,16 @@ var get_records_count =  function(records_data) {
     var records_toast = $("#contacts-num-sidebar");
     var number_of_contacts = $("#numberOfContactsId");
 
-    $.get("/api/meetpat-client/get-records/count", {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups, selected_generations: target_generations,
-         selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
-         selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas, 
-         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
-         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
-         selected_employers: target_employers}, function( data ) {
+    $.get("/api/meetpat-client/get-records/count", {user_id: user_id_number, province: target_provinces.join(","),
+         age_group: target_ages.join(","), gender: target_genders.join(","), 
+         population_group: target_population_groups.join(","), generation: target_generations.join(","),
+         marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
+         risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
+         directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
+         municipality: target_municipalities.join(","), area: target_areas.join(","), 
+         vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         employer: target_employers.join(",")}, function( data ) {
     }).fail(function(data) {
         $("#contacts-number .spinner-block").hide();
         $("#contacts-number .toast-body").html('<i class="fas fa-exclamation-circle text-danger"></i>');
@@ -2096,16 +2096,16 @@ var get_records_count =  function(records_data) {
 
 var get_municipalities = function() {
 
-    $.get("/api/meetpat-client/get-records/municipalities", {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups, selected_generations: target_generations,
-         selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
-         selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas, selected_vehicle_owners: target_vehicle_owners,
-         selected_property_valuations: target_property_valuations,
-         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
-         selected_employers: target_employers}, function( data ) {
+    $.get("/api/meetpat-client/get-records/municipalities", {user_id: user_id_number, province: target_provinces.join(","),
+         age_group: target_ages.join(","), gender: target_genders.join(","), 
+         population_group: target_population_groups.join(","), generation: target_generations.join(","),
+         marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
+         risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
+         directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
+         municipality: target_municipalities.join(","), area: target_areas.join(","), vehicle_ownership_status: target_vehicle_owners.join(","),
+         property_valuation_bucket: target_property_valuations.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         employer: target_employers.join(",")}, function( data ) {
     }).fail(function(data) {
         $("#municipality-graph .spinner-block").hide();
         $("#municipality-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
@@ -2125,21 +2125,21 @@ var get_provinces = function() {
     // First get count. 
     get_records_count();
 
-    $.get("/api/meetpat-client/get-records/provinces", {user_id: user_id_number, selected_provinces: target_provinces,
-         selected_age_groups: target_ages, selected_gender_groups: target_genders, 
-         selected_population_groups: target_population_groups, selected_generations: target_generations,
-         selected_marital_status: target_marital_statuses, selected_home_owners: target_home_owners,
-         selected_risk_categories: target_risk_categories, selected_household_incomes: target_incomes,
-         selected_directors: target_directors, selected_citizen_vs_residents: target_citizen_vs_residents,
-         selected_municipalities: target_municipalities, selected_areas: target_areas,
-         selected_vehicle_owners: target_vehicle_owners, selected_property_valuations: target_property_valuations,
-         selected_lsm_groups: target_lsm_groups, selected_property_counts: target_property_counts,
-         selected_employers: target_employers}, function( data ) {
+    $.get("/api/meetpat-client/get-records/provinces", {user_id: user_id_number, province: target_provinces.join(","),
+         age_group: target_ages.join(","), gender: target_genders.join(","), 
+         population_group: target_population_groups.join(","), generation: target_generations.join(","),
+         marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
+         risk_category: target_risk_categories.join(","), income_bucket: target_incomes,
+         directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
+         municipality: target_municipalities.join(","), area: target_areas.join(","),
+         vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         employer: target_employers.join(",")}, function( data ) {
     }).fail(function(data) {
         
         //console.log(data)
     }).done(function(data) {
-        // //console.log(data);
+        //console.log(data);
         $("#province_filter").empty();
         var get_province_name = function(code) {
             var province_name;
@@ -2178,18 +2178,18 @@ var get_provinces = function() {
 
             return province_name;
         }
-        for (var key in data["all_provinces"]) {
-            if(target_provinces.includes(key)) {
+        for (var key in data["distinct"]) {
+            if(target_provinces.includes(data["distinct"][key]["province"])) {
                 $("#province_filter").append(
-                    '<input type="checkbox" name="' + key + '" id="' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox" checked="checked"><label for="' + key.toLowerCase() + '_option' +'" class="css-label">' + get_province_name(key) + '</label><br />'
+                    '<input type="checkbox" name="' + data["distinct"][key]["province"] + '" id="' + data["distinct"][key]["province"].toLowerCase() + '_option' +'" value="' + data["distinct"][key]["province"] + '" class="css-checkbox" checked="checked"><label for="' + data["distinct"][key]["province"].toLowerCase() + '_option' +'" class="css-label">' + get_province_name(data["distinct"][key]["province"]) + '</label><br />'
                 );
             } else {
                 $("#province_filter").append(
-                    '<input type="checkbox" name="' + key + '" id="' + key.toLowerCase() + '_option' +'" value="' + key + '" class="css-checkbox"><label for="' + key.toLowerCase() + '_option' +'" class="css-label">' + get_province_name(key) + '</label><br />'
+                    '<input type="checkbox" name="' + data["distinct"][key]["province"] + '" id="' + data["distinct"][key]["province"].toLowerCase() + '_option' +'" value="' + data["distinct"][key]["province"] + '" class="css-checkbox"><label for="' + data["distinct"][key]["province"].toLowerCase() + '_option' +'" class="css-label">' + get_province_name(data["distinct"][key]["province"]) + '</label><br />'
                 );
             }
 
-            $('#' + key.toLowerCase() + '_option').click(function(){
+            $('#' + data["distinct"][key]["province"].toLowerCase() + '_option').click(function(){
                 if($('#' + $(this).attr("name").toLowerCase() + '_option').is(":checked")) { 
                     
                     var parent = this;
@@ -2216,8 +2216,8 @@ var get_provinces = function() {
 
         }
 
-        drawProvinceChart(data["selected_provinces"]);
-        drawMapChart(data["selected_provinces"]);
+        drawProvinceChart(data["all"]);
+        drawMapChart(data["all"]);
         get_municipalities();
 
     });
@@ -2564,7 +2564,7 @@ var get_saved_audiences = function() {
     )
     $.get('/api/meetpat-client/get-saved-audiences', {user_id: user_id_number}, function(data) {
         $("#userSavedFiles .d-flex").remove();
-        console.log(data);
+        //console.log(data);
         if(data.length)
         {
             data.forEach(function(audience_file) {
@@ -2719,7 +2719,7 @@ $(document).ready(function() {
         });
 
         filter_form_data["file_name"] = $("#nameFile").val();
-        console.log(filter_form_data);
+        //console.log(filter_form_data);
         $("#downloadSubmitBtn").prop("disabled", true);
         $("#downloadSubmitBtn").html(
             '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
@@ -2727,7 +2727,7 @@ $(document).ready(function() {
         );
 
         $.post('/api/meetpat-client/filtered-audience/save', filter_form_data, function(data) {
-            console.log(data);
+            //console.log(data);
             $('#SavedAudiencesModal').modal('show');
             get_saved_audiences();
         }).fail(function(data) {
@@ -2736,7 +2736,7 @@ $(document).ready(function() {
             $("#downloadSubmitBtn").html(
                 '<i class="far fa-save"></i>&nbsp;Save Contacts'
             );
-            console.log(data);
+            //console.log(data);
         }).done(function() {
             
             $("#downloadSubmitBtn").prop("disabled", false);

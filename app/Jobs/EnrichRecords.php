@@ -139,8 +139,5 @@ class EnrichRecords implements ShouldQueue
             
         }
             
-
-        
-
     }
 }

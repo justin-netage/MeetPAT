@@ -21,6 +21,7 @@ class Kernel extends HttpKernel
         \MeetPAT\Http\Middleware\TrustProxies::class,
         // Https force redirect
         \MeetPAT\Http\Middleware\HttpsProtocol::class,
+        \Barryvdh\Cors\HandleCors::class,
     ];
 
     /**
@@ -64,5 +65,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin' => \MeetPAT\Http\Middleware\Administrator::class,
         'client' => \MeetPAT\Http\Middleware\MeetpatClient::class,
+        'cors' => \Barryvdh\Cors\HandleCors::class,
     ];
 }

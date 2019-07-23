@@ -20,5 +20,6 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
+        'ancient-depths-59870.herokuapp.com/*'
     ];
 }

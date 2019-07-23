@@ -27,6 +27,7 @@
         "tar": ">=4.4.10"
     },
     "dependencies": {
+        "flipclock": "^0.7.7",
         "formik": "^1.5.7",
         "fuse.js": "^3.4.5",
         "react-bootstrap": "^0.32.4",
