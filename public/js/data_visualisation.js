@@ -712,6 +712,7 @@ function drawAreaChart(  ) {
                                     },
                                 vAxis: {
                                     minValue: 0,
+                                    format: "short"
                                 },                                     
                                 'colors': ['#00A3D9'],
                                 'animation': {
@@ -828,7 +829,9 @@ function drawAreaChart(  ) {
                                 height: '75%'
                                 },
                             vAxis: {
-                                minValue: 0,
+                                minValue: 0, 
+                                format: "short"
+
                             },                                 
                             'colors': ['#00A3D9'],
                             'animation': {
@@ -929,6 +932,7 @@ function drawAreaChart(  ) {
                                 },
                             vAxis: {
                                 minValue: 0,
+                                format: "short"
                             }, 
                             'colors': ['#00A3D9'],
                             'animation': {
@@ -1027,6 +1031,7 @@ var drawCitizensChart = function() {
                                 },
                             vAxis: {
                                 minValue: 0,
+                                format: "short"
                             }, 
                             'colors': ['#00A3D9'],
                             'animation': {
@@ -1155,6 +1160,7 @@ var drawMaritalStatusChart = function() {
                     },
                 vAxis: {
                     minValue: 0,
+                    format: "short"
                 },                                     
                 'colors': ['#00A3D9'],
                 'animation': {
@@ -1252,6 +1258,7 @@ var drawHomeOwnerChart = function() {
                                 },
                             vAxis: {
                                 minValue: 0,
+                                format: "short"
                             }, 
                             'colors': ['#00A3D9'],
                             'animation': {
@@ -1347,7 +1354,8 @@ var drawPropertyCountChart = function() {
                                 height: '75%'
                                 },
                             vAxis: {
-                                minValue: 0,
+                                minValue: 0, 
+                                format: "short"
                             }, 
                             'colors': ['#00A3D9'],
                             'animation': {
@@ -1444,6 +1452,7 @@ var drawVehicleOwnerChart = function() {
                                 },
                             vAxis: {
                                 minValue: 0,
+                                format: "short"
                             }, 
                             'colors': ['#00A3D9'],
                             'animation': {
@@ -1541,6 +1550,7 @@ var drawLSMGroupChart = function() {
                                 },
                             vAxis: {
                                 minValue: 0,
+                                format: "short"
                             }, 
                             'colors': ['#00A3D9'],
                             'animation': {
@@ -1735,6 +1745,7 @@ var drawHouseholdIncomeChart = function() {
                                         },
                                     vAxis: {
                                         minValue: 0,
+                                        format: "short"
                                     }, 
                                     'colors': ['#00A3D9'],
                                     'animation': {
@@ -1833,6 +1844,7 @@ var drawDirectorOfBusinessChart = function() {
                                 },
                             vAxis: {
                                 minValue: 0,
+                                format: "short"
                             },                             
                             'colors': ['#00A3D9'],
                             'animation': {

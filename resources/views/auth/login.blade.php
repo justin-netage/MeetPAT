@@ -46,13 +46,18 @@
                         </div>
 
                         <div class="form-group mb-0">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    {{ __('Forgot Your Password?') }}
-                                </a>
+                            <div class="row">
+                                <div class="col-7">
+                                    <button type="submit" class="mt-0 btn btn-block btn-primary">
+                                        {{ __('Login') }}
+                                    </button>
+                                </div>
+                                <div class="col-5">
+                                    <a class="btn btn-link" href="{{ route('password.request') }}">
+                                        {{ __('Forgot Your Password?') }}
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
