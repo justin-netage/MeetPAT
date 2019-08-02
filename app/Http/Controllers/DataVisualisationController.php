@@ -311,14 +311,7 @@ class DataVisualisationController extends Controller
     public function save_filtered_audience(Request $request)
     {
         $records = \MeetPAT\EnrichedRecord::select(['FirstName',
-        'Middlename','Surname','CleanPhone','Email1','Email2','Email3',
-        'MobilePhone1','MobilePhone2','MobilePhone3','WorkPhone1','WorkPhone2',
-        'WorkPhone3','HomePhone1','HomePhone2','HomePhone3','ContactCategory',
-        'AgeGroup','Gender','PopulationGroup','DeceasedStatus','Generation',
-        'MaritalStatus','DirectorshipStatus','HomeOwnershipStatus','PrimaryPropertyType','PropertyValuation',
-        'PropertyValuationBucket','PropertyCount','Income','CreditRiskCategory','IncomeBucket',
-        'LSMGroup','HasResidentialAddress','Province','Area','Municipality',
-        'Employer','VehicleOwnershipStatus'])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        'Middlename','Surname','CleanPhone','Email1'])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
 
 
         // Filter By Provinces
@@ -404,129 +397,129 @@ class DataVisualisationController extends Controller
         $decryptded_array = [];
         foreach($records as $record)
         {
-            if($record["FirstName"]) {
-                $record["FirstName"] = $record["FirstName"];
+            if($record["FirstName"] == "NULL") {
+                $record["FirstName"] = "";
             } 
 
-            if($record["Middlename"]) {
-                $record["Middlename"] = $record["Middlename"];
+            if($record["Middlename"]== "NULL") {
+                $record["Middlename"] = "";
             }
 
-            if($record["Surname"]) {
-                $record["Surname"] = $record["Surname"];
+            if($record["Surname"]== "NULL") {
+                $record["Surname"] = "";
             }
             
-            if($record["CleanPhone"]) {
-                $record["CleanPhone"] = $record["CleanPhone"];
+            if($record["CleanPhone"]== "NULL") {
+                $record["CleanPhone"] = "";
             }
 
-            if($record["Email1"]) {
-                $record["Email1"] = $record["Email1"];
+            if($record["Email1"]== "NULL") {
+                $record["Email1"] = "";
             }
 
-            if($record["Email2"]) {
-                $record["Email2"] = $record["Email2"];
-            }
+            // if($record["Email2"]) {
+            //     $record["Email2"] = $record["Email2"];
+            // }
 
-            if($record["Email3"]) {
-                $record["Email3"] = $record["Email3"];
-            }
+            // if($record["Email3"]) {
+            //     $record["Email3"] = $record["Email3"];
+            // }
 
-            if($record["MobilePhone1"]) {
-                $record["MobilePhone1"] = $record["MobilePhone1"];
-            }
+            // if($record["MobilePhone1"]) {
+            //     $record["MobilePhone1"] = $record["MobilePhone1"];
+            // }
 
-            if($record["MobilePhone2"]) {
-                $record["MobilePhone2"] = $record["MobilePhone2"];
-            }
+            // if($record["MobilePhone2"]) {
+            //     $record["MobilePhone2"] = $record["MobilePhone2"];
+            // }
 
-            if($record["MobilePhone3"]) {
-                $record["MobilePhone3"] = $record["MobilePhone3"];
-            }
+            // if($record["MobilePhone3"]) {
+            //     $record["MobilePhone3"] = $record["MobilePhone3"];
+            // }
 
-            if($record["WorkPhone1"]) {
-                $record["WorkPhone1"] = $record["WorkPhone1"];
-            }
+            // if($record["WorkPhone1"]) {
+            //     $record["WorkPhone1"] = $record["WorkPhone1"];
+            // }
 
-            if($record["WorkPhone2"]) {
-                $record["WorkPhone2"] = $record["WorkPhone2"];
-            }
+            // if($record["WorkPhone2"]) {
+            //     $record["WorkPhone2"] = $record["WorkPhone2"];
+            // }
 
-            if($record["WorkPhone3"]) {
-                $record["WorkPhone3"] = $record["WorkPhone3"];
-            }
+            // if($record["WorkPhone3"]) {
+            //     $record["WorkPhone3"] = $record["WorkPhone3"];
+            // }
 
-            if($record["HomePhone1"]) {
-                $record["HomePhone1"] = $record["HomePhone1"];
-            }
+            // if($record["HomePhone1"]) {
+            //     $record["HomePhone1"] = $record["HomePhone1"];
+            // }
 
-            if($record["HomePhone2"]) {
-                $record["HomePhone2"] = $record["HomePhone2"];
-            }
+            // if($record["HomePhone2"]) {
+            //     $record["HomePhone2"] = $record["HomePhone2"];
+            // }
 
-            if($record["HomePhone3"]) {
-                $record["HomePhone3"] = $record["HomePhone3"];
-            }
+            // if($record["HomePhone3"]) {
+            //     $record["HomePhone3"] = $record["HomePhone3"];
+            // }
 
-            if($record["MaritalStatus"])
-            {
-                if($record["MaritalStatus"] == "True")
-                {
-                    $record["MaritalStatus"] = "Yes";
-                } else {
-                    $record["MaritalStatus"] = "No";
-                }
-            }
+            // if($record["MaritalStatus"])
+            // {
+            //     if($record["MaritalStatus"] == "True")
+            //     {
+            //         $record["MaritalStatus"] = "Yes";
+            //     } else {
+            //         $record["MaritalStatus"] = "No";
+            //     }
+            // }
 
-            if($record["HomeOwnershipStatus"])
-            {
-                if($record["HomeOwnershipStatus"] == "True")
-                {
-                    $record["HomeOwnershipStatus"] = "Yes";
-                } else {
-                    $record["HomeOwnershipStatus"] = "No";
-                }
-            }
+            // if($record["HomeOwnershipStatus"])
+            // {
+            //     if($record["HomeOwnershipStatus"] == "True")
+            //     {
+            //         $record["HomeOwnershipStatus"] = "Yes";
+            //     } else {
+            //         $record["HomeOwnershipStatus"] = "No";
+            //     }
+            // }
 
-            if($record["VehicleOwnershipStatus"])
-            {
-                if($record["VehicleOwnershipStatus"] == "True")
-                {
-                    $record["VehicleOwnershipStatus"] = "Yes";
-                } else {
-                    $record["VehicleOwnershipStatus"] = "No";
-                }
-            }
+            // if($record["VehicleOwnershipStatus"])
+            // {
+            //     if($record["VehicleOwnershipStatus"] == "True")
+            //     {
+            //         $record["VehicleOwnershipStatus"] = "Yes";
+            //     } else {
+            //         $record["VehicleOwnershipStatus"] = "No";
+            //     }
+            // }
 
-            if($record["DirectorshipStatus"])
-            {
-                if($record["DirectorshipStatus"] == "True")
-                {
-                    $record["DirectorshipStatus"] = "Yes";
-                } else {
-                    $record["DirectorshipStatus"] = "No";
-                }
-            }
+            // if($record["DirectorshipStatus"])
+            // {
+            //     if($record["DirectorshipStatus"] == "True")
+            //     {
+            //         $record["DirectorshipStatus"] = "Yes";
+            //     } else {
+            //         $record["DirectorshipStatus"] = "No";
+            //     }
+            // }
 
-            if($record["DeceasedStatus"])
-            {
-                if($record["DeceasedStatus"] == "True")
-                {
-                    $record["DeceasedStatus"] = "Yes";
-                } else {
-                    $record["DeceasedStatus"] = "No";
-                }
-            }
+            // if($record["DeceasedStatus"])
+            // {
+            //     if($record["DeceasedStatus"] == "True")
+            //     {
+            //         $record["DeceasedStatus"] = "Yes";
+            //     } else {
+            //         $record["DeceasedStatus"] = "No";
+            //     }
+            // }
 
-            if($record["HasResidentialAddress"])
-            {
-                if($record["HasResidentialAddress"] == "True")
-                {
-                    $record["HasResidentialAddress"] = "Yes";
-                } else {
-                    $record["HasResidentialAddress"] = "No";
-                }
-            }
+            // if($record["HasResidentialAddress"])
+            // {
+            //     if($record["HasResidentialAddress"] == "True")
+            //     {
+            //         $record["HasResidentialAddress"] = "Yes";
+            //     } else {
+            //         $record["HasResidentialAddress"] = "No";
+            //     }
+            // }
 
             array_push($decryptded_array, $record);
         }
@@ -595,6 +588,12 @@ class DataVisualisationController extends Controller
         
         $file = \MeetPAT\SavedFilteredAudienceFile::where([["file_unique_name", '=', $request->file_unique_name], ["user_id", "=", $request->user_id ]])->first();
         $file_deleted = $file->delete();
+
+        if(env('APP_ENV') == 'production') {
+            $actual_file = \Storage::disk('s3')->delete('client/client-records/user_id_' . $request->user_id . '/' . $request->file_unique_name  . ".csv");
+        } else {
+            $actual_file = \Storage::disk('local')->delete('client/saved-audiences/user_id_' . $request->user_id . '/' . $request->file_unique_name  . ".csv");
+        }
 
         return response()->json(["message" => "successfully deleted file."]);
     }

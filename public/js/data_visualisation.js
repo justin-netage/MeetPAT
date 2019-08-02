@@ -30,7 +30,6 @@ var target_vehicle_owners = [];
 var target_lsm_groups = [];
 var target_property_valuations = [];
 var target_property_counts = [];
-var target_employers = [];
 
 var checkForFilters = function() {
     var target_provinces_el = document.getElementById("province_filters") ;var target_municipalities_el = document.getElementById("municipality_filters");
@@ -41,7 +40,7 @@ var checkForFilters = function() {
     var target_risk_categories_el = document.getElementById("risk_category_filters") ;var target_incomes_el = document.getElementById("household_income_filters");
     var target_directors_el = document.getElementById("directors_filters") ;var target_vehicle_owners_el = document.getElementById("vehicle_owner_filters");
     var target_lsm_group_el = document.getElementById("lsm_group_filters") ;var target_property_valuations_el = document.getElementById("property_valuation_filters");
-    var target_property_counts_el = document.getElementById("property_count_filters");var target_employers_el = document.getElementById("employer_filters");
+    var target_property_counts_el = document.getElementById("property_count_filters");
 
     if(
         target_provinces_el.childNodes.length > 1 || target_municipalities_el.childNodes.length > 1 ||
@@ -52,7 +51,7 @@ var checkForFilters = function() {
         target_risk_categories_el.childNodes.length > 1 || target_incomes_el.childNodes.length > 1 ||
         target_directors_el.childNodes.length > 1 || target_vehicle_owners_el.childNodes.length > 1 ||
         target_lsm_group_el.childNodes.length > 1 || target_property_valuations_el.childNodes.length > 1 ||
-        target_property_counts_el.childNodes.length > 1 || target_employers_el.childNodes.length > 1
+        target_property_counts_el.childNodes.length > 1
         ) { $("#no_filters").hide();} else { $("#no_filters").show();}
 
         if (target_provinces_el.childNodes.length > 1) {$("#province_filters").show()} else {$("#province_filters").hide()};
@@ -72,7 +71,7 @@ var checkForFilters = function() {
         if (target_lsm_group_el.childNodes.length > 1) {$("#lsm_group_filters").show()} else {$("#lsm_group_filters").hide()};
         if (target_property_valuations_el.childNodes.length > 1) {$("#property_valuation_filters").show()} else {$("#property_valuation_filters").hide()};
         if (target_property_counts_el.childNodes.length > 1) {$("#property_count_filters").show()} else {$("#property_count_filters").hide()};
-        if (target_employers_el.childNodes.length > 1) {$("#employer_filters").show()} else {$("#employer_filters").hide()};
+        
 }
 
 function kFormatter(num) {
@@ -165,7 +164,7 @@ function drawAreaChart(  ) {
          municipality: target_municipalities.join(","), area: target_areas.join(","),
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
          lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
-         employer: target_employers.join(",")}, function( chart_data ) {
+         }, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#area-graph .spinner-block").hide();
@@ -468,7 +467,7 @@ function drawAreaChart(  ) {
          municipality: target_municipalities.join(","), area: target_areas.join(","),
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
          lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
-         employer: target_employers.join(",")}, function( chart_data ) {
+         }, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#age-graph .spinner-block").hide();
@@ -567,7 +566,7 @@ function drawAreaChart(  ) {
              municipality: target_municipalities.join(","), area: target_areas.join(","),
              vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
              lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
-             employer: target_employers.join(",")}, function( chart_data ) {
+             }, function( chart_data ) {
     
         }).fail(function( chart_data ) {
             $("#property-valuation-graph .spinner-block").hide();
@@ -681,7 +680,7 @@ function drawAreaChart(  ) {
              municipality: target_municipalities.join(","), area: target_areas.join(","),
              vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
              lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
-             employer: target_employers.join(",")}, function(chart_data) {
+             }, function(chart_data) {
 
         }).fail(function( chart_data ) {
             $("#gender-graph .spinner-block").hide();
@@ -797,7 +796,7 @@ function drawAreaChart(  ) {
              municipality: target_municipalities.join(","), area: target_areas.join(","),
              vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
              lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
-             employer: target_employers.join(",")}, function( chart_data ) {
+             }, function( chart_data ) {
 
         }).fail(function( chart_data ) {
             $("#population-graph .spinner-block").hide();
@@ -898,7 +897,7 @@ function drawAreaChart(  ) {
              municipality: target_municipalities.join(","), area: target_areas.join(","), 
              vehicle_ownerhip_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
              lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
-             employer: target_employers.join(",")}, function( chart_data ) {
+             }, function( chart_data ) {
 
         }).fail(function( chart_data ) {
             $("#generation-graph .spinner-block").hide();
@@ -996,7 +995,7 @@ var drawCitizensChart = function() {
          municipality: target_municipalities.join(","), area: target_areas.join(","), 
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
          lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
-         employer: target_employers.join(",")}, function( chart_data ) {
+         }, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#c-vs-r-graph .spinner-block").hide();
@@ -1124,7 +1123,7 @@ var drawMaritalStatusChart = function() {
          municipality: target_municipalities.join(","), area: target_areas.join(","),
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
          lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
-         employer: target_employers.join(",")}, function( chart_data ) {
+         }, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#marital-status-graph .spinner-block").hide();
@@ -1147,27 +1146,27 @@ var drawMaritalStatusChart = function() {
             data.addRows(result);
             // Set chart options
             var chart_options = {
-                            'width':'100%',
-                            'fontSize': 10,
-                            'chartArea': {
-                                top: '20',
-                                width: '60%',
-                                height: '75%'
-                                },
-                            vAxis: {
-                                minValue: 0,
-                            },                        
-                            'colors': ['#00A3D9'],
-                            'animation': {
-                                'startup':true,
-                                'duration': 1000,
-                                'easing': 'out'
-                            },
-                            'legend': {
-                                position: 'none'
-                            },
-                            'backgroundColor': '#f7f7f7'
-                        };
+                'width':'100%',
+                'fontSize': 10,
+                'chartArea': {
+                    top: '20',
+                    width: '60%',
+                    height: '75%'
+                    },
+                vAxis: {
+                    minValue: 0,
+                },                                     
+                'colors': ['#00A3D9'],
+                'animation': {
+                    'startup':true,
+                    'duration': 1000,
+                    'easing': 'out'
+                },
+                'legend': {
+                    position: 'none'
+                },
+                'backgroundColor': '#f7f7f7'
+            };
 
             for (var key in chart_data["distinct"]) {
                 if(target_marital_statuses.includes(chart_data["distinct"][key]["maritalStatus"])) {
@@ -1221,7 +1220,7 @@ var drawHomeOwnerChart = function() {
          municipality: target_municipalities.join(","), area: target_areas.join(","),
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
          lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
-         employer: target_employers.join(",")}, function( chart_data ) {
+         }, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#home-owner-graph .spinner-block").hide();
@@ -1317,7 +1316,7 @@ var drawPropertyCountChart = function() {
          municipality: target_municipalities.join(","), area: target_areas.join(","),
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
          lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
-         employer: target_employers.join(",")}, function( chart_data ) {
+         }, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#property-count-graph .spinner-block").hide();
@@ -1413,7 +1412,7 @@ var drawVehicleOwnerChart = function() {
          municipality: target_municipalities.join(","), area: target_areas.join(","),
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
          lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
-         employer: target_employers.join(",")}, function( chart_data ) {
+         }, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#vehicle-owner-graph .spinner-block").hide();
@@ -1510,7 +1509,7 @@ var drawLSMGroupChart = function() {
          municipality: target_municipalities.join(","), area: target_areas.join(","),
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
          lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
-         employer: target_employers.join(",")}, function( chart_data ) {
+         }, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#lsm-group-graph .spinner-block").hide();
@@ -1597,167 +1596,6 @@ var drawLSMGroupChart = function() {
     });
 }
 
-function drawEmployerChart(  ) {
-
-    $.get('/api/meetpat-client/get-records/employers', {user_id: user_id_number, province: target_provinces.join(","),
-         age_group: target_ages.join(","), gender: target_genders.join(","),
-         population_group: target_population_groups.join(","), generation: target_generations.join(","),
-         marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
-         risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
-         directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
-         municipality: target_municipalities.join(","), area: target_areas.join(","),
-         vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
-         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
-         employer: target_employers.join(",")}, function( chart_data ) {
-
-    }).fail(function( chart_data ) {
-        $("#employer-graph .spinner-block").hide();
-        $("#employer-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
-        $("#employer_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
-        //console.log( chart_data )
-    }).done(function( chart_data ) {
-        
-        $("#employer-graph .spinner-block").hide();    
-        $("#employerSubmitBtn").prop("disabled", false);
-        $("#employer_filter").append(
-            '<div id="lunr-search-employer" style="display: none;">'+
-            '<input type="text" class="form-control mb-2" id="employerSearchInput" autocomplete="off" placeholder="search for employer...">'+
-            '<span style="position:absolute; right: 40px; top:35px;"><i class="fas fa-search"></i></span>'+
-            '<ul id="lunr-results-employer" class="list-unstyled"></ul>' +
-            '</div>'
-        );
-        //console.log( chart_data );
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Employer');
-        data.addColumn('number', 'Records');
-        data.addColumn({type: 'string', role: 'annotation'});
-
-        var results = Object.keys(chart_data["all"]).map(function(key) {
-            return [chart_data["all"][key]["employer"], chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
-            });
-        var shorter_result = results.slice(0, 20);
-        data.addRows(shorter_result);
-        // Set chart options
-        var chart_options = {
-                        'width':'100%',
-                        'height': shorter_result.length * 25,
-                        'fontSize': 10,
-                        'chartArea': {
-                            top: '20',
-                            width: '60%',
-                            height: '100%'
-                        },
-                        'colors': ['#00A3D9'],
-                        'legend': {
-                            position: 'none'
-                        },
-                        'backgroundColor': '#f7f7f7'
-                        };
-    
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.BarChart(document.getElementById('employerChart'));
-        chart.draw(data, chart_options); 
-
-        var results = Object.keys(chart_data["all"]).map(function(key) {
-            return {"name": chart_data["all"][key]["employer"], "count": kFormatter(chart_data["all"][key]["audience"])};
-        });
-
-        var documents = results;
-        var idx_employer = lunr(function() {
-            this.ref('name');
-            this.field('name');
-            this.b(1);
-
-            documents.forEach(function (doc) {
-                this.add(doc)
-            }, this) 
-                
-            
-        });
-
-        $("#lunr-search-employer").show();
-        $("#employer-filter-form .text-center").remove();
-        // Append checked inputs to hidden form...
-        document.getElementById('employerSearchInput').addEventListener('keyup', function() {
-            if(idx_employer.search(this.value)) {
-                $("#lunr-results-employer").empty();
-
-                idx_employer.search(this.value).forEach(function(result) {
-                    
-                    if(result.score) {
-                        if($('#employer_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                            $("#lunr-results-employer").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="employer_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox" checked="checked"><label for="employer_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result.ref.substring(0, 24) + '<small> ' + kFormatter(results.filter(obj => {if(obj.name === result.ref) { return obj.count}}).map(function(obj) { return obj.count})[0]) + '</small></label><br />');
-                            $('#employer_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
-                                
-                                if($('#employer_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
-                                    
-                                    var parent = this;
-                                    $("#hidden-employer-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="employer_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result.ref.substring(0, 24) + '" checked="checked"><small>' + kFormatter(results.filter(obj => {if(obj.name === result.ref) { return obj.count}}).map(function(obj) { return obj.count})[0]) + "</small></label><br />");
-                                    $("#employer_filters").append('<li id="filter_employer_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                                    $('#filter_employer_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
-                                       
-                                        if($('#employer_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                                            $('#filter_employer_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                            $('#employer_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
-                                            $("#employer_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
-                                        }
-                                        checkForFilters();
-                                    });
-                                } else {
-                                    
-                
-                                    if($('#filter_employer_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
-                                        $('#filter_employer_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                        $('#employer_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
-                                    }
-                                }
-                                checkForFilters();
-                            });                        
-                        } else {
-                            $("#lunr-results-employer").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="employer_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox"><label for="employer_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result.ref.substring(0, 24) + '<small> ' + kFormatter(results.filter(obj => {if(obj.name === result.ref) { return obj.count}}).map(function(obj) { return obj.count})[0]) + '</small></label><br />');
-                            $('#employer_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
-                                if($('#employer_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
-                                    
-                                    var parent = this;
-                                    $("#hidden-employer-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="employer_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" checked="checked">');
-                                    $("#employer_filters").append('<li id="filter_employer_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                                    $('#filter_employer_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
-                                        if($('#employer_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                                            $('#filter_employer_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                            $('#employer_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
-                                            $("#employer_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
-                                        }
-                                        checkForFilters();
-
-                                    });
-                                } else {
-                                    
-                
-                                    if($('#filter_employer_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
-                                        $('#filter_employer_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                        $('#employer_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
-
-                                    }
-                                }
-                                checkForFilters();
-
-                            });                        
-                        }
-                    }
-    
-                });
-            } else {
-                $("#lunr-results-employer").empty();
-            }
-
-
-        })
-    });
-       
-    // Create the data table.
-    
-  }
-
 var drawRiskCategoryChart = function() {
     $.get('/api/meetpat-client/get-records/risk-category', {user_id: user_id_number, province: target_provinces.join(","),
          age_group: target_ages.join(","), gender: target_genders.join(","), 
@@ -1768,7 +1606,7 @@ var drawRiskCategoryChart = function() {
          municipality: target_municipalities.join(","), area: target_areas.join(","),
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
          lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
-         employer: target_employers.join(",")}, function( chart_data ) {
+         }, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#risk-category-graph .spinner-block").hide();
@@ -1864,7 +1702,7 @@ var drawHouseholdIncomeChart = function() {
          municipality: target_municipalities.join(","), area: target_areas.join(","), 
          vehicle_owners: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
          lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","), 
-         employer: target_employers.join(",")}, function( chart_data ) {
+         }, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#income-graph .spinner-block").hide();
@@ -1963,7 +1801,7 @@ var drawDirectorOfBusinessChart = function() {
          municipality: target_municipalities.join(","), area: target_areas.join(","),
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
          lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
-         employer: target_employers.join(",")}, function( chart_data ) {
+         }, function( chart_data ) {
 
     }).fail(function( chart_data ) {
         $("#directors-graph .spinner-block").hide();
@@ -2076,7 +1914,7 @@ var get_records_count =  function(records_data) {
          municipality: target_municipalities.join(","), area: target_areas.join(","), 
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
          lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
-         employer: target_employers.join(",")}, function( data ) {
+         }, function( data ) {
     }).fail(function(data) {
         $("#contacts-number .spinner-block").hide();
         $("#contacts-number .toast-body").html('<i class="fas fa-exclamation-circle text-danger"></i>');
@@ -2105,7 +1943,7 @@ var get_municipalities = function() {
          municipality: target_municipalities.join(","), area: target_areas.join(","), vehicle_ownership_status: target_vehicle_owners.join(","),
          property_valuation_bucket: target_property_valuations.join(","),
          lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
-         employer: target_employers.join(",")}, function( data ) {
+         }, function( data ) {
     }).fail(function(data) {
         $("#municipality-graph .spinner-block").hide();
         $("#municipality-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
@@ -2134,7 +1972,7 @@ var get_provinces = function() {
          municipality: target_municipalities.join(","), area: target_areas.join(","),
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
          lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
-         employer: target_employers.join(",")}, function( data ) {
+         }, function( data ) {
     }).fail(function(data) {
         
         //console.log(data)
@@ -2275,12 +2113,6 @@ var get_vehicle_owner = function() {
 var get_household_income = function() {
 
     drawHouseholdIncomeChart();
-    get_employer();
-}
-
-var get_employer = function() {
-
-    drawEmployerChart();
     get_director_of_business();
 }
 
@@ -2336,7 +2168,6 @@ var apply_filters = function() {
     $("#lsm-group-graph .spinner-block").show(); $("#lsmGroupChart").empty(); $("#lsm_group_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
     $("#property-valuation-graph .spinner-block").show(); $("#propertyValuationChart").empty(); $("#property_valuation_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
     $("#property-count-graph .spinner-block").show(); $("#propertyCountChart").empty(); $("#property_count_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
-    $("#employer-graph .spinner-block").show(); $("#employerChart").empty(); $("#employer_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
 
     $("#records-main-toast .toast-body").html(
                         '<div class="d-flex justify-content-center">' +
@@ -2383,7 +2214,7 @@ $('.apply-filter-button, #sidebarSubmitBtn').click(function() {
     target_lsm_groups = [];
     target_property_valuations = [];
     target_property_counts = [];
-    target_employers = [];
+    
 
     $("#province-filter-form input[type='checkbox']").each(function() {
         if(this.checked) {
@@ -2462,12 +2293,6 @@ $('.apply-filter-button, #sidebarSubmitBtn').click(function() {
             target_incomes.push($(this).val());
         }
     });
-
-    $("#employer-filter-form input[type='checkbox']").each(function() {
-        if(this.checked) {
-            target_employers.push($(this).val());
-        }
-    });
     
     $("#directors-filter-form input[type='checkbox']").each(function() {
         if(this.checked) {
@@ -2507,8 +2332,7 @@ $('.apply-filter-button, #sidebarSubmitBtn').click(function() {
     $("#lsmGroupContactsId").val(target_lsm_groups);
     $("#propertyValuationContactsId").val(target_property_valuations);
     $("#propertyCountContactsId").val(target_property_counts);
-    $("#employerContactsId").val(target_employers);
-
+    
     apply_filters();
     get_provinces();
 });
@@ -2542,8 +2366,7 @@ $("#resetFilterToastBtn, #resetFilterToastBtn2").click(function() {
     target_lsm_groups = [];
     target_property_valuations = [];
     target_property_counts = [];
-    target_employers = [];
-
+    
     $('input:checkbox').each(function(el) {
         if($(el).is(':checked')) {
             $(el).prop('checked', false);

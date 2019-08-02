@@ -73,7 +73,7 @@ class EnrichRecords implements ShouldQueue
             $csv_p->delimeter = ",";
             $csv_p->parse($actual_file);
 
-            $all_records = \MeetPAT\EnrichedRecord::select("Email1", "Email2", "Email3", "MobilePhone1","MobilePhone2","MobilePhone3");
+            //$all_records = \MeetPAT\EnrichedRecord::select("Email1", "Email2", "Email3", "MobilePhone1","MobilePhone2","MobilePhone3");
             
             $data_chunks = array_chunk($csv_p->data, 1000);
             $update_array = [];
