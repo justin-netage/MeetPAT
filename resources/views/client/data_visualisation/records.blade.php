@@ -36,7 +36,7 @@
             <ul id="home_owner_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Home Owner</span></ul>
             <ul id="property_valuation_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Property Valuation</span></ul>
             <ul id="property_type_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Property Type</span></ul>
-            <ul id="property_count_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Property Count</span></ul>
+            <ul id="property_count_bucket_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Property Count</span></ul>
             <ul id="vehicle_owner_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Vehicle Owner</span></ul>
             <ul id="lsm_group_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">LSM Group</span></ul>
             <ul id="risk_category_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Risk Category</span></ul>
@@ -68,7 +68,7 @@
         <input type="hidden" id="houseHoldIncomeContactsId" name="houseHoldIncomeContacts[]">
         <input type="hidden" id="directorsContactsId" name="directorsContacts[]">
         <input type="hidden" id="vehicleOwnerContactsId" name="vehicleOwnerContacts[]">
-        <input type="hidden" id="propertyCountContactsId" name="propertyCountContacts[]">
+        <input type="hidden" id="propertyCountBucketContactsId" name="propertyCountBucketContacts[]">
         <input type="hidden" id="propertyValuationContactsId" name="propertyValuationContacts[]">
         <input type="hidden" id="lsmGroupContactsId" name="lsmGroupContacts[]">
         <!-- <button id="audienceSubmitBtn" class="btn btn-secondary btn-block" disabled="true" type="submit" /><i class="fas fa-users"></i>&nbsp;Sync Contacts</button> -->
@@ -555,7 +555,7 @@
                 <div id="propertyValuationChart" style="width: 100%;"></div>
             </div>
         </div>
-        <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="property-count-graph">
+        <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="property-count-bucket-graph">
             <div class="media">
             <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons/No of Homes.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
@@ -567,15 +567,15 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-form">
                                 <!-- Dropdown menu links -->
-                                <form style="margin: 12px;" id="property-count-filter-form">
-                                    <div id="property_count_filter">
+                                <form style="margin: 12px;" id="property-count-bucket-filter-form">
+                                    <div id="property_count_bucket_filter">
                                     <div class="text-center">
                                     <div class="spinner-border" role="status">
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                     </div>
                                     </div> <br/>
-                                    <button name="property_count_submit" id="property_countsSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                    <button name="property_count_bucket_submit" id="property_count_bucketsSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
                                 </form>
                             </div>
                         </div>
@@ -586,7 +586,7 @@
                 <div class="spinner-block">
                     <div class="spinner spinner-3"></div>
                 </div>
-                <div id="propertyCountChart" style="width: 100%;"></div>
+                <div id="propertyCountBucketChart" style="width: 100%;"></div>
             </div>
         </div>
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="vehicle-owner-graph">

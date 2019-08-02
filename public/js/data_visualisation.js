@@ -12,6 +12,67 @@ var keyChanger = function(key_name) {
     }
 }
 
+var keyChangerPrValBucket = function(key_name) {
+    switch (key_name) {
+        case 'R0 - R1 000 000':
+            return 'R0K - R1M';
+        case 'R1 000 000 - R2 000 000':
+            return 'R1M - R2M';
+            
+        case 'R2 000 000 - R4 000 000':
+            return 'R2M - R4M';
+        case 'R4 000 000 - R6 000 000':
+            return 'R4M - R6M';
+        case 'R7 000 000+':
+            return 'R7M +';
+        default:
+            return "Unknown";
+    }
+}
+
+var keyChangerHsIncBucket = function(key_name) {
+    switch (key_name) {
+        case 'R0 - R2 500':
+            return 'R0K - R2.5K';
+        case 'R2 500 - R5 000':
+            return 'R2.5K - R5K';
+        case 'R5 000 - R10 000':
+            return 'R5K - R10K';
+        case 'R10 000 - R20 000':
+            return 'R10K - R20K';
+        case 'R20 000 - R30 000':
+            return 'R20K - R30K';
+        case 'R30 000 - R40 000':
+            return 'R30K - R40K';
+        case 'R40 000 +':
+            return 'R40K +';
+        default:
+            return 'Unknown';
+
+    }
+}
+
+var keyChangerGender = function(key_name) {
+    switch (key_name) {
+        case 'M':
+            return 'Male';
+        case 'F':
+            return 'Female';
+        default: 
+            return 'Unknown';
+    }
+}
+
+var keyChangerMaritalStatus = function(key_name) {
+    if(key_name == "True" || key_name == "true") {
+        return 'Maried';
+    } else if(key_name == "False" || key_name == "false") {
+        return 'Not Maried';
+    } else {
+        return key_name;
+    }
+}
+
 // Selected Targets Arrays
 var target_provinces = [];
 var target_municipalities = [];
@@ -29,7 +90,7 @@ var target_directors = [];
 var target_vehicle_owners = [];
 var target_lsm_groups = [];
 var target_property_valuations = [];
-var target_property_counts = [];
+var target_property_count_buckets = [];
 
 var checkForFilters = function() {
     var target_provinces_el = document.getElementById("province_filters") ;var target_municipalities_el = document.getElementById("municipality_filters");
@@ -40,7 +101,7 @@ var checkForFilters = function() {
     var target_risk_categories_el = document.getElementById("risk_category_filters") ;var target_incomes_el = document.getElementById("household_income_filters");
     var target_directors_el = document.getElementById("directors_filters") ;var target_vehicle_owners_el = document.getElementById("vehicle_owner_filters");
     var target_lsm_group_el = document.getElementById("lsm_group_filters") ;var target_property_valuations_el = document.getElementById("property_valuation_filters");
-    var target_property_counts_el = document.getElementById("property_count_filters");
+    var target_property_count_buckets_el = document.getElementById("property_count_bucket_filters");
 
     if(
         target_provinces_el.childNodes.length > 1 || target_municipalities_el.childNodes.length > 1 ||
@@ -51,7 +112,7 @@ var checkForFilters = function() {
         target_risk_categories_el.childNodes.length > 1 || target_incomes_el.childNodes.length > 1 ||
         target_directors_el.childNodes.length > 1 || target_vehicle_owners_el.childNodes.length > 1 ||
         target_lsm_group_el.childNodes.length > 1 || target_property_valuations_el.childNodes.length > 1 ||
-        target_property_counts_el.childNodes.length > 1
+        target_property_count_buckets_el.childNodes.length > 1
         ) { $("#no_filters").hide();} else { $("#no_filters").show();}
 
         if (target_provinces_el.childNodes.length > 1) {$("#province_filters").show()} else {$("#province_filters").hide()};
@@ -70,12 +131,12 @@ var checkForFilters = function() {
         if (target_vehicle_owners_el.childNodes.length > 1) {$("#vehicle_owner_filters").show()} else {$("#vehicle_owner_filters").hide()};
         if (target_lsm_group_el.childNodes.length > 1) {$("#lsm_group_filters").show()} else {$("#lsm_group_filters").hide()};
         if (target_property_valuations_el.childNodes.length > 1) {$("#property_valuation_filters").show()} else {$("#property_valuation_filters").hide()};
-        if (target_property_counts_el.childNodes.length > 1) {$("#property_count_filters").show()} else {$("#property_count_filters").hide()};
+        if (target_property_count_buckets_el.childNodes.length > 1) {$("#property_count_bucket_filters").show()} else {$("#property_count_bucket_filters").hide()};
         
 }
 
 function kFormatter(num) {
-    return num > 999 ? (num/1000).toFixed(1) + 'k' : num.toString()
+    return num > 999 ? (num/1000).toFixed(1) + 'K' : num.toString()
 }
 
 function drawProvinceChart( chart_data ) {
@@ -163,7 +224,7 @@ function drawAreaChart(  ) {
          directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
          municipality: target_municipalities.join(","), area: target_areas.join(","),
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
-         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
          }, function( chart_data ) {
 
     }).fail(function( chart_data ) {
@@ -466,7 +527,7 @@ function drawAreaChart(  ) {
          directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
          municipality: target_municipalities.join(","), area: target_areas.join(","),
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
-         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
          }, function( chart_data ) {
 
     }).fail(function( chart_data ) {
@@ -565,7 +626,7 @@ function drawAreaChart(  ) {
              directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
              municipality: target_municipalities.join(","), area: target_areas.join(","),
              vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
-             lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+             lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
              }, function( chart_data ) {
     
         }).fail(function( chart_data ) {
@@ -584,7 +645,7 @@ function drawAreaChart(  ) {
             data.addColumn({type: 'string', role: 'annotation'});
     
             var result = Object.keys(chart_data["all"]).map(function(key) {
-                return [chart_data["all"][key]["propertyValuationBucket"], chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
+                return [keyChangerPrValBucket(chart_data["all"][key]["propertyValuationBucket"]), chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
               });
         
                 data.addRows(result);
@@ -679,7 +740,7 @@ function drawAreaChart(  ) {
              directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
              municipality: target_municipalities.join(","), area: target_areas.join(","),
              vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
-             lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+             lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
              }, function(chart_data) {
 
         }).fail(function( chart_data ) {
@@ -697,7 +758,7 @@ function drawAreaChart(  ) {
             data.addColumn({type: 'string', role: 'annotation'});
 
             var result = Object.keys(chart_data["all"]).map(function(key) {
-                return [chart_data["all"][key]["gender"], chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
+                return [keyChangerGender(chart_data["all"][key]["gender"]), chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
             });
         
                 data.addRows(result);
@@ -796,7 +857,7 @@ function drawAreaChart(  ) {
              directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
              municipality: target_municipalities.join(","), area: target_areas.join(","),
              vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
-             lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+             lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
              }, function( chart_data ) {
 
         }).fail(function( chart_data ) {
@@ -899,7 +960,7 @@ function drawAreaChart(  ) {
              directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
              municipality: target_municipalities.join(","), area: target_areas.join(","), 
              vehicle_ownerhip_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
-             lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+             lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
              }, function( chart_data ) {
 
         }).fail(function( chart_data ) {
@@ -998,7 +1059,7 @@ var drawCitizensChart = function() {
          directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
          municipality: target_municipalities.join(","), area: target_areas.join(","), 
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
-         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
          }, function( chart_data ) {
 
     }).fail(function( chart_data ) {
@@ -1127,7 +1188,7 @@ var drawMaritalStatusChart = function() {
          directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
          municipality: target_municipalities.join(","), area: target_areas.join(","),
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
-         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
          }, function( chart_data ) {
 
     }).fail(function( chart_data ) {
@@ -1145,7 +1206,7 @@ var drawMaritalStatusChart = function() {
         data.addColumn({type: 'string', role: 'annotation'});
 
         var result = Object.keys(chart_data["all"]).map(function(key) {
-                return [keyChanger(chart_data["all"][key]["marital_status"]), chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
+                return [keyChangerMaritalStatus(chart_data["all"][key]["maritalStatus"]), chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
         });
     
             data.addRows(result);
@@ -1225,7 +1286,7 @@ var drawHomeOwnerChart = function() {
          directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
          municipality: target_municipalities.join(","), area: target_areas.join(","),
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
-         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
          }, function( chart_data ) {
 
     }).fail(function( chart_data ) {
@@ -1313,8 +1374,8 @@ var drawHomeOwnerChart = function() {
     });
 }
 
-var drawPropertyCountChart = function() {
-    $.get('/api/meetpat-client/get-records/property-count', {user_id: user_id_number, province: target_provinces.join(","),
+var drawpropertyCountBucketChart = function() {
+    $.get('/api/meetpat-client/get-records/property-count-bucket', {user_id: user_id_number, province: target_provinces.join(","),
          age: target_ages.join(","), gender: target_genders.join(","), 
          population_group: target_population_groups.join(","), generation: target_generations.join(","),
          marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
@@ -1322,17 +1383,17 @@ var drawPropertyCountChart = function() {
          directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
          municipality: target_municipalities.join(","), area: target_areas.join(","),
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
-         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
          }, function( chart_data ) {
 
     }).fail(function( chart_data ) {
-        $("#property-count-graph .spinner-block").hide();
-        $("#property-count-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
-        $("#property_count_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
+        $("#property-count-bucket-graph .spinner-block").hide();
+        $("#property-count-bucket-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
+        $("#property_count_bucket_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
         //console.log( chart_data );
     }).done(function( chart_data ) {
-        $("#property-count-graph .spinner-block").hide();    
-        $("#property_count_filter").empty();
+        $("#property-count-bucket-graph .spinner-block").hide();    
+        $("#property_count_bucket_filter").empty();
 
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Property Count');
@@ -1340,7 +1401,7 @@ var drawPropertyCountChart = function() {
         data.addColumn({type: 'string', role: 'annotation'});
 
         var result = Object.keys(chart_data["all"]).map(function(key) {
-            return [chart_data["all"][key]["propertyCount"], chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
+            return [chart_data["all"][key]["propertyCountBucket"], chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
         });
     
             data.addRows(result);
@@ -1369,22 +1430,22 @@ var drawPropertyCountChart = function() {
                             'backgroundColor': '#f7f7f7'
                         };
             for (var key in chart_data["distinct"]) {
-                if(target_home_owners.includes(chart_data["distinct"][key]["propertyCount"])) {
-                    $("#property_count_filter").append(
-                        '<input type="checkbox" name="pc_' + chart_data["distinct"][key]["propertyCount"].toLowerCase() + '" id="pc_' + chart_data["distinct"][key]["propertyCount"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["propertyCount"].toLowerCase() + '" class="css-checkbox" checked="checked"><label for="pc_' + chart_data["distinct"][key]["propertyCount"].toLowerCase() + '_option' +'" class="css-label">' + chart_data["distinct"][key]["propertyCount"].toLowerCase() + '</label><br />'
+                if(target_home_owners.includes(chart_data["distinct"][key]["propertyCountBucket"])) {
+                    $("#property_count_bucket_filter").append(
+                        '<input type="checkbox" name="pc_' + chart_data["distinct"][key]["propertyCountBucket"].toLowerCase() + '" id="pc_' + chart_data["distinct"][key]["propertyCountBucket"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["propertyCountBucket"].toLowerCase() + '" class="css-checkbox" checked="checked"><label for="pc_' + chart_data["distinct"][key]["propertyCountBucket"].toLowerCase() + '_option' +'" class="css-label">' + chart_data["distinct"][key]["propertyCountBucket"].toLowerCase() + '</label><br />'
                     );
                 } else {
-                    $("#property_count_filter").append(
-                        '<input type="checkbox" name="pc_' + chart_data["distinct"][key]["propertyCount"].toLowerCase() + '" id="pc_' + chart_data["distinct"][key]["propertyCount"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["propertyCount"].toLowerCase() + '" class="css-checkbox"><label for="pc_' + chart_data["distinct"][key]["propertyCount"].toLowerCase() + '_option' +'" class="css-label">' + chart_data["distinct"][key]["propertyCount"].toLowerCase() + '</label><br />'
+                    $("#property_count_bucket_filter").append(
+                        '<input type="checkbox" name="pc_' + chart_data["distinct"][key]["propertyCountBucket"].toLowerCase() + '" id="pc_' + chart_data["distinct"][key]["propertyCountBucket"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["propertyCountBucket"].toLowerCase() + '" class="css-checkbox"><label for="pc_' + chart_data["distinct"][key]["propertyCountBucket"].toLowerCase() + '_option' +'" class="css-label">' + chart_data["distinct"][key]["propertyCountBucket"].toLowerCase() + '</label><br />'
                     );
                 }
                 
-                $('#pc_' + chart_data["distinct"][key]["propertyCount"].toLowerCase().replace(/ /g, "_") + '_option').click(function(){
+                $('#pc_' + chart_data["distinct"][key]["propertyCountBucket"].toLowerCase().replace(/ /g, "_") + '_option').click(function(){
                     if($('#pc_' + $(this).val().toLowerCase().replace(/ /g, "_") + '_option').is(":checked")) { 
                         
                         var parent = this;
     
-                        $("#property_count_filters").append('<li id="filter_pc_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                        $("#property_count_bucket_filters").append('<li id="filter_pc_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
                         $('#filter_pc_' + $(this).val().toLowerCase().replace(/ /g, "_") + ' i').click(function() {
                             if($('#pc_' + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').length) {
                                 $('#filter_pc_' + $(parent).val().toLowerCase().replace(/ /g, "_")).remove();
@@ -1405,7 +1466,7 @@ var drawPropertyCountChart = function() {
                 });
             }              
             // Instantiate and draw our chart, passing in some options.
-            var chart = new google.visualization.ColumnChart(document.getElementById('propertyCountChart'));
+            var chart = new google.visualization.ColumnChart(document.getElementById('propertyCountBucketChart'));
             chart.draw(data, chart_options);    
     });
 }
@@ -1419,7 +1480,7 @@ var drawVehicleOwnerChart = function() {
          directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
          municipality: target_municipalities.join(","), area: target_areas.join(","),
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
-         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
          }, function( chart_data ) {
 
     }).fail(function( chart_data ) {
@@ -1517,7 +1578,7 @@ var drawLSMGroupChart = function() {
          directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
          municipality: target_municipalities.join(","), area: target_areas.join(","),
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
-         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
          }, function( chart_data ) {
 
     }).fail(function( chart_data ) {
@@ -1615,7 +1676,7 @@ var drawRiskCategoryChart = function() {
          directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
          municipality: target_municipalities.join(","), area: target_areas.join(","),
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
-         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
          }, function( chart_data ) {
 
     }).fail(function( chart_data ) {
@@ -1711,7 +1772,7 @@ var drawHouseholdIncomeChart = function() {
          directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
          municipality: target_municipalities.join(","), area: target_areas.join(","), 
          vehicle_owners: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
-         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","), 
+         lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","), 
          }, function( chart_data ) {
 
     }).fail(function( chart_data ) {
@@ -1730,7 +1791,7 @@ var drawHouseholdIncomeChart = function() {
         data.addColumn({type: 'string', role: 'annotation'});
 
         var result = Object.keys(chart_data["all"]).map(function(key) {
-            return [chart_data["all"][key]["incomeBucket"], chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
+            return [keyChangerHsIncBucket(chart_data["all"][key]["incomeBucket"]), chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
           });
     
             data.addRows(result);
@@ -1811,7 +1872,7 @@ var drawDirectorOfBusinessChart = function() {
          directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
          municipality: target_municipalities.join(","), area: target_areas.join(","),
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
-         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
          }, function( chart_data ) {
 
     }).fail(function( chart_data ) {
@@ -1925,7 +1986,7 @@ var get_records_count =  function(records_data) {
          directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
          municipality: target_municipalities.join(","), area: target_areas.join(","), 
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
-         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
          }, function( data ) {
     }).fail(function(data) {
         $("#contacts-number .spinner-block").hide();
@@ -1954,7 +2015,7 @@ var get_municipalities = function() {
          directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
          municipality: target_municipalities.join(","), area: target_areas.join(","), vehicle_ownership_status: target_vehicle_owners.join(","),
          property_valuation_bucket: target_property_valuations.join(","),
-         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
          }, function( data ) {
     }).fail(function(data) {
         $("#municipality-graph .spinner-block").hide();
@@ -1983,7 +2044,7 @@ var get_provinces = function() {
          directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
          municipality: target_municipalities.join(","), area: target_areas.join(","),
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
-         lsm_group: target_lsm_groups.join(","), property_count: target_property_counts.join(","),
+         lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
          }, function( data ) {
     }).fail(function(data) {
         
@@ -2107,12 +2168,12 @@ var get_home_owner = function() {
 var get_property_valuation = function() {
 
     drawPropertyValuationChart();
-    get_property_count();
+    get_property_count_bucket();
 }
 
-var get_property_count = function() {
+var get_property_count_bucket = function() {
 
-    drawPropertyCountChart();
+    drawpropertyCountBucketChart();
     get_vehicle_owner();
 }
 
@@ -2179,7 +2240,7 @@ var apply_filters = function() {
     $("#vehicle-owner-graph .spinner-block").show(); $("#vehicleOwnerChart").empty(); $("#vehicle_owner_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
     $("#lsm-group-graph .spinner-block").show(); $("#lsmGroupChart").empty(); $("#lsm_group_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
     $("#property-valuation-graph .spinner-block").show(); $("#propertyValuationChart").empty(); $("#property_valuation_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
-    $("#property-count-graph .spinner-block").show(); $("#propertyCountChart").empty(); $("#property_count_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
+    $("#property-count-bucket-graph .spinner-block").show(); $("#propertyCountBucketChart").empty(); $("#property_count_bucket_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
 
     $("#records-main-toast .toast-body").html(
                         '<div class="d-flex justify-content-center">' +
@@ -2225,7 +2286,7 @@ $('.apply-filter-button, #sidebarSubmitBtn').click(function() {
     target_vehicle_owners = [];
     target_lsm_groups = [];
     target_property_valuations = [];
-    target_property_counts = [];
+    target_property_count_buckets = [];
     
 
     $("#province-filter-form input[type='checkbox']").each(function() {
@@ -2282,9 +2343,9 @@ $('.apply-filter-button, #sidebarSubmitBtn').click(function() {
         }
     });
 
-    $("#property-count-filter-form input[type='checkbox']").each(function() {
+    $("#property-count-bucket-filter-form input[type='checkbox']").each(function() {
         if(this.checked) {
-            target_property_counts.push($(this).val());
+            target_property_count_buckets.push($(this).val());
         }
     });
 
@@ -2343,7 +2404,7 @@ $('.apply-filter-button, #sidebarSubmitBtn').click(function() {
     $("#vehicleOwnerContactsId").val(target_vehicle_owners);
     $("#lsmGroupContactsId").val(target_lsm_groups);
     $("#propertyValuationContactsId").val(target_property_valuations);
-    $("#propertyCountContactsId").val(target_property_counts);
+    $("#propertyCountBucketContactsId").val(target_property_count_buckets);
     
     apply_filters();
     get_provinces();
@@ -2377,7 +2438,7 @@ $("#resetFilterToastBtn, #resetFilterToastBtn2").click(function() {
     target_vehicle_owners = [];
     target_lsm_groups = [];
     target_property_valuations = [];
-    target_property_counts = [];
+    target_property_count_buckets = [];
     
     $('input:checkbox').each(function(el) {
         if($(el).is(':checked')) {

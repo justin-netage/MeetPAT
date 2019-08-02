@@ -244,11 +244,11 @@ class DataVisualisationController extends Controller
 
     }
 
-    public function get_property_count(Request $request)
+    public function get_property_count_bucket(Request $request)
     {
         
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/property-count?" . $query_params));
+        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/property-count-bucket?" . $query_params));
 
         return response()->json($records);
     }
@@ -351,8 +351,8 @@ class DataVisualisationController extends Controller
             $records = $records->whereIn('PropertyValuationBucket', explode(",", $request->propertyValuationContacts[0]));
         } 
         // Filter By Property Count
-        if($request->propertyCountContacts[0]) {
-            $records = $records->whereIn('PropertyCount', explode(",", $request->propertyCountContacts[0]));
+        if($request->propertyCountBucketContacts[0]) {
+            $records = $records->whereIn('PropertyCountBucket', explode(",", $request->propertyCountBucketContacts[0]));
         }
         // Filter By Risk Categories
         if($request->riskCategoryContacts[0]) {
