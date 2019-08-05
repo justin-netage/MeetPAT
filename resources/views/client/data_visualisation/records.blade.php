@@ -134,7 +134,7 @@
     <div class="row">
         <div class="col-12 col-md-6 data-graph-container" id="province-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons/Province.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons-colour/Province.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Province</span>
                 <!-- Default dropright button -->
@@ -168,7 +168,7 @@
         </div>
         <div class="col-12 col-md-6 data-graph-container" id="municipality-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons/Municipality.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons-colour/Municipality.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Municipality</span>
                 <!-- Default dropright button -->
@@ -219,7 +219,7 @@
         </div>
         <div class="col-12 col-md-6 data-graph-container" id="area-graph">
         <div class="media">
-            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons/Area.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons-colour/Greater Area.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Area</span>
                 <!-- Default dropright button -->
@@ -307,7 +307,7 @@
         </div>
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="gender-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons/Gender.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons-colour/Gender.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Gender</span>
                 <!-- Default dropright button -->
@@ -341,7 +341,7 @@
         </div>
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="population-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons/Population Group.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons-colour/Population Group.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Population Group</span>
                 <!-- Default dropright button -->
@@ -375,7 +375,7 @@
         </div>
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="generation-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons/Generation.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons-colour/Generation.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Generation</span>
                 <!-- Default dropright button -->
@@ -409,7 +409,7 @@
         </div>
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="c-vs-r-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons/Citizen vs Resident.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons-colour/Citizen Resident.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Citizen VS Resident</span>
                 <!-- Default dropright button -->
@@ -443,7 +443,7 @@
         </div>
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="marital-status-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons/Marital Status.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons-colour/Marital Status.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Marital Status</span>
                 <!-- Default dropright button -->
@@ -489,7 +489,7 @@
     <div class="row">
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="home-owner-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons/Home Owner.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons-colour/Home Owner.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Home Owner</span>
                 <!-- Default dropright button -->
@@ -523,7 +523,7 @@
         </div>
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="property-valuation-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons/Home Value.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons-colour/Home Value.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Property Valuation</span>
                 <!-- Default dropright button -->
@@ -557,7 +557,7 @@
         </div>
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="property-count-bucket-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons/No of Homes.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons-colour/No of Homes.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Property Count</span>
                 <!-- Default dropright button -->
@@ -591,7 +591,7 @@
         </div>
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="vehicle-owner-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons/Car Owner.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons-colour/Car Owner.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Vehicle Owner</span>
                 <!-- Default dropright button -->
@@ -636,7 +636,7 @@
     <div class="row">
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="risk-category-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons/Risk.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons-colour/Risk.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Risk Category</span>
                 <!-- Default dropright button -->
@@ -704,7 +704,7 @@
         </div>
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="income-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons/Household Income.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons-colour/Household Income.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Household Income</span>
                 <!-- Default dropright button -->
@@ -738,7 +738,7 @@
         </div>
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="directors-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons/Business Director.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons-colour/Business Director.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Company Director</span>
                 <!-- Default dropright button -->
