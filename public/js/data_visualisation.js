@@ -1426,7 +1426,7 @@ var drawHomeOwnerChart = function() {
                             'backgroundColor': '#f7f7f7'
                         };
             for (var key in chart_data["distinct"]) {
-                if(target_home_owners.includes(chart_data["distinct"][key]["homeOwnershipStatus"])) {
+                if(target_home_owners.includes(chart_data["distinct"][key]["homeOwnershipStatus"].toLowerCase())) {
                     $("#home_owner_filter").append(
                         '<input type="checkbox" name="h_' + chart_data["distinct"][key]["homeOwnershipStatus"].toLowerCase() + '" id="h_' + chart_data["distinct"][key]["homeOwnershipStatus"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["homeOwnershipStatus"].toLowerCase() + '" class="css-checkbox" checked="checked"><label for="h_' + chart_data["distinct"][key]["homeOwnershipStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChanger(chart_data["distinct"][key]["homeOwnershipStatus"]) + '</label><br />'
                     );
@@ -1620,7 +1620,7 @@ var drawVehicleOwnerChart = function() {
                             'backgroundColor': '#f7f7f7'
                         };
             for (var key in chart_data["distinct"]) {
-                if(target_vehicle_owners.includes(chart_data["distinct"][key]["vehicleOwnershipStatus"])) {
+                if(target_vehicle_owners.includes(chart_data["distinct"][key]["vehicleOwnershipStatus"].toLowerCase())) {
                     $("#vehicle_owner_filter").append(
                         '<input type="checkbox" name="vo_' + chart_data["distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '" id="vo_' + chart_data["distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '" class="css-checkbox" checked="checked"><label for="vo_' + chart_data["distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChanger(chart_data["distinct"][key]["vehicleOwnershipStatus"]) + '</label><br />'
                     );
