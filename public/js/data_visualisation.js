@@ -1052,7 +1052,7 @@ function drawAreaChart(  ) {
              risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
              directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
              municipality: target_municipalities.join(","), area: target_areas.join(","), 
-             vehicle_ownerhip_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
+             vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
              lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
              }, function( chart_data ) {
 
@@ -1864,7 +1864,7 @@ var drawHouseholdIncomeChart = function() {
          risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
          directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
          municipality: target_municipalities.join(","), area: target_areas.join(","), 
-         vehicle_owners: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
+         vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
          lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","), 
          }, function( chart_data ) {
 
