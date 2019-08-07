@@ -789,9 +789,17 @@
         <div class="alert alert-warning mb-2" role="alert">
             <strong>Warning</strong> - Deleting a file will remove it permanently.
         </div>
+        
         <div class="row" id="userSavedFiles">
-            
         </div>
+
+        <nav class="mt-3">
+        <ul class="pagination justify-content-center">
+            <li id="btn_prev_item" class="page-item"><a class="page-link" id="btn_prev" href="#">Previous</a></li>
+            <li class="page-item"><a class="page-link" id="page_span" href="#">1</a></li>
+            <li id="btn_next_item" class="page-item"><a class="page-link" id="btn_next" href="#">Next</a></li>
+        </ul>
+        </nav>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -843,6 +851,6 @@
 
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script src="https://unpkg.com/lunr/lunr.js"></script>
+<script type="text/javascript" src="https://unpkg.com/lunr/lunr.js"></script>
 <script type="text/javascript" src="{{asset('js/data_visualisation.min.js')}}"></script>
 @endsection

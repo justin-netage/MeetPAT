@@ -65,12 +65,105 @@ var keyChangerGender = function(key_name) {
 
 var keyChangerMaritalStatus = function(key_name) {
     if(key_name == "True" || key_name == "true") {
-        return 'Maried';
+        return 'Married';
     } else if(key_name == "False" || key_name == "false") {
-        return 'Not Maried';
+        return 'Not Married';
     } else {
         return key_name;
     }
+}
+
+// Saved Audience Files methods
+
+var user_id_number = $("#user_id").val();
+
+var current_page = 1;
+var records_per_page = 5;
+
+function changePage(page, data)
+{
+    var listing_table = document.getElementById("userSavedFiles");
+    var page_span = document.getElementById("page_span");
+
+    // Validate page
+    if (page < 1) page = 1;
+    if (page > numPages(data)) page = numPages(data);
+
+    listing_table.innerHTML = "";
+
+    for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < data.length; i++) {
+        audience_file = data[i];
+        
+        $("#userSavedFiles").append(
+            `<div class="col-9 mb-1" id="file_name_${audience_file.file_unique_name}">
+            <input id="input_${audience_file.file_unique_name}" class="form-control" name="${audience_file.file_unique_name}" value="${audience_file.file_name}" readonly>
+            </div>
+            <div class="col-3 mb-1" id="file_actions_${audience_file.file_unique_name}">
+                <div class="btn-group float-right" role="group" aria-label="Basic example">
+                    <a type="button" id="download_${audience_file.file_unique_name}" href="${audience_file.link}" class="btn btn-light"><i class="fas fa-file-download"></i></a>
+                    <button type="button" id="edit_${audience_file.file_unique_name}" onclick="edit_file('${audience_file.file_unique_name}')" class="btn btn-light"><i class="far fa-edit"></i></button>
+                    <button type="button" id="delete_${audience_file.file_unique_name}" onclick="delete_file('${audience_file.file_unique_name}','${audience_file.file_name}');" class="btn btn-danger delete_file_btn"><i class="fas fa-trash-alt"></i></button>
+                </div>
+            </div>`
+        )                   
+
+    }
+
+    if (page == 1) {
+        document.getElementById("btn_prev_item").classList.add("disabled");
+    } else {
+        document.getElementById("btn_prev_item").classList.remove("disabled");
+    }
+
+    if (page == numPages(data)) {
+        
+        document.getElementById("btn_next_item").classList.add("disabled");
+    } else {
+        document.getElementById("btn_next_item").classList.remove("disabled");
+    }
+
+    page_span.innerHTML = page + " of " + numPages(data);
+}
+
+function numPages(data)
+{
+    return Math.ceil(data.length / records_per_page);
+}
+
+var edit_file = function(file_unique_name) {
+    if($("#input_" + file_unique_name).attr("readonly"))
+    {
+        $("#input_" + file_unique_name).removeAttr("readonly");
+    } else {
+        $("#input_" + file_unique_name).attr("readonly", true);
+    }
+}
+
+var delete_file = function(file_unique_name, file_name) {
+    var confirmed = confirm("Are you sure that you want to delete: " + file_name + "?");
+    $(".delete_file_btn").prop("disabled", true);
+    $(".page-item").addClass("disabled");
+    if(confirmed == true) {
+        $("#delete_" + file_unique_name).html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span class="sr-only">Loading...</span>`);
+        $.post('/api/meetpat-client/delete-saved-audience-file', {user_id: user_id_number, file_unique_name: file_unique_name}, function(data) {
+            $("#file_name_" + file_unique_name).remove();
+            $("#file_actions_" + file_unique_name).remove();
+            
+            //console.log(data);
+        }).fail(function(data) {
+            $("#delete_" + file_unique_name).html(`<i class="fas fa-trash-alt"></i>`);
+            $(".delete_file_btn").prop("disabled", false);
+            $(".page-item").removeClass("disabled");
+            //console.log(data);
+        }).done(function() {
+            $("#delete_" + file_unique_name).html(`<i class="fas fa-trash-alt"></i>`);
+            $(".delete_file_btn").prop("disabled", false);
+            $(".page-item").removeClass("disabled");
+            get_saved_audiences();
+        });
+    } 
+
+    
 }
 
 // Selected Targets Arrays
@@ -674,11 +767,11 @@ function drawAreaChart(  ) {
                             for (var key in chart_data["distinct"]) {
                                 if(target_property_valuations.includes(chart_data["distinct"][key]["propertyValuationBucket"])) {
                                     $("#property_valuation_filter").append(
-                                        '<input type="checkbox" name="' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "").replace("-", "") + '" id="property_valuations_' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" value="' + chart_data["distinct"][key]["propertyValuationBucket"] + '" class="css-checkbox" checked="checked"><label for="property_valuations_' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" class="css-label">' + chart_data["distinct"][key]["propertyValuationBucket"] + '</label><br />'
+                                        '<input type="checkbox" name="' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "").replace("-", "") + '" id="property_valuations_' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" value="' + chart_data["distinct"][key]["propertyValuationBucket"] + '" class="css-checkbox" checked="checked"><label for="property_valuations_' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" class="css-label">' + keyChangerPrValBucket(chart_data["distinct"][key]["propertyValuationBucket"]) + '</label><br />'
                                     );
                                 } else {
                                     $("#property_valuation_filter").append(
-                                        '<input type="checkbox" name="' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '" id="property_valuations_' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" value="' + chart_data["distinct"][key]["propertyValuationBucket"] + '" class="css-checkbox"><label for="property_valuations_' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" class="css-label">' + chart_data["distinct"][key]["propertyValuationBucket"] + '</label><br />'
+                                        '<input type="checkbox" name="' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '" id="property_valuations_' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" value="' + chart_data["distinct"][key]["propertyValuationBucket"] + '" class="css-checkbox"><label for="property_valuations_' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" class="css-label">' + keyChangerPrValBucket(chart_data["distinct"][key]["propertyValuationBucket"]) + '</label><br />'
                                     );
                                 }
     
@@ -1238,12 +1331,12 @@ var drawMaritalStatusChart = function() {
             for (var key in chart_data["distinct"]) {
                 if(target_marital_statuses.includes(chart_data["distinct"][key]["maritalStatus"])) {
                     $("#marital_status_filter").append(
-                        '<input type="checkbox" name="m_' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '" id="m_' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '" class="css-checkbox" checked="checked"><label for="m_' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChanger(chart_data["distinct"][key]["maritalStatus"]) + '</label><br />'
+                        '<input type="checkbox" name="m_' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '" id="m_' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '" class="css-checkbox" checked="checked"><label for="m_' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChangerMaritalStatus(chart_data["distinct"][key]["maritalStatus"]) + '</label><br />'
                     );
 
                 } else {
                     $("#marital_status_filter").append(
-                        '<input type="checkbox" name="m_' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '" id="m_' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '" class="css-checkbox"><label for="m_' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChanger(chart_data["distinct"][key]["maritalStatus"]) + '</label><br />'
+                        '<input type="checkbox" name="m_' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '" id="m_' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '" class="css-checkbox"><label for="m_' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChangerMaritalStatus(chart_data["distinct"][key]["maritalStatus"]) + '</label><br />'
                     );
                 }
                 $('#m_' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '_option').click(function(){
@@ -1251,7 +1344,7 @@ var drawMaritalStatusChart = function() {
                         
                         var parent = this;
     
-                        $("#marital_status_filters").append('<li id="filter_m_' + $(this).val().toLowerCase() + '">'+ keyChanger($(this).val()) +'<i class="fas fa-window-close float-right"></i></li>')
+                        $("#marital_status_filters").append('<li id="filter_m_' + $(this).val().toLowerCase() + '">'+ keyChangerMaritalStatus($(this).val()) +'<i class="fas fa-window-close float-right"></i></li>')
                         $('#filter_m_' + $(this).val().toLowerCase() + ' i').click(function() {
                             if($('#m_' + $(parent).val().toLowerCase() + '_option').length) {
                                 $('#filter_m_' + $(parent).val().toLowerCase()).remove();
@@ -1822,11 +1915,11 @@ var drawHouseholdIncomeChart = function() {
             for (var key in chart_data["distinct"]) {
                 if(target_incomes.includes(chart_data["distinct"][key]["incomeBucket"])) {
                     $("#household_income_filter").append(
-                        '<input type="checkbox" name="hi_' + chart_data["distinct"][key]["incomeBucket"].toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '" id="hi_' + chart_data["distinct"][key]["incomeBucket"].toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option' +'" value="' + chart_data["distinct"][key]["incomeBucket"] + '" class="css-checkbox" checked="checked"><label for="hi_' + chart_data["distinct"][key]["incomeBucket"].toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option' +'" class="css-label">' + chart_data["distinct"][key]["incomeBucket"] + '</label><br />'
+                        '<input type="checkbox" name="hi_' + chart_data["distinct"][key]["incomeBucket"].toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '" id="hi_' + chart_data["distinct"][key]["incomeBucket"].toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option' +'" value="' + chart_data["distinct"][key]["incomeBucket"] + '" class="css-checkbox" checked="checked"><label for="hi_' + chart_data["distinct"][key]["incomeBucket"].toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option' +'" class="css-label">' + keyChangerHsIncBucket(chart_data["distinct"][key]["incomeBucket"]) + '</label><br />'
                     );
                 } else {
                     $("#household_income_filter").append(
-                        '<input type="checkbox" name="hi_' + chart_data["distinct"][key]["incomeBucket"].toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '" id="hi_' + chart_data["distinct"][key]["incomeBucket"].toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option' +'" value="' + chart_data["distinct"][key]["incomeBucket"] + '" class="css-checkbox"><label for="hi_' + chart_data["distinct"][key]["incomeBucket"].toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option' +'" class="css-label">' + chart_data["distinct"][key]["incomeBucket"] + '</label><br />'
+                        '<input type="checkbox" name="hi_' + chart_data["distinct"][key]["incomeBucket"].toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '" id="hi_' + chart_data["distinct"][key]["incomeBucket"].toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option' +'" value="' + chart_data["distinct"][key]["incomeBucket"] + '" class="css-checkbox"><label for="hi_' + chart_data["distinct"][key]["incomeBucket"].toLowerCase().replace(/ /g, "_").replace('-', '').replace('+', 'plus') + '_option' +'" class="css-label">' + keyChangerHsIncBucket(chart_data["distinct"][key]["incomeBucket"]) + '</label><br />'
                     );
                 }
 
@@ -1968,8 +2061,6 @@ var drawDirectorOfBusinessChart = function() {
             $("#downloadSubmitBtn").prop("disabled", false);
     });
 }
-
-var user_id_number = $("#user_id").val();
 
 var get_records_count =  function(records_data) {
         
@@ -2451,6 +2542,9 @@ $("#resetFilterToastBtn, #resetFilterToastBtn2").click(function() {
 });
 
 var get_saved_audiences = function() {
+    
+    $("#btn_prev").off();
+    $("#btn_next").off();
     $("#userSavedFiles").html(
         `<div class="d-flex justify-content-center w-100">
             <div class="spinner-border" role="status">
@@ -2460,72 +2554,39 @@ var get_saved_audiences = function() {
     )
     $.get('/api/meetpat-client/get-saved-audiences', {user_id: user_id_number}, function(data) {
         $("#userSavedFiles .d-flex").remove();
+        if(numPages(data) >= current_page) {
+            changePage(current_page, data);
+        } else {
+            changePage(current_page - 1, data);
+            current_page = current_page - 1;
+        }
+        
+    }).fail(function(data) {
         //console.log(data);
+    }).done(function(data) {
         if(data.length)
         {
-            data.forEach(function(audience_file) {
-                if(audience_file.file_name) {
-                    $("#userSavedFiles").append(
-                        `<div class="col-9 mb-1" id="file_name_${audience_file.file_unique_name}">
-                        <input id="input_${audience_file.file_unique_name}" class="form-control" name="${audience_file.file_unique_name}" value="${audience_file.file_name}" readonly>
-                        </div>
-                        <div class="col-3 mb-1" id="file_actions_${audience_file.file_unique_name}">
-                            <div class="btn-group float-right" role="group" aria-label="Basic example">
-                                <a type="button" id="download_${audience_file.file_unique_name}" href="${audience_file.link}" class="btn btn-light"><i class="fas fa-file-download"></i></a>
-                                <button type="button" id="edit_${audience_file.file_unique_name}" class="btn btn-light"><i class="far fa-edit"></i></button>
-                                <button type="button" id="delete_${audience_file.file_unique_name}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-                            </div>
-                        </div>`
-                    )
-                } else {
-                    $("#userSavedFiles").append(
-                        `<div class="col-9 mb-1" id="file_name_${audience_file.file_unique_name}">
-                        <input id="input_${audience_file.file_unique_name}" class="form-control" name="${audience_file.file_unique_name}" value="${audience_file.file_unique_name}" readonly>
-                        </div>
-                        <div class="col-3 mb-1" id="file_actions_${audience_file.file_unique_name}">
-                            <div class="btn-group float-right" role="group" aria-label="Basic example">
-                                <a type="button" id="download_${audience_file.file_unique_name}" href="${audience_file.link}" class="btn btn-light"><i class="fas fa-file-download"></i></a>
-                                <button type="button" id="edit_${audience_file.file_unique_name}" class="btn btn-light"><i class="far fa-edit"></i></button>
-                                <button type="button" id="delete_${audience_file.file_unique_name}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-                            </div>
-                        </div>`
-                    )
+            $("#btn_prev").on("click", function(e) {
+                e.preventDefault();
+                if (current_page > 1) {
+                    current_page--;
+                    changePage(current_page, data);
                 }
-                
-                $("#delete_" + audience_file.file_unique_name).click(function() {
-                    $(this).html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span class="sr-only">Loading...</span>`);
-                    $.post('/api/meetpat-client/delete-saved-audience-file', {user_id: user_id_number, file_unique_name: audience_file.file_unique_name}, function(data) {
-                        $("#file_name_" + audience_file.file_unique_name).remove();
-                        $("#file_actions_" + audience_file.file_unique_name).remove();
-                        //console.log(data);
-                    }).fail(function(data) {
-                        $(this).html(`<i class="fas fa-trash-alt"></i>`);
-                        //console.log(data);
-                    }).done(function() {
-
-                    });
-                });
-
-                $("#edit_" + audience_file.file_unique_name).click(function() {
-                    if($("#input_" + audience_file.file_unique_name).attr("readonly"))
-                    {
-                        $("#input_" + audience_file.file_unique_name).removeAttr("readonly");
-                    } else {
-                        $("#input_" + audience_file.file_unique_name).attr("readonly", true);
-                    }
-                    
-                });
-
+            })
+            
+            $("#btn_next").on("click", function(e) {
+                e.preventDefault();
+                if (current_page < numPages(data)) {
+                    current_page++;
+                    changePage(current_page, data);
+                }
             });
             
         } else {
             $("#userSavedFiles").append('<div class="col-12">You haved not saved any audiences yet.</div>');
         }
-        //console.log(data);
-    }).fail(function(data) {
-        //console.log(data);
-    }).done(function() {
 
+        
     });
 }
 
@@ -2625,7 +2686,7 @@ $(document).ready(function() {
         $.post('/api/meetpat-client/filtered-audience/save', filter_form_data, function(data) {
             //console.log(data);
             $('#SavedAudiencesModal').modal('show');
-            get_saved_audiences();
+            
         }).fail(function(data) {
             
             $("#downloadSubmitBtn").prop("disabled", false);
@@ -2639,24 +2700,61 @@ $(document).ready(function() {
             $("#downloadSubmitBtn").html(
                 '<i class="far fa-save"></i>&nbsp;Save Contacts'
             );
+            get_saved_audiences();
         });
     });
 
     $("#saveFileNameEdits").click(function() {
         var edit_form_data = {};
+        var el_save = $(this);
+        var already_disabled_next = $("#btn_next_item").hasClass("disabled");
+        var already_disabled_prev = $("#btn_prev_item").hasClass("disabled");
         $("#savedAudiencesForm").serializeArray().map(function(filter) {
             return edit_form_data[filter['name']] = filter['value'];
         });
 
         edit_form_data["user_id"] = user_id_number;
 
+        el_save.prop("disabled", true);
+        el_save.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;Saving...');
+
+        if(!already_disabled_next) {
+            $("#btn_next_item").addClass("disabled");
+        }
+        if(!already_disabled_prev) {
+            $("#btn_prev_item").addClass("disabled");
+        }
+        $(".delete_file_btn").prop("disabled", true);
+
         $.post('/api/meetpat-client/save-filename-edits', edit_form_data, function(data) {
             //console.log(data);
         }).fail(function(data) {
-            //console.log(data);
+            el_save.prop("disabled", false);
+            el_save.html("Save Changes");
+            if(!already_disabled_next) {
+                $("#btn_next_item").removeClass("disabled");
+            }
+            if(!already_disabled_prev) {
+                $("#btn_prev_item").removeClass("disabled");
+            }
+            $(".delete_file_btn").prop("disabled", false);
+            el_save.prop("disabled", false);
+            el_save.html("Save Changes");
+            console.log(data);
         }).done(function() {
-
+            $(".delete_file_btn").prop("disabled", false);
+            if(!already_disabled_next) {
+                $("#btn_next_item").removeClass("disabled");
+            }
+            if(!already_disabled_prev) {
+                $("#btn_prev_item").removeClass("disabled");
+            }
+            el_save.prop("disabled", false);
+            el_save.html("Save Changes");
         });
 
     });
+
+    
 });
+
