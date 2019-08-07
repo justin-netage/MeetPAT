@@ -2749,6 +2749,7 @@ $(document).ready(function() {
             if(!already_disabled_prev) {
                 $("#btn_prev_item").removeClass("disabled");
             }
+            get_saved_audiences();
             el_save.prop("disabled", false);
             el_save.html("Save Changes");
         });
