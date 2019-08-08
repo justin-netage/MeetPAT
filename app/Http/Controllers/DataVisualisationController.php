@@ -601,17 +601,21 @@ class DataVisualisationController extends Controller
     public function save_file_names(Request $request)
     {
 
+        $changed_files = [];
+        
         foreach(array_keys($request->all()) as $value)
         {
             $saved_file = \MeetPAT\SavedFilteredAudienceFile::where([["file_unique_name", "=", $value], ["user_id", "=", $request->user_id]])->first();
+
             if($saved_file)
             {
                 $saved_file->update([ "file_name" => $request[$value] ]);
-            }
+                array_push($changed_files, $saved_file);
+            } 
             
         }
-
-        return response()->json(["message" => "success", "data" => $request->user_id]);
+        return response()->json(array("changed" => $changed_files));
+        //return response()->json(["message" => "success", "data" => $request->user_id]);
     }
 
 }

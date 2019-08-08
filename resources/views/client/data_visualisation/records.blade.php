@@ -789,6 +789,7 @@
         <div class="alert alert-warning mb-2" role="alert">
             <strong>Warning</strong> - Deleting a file will remove it permanently.
         </div>
+        <div class="alerts"></div>
         
         <div class="row" id="userSavedFiles">
         </div>
@@ -824,7 +825,8 @@
       <div class="modal-body">
       <div class="alert alert-warning" role="alert">
         Your filtered audience will be saved as a CSV file.
-      </div>       
+      </div>      
+      <div class="alerts"></div> 
       <div class="form-group">
           <label for="nameFile">Name File</label>
           <div class="input-group">
@@ -852,5 +854,5 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="https://unpkg.com/lunr/lunr.js"></script>
-<script type="text/javascript" src="{{asset('js/data_visualisation.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/data_visualisation.min.js')}}"></script>
 @endsection

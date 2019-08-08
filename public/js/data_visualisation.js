@@ -91,6 +91,8 @@ function changePage(page, data)
 
     listing_table.innerHTML = "";
 
+    
+
     for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < data.length; i++) {
         audience_file = data[i];
         
@@ -108,6 +110,24 @@ function changePage(page, data)
         )                   
 
     }
+
+    data.forEach(function(audience_file) {
+        if($("#input_" + audience_file.file_unique_name).length == 0) {
+            $("#userSavedFiles").append(
+                `<div class="col-9 mb-1 d-none" id="file_name_${audience_file.file_unique_name}">
+                <input id="input_${audience_file.file_unique_name}" class="form-control" name="${audience_file.file_unique_name}" value="${audience_file.file_name}" readonly>
+                </div>
+                <div class="col-3 mb-1 d-none" id="file_actions_${audience_file.file_unique_name}">
+                    <div class="btn-group float-right" role="group" aria-label="Basic example">
+                        <a type="button" id="download_${audience_file.file_unique_name}" href="${audience_file.link}" class="btn btn-light"><i class="fas fa-file-download"></i></a>
+                        <button type="button" id="edit_${audience_file.file_unique_name}" onclick="edit_file('${audience_file.file_unique_name}')" class="btn btn-light"><i class="far fa-edit"></i></button>
+                        <button type="button" id="delete_${audience_file.file_unique_name}" onclick="delete_file('${audience_file.file_unique_name}','${audience_file.file_name}');" class="btn btn-danger delete_file_btn"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                </div>`
+            )
+        }
+    });
+    
 
     if (page == 1) {
         document.getElementById("btn_prev_item").classList.add("disabled");
@@ -137,6 +157,48 @@ var edit_file = function(file_unique_name) {
     } else {
         $("#input_" + file_unique_name).attr("readonly", true);
     }
+}
+
+function find_duplicate_in_array(arra1) {
+    var object = {};
+    var result = [];
+
+    arra1.forEach(function (item) {
+      if(!object[item])
+          object[item] = 0;
+        object[item] += 1;
+    })
+
+    for (var prop in object) {
+       if(object[prop] >= 2) {
+           result.push(prop);
+       }
+    }
+
+    return result;
+
+}
+
+var file_name_exists = function(file_name) {
+    inputs_array = [];
+    var dataArray = $("#savedAudiencesForm").serializeArray(), dataObj = {};
+
+    $(dataArray).each(function(i, field) {
+        inputs_array.push(field.value);
+    })
+        
+    return inputs_array.includes(file_name);
+}
+
+var no_same_file_names = function() {
+    inputs_array = [];
+    var dataArray = $("#savedAudiencesForm").serializeArray(), dataObj = {};
+
+    $(dataArray).each(function(i, field) {
+        inputs_array.push(field.value);
+    })
+        
+    return find_duplicate_in_array(inputs_array);
 }
 
 var delete_file = function(file_unique_name, file_name) {
@@ -2670,89 +2732,141 @@ $(document).ready(function() {
 
     $("#downloadSubmitBtn").click(function() {
         
-        var filter_form_data = {};
-        $("#filtersForm").serializeArray().map(function(filter) {
-            return filter_form_data[filter['name']] = filter['value'];
-        });
-
-        filter_form_data["file_name"] = $("#nameFile").val();
-        //console.log(filter_form_data);
-        $("#downloadSubmitBtn").prop("disabled", true);
-        $("#downloadSubmitBtn").html(
-            '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
-            + '&nbsp;Saving...'
-        );
-
-        $.post('/api/meetpat-client/filtered-audience/save', filter_form_data, function(data) {
-            //console.log(data);
-            $('#SavedAudiencesModal').modal('show');
-            
-        }).fail(function(data) {
-            
-            $("#downloadSubmitBtn").prop("disabled", false);
+        if(!file_name_exists($("#nameFile").val())) {
+            var filter_form_data = {};
+            $("#filtersForm").serializeArray().map(function(filter) {
+                return filter_form_data[filter['name']] = filter['value'];
+            });
+    
+            filter_form_data["file_name"] = $("#nameFile").val();
+            //console.log(filter_form_data);
+            $("#downloadSubmitBtn").prop("disabled", true);
             $("#downloadSubmitBtn").html(
-                '<i class="far fa-save"></i>&nbsp;Save Contacts'
+                '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
+                + '&nbsp;Saving...'
             );
-            //console.log(data);
-        }).done(function() {
-            
-            $("#downloadSubmitBtn").prop("disabled", false);
-            $("#downloadSubmitBtn").html(
-                '<i class="far fa-save"></i>&nbsp;Save Contacts'
-            );
-            get_saved_audiences();
-        });
+    
+            $.post('/api/meetpat-client/filtered-audience/save', filter_form_data, function(data) {
+                //console.log(data);
+                $('#SavedAudiencesModal').modal('show');
+                
+            }).fail(function(data) {
+                
+                $("#downloadSubmitBtn").prop("disabled", false);
+                $("#downloadSubmitBtn").html(
+                    '<i class="far fa-save"></i>&nbsp;Save Contacts'
+                );
+                $("#savedAudiencesForm .alerts").html(`
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong> There was an error saving file names. Please contact MeetPAT for support.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                `);
+                //console.log(data);
+            }).done(function() {
+                
+                $("#downloadSubmitBtn").prop("disabled", false);
+                $("#downloadSubmitBtn").html(
+                    '<i class="far fa-save"></i>&nbsp;Save Contacts'
+                );
+                get_saved_audiences();
+            });
+        } else {
+            $("#SaveAudienceModal .alerts").html(`
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong> You can't have a file with the same name.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                `);
+        }
+        
     });
 
     $("#saveFileNameEdits").click(function() {
-        var edit_form_data = {};
-        var el_save = $(this);
-        var already_disabled_next = $("#btn_next_item").hasClass("disabled");
-        var already_disabled_prev = $("#btn_prev_item").hasClass("disabled");
-        $("#savedAudiencesForm").serializeArray().map(function(filter) {
-            return edit_form_data[filter['name']] = filter['value'];
-        });
-
-        edit_form_data["user_id"] = user_id_number;
-
-        el_save.prop("disabled", true);
-        el_save.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;Saving...');
-
-        if(!already_disabled_next) {
-            $("#btn_next_item").addClass("disabled");
-        }
-        if(!already_disabled_prev) {
-            $("#btn_prev_item").addClass("disabled");
-        }
-        $(".delete_file_btn").prop("disabled", true);
-
-        $.post('/api/meetpat-client/save-filename-edits', edit_form_data, function(data) {
-            //console.log(data);
-        }).fail(function(data) {
-            el_save.prop("disabled", false);
-            el_save.html("Save Changes");
+        
+        if(no_same_file_names().length == 0) {
+            $("#savedAudiencesForm .alerts").empty();
+            var edit_form_data = {};
+            var el_save = $(this);
+            var already_disabled_next = $("#btn_next_item").hasClass("disabled");
+            var already_disabled_prev = $("#btn_prev_item").hasClass("disabled");
+            $("#savedAudiencesForm").serializeArray().map(function(filter) {
+                return edit_form_data[filter['name']] = filter['value'];
+            });
+    
+            edit_form_data["user_id"] = user_id_number;
+    
+            el_save.prop("disabled", true);
+            el_save.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;Saving...');
+    
             if(!already_disabled_next) {
-                $("#btn_next_item").removeClass("disabled");
+                $("#btn_next_item").addClass("disabled");
             }
             if(!already_disabled_prev) {
-                $("#btn_prev_item").removeClass("disabled");
+                $("#btn_prev_item").addClass("disabled");
             }
-            $(".delete_file_btn").prop("disabled", false);
-            el_save.prop("disabled", false);
-            el_save.html("Save Changes");
-            console.log(data);
-        }).done(function() {
-            $(".delete_file_btn").prop("disabled", false);
-            if(!already_disabled_next) {
-                $("#btn_next_item").removeClass("disabled");
-            }
-            if(!already_disabled_prev) {
-                $("#btn_prev_item").removeClass("disabled");
-            }
-            get_saved_audiences();
-            el_save.prop("disabled", false);
-            el_save.html("Save Changes");
-        });
+            $(".delete_file_btn").prop("disabled", true);
+    
+            $.post('/api/meetpat-client/save-filename-edits', edit_form_data, function(data) {
+                //console.log(data);
+                $("#savedAudiencesForm .alerts").html(`
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong> There was an error saving file names. Please contact MeetPAT for support.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                `);
+            }).fail(function(data) {
+                el_save.prop("disabled", false);
+                el_save.html("Save Changes");
+                if(!already_disabled_next) {
+                    $("#btn_next_item").removeClass("disabled");
+                }
+                if(!already_disabled_prev) {
+                    $("#btn_prev_item").removeClass("disabled");
+                }
+                $(".delete_file_btn").prop("disabled", false);
+                el_save.prop("disabled", false);
+                el_save.html("Save Changes");
+                //console.log(data);
+            }).done(function(data) {
+                $(".delete_file_btn").prop("disabled", false);
+                if(!already_disabled_next) {
+                    $("#btn_next_item").removeClass("disabled");
+                }
+                if(!already_disabled_prev) {
+                    $("#btn_prev_item").removeClass("disabled");
+                }
+                get_saved_audiences();
+                el_save.prop("disabled", false);
+                el_save.html("Save Changes");
+                //console.log( data );
+                $("#savedAudiencesForm .alerts").html(`
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success!</strong> File names updated successfully.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            `);
+            });
+        } else {
+            $("#savedAudiencesForm .alerts").html(`
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong> You can't have files with the same name.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            `);
+        }
+
+        
 
     });
 
