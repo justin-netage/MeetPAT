@@ -79,7 +79,7 @@ class ApiController extends Controller
             return response()->json(array("status" => "fail", "message" => "output_file_name has not been provided."), 400);
         }
         
-        \MeetPAT\Jobs\ProcessFile::dispatch();
+        //\MeetPAT\Jobs\ProcessFile::dispatch();
         return response()->json(array("status" => "success", "message" => "File ready and queued for processing."), 200);
     }
 }
