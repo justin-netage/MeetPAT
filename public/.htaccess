@@ -19,3 +19,8 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+# Download csv files
+<FilesMatch "\.(?i:csv)$">
+  ForceType text/csv
+  Header set Content-Disposition attachment
+</FilesMatch>
