@@ -544,11 +544,11 @@ class DataVisualisationController extends Controller
         if(env('APP_ENV') == 'production')
         {
             $directory_used = \Storage::disk('s3')->makeDirectory('client/saved-audiences/');
-            $file_uploaded = \Storage::disk('s3')->put('client/saved-audiences/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
+            $file_uploaded = \Storage::disk('s3')->put('client/saved-audiences/user_id_' . $request->user_id . '/' . $fileName  . ".xls", $csv_str);
 
         } else {
             $directory_used = \Storage::disk('local')->makeDirectory('client/saved-audiences/');
-            $file_uploaded = \Storage::disk('local')->put('client/saved-audiences/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
+            $file_uploaded = \Storage::disk('local')->put('client/saved-audiences/user_id_' . $request->user_id . '/' . $fileName  . ".xls", $csv_str);
         }
 
         $saved_audience = \MeetPAT\SavedFilteredAudienceFile::create(["user_id" => $request->user_id, "file_unique_name" => $fileName, "file_name" => $request->file_name]);
@@ -566,22 +566,22 @@ class DataVisualisationController extends Controller
             
             if(env('APP_ENV') == 'production')
             {
-                $file_exists = \Storage::disk('s3')->exists('client/saved-audiences/user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.csv');
+                $file_exists = \Storage::disk('s3')->exists('client/saved-audiences/user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.xls');
                 
                 if($file_exists)
                 {
-                    $file["link"] = \Storage::disk('s3')->temporaryUrl('client/saved-audiences/' . 'user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.csv', now()->addMinutes(1440));
+                    $file["link"] = \Storage::disk('s3')->temporaryUrl('client/saved-audiences/' . 'user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.xls', now()->addMinutes(1440));
     
                 } else {
                     $file["link"] = "404";
                 }
 
             } else {
-                $file_exists = \Storage::disk('local')->exists('client/saved-audiences/user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.csv');
+                $file_exists = \Storage::disk('local')->exists('client/saved-audiences/user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.xls');
                 
                 if($file_exists)
                 {
-                    $file["link"] = \Storage::disk('local')->url('client/saved-audiences/' . 'user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.csv');
+                    $file["link"] = \Storage::disk('local')->url('client/saved-audiences/' . 'user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.xls');
     
                 } else {
                     $file["link"] = "404";
@@ -602,9 +602,9 @@ class DataVisualisationController extends Controller
         $file_deleted = $file->delete();
 
         if(env('APP_ENV') == 'production') {
-            $actual_file = \Storage::disk('s3')->delete('client/client-records/user_id_' . $request->user_id . '/' . $request->file_unique_name  . ".csv");
+            $actual_file = \Storage::disk('s3')->delete('client/client-records/user_id_' . $request->user_id . '/' . $request->file_unique_name  . ".xls");
         } else {
-            $actual_file = \Storage::disk('local')->delete('client/saved-audiences/user_id_' . $request->user_id . '/' . $request->file_unique_name  . ".csv");
+            $actual_file = \Storage::disk('local')->delete('client/saved-audiences/user_id_' . $request->user_id . '/' . $request->file_unique_name  . ".xls");
         }
 
         return response()->json(["message" => "successfully deleted file."]);
