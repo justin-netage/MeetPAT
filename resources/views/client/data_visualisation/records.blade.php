@@ -79,18 +79,20 @@
 
     </form>    
 </div>
+<div class="reset-right-sidebar-button reset-sidebar-button-in" id="reset-toggle-button"><i class="fas fa-undo-alt"></i>&nbsp;<span>Reset</span></div>
+<div class="apply-right-sidebar-button apply-sidebar-button-in" id="apply-toggle-button"><i class="fas fa-sync-alt"></i>&nbsp;<span>Apply</span></div>
 <div class="right-sidebar-button sidebar-button-in" id="sidebar-toggle-button"><i class="fas fa-cog"></i></div>
 @endsection
 
 @section('content')
 
-<div role="alert" aria-live="assertive" id="reset-filters-toast" aria-atomic="true" class="toast" data-autohide="false" style="z-index: 9998; position: fixed; bottom: 20; right: 0;">
+<!-- <div role="alert" aria-live="assertive" id="reset-filters-toast" aria-atomic="true" class="toast" data-autohide="false" style="z-index: 9998; position: fixed; bottom: 20; right: 0;">
   <div class="toast-body" style="font-size: 24px;">
     <div class="d-flex justify-content-center">
         <button id="resetFilterToastBtn2" class="btn btn-primary btn-block btn-lg" disabled="disabled">Reset Filters</button>
     </div>
   </div>
-</div>
+</div> -->
 <div role="alert" aria-live="assertive" id="records-toast" aria-atomic="true" class="toast" data-autohide="false" style="z-index: 1020; position: fixed; bottom: 0; right: 0;">
   <div class="toast-header">
      <strong class="mr-auto">Contacts</strong>
@@ -151,8 +153,8 @@
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                     </div>
-                                    </div> <br/>
-                                    <button name="province_submit" id="provinceSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                    </div> 
+                                    <button name="province_submit" id="provinceSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button d-none" disabled="true" type="button" />apply</button>
                                 </form>
                             </div>
                         </div>
@@ -185,8 +187,8 @@
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                     </div>
-                                    </div> <br/>
-                                    <button name="municipality_submit" id="municipalitySubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                    </div> 
+                                    <button name="municipality_submit" id="municipalitySubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button d-none" disabled="true" type="button" />apply</button>
                                 </form>
                             </div>
                         </div>
@@ -245,7 +247,7 @@
                                     </div>
                                     </div>
                                 </div>
-                                <button name="area_submit" id="areaSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                <button name="area_submit" id="areaSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button d-none" disabled="true" type="button" />apply</button>
                                 </form>
                             </div>
                         </div>
@@ -290,8 +292,8 @@
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                     </div>
-                                    </div> <br/>
-                                    <button name="ages_submit" id="agesSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                    </div> 
+                                    <button name="ages_submit" id="agesSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button d-none" disabled="true" type="button" />apply</button>
                                 </form>
                             </div>
                         </div>
@@ -324,8 +326,8 @@
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                     </div>
-                                    </div> <br/>
-                                    <button name="gender_submit" id="genderSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                    </div> 
+                                    <button name="gender_submit" id="genderSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button d-none" disabled="true" type="button" />apply</button>
                                 </form>
                             </div>
                         </div>
@@ -358,8 +360,8 @@
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                     </div>
-                                    </div> <br/>
-                                    <button name="population_groups_submit" id="population_groupsSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                    </div> 
+                                    <button name="population_groups_submit" id="population_groupsSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button d-none" disabled="true" type="button" />apply</button>
                                 </form>
                             </div>
                         </div>
@@ -392,8 +394,8 @@
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                     </div>
-                                    </div> <br/>
-                                    <button name="generations_submit" id="generationsSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                    </div> 
+                                    <button name="generations_submit" id="generationsSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button d-none" disabled="true" type="button" />apply</button>
                                 </form>
                             </div>
                         </div>
@@ -426,8 +428,8 @@
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                     </div>
-                                    </div> <br/>
-                                    <button name="citizen_vs_resident_submit" id="citizenVsResidentSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                    </div> 
+                                    <button name="citizen_vs_resident_submit" id="citizenVsResidentSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button d-none" disabled="true" type="button" />apply</button>
                                 </form>
                             </div>
                         </div>
@@ -460,8 +462,8 @@
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                     </div>
-                                    </div> <br/>
-                                    <button name="marital_status_submit" id="marital_statusSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                    </div> 
+                                    <button name="marital_status_submit" id="marital_statusSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button d-none" disabled="true" type="button" />apply</button>
                                 </form>
                             </div>
                         </div>
@@ -506,8 +508,8 @@
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                     </div>
-                                    </div> <br/>
-                                    <button name="home_owner_submit" id="home_ownersSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                    </div> 
+                                    <button name="home_owner_submit" id="home_ownersSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button d-none" disabled="true" type="button" />apply</button>
                                 </form>
                             </div>
                         </div>
@@ -541,7 +543,7 @@
                                         </div>
                                         </div>
                                     </div>
-                                    <button name="property_valuation_submit" id="propertyValuationSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                    <button name="property_valuation_submit" id="propertyValuationSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button d-none" disabled="true" type="button" />apply</button>
                                 </form>
                             </div>
                         </div>
@@ -574,8 +576,8 @@
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                     </div>
-                                    </div> <br/>
-                                    <button name="property_count_bucket_submit" id="property_count_bucketsSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                    </div> 
+                                    <button name="property_count_bucket_submit" id="property_count_bucketsSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button d-none" disabled="true" type="button" />apply</button>
                                 </form>
                             </div>
                         </div>
@@ -608,8 +610,8 @@
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                     </div>
-                                    </div> <br/>
-                                    <button name="vehicle_owner_submit" id="vehicle_ownersSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                    </div> 
+                                    <button name="vehicle_owner_submit" id="vehicle_ownersSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button d-none" disabled="true" type="button" />apply</button>
                                 </form>
                             </div>
                         </div>
@@ -653,8 +655,8 @@
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                     </div>
-                                    </div> <br/>
-                                    <button name="risk_category_submit" id="risk_categoriesSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                    </div> 
+                                    <button name="risk_category_submit" id="risk_categoriesSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button d-none" disabled="true" type="button" />apply</button>
                                 </form>
                             </div>
                         </div>
@@ -687,8 +689,8 @@
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                     </div>
-                                    </div> <br/>
-                                    <button name="lsm_group_submit" id="lsm_groupSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                    </div> 
+                                    <button name="lsm_group_submit" id="lsm_groupSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button d-none" disabled="true" type="button" />apply</button>
                                 </form>
                             </div>
                         </div>
@@ -721,8 +723,8 @@
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                     </div>
-                                    </div> <br/>
-                                    <button name="household_income_submit" id="household_incomesSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                    </div> 
+                                    <button name="household_income_submit" id="household_incomesSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button d-none" disabled="true" type="button" />apply</button>
                                 </form>
                             </div>
                         </div>
@@ -755,8 +757,8 @@
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                     </div>
-                                    </div> <br/>
-                                    <button name="directors_submit" id="directorsSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button" disabled="true" type="button" />apply</button>
+                                    </div> 
+                                    <button name="directors_submit" id="directorsSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button d-none" disabled="true" type="button" />apply</button>
                                 </form>
                             </div>
                         </div>
@@ -817,14 +819,14 @@
 
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="SaveAudienceLabel">Save Audience</h5>
+        <h5 class="modal-title" id="SaveAudienceLabel">Save Contacts</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
       <div class="alert alert-warning" role="alert">
-        Your filtered audience will be saved as a CSV file.
+        Your filtered audience will be saved as a CSV/XLS file.
       </div>      
       <div class="alerts"></div> 
       <div class="form-group">
@@ -839,10 +841,23 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button id="downloadSubmitBtn" type="button" disabled="true" class="btn btn-primary">Save Audience</button>
+        <button id="downloadSubmitBtn" type="button" class="btn btn-primary" role="button" aria-disabled="true">Save Contacts</button>
       </div>
     </div>
     </form>
+  </div>
+</div>
+
+<div id="progress_popup" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p>Please be patient. Filtering through large amounts of data can take time...</p>
+        <div class="progress" style="height: 5px;">
+            <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 @endsection

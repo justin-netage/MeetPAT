@@ -11571,12 +11571,80 @@ label.css-label {
   background-color: #00A3D9;
 }
 
+.apply-right-sidebar-button {
+  position: fixed;
+  z-index: 1021;
+  top: 256px;
+  right: 0px;
+  width: 128px;
+  height: 48px;
+  border-radius: 15px 0px 0px 15px;
+  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.3);
+  background-color: #00A3D9;
+}
+
+#reset-toggle-button {
+  position: fixed;
+  z-index: 1021;
+  top: 200px;
+  right: 0px;
+  width: 128px;
+  height: 48px;
+  border-radius: 15px 0px 0px 15px;
+  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.3);
+  background-color: #545454;
+}
+
 .right-sidebar-button i {
   font-size: 24px;
   position: absolute;
   margin: 0;
   top: 50%;
   left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  color: #fff;
+}
+
+.reset-right-sidebar-button i {
+  font-size: 24px;
+  position: absolute;
+  margin: 0;
+  top: 50%;
+  left: 20%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  color: #fff;
+}
+
+.apply-right-sidebar-button i {
+  font-size: 24px;
+  position: absolute;
+  margin: 0;
+  top: 50%;
+  left: 20%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  color: #fff;
+}
+
+.reset-right-sidebar-button span {
+  font-size: 24px;
+  position: absolute;
+  margin: 0;
+  top: 50%;
+  left: 63%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  color: #fff;
+}
+
+.apply-right-sidebar-button span {
+  font-size: 24px;
+  position: absolute;
+  margin: 0;
+  top: 50%;
+  left: 63%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
   color: #fff;
@@ -11590,7 +11658,9 @@ label.css-label {
   right: 0px;
 }
 
-.right-sidebar-button:hover {
+.right-sidebar-button:hover,
+.reset-right-sidebar-button:hover,
+.apply-right-sidebar-button:hover {
   cursor: pointer;
 }
 
@@ -11788,6 +11858,11 @@ nav .dropdown-menu {
   color: #fff;
 }
 
+.account-item:hover {
+  background-color: #00A3D9;
+  color: #fff;
+}
+
 .heading-row {
   margin-top: 32px;
   margin-bottom: 32px;
@@ -11796,5 +11871,10 @@ nav .dropdown-menu {
 .page-item {
   text-align: center;
   width: 85px;
+}
+
+#progress_popup {
+  padding-top: 20%;
+  height: 100%;
 }
 

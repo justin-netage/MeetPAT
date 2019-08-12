@@ -118,11 +118,6 @@
                             @else
                             <li><a class="nav-link nav-link-inactive" href="{{ route('meetpat-data-visualisation') }}"><i class="fas fa-chart-line"></i>&nbsp;Dashboard</a></li>
                             @endif
-                            @if(Request::path() == 'meetpat-client/settings')
-                            <li class="active"><a class="nav-link nav-link-active" href="{{ route('account-settings') }}"><i class="fas fa-chart-line"></i>&nbsp;Account Settings</a></li>
-                            @else
-                            <li><a class="nav-link nav-link-inactive" href="{{ route('account-settings') }}"><i class="fas fa-user-cog"></i>&nbsp;Account Settings</a></li>
-                            @endif
                         @endif
                     @endguest
                         
@@ -194,7 +189,10 @@
                                 </a>
                                 @endif
                                     <span class="dropdown-item account-name">{{\Auth::user()->name}}</span>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                    <a class="dropdown-item account-item" href="/meetpat-client/settings">
+                                        Settings
+                                    </a>
+                                    <a class="dropdown-item account-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
@@ -208,6 +206,7 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
+                                    
                                 </div>
 
                             </li>

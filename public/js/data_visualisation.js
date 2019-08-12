@@ -73,6 +73,34 @@ var keyChangerMaritalStatus = function(key_name) {
     }
 }
 
+var toggle_side_bar = function() {
+    if($("#sidebar-toggle-button").hasClass("sidebar-button-in")) {
+        $("#sidebar-toggle-button").html('<i class="fas fa-arrow-right"></i>');
+    } else {
+        $("#sidebar-toggle-button").html('<i class="fas fa-cog"></i>');
+    }
+
+    $('#right-options-sidebar').toggleClass("sidebar-in");
+    $('#sidebar-toggle-button').toggleClass("sidebar-button-in");
+}
+
+var data_fetched = 0;
+
+var update_progress = function() {
+    if(data_fetched != 18) {
+        data_fetched++;
+    }
+    $("#progress_popup .progress-bar").width(Math.round((data_fetched/18) * 100) + "%");
+    $("#progress_popup .progress-bar").attr("aria-valuenow", Math.round((data_fetched/18) * 100))
+    //console.log(data_fetched);
+}
+
+var hide_progress = function() {
+    setTimeout(function() {
+        $("#progress_popup").hide();
+    },1000);    
+}
+
 // Saved Audience Files methods
 
 var user_id_number = $("#user_id").val();
@@ -367,6 +395,7 @@ function drawProvinceChart( chart_data ) {
         // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.BarChart(document.getElementById('provincesChart'));
         chart.draw(data, chart_options);
+        update_progress();
 }
 
 function drawAreaChart(  ) {
@@ -524,7 +553,8 @@ function drawAreaChart(  ) {
             }
 
 
-        })
+        });
+        update_progress();
     });
        
 
@@ -669,7 +699,7 @@ function drawAreaChart(  ) {
       var chart = new google.visualization.GeoChart(document.getElementById('chartdiv'));
 
       chart.draw(data, options);
-
+      update_progress();
   }
 
   var drawAgeChart = function (  ) {
@@ -765,7 +795,8 @@ function drawAreaChart(  ) {
                         }
             // Instantiate and draw our chart, passing in some options.
             var chart = new google.visualization.BarChart(document.getElementById('agesChart'));
-            chart.draw(data, chart_options);     
+            chart.draw(data, chart_options);   
+            update_progress();  
     });
 
                
@@ -865,6 +896,7 @@ function drawAreaChart(  ) {
                 // Instantiate and draw our chart, passing in some options.
                 var chart = new google.visualization.BarChart(document.getElementById('propertyValuationChart'));
                 chart.draw(data, chart_options);     
+                update_progress();
         });
     
                    
@@ -982,7 +1014,8 @@ function drawAreaChart(  ) {
             
                 // Instantiate and draw our chart, passing in some options.
                 var chart = new google.visualization.ColumnChart(document.getElementById('genderChart'));
-                chart.draw(data, chart_options);     
+                chart.draw(data, chart_options);  
+                update_progress();   
         });
     }
 
@@ -1102,6 +1135,7 @@ function drawAreaChart(  ) {
                 // Instantiate and draw our chart, passing in some options.
                 var chart = new google.visualization.ColumnChart(document.getElementById('populationGroupChart'));
                 chart.draw(data, chart_options);     
+                update_progress();
         });
     }
 
@@ -1200,7 +1234,7 @@ function drawAreaChart(  ) {
                 // Instantiate and draw our chart, passing in some options.
                 var chart = new google.visualization.ColumnChart(document.getElementById('generationChart'));
                 chart.draw(data, chart_options);
-
+                update_progress();
         });
 
     }
@@ -1331,6 +1365,7 @@ var drawCitizensChart = function() {
             // Instantiate and draw our chart, passing in some options.
             var chart = new google.visualization.ColumnChart(document.getElementById('citizensVsResidentsChart'));
             chart.draw(data, chart_options);    
+            update_progress();
     });
 }
 
@@ -1391,7 +1426,7 @@ var drawMaritalStatusChart = function() {
             };
 
             for (var key in chart_data["distinct"]) {
-                if(target_marital_statuses.includes(chart_data["distinct"][key]["maritalStatus"])) {
+                if(target_marital_statuses.includes(chart_data["distinct"][key]["maritalStatus"].toLowerCase())) {
                     $("#marital_status_filter").append(
                         '<input type="checkbox" name="m_' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '" id="m_' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '" class="css-checkbox" checked="checked"><label for="m_' + chart_data["distinct"][key]["maritalStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChangerMaritalStatus(chart_data["distinct"][key]["maritalStatus"]) + '</label><br />'
                     );
@@ -1429,6 +1464,7 @@ var drawMaritalStatusChart = function() {
             // Instantiate and draw our chart, passing in some options.
             var chart = new google.visualization.ColumnChart(document.getElementById('maritalStatusChart'));
             chart.draw(data, chart_options);    
+            update_progress();
     });
 }
 
@@ -1526,6 +1562,7 @@ var drawHomeOwnerChart = function() {
             // Instantiate and draw our chart, passing in some options.
             var chart = new google.visualization.ColumnChart(document.getElementById('homeOwnerChart'));
             chart.draw(data, chart_options);    
+            update_progress();
     });
 }
 
@@ -1622,7 +1659,8 @@ var drawpropertyCountBucketChart = function() {
             }              
             // Instantiate and draw our chart, passing in some options.
             var chart = new google.visualization.ColumnChart(document.getElementById('propertyCountBucketChart'));
-            chart.draw(data, chart_options);    
+            chart.draw(data, chart_options);  
+            update_progress();  
     });
 }
 
@@ -1721,6 +1759,7 @@ var drawVehicleOwnerChart = function() {
             // Instantiate and draw our chart, passing in some options.
             var chart = new google.visualization.ColumnChart(document.getElementById('vehicleOwnerChart'));
             chart.draw(data, chart_options);    
+            update_progress();
     });
 }
 
@@ -1819,6 +1858,7 @@ var drawLSMGroupChart = function() {
             // Instantiate and draw our chart, passing in some options.
             var chart = new google.visualization.BarChart(document.getElementById('lsmGroupChart'));
             chart.draw(data, chart_options);    
+            update_progress();
     });
 }
 
@@ -1914,7 +1954,8 @@ var drawRiskCategoryChart = function() {
             }        
             // Instantiate and draw our chart, passing in some options.
             var chart = new google.visualization.BarChart(document.getElementById('riskCategoryChart'));
-            chart.draw(data, chart_options);     
+            chart.draw(data, chart_options);  
+            update_progress();   
     });
 }
 
@@ -2014,6 +2055,7 @@ var drawHouseholdIncomeChart = function() {
             // Instantiate and draw our chart, passing in some options.
             var chart = new google.visualization.BarChart(document.getElementById('householdIncomeChart'));
             chart.draw(data, chart_options);     
+            update_progress();
     });    
 }
 
@@ -2113,15 +2155,18 @@ var drawDirectorOfBusinessChart = function() {
             // Instantiate and draw our chart, passing in some options.
             var chart = new google.visualization.ColumnChart(document.getElementById('directorOfBusinessChart'));
             chart.draw(data, chart_options);    
+            update_progress();
+            hide_progress();
             $(".apply-filter-button").prop("disabled", false);
             $('.apply-filter-button').html("apply");
             $('#sidebarSubmitBtn').html('<i class="fas fa-sync-alt"></i>&nbsp;Apply Filters');
             $('#sidebarSubmitBtn').prop("disabled", false);
-            $("#resetFilterToastBtn, #resetFilterToastBtn2").prop("disabled", false);
+            $("#resetFilterToastBtn").prop("disabled", false);
             $("#audienceSubmitBtn").prop("disabled", false);
-            $("#resetFilterToastBtn, #resetFilterToastBtn2").html('<i class="fas fa-undo-alt"></i>&nbsp;Reset Filters');
+            $("#resetFilterToastBtn").html('<i class="fas fa-undo-alt"></i>&nbsp;Reset Filters');
             $("#downloadSubmitBtn").prop("disabled", false);
     });
+    
 }
 
 var get_records_count =  function(records_data) {
@@ -2180,6 +2225,7 @@ var get_municipalities = function() {
         $("#municipality_filter").empty();
         ////console.log(data);
         drawMunicipalityChart(data);
+        update_progress();
         get_ages();
     });
 
@@ -2187,6 +2233,7 @@ var get_municipalities = function() {
 
 var get_provinces = function() {
     // First get count. 
+
     get_records_count();
 
     $.get("/api/meetpat-client/get-records/provinces", {user_id: user_id_number, province: target_provinces.join(","),
@@ -2279,10 +2326,11 @@ var get_provinces = function() {
             });
 
         }
-
+        
         drawProvinceChart(data["all"]);
         drawMapChart(data["all"]);
         get_municipalities();
+        
 
     });
 
@@ -2295,82 +2343,81 @@ var get_ages = function() {
 }
 
 var get_genders = function() {
-
+    
     drawGenderChart();
     get_population_groups();
 }
 
 var get_population_groups = function() {
-
+    
     drawPopulationChart();
     get_generations();
 }
 
 var get_generations = function() {
-
+    
     drawGenerationChart();
     get_citizens_and_residents();
 }
 
 var get_home_owner = function() {
-
+    
     drawHomeOwnerChart();
     get_property_valuation();
 }
 
 var get_property_valuation = function() {
-
+    
     drawPropertyValuationChart();
     get_property_count_bucket();
 }
 
 var get_property_count_bucket = function() {
-
+    
     drawpropertyCountBucketChart();
     get_vehicle_owner();
 }
 
 var get_vehicle_owner = function() {
-
+    
     drawVehicleOwnerChart();
     get_risk_category();
 }
 
 var get_household_income = function() {
-
+    
     drawHouseholdIncomeChart();
     get_director_of_business();
 }
 
 var get_risk_category = function() {
-
+    
     drawRiskCategoryChart();
     get_lsm_group();
 }
 
 var get_lsm_group = function() {
-
+    
     drawLSMGroupChart();
     get_household_income();
 }
 
 var get_director_of_business = function() {
-
+    
     drawDirectorOfBusinessChart();
-
 }
 
 var get_citizens_and_residents = function() {
-
-        drawCitizensChart();
-        get_marital_statuses();
+    
+    drawCitizensChart();
+    get_marital_statuses();
 
 }
 
 var get_marital_statuses = function() {
-
-        drawMaritalStatusChart();
-        get_home_owner();
+    
+    drawMaritalStatusChart();
+    get_home_owner();
 }
 
 // Apply filters function
@@ -2413,14 +2460,19 @@ var apply_filters = function() {
 
 }
 
-$('.apply-filter-button, #sidebarSubmitBtn').click(function() {
+$('.apply-filter-button, #sidebarSubmitBtn, #apply-toggle-button').click(function() {
     checkForFilters();
+
+    data_fetched = 0;
+    $("#progress_popup .progress-bar").width("0%");
+    $("#progress_popup").show();
+
     $('.apply-filter-button').prop("disabled", true);
     $('#sidebarSubmitBtn').prop("disabled", true);
     $('#audienceSubmitBtn').prop("disabled", true);
     $('.apply-filter-button').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;applying...');
     $('#sidebarSubmitBtn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;Applying Filters...');
-    $("#resetFilterToastBtn, #resetFilterToastBtn2").prop("disabled", true);
+    $("#resetFilterToastBtn").prop("disabled", true);
     $(".apply-filter-button").prop("disabled", true);
 
     target_provinces = [];
@@ -2563,10 +2615,13 @@ $('.apply-filter-button, #sidebarSubmitBtn').click(function() {
     get_provinces();
 });
 
-$("#resetFilterToastBtn, #resetFilterToastBtn2").click(function() {
+$("#resetFilterToastBtn, #reset-toggle-button").click(function() {
+    data_fetched = 0;
+    $("#progress_popup .progress-bar").width("0%");
+    $("#progress_popup").show();
     checkForFilters();
-    $("#resetFilterToastBtn, #resetFilterToastBtn2").prop("disabled", true);
-    $("#resetFilterToastBtn, #resetFilterToastBtn2").html(
+    $("#resetFilterToastBtn").prop("disabled", true);
+    $("#resetFilterToastBtn").html(
         '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
         + '&nbsp;Resetting...'
     );
@@ -2653,27 +2708,11 @@ var get_saved_audiences = function() {
 }
 
 $(document).ready(function() {
+    $("#progress_popup").show();
     get_saved_audiences();
     //var site_url = window.location.protocol + "//" + window.location.host;
     $('#records-main-toast').toast('show');
-    $("#records-toast").toast('show');
-
-    if($(window).width() > 769)
-    {
-        $("#reset-filters-toast").toast('show');
-    } else {
-        $("#reset-filters-toast").toast('hide'); 
-    }
-
-    window.addEventListener("resize", function() {
-        if($(window).width() > 769)
-        {
-        $("#reset-filters-toast").toast('show');
-        } else {
-            $("#reset-filters-toast").toast('hide'); 
-        }
-    });
-    
+    $("#records-toast").toast('show');    
     
     $('.dropdown-menu, .dropdown-toggle').on('click', function(e) {
         if($(this).hasClass('dropdown-menu-form')) {
@@ -2683,10 +2722,29 @@ $(document).ready(function() {
 
     $("#SavedAudiencesModal").on('show.bs.modal', function() {
         $("#SaveAudienceModal").modal("hide");
+        toggle_side_bar();
+        
     });
     
     $("#SaveAudienceModal").on('show.bs.modal', function() {
         $("#SavedAudiencesModal").modal("hide");
+
+        if($("#nameFile").val().length > 1 && $("#nameFile").val().match(/^([A-z\_0-9])\w+$/g))
+        {
+            $("#downloadSubmitBtn").prop("disabled", false);
+        } else {
+            $("#downloadSubmitBtn").prop("disabled", true);
+        }
+        
+        toggle_side_bar();
+    });
+
+    $("#SavedAudiencesModal").on('hide.bs.modal', function() {       
+        toggle_side_bar();
+    });
+    
+    $("#SaveAudienceModal").on('hide.bs.modal', function() {
+        toggle_side_bar();
     });
 
     get_provinces(); // Starts sequence to fetch data and draw charts.
@@ -2694,14 +2752,7 @@ $(document).ready(function() {
     /** Sidebar toggling. */
 
     $('#sidebar-toggle-button').click(function() {
-        if($(this).hasClass("sidebar-button-in")) {
-            $(this).html('<i class="fas fa-arrow-right"></i>');
-        } else {
-            $(this).html('<i class="fas fa-cog"></i>');
-        }
-
-        $('#right-options-sidebar').toggleClass("sidebar-in");
-        $('#sidebar-toggle-button').toggleClass("sidebar-button-in");
+        toggle_side_bar();
     });
  
     //   var idx = lunr(function () {
