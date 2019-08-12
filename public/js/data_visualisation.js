@@ -102,7 +102,7 @@ function changePage(page, data)
             </div>
             <div class="col-3 mb-1" id="file_actions_${audience_file.file_unique_name}">
                 <div class="btn-group float-right" role="group" aria-label="Basic example">
-                    <a type="button" id="download_${audience_file.file_unique_name}" href="${audience_file.link}" class="btn btn-light"><i class="fas fa-file-download" download></i></a>
+                    <a type="button" id="download_${audience_file.file_unique_name}" href="${audience_file.link}" class="btn btn-light" download><i class="fas fa-file-download"></i></a>
                     <button type="button" id="edit_${audience_file.file_unique_name}" onclick="edit_file('${audience_file.file_unique_name}')" class="btn btn-light"><i class="far fa-edit"></i></button>
                     <button type="button" id="delete_${audience_file.file_unique_name}" onclick="delete_file('${audience_file.file_unique_name}','${audience_file.file_name}');" class="btn btn-danger delete_file_btn"><i class="fas fa-trash-alt"></i></button>
                 </div>
@@ -119,7 +119,7 @@ function changePage(page, data)
                 </div>
                 <div class="col-3 mb-1 d-none" id="file_actions_${audience_file.file_unique_name}">
                     <div class="btn-group float-right" role="group" aria-label="Basic example">
-                        <a type="button" id="download_${audience_file.file_unique_name}" href="${audience_file.link}" class="btn btn-light"><i class="fas fa-file-download"></i></a>
+                        <a type="button" id="download_${audience_file.file_unique_name}" href="${audience_file.link}" class="btn btn-light" download><i class="fas fa-file-download"></i></a>
                         <button type="button" id="edit_${audience_file.file_unique_name}" onclick="edit_file('${audience_file.file_unique_name}')" class="btn btn-light"><i class="far fa-edit"></i></button>
                         <button type="button" id="delete_${audience_file.file_unique_name}" onclick="delete_file('${audience_file.file_unique_name}','${audience_file.file_name}');" class="btn btn-danger delete_file_btn"><i class="fas fa-trash-alt"></i></button>
                     </div>
