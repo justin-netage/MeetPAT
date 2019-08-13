@@ -53,9 +53,9 @@ class DataVisualisationController extends Controller
         
         $actual_file = null;
         $audience_names = [];
-        $audience_files = \MeetPat\AudienceFile::where("user_id", $request->user_id)->all();
+        $audience_files = \MeetPAT\AudienceFile::where("user_id", $request->user_id)->get();
 
-        foreach($audience_files as $audience_file)
+        foreach($audience_files as $audience_file) 
         {
             array_push($audience_names, explode(" - ", $audience_file->audience_name)[0]);
         }
@@ -79,12 +79,12 @@ class DataVisualisationController extends Controller
                 );
     
             } else {
-                return response("file does not exist :(");
+                return response(array("status" => "error", "message" => "Server could not get file."));
             }
             //\MeetPAT\Jobs\EnrichRecords::dispatch();
-            return response()->json($created_job_que);
+            return response()->json(array("status" => "success", "message" => "File uploaded successfully and queued for processing."));
         } else {
-            return response()->json(array("error" => "Audience File name already used."));
+            return response()->json(array("status" => "error", "message" => "Audience File name has already been used."));
         }
 
     }

@@ -13,7 +13,7 @@
             <div class="card">
                 <div class="card-header"><h1 id="card-title">{{ __('Upload Contacts') }} </h1></div>
                 <div class="card-body">
-                    <form id="upload-custom-audience" enctype="multipart/form-data" onsubmit="displayLoader();" novalidate>
+                    <form id="upload-custom-audience" enctype="multipart/form-data" novalidate>
                         @csrf
                         <a href="https://s3.amazonaws.com/meetpat/public/sample/Template.csv">Download template file</a>
                         <fieldset id="fieldsetId">
@@ -35,7 +35,7 @@
                             <div class="form-group">
                                 <label for="email">{{ __('Name Your File') }}</label>
 
-                                <input id="audience_name" type="text" placeholder="Enter your new audience name" max="50" class="form-control{{ $errors->has('audience_name') ? ' is-invalid' : '' }}" name="audience_name" value="{{ old('audience_name') }}" autofocus>
+                                <input id="audience_name" type="text" placeholder="Enter file name" max="50" class="form-control{{ $errors->has('audience_name') ? ' is-invalid' : '' }}" name="audience_name" value="{{ old('audience_name') }}" autofocus>
 
                                 @if ($errors->has('audience_name'))
                                     <span class="invalid-feedback" role="alert">
@@ -43,7 +43,7 @@
                                     </span>
                                 @endif
                                 <span class="invalid-feedback" role="alert">
-                                    <strong id="invalid-audience-name">Please provide a valid audience name</strong>
+                                    <strong id="invalid-audience-name">Please provide a valid and unique file name</strong>
                                 </span>
                             </div>
                         </fieldset>

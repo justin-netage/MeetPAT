@@ -1,7 +1,3 @@
-var displayLoader = function () {
-    $("#loader").css("display", "block");
-};
-
 var site_url = window.location.protocol + "//" + window.location.host;
 
 FilePond.registerPlugin(FilePondPluginFileValidateType);
@@ -90,8 +86,9 @@ pond_element.addEventListener('FilePond:removefile', e => {
             ' </div>');
         },
         complete: function (data) {
+            console.log(data);
             $("#loader").css("display", "none");
-            window.location = '/meetpat-client/data-visualisation';
+            //window.location = '/meetpat-client/data-visualisation';
 
                     
         },

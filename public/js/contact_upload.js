@@ -13,9 +13,6 @@ $(document).ready(function() {
 
     }
 
-    var displayLoader = function() {
-            $("#loader").css("display", "block")
-        },
         site_url = window.location.protocol + "//" + window.location.host;
         FilePond.registerPlugin(FilePondPluginFileValidateType);
         var pond = FilePond.create(document.querySelector('input[type="file"]'));
@@ -50,7 +47,7 @@ $(document).ready(function() {
             $("#submit_audience").prop('disabled', true);
             $("#submit_audience").html(
                 `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    Submitting...`
+                    &nbsp;Submitting...`
             );
             $("#fieldsetId").prop("disabled", true);
             $.ajax({
@@ -58,11 +55,30 @@ $(document).ready(function() {
                 type: "POST",
                 data: t,
                 success: function(e) {
-                    $("#submit_audience").html('Done');
-                    $("#alert-section").empty(), $("#alert-section").append('<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Success!</strong> Clients have been uploaded successfully.<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> </div>')
+                    
+                    if(e.status == "success")
+                    {
+                        $("#loader").css("display", "none")
+                        $("#submit_audience").html('Done');
+                        $("#alert-section").empty(), $("#alert-section").append('<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Success!</strong> Clients have been uploaded successfully.<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> </div>');
+                        window.location = "/meetpat-client/data-visualisation";
+                        
+                    } else {
+                        $("#audience_name").removeClass('is-valid');
+                        $("#audience_name").addClass('is-invalid');
+                        document.getElementById("audience_name").setCustomValidity('invalid');
+
+                        $("#submit_audience").prop('disabled', false);
+                        $("#submit_audience").html('Submit');
+                        $("#fieldsetId").prop("disabled", false);
+                        $("#alert-section").empty(), $("#alert-section").append('<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Error!</strong> Clients failed to upload. '+e.message+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> </div>');
+                    }
+                    
                 },
                 complete: function(e) {
-                    $("#loader").css("display", "none"), window.location = "/meetpat-client/data-visualisation"
+                    
+                    
+                    
                 },
                 error: function(e) {
                     $("#submit_audience").prop('disabled', false);
@@ -78,7 +94,7 @@ $(document).ready(function() {
     
         $("#audience_name").on('change keyup select', function() {
     
-            if($(this).val().match(/^[a-zA-Z ]{2,}$/)) {
+            if($(this).val().match(/^[a-zA-Z 0-9]{2,}$/)) {
                 $(this).addClass('is-valid');
                 $(this).removeClass('is-invalid');
                 this.setCustomValidity('');
