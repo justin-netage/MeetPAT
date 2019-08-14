@@ -1027,6 +1027,16 @@ user-select: none;
   cursor: pointer;
 }
 
+#reset-toggle-button:hover
+{
+  background-color: rgb(120,120,120);
+}
+
+.right-sidebar-button:hover, .apply-right-sidebar-button:hover
+{
+  background-color: rgba(0, 163, 217, 0.8);
+}
+
 #contacts-num-sidebar, #potential-contacts-num-sidebar
 {
   border-radius: 2px 2px 2px 2px;

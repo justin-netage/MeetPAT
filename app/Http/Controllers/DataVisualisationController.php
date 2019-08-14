@@ -322,238 +322,24 @@ class DataVisualisationController extends Controller
     // Store client filtered audience file
     public function save_filtered_audience(Request $request)
     {
-        $records = \MeetPAT\EnrichedRecord::select(['FirstName',
-        'Middlename','Surname','CleanPhone','Email1'])->whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
-
-
-        // Filter By Provinces
-        if($request->provinceContacts[0]) {
-            $records = $records->whereIn('Province', explode(",", $request->provinceContacts[0]));
-        } 
-        // Filter By Municipalities
-        if($request->municipalityContacts[0]) {
-            $records = $records->whereIn('Municipality', explode(",", $request->municipalityContacts[0]));
-        }
-        // Filter By Age Groups
-        if($request->AgeContacts[0]) {
-            $records = $records->whereIn('AgeGroup', explode(",", $request->AgeContacts[0]));
-        }
-        // Filter By Gender
-        if($request->GenderContacts[0]) {
-            $records = $records->whereIn('Gender', explode(",", $request->GenderContacts[0]));
-        }
-        // Filter By Population Group
-        if($request->populationContacts[0]) {
-            $records = $records->whereIn('PopulationGroup', explode(",", $request->populationContacts[0]));
-        }
-        // Filter By Generation Group
-        if($request->generationContacts[0]) {
-            $records = $records->whereIn('Generation', explode(",", $request->generationContacts[0]));
-        }
-        // Filter By Marital Status
-        if($request->maritalStatusContacts[0]) {
-            $records = $records->whereIn('MaritalStatus', explode(",", $request->maritalStatusContacts[0]));
-        }
-        // Filter By Home Owners
-        if($request->homeOwnerContacts[0]) {
-            $records = $records->whereIn('HomeOwnershipStatus', explode(",", $request->homeOwnerContacts[0]));
-        }  
-        // Filter By Property Valuation
-        if($request->propertyValuationContacts[0]) {
-            $records = $records->whereIn('PropertyValuationBucket', explode(",", $request->propertyValuationContacts[0]));
-        } 
-        // Filter By Property Count
-        if($request->propertyCountBucketContacts[0]) {
-            $records = $records->whereIn('PropertyCountBucket', explode(",", $request->propertyCountBucketContacts[0]));
-        }
-        // Filter By Risk Categories
-        if($request->riskCategoryContacts[0]) {
-            $records = $records->whereIn('CreditRiskCategory', explode(",", $request->riskCategoryContacts[0]));
-        }
-        // Filter By Household Income
-        if($request->houseHoldIncomeContacts[0]) {
-            $records = $records->whereIn('IncomeBucket', explode(",", $request->houseHoldIncomeContacts[0]));
-        }
-        if($request->employerContacts[0]) {
-            $records = $records->whereIn('Employer', explode(",", $request->employerContacts[0]));
-        }
-        // Filter By LSM Group
-        if($request->lsmGroupContacts[0]) {
-            $records = $records->whereIn('LSMGroup', explode(",", $request->lsmGroupContacts[0]));
-        }
-        // Filter By Vehicle Ownership
-        if($request->vehicleOwnerContacts[0]) {
-            $records = $records->whereIn('VehicleOwnershipStatus', explode(",", $request->vehicleOwnerContacts[0]));
-        }
-        // Filter By directors
-        if($request->directorsContacts[0]) {
-            $records = $records->whereIn('DirectorshipStatus', explode(",", $request->directorsContacts[0]));
-        }
-        // Filter By areas
-        if($request->areaContacts[0]) {
-            $records = $records->whereIn('Area', explode(",", $request->areaContacts[0]));
-        }
-        // Filter By Citizens and residents
-        if($request->citizenVsResidentsContacts[0]) {
-            if(in_array("citizen", explode(",", $request->citizenVsResidentsContacts[0]))) {
-                $records = $records->where('id6', '!=', '');
-                
-
-            } else if(in_array("resident", explode(",", $request->citizenVsResidentsContacts[0]))) {
-                $records = $records->where('HasResidentialAddress', "true");
-
-            }
-        }
-
-        $records = $records->get()->toArray();
-        $decryptded_array = [];
-        foreach($records as $record)
-        {
-            if($record["FirstName"] == "NULL") {
-                $record["FirstName"] = "";
-            } 
-
-            if($record["Middlename"]== "NULL") {
-                $record["Middlename"] = "";
-            }
-
-            if($record["Surname"]== "NULL") {
-                $record["Surname"] = "";
-            }
-            
-            if($record["CleanPhone"]== "NULL") {
-                $record["CleanPhone"] = "";
-            }
-
-            if($record["Email1"]== "NULL") {
-                $record["Email1"] = "";
-            }
-
-            // if($record["Email2"]) {
-            //     $record["Email2"] = $record["Email2"];
-            // }
-
-            // if($record["Email3"]) {
-            //     $record["Email3"] = $record["Email3"];
-            // }
-
-            // if($record["MobilePhone1"]) {
-            //     $record["MobilePhone1"] = $record["MobilePhone1"];
-            // }
-
-            // if($record["MobilePhone2"]) {
-            //     $record["MobilePhone2"] = $record["MobilePhone2"];
-            // }
-
-            // if($record["MobilePhone3"]) {
-            //     $record["MobilePhone3"] = $record["MobilePhone3"];
-            // }
-
-            // if($record["WorkPhone1"]) {
-            //     $record["WorkPhone1"] = $record["WorkPhone1"];
-            // }
-
-            // if($record["WorkPhone2"]) {
-            //     $record["WorkPhone2"] = $record["WorkPhone2"];
-            // }
-
-            // if($record["WorkPhone3"]) {
-            //     $record["WorkPhone3"] = $record["WorkPhone3"];
-            // }
-
-            // if($record["HomePhone1"]) {
-            //     $record["HomePhone1"] = $record["HomePhone1"];
-            // }
-
-            // if($record["HomePhone2"]) {
-            //     $record["HomePhone2"] = $record["HomePhone2"];
-            // }
-
-            // if($record["HomePhone3"]) {
-            //     $record["HomePhone3"] = $record["HomePhone3"];
-            // }
-
-            // if($record["MaritalStatus"])
-            // {
-            //     if($record["MaritalStatus"] == "True")
-            //     {
-            //         $record["MaritalStatus"] = "Yes";
-            //     } else {
-            //         $record["MaritalStatus"] = "No";
-            //     }
-            // }
-
-            // if($record["HomeOwnershipStatus"])
-            // {
-            //     if($record["HomeOwnershipStatus"] == "True")
-            //     {
-            //         $record["HomeOwnershipStatus"] = "Yes";
-            //     } else {
-            //         $record["HomeOwnershipStatus"] = "No";
-            //     }
-            // }
-
-            // if($record["VehicleOwnershipStatus"])
-            // {
-            //     if($record["VehicleOwnershipStatus"] == "True")
-            //     {
-            //         $record["VehicleOwnershipStatus"] = "Yes";
-            //     } else {
-            //         $record["VehicleOwnershipStatus"] = "No";
-            //     }
-            // }
-
-            // if($record["DirectorshipStatus"])
-            // {
-            //     if($record["DirectorshipStatus"] == "True")
-            //     {
-            //         $record["DirectorshipStatus"] = "Yes";
-            //     } else {
-            //         $record["DirectorshipStatus"] = "No";
-            //     }
-            // }
-
-            // if($record["DeceasedStatus"])
-            // {
-            //     if($record["DeceasedStatus"] == "True")
-            //     {
-            //         $record["DeceasedStatus"] = "Yes";
-            //     } else {
-            //         $record["DeceasedStatus"] = "No";
-            //     }
-            // }
-
-            // if($record["HasResidentialAddress"])
-            // {
-            //     if($record["HasResidentialAddress"] == "True")
-            //     {
-            //         $record["HasResidentialAddress"] = "Yes";
-            //     } else {
-            //         $record["HasResidentialAddress"] = "No";
-            //     }
-            // }
-
-            array_push($decryptded_array, $record);
-        }
-
-        $parser = new \CsvParser\Parser(',', '', "\n");
-        $csv = $parser->fromArray($decryptded_array); 
-        $csv_str = $parser->toString($csv);
         $fileName = uniqid() . "_" . time();
+        
+        /* Save as a XLS */
 
         if(env('APP_ENV') == 'production')
         {
             $directory_used = \Storage::disk('s3')->makeDirectory('client/saved-audiences/');
-            $file_uploaded = \Storage::disk('s3')->put('client/saved-audiences/user_id_' . $request->user_id . '/' . $fileName  . ".xls", $csv_str);
+            $file_uploaded = \Excel::store(new \MeetPAT\Exports\SavedAudienceExport($request->toArray(), $request->user_id), 'client/saved-audiences/user_id_' . $request->user_id . '/' . $fileName . ".xls", 's3');
 
         } else {
             $directory_used = \Storage::disk('local')->makeDirectory('client/saved-audiences/');
-            $file_uploaded = \Storage::disk('local')->put('client/saved-audiences/user_id_' . $request->user_id . '/' . $fileName  . ".xls", $csv_str);
+            $file_uploaded = \Excel::store(new \MeetPAT\Exports\SavedAudienceExport($request->toArray(), $request->user_id), 'client/saved-audiences/user_id_' . $request->user_id . '/' . $fileName . ".xls", 'local');
+    
         }
 
         $saved_audience = \MeetPAT\SavedFilteredAudienceFile::create(["user_id" => $request->user_id, "file_unique_name" => $fileName, "file_name" => $request->file_name]);
 
-        return response()->json(["saved_file" => $saved_audience, "request" => $request->provinceContacts]);
+        return response()->json(["saved_file" => $saved_audience, "request" => $request->toArray()]);
     }
 
     public function get_saved_audiences(Request $request)

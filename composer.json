@@ -22,7 +22,7 @@
         "linq/php-linq": "^1.0",
         "maatwebsite/excel": "^3.1",
         "parsecsv/php-parsecsv": "^1.1",
-        "phpoffice/phpspreadsheet": "^1.6",
+        "phpoffice/phpspreadsheet": "^1.8",
         "predis/predis": "^1.1",
         "sendgrid/sendgrid": "^7.2",
         "stilliard/csvparser": "1.1.5",
