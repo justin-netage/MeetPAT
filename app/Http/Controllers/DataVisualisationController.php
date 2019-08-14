@@ -344,7 +344,7 @@ class DataVisualisationController extends Controller
 
     public function get_saved_audiences(Request $request)
     {
-        $files = \MeetPAT\SavedFilteredAudienceFile::where('user_id', $request->user_id)->get()->toArray();
+        $files = \MeetPAT\SavedFilteredAudienceFile::where('user_id', $request->user_id)->orderBy('created_at', 'desc')->get()->toArray();
         $new_array = [];
 
         foreach($files as $file)
