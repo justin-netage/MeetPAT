@@ -15,7 +15,7 @@
                 <div class="card-body">
                     <form id="upload-custom-audience" enctype="multipart/form-data" novalidate>
                         @csrf
-                        <a href="https://s3.amazonaws.com/meetpat/public/sample/Template.csv">Download template file</a>
+                        <a href="https://s3.amazonaws.com/dashboard.meetpat/public/sample/Template.csv">Download template file</a>
                         <fieldset id="fieldsetId">
                             <input type="hidden" name="user_id"  id="userId" value="{{\Auth::user()->id}}">
                             <input type="hidden" name="file_id" id="fileId">
