@@ -500,9 +500,41 @@ class MeetpatClientController extends Controller
         return view('client.dashboard.update_google_acc', []);
     }
 
-
     public function handle_upload(Request $request)
     {
+        function to_csv_line( $array ) {
+            $temp = array();
+            foreach( $array as $elt ) {
+              $temp[] = addslashes( $elt );
+            }
+           
+            $string = implode( ',', $temp ) . "\n";
+           
+            return $string;
+           }
+    
+        function to_csv( $array ) {
+            $csv;
+            
+            ## Grab the first element to build the header
+            $arr = array_pop( $array );
+            $temp = array();
+            foreach( $arr as $key => $data ) {
+                $temp[] = $key;
+            }
+            $csv = implode( ',', $temp ) . "\n";
+            
+            ## Add the data from the first element
+            $csv .= to_csv_line( $arr );
+            
+            ## Add the data for the rest
+            foreach( $array as $arr ) {   
+                $csv .= to_csv_line( $arr );
+            }
+            
+            return $csv;
+        }
+
         $csv_file = $request->file('audience_file');
         $fileName = uniqid();
         $path = $_FILES['audience_file']['name'];
@@ -518,12 +550,12 @@ class MeetpatClientController extends Controller
         }
 
         function readCSV($csvFile, $delimiter=",") {
-        $file_handle = fopen($csvFile, 'r');
-        while (!feof($file_handle) ) {
-            $line_of_text[] = fgetcsv($file_handle, 0, $delimiter);
-        }
-        fclose($file_handle);
-        return $line_of_text;
+            $file_handle = fopen($csvFile, 'r');
+            while (!feof($file_handle) ) {
+                $line_of_text[] = fgetcsv($file_handle, 0, $delimiter);
+            }
+            fclose($file_handle);
+            return $line_of_text;
         }
            
         if($ext == 'csv') {
@@ -546,18 +578,27 @@ class MeetpatClientController extends Controller
             } else {
                 $csv_array = readCSV($request->file('audience_file'), ";");
 
-                if($csv_array[0] == ["FirstName","Surname","MobilePhone","Email", "IDNumber"])
+                if(similar_text("FirstName", $csv_array[0][0]) >= 5
+                    and similar_text("Surname", $csv_array[0][1]) >= 5
+                    and similar_text("MobilePhone", $csv_array[0][2]) >= 5
+                    and similar_text("Email", $csv_array[0][3]) >= 5
+                    and similar_text("IDNumber", $csv_array[0][4]) >= 5)
                 {
                     //$parser = new \CsvParser\Parser(';', "'", "\n");
                     $csv_p = new \ParseCsv\Csv();
-                    $csv_p->delimeter = ";";
-                    $csv_p->parse($csv);
+                    $csv_p->delimiter = ";";
+                    $csv_p->fields = ["FirstName","Surname","MobilePhone","Email", "IDNumber"];
+                    $csv_p->load_data($request->file('audience_file'));
+                    $csv_p->parse($request->file('audience_file'));
+
+                    $csv_str = to_csv($csv_p->data);
+                    
                     // $csv = $parser->fromString($file_content);
                     // $parser->fieldDelimiter = ",";
                     // $parser->fieldEnclosure = "";
                     // $csv_str = $parser->toString($csv);
 
-                    if(sizeof($csv_p->data) > $uploads_left + 1) {
+                    if(count($csv_array) > $uploads_left + 1) {
                         return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have <b>" . $uploads_left . "</b> uploads available."]);
                     }
     

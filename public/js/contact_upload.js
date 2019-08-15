@@ -21,7 +21,7 @@ $(document).ready(function() {
         pond_element.addEventListener("FilePond:removefile", e => {
         $.post("/api/meetpat-client/large-data/delete?file_id=" + $("#fileId").val() + "&user_id=" + $("#userId").val(), function(e) {}).done(function(e) {
             check_fields();
-        }).fail(function(e) {})
+        }).fail(function(e) { console.log(e)})
     }), FilePond.setOptions({
         maxFileSize: "200MB",
         required: !0,
