@@ -237,7 +237,7 @@
                                 </div>
                                 <div id="area_filter">
                                     <div id="lunr-search" style="display: none;">
-                                        <input type="text" class="form-control mb-2" id="areaSearchInput" autocomplete="off" placeholder="search for area...">
+                                        <input type="text" class="form-control mb-2" id="areaSearchInput" autocomplete="off" placeholder="search for more areas...">
                                         <span style="position:absolute; right: 40px; top:35px;"><i class="fas fa-search"></i></span>
                                         <ul id="lunr-results" class="list-unstyled"></ul>
                                     </div>
