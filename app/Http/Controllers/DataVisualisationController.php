@@ -310,7 +310,7 @@ class DataVisualisationController extends Controller
     // Part of Api for Progress Tracking
     public function get_job_que(Request $request) {
 
-        $jobs = \MeetPAT\RecordsJobQue::where('user_id', $request->user_id)->with('audience_file')->orderBy('created_at', 'DESC');
+        $jobs = \MeetPAT\RecordsJobQue::where('user_id', $request->user_id)->with('audience_file')->orderBy('created_at', 'DESC')->take(2)->get();
         $running_jobs = \MeetPAT\RecordsJobQue::where('user_id', $request->user_id)->where(function($q) {
             $q->where('status', 'pending')->orWhere('status', 'running');
         })->count();

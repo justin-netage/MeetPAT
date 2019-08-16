@@ -29,5 +29,5 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="{{asset('js/progress_tracking.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/progress_tracking.js')}}"></script>
 @endsection

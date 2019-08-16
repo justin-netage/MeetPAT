@@ -102,7 +102,7 @@ $(document).ready(function() {
                 // if(data["jobs_running"] == 0) {
                 //     window.location = '/meetpat-client/data-visualisation';
                 // }
-    }, 300000);
+    }, 5000);
     
 
 });
