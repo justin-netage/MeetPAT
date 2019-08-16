@@ -315,7 +315,7 @@ class DataVisualisationController extends Controller
             $q->where('status', 'pending')->orWhere('status', 'running');
         })->count();
 
-        return response()->json(["jobs" => $jobs->get(), "jobs_running" => $running_jobs]);
+        return response()->json(["jobs" => $jobs, "jobs_running" => $running_jobs]);
     
     }
 
