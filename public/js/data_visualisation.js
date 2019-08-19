@@ -2925,7 +2925,7 @@ $(document).ready(function() {
             );
     
             $.post('/api/meetpat-client/filtered-audience/save', filter_form_data, function(data) {
-                //console.log(data);
+                console.log(data);
                 $('#SavedAudiencesModal').modal('show');
                 
             }).fail(function(data) {
