@@ -826,7 +826,7 @@
       </div>
       <div class="modal-body">
       <div class="alert alert-warning" role="alert">
-        Your filtered audience will be saved as a CSV/XLS file.
+        Your filtered audiences will be saved as an XLSX file.
       </div>      
       <div class="alerts"></div> 
       <div class="form-group">

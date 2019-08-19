@@ -7,6 +7,8 @@ use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
+ini_set('memory_limit', '-1');
+
 class SavedAudienceExport implements FromQuery, WithHeadings
 {
     /**

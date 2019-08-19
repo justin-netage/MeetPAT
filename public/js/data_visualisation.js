@@ -119,8 +119,6 @@ function changePage(page, data)
 
     listing_table.innerHTML = "";
 
-    
-
     for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < data.length; i++) {
         audience_file = data[i];
         
@@ -244,7 +242,7 @@ var delete_file = function(file_unique_name, file_name) {
             $("#delete_" + file_unique_name).html(`<i class="fas fa-trash-alt"></i>`);
             $(".delete_file_btn").prop("disabled", false);
             $(".page-item").removeClass("disabled");
-            //console.log(data);
+            console.log(data);
         }).done(function() {
             $("#delete_" + file_unique_name).html(`<i class="fas fa-trash-alt"></i>`);
             $(".delete_file_btn").prop("disabled", false);
@@ -415,7 +413,7 @@ function drawAreaChart(  ) {
         $("#area-graph .spinner-block").hide();
         $("#area-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
         $("#area_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
-        //console.log( chart_data )
+        console.log( chart_data )
     }).done(function( chart_data ) {
         
         $("#area-graph .spinner-block").hide();
@@ -844,7 +842,7 @@ function drawAreaChart(  ) {
         $("#age-graph .spinner-block").hide();
         $("#age-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
         $("#age_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
-        //console.log( chart_data );
+        console.log( chart_data );
 
     }).done(function( chart_data ) {
         $("#age-graph .spinner-block").hide();    
@@ -944,7 +942,7 @@ function drawAreaChart(  ) {
             $("#property-valuation-graph .spinner-block").hide();
             $("#property-valuation-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
             $("#property_valuation_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
-            //console.log( chart_data );
+            console.log( chart_data );
     
         }).done(function( chart_data ) {
             $("#property-valuation-graph .spinner-block").hide();    
@@ -1059,7 +1057,7 @@ function drawAreaChart(  ) {
             $("#gender-graph .spinner-block").hide();
             $("#gender-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
             $("#gender_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
-            //console.log( chart_data )
+            console.log( chart_data )
         }).done(function( chart_data ) {
             $("#gender-graph .spinner-block").hide();    
             $("#gender_filter").empty();
@@ -1177,7 +1175,7 @@ function drawAreaChart(  ) {
             $("#population-graph .spinner-block").hide();
             $("#population-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
             $("#population_group_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
-            //console.log( chart_data );
+            console.log( chart_data );
 
         }).done(function( chart_data ) {
             $("#population-graph .spinner-block").hide();    
@@ -1281,7 +1279,7 @@ function drawAreaChart(  ) {
             $("#generation-graph .spinner-block").hide();
             $("#generation-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
             $("#generation_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
-            //console.log( chart_data );
+            console.log( chart_data );
         }).done(function( chart_data ) {
             $("#generation-graph .spinner-block").hide();    
             $("#generation_filter").empty();
@@ -1380,7 +1378,8 @@ var drawCitizensChart = function() {
         $("#c-vs-r-graph .spinner-block").hide();
         $("#c-vs-r-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
         $("#citizen_vs_resident_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
-        //console.log( chart_data );
+        
+        console.log( chart_data );
     }).done(function( chart_data ) {
         $("#c-vs-r-graph .spinner-block").hide();    
         $("#citizen_vs_resident_filter").empty();
@@ -1510,7 +1509,7 @@ var drawMaritalStatusChart = function() {
         $("#marital-status-graph .spinner-block").hide();
         $("#marital-status-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
         $("#marital_status_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
-        //console.log( chart_data );
+        console.log( chart_data );
     }).done(function( chart_data ) {
         $("#marital-status-graph .spinner-block").hide();    
         $("#marital_status_filter").empty();
@@ -1609,7 +1608,7 @@ var drawHomeOwnerChart = function() {
         $("#home-owner-graph .spinner-block").hide();
         $("#home-owner-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
         $("#home_owner_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
-        //console.log( chart_data );
+        console.log( chart_data );
     }).done(function( chart_data ) {
         $("#home-owner-graph .spinner-block").hide();    
         $("#home_owner_filter").empty();
@@ -1704,10 +1703,11 @@ var drawpropertyCountBucketChart = function() {
          }, function( chart_data ) {
 
     }).fail(function( chart_data ) {
+        console.log(chart_data);
         $("#property-count-bucket-graph .spinner-block").hide();
         $("#property-count-bucket-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
         $("#property_count_bucket_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
-        //console.log( chart_data );
+        
     }).done(function( chart_data ) {
         $("#property-count-bucket-graph .spinner-block").hide();    
         $("#property_count_bucket_filter").empty();
@@ -1802,10 +1802,11 @@ var drawVehicleOwnerChart = function() {
          }, function( chart_data ) {
 
     }).fail(function( chart_data ) {
+        console.log(chart_data);
         $("#vehicle-owner-graph .spinner-block").hide();
         $("#vehicle-owner-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
         $("#vehicle_owner_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
-        //console.log( chart_data );
+        
     }).done(function( chart_data ) {
         $("#vehicle-owner-graph .spinner-block").hide();    
         $("#vehicle_owner_filter").empty();
@@ -1904,7 +1905,7 @@ var drawLSMGroupChart = function() {
         $("#lsm-group-graph .spinner-block").hide();
         $("#lsm-group-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
         $("#lsm_group_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
-        // //console.log( chart_data );
+        console.log( chart_data );
     }).done(function( chart_data ) {
         $("#lsm-group-graph .spinner-block").hide();    
         $("#lsm_group_filter").empty();
@@ -2003,7 +2004,7 @@ var drawRiskCategoryChart = function() {
         $("#risk-category-graph .spinner-block").hide();
         $("#risk-category-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
         $("#risk_category_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
-        //console.log( chart_data );
+        console.log( chart_data );
 
     }).done(function( chart_data ) {
         $("#risk-category-graph .spinner-block").hide();    
@@ -2100,7 +2101,7 @@ var drawHouseholdIncomeChart = function() {
         $("#income-graph .spinner-block").hide();
         $("#income-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
         $("#household_income_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
-        //console.log( chart_data );
+        console.log( chart_data );
 
     }).done(function( chart_data ) {
         $("#income-graph .spinner-block").hide();    
@@ -2201,7 +2202,7 @@ var drawDirectorOfBusinessChart = function() {
         $("#directors-graph .spinner-block").hide();
         $("#directors-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
         $("#directors_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
-        //console.log( chart_data );
+        console.log( chart_data );
     }).done(function( chart_data ) {
         $("#directors-graph .spinner-block").hide();    
         $("#directors_filter").empty();
@@ -2315,7 +2316,7 @@ var get_records_count =  function(records_data) {
         $("#contacts-number .spinner-block").hide();
         $("#contacts-number .toast-body").html('<i class="fas fa-exclamation-circle text-danger"></i>');
         
-        //console.log(data)
+        console.log(data)
     }).done(function(data) {
         //console.log(data);
         records_count.html(kFormatter(data));
@@ -2344,7 +2345,7 @@ var get_municipalities = function() {
         $("#municipality-graph .spinner-block").hide();
         $("#municipality-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
         $("#municipality_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
-        //console.log(data)
+        console.log(data)
     }).done(function(data) {
         $("#municipality-graph .spinner-block").hide();    
         $("#municipality_filter").empty();
@@ -2373,7 +2374,7 @@ var get_provinces = function() {
          }, function( data ) {
     }).fail(function(data) {
         
-        //console.log(data)
+        console.log(data)
     }).done(function(data) {
         //console.log(data);
         $("#province_filter").empty();
@@ -2804,7 +2805,7 @@ var get_saved_audiences = function() {
         }
         
     }).fail(function(data) {
-        //console.log(data);
+        console.log(data);
     }).done(function(data) {
         if(data.length)
         {
@@ -2941,7 +2942,8 @@ $(document).ready(function() {
                     </button>
                 </div>
                 `);
-                //console.log(data);
+                $('#SavedAudiencesModal').modal('show');
+                console.log(data);
             }).done(function() {
                 
                 $("#downloadSubmitBtn").prop("disabled", false);
@@ -3010,7 +3012,7 @@ $(document).ready(function() {
                 $(".delete_file_btn").prop("disabled", false);
                 el_save.prop("disabled", false);
                 el_save.html("Save Changes");
-                //console.log(data);
+                console.log(data);
             }).done(function(data) {
                 $(".delete_file_btn").prop("disabled", false);
                 if(!already_disabled_next) {
