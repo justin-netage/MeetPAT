@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 ini_set('memory_limit', '-1');
-
+set_time_limit(0);
 
 class DataVisualisationController extends Controller
 {
