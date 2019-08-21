@@ -96,6 +96,8 @@ Route::get('meetpat-client/get-saved-audiences', 'DataVisualisationController@ge
 Route::post('meetpat-client/filtered-audience/save', 'DataVisualisationController@save_filtered_audience')->name('save-filtered-audience');
 Route::post('meetpat-client/delete-saved-audience-file', 'DataVisualisationController@delete_filtered_audience_file')->name('delete-filtered-audience-file');
 Route::post('meetpat-client/save-filename-edits', 'DataVisualisationController@save_file_names')->name('save-filtered-audience-file-names');
+// Check if queued job is complete
+Route::post('meetpat-client/saved-file-job-status', 'DataVisualisationController@check_job_complete')->name('check-save-file-status');
 // Get Authentication token
 Route::post('google-authorization/authenticate-authorization-code', 'MeetpatClientController@authenticate_authorization_code')->name('authenticate-google-code');
 

@@ -2773,6 +2773,24 @@ $("#resetFilterToastBtn, #reset-toggle-button").click(function() {
     target_lsm_groups = [];
     target_property_valuations = [];
     target_property_count_buckets = [];
+
+    $("#provinceContactsId").val(target_provinces);
+    $("#areaContactsId").val(target_areas);
+    $("#municipalityContactsID").val(target_municipalities);
+    $("#AgeContactsId").val(target_ages);
+    $("#GenderContactsId").val(target_genders);
+    $("#populationContactsId").val(target_population_groups);
+    $("#generationContactsId").val(target_generations);
+    $("#citizenVsResidentsContactsId").val(target_citizen_vs_residents);
+    $("#maritalStatusContactsId").val(target_marital_statuses);
+    $("#homeOwnerContactsId").val(target_home_owners);
+    $("#riskCategoryContactsId").val(target_risk_categories);
+    $("#houseHoldIncomeContactsId").val(target_incomes);
+    $("#directorsContactsId").val(target_directors);
+    $("#vehicleOwnerContactsId").val(target_vehicle_owners);
+    $("#lsmGroupContactsId").val(target_lsm_groups);
+    $("#propertyValuationContactsId").val(target_property_valuations);
+    $("#propertyCountBucketContactsId").val(target_property_count_buckets);
     
     $('input:checkbox').each(function(el) {
         if($(el).is(':checked')) {
@@ -2925,8 +2943,8 @@ $(document).ready(function() {
             );
     
             $.post('/api/meetpat-client/filtered-audience/save', filter_form_data, function(data) {
-                console.log(data);
-                $('#SavedAudiencesModal').modal('show');
+                //console.log(data);
+                
                 
             }).fail(function(data) {
                 
@@ -2944,13 +2962,30 @@ $(document).ready(function() {
                 `);
                 $('#SavedAudiencesModal').modal('show');
                 console.log(data);
-            }).done(function() {
+            }).done(function(data) {
                 
-                $("#downloadSubmitBtn").prop("disabled", false);
-                $("#downloadSubmitBtn").html(
-                    '<i class="far fa-save"></i>&nbsp;Save Contacts'
-                );
-                get_saved_audiences();
+                
+
+                var check_job_status = setInterval(function(){ 
+                    $.post('/api/meetpat-client/saved-file-job-status', {id: data["job"]["id"]}, function(current_job) {
+                        //console.log(current_job["job"]["status"]);
+                    }).fail(function(error) {
+                        console.log(error);
+                    }).done(function(job_data) {
+                        
+                        if(job_data["job"]["status"] == "complete") {
+                            clearInterval(check_job_status);
+                            $("#downloadSubmitBtn").prop("disabled", false);
+                            $("#downloadSubmitBtn").html(
+                                '<i class="far fa-save"></i>&nbsp;Save Contacts'
+                            );
+                            $('#SavedAudiencesModal').modal('show');
+                            get_saved_audiences();
+                        }
+                    });
+                }, 3000);
+                                   
+
             });
         } else {
             $("#SaveAudienceModal .alerts").html(`

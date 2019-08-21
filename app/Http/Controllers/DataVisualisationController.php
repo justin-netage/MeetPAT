@@ -323,23 +323,30 @@ class DataVisualisationController extends Controller
     public function save_filtered_audience(Request $request)
     {
         $fileName = uniqid() . "_" . time();
-        
-        /* Save as a XLS */
-
-        if(env('APP_ENV') == 'production')
-        {
-            $directory_used = \Storage::disk('s3')->makeDirectory('client/saved-audiences/');
-            $file_uploaded = \Excel::store(new \MeetPAT\Exports\SavedAudienceExport($request->toArray(), $request->user_id), 'client/saved-audiences/user_id_' . $request->user_id . '/' . $fileName . ".xlsx", 's3');
-
-        } else {
-            $directory_used = \Storage::disk('local')->makeDirectory('client/saved-audiences/');
-            $file_uploaded = \Excel::store(new \MeetPAT\Exports\SavedAudienceExport($request->toArray(), $request->user_id), 'client/saved-audiences/user_id_' . $request->user_id . '/' . $fileName . ".xlsx", 'local');
-    
-        }
 
         $saved_audience = \MeetPAT\SavedFilteredAudienceFile::create(["user_id" => $request->user_id, "file_unique_name" => $fileName, "file_name" => $request->file_name]);
+        $query_params = $request->toArray();
+        unset($query_params["file_name"]);
+        $query_params["file_unique_name"] = $fileName;$query_params["file_id"] = $saved_audience->id;
+        $query_params["province"] = $request["provinceContacts"][0]; $query_params["area"] = $request["areaContacts"][0]; $query_params["municipality"] = $request["municipalityContacts"][0];
+        $query_params["age"] = $request["AgeContacts"][0]; $query_params["gender"] = $request["GenderContacts"][0]; $query_params["population_group"] = $request["populationContacts"][0];
+        $query_params["generation"] = $request["generationContacts"][0]; $query_params["citizen_vs_resident"] = $request["citizenVsResidentsContacts"][0]; $query_params["marital_status"] = $request["maritalStatusContacts"][0];
+        $query_params["home_owner_contacts"] = $request["homeOwnerContacts"][0]; $query_params["risk_category"] = $request["riskCategoryContacts"][0]; $query_params["income_bucket"] = $request["houseHoldIncomeContacts"][0];
+        $query_params["directors"] = $request["directorsContacts"][0]; $query_params["vehicle_ownership_status"] = $request["vehicleOwnerContacts"][0]; $query_params["property_count_bucket"] = $request["propertyCountBucketContacts"][0];
+        $query_params["property_valuation_bucket"] = $request["propertyValuationContacts"][0]; $query_params["lsm_group"] = $request["lsmGroupContacts"][0];
+        
+        $filtered_audience = \MeetPAT\FilteredAudienceFile::create($query_params);
+        // Queue file to be saved.
+        $create_job = \MeetPAT\SaveFilesJobQueue::create(array("user_id" => $request->user_id, "status" => "pending", "saved_file_id" => $saved_audience->id, "saved_filters_id" => $filtered_audience->id, "number_of_records" => $request->number_of_contacts));
+        
+        return response()->json(["job" => $create_job, "request" => $request->toArray()]);
+    }
 
-        return response()->json(["saved_file" => $saved_audience, "request" => $request->toArray()]);
+    public function check_job_complete(Request $request)
+    {
+        $file_save_job = \MeetPAT\SaveFilesJobQueue::find($request->id);
+
+        return response()->json(["job" => $file_save_job]);
     }
 
     public function get_saved_audiences(Request $request)
@@ -388,7 +395,7 @@ class DataVisualisationController extends Controller
         $file_deleted = $file->delete();
 
         if(env('APP_ENV') == 'production') {
-            $actual_file = \Storage::disk('s3')->delete('client/client-records/user_id_' . $request->user_id . '/' . $request->file_unique_name  . ".xlsx");
+            $actual_file = \Storage::disk('s3')->delete('client/saved-audiences/user_id_' . $request->user_id . '/' . $request->file_unique_name  . ".xlsx");
         } else {
             $actual_file = \Storage::disk('local')->delete('client/saved-audiences/user_id_' . $request->user_id . '/' . $request->file_unique_name  . ".xlsx");
         }
