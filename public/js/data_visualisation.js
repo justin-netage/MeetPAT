@@ -109,6 +109,22 @@ var hide_progress = function() {
     },1000);    
 }
 
+// Clear checked inputs
+
+var clear_checked_inputs = function() {    
+        array_checked = $("#areaContactsId").val().split(",");
+        
+        $.each($("#area-filter-form #lunr-results input"), function(index, field) {
+            if(array_checked.includes($(field).val())) {
+                $(field).prop("checked", true);
+            } else {
+                $(field).prop("checked", false);
+            }
+        });
+    
+    
+}
+
 // Saved Audience Files methods
 
 var user_id_number = $("#user_id").val();
@@ -502,7 +518,6 @@ function drawAreaChart(  ) {
         $("#lunr-search").show();
         $("#area-filter-form .text-center").remove();
         shorter_result.forEach(function(result) {
-                
             if($('#area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
                 $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox" checked="checked"><label for="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' + results.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
                 $('#area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
@@ -561,7 +576,7 @@ function drawAreaChart(  ) {
 
                 });                        
             }
-
+            clear_checked_inputs();
         });
         // Append checked inputs to hidden form...
         document.getElementById('areaSearchInput').addEventListener('keyup', function() {
@@ -699,7 +714,7 @@ function drawAreaChart(  ) {
                 });
             }
 
-
+            clear_checked_inputs();
         });
         update_progress();
     });
@@ -2771,7 +2786,10 @@ $('.apply-filter-button, #sidebarSubmitBtn, #apply-toggle-button').click(functio
     });
     $("#area-filter-form input[type='checkbox']").each(function() {
         if(this.checked) {
-            target_areas.push($(this).val());
+            if(!target_areas.includes($(this).val())) {
+                target_areas.push($(this).val());
+            }
+        
         }
     });
 
