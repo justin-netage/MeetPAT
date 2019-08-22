@@ -84,6 +84,14 @@ var toggle_side_bar = function() {
     $('#sidebar-toggle-button').toggleClass("sidebar-button-in");
 }
 
+var close_side_bar = function() {
+    if(!$("#sidebar-toggle-button").hasClass("sidebar-button-in")) {
+        $("#sidebar-toggle-button").html('<i class="fas fa-cog"></i>');
+        $('#right-options-sidebar').addClass("sidebar-in");
+        $('#sidebar-toggle-button').addClass("sidebar-button-in");
+    }     
+}
+
 var data_fetched = 0;
 
 var update_progress = function() {
@@ -2633,6 +2641,7 @@ var apply_filters = function() {
 }
 
 $('.apply-filter-button, #sidebarSubmitBtn, #apply-toggle-button').click(function() {
+    close_side_bar();
     window.scrollTo(0, 0);
     checkForFilters();
 
@@ -2789,6 +2798,7 @@ $('.apply-filter-button, #sidebarSubmitBtn, #apply-toggle-button').click(functio
 });
 
 $("#resetFilterToastBtn, #reset-toggle-button").click(function() {
+    close_side_bar();
     window.scrollTo(0, 0);
     data_fetched = 0;
     $("#progress_popup .progress-bar").width("0%");
