@@ -317,7 +317,23 @@ var checkForFilters = function() {
 }
 
 function kFormatter(num) {
-    return num > 999 ? (num/1000).toFixed(1) + 'K' : num.toString()
+    var si = [
+        { value: 1, symbol: "" },
+        { value: 1E3, symbol: "k" },
+        { value: 1E6, symbol: "M" },
+        { value: 1E9, symbol: "G" },
+        { value: 1E12, symbol: "T" },
+        { value: 1E15, symbol: "P" },
+        { value: 1E18, symbol: "E" }
+      ];
+      var rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+      var i;
+      for (i = si.length - 1; i > 0; i--) {
+        if (num >= si[i].value) {
+          break;
+        }
+      }
+      return (num / si[i].value).toFixed(1).replace(rx, "$1") + si[i].symbol;
 }
 
 function drawProvinceChart( chart_data ) {
@@ -2301,6 +2317,7 @@ var get_records_count =  function(records_data) {
     var records_count_toast = $("#records-toast .toast-body");
     var records_toast = $("#contacts-num-sidebar");
     var number_of_contacts = $("#numberOfContactsId");
+    var eta_file_process = $("#eta_file_process");
 
     $.get("/api/meetpat-client/get-records/count", {user_id: user_id_number, province: target_provinces.join(","),
          age_group: target_ages.join(","), gender: target_genders.join(","), 
@@ -2323,6 +2340,35 @@ var get_records_count =  function(records_data) {
         records_toast.html(kFormatter(data));
         records_count_toast.html(kFormatter(data));
         number_of_contacts.val(data);
+        if(data < 100000) {
+            eta_file_process.html("30 seconds");
+        } else if(data > 100000 && data < 300000) {
+            eta_file_process.html("a minute");
+        } else {
+            eta_file_process.html("5 minutes or more");
+        }
+
+        $("#contacts-number .spinner-block").hide();
+
+    });
+}   
+
+var set_records_count_progress_text =  function() {
+        
+    var attributes = $("#attributes_placeholder");
+    var records = $("#records_placeholder");
+
+    $.get("/api/meetpat-client/get-records/count", {user_id: user_id_number}, function( data ) {
+    }).fail(function(data) {
+        $("#contacts-number .spinner-block").hide();
+        $("#contacts-number .toast-body").html('<i class="fas fa-exclamation-circle text-danger"></i>');
+        
+        console.log(data)
+    }).done(function(data) {
+        //console.log(data);
+        $("#progress_popup").show();
+        attributes.html(kFormatter(data* 17));
+        records.html(kFormatter(data));
 
         $("#contacts-number .spinner-block").hide();
 
@@ -2587,6 +2633,7 @@ var apply_filters = function() {
 }
 
 $('.apply-filter-button, #sidebarSubmitBtn, #apply-toggle-button').click(function() {
+    window.scrollTo(0, 0);
     checkForFilters();
 
     data_fetched = 0;
@@ -2742,6 +2789,7 @@ $('.apply-filter-button, #sidebarSubmitBtn, #apply-toggle-button').click(functio
 });
 
 $("#resetFilterToastBtn, #reset-toggle-button").click(function() {
+    window.scrollTo(0, 0);
     data_fetched = 0;
     $("#progress_popup .progress-bar").width("0%");
     $("#progress_popup").show();
@@ -2852,7 +2900,7 @@ var get_saved_audiences = function() {
 }
 
 $(document).ready(function() {
-    $("#progress_popup").show();
+    set_records_count_progress_text();   
     get_saved_audiences();
     //var site_url = window.location.protocol + "//" + window.location.host;
     $('#records-main-toast').toast('show');
@@ -3084,6 +3132,28 @@ $(document).ready(function() {
 
     });
 
+    /** Push progressbar down */
+
+    
+    initial_scroll = 145;
+    window.addEventListener("scroll",function() { 
+        if(window.scrollY < 120 && window.scrollY > 0) {
+            
+            $('#progress_popup').css({"padding-top": initial_scroll - window.scrollY + "px"});
+        }
+        else if(window.scrollY > 120) {
+            $('#progress_popup').css({"padding-top": '25px'});
+            
+        }
+        else {
+            initial_scroll = 145;
+            $('#progress_popup').css({"padding-top": '145px'});
+        }
+    },false);
+
+    
+    
+    
     
 });
 

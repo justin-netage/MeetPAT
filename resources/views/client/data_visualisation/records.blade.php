@@ -837,7 +837,10 @@
             Please use letters, numbers and underscores instead of spaces.
             </div>
           </div>
-      </div>   
+      </div> 
+      <div class="alert alert-primary" id="alert-eta" role="alert">
+      This process could take <span id="eta_file_process"></span>. Please be patient.
+      </div> 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -852,8 +855,8 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        <p>Please be patient. Filtering through large amounts of data can take time...</p>
-        <div class="progress" style="height: 5px;">
+        <span>Please be patient. We are processing <span id="attributes_placeholder"></span> attributes in <span id="records_placeholder"></span> records in order to generate your report.</span> 
+        <div class="progress" style="height: 3px;">
             <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
       </div>

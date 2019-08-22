@@ -8,6 +8,10 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap.scss';
 
+html {
+  scroll-behavior: smooth;
+}
+
 .navbar-laravel {
   background-color: #f7f7f7;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
@@ -1269,6 +1273,28 @@ nav .dropdown-menu
 
 #progress_popup
 {
-  padding-top: 20%;
+  margin: 0px;
+  padding-top: 145px;
+  padding-right: 80%;
   height: 100%;
+  font-size: 12px;
+}
+
+#progress_popup .modal-content
+{
+  padding: 0px;
+  margin: 0px;
+  height: 60px;
+  width: 560px;
+}
+#progress_popup .modal-body
+{
+  padding: 6px;
+  margin: 0px;
+}
+
+#attributes_placeholder,
+#records_placeholder
+{
+  font-weight: bold;
 }
