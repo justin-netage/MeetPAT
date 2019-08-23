@@ -41,6 +41,7 @@ class EnrichedRecord extends Model
                             'PropertyValuation',
                             'PropertyValuationBucket',
                             'PropertyCount',
+                            'PropertyCountBucket',
                             'Income',
                             'CreditRiskCategory',
                             'IncomeBucket',
