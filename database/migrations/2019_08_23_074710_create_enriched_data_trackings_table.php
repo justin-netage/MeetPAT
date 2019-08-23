@@ -17,7 +17,7 @@ class CreateEnrichedDataTrackingsTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->integer('sent')->nullable();
-            $table->integer('recieved')->nullable();
+            $table->integer('received')->nullable();
             $table->timestamps();
         });
     }
