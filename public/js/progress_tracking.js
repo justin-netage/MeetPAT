@@ -81,6 +81,12 @@ $(document).ready(function() {
 
                 // }
 
+
+            }).fail(function(data) {
+                console.log(data)
+                window.clearInterval(check_job_status);
+
+            }).done(function(data) {     
                 if(data["jobs_running"] == 0) {
 
                     window.clearInterval(check_job_status);
@@ -88,17 +94,7 @@ $(document).ready(function() {
 
                     window.location = '/meetpat-client/data-visualisation';
                 }
-            }).fail(function(data) {
-                console.log(data)
-                window.clearInterval();
-
-            }).done(function(data) {
-                
-                console.log(data)
-
-                
-
-        });
+            });
                 // if(data["jobs_running"] == 0) {
                 //     window.location = '/meetpat-client/data-visualisation';
                 // }
