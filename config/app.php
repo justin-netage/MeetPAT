@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://www.meetpat.co.za'),
+    'url' => env('APP_URL', 'https://dashboard.meetpat.co.za'),
 
     /*
     |--------------------------------------------------------------------------
