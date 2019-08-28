@@ -62,6 +62,11 @@
                             @else
                             <li><a class="nav-link nav-link-inactive" href="{{ route('create-user') }}"><i class="fas fa-user-plus"></i>&nbsp;New User</a></li>
                             @endif
+                            @if(Request::path() == 'meetpat-admin/enriched-data-tracking')
+                            <li><a class="nav-link nav-link-active" href="{{ route('enriched-data-tracking') }}"><i class="fas fa-chart-area"></i></i>&nbsp;Enriched Data Tracking</a></li>
+                            @else
+                            <li><a class="nav-link nav-link-inactive" href="{{ route('enriched-data-tracking') }}"><i class="fas fa-chart-area"></i>&nbsp;Enriched Data Tracking</a></li>
+                            @endif
                         @endif
                         
                         @if(\Auth::user()->client)

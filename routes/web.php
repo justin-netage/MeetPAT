@@ -56,6 +56,8 @@ Route::get('/meetpat-admin/users/create', 'AdministratorController@create_user_v
 Route::post('/meetpat-admin/users/create/save', 'AdministratorController@create_user')->name('create-user-save')->middleware('auth')->middleware('admin');
 
 Route::get('/meetpat-admin/users/files/{user_id}', 'AdministratorController@display_user_files')->middleware('auth')->middleware('admin');
+
+Route::get('/meetpat-admin/enriched-data-tracking', 'AdministratorController@enriched_data_tracking')->name('enriched-data-tracking')->middleware('auth')->middleware('admin');
 // MeetPAT Client Routes
 
 Route::get('/meetpat-client', 'MeetpatClientController@main')->name('meetpat-client')->middleware('auth');

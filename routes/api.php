@@ -44,6 +44,10 @@ Route::post('/meetpat-admin/settings/updated-credit-limit', 'AdministratorContro
 
 Route::post('/meetpat-admin/delete-file', 'AdministratorController@delete_file')->name('delete-file');
 
+// Enriched Data Tracking
+Route::get('/meetpat-admin/enriched-data-tracked-day', 'AdministratorController@get_enriched_data_tracking_day')->name('get-enriched-data-tracking-day');
+Route::get('/meetpat-admin/enriched-data-tracked-monthly', 'AdministratorController@get_enriched_data_tracking_monthly')->name('get-enriched-data-tracking-monthly');
+
 
 // End Administrator routes
 
