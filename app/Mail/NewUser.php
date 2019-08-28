@@ -37,7 +37,7 @@ class NewUser extends Mailable
      */
     public function build()
     {
-        return $this->from('noreply@meetpat.co.za', $this->user_details['email'])->markdown('emails.new_user')
+        return $this->from('info@meetpat.co.za', $this->user_details['email'])->markdown('emails.new_user')
                     ->subject('MeetPAT - New Registration')
                     ->with(['message' => $this->user_details['message'],
                             'email' => $this->user_details['email'],

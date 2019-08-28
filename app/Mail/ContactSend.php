@@ -38,7 +38,7 @@ class ContactSend extends Mailable
      */
     public function build()
     {
-        return $this->from('noreply@meetpat.co.za', $this->message_details['name'])->markdown('emails.contact.send')
+        return $this->from('info@meetpat.co.za', $this->message_details['name'])->markdown('emails.contact.send')
                     ->subject('MeetPAT - Online Query')
                     ->with(['message' => $this->message_details['message'],
                             'email' => $this->message_details['email'],
