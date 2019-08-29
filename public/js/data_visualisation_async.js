@@ -2044,15 +2044,15 @@ function DrawLocationCharts() {
         data: data,
         success: function(chart_data) {
             $("#municipality-graph .spinner-block").hide();    
+            $("#municipality_filter").empty();
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Municipality');
+            data.addColumn('number', 'Records');
+            data.addColumn({type: 'string', role: 'annotation'});
 
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Municipality');
-        data.addColumn('number', 'Records');
-        data.addColumn({type: 'string', role: 'annotation'});
-
-        var result = Object.keys(chart_data["all"]).map(function(key) {
-            return [chart_data["all"][key]["municipality"], chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
-          });
+            var result = Object.keys(chart_data["all"]).map(function(key) {
+                return [chart_data["all"][key]["municipality"], chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
+            });
 
             data.addRows(result);
             // Set chart options
@@ -2122,8 +2122,8 @@ function DrawLocationCharts() {
 
     }).done(function() {
 
-    }).fail(function() {
-
+    }).fail(function(error) {
+        console.log(error)
     });
 
     $.ajax({
@@ -2132,146 +2132,212 @@ function DrawLocationCharts() {
         data: data,
         success: function(chart_data) {
             $("#area-graph .spinner-block").hide();
-        $("#areaSubmitBtn").prop("disabled", false);
-        $("#area_filter").append(
-            '<div id="lunr-search" style="display: none;">'+
-            '<input type="text" class="form-control mb-2" id="areaSearchInput" autocomplete="off" placeholder="search for area...">'+
-            '<span style="position:absolute; right: 40px; top:35px;"><i class="fas fa-search"></i></span>'+
-            '<ul id="lunr-results" class="list-unstyled"></ul>' +
-            '</div>'
-        );
-        //console.log(chart_data);
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Area');
-        data.addColumn('number', 'Records');
-        data.addColumn({type: 'string', role: 'annotation'});
+            $("#areaSubmitBtn").prop("disabled", false);
+            $("#area_filter").append(
+                '<div id="lunr-search" style="display: none;">'+
+                '<input type="text" class="form-control mb-2" id="areaSearchInput" autocomplete="off" placeholder="search for area...">'+
+                '<span style="position:absolute; right: 40px; top:35px;"><i class="fas fa-search"></i></span>'+
+                '<ul id="lunr-results" class="list-unstyled"></ul>' +
+                '</div>'
+            );
+            //console.log(chart_data);
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Area');
+            data.addColumn('number', 'Records');
+            data.addColumn({type: 'string', role: 'annotation'});
 
-        var result = Object.keys(chart_data["all"]).map(function(key) {
-            return [chart_data["all"][key]["area"], chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
-            });
-        var shorter_result = result.slice(0, 20);
-        data.addRows(shorter_result);
-        // Set chart options
-        var chart_options = {
-                        'width':'100%',
-                        'height': shorter_result.length * 25,
-                        'fontSize': 10,
-                        'chartArea': {
-                            top: '20',
-                            top: '20',
-                            width: '60%',
-                            height: '100%'
-                        },
-                        'colors': ['#00A3D9'],
-                        'legend': {
-                            position: 'none'
-                        },
-                        'backgroundColor': '#f7f7f7'
-                        };
-    
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.BarChart(document.getElementById('areasChart'));
-        chart.draw(data, chart_options); 
-
-        var results = Object.keys(chart_data["all"]).map(function(key) {
-            return {"name": chart_data["all"][key]["area"], "count": kFormatter(chart_data["all"][key]["audience"])};
-        });
-
-        var documents = results;
-        var idx = lunr(function() {
-            this.ref('name');
-            this.field('name');
-            this.k1(1.5)
-            this.b(0.25)
-            documents.forEach(function (doc) {
-                this.add(doc)
-            }, this) 
-                
-            
-        });
+            var result = Object.keys(chart_data["all"]).map(function(key) {
+                return [chart_data["all"][key]["area"], chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
+                });
+            var shorter_result = result.slice(0, 20);
+            data.addRows(shorter_result);
+            // Set chart options
+            var chart_options = {
+                            'width':'100%',
+                            'height': shorter_result.length * 25,
+                            'fontSize': 10,
+                            'chartArea': {
+                                top: '20',
+                                top: '20',
+                                width: '60%',
+                                height: '100%'
+                            },
+                            'colors': ['#00A3D9'],
+                            'legend': {
+                                position: 'none'
+                            },
+                            'backgroundColor': '#f7f7f7'
+                            };
         
-        $("#lunr-search").show();
-        $("#area-filter-form .text-center").remove();
-        shorter_result.forEach(function(result) {
-            if($('#area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox" checked="checked"><label for="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' + results.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
-                $('#area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.BarChart(document.getElementById('areasChart'));
+            chart.draw(data, chart_options); 
+
+            var results = Object.keys(chart_data["all"]).map(function(key) {
+                return {"name": chart_data["all"][key]["area"], "count": kFormatter(chart_data["all"][key]["audience"])};
+            });
+
+            var documents = results;
+            var idx = lunr(function() {
+                this.ref('name');
+                this.field('name');
+                this.k1(1.5)
+                this.b(0.25)
+                documents.forEach(function (doc) {
+                    this.add(doc)
+                }, this) 
                     
-                    if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
-                        
-                        var parent = this;
-                        $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '" checked="checked">' + '<small> ' + results.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
-                        $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                        $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
-                            
-                            if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                                $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
-                                $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
-                            }
-                            checkForFilters();
-                        });
-                    } else {
-                        
-    
-                        if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
-                            $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                            $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
-                        }
-                    }
-                    checkForFilters();
-                });                        
-            } else {
-                $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox"><label for="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' + results.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
-                $('#area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
-                    if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
-                        
-                        var parent = this;
-                        $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
-                        $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                        $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
-                            if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                                $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
-                                $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
-                            }
-                            checkForFilters();
-
-                        });
-                    } else {
-                        
-    
-                        if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
-                            $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                            $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
-
-                        }
-                    }
-                    checkForFilters();
-
-                });                        
-            }
-            clear_checked_inputs();
-        });
-        // Append checked inputs to hidden form...
-        document.getElementById('areaSearchInput').addEventListener('keyup', function() {
-            if(idx.search(this.value + "*").length && this.value != '') {
-                $("#lunr-results").empty();
                 
-                idx.search(this.value + "*").forEach(function(result) {
+            });
+            
+            $("#lunr-search").show();
+            $("#area-filter-form .text-center").remove();
+            shorter_result.forEach(function(result) {
+                if($('#area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
+                    $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox" checked="checked"><label for="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' + results.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
+                    $('#area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
+                        
+                        if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
+                            
+                            var parent = this;
+                            $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
+                            $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                            $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
+                                
+                                if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
+                                    $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
+                                    $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
+                                    $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
+                                }
+                                checkForFilters();
+                            });
+                        } else {
+                            
+        
+                            if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
+                                $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
+                                $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
+                            }
+                        }
+                        checkForFilters();
+                    });                        
+                } else {
+                    $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox"><label for="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' + results.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
+                    $('#area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
+                        if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
+                            
+                            var parent = this;
+                            $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
+                            $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                            $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
+                                if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
+                                    $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
+                                    $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
+                                    $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
+                                }
+                                checkForFilters();
+
+                            });
+                        } else {
+                            
+        
+                            if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
+                                $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
+                                $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
+
+                            }
+                        }
+                        checkForFilters();
+
+                    });                        
+                }
+                //clear_checked_inputs();
+            });
+            // Append checked inputs to hidden form...
+            document.getElementById('areaSearchInput').addEventListener('keyup', function() {
+                if(idx.search(this.value + "*").length && this.value != '') {
+                    $("#lunr-results").empty();
                     
-                    if(result.score) {
-                        if($('#area_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                            $("#lunr-results").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox" checked="checked"><label for="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result.ref + '<small> ' + results.filter(obj => {if(obj.name === result.ref) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
-                            $('#area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
+                    idx.search(this.value + "*").forEach(function(result) {
+                        
+                        if(result.score) {
+                            if($('#area_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
+                                $("#lunr-results").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox" checked="checked"><label for="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result.ref + '<small> ' + results.filter(obj => {if(obj.name === result.ref) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
+                                $('#area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
+                                    
+                                    if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
+                                        
+                                        var parent = this;
+                                        $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
+                                        $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                        $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
+                                        
+                                            if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
+                                                $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
+                                                $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
+                                                $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
+                                            }
+                                            checkForFilters();
+                                        });
+                                    } else {
+                                        
+                    
+                                        if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
+                                            $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
+                                            $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
+                                        }
+                                    }
+                                    checkForFilters();
+                                });                        
+                            } else {
+                                $("#lunr-results").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox"><label for="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result.ref + '<small> ' + results.filter(obj => {if(obj.name === result.ref) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
+                                $('#area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
+                                    if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
+                                        
+                                        var parent = this;
+                                        $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
+                                        $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                        $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
+                                            if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
+                                                $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
+                                                $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
+                                                $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
+                                            }
+                                            checkForFilters();
+
+                                        });
+                                    } else {
+                                        
+                    
+                                        if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
+                                            $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
+                                            $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
+
+                                        }
+                                    }
+                                    checkForFilters();
+
+                                });                        
+                            }
+                        }
+        
+                    });
+                } else {
+                    $("#lunr-results").empty();
+                    
+                    shorter_result.forEach(function(result) {
+                    
+                        if($('#area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
+                            $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox" checked="checked"><label for="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' + results.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
+                            $('#area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
                                 
                                 if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
                                     
                                     var parent = this;
-                                    $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result.ref + '" checked="checked">' + '<small> ' + results.filter(obj => {if(obj.name === result.ref) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
+                                    $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
                                     $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
                                     $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
-                                       
+                                        
                                         if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
                                             $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
                                             $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
@@ -2290,12 +2356,12 @@ function DrawLocationCharts() {
                                 checkForFilters();
                             });                        
                         } else {
-                            $("#lunr-results").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox"><label for="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result.ref + '<small> ' + results.filter(obj => {if(obj.name === result.ref) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
-                            $('#area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
+                            $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox"><label for="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' + results.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
+                            $('#area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
                                 if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
                                     
                                     var parent = this;
-                                    $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" checked="checked">');
+                                    $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
                                     $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
                                     $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
                                         if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
@@ -2319,79 +2385,13 @@ function DrawLocationCharts() {
 
                             });                        
                         }
-                    }
-    
-                });
-            } else {
-                $("#lunr-results").empty();
-                
-                shorter_result.forEach(function(result) {
-                
-                    if($('#area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                        $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox" checked="checked"><label for="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' + results.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
-                        $('#area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
-                            
-                            if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
-                                
-                                var parent = this;
-                                $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '" checked="checked">' + '<small> ' + results.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
-                                $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                                $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
-                                    
-                                    if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                                        $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                        $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
-                                        $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
-                                    }
-                                    checkForFilters();
-                                });
-                            } else {
-                                
-            
-                                if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
-                                    $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                    $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
-                                }
-                            }
-                            checkForFilters();
-                        });                        
-                    } else {
-                        $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox"><label for="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' + results.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
-                        $('#area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
-                            if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
-                                
-                                var parent = this;
-                                $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
-                                $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                                $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
-                                    if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                                        $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                        $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
-                                        $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
-                                    }
-                                    checkForFilters();
+        
+                    });
+                }
 
-                                });
-                            } else {
-                                
-            
-                                if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
-                                    $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                    $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
-
-                                }
-                            }
-                            checkForFilters();
-
-                        });                        
-                    }
-    
-                });
-            }
-
-            clear_checked_inputs();
-        });
-        update_progress();
+                //clear_checked_inputs();
+            });
+            update_progress();
         }
 
     }).done(function() {
@@ -2726,7 +2726,7 @@ $("#resetFilterToastBtn, #reset-toggle-button").click(function() {
     $("#lsmGroupContactsId").val(target_lsm_groups);
     $("#propertyValuationContactsId").val(target_property_valuations);
     $("#propertyCountBucketContactsId").val(target_property_count_buckets);
-    
+    $("#hidden-area-filter-form").empty();
     $('input:checkbox').each(function(el) {
         if($(el).is(':checked')) {
             $(el).prop('checked', false);
