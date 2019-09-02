@@ -1,3 +1,8 @@
+document.addEventListener("FilePond:loaded", e => {
+    $("#upload-custom-audience").show();
+    $(".spinner-loader-filepond").remove();
+
+});
 $(document).ready(function() {
     document.querySelector('#audience_name').setCustomValidity('invalid');
 
@@ -17,7 +22,7 @@ $(document).ready(function() {
         FilePond.registerPlugin(FilePondPluginFileValidateType);
         var pond = FilePond.create(document.querySelector('input[type="file"]'));
         const pond_element = document.querySelector(".filepond--root");
-        
+
         pond_element.addEventListener("FilePond:removefile", e => {
         $.post("/api/meetpat-client/large-data/delete?file_id=" + $("#fileId").val() + "&user_id=" + $("#userId").val(), function(e) {}).done(function(e) {
             check_fields();
@@ -91,6 +96,8 @@ $(document).ready(function() {
                 processData: !1
             })
         });
+
+
     
         $("#audience_name").on('change keyup select', function() {
     

@@ -563,7 +563,7 @@ class MeetpatClientController extends Controller
             if($csv[0] == ["FirstName","Surname","MobilePhone","Email", "IDNumber"]) {
 
                 if(count($csv) > $uploads_left + 1) {
-                    return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have <b>" . $uploads_left . "</b> uploads available."]);
+                    return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have <b>" . $uploads_left . "</b> uploads available. To increase your upload limit please contact your reseller."]);
                 }
 
                 if(env('APP_ENV') == 'production')
@@ -599,7 +599,7 @@ class MeetpatClientController extends Controller
                     // $csv_str = $parser->toString($csv);
 
                     if(count($csv_array) > $uploads_left + 1) {
-                        return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have <b>" . $uploads_left . "</b> uploads available."]);
+                        return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have <b>" . $uploads_left . "</b> uploads available.  To increase your upload limit please contact your reseller."]);
                     }
     
                     if(env('APP_ENV') == 'production')

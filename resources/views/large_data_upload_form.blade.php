@@ -13,7 +13,17 @@
             <div class="card">
                 <div class="card-header"><h1 id="card-title">{{ __('Upload Contacts') }} </h1></div>
                 <div class="card-body">
-                    <form id="upload-custom-audience" enctype="multipart/form-data" novalidate>
+                    <div class="d-flex justify-content-center spinner-loader-filepond">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                    <form id="upload-custom-audience" enctype="multipart/form-data" style="display:none;" novalidate>
+                        <div class="alert alert-info">
+                        <p>Please note that uploading large numbers of records can take some time. During this process, you will not be able to access your dashboard or upload more contacts until the process has completed.</p>
+                        <p>You can navigate away from this page. You will receive an email notification on <strong>{{\Auth::user()->email}}</strong> once the process has completed.</p>
+
+                        </div>
                         @csrf
                         <a href="https://s3.amazonaws.com/dashboard.meetpat/public/sample/Template.csv">Download template file</a>
                         <fieldset id="fieldsetId">

@@ -1,5 +1,4 @@
 var site_url = window.location.protocol + "//" + window.location.host;
-
 FilePond.registerPlugin(FilePondPluginFileValidateType);
 var pond = FilePond.create(document.querySelector('input[type="file"]'));
 const pond_element = document.querySelector('.filepond--root');

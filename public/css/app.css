@@ -11259,10 +11259,6 @@ body {
           animation: scale-2 1s linear 0.5s infinite;
 }
 
-.card-body .btn-block {
-  margin-top: 96px;
-}
-
 .user-files-table th,
 .user-files-table td {
   text-align: center;
