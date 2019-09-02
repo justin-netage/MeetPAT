@@ -273,6 +273,9 @@ var delete_file = function(file_unique_name, file_name) {
             $(".page-item").removeClass("disabled");
             get_saved_audiences();
         });
+    } else {
+        $(".delete_file_btn").prop("disabled", false);
+        $(".page-item").removeClass("disabled");
     } 
 
     

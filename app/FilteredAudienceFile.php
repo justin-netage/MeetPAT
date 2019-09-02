@@ -27,6 +27,7 @@ class FilteredAudienceFile extends Model
                             ,'vehicle_ownership_status'
                             ,'property_valuation_bucket'
                             ,'property_count_bucket'
+                            ,'primary_property_type'
                             ,'lsm_group'
 ];
 }
