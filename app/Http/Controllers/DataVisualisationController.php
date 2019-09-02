@@ -341,7 +341,7 @@ class DataVisualisationController extends Controller
         $query_params["generation"] = $request["generationContacts"][0]; $query_params["citizen_vs_resident"] = $request["citizenVsResidentsContacts"][0]; $query_params["marital_status"] = $request["maritalStatusContacts"][0];
         $query_params["home_owner_contacts"] = $request["homeOwnerContacts"][0]; $query_params["risk_category"] = $request["riskCategoryContacts"][0]; $query_params["income_bucket"] = $request["houseHoldIncomeContacts"][0];
         $query_params["directors"] = $request["directorsContacts"][0]; $query_params["vehicle_ownership_status"] = $request["vehicleOwnerContacts"][0]; $query_params["property_count_bucket"] = $request["propertyCountBucketContacts"][0];
-        $query_params["property_valuation_bucket"] = $request["propertyValuationContacts"][0]; $query_params["lsm_group"] = $request["lsmGroupContacts"][0];$query_params["pripary_property_type"] = $request["primaryPropertyTypeContacts"][0];
+        $query_params["property_valuation_bucket"] = $request["propertyValuationContacts"][0]; $query_params["lsm_group"] = $request["lsmGroupContacts"][0];$query_params["primary_property_type"] = $request["primaryPropertyTypeContacts"][0];
         
         $filtered_audience = \MeetPAT\FilteredAudienceFile::create($query_params);
         // Queue file to be saved.
