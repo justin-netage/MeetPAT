@@ -35,8 +35,8 @@
             <ul id="marital_status_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Marital Status</span></ul>
             <ul id="home_owner_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Home Owner</span></ul>
             <ul id="property_valuation_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Property Valuation</span></ul>
-            <ul id="property_type_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Property Type</span></ul>
             <ul id="property_count_bucket_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Property Count</span></ul>
+            <ul id="primary_property_type_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Primary Property Type</span></ul>
             <ul id="vehicle_owner_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Vehicle Owner</span></ul>
             <ul id="lsm_group_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">LSM Group</span></ul>
             <ul id="risk_category_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Risk Category</span></ul>
@@ -69,6 +69,7 @@
         <input type="hidden" id="directorsContactsId" name="directorsContacts[]">
         <input type="hidden" id="vehicleOwnerContactsId" name="vehicleOwnerContacts[]">
         <input type="hidden" id="propertyCountBucketContactsId" name="propertyCountBucketContacts[]">
+        <input type="hidden" id="primaryPropertyTypeContactsId" name="primaryPropertyTypeContacts[]">
         <input type="hidden" id="propertyValuationContactsId" name="propertyValuationContacts[]">
         <input type="hidden" id="lsmGroupContactsId" name="lsmGroupContacts[]">
         <!-- <button id="audienceSubmitBtn" class="btn btn-secondary btn-block" disabled="true" type="submit" /><i class="fas fa-users"></i>&nbsp;Sync Contacts</button> -->
@@ -589,6 +590,40 @@
                     <div class="spinner spinner-3"></div>
                 </div>
                 <div id="propertyCountBucketChart" style="width: 100%;"></div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="primary-property-type-graph">
+            <div class="media">
+            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons-colour/Property Type.png')}}"  class="mr-3 data-icon" alt="icon">
+                <div class="media-body">
+                    <h3 class="mt-3"><span>Primary Property Type</span>
+                <!-- Default dropright button -->
+                        <div class="btn-group dropright float-right">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-filter"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-form">
+                                <!-- Dropdown menu links -->
+                                <form style="margin: 12px;" id="primary-property-type-filter-form">
+                                    <div id="primary_property_type_filter">
+                                    <div class="text-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    </div>
+                                    </div> 
+                                    <button name="primary_property_type_submit" id="primary_property_typesSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button d-none" disabled="true" type="button" />apply</button>
+                                </form>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+            </div>
+            <div class="graph-container" style="overflow-y: scroll; height: 256px; background-color: #f7f7f7;">
+                <div class="spinner-block">
+                    <div class="spinner spinner-3"></div>
+                </div>
+                <div id="primaryPropertyTypeChart" style="width: 100%;"></div>
             </div>
         </div>
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="vehicle-owner-graph">

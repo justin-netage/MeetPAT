@@ -94,6 +94,7 @@ Route::get('meetpat-client/get-records/vehicle-owner', 'DataVisualisationControl
 Route::get('meetpat-client/get-records/lsm-group', 'DataVisualisationController@get_lsm_group')->name('get-lsm-groups');
 Route::get('meetpat-client/get-records/property-valuation', 'DataVisualisationController@get_property_valuation')->name('get-property-valuations');
 Route::get('meetpat-client/get-records/property-count-bucket', 'DataVisualisationController@get_property_count_bucket')->name('get-property-count-buckets');
+Route::get('meetpat-client/get-records/primary-property-type', 'DataVisualisationController@get_primary_property_type')->name('get-primary-property-type');
 Route::get('meetpat-client/get-records/employers', 'DataVisualisationController@get_employer')->name('get-employers');
 
 Route::get('meetpat-client/get-saved-audiences', 'DataVisualisationController@get_saved_audiences')->name('get-audience-files');

@@ -296,6 +296,7 @@ var target_vehicle_owners = [];
 var target_lsm_groups = [];
 var target_property_valuations = [];
 var target_property_count_buckets = [];
+var target_primary_property_types = [];
 
 var checkForFilters = function() {
     var target_provinces_el = document.getElementById("province_filters") ;var target_municipalities_el = document.getElementById("municipality_filters");
@@ -306,7 +307,7 @@ var checkForFilters = function() {
     var target_risk_categories_el = document.getElementById("risk_category_filters") ;var target_incomes_el = document.getElementById("household_income_filters");
     var target_directors_el = document.getElementById("directors_filters") ;var target_vehicle_owners_el = document.getElementById("vehicle_owner_filters");
     var target_lsm_group_el = document.getElementById("lsm_group_filters") ;var target_property_valuations_el = document.getElementById("property_valuation_filters");
-    var target_property_count_buckets_el = document.getElementById("property_count_bucket_filters");
+    var target_property_count_buckets_el = document.getElementById("property_count_bucket_filters"); var target_primary_property_types_el = document.getElementById("primary_property_type_filters");
 
     if(
         target_provinces_el.childNodes.length > 1 || target_municipalities_el.childNodes.length > 1 ||
@@ -317,7 +318,7 @@ var checkForFilters = function() {
         target_risk_categories_el.childNodes.length > 1 || target_incomes_el.childNodes.length > 1 ||
         target_directors_el.childNodes.length > 1 || target_vehicle_owners_el.childNodes.length > 1 ||
         target_lsm_group_el.childNodes.length > 1 || target_property_valuations_el.childNodes.length > 1 ||
-        target_property_count_buckets_el.childNodes.length > 1
+        target_property_count_buckets_el.childNodes.length > 1 || target_primary_property_types_el.childNodes.length > 1
         ) { $("#no_filters").hide();} else { $("#no_filters").show();}
 
         if (target_provinces_el.childNodes.length > 1) {$("#province_filters").show()} else {$("#province_filters").hide()};
@@ -337,6 +338,7 @@ var checkForFilters = function() {
         if (target_lsm_group_el.childNodes.length > 1) {$("#lsm_group_filters").show()} else {$("#lsm_group_filters").hide()};
         if (target_property_valuations_el.childNodes.length > 1) {$("#property_valuation_filters").show()} else {$("#property_valuation_filters").hide()};
         if (target_property_count_buckets_el.childNodes.length > 1) {$("#property_count_bucket_filters").show()} else {$("#property_count_bucket_filters").hide()};
+        if (target_primary_property_types_el.childNodes.length > 1) {$("#primary_property_type_filters").show()} else {$("#primary_property_type_filters").hide()};
         
 }
 
@@ -373,6 +375,7 @@ function drawDemographicGraphs() {
                 municipality: target_municipalities.join(","), area: target_areas.join(","),
                 vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
                 lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
+                primary_property_type: target_primary_property_types.join(",")
             }
     // Age
     $.ajax({
@@ -1017,6 +1020,7 @@ function DrawAssetsGraphs() {
                 municipality: target_municipalities.join(","), area: target_areas.join(","),
                 vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
                 lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
+                primary_property_type: target_primary_property_types.join(",")
             }
     // Home Owner
     $.ajax({
@@ -1298,6 +1302,101 @@ function DrawAssetsGraphs() {
         console.log(error);
     });
 
+    // Primary Property Type
+  
+    $.ajax({
+        url: "/api/meetpat-client/get-records/primary-property-type",
+        type: "GET",
+        data: data,
+        success: function(chart_data) {
+            $("#primary-property-type-graph .spinner-block").hide();    
+            $("#primary_property_type_filter").empty();
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Primary Property Type');
+        data.addColumn('number', 'Records');
+        data.addColumn({type: 'string', role: 'annotation'});
+
+        var result = Object.keys(chart_data["all"]).map(function(key) {
+            return [chart_data["all"][key]["primaryPropertyType"], chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
+        });
+    
+            data.addRows(result);
+            // Set chart options
+            var chart_options = {
+                            'width':'100%',
+                            'fontSize': 10,
+                            'chartArea': {
+                                top: '20',
+                                width: '60%',
+                                height: '75%'
+                                },
+                            vAxis: {
+                                minValue: 0, 
+                                format: "short"
+                            }, 
+                            'colors': ['#00A3D9'],
+                            'animation': {
+                                'startup':true,
+                                'duration': 1000,
+                                'easing': 'out'
+                            },
+                            'legend': {
+                                position: 'none'
+                            },
+                            'backgroundColor': '#f7f7f7'
+                        };
+            for (var key in chart_data["distinct"]) {
+                if(target_home_owners.includes(chart_data["distinct"][key]["primaryPropertyType"])) {
+                    $("#primary_property_type_filter").append(
+                        '<input type="checkbox" name="pt_' + chart_data["distinct"][key]["primaryPropertyType"].toLowerCase() + '" id="pt_' + chart_data["distinct"][key]["primaryPropertyType"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["primaryPropertyType"].toLowerCase() + '" class="css-checkbox" checked="checked"><label for="pt_' + chart_data["distinct"][key]["primaryPropertyType"].toLowerCase() + '_option' +'" class="css-label">' + chart_data["distinct"][key]["primaryPropertyType"] + '</label><br />'
+                    );
+                } else {
+                    $("#primary_property_type_filter").append(
+                        '<input type="checkbox" name="pt_' + chart_data["distinct"][key]["primaryPropertyType"].toLowerCase() + '" id="pt_' + chart_data["distinct"][key]["primaryPropertyType"].toLowerCase() + '_option' +'" value="' + chart_data["distinct"][key]["primaryPropertyType"].toLowerCase() + '" class="css-checkbox"><label for="pt_' + chart_data["distinct"][key]["primaryPropertyType"].toLowerCase() + '_option' +'" class="css-label">' + chart_data["distinct"][key]["primaryPropertyType"] + '</label><br />'
+                    );
+                }
+                
+                $('#pt_' + chart_data["distinct"][key]["primaryPropertyType"].toLowerCase().replace(/ /g, "_") + '_option').click(function(){
+                    if($('#pt_' + $(this).val().toLowerCase().replace(/ /g, "_") + '_option').is(":checked")) { 
+                        
+                        var parent = this;
+    
+                        $("#primary_property_type_filters").append('<li id="filter_pt_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ $(this).val().toUpperCase() +'<i class="fas fa-window-close float-right"></i></li>')
+                        $('#filter_pt_' + $(this).val().toLowerCase().replace(/ /g, "_") + ' i').click(function() {
+                            if($('#pt_' + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').length) {
+                                $('#filter_pt_' + $(parent).val().toLowerCase().replace(/ /g, "_")).remove();
+                                $("#pt_" + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').prop("checked", false);
+                            }
+                            checkForFilters();
+
+                        });
+                    } else {
+                        
+    
+                        if($('#filter_pt_' + $(this).val().toLowerCase().replace(/ /g, "_") )) {
+                            $('#filter_pt_' + $(this).val().toLowerCase().replace(/ /g, "_") ).remove();
+                        }
+                    }
+                    checkForFilters();
+
+                });
+            }              
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.ColumnChart(document.getElementById('primaryPropertyTypeChart'));
+            chart.draw(data, chart_options);  
+            update_progress();
+        }
+
+    }).done(function(data) {
+
+    }).fail(function(error) {
+        $("#primary-property-type-graph .spinner-block").hide();
+        $("#primary-property-type-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
+        $("#primary_property_type_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
+        console.log(error);
+    });
+
     // Vehicle Owner
     $.ajax({
         url: "/api/meetpat-client/get-records/vehicle-owner",
@@ -1405,6 +1504,7 @@ function DrawFinancialCharts() {
                 municipality: target_municipalities.join(","), area: target_areas.join(","),
                 vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
                 lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
+                primary_property_type: target_primary_property_types.join(",")
             }
     // Risk Category
     $.ajax({
@@ -1806,6 +1906,7 @@ function DrawLocationCharts() {
                 municipality: target_municipalities.join(","), area: target_areas.join(","),
                 vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
                 lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
+                primary_property_type: target_primary_property_types.join(",")
             }
 
     $.ajax({
@@ -2426,6 +2527,7 @@ var get_records_count =  function(records_data) {
          municipality: target_municipalities.join(","), area: target_areas.join(","), 
          vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
          lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
+         primary_property_type: target_primary_property_types.join(",")
          }, function( data ) {
     }).fail(function(data) {
         $("#contacts-number .spinner-block").hide();
@@ -2494,6 +2596,7 @@ var apply_filters = function() {
     $("#lsm-group-graph .spinner-block").show(); $("#lsmGroupChart").empty(); $("#lsm_group_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
     $("#property-valuation-graph .spinner-block").show(); $("#propertyValuationChart").empty(); $("#property_valuation_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
     $("#property-count-bucket-graph .spinner-block").show(); $("#propertyCountBucketChart").empty(); $("#property_count_bucket_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
+    $("#primary-property-type-graph .spinner-block").show(); $("#primaryPropertyTypeChart").empty(); $("#primary_property_type_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
 
     $("#records-main-toast .toast-body").html(
                         '<div class="d-flex justify-content-center">' +
@@ -2547,6 +2650,7 @@ $('.apply-filter-button, #sidebarSubmitBtn, #apply-toggle-button').click(functio
     target_lsm_groups = [];
     target_property_valuations = [];
     target_property_count_buckets = [];
+    target_primary_property_types = [];
     
 
     $("#province-filter-form input[type='checkbox']").each(function() {
@@ -2609,6 +2713,12 @@ $('.apply-filter-button, #sidebarSubmitBtn, #apply-toggle-button').click(functio
         }
     });
 
+    $("#primary-property-type-filter-form input[type='checkbox']").each(function() {
+        if(this.checked) {
+            target_primary_property_types.push($(this).val());
+        }
+    });
+
     $("#lsm-group-filter-form input[type='checkbox']").each(function() {
         if(this.checked) {
             target_lsm_groups.push($(this).val());
@@ -2668,6 +2778,7 @@ $('.apply-filter-button, #sidebarSubmitBtn, #apply-toggle-button').click(functio
     $("#lsmGroupContactsId").val(target_lsm_groups);
     $("#propertyValuationContactsId").val(target_property_valuations);
     $("#propertyCountBucketContactsId").val(target_property_count_buckets);
+    $("#primaryPropertyTypeContactsId").val(target_primary_property_types);
     
     apply_filters();
     //get_provinces();
@@ -2708,6 +2819,7 @@ $("#resetFilterToastBtn, #reset-toggle-button").click(function() {
     target_lsm_groups = [];
     target_property_valuations = [];
     target_property_count_buckets = [];
+    target_primary_property_types = [];
 
     $("#provinceContactsId").val(target_provinces);
     $("#areaContactsId").val(target_areas);
@@ -2726,6 +2838,7 @@ $("#resetFilterToastBtn, #reset-toggle-button").click(function() {
     $("#lsmGroupContactsId").val(target_lsm_groups);
     $("#propertyValuationContactsId").val(target_property_valuations);
     $("#propertyCountBucketContactsId").val(target_property_count_buckets);
+    $("#primaryPropertyTypeContactsId").val(target_primary_property_types);
     $("#hidden-area-filter-form").empty();
     $('input:checkbox').each(function(el) {
         if($(el).is(':checked')) {
