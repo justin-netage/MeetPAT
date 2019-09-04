@@ -524,41 +524,7 @@
             <div id="homeOwnerChart" style="width: 100%;"></div>
             </div>
         </div>
-        <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="property-valuation-graph">
-            <div class="media">
-            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons-colour/Home Value.png')}}"  class="mr-3 data-icon" alt="icon">
-                <div class="media-body">
-                    <h3 class="mt-3"><span>Property Valuation</span>
-                <!-- Default dropright button -->
-                        <div class="btn-group dropright float-right">
-                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-filter"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-form" style="width: 228px;">
-                                <!-- Dropdown menu links -->
-                                <form style="margin: 8px;" id="property-valuation-filter-form">
-                                    <div id="property_valuation_filter">
-                                        <div class="text-center">
-                                        <div class="spinner-border mb-2" role="status">
-                                            <span class="sr-only">Loading...</span>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    <button name="property_valuation_submit" id="propertyValuationSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button d-none" disabled="true" type="button" />apply</button>
-                                </form>
-                            </div>
-                        </div>
-                    </h3>
-                </div>
-            </div>
-            <div class="graph-container" style="overflow-y: scroll; height: 256px; background-color: #f7f7f7;">
-                <div class="spinner-block">
-                    <div class="spinner spinner-3"></div>
-                </div>
-                <div id="propertyValuationChart" style="width: 100%;"></div>
-            </div>
-        </div>
-        <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="property-count-bucket-graph">
+                <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="property-count-bucket-graph">
             <div class="media">
             <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons-colour/No of Homes.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
@@ -907,5 +873,5 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="https://unpkg.com/lunr/lunr.js"></script>
-<script type="text/javascript" src="{{asset('js/data_visualisation_async.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/data_visualisation_async.js')}}"></script>
 @endsection

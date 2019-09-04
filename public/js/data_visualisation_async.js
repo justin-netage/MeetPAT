@@ -73,6 +73,431 @@ var keyChangerMaritalStatus = function(key_name) {
     }
 }
 
+//Get province full name
+
+var get_province_name = function(code) {
+    var province_name;
+
+    switch(code) {
+        case "G":
+            province_name = "Gauteng"
+            break;
+        case "WC":
+            province_name = "Western Cape"
+            break;
+        case "EC":
+            province_name = "Eastern Cape"
+            break;
+        case "M":
+            province_name = "Mpumalanga"
+            break;
+        case "NW":
+            province_name = "North West"
+            break;
+        case "FS":
+            province_name = "Free State"
+            break;
+        case "L":
+            province_name = "Limpopo"
+            break;
+        case "KN":
+            province_name = "KwaZulu Natal"
+            break;
+        case "NC":
+            province_name = "Northern Cape"
+            break;
+        default:
+            province_name = "Unknown"
+    }
+
+    return province_name;
+}
+
+// Subtract count of municipality and area selected
+var sub_province_count = function(province_code) {
+    switch(province_code) {
+        case "G":
+            count_G--;
+            if(count_G == 0) {
+                $("#" + province_code.toLowerCase() + "_option").prop("checked", false);
+
+                if($('#filter_p_' + province_code.toLowerCase())) {
+                    $('#filter_p_' + province_code.toLowerCase()).remove();
+                }
+            }
+            break;
+        case "WC":
+            count_WC--;
+            if(count_WC == 0) {
+                $("#" + province_code.toLowerCase() + "_option").prop("checked", false);
+
+                if($('#filter_p_' + province_code.toLowerCase())) {
+                    $('#filter_p_' + province_code.toLowerCase()).remove();
+                }
+            }
+            break;
+        case "EC":
+            count_EC--;
+            if(count_EC == 0) {
+                $("#" + province_code.toLowerCase() + "_option").prop("checked", false);
+
+                if($('#filter_p_' + province_code.toLowerCase())) {
+                    $('#filter_p_' + province_code.toLowerCase()).remove();
+                }
+            }
+            break;
+        case "M":
+            count_M--;
+            if(count_M == 0) {
+                $("#" + province_code.toLowerCase() + "_option").prop("checked", false);
+
+                if($('#filter_p_' + province_code.toLowerCase())) {
+                    $('#filter_p_' + province_code.toLowerCase()).remove();
+                }
+            }
+            break;
+        case "NW":
+            count_NW--;
+            if(count_NW == 0) {
+                $("#" + province_code.toLowerCase() + "_option").prop("checked", false);
+
+                if($('#filter_p_' + province_code.toLowerCase())) {
+                    $('#filter_p_' + province_code.toLowerCase()).remove();
+                }
+            }
+            break;
+        case "FS":
+            count_FS--;
+            if(count_FS == 0) {
+                $("#" + province_code.toLowerCase() + "_option").prop("checked", false);
+
+                if($('#filter_p_' + province_code.toLowerCase())) {
+                    $('#filter_p_' + province_code.toLowerCase()).remove();
+                }
+            }
+            break;
+        case "L":
+            count_L--;
+            if(count_L == 0) {
+                $("#" + province_code.toLowerCase() + "_option").prop("checked", false);
+
+                if($('#filter_p_' + province_code.toLowerCase())) {
+                    $('#filter_p_' + province_code.toLowerCase()).remove();
+                }
+            }
+            break;
+        case "KN":
+            count_KN--;
+            if(count_KN == 0) {
+                $("#" + province_code.toLowerCase() + "_option").prop("checked", false);
+
+                if($('#filter_p_' + province_code.toLowerCase())) {
+                    $('#filter_p_' + province_code.toLowerCase()).remove();
+                }
+            }
+            break;
+        case "NC":
+            count_NC--;
+            if(count_NC == 0) {
+                $("#" + province_code.toLowerCase() + "_option").prop("checked", false);
+
+                if($('#filter_p_' + province_code.toLowerCase())) {
+                    $('#filter_p_' + province_code.toLowerCase()).remove();
+                }
+            }
+            break;
+    }
+}
+
+// Check province method
+var check_province = function(province_code, checked) {
+    province_code_array = ["G", "WC", "KN", "M", "EC", "FS", "NC", "NW","L"];
+    
+    if(province_code_array.includes(province_code)) {
+                            
+        if(!$("#" + province_code.toLowerCase() + "_option").is(":checked")) {
+            
+            $("#" + province_code.toLowerCase() + "_option").prop("checked", true);
+        } 
+
+        switch(province_code) {
+            case "G":
+                
+                    if(!checked && count_G != 0) {
+                        count_G--;
+                        if(count_G == 0) {
+                            $("#" + province_code.toLowerCase() + "_option").prop("checked", false);
+                            
+                            if($('#filter_p_' + province_code.toLowerCase())) {
+                                $('#filter_p_' + province_code.toLowerCase()).remove();
+                            }
+                        }
+                    } else {
+                        count_G++;
+
+                        if(count_G == 1) {
+                            if($('#filter_p_' + province_code.toLowerCase()).length == 0) {
+                                $("#province_filters").append('<li id="filter_p_' + province_code.toLowerCase() + '">'+ get_province_name(province_code) +'<i class="fas fa-window-close float-right"></i></li>')
+                                $('#filter_p_' + province_code.toLowerCase() + ' i').click(function() {
+                                    if($('#' + province_code.toLowerCase() + '_option').length) {
+                                        $('#filter_p_' + province_code.toLowerCase()).remove();
+                                        $("#" + province_code.toLowerCase() + '_option').prop("checked", false);
+                                    }
+                                    checkForFilters();
+
+                                });
+                            }
+                        }
+                    }
+
+            break;
+            case "WC":
+                
+                    if(!checked && count_WC != 0) {
+                        count_WC--;
+                        if(count_WC == 0) {
+                            $("#" + province_code.toLowerCase() + "_option").prop("checked", false);
+                            if($('#filter_p_' + province_code.toLowerCase())) {
+                                $('#filter_p_' + province_code.toLowerCase()).remove();
+                            }
+
+                        } 
+                    } else {
+                        count_WC++;
+
+                        if(count_WC == 1) {
+                            if($('#filter_p_' + province_code.toLowerCase()).length == 0) {
+                                $("#province_filters").append('<li id="filter_p_' + province_code.toLowerCase() + '">'+ get_province_name(province_code) +'<i class="fas fa-window-close float-right"></i></li>')
+                                $('#filter_p_' + province_code.toLowerCase() + ' i').click(function() {
+                                    if($('#' + province_code.toLowerCase() + '_option').length) {
+                                        $('#filter_p_' + province_code.toLowerCase()).remove();
+                                        $("#" + province_code.toLowerCase() + '_option').prop("checked", false);
+                                    }
+                                    checkForFilters();
+
+                                });
+                            }
+                        }
+                    }
+
+            break;
+            case "KN":
+                
+                    if(!checked && count_KN != 0) {
+                        count_KN--;
+                        if(count_KN == 0) {
+                            $("#" + province_code.toLowerCase() + "_option").prop("checked", false);
+                            if($('#filter_p_' + province_code.toLowerCase())) {
+                                $('#filter_p_' + province_code.toLowerCase()).remove();
+                            }
+
+                        } 
+                    } else {
+                        count_KN++;
+
+                        if(count_KN == 1) {
+                            if($('#filter_p_' + province_code.toLowerCase()).length == 0) {
+                                $("#province_filters").append('<li id="filter_p_' + province_code.toLowerCase() + '">'+ get_province_name(province_code) +'<i class="fas fa-window-close float-right"></i></li>')
+                                $('#filter_p_' + province_code.toLowerCase() + ' i').click(function() {
+                                    if($('#' + province_code.toLowerCase() + '_option').length) {
+                                        $('#filter_p_' + province_code.toLowerCase()).remove();
+                                        $("#" + province_code.toLowerCase() + '_option').prop("checked", false);
+                                    }
+                                    checkForFilters();
+
+                                });
+                            }
+                        }
+                    }
+
+            break;
+            case "M":
+                
+                    if(!checked && count_M != 0) {
+                        count_M--;
+                        if(count_M == 0) {
+                            $("#" + province_code.toLowerCase() + "_option").prop("checked", false);
+                            if($('#filter_p_' + province_code.toLowerCase())) {
+                                $('#filter_p_' + province_code.toLowerCase()).remove();
+                            }
+
+                        } 
+                    } else {
+                        count_M++;
+
+                        if(count_M == 1) {
+                            if($('#filter_p_' + province_code.toLowerCase()).length == 0) {
+                                $("#province_filters").append('<li id="filter_p_' + province_code.toLowerCase() + '">'+ get_province_name(province_code) +'<i class="fas fa-window-close float-right"></i></li>')
+                                $('#filter_p_' + province_code.toLowerCase() + ' i').click(function() {
+                                    if($('#' + province_code.toLowerCase() + '_option').length) {
+                                        $('#filter_p_' + province_code.toLowerCase()).remove();
+                                        $("#" + province_code.toLowerCase() + '_option').prop("checked", false);
+                                    }
+                                    checkForFilters();
+
+                                });
+                            }
+                        }
+                    }
+                                                
+            break;
+            case "EC":
+                
+                    if(!checked && count_EC != 0) {
+                        count_EC--;
+                        if(count_EC == 0) {
+                            $("#" + province_code.toLowerCase() + "_option").prop("checked", false);
+                            if($('#filter_p_' + province_code.toLowerCase())) {
+                                $('#filter_p_' + province_code.toLowerCase()).remove();
+                            }
+
+                        } 
+                    } else {
+                        count_EC++;
+
+                        if(count_EC == 1) {
+                            if($('#filter_p_' + province_code.toLowerCase()).length == 0) {
+                                $("#province_filters").append('<li id="filter_p_' + province_code.toLowerCase() + '">'+ get_province_name(province_code) +'<i class="fas fa-window-close float-right"></i></li>')
+                                $('#filter_p_' + province_code.toLowerCase() + ' i').click(function() {
+                                    if($('#' + province_code.toLowerCase() + '_option').length) {
+                                        $('#filter_p_' + province_code.toLowerCase()).remove();
+                                        $("#" + province_code.toLowerCase() + '_option').prop("checked", false);
+                                    }
+                                    checkForFilters();
+
+                                });
+                            }
+                        }
+                    }
+                                                
+            break;
+            case "FS":
+                
+                    if(!checked && count_FS != 0) {
+                        count_FS--;
+                        if(count_FS == 0) {
+                            $("#" + province_code.toLowerCase() + "_option").prop("checked", false);
+                            if($('#filter_p_' + province_code.toLowerCase())) {
+                                $('#filter_p_' + province_code.toLowerCase()).remove();
+                            }
+
+                        }
+                    } else {
+                        count_FS++;
+
+                        if(count_FS == 1) {
+                            if($('#filter_p_' + province_code.toLowerCase()).length == 0) {
+                                $("#province_filters").append('<li id="filter_p_' + province_code.toLowerCase() + '">'+ get_province_name(province_code) +'<i class="fas fa-window-close float-right"></i></li>')
+                                $('#filter_p_' + province_code.toLowerCase() + ' i').click(function() {
+                                    if($('#' + province_code.toLowerCase() + '_option').length) {
+                                        $('#filter_p_' + province_code.toLowerCase()).remove();
+                                        $("#" + province_code.toLowerCase() + '_option').prop("checked", false);
+                                    }
+                                    checkForFilters();
+
+                                });
+                            }
+                        }
+                    }
+                
+            break;
+            case "NC":
+                    if(!checked && count_NC != 0) {
+                        count_NC--;
+                        if(count_NC == 0) {
+                            $("#" + province_code.toLowerCase() + "_option").prop("checked", false);
+                            if($('#filter_p_' + province_code.toLowerCase())) {
+                                $('#filter_p_' + province_code.toLowerCase()).remove();
+                            }
+
+                        }
+                    } else {
+                        count_NC++;
+
+                        if(count_G == 1) {
+                            if($('#filter_p_' + province_code.toLowerCase()).length == 0) {
+                                $("#province_filters").append('<li id="filter_p_' + province_code.toLowerCase() + '">'+ get_province_name(province_code) +'<i class="fas fa-window-close float-right"></i></li>')
+                                $('#filter_p_' + province_code.toLowerCase() + ' i').click(function() {
+                                    if($('#' + province_code.toLowerCase() + '_option').length) {
+                                        $('#filter_p_' + province_code.toLowerCase()).remove();
+                                        $("#" + province_code.toLowerCase() + '_option').prop("checked", false);
+                                    }
+                                    checkForFilters();
+
+                                });
+                            }
+                        }
+                    }
+                
+            break;
+            case "NW":
+                
+                    if(!checked && count_NW != 0) {
+                        count_NW--;
+                        if(count_NW == 0) {
+                            $("#" + province_code.toLowerCase() + "_option").prop("checked", false);
+                            if($('#filter_p_' + province_code.toLowerCase())) {
+                                $('#filter_p_' + province_code.toLowerCase()).remove();
+                            }
+
+                        }
+                    } else {
+                        count_NW++;
+
+                        if(count_G == 1) {
+                            if($('#filter_p_' + province_code.toLowerCase()).length == 0) {
+                                $("#province_filters").append('<li id="filter_p_' + province_code.toLowerCase() + '">'+ get_province_name(province_code) +'<i class="fas fa-window-close float-right"></i></li>')
+                                $('#filter_p_' + province_code.toLowerCase() + ' i').click(function() {
+                                    if($('#' + province_code.toLowerCase() + '_option').length) {
+                                        $('#filter_p_' + province_code.toLowerCase()).remove();
+                                        $("#" + province_code.toLowerCase() + '_option').prop("checked", false);
+                                    }
+                                    checkForFilters();
+
+                                });
+                            }
+                        }
+                    }
+                    
+                
+            break;
+            case "L":
+                
+                    if(!checked && count_L != 0) {
+                        count_L--;
+                        if(count_L == 0) {
+                            $("#" + province_code.toLowerCase() + "_option").prop("checked", false);
+                            if($('#filter_p_' + province_code.toLowerCase())) {
+                                $('#filter_p_' + province_code.toLowerCase()).remove();
+                            }
+
+                        }
+                    } else {
+                        count_L++;
+
+                        if(count_G == 1) {
+                            if($('#filter_p_' + province_code.toLowerCase())) {
+                                $("#province_filters").append('<li id="filter_p_' + province_code.toLowerCase() + '">'+ get_province_name(province_code) +'<i class="fas fa-window-close float-right"></i></li>')
+                                $('#filter_p_' + province_code.toLowerCase() + ' i').click(function() {
+                                    if($('#' + province_code.toLowerCase() + '_option').length) {
+                                        $('#filter_p_' + province_code.toLowerCase()).remove();
+                                        $("#" + province_code.toLowerCase() + '_option').prop("checked", false);
+                                    }
+                                    checkForFilters();
+
+                                });
+                            }
+                        }
+                    }
+                
+            break;
+        
+        }
+
+    }
+    
+}
+
 var toggle_side_bar = function() {
     if($("#sidebar-toggle-button").hasClass("sidebar-button-in")) {
         $("#sidebar-toggle-button").html('<i class="fas fa-arrow-right"></i>');
@@ -300,6 +725,16 @@ var target_lsm_groups = [];
 var target_property_valuations = [];
 var target_property_count_buckets = [];
 var target_primary_property_types = [];
+
+var count_G = 0;
+var count_WC = 0;
+var count_KN = 0;
+var count_M = 0;
+var count_EC = 0;
+var count_FS = 0;
+var count_NC = 0;
+var count_NW = 0;
+var count_L = 0;
 
 var checkForFilters = function() {
     var target_provinces_el = document.getElementById("province_filters") ;var target_municipalities_el = document.getElementById("municipality_filters");
@@ -1120,96 +1555,96 @@ function DrawAssetsGraphs() {
     });
 
     // Property Valuation
-    $.ajax({
-        url: "/api/meetpat-client/get-records/property-valuation",
-        type: "GET",
-        data: data,
-        success: function(chart_data) {
-            $("#property-valuation-graph .spinner-block").hide();    
-            $("#property_valuation_filter").empty();
+    // $.ajax({
+    //     url: "/api/meetpat-client/get-records/property-valuation",
+    //     type: "GET",
+    //     data: data,
+    //     success: function(chart_data) {
+    //         $("#property-valuation-graph .spinner-block").hide();    
+    //         $("#property_valuation_filter").empty();
     
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Property Valuation');
-            data.addColumn('number', 'Records');
-            data.addColumn({type: 'string', role: 'annotation'});
+    //         var data = new google.visualization.DataTable();
+    //         data.addColumn('string', 'Property Valuation');
+    //         data.addColumn('number', 'Records');
+    //         data.addColumn({type: 'string', role: 'annotation'});
     
-            var result = Object.keys(chart_data["all"]).map(function(key) {
-                return [keyChangerPrValBucket(chart_data["all"][key]["propertyValuationBucket"]), chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
-              });
+    //         var result = Object.keys(chart_data["all"]).map(function(key) {
+    //             return [keyChangerPrValBucket(chart_data["all"][key]["propertyValuationBucket"]), chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
+    //           });
         
-                data.addRows(result);
-                // Set chart options
-                var chart_options = {
-                                // 'height': '30%',
-                                'width':'100%',
-                                'fontSize': 10,
-                                'chartArea': {
-                                    top: '20',
-                                    width: '60%',
-                                    height: '100%'
-                                    },
-                                'colors': ['#00A3D9'],
-                                'animation': {
-                                    'startup':true,
-                                    'duration': 1000,
-                                    'easing': 'out'
-                                },
-                                'legend': {
-                                    position: 'none'
-                                },
-                                'backgroundColor': '#f7f7f7'
-                            };
+    //             data.addRows(result);
+    //             // Set chart options
+    //             var chart_options = {
+    //                             // 'height': '30%',
+    //                             'width':'100%',
+    //                             'fontSize': 10,
+    //                             'chartArea': {
+    //                                 top: '20',
+    //                                 width: '60%',
+    //                                 height: '100%'
+    //                                 },
+    //                             'colors': ['#00A3D9'],
+    //                             'animation': {
+    //                                 'startup':true,
+    //                                 'duration': 1000,
+    //                                 'easing': 'out'
+    //                             },
+    //                             'legend': {
+    //                                 position: 'none'
+    //                             },
+    //                             'backgroundColor': '#f7f7f7'
+    //                         };
     
-                            for (var key in chart_data["distinct"]) {
-                                if(target_property_valuations.includes(chart_data["distinct"][key]["propertyValuationBucket"])) {
-                                    $("#property_valuation_filter").append(
-                                        '<input type="checkbox" name="' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "").replace("-", "") + '" id="property_valuations_' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" value="' + chart_data["distinct"][key]["propertyValuationBucket"] + '" class="css-checkbox" checked="checked"><label for="property_valuations_' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" class="css-label">' + keyChangerPrValBucket(chart_data["distinct"][key]["propertyValuationBucket"]) + '</label><br />'
-                                    );
-                                } else {
-                                    $("#property_valuation_filter").append(
-                                        '<input type="checkbox" name="' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '" id="property_valuations_' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" value="' + chart_data["distinct"][key]["propertyValuationBucket"] + '" class="css-checkbox"><label for="property_valuations_' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" class="css-label">' + keyChangerPrValBucket(chart_data["distinct"][key]["propertyValuationBucket"]) + '</label><br />'
-                                    );
-                                }
+    //                         for (var key in chart_data["distinct"]) {
+    //                             if(target_property_valuations.includes(chart_data["distinct"][key]["propertyValuationBucket"])) {
+    //                                 $("#property_valuation_filter").append(
+    //                                     '<input type="checkbox" name="' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "").replace("-", "") + '" id="property_valuations_' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" value="' + chart_data["distinct"][key]["propertyValuationBucket"] + '" class="css-checkbox" checked="checked"><label for="property_valuations_' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" class="css-label">' + keyChangerPrValBucket(chart_data["distinct"][key]["propertyValuationBucket"]) + '</label><br />'
+    //                                 );
+    //                             } else {
+    //                                 $("#property_valuation_filter").append(
+    //                                     '<input type="checkbox" name="' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '" id="property_valuations_' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" value="' + chart_data["distinct"][key]["propertyValuationBucket"] + '" class="css-checkbox"><label for="property_valuations_' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option' +'" class="css-label">' + keyChangerPrValBucket(chart_data["distinct"][key]["propertyValuationBucket"]) + '</label><br />'
+    //                                 );
+    //                             }
     
-                                $('#property_valuations_' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option').click(function(){
-                                    if($('#property_valuations_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option').is(":checked")) { 
+    //                             $('#property_valuations_' + chart_data["distinct"][key]["propertyValuationBucket"].toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option').click(function(){
+    //                                 if($('#property_valuations_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option').is(":checked")) { 
                                         
-                                        var parent = this;
+    //                                     var parent = this;
                     
-                                        $("#property_valuation_filters").append('<li id="filter_property_valuations_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                                        $('#filter_property_valuations_' + $(this).val().toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + ' i').click(function() {
-                                            if($('#property_valuations_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option').length) {
-                                                $('#filter_property_valuations_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "")).remove();
-                                                $("#property_valuations_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option').prop("checked", false);
-                                            }
-                                            checkForFilters();
+    //                                     $("#property_valuation_filters").append('<li id="filter_property_valuations_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+    //                                     $('#filter_property_valuations_' + $(this).val().toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + ' i').click(function() {
+    //                                         if($('#property_valuations_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option').length) {
+    //                                             $('#filter_property_valuations_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "")).remove();
+    //                                             $("#property_valuations_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "") + '_option').prop("checked", false);
+    //                                         }
+    //                                         checkForFilters();
     
-                                        });
-                                    } else {
+    //                                     });
+    //                                 } else {
                                         
                     
-                                        if($('#filter_property_valuations_' + $(this).val().toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", ""))) {
-                                            $('#filter_property_valuations_' + $(this).val().toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "")).remove();
-                                        }
-                                    }
-                                    checkForFilters();
+    //                                     if($('#filter_property_valuations_' + $(this).val().toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", ""))) {
+    //                                         $('#filter_property_valuations_' + $(this).val().toLowerCase().replace(/ /g, "_").replace("+", "plus").replace("-", "")).remove();
+    //                                     }
+    //                                 }
+    //                                 checkForFilters();
     
-                                });
-                            }
-                // Instantiate and draw our chart, passing in some options.
-                var chart = new google.visualization.BarChart(document.getElementById('propertyValuationChart'));
-                chart.draw(data, chart_options);     
-                update_progress();
-        }
+    //                             });
+    //                         }
+    //             // Instantiate and draw our chart, passing in some options.
+    //             var chart = new google.visualization.BarChart(document.getElementById('propertyValuationChart'));
+    //             chart.draw(data, chart_options);     
+    //             update_progress();
+    //     }
 
-    }).done(function(data) {
+    // }).done(function(data) {
 
-    }).fail(function(error) {
-        $("#property-valuation-graph .spinner-block").hide();
-        $("#property-valuation-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
-        $("#property_valuation_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
-        console.log(error);
-    });
+    // }).fail(function(error) {
+    //     $("#property-valuation-graph .spinner-block").hide();
+    //     $("#property-valuation-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
+    //     $("#property_valuation_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
+    //     console.log(error);
+    // });
 
     // Property Count
     $.ajax({
@@ -1918,43 +2353,7 @@ function DrawLocationCharts() {
         data: data,
         success: function(data) {
             $("#province_filter").empty();
-        var get_province_name = function(code) {
-            var province_name;
-
-            switch(code) {
-                case "G":
-                    province_name = "Gauteng"
-                    break;
-                case "WC":
-                    province_name = "Western Cape"
-                    break;
-                case "EC":
-                    province_name = "Eastern Cape"
-                    break;
-                case "M":
-                    province_name = "Mpumalanga"
-                    break;
-                case "NW":
-                    province_name = "North West"
-                    break;
-                case "FS":
-                    province_name = "Free State"
-                    break;
-                case "L":
-                    province_name = "Limpopo"
-                    break;
-                case "KN":
-                    province_name = "KwaZulu Natal"
-                    break;
-                case "NC":
-                    province_name = "Northern Cape"
-                    break;
-                default:
-                    province_name = "Unknown"
-            }
-
-            return province_name;
-        }
+        
         for (var key in data["distinct"]) {
             if(target_provinces.includes(data["distinct"][key]["province"])) {
                 $("#province_filter").append(
@@ -2180,20 +2579,21 @@ function DrawLocationCharts() {
                             },
                             'backgroundColor': '#f7f7f7'
                         };
-                        
-                        for (var key in chart_data["distinct"]) {
-                            if(target_municipalities.includes(chart_data["distinct"][key]["municipality"])) {
+                        chart_data["distinct"].forEach(function(result) {
+                            
+                            if(target_municipalities.includes(result.municipality)) {
                                 $("#municipality_filter").append(
-                                    '<input type="checkbox" name="' + chart_data["distinct"][key]["municipality"].toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '" id="municipality_' + chart_data["distinct"][key]["municipality"].toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option' +'" value="' + chart_data["distinct"][key]["municipality"] + '" class="css-checkbox" checked="checked"><label for="municipality_' + chart_data["distinct"][key]["municipality"].toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option' +'" class="css-label">' + chart_data["distinct"][key]["municipality"] + '</label><br />'
+                                    '<input type="checkbox" name="' + result.municipality.toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '" id="municipality_' + result.municipality.toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option' +'" value="' + result.municipality + '" class="css-checkbox" checked="checked"><label for="municipality_' + result.municipality.toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option' +'" class="css-label">' + result.municipality + ' (' + result.province + ') </label><br />'
                                 );
                             } else {
                                 $("#municipality_filter").append(
-                                    '<input type="checkbox" name="' + chart_data["distinct"][key]["municipality"].toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '" id="municipality_' + chart_data["distinct"][key]["municipality"].toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option' +'" value="' + chart_data["distinct"][key]["municipality"] + '" class="css-checkbox"><label for="municipality_' + chart_data["distinct"][key]["municipality"].toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option' +'" class="css-label">' + chart_data["distinct"][key]["municipality"] + '</label><br />'
+                                    '<input type="checkbox" name="' + result.municipality.toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '" id="municipality_' + result.municipality.toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option' +'" value="' + result.municipality + '" class="css-checkbox"><label for="municipality_' + result.municipality.toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option' +'" class="css-label">' + result.municipality + ' (' + result.province + ') </label><br />'
                                 );
                             }
 
-                            $('#municipality_' + chart_data["distinct"][key]["municipality"].toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option').click(function(){
+                            $('#municipality_' + result.municipality.toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option').click(function(){
                                 if($('#municipality_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option').is(":checked")) { 
+                                    check_province(result.province, true);
                                     
                                     var parent = this;
                 
@@ -2203,12 +2603,13 @@ function DrawLocationCharts() {
                                             $('#filter_municipality_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\./g, '_')).remove();
                                             $("#municipality_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/\./g, '_') + '_option').prop("checked", false);
                                         }
+                                        sub_province_count(result.province);
                                         checkForFilters();
 
                                     });
                                 } else {
+                                    check_province(result.province, false);
                                     
-                
                                     if($('#filter_municipality_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\./g, '_'))) {
                                         $('#filter_municipality_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/\./g, '_')).remove();
                                     }
@@ -2216,7 +2617,8 @@ function DrawLocationCharts() {
                                 checkForFilters();
 
                             });
-                        }
+                        });
+                        
             // Instantiate and draw our chart, passing in some options.
             var chart = new google.visualization.BarChart(document.getElementById('municipalityChart'));
             chart.draw(data, chart_options);
@@ -2244,6 +2646,7 @@ function DrawLocationCharts() {
                 '<ul id="lunr-results" class="list-unstyled"></ul>' +
                 '</div>'
             );
+
             //console.log(chart_data);
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Area');
@@ -2253,6 +2656,7 @@ function DrawLocationCharts() {
             var result = Object.keys(chart_data["all"]).map(function(key) {
                 return [chart_data["all"][key]["area"], chart_data["all"][key]["audience"], kFormatter(chart_data["all"][key]["audience"])];
                 });
+
             var shorter_result = result.slice(0, 20);
             data.addRows(shorter_result);
             // Set chart options
@@ -2277,8 +2681,90 @@ function DrawLocationCharts() {
             var chart = new google.visualization.BarChart(document.getElementById('areasChart'));
             chart.draw(data, chart_options); 
 
-            var results = Object.keys(chart_data["all"]).map(function(key) {
-                return {"name": chart_data["all"][key]["area"], "count": kFormatter(chart_data["all"][key]["audience"])};
+            var results = Object.keys(chart_data["distinct"]).map(function(key) {
+                return {"name": chart_data["distinct"][key]["area"], "province": chart_data["distinct"][key]["province"],
+                        "municipality": chart_data["distinct"][key]["municipality"],
+                        "count": kFormatter(chart_data["distinct"][key]["audience"])};
+            });
+            // get municipalities
+            var municipalities_unique = [];
+            results.forEach(function(result_item) {
+                if(!municipalities_unique.includes(result_item.municipality)) {
+                    municipalities_unique.push(result_item.municipality);
+                }
+            });
+
+            var municipalities = Object.keys(municipalities_unique).map(function(key) {
+                return {"name": municipalities_unique[key], "format_name": municipalities_unique[key].toLowerCase().replace(/ /g, "_").replace(/\./g, '_'), "count": 0};
+            });
+
+            var sub_municipality_count = function(municipality_name) {
+                var municipality_tmp = municipalities.filter(obj => {if(obj.name === municipality_name) { return obj}}).map(function(obj) { return obj});
+                
+                    municipality_tmp[0].count--;
+                    if(municipality_tmp[0].count == 0) {
+                        $("#municipality_" + municipality_tmp[0].format_name.toLowerCase() + "_option").prop("checked", false);
+        
+                        if($('#filter_municipality_' + municipality_tmp[0].format_name)) {
+                            $('#filter_municipality_' + municipality_tmp[0].format_name).remove();
+                        }
+                    }
+    
+                    checkForFilters();
+                 
+                
+            }
+            
+            // When area is checked check binding municipality.
+            var check_municipality = function(municipality_name, checked) {
+                var municipality_tmp = municipalities.filter(obj => {if(obj.name === municipality_name) { return obj}}).map(function(obj) { return obj});
+                
+                if(!$("#municipality_" + municipality_tmp[0].format_name + "_option").is(":checked")) {
+            
+                    $("#municipality_" + municipality_tmp[0].format_name + "_option").prop("checked", true);
+                    
+                } 
+
+                if(!checked && municipality_tmp[0].count != 0) {
+                    municipality_tmp[0].count--;
+                    if(municipality_tmp[0].count == 0) {
+                        $("#municipality_" + municipality_tmp[0].format_name + "_option").prop("checked", false);
+                        
+                        if($('#filter_municipality_' + municipality_tmp[0].format_name)) {
+                            $('#filter_municipality_' + municipality_tmp[0].format_name).remove();
+                        }
+                    }
+                } else {
+                    municipality_tmp[0].count++;
+
+                    if(municipality_tmp[0].count == 1) {
+                        if($('#filter_municipality_' + municipality_tmp[0].format_name).length == 0) {
+                            $("#municipality_filters").append('<li id="filter_municipality_' + municipality_tmp[0].format_name + '">'+ municipality_tmp[0].format_name +'<i class="fas fa-window-close float-right"></i></li>')
+                            $('#filter_municipality_' + municipality_tmp[0].format_name + ' i').click(function() {
+                                if($('#municipality_' + municipality_tmp[0].format_name + '_option').length) {
+                                    $('#filter_municipality_' + municipality_tmp[0].format_name).remove();
+                                    $("#municipality_" + municipality_tmp[0].format_name + '_option').prop("checked", false);
+                                }
+                                
+                                if(municipality_tmp[0].count == 0) {
+                                    $("#municipality_" + municipality_tmp[0].format_name + "_option").prop("checked", false);
+                                    
+                                    if($('#filter_municipality_' + municipality_tmp[0].format_name)) {
+                                        $('#filter_municipality_' + municipality_tmp[0].format_name).remove();
+                                    }
+                                }
+                                
+                                checkForFilters();
+
+                            });
+                        }
+                    }
+                }
+
+            }
+            // Update counts for municipalities selected.
+            $("hidden-area-filter-form input").serializeArray().forEach(function(input_item) {
+                    check_municipality(input_item.value);
             });
 
             var documents = results;
@@ -2298,11 +2784,14 @@ function DrawLocationCharts() {
             $("#area-filter-form .text-center").remove();
             shorter_result.forEach(function(result) {
                 if($('#area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                    $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox" checked="checked"><label for="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' + results.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
+                    $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox" checked="checked"><label for="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' 
+                    + results.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small> (' 
+                    + get_province_name(results.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0]) + ')</label><br />');
                     $('#area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
                         
                         if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
-                            
+                            check_province(results.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0], true);
+                            check_municipality(results.filter(obj => {if(obj.name === result[0]) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0], true);
                             var parent = this;
                             $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
                             $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
@@ -2313,11 +2802,14 @@ function DrawLocationCharts() {
                                     $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
                                     $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
                                 }
+                                sub_province_count(results.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0]);
+                                sub_municipality_count(results.filter(obj => {if(obj.name === result[0]) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0]);
                                 checkForFilters();
                             });
                         } else {
                             
-        
+                            check_province(results.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0], false);
+                            check_municipality(results.filter(obj => {if(obj.name === result[0]) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0], false);
                             if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
                                 $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
                                 $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
@@ -2326,10 +2818,15 @@ function DrawLocationCharts() {
                         checkForFilters();
                     });                        
                 } else {
-                    $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox"><label for="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' + results.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
+                    $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox"><label for="area_' 
+                    + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' 
+                    + results.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small> (' 
+                    + get_province_name(results.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0]) + ')</label><br />');
                     $('#area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
+                        
                         if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
-                            
+                            check_province(results.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0], true);
+                            check_municipality(results.filter(obj => {if(obj.name === result[0]) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0], true);
                             var parent = this;
                             $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
                             $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
@@ -2339,12 +2836,15 @@ function DrawLocationCharts() {
                                     $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
                                     $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
                                 }
+                                sub_province_count(results.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0]);
+                                sub_municipality_count(results.filter(obj => {if(obj.name === result[0]) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0]);
                                 checkForFilters();
 
                             });
                         } else {
                             
-        
+                            check_province(results.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0], false);
+                            check_municipality(results.filter(obj => {if(obj.name === result[0]) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0], false);
                             if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
                                 $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
                                 $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
@@ -2366,13 +2866,16 @@ function DrawLocationCharts() {
                         
                         if(result.score) {
                             if($('#area_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                                $("#lunr-results").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox" checked="checked"><label for="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result.ref + '<small> ' + results.filter(obj => {if(obj.name === result.ref) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
+                                $("#lunr-results").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox" checked="checked"><label for="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result.ref + '<small> ' 
+                                + results.filter(obj => {if(obj.name === result.ref) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small> (' 
+                                + get_province_name(results.filter(obj => {if(obj.name === result.ref) { return obj.province}}).map(function(obj) { return obj.province})[0]) + ')</label><br />');
                                 $('#area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
                                     
                                     if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
-                                        
+                                        check_province(results.filter(obj => {if(obj.name === result.ref) { return obj.province}}).map(function(obj) { return obj.province})[0], true);
+                                        check_municipality(results.filter(obj => {if(obj.name === result.ref) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0], true);
                                         var parent = this;
-                                        $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
+                                        $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" checked="checked">');
                                         $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
                                         $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
                                         
@@ -2381,11 +2884,14 @@ function DrawLocationCharts() {
                                                 $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
                                                 $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
                                             }
+                                            sub_province_count(results.filter(obj => {if(obj.name === result.ref) { return obj.province}}).map(function(obj) { return obj.province})[0]);
+                                            sub_municipality_count(results.filter(obj => {if(obj.name === result.ref) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0]);
                                             checkForFilters();
                                         });
                                     } else {
                                         
-                    
+                                        check_province(results.filter(obj => {if(obj.name === result.ref) { return obj.province}}).map(function(obj) { return obj.province})[0], false);
+                                        check_municipality(results.filter(obj => {if(obj.name === result.ref) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0], false);
                                         if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
                                             $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
                                             $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
@@ -2394,12 +2900,16 @@ function DrawLocationCharts() {
                                     checkForFilters();
                                 });                        
                             } else {
-                                $("#lunr-results").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox"><label for="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result.ref + '<small> ' + results.filter(obj => {if(obj.name === result.ref) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
+                                $("#lunr-results").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox"><label for="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result.ref + '<small> ' 
+                                + results.filter(obj => {if(obj.name === result.ref) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small> (' 
+                                + get_province_name(results.filter(obj => {if(obj.name === result.ref) { return obj.province}}).map(function(obj) { return obj.province})[0]) + ')</label><br />');
                                 $('#area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
                                     if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
-                                        
+
+                                        check_province(results.filter(obj => {if(obj.name === result.ref) { return obj.province}}).map(function(obj) { return obj.province})[0], true);
+                                        check_municipality(results.filter(obj => {if(obj.name === result.ref) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0], true);
                                         var parent = this;
-                                        $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
+                                        $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" checked="checked">');
                                         $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
                                         $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
                                             if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
@@ -2407,12 +2917,15 @@ function DrawLocationCharts() {
                                                 $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
                                                 $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
                                             }
+                                            sub_province_count(results.filter(obj => {if(obj.name === result.ref) { return obj.province}}).map(function(obj) { return obj.province})[0]);
+                                            sub_municipality_count(results.filter(obj => {if(obj.name === result.ref) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0]);
                                             checkForFilters();
 
                                         });
                                     } else {
                                         
-                    
+                                        check_province(results.filter(obj => {if(obj.name === result.ref) { return obj.province}}).map(function(obj) { return obj.province})[0], false);
+                                        check_municipality(results.filter(obj => {if(obj.name === result.ref) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0], false);
                                         if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
                                             $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
                                             $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
@@ -2432,11 +2945,14 @@ function DrawLocationCharts() {
                     shorter_result.forEach(function(result) {
                     
                         if($('#area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                            $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox" checked="checked"><label for="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' + results.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
+                            $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox" checked="checked"><label for="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' 
+                            + results.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small> (' 
+                            + get_province_name(results.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0]) + ')</label><br />');
                             $('#area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
                                 
                                 if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
-                                    
+                                    check_province(results.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0], true);
+                                    check_municipality(results.filter(obj => {if(obj.name === result[0]) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0], true);
                                     var parent = this;
                                     $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
                                     $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
@@ -2447,10 +2963,13 @@ function DrawLocationCharts() {
                                             $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
                                             $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
                                         }
+                                        sub_province_count(results.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0]);
+                                        sub_municipality_count(results.filter(obj => {if(obj.name === result[0]) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0]);
                                         checkForFilters();
                                     });
                                 } else {
-                                    
+                                    check_province(results.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0], false);
+                                    check_municipality(results.filter(obj => {if(obj.name === result[0]) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0], false);
                 
                                     if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
                                         $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
@@ -2460,10 +2979,14 @@ function DrawLocationCharts() {
                                 checkForFilters();
                             });                        
                         } else {
-                            $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox"><label for="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' + results.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
+                            $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox"><label for="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' 
+                            + results.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small> (' 
+                            + get_province_name(results.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0]) + ')</label><br />');
                             $('#area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
                                 if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
                                     
+                                    check_province(results.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0], true);
+                                    check_municipality(results.filter(obj => {if(obj.name === result[0]) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0], true);
                                     var parent = this;
                                     $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
                                     $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
@@ -2473,11 +2996,14 @@ function DrawLocationCharts() {
                                             $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
                                             $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
                                         }
+                                        sub_province_count(results.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0]);
+                                        sub_municipality_count(results.filter(obj => {if(obj.name === result[0]) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0]);
                                         checkForFilters();
 
                                     });
                                 } else {
-                                    
+                                    check_province(results.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0], false);
+                                    check_municipality(results.filter(obj => {if(obj.name === result[0]) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0], false);
                 
                                     if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
                                         $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
@@ -2653,8 +3179,7 @@ $('.apply-filter-button, #sidebarSubmitBtn, #apply-toggle-button').click(functio
     target_lsm_groups = [];
     target_property_valuations = [];
     target_property_count_buckets = [];
-    target_primary_property_types = [];
-    
+    target_primary_property_types = [];   
 
     $("#province-filter-form input[type='checkbox']").each(function() {
         if(this.checked) {
@@ -2823,6 +3348,16 @@ $("#resetFilterToastBtn, #reset-toggle-button").click(function() {
     target_property_valuations = [];
     target_property_count_buckets = [];
     target_primary_property_types = [];
+
+    count_G = 0;
+    count_WC = 0;
+    count_KN = 0;
+    count_M = 0;
+    count_EC = 0;
+    count_FS = 0;
+    count_NC = 0;
+    count_NW = 0;
+    count_L = 0;
 
     $("#provinceContactsId").val(target_provinces);
     $("#areaContactsId").val(target_areas);
