@@ -873,5 +873,5 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="https://unpkg.com/lunr/lunr.js"></script>
-<script type="text/javascript" src="{{asset('js/data_visualisation_async.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/data_visualisation_async.js')}}"></script>
 @endsection

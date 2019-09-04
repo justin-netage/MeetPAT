@@ -1821,7 +1821,7 @@ function DrawAssetsGraphs() {
                 });
             }              
             // Instantiate and draw our chart, passing in some options.
-            var chart = new google.visualization.ColumnChart(document.getElementById('primaryPropertyTypeChart'));
+            var chart = new google.visualization.BarChart(document.getElementById('primaryPropertyTypeChart'));
             chart.draw(data, chart_options);  
             update_progress();
         }
@@ -1965,25 +1965,28 @@ function DrawFinancialCharts() {
                 data.addRows(result);
                 // Set chart options
                 var chart_options = {
-                                // 'height': result.length * 25,
-                                'width':'100%',
-                                'fontSize': 10,
-                                'chartArea': {
-                                    top: '20',
-                                    width: '50%',
-                                    height: '100%'
-                                    },
-                                'colors': ['#00A3D9'],
-                                'animation': {
-                                    'startup':true,
-                                    'duration': 1000,
-                                    'easing': 'out'
-                                },
-                                'legend': {
-                                    position: 'none'
-                                },
-                                'backgroundColor': '#f7f7f7'
-                            };
+                    'width':'100%',
+                    'fontSize': 10,
+                    'chartArea': {
+                        top: '20',
+                        width: '60%',
+                        height: '75%'
+                        },
+                    vAxis: {
+                        minValue: 0, 
+                        format: "short"
+                    }, 
+                    'colors': ['#00A3D9'],
+                    'animation': {
+                        'startup':true,
+                        'duration': 1000,
+                        'easing': 'out'
+                    },
+                    'legend': {
+                        position: 'none'
+                    },
+                    'backgroundColor': '#f7f7f7'
+                };
                 for (var key in chart_data["distinct"]) {
                     if(target_risk_categories.includes(chart_data["distinct"][key]["riskCategory"])) {
                         $("#risk_category_filter").append(
@@ -2559,26 +2562,50 @@ function DrawLocationCharts() {
 
             data.addRows(result);
             // Set chart options
-            var chart_options = {
-                            'height': result.length * 25,
-                            'width':'100%',
-                            'fontSize': 10,
-                            'chartArea': {
-                                top: '20',
-                                width: '60%',
-                                height: '100%'
-                                },
-                            'colors': ['#00A3D9'],
-                            'animation': {
-                                'startup':true,
-                                'duration': 1000,
-                                'easing': 'out'
-                            },
-                            'legend': {
-                                position: 'none'
-                            },
-                            'backgroundColor': '#f7f7f7'
-                        };
+            if(result.length > 10) {
+                var chart_options = {
+                    'height': result.length * 25,
+                    'width':'100%',
+                    'fontSize': 10,
+                    'chartArea': {
+                        top: '20',
+                        width: '60%',
+                        height: '100%'
+                        },
+                    'colors': ['#00A3D9'],
+                    'animation': {
+                        'startup':true,
+                        'duration': 1000,
+                        'easing': 'out'
+                    },
+                    'legend': {
+                        position: 'none'
+                    },
+                    'backgroundColor': '#f7f7f7'
+                };
+            } else {
+                var chart_options = {
+                    //'height': result.length * 25,
+                    'width':'100%',
+                    'fontSize': 10,
+                    'chartArea': {
+                        top: '20',
+                        width: '60%',
+                        height: '100%'
+                        },
+                    'colors': ['#00A3D9'],
+                    'animation': {
+                        'startup':true,
+                        'duration': 1000,
+                        'easing': 'out'
+                    },
+                    'legend': {
+                        position: 'none'
+                    },
+                    'backgroundColor': '#f7f7f7'
+                };
+            }
+            
                         chart_data["distinct"].forEach(function(result) {
                             
                             if(target_municipalities.includes(result.municipality)) {
@@ -2660,22 +2687,41 @@ function DrawLocationCharts() {
             var shorter_result = result.slice(0, 20);
             data.addRows(shorter_result);
             // Set chart options
-            var chart_options = {
-                            'width':'100%',
-                            'height': shorter_result.length * 25,
-                            'fontSize': 10,
-                            'chartArea': {
-                                top: '20',
-                                top: '20',
-                                width: '60%',
-                                height: '100%'
-                            },
-                            'colors': ['#00A3D9'],
-                            'legend': {
-                                position: 'none'
-                            },
-                            'backgroundColor': '#f7f7f7'
-                            };
+
+            if(shorter_result.length > 10) {
+                var chart_options = {
+                    'width':'100%',
+                    'height': shorter_result.length * 25,
+                    'fontSize': 10,
+                    'chartArea': {
+                        top: '20',
+                        top: '20',
+                        width: '60%',
+                        height: '100%'
+                    },
+                    'colors': ['#00A3D9'],
+                    'legend': {
+                        position: 'none'
+                    },
+                    'backgroundColor': '#f7f7f7'
+                    };
+            } else {
+                var chart_options = {
+                    'width':'100%',
+                    'fontSize': 10,
+                    'chartArea': {
+                        top: '20',
+                        top: '20',
+                        width: '60%',
+                        height: '100%'
+                    },
+                    'colors': ['#00A3D9'],
+                    'legend': {
+                        position: 'none'
+                    },
+                    'backgroundColor': '#f7f7f7'
+                    };
+            }
         
             // Instantiate and draw our chart, passing in some options.
             var chart = new google.visualization.BarChart(document.getElementById('areasChart'));
