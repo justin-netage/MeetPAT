@@ -856,7 +856,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        <span>Please be patient. We are processing <span id="attributes_placeholder"></span> attributes in <span id="records_placeholder"></span> records in order to generate your report.</span> 
+        <span>Please be patient. We are processing <span id="attributes_placeholder"></span> attributes in <span id="records_placeholder"></span> records in order to generate your report.</span> To filter the data select the <i class="fas fa-filter"></i> and click apply (<i class="fas fa-sync-alt"></i>). Click on <i class="fas fa-cog"></i> to download or save filtered results.
         <div class="progress" style="height: 3px;">
             <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
@@ -873,5 +873,5 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="https://unpkg.com/lunr/lunr.js"></script>
-<script type="text/javascript" src="{{asset('js/data_visualisation_async.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/data_visualisation_async.min.js')}}"></script>
 @endsection
