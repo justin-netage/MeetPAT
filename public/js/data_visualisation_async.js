@@ -553,7 +553,7 @@ var clear_checked_inputs = function() {
 // Saved Audience Files methods
 
 var user_id_number = $("#user_id").val();
-
+var user_auth_token = $("#user_auth_token").val();
 var current_page = 1;
 var records_per_page = 5;
 
@@ -813,7 +813,7 @@ function drawDemographicGraphs() {
                 municipality: target_municipalities.join(","), area: target_areas.join(","),
                 vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
                 lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
-                primary_property_type: target_primary_property_types.join(",")
+                primary_property_type: target_primary_property_types.join(","), api_token: user_auth_token
             }
     // Age
     $.ajax({
@@ -1458,7 +1458,7 @@ function DrawAssetsGraphs() {
                 municipality: target_municipalities.join(","), area: target_areas.join(","),
                 vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
                 lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
-                primary_property_type: target_primary_property_types.join(",")
+                primary_property_type: target_primary_property_types.join(","), api_token: user_auth_token
             }
     // Home Owner
     $.ajax({
@@ -1942,7 +1942,7 @@ function DrawFinancialCharts() {
                 municipality: target_municipalities.join(","), area: target_areas.join(","),
                 vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
                 lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
-                primary_property_type: target_primary_property_types.join(",")
+                primary_property_type: target_primary_property_types.join(","), api_token: user_auth_token
             }
     // Risk Category
     $.ajax({
@@ -2347,7 +2347,7 @@ function DrawLocationCharts() {
                 municipality: target_municipalities.join(","), area: target_areas.join(","),
                 vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
                 lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
-                primary_property_type: target_primary_property_types.join(",")
+                primary_property_type: target_primary_property_types.join(","), api_token: user_auth_token
             }
 
     $.ajax({
@@ -3093,39 +3093,76 @@ var get_records_count =  function(records_data) {
     var number_of_contacts = $("#numberOfContactsId");
     var eta_file_process = $("#eta_file_process");
 
-    $.get("/api/meetpat-client/get-records/count", {user_id: user_id_number, province: target_provinces.join(","),
-         age_group: target_ages.join(","), gender: target_genders.join(","), 
-         population_group: target_population_groups.join(","), generation: target_generations.join(","),
-         marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
-         risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
-         directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
-         municipality: target_municipalities.join(","), area: target_areas.join(","), 
-         vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
-         lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
-         primary_property_type: target_primary_property_types.join(",")
-         }, function( data ) {
+    query_data = {user_id: user_id_number, province: target_provinces.join(","),
+    age_group: target_ages.join(","), gender: target_genders.join(","), 
+    population_group: target_population_groups.join(","), generation: target_generations.join(","),
+    marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
+    risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
+    directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
+    municipality: target_municipalities.join(","), area: target_areas.join(","), 
+    vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
+    lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
+    primary_property_type: target_primary_property_types.join(","), api_token: user_auth_token
+    }
+
+    $.ajax({
+        url: "/api/meetpat-client/get-records/count",
+        type: "GET",
+        data: query_data,
+        success: function(data) {
+            records_count.html(kFormatter(data));
+            records_toast.html(kFormatter(data));
+            records_count_toast.html(kFormatter(data));
+            number_of_contacts.val(data);
+            if(data < 100000) {
+                eta_file_process.html("30 seconds");
+            } else if(data > 100000 && data < 300000) {
+                eta_file_process.html("a minute");
+            } else {
+                eta_file_process.html("5 minutes or more");
+            }
+    
+            $("#contacts-number .spinner-block").hide();
+        }
     }).fail(function(data) {
         $("#contacts-number .spinner-block").hide();
         $("#contacts-number .toast-body").html('<i class="fas fa-exclamation-circle text-danger"></i>');
         
         console.log(data)
-    }).done(function(data) {
-        //console.log(data);
-        records_count.html(kFormatter(data));
-        records_toast.html(kFormatter(data));
-        records_count_toast.html(kFormatter(data));
-        number_of_contacts.val(data);
-        if(data < 100000) {
-            eta_file_process.html("30 seconds");
-        } else if(data > 100000 && data < 300000) {
-            eta_file_process.html("a minute");
-        } else {
-            eta_file_process.html("5 minutes or more");
-        }
-
-        $("#contacts-number .spinner-block").hide();
-
     });
+    // $.get("/api/meetpat-client/get-records/count", {user_id: user_id_number, province: target_provinces.join(","),
+    //      age_group: target_ages.join(","), gender: target_genders.join(","), 
+    //      population_group: target_population_groups.join(","), generation: target_generations.join(","),
+    //      marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
+    //      risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
+    //      directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
+    //      municipality: target_municipalities.join(","), area: target_areas.join(","), 
+    //      vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
+    //      lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
+    //      primary_property_type: target_primary_property_types.join(","), api_token: user_auth_token
+    //      }, function( data ) {
+    // }).fail(function(data) {
+    //     $("#contacts-number .spinner-block").hide();
+    //     $("#contacts-number .toast-body").html('<i class="fas fa-exclamation-circle text-danger"></i>');
+        
+    //     console.log(data)
+    // }).done(function(data) {
+    //     //console.log(data);
+    //     records_count.html(kFormatter(data));
+    //     records_toast.html(kFormatter(data));
+    //     records_count_toast.html(kFormatter(data));
+    //     number_of_contacts.val(data);
+    //     if(data < 100000) {
+    //         eta_file_process.html("30 seconds");
+    //     } else if(data > 100000 && data < 300000) {
+    //         eta_file_process.html("a minute");
+    //     } else {
+    //         eta_file_process.html("5 minutes or more");
+    //     }
+
+    //     $("#contacts-number .spinner-block").hide();
+
+    // });
 }   
 
 var set_records_count_progress_text =  function() {

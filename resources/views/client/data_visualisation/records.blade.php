@@ -53,6 +53,7 @@
     <form id="filtersForm" action="/meetpat-client/create-selected-contacts" method="post">
         @csrf
         <input type="hidden" id="user_id" name="user_id" value="{{Auth::user()->id}}">
+        <input type="hidden" id="user_auth_token" value="{{Auth::user()->api_token}}">
         <input type="hidden" id="numberOfContactsId" name="number_of_contacts">
         <input type="hidden" id="provinceContactsId" name="provinceContacts[]">
         <input type="hidden" id="areaContactsId" name="areaContacts[]">
@@ -873,5 +874,5 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="https://unpkg.com/lunr/lunr.js"></script>
-<script type="text/javascript" src="{{asset('js/data_visualisation_async.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/data_visualisation_grouped.min.js')}}"></script>
 @endsection

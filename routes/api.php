@@ -75,27 +75,38 @@ Route::post('meetpat-client/large-data/delete', 'MeetpatClientController@handle_
 
 
 Route::get('meetpat-client/get-records', 'DataVisualisationController@get_records')->name('get-client-records');
+// Grouped calls
+
+/** Begin */
+
+Route::get('meetpat-client/get-location-data', 'DataVisualisationController@get_location_data')->name('get-location-records')->middleware('auth:api');
+Route::get('meetpat-client/get-demographic-data', 'DataVisualisationController@get_demographic_data')->name('get-demographic-records')->middleware('auth:api');
+Route::get('meetpat-client/get-assets-data', 'DataVisualisationController@get_assets_data')->name('get-assets-records')->middleware('auth:api');
+Route::get('meetpat-client/get-financial-data', 'DataVisualisationController@get_financial_data')->name('get-financial-records')->middleware('auth:api');
+
+//** End */
+
 // Separate calls
-Route::get('meetpat-client/get-records/count', 'DataVisualisationController@get_records_count')->name('get-client-records-count');
-Route::get('meetpat-client/get-records/municipalities', 'DataVisualisationController@get_municipalities')->name('get-client-records-municipalities');
-Route::get('meetpat-client/get-records/provinces', 'DataVisualisationController@get_provinces')->name('get-client-records-provinces');
-Route::get('meetpat-client/get-records/ages', 'DataVisualisationController@get_ages')->name('get-client-records-ages');
-Route::get('meetpat-client/get-records/genders', 'DataVisualisationController@get_genders')->name('get-client-records-genders');
-Route::get('meetpat-client/get-records/population-groups', 'DataVisualisationController@get_population_groups')->name('get-client-records-population-groups');
-Route::get('meetpat-client/get-records/home-owner', 'DataVisualisationController@get_home_owner')->name('get-client-records-home-owner');
-Route::get('meetpat-client/get-records/household-income', 'DataVisualisationController@get_household_income')->name('get-client-records-household-income');
-Route::get('meetpat-client/get-records/risk-category', 'DataVisualisationController@get_risk_category')->name('get-client-records-risk-category');
-Route::get('meetpat-client/get-records/director-of-business', 'DataVisualisationController@get_director_of_business')->name('get-client-records-director-of-business');
-Route::get('meetpat-client/get-records/citizens-and-residents', 'DataVisualisationController@get_citizens_and_residents')->name('get-client-records-citizens-and-residents');
-Route::get('meetpat-client/get-records/generations', 'DataVisualisationController@get_generations')->name('get-client-records-generations');
-Route::get('meetpat-client/get-records/marital-statuses', 'DataVisualisationController@get_marital_statuses')->name('get-client-records-marital-statuses');
-Route::get('meetpat-client/get-records/areas', 'DataVisualisationController@get_area')->name('get-client-records-areas');
-Route::get('meetpat-client/get-records/vehicle-owner', 'DataVisualisationController@get_vechicle_owner')->name('get-vehicle-owners');
-Route::get('meetpat-client/get-records/lsm-group', 'DataVisualisationController@get_lsm_group')->name('get-lsm-groups');
-Route::get('meetpat-client/get-records/property-valuation', 'DataVisualisationController@get_property_valuation')->name('get-property-valuations');
-Route::get('meetpat-client/get-records/property-count-bucket', 'DataVisualisationController@get_property_count_bucket')->name('get-property-count-buckets');
-Route::get('meetpat-client/get-records/primary-property-type', 'DataVisualisationController@get_primary_property_type')->name('get-primary-property-type');
-Route::get('meetpat-client/get-records/employers', 'DataVisualisationController@get_employer')->name('get-employers');
+Route::get('meetpat-client/get-records/count', 'DataVisualisationController@get_records_count')->name('get-client-records-count');//->middleware('auth:api');
+Route::get('meetpat-client/get-records/municipalities', 'DataVisualisationController@get_municipalities')->name('get-client-records-municipalities')->middleware('auth:api');
+Route::get('meetpat-client/get-records/provinces', 'DataVisualisationController@get_provinces')->name('get-client-records-provinces')->middleware('auth:api');
+Route::get('meetpat-client/get-records/ages', 'DataVisualisationController@get_ages')->name('get-client-records-ages')->middleware('auth:api');
+Route::get('meetpat-client/get-records/genders', 'DataVisualisationController@get_genders')->name('get-client-records-genders')->middleware('auth:api');
+Route::get('meetpat-client/get-records/population-groups', 'DataVisualisationController@get_population_groups')->name('get-client-records-population-groups')->middleware('auth:api');
+Route::get('meetpat-client/get-records/home-owner', 'DataVisualisationController@get_home_owner')->name('get-client-records-home-owner')->middleware('auth:api');
+Route::get('meetpat-client/get-records/household-income', 'DataVisualisationController@get_household_income')->name('get-client-records-household-income')->middleware('auth:api');
+Route::get('meetpat-client/get-records/risk-category', 'DataVisualisationController@get_risk_category')->name('get-client-records-risk-category')->middleware('auth:api');
+Route::get('meetpat-client/get-records/director-of-business', 'DataVisualisationController@get_director_of_business')->name('get-client-records-director-of-business')->middleware('auth:api');
+Route::get('meetpat-client/get-records/citizens-and-residents', 'DataVisualisationController@get_citizens_and_residents')->name('get-client-records-citizens-and-residents')->middleware('auth:api');
+Route::get('meetpat-client/get-records/generations', 'DataVisualisationController@get_generations')->name('get-client-records-generations')->middleware('auth:api');
+Route::get('meetpat-client/get-records/marital-statuses', 'DataVisualisationController@get_marital_statuses')->name('get-client-records-marital-statuses')->middleware('auth:api');
+Route::get('meetpat-client/get-records/areas', 'DataVisualisationController@get_area')->name('get-client-records-areas')->middleware('auth:api')->middleware('auth:api');
+Route::get('meetpat-client/get-records/vehicle-owner', 'DataVisualisationController@get_vechicle_owner')->name('get-vehicle-owners')->middleware('auth:api');
+Route::get('meetpat-client/get-records/lsm-group', 'DataVisualisationController@get_lsm_group')->name('get-lsm-groups')->middleware('auth:api');
+Route::get('meetpat-client/get-records/property-valuation', 'DataVisualisationController@get_property_valuation')->name('get-property-valuations')->middleware('auth:api');
+Route::get('meetpat-client/get-records/property-count-bucket', 'DataVisualisationController@get_property_count_bucket')->name('get-property-count-buckets')->middleware('auth:api');
+Route::get('meetpat-client/get-records/primary-property-type', 'DataVisualisationController@get_primary_property_type')->name('get-primary-property-type')->middleware('auth:api');
+Route::get('meetpat-client/get-records/employers', 'DataVisualisationController@get_employer')->name('get-employers')->middleware('auth:api');
 
 Route::get('meetpat-client/get-saved-audiences', 'DataVisualisationController@get_saved_audiences')->name('get-audience-files');
 Route::post('meetpat-client/filtered-audience/save', 'DataVisualisationController@save_filtered_audience')->name('save-filtered-audience');

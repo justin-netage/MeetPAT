@@ -146,6 +146,44 @@ class DataVisualisationController extends Controller
      * API Routes to get data to populate graph.
      */
 
+    // Get Location data with count.
+    public function get_location_data(Request $request) {
+
+        $query_params = http_build_query($request->all());
+        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/get-location-data?" . $query_params));
+        
+        return response()->json($records);
+
+    }
+    // Get Demographic data
+    public function get_demographic_data(Request $request) {
+
+        $query_params = http_build_query($request->all());
+        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/get-demographic-data?" . $query_params));
+        
+        return response()->json($records);
+
+    }
+    // Get Assets Data 
+    public function get_assets_data(Request $request) {
+
+        $query_params = http_build_query($request->all());
+        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/get-assets-data?" . $query_params));
+        
+        return response()->json($records);
+
+    }
+    // Get Financial Data
+    public function get_financial_data(Request $request) {
+
+        $query_params = http_build_query($request->all());
+        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/get-financial-data?" . $query_params));
+        
+        return response()->json($records);
+
+    }
+    
+
     public function get_records_count(Request $request)
     {
         $query_params = http_build_query($request->all());
