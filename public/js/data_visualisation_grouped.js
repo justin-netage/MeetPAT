@@ -1265,12 +1265,26 @@ function DrawLocationCharts() {
                         }
                     }
                 }
-
+                
             }
             // Update counts for municipalities selected.
-            $("hidden-area-filter-form input").serializeArray().forEach(function(input_item) {
-                    check_municipality(input_item.value);
+            $("#hidden-area-filter-form input").serializeArray().forEach(function(input_item) {
+                    
+                    results_areas.filter(obj => {
+                        
+                        if(obj.name === input_item.value) { 
+                            
+                            municipalities.filter(obj_m => {
+                                if(obj_m.name == obj.municipality) {
+                                    obj_m.count++;
+                                }
+                            })
+                        };
+                    });
+                    
             });
+
+            
 
             var documents = results_areas;
             var idx = lunr(function() {
