@@ -2,6 +2,11 @@
 google.charts.load('current', {'packages':['corechart', 'geochart', 'bar'],
 'mapsApiKey': 'AIzaSyBMae5h5YHUJ1BdNHshwj_SmJzPe5mglwI'});
 
+function capitalizeFLetter(str) { 
+    str = str.charAt(0).toUpperCase() + 
+     str.slice(1); return str;
+  } 
+
 var keyChanger = function(key_name) {
     if(key_name == 'True' || key_name == 'true') {
         return 'Yes';
@@ -2101,12 +2106,12 @@ function drawDemographicGraphs() {
                                 for (var key in data["marital_statuses_distinct"]) {
                                     if(target_marital_statuses.includes(data["marital_statuses_distinct"][key]["maritalStatus"].toLowerCase())) {
                                         $("#marital_status_filter").append(
-                                            '<input type="checkbox" name="m_' + data["marital_statuses_distinct"][key]["maritalStatus"].toLowerCase() + '" id="m_' + data["marital_statuses_distinct"][key]["maritalStatus"].toLowerCase() + '_option' +'" value="' + data["marital_statuses_distinct"][key]["maritalStatus"].toLowerCase() + '" class="css-checkbox" checked="checked"><label for="m_' + data["marital_statuses_distinct"][key]["maritalStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChangerMaritalStatus(data["marital_statuses_distinct"][key]["maritalStatus"]) + '</label><br />'
+                                            '<input type="checkbox" name="m_' + data["marital_statuses_distinct"][key]["maritalStatus"].toLowerCase() + '" id="m_' + data["marital_statuses_distinct"][key]["maritalStatus"].toLowerCase() + '_option' +'" value="' + data["marital_statuses_distinct"][key]["maritalStatus"] + '" class="css-checkbox" checked="checked"><label for="m_' + data["marital_statuses_distinct"][key]["maritalStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChangerMaritalStatus(data["marital_statuses_distinct"][key]["maritalStatus"]) + '</label><br />'
                                         );
                     
                                     } else {
                                         $("#marital_status_filter").append(
-                                            '<input type="checkbox" name="m_' + data["marital_statuses_distinct"][key]["maritalStatus"].toLowerCase() + '" id="m_' + data["marital_statuses_distinct"][key]["maritalStatus"].toLowerCase() + '_option' +'" value="' + data["marital_statuses_distinct"][key]["maritalStatus"].toLowerCase() + '" class="css-checkbox"><label for="m_' + data["marital_statuses_distinct"][key]["maritalStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChangerMaritalStatus(data["marital_statuses_distinct"][key]["maritalStatus"]) + '</label><br />'
+                                            '<input type="checkbox" name="m_' + data["marital_statuses_distinct"][key]["maritalStatus"].toLowerCase() + '" id="m_' + data["marital_statuses_distinct"][key]["maritalStatus"].toLowerCase() + '_option' +'" value="' + data["marital_statuses_distinct"][key]["maritalStatus"] + '" class="css-checkbox"><label for="m_' + data["marital_statuses_distinct"][key]["maritalStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChangerMaritalStatus(data["marital_statuses_distinct"][key]["maritalStatus"]) + '</label><br />'
                                         );
                                     }
                                     $('#m_' + data["marital_statuses_distinct"][key]["maritalStatus"].toLowerCase() + '_option').click(function(){
@@ -2233,11 +2238,11 @@ function DrawAssetsGraphs() {
                 for (var key in data["home_owners_distinct"]) {
                     if(target_home_owners.includes(data["home_owners_distinct"][key]["homeOwnershipStatus"].toLowerCase())) {
                         $("#home_owner_filter").append(
-                            '<input type="checkbox" name="h_' + data["home_owners_distinct"][key]["homeOwnershipStatus"].toLowerCase() + '" id="h_' + data["home_owners_distinct"][key]["homeOwnershipStatus"].toLowerCase() + '_option' +'" value="' + data["home_owners_distinct"][key]["homeOwnershipStatus"].toLowerCase() + '" class="css-checkbox" checked="checked"><label for="h_' + data["home_owners_distinct"][key]["homeOwnershipStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChanger(data["home_owners_distinct"][key]["homeOwnershipStatus"]) + '</label><br />'
+                            '<input type="checkbox" name="h_' + data["home_owners_distinct"][key]["homeOwnershipStatus"].toLowerCase() + '" id="h_' + data["home_owners_distinct"][key]["homeOwnershipStatus"].toLowerCase() + '_option' +'" value="' + data["home_owners_distinct"][key]["homeOwnershipStatus"] + '" class="css-checkbox" checked="checked"><label for="h_' + data["home_owners_distinct"][key]["homeOwnershipStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChanger(data["home_owners_distinct"][key]["homeOwnershipStatus"]) + '</label><br />'
                         );
                     } else {
                         $("#home_owner_filter").append(
-                            '<input type="checkbox" name="h_' + data["home_owners_distinct"][key]["homeOwnershipStatus"].toLowerCase() + '" id="h_' + data["home_owners_distinct"][key]["homeOwnershipStatus"].toLowerCase() + '_option' +'" value="' + data["home_owners_distinct"][key]["homeOwnershipStatus"].toLowerCase() + '" class="css-checkbox"><label for="h_' + data["home_owners_distinct"][key]["homeOwnershipStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChanger(data["home_owners_distinct"][key]["homeOwnershipStatus"]) + '</label><br />'
+                            '<input type="checkbox" name="h_' + data["home_owners_distinct"][key]["homeOwnershipStatus"].toLowerCase() + '" id="h_' + data["home_owners_distinct"][key]["homeOwnershipStatus"].toLowerCase() + '_option' +'" value="' + data["home_owners_distinct"][key]["homeOwnershipStatus"] + '" class="css-checkbox"><label for="h_' + data["home_owners_distinct"][key]["homeOwnershipStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChanger(data["home_owners_distinct"][key]["homeOwnershipStatus"]) + '</label><br />'
                         );
                     }
                     
@@ -2469,13 +2474,13 @@ function DrawAssetsGraphs() {
                                             'backgroundColor': '#f7f7f7'
                                         };
                             for (var key in data["vehicle_owners_distinct"]) {
-                                if(target_vehicle_owners.includes(data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase())) {
+                                if(target_vehicle_owners.includes(data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"])) {
                                     $("#vehicle_owner_filter").append(
-                                        '<input type="checkbox" name="vo_' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '" id="vo_' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '_option' +'" value="' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '" class="css-checkbox" checked="checked"><label for="vo_' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChanger(data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"]) + '</label><br />'
+                                        '<input type="checkbox" name="vo_' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '" id="vo_' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '_option' +'" value="' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"] + '" class="css-checkbox" checked="checked"><label for="vo_' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChanger(data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"]) + '</label><br />'
                                     );
                                 } else {
                                     $("#vehicle_owner_filter").append(
-                                        '<input type="checkbox" name="vo_' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '" id="vo_' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '_option' +'" value="' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '" class="css-checkbox"><label for="vo_' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChanger(data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"]) + '</label><br />'
+                                        '<input type="checkbox" name="vo_' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '" id="vo_' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '_option' +'" value="' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"] + '" class="css-checkbox"><label for="vo_' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChanger(data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"]) + '</label><br />'
                                     );
                                 }
                                 

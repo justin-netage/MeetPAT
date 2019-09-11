@@ -39,7 +39,7 @@ class SavedAudienceExport implements FromQuery, WithHeadings
 
         $records = EnrichedRecord::query()
         ->select(array("FirstName", "Middlename","Surname","CleanPhone", "Email1"))
-        ->whereRaw("find_in_set('".$this->user_id."',affiliated_users)");
+        ->whereRaw("CAST(".$this->user_id." as text) = ANY(string_to_array(affiliated_users, ','))");
 
         if(array_key_exists("provinceContacts", $this->request) and $this->request["provinceContacts"][0])
             $records = $records

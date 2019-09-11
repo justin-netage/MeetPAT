@@ -15,7 +15,7 @@ class DataVisualisationController extends Controller
     public function index()
     {
         $user = \Auth::user();
-        $records = \MeetPAT\EnrichedRecord::whereRaw("find_in_set('".$user->id."',affiliated_users)")->count();
+        $records = \MeetPAT\EnrichedRecord::whereRaw("CAST(".$user->id." as text) = ANY(string_to_array(affiliated_users, ','))")->count();
         $user_jobs = \MeetPAT\RecordsJobQue::where('user_id', $user->id);
         $user_jobs_running = $user_jobs->where(function($q) {
             $q->where('status', 'pending')->orWhere('status', 'running');

@@ -560,7 +560,7 @@ class MeetpatClientController extends Controller
            
         if($ext == 'csv') {
             $csv = readCSV($request->file('audience_file')); 
-            if($csv[0] == ["FirstName","Surname","MobilePhone","Email", "IDNumber"]) {
+            if($csv[0] == ["FirstName","Surname","MobilePhone","Email", "IDNumber", "CustomVar1"]) {
 
                 if(count($csv) > $uploads_left + 1) {
                     return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have <b>" . $uploads_left . "</b> uploads available. To increase your upload limit please contact your reseller."]);
@@ -578,38 +578,49 @@ class MeetpatClientController extends Controller
             } else {
                 $csv_array = readCSV($request->file('audience_file'), ";");
 
-                if(similar_text("FirstName", $csv_array[0][0]) >= 5
-                    and similar_text("Surname", $csv_array[0][1]) >= 5
-                    and similar_text("MobilePhone", $csv_array[0][2]) >= 5
-                    and similar_text("Email", $csv_array[0][3]) >= 5
-                    and similar_text("IDNumber", $csv_array[0][4]) >= 5)
-                {
-                    //$parser = new \CsvParser\Parser(';', "'", "\n");
-                    $csv_p = new \ParseCsv\Csv();
-                    $csv_p->delimiter = ";";
-                    $csv_p->fields = ["FirstName","Surname","MobilePhone","Email", "IDNumber"];
-                    $csv_p->load_data($request->file('audience_file'));
-                    $csv_p->parse($request->file('audience_file'));
+                    if(count($csv_array[0]) == 6) {
+                        if(similar_text("FirstName", $csv_array[0][0]) >= 5
+                        and similar_text("Surname", $csv_array[0][1]) >= 5
+                        and similar_text("MobilePhone", $csv_array[0][2]) >= 5
+                        and similar_text("Email", $csv_array[0][3]) >= 5
+                        and similar_text("IDNumber", $csv_array[0][4]) >= 5
+                        and similar_text("CustomVar1", $csv_array[0][5]) >= 5
+                        )
+                        {
+                        //$parser = new \CsvParser\Parser(';', "'", "\n");
+                        $csv_p = new \ParseCsv\Csv();
+                        $csv_p->delimiter = ";";
+                        $csv_p->fields = ["FirstName","Surname","MobilePhone","Email", "IDNumber", "CustomVar1"];
+                        $csv_p->load_data($request->file('audience_file'));
+                        $csv_p->parse($request->file('audience_file'));
 
-                    $csv_str = to_csv($csv_p->data);
-                    
-                    // $csv = $parser->fromString($file_content);
-                    // $parser->fieldDelimiter = ",";
-                    // $parser->fieldEnclosure = "";
-                    // $csv_str = $parser->toString($csv);
-
-                    if(count($csv_array) > $uploads_left + 1) {
-                        return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have <b>" . $uploads_left . "</b> uploads available.  To increase your upload limit please contact your reseller."]);
-                    }
-    
-                    if(env('APP_ENV') == 'production')
-                    {
-                        $directory_used = \Storage::disk('s3')->makeDirectory('client/client-records/');
-                        $file_uploaded = \Storage::disk('s3')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
-            
+                        $csv_str = to_csv($csv_p->data);
+                        
+                        // $csv = $parser->fromString($file_content);
+                        // $parser->fieldDelimiter = ",";
+                        // $parser->fieldEnclosure = "";
+                        // $csv_str = $parser->toString($csv);
+                        // while(end($csv_array)) {
+                        //     array_pop($csv_array);
+                        // }
+                            while(end($csv_array) == false or end($csv_array) == [null]) {
+                                array_pop($csv_array);
+                            }
+                        if(count($csv_array) > $uploads_left + 1) {
+                            return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have <b>" . $uploads_left . "</b> uploads available.  To increase your upload limit please contact your reseller.", "data" => count($csv_array)]);
+                        }
+        
+                        if(env('APP_ENV') == 'production')
+                        {
+                            $directory_used = \Storage::disk('s3')->makeDirectory('client/client-records/');
+                            $file_uploaded = \Storage::disk('s3')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
+                
+                        } else {
+                            $directory_used = \Storage::disk('local')->makeDirectory('client/client-records/');
+                            $file_uploaded = \Storage::disk('local')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
+                        }
                     } else {
-                        $directory_used = \Storage::disk('local')->makeDirectory('client/client-records/');
-                        $file_uploaded = \Storage::disk('local')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
+                        return response()->json(["status" => 500, "error" => "CSV File does not match template."]);
                     }
                 } else {
                     return response()->json(["status" => 500, "error" => "CSV File does not match template."]);
@@ -621,7 +632,7 @@ class MeetpatClientController extends Controller
             return response()->json(["status" => 500]);
         }
         
-        return response()->json(["status" => 200,"file_id" => $fileName]);
+        return response()->json(["status" => 200,"file_id" => $fileName , "data" => count($csv_array)]);
 
     }
     public function handle_delete_upload(Request $request)
@@ -797,7 +808,7 @@ class MeetpatClientController extends Controller
         // store filtered list data from records database
         $filtered_list = \MeetPAT\UserFilteredAudience::find($request->filtered_audience_id);
         $filtered_list_name = \MeetPAT\UploadFilteredList::where(['filtered_list_id' => $request->filtered_audience_id, 'platform' => 'google'])->first()->audience_name;
-        $records = \MeetPAT\BarkerStreetRecord::whereRaw("find_in_set('".$request->user_id."',affiliated_users)");
+        $records = \MeetPAT\BarkerStreetRecord::whereRaw("CAST(".$request->user_id." as text) = ANY(string_to_array(affiliated_users, ','))");
 
         // Filter By Provinces
         if($filtered_list->selected_provinces) {

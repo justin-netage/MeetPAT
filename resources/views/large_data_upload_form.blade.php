@@ -30,9 +30,9 @@
                             <input type="hidden" name="user_id"  id="userId" value="{{\Auth::user()->id}}">
                             <input type="hidden" name="file_id" id="fileId">
                             <input type="file" name="audience_file" class="filepond" id="audience_file">
-                            <span class="invalid-feedback" id="no-file" role="alert">
+                            <div class="invalid-feedback alert alert-danger" id="no-file" role="alert">
                                 <strong id="invalid-file">Please choose a valid .csv audience file to upload</strong>
-                            </span>
+                            </div>
                             <br />
                             <div class="form-group">
                                 <label>Original Data Source</label>
@@ -74,6 +74,6 @@
     crossorigin="anonymous"></script>
 <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
 <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
-<script type="text/javascript" src="{{asset('js/contact_upload.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/contact_upload.js')}}"></script>
 
 @endsection

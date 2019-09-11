@@ -41,6 +41,7 @@ $(document).ready(function() {
                     console.log(e), $("#submit_audience").prop("disabled", !0)
                 },
                 onload: function(e) {
+                    console.log(e);
                     e = JSON.parse(e), "csv" != pond.getFile().fileExtension ? ($("#no-file").show(), pond.removeFile()) : $("#no-file").hide(), "500" != e.status ? ($("#fileId").val(e.file_id)) : (pond.removeFile(), $("#no-file").show(), e.error && $("#no-file").html(e.error))
                     check_fields();
                 }

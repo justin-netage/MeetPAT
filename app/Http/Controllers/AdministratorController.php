@@ -257,7 +257,7 @@ class AdministratorController extends Controller
 
         if($user->client)
         {
-            $records = \MeetPAT\BarkerStreetRecord::whereRaw("find_in_set('".$user->id."',affiliated_users)");
+            $records = \MeetPAT\BarkerStreetRecord::whereRaw("CAST(".$user->id." as text) = ANY(string_to_array(affiliated_users, ','))");
             if($records->count())
             {
                 $records_array = $records->get();
@@ -266,9 +266,9 @@ class AdministratorController extends Controller
                 $affiliate_array = explode(",", $first_record->affiliated_users);
                 $affiliate_updated = implode(",", array_diff($affiliate_array, array($user->id)));
                 
-                \MeetPAT\BarkerStreetRecord::whereRaw("find_in_set('".$user->id."',affiliated_users)")->update(["affiliated_users" => $affiliate_updated]);
+                \MeetPAT\BarkerStreetRecord::whereRaw("CAST(".$user->id." as text) = ANY(string_to_array(affiliated_users, ','))")->update(["affiliated_users" => $affiliate_updated]);
 
-                $records = \MeetPAT\BarkerStreetRecord::whereRaw("find_in_set('".$user->id."',affiliated_users)");
+                $records = \MeetPAT\BarkerStreetRecord::whereRaw("CAST(".$user->id." as text) = ANY(string_to_array(affiliated_users, ','))");
                 $records_count = $records->count();
             }
 
