@@ -35,8 +35,8 @@ class CreateEnrichedRecordsTable extends Migration
             $table->longText('HomePhone1')->nullable();
             $table->longText('HomePhone2')->nullable();
             $table->longText('HomePhone3')->nullable();
-            $table->enum('ContactCategory', ['Very Low', 'Low', 'Medium', 'High', 'Very High', 'Unkown'])->nullable();
-            $table->enum('AgeGroup', ['Twenties', 'Thirties', 'Fourties', 'Fifties', 'Sixties', 'Senventies', 'Eighty +', 'Unknown'])->nullable();
+            $table->enum('ContactCategory', ['Very Low', 'Low', 'Medium', 'High', 'Very High', 'Unknown'])->nullable();
+            $table->enum('AgeGroup', ['Twenties', 'Thirties', 'Fourties', 'Fifties', 'Sixties', 'Seventies', 'Eighty +', 'Unknown'])->nullable();
             $table->enum('Gender', ['M', 'F', 'Unknown'])->nullable();;
             $table->enum('PopulationGroup', ['B', 'W', 'C', 'A', 'Unknown'])->nullable();
             $table->enum('DeceasedStatus', ['True', 'False', 'Unknown'])->nullable();

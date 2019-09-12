@@ -15,7 +15,7 @@ class AddPrimaryPropertyTypeToFilteredAudienceFilesTable extends Migration
     {
         Schema::table('filtered_audience_files', function (Blueprint $table) {
             //
-            $table->enum('primary_property_type', ['E', 'F', 'U', 'S', 'A', 'C', 'H', 'R', 'T', ''])->nullable()->after('property_count_bucket')->nullable();
+            $table->enum('primary_property_type', ['E', 'F', 'U', 'S', 'A', 'C', 'H', 'R', 'T', '', 'Unknown'])->nullable()->after('property_count_bucket')->nullable();
 
         });
     }

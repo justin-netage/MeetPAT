@@ -28,7 +28,7 @@ class AlterFileUniqueNameColumnFromFilteredAudienceFilesTable extends Migration
     {
         Schema::table('filtered_audience_files', function (Blueprint $table) {
             //
-            $table->integer('file_unique_name')->change();
+            $table->string('file_unique_name')->change();
         });
     }
 }
