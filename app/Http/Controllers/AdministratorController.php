@@ -366,22 +366,22 @@ class AdministratorController extends Controller
 
     public function enriched_data_tracking() {
 
-        $years = DB::table('enriched_data_trackings')->select(DB::raw('DISTINCT YEAR(created_at) as year'))->orderBy('year')->get();
-        $months = DB::table('enriched_data_trackings')->select(DB::raw('DISTINCT MONTH(created_at) as month, MONTHNAME(created_at) as name'))->orderBy('month')->get();
+        $years = DB::table('enriched_data_trackings')->select(DB::raw("DISTINCT EXTRACT(YEAR FROM created_at) as year"))->orderBy('year')->get();
+        $months = DB::table('enriched_data_trackings')->select(DB::raw("DISTINCT EXTRACT(MONTH FROM created_at) as month, to_char(to_timestamp (EXTRACT(Month FROM created_at)::text, 'MM'), 'TMmon') as name"))->orderBy('month')->get();
         
         return view('admin.enriched_data_tracking', ['years' => $years, 'months' => $months]);
     }
 
     public function get_enriched_data_tracking_day(Request $request) {
 
-        $enriched_data_tracking = DB::table('enriched_data_trackings')->select(DB::raw('COUNT(created_at) records, SUM(sent) as sent, SUM(received) as received, DAY(created_at) as day, MONTH(created_at) AS month, YEAR(created_at) as year'))->whereRaw('MONTH(created_at) = ' . $request->month . ' and YEAR(created_at) = ' . $request->year)->groupBy('day')->get();
+        $enriched_data_tracking = DB::table('enriched_data_trackings')->select(DB::raw('COUNT(created_at) records, SUM(sent) as sent, SUM(received) as received, EXTRACT(DAY FROM created_at) as day, EXTRACT(Month FROM created_at) AS month, EXTRACT(YEAR FROM created_at) as year'))->whereRaw('EXTRACT(Month FROM created_at) = ' . $request->month . ' and EXTRACT(YEAR FROM created_at) = ' . $request->year)->groupBy('day', 'created_at')->get();
 
         return response()->json(array("data" => $enriched_data_tracking, "request" => $request->toArray()));
     }
 
     public function get_enriched_data_tracking_monthly(Request $request) {
 
-        $enriched_data_tracking = DB::table('enriched_data_trackings')->select(DB::raw('COUNT(created_at) records, SUM(sent) as sent, SUM(received) as received, MONTH(created_at) AS month, YEAR(created_at) as year'))->whereRaw('YEAR(created_at) = ' . $request->year)->groupBy('month', 'year')->get();
+        $enriched_data_tracking = DB::table('enriched_data_trackings')->select(DB::raw('COUNT(created_at) records, SUM(sent) as sent, SUM(received) as received, EXTRACT(Month FROM created_at) AS month, EXTRACT(YEAR FROM created_at) as year'))->whereRaw('EXTRACT(YEAR FROM created_at) = ' . $request->year)->groupBy('month', 'year')->get();
 
         return response()->json(array("data" => $enriched_data_tracking, "request" => $request->toArray()));
     }
