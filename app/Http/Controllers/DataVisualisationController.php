@@ -182,6 +182,14 @@ class DataVisualisationController extends Controller
         return response()->json($records);
 
     }
+
+    public function get_custom_variable_data(Request $request) {
+
+        $query_params = http_build_query($request->all());
+        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/get-custom-variables?" . $query_params));
+
+        return response()->json($records);
+    }
     
 
     public function get_records_count(Request $request)
@@ -388,6 +396,7 @@ class DataVisualisationController extends Controller
         $query_params["home_ownership_status"] = check_empty($request["homeOwnerContacts"][0]); $query_params["risk_category"] = check_empty($request["riskCategoryContacts"][0]); $query_params["income_bucket"] = check_empty($request["houseHoldIncomeContacts"][0]);
         $query_params["directorship_status"] = check_empty($request["directorsContacts"][0]); $query_params["vehicle_ownership_status"] = check_empty($request["vehicleOwnerContacts"][0]); $query_params["property_count_bucket"] = check_empty($request["propertyCountBucketContacts"][0]);
         $query_params["property_valuation_bucket"] = check_empty($request["propertyValuationContacts"][0]); $query_params["lsm_group"] = check_empty($request["lsmGroupContacts"][0]);$query_params["primary_property_type"] = check_empty($request["primaryPropertyTypeContacts"][0]);
+        $query_params["custom_variable_1"] = check_empty($request["branchContacts"][0]);
         
         $filtered_audience = \MeetPAT\FilteredAudienceFile::create($query_params);
         // Queue file to be saved.

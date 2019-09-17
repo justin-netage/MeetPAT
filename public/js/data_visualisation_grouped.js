@@ -525,11 +525,11 @@ var close_side_bar = function() {
 var data_fetched = 0;
 
 var update_progress = function() {
-    if(data_fetched != 18) {
+    if(data_fetched != 19) {
         data_fetched++;
     }
-    $("#progress_popup .progress-bar").width(Math.round((data_fetched/18) * 100) + "%");
-    $("#progress_popup .progress-bar").attr("aria-valuenow", Math.round((data_fetched/18) * 100))
+    $("#progress_popup .progress-bar").width(Math.round((data_fetched/19) * 100) + "%");
+    $("#progress_popup .progress-bar").attr("aria-valuenow", Math.round((data_fetched/19) * 100))
     //console.log(data_fetched);
 }
 
@@ -730,6 +730,7 @@ var target_lsm_groups = [];
 var target_property_valuations = [];
 var target_property_count_buckets = [];
 var target_primary_property_types = [];
+var target_branches = [];
 
 var count_G = 0;
 var count_WC = 0;
@@ -751,6 +752,7 @@ var checkForFilters = function() {
     var target_directors_el = document.getElementById("directors_filters") ;var target_vehicle_owners_el = document.getElementById("vehicle_owner_filters");
     var target_lsm_group_el = document.getElementById("lsm_group_filters") ;var target_property_valuations_el = document.getElementById("property_valuation_filters");
     var target_property_count_buckets_el = document.getElementById("property_count_bucket_filters"); var target_primary_property_types_el = document.getElementById("primary_property_type_filters");
+    var target_branches_el = document.getElementById("branches_filters");
 
     if(
         target_provinces_el.childNodes.length > 1 || target_municipalities_el.childNodes.length > 1 ||
@@ -761,7 +763,8 @@ var checkForFilters = function() {
         target_risk_categories_el.childNodes.length > 1 || target_incomes_el.childNodes.length > 1 ||
         target_directors_el.childNodes.length > 1 || target_vehicle_owners_el.childNodes.length > 1 ||
         target_lsm_group_el.childNodes.length > 1 || target_property_valuations_el.childNodes.length > 1 ||
-        target_property_count_buckets_el.childNodes.length > 1 || target_primary_property_types_el.childNodes.length > 1
+        target_property_count_buckets_el.childNodes.length > 1 || target_primary_property_types_el.childNodes.length > 1 ||
+        target_branches_el.childNodes.length > 1
         ) { $("#no_filters").hide();} else { $("#no_filters").show();}
 
         if (target_provinces_el.childNodes.length > 1) {$("#province_filters").show()} else {$("#province_filters").hide()};
@@ -782,6 +785,7 @@ var checkForFilters = function() {
         if (target_property_valuations_el.childNodes.length > 1) {$("#property_valuation_filters").show()} else {$("#property_valuation_filters").hide()};
         if (target_property_count_buckets_el.childNodes.length > 1) {$("#property_count_bucket_filters").show()} else {$("#property_count_bucket_filters").hide()};
         if (target_primary_property_types_el.childNodes.length > 1) {$("#primary_property_type_filters").show()} else {$("#primary_property_type_filters").hide()};
+        if (target_branches_el.childNodes.length > 1) {$("#branches_filters").show()} else {$("#branches_filters").hide()};
         
 }
 
@@ -817,7 +821,7 @@ function DrawLocationCharts() {
                 municipality: target_municipalities.join(","), area: target_areas.join(","),
                 vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
                 lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
-                primary_property_type: target_primary_property_types.join(","), api_token: user_auth_token
+                primary_property_type: target_primary_property_types.join(","), custom_variable_1: target_branches.join(","), api_token: user_auth_token
             }
 
     $.ajax({
@@ -1582,7 +1586,7 @@ function drawDemographicGraphs() {
                 municipality: target_municipalities.join(","), area: target_areas.join(","),
                 vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
                 lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
-                primary_property_type: target_primary_property_types.join(","), api_token: user_auth_token
+                primary_property_type: target_primary_property_types.join(","), custom_variable_1: target_branches.join(","), api_token: user_auth_token
             }
     // Age
     $.ajax({
@@ -2189,7 +2193,7 @@ function DrawAssetsGraphs() {
                 municipality: target_municipalities.join(","), area: target_areas.join(","),
                 vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
                 lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
-                primary_property_type: target_primary_property_types.join(","), api_token: user_auth_token
+                primary_property_type: target_primary_property_types.join(","), custom_variable_1: target_branches.join(","), api_token: user_auth_token
             }
     // Home Owner
     $.ajax({
@@ -2550,7 +2554,7 @@ function DrawFinancialCharts() {
                 municipality: target_municipalities.join(","), area: target_areas.join(","),
                 vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
                 lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
-                primary_property_type: target_primary_property_types.join(","), api_token: user_auth_token
+                primary_property_type: target_primary_property_types.join(","), custom_variable_1: target_branches.join(","), api_token: user_auth_token
             }
     // Risk Category
     $.ajax({
@@ -2567,7 +2571,8 @@ function DrawFinancialCharts() {
                 data_risk_categories.addColumn({type: 'string', role: 'annotation'});
     
             var result_risk_categories = Object.keys(data["risk_categories"]).map(function(key) {
-                return [data["risk_categories"][key]["riskCategory"], data["risk_categories"][key]["audience"], kFormatter(data["risk_categories"][key]["audience"])];
+                return [capitalizeFLetter(data["risk_categories"][key]["riskCategory"].toLowerCase().replace('_', ' ')),
+                 data["risk_categories"][key]["audience"], kFormatter(data["risk_categories"][key]["audience"])];
               });
         
                 data_risk_categories.addRows(result_risk_categories);
@@ -2598,11 +2603,11 @@ function DrawFinancialCharts() {
                 for (var key in data["risk_category_distinct"]) {
                     if(target_risk_categories.includes(data["risk_category_distinct"][key]["riskCategory"])) {
                         $("#risk_category_filter").append(
-                            '<input type="checkbox" name="r_' + data["risk_category_distinct"][key]["riskCategory"] + '" id="r_' + data["risk_category_distinct"][key]["riskCategory"].toLowerCase() + '_option' +'" value="' + data["risk_category_distinct"][key]["riskCategory"] + '" class="css-checkbox" checked="checked"><label for="r_' + data["risk_category_distinct"][key]["riskCategory"].toLowerCase() + '_option' +'" class="css-label">' + data["risk_category_distinct"][key]["riskCategory"] + '</label><br />'
+                            '<input type="checkbox" name="r_' + data["risk_category_distinct"][key]["riskCategory"] + '" id="r_' + data["risk_category_distinct"][key]["riskCategory"].toLowerCase() + '_option' +'" value="' + data["risk_category_distinct"][key]["riskCategory"] + '" class="css-checkbox" checked="checked"><label for="r_' + data["risk_category_distinct"][key]["riskCategory"].toLowerCase() + '_option' +'" class="css-label">' + capitalizeFLetter(data["risk_category_distinct"][key]["riskCategory"].toLowerCase().replace('_', ' ')) + '</label><br />'
                         );
                     } else {
                         $("#risk_category_filter").append(
-                            '<input type="checkbox" name="r_' + data["risk_category_distinct"][key]["riskCategory"] + '" id="r_' + data["risk_category_distinct"][key]["riskCategory"].toLowerCase() + '_option' +'" value="' + data["risk_category_distinct"][key]["riskCategory"] + '" class="css-checkbox"><label for="r_' + data["risk_category_distinct"][key]["riskCategory"].toLowerCase() + '_option' +'" class="css-label">' + data["risk_category_distinct"][key]["riskCategory"] + '</label><br />'
+                            '<input type="checkbox" name="r_' + data["risk_category_distinct"][key]["riskCategory"] + '" id="r_' + data["risk_category_distinct"][key]["riskCategory"].toLowerCase() + '_option' +'" value="' + data["risk_category_distinct"][key]["riskCategory"] + '" class="css-checkbox"><label for="r_' + data["risk_category_distinct"][key]["riskCategory"].toLowerCase() + '_option' +'" class="css-label">' + capitalizeFLetter(data["risk_category_distinct"][key]["riskCategory"].toLowerCase().replace('_', ' ')) + '</label><br />'
                         );
                     }
     
@@ -2878,7 +2883,6 @@ function DrawFinancialCharts() {
                 var chart_directors = new google.visualization.ColumnChart(document.getElementById('directorOfBusinessChart'));
                     chart_directors.draw(data_directors, chart_options_directors);    
                 update_progress();
-                hide_progress();
                 $(".apply-filter-button").prop("disabled", false);
                 $('.apply-filter-button').html("apply");
                 $('#sidebarSubmitBtn').html('<i class="fas fa-sync-alt"></i>&nbsp;Apply Filters');
@@ -2890,7 +2894,7 @@ function DrawFinancialCharts() {
         }
 
     }).done(function(data) {
-
+        DrawCustomMetricsCharts();
     }).fail(function(error) {
         $("#risk-category-graph .spinner-block").hide();
         $("#risk-category-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
@@ -2912,8 +2916,113 @@ function DrawFinancialCharts() {
     });
 }
 
-// TODO: asynch location then test on production.
-
+function DrawCustomMetricsCharts() {
+    data = {    user_id: user_id_number, province: target_provinces.join(","),
+                age_group: target_ages.join(","), gender: target_genders.join(","), 
+                population_group: target_population_groups.join(","), generation: target_generations.join(","),
+                marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
+                risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
+                directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
+                municipality: target_municipalities.join(","), area: target_areas.join(","),
+                vehicle_ownership_status: target_vehicle_owners.join(","), property_valuation_bucket: target_property_valuations.join(","),
+                lsm_group: target_lsm_groups.join(","), property_count_bucket: target_property_count_buckets.join(","),
+                primary_property_type: target_primary_property_types.join(","), custom_variable_1: target_branches.join(","), api_token: user_auth_token
+            }
+    // Branches
+    $.ajax({
+        url: '/api/meetpat-client/get-custom-metrics-data',
+        type: 'GET',
+        data: data,
+        success: function(data) {
+            $("#branch-graph .spinner-block").hide();    
+            $("#branch_filter").empty();
+    
+            var data_branches = new google.visualization.DataTable();
+                data_branches.addColumn('string', 'Branch');
+                data_branches.addColumn('number', 'Records');
+                data_branches.addColumn({type: 'string', role: 'annotation'});
+    
+            var result_branches = Object.keys(data["branches"]).map(function(key) {
+                return [capitalizeFLetter(data["branches"][key]["branch"].toLowerCase().replace('_', ' ')),
+                 data["branches"][key]["audience"], kFormatter(data["branches"][key]["audience"])];
+              });
+        
+                data_branches.addRows(result_branches);
+                // Set chart options
+                var chart_options_branches = {
+                    'width':'100%',
+                    'fontSize': 10,
+                    'chartArea': {
+                        top: '20',
+                        width: '60%',
+                        height: '75%'
+                        },
+                    vAxis: {
+                        minValue: 0, 
+                        format: "short"
+                    }, 
+                    'colors': ['#00A3D9'],
+                    'animation': {
+                        'startup':true,
+                        'duration': 1000,
+                        'easing': 'out'
+                    },
+                    'legend': {
+                        position: 'none'
+                    },
+                    'backgroundColor': '#f7f7f7'
+                };
+                for (var key in data["branches_distinct"]) {
+                    if(target_branches.includes(data["branches_distinct"][key]["branch"])) {
+                        $("#branch_filter").append(
+                            '<input type="checkbox" name="branch_' + data["branches_distinct"][key]["branch"].toLowerCase().replace(/ /g, "_").replace('-', '') + '" id="branch_' + data["branches_distinct"][key]["branch"].toLowerCase().replace(/ /g, "_").replace('-', '') + '_option' +'" value="' + data["branches_distinct"][key]["branch"] + '" class="css-checkbox" checked="checked"><label for="branch_' + data["branches_distinct"][key]["branch"].toLowerCase().replace(/ /g, "_").replace('-', '') + '_option' +'" class="css-label">' + capitalizeFLetter(data["branches_distinct"][key]["branch"].toLowerCase().replace('_', ' ')) + '</label><br />'
+                        );
+                    } else {
+                        $("#branch_filter").append(
+                            '<input type="checkbox" name="branch_' + data["branches_distinct"][key]["branch"].toLowerCase().replace(/ /g, "_").replace('-', '') + '" id="branch_' + data["branches_distinct"][key]["branch"].toLowerCase().replace(/ /g, "_").replace('-', '') + '_option' +'" value="' + data["branches_distinct"][key]["branch"] + '" class="css-checkbox"><label for="branch_' + data["branches_distinct"][key]["branch"].toLowerCase().replace(/ /g, "_").replace('-', '') + '_option' +'" class="css-label">' + capitalizeFLetter(data["branches_distinct"][key]["branch"].toLowerCase().replace('_', ' ')) + '</label><br />'
+                        );
+                    }
+    
+                    $('#branch_' + data["branches_distinct"][key]["branch"].toLowerCase().replace(/ /g, "_") + '_option').click(function(){
+                        if($('#branch_' + $(this).val().toLowerCase().replace(/ /g, "_") + '_option').is(":checked")) { 
+                            
+                            var parent = this;
+        
+                            $("#branches_filters").append('<li id="filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                            $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_") + ' i').click(function() {
+                                if($('#branch_' + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').length) {
+                                    $('#filter_branch_' + $(parent).val().toLowerCase().replace(/ /g, "_")).remove();
+                                    $("#branch_" + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').prop("checked", false);
+                                }
+                                checkForFilters();
+    
+                            });
+                        } else {
+                            
+        
+                            if($('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_") )) {
+                                $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_") ).remove();
+                            }
+                        }
+                        checkForFilters();
+    
+                    });
+        
+                }        
+                // Instantiate and draw our chart, passing in some options.
+                var chart_branches = new google.visualization.BarChart(document.getElementById('branchChart'));
+                    chart_branches.draw(data_branches, chart_options_branches);  
+                update_progress();
+        }
+    }).done(function() {
+        hide_progress();
+    }).fail(function(error) {
+        console.log(error);
+        $("#branches-graph .spinner-block").hide();
+        $("#branches-graph .graph-container").append('<div class="p-3"><p><i class="fas fa-exclamation-circle text-danger"></i> There was a problem fetching the data. The connection might have been lost.</p><p>If the problem persists please contact MeetPAT Support.</p></div>');
+        $("#branch_filter").html('<i class="fas fa-exclamation-circle text-danger"></i>');
+    });
+}
 
 
 /** END Draw Graphs asynchronously */
@@ -2962,6 +3071,7 @@ var apply_filters = function() {
     $("#property-valuation-graph .spinner-block").show(); $("#propertyValuationChart").empty(); $("#property_valuation_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
     $("#property-count-bucket-graph .spinner-block").show(); $("#propertyCountBucketChart").empty(); $("#property_count_bucket_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
     $("#primary-property-type-graph .spinner-block").show(); $("#primaryPropertyTypeChart").empty(); $("#primary_property_type_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
+    $("#branch-graph .spinner-block").show(); $("#branchChart").empty(); $("#branch_filter").html('<div class="text-center"><div class="spinner-border mb-2" role="status"><span class="sr-only">Loading...</span></div></div>');
 
     $("#records-main-toast .toast-body").html(
                         '<div class="d-flex justify-content-center">' +
@@ -3016,6 +3126,7 @@ $('.apply-filter-button, #sidebarSubmitBtn, #apply-toggle-button').click(functio
     target_property_valuations = [];
     target_property_count_buckets = [];
     target_primary_property_types = [];   
+    target_branches = [];
 
     $("#province-filter-form input[type='checkbox']").each(function() {
         if(this.checked) {
@@ -3125,6 +3236,12 @@ $('.apply-filter-button, #sidebarSubmitBtn, #apply-toggle-button').click(functio
         }
     });
 
+    $("#branch-filter-form input[type='checkbox']").each(function() {
+        if(this.checked) {
+            target_branches.push($(this).val());
+        }
+    });
+
     $("#provinceContactsId").val(target_provinces);
     $("#areaContactsId").val(target_areas);
     $("#municipalityContactsID").val(target_municipalities);
@@ -3143,6 +3260,7 @@ $('.apply-filter-button, #sidebarSubmitBtn, #apply-toggle-button').click(functio
     $("#propertyValuationContactsId").val(target_property_valuations);
     $("#propertyCountBucketContactsId").val(target_property_count_buckets);
     $("#primaryPropertyTypeContactsId").val(target_primary_property_types);
+    $("#branchContactsId").val(target_branches);
     
     apply_filters();
     //get_provinces();
@@ -3184,6 +3302,7 @@ $("#resetFilterToastBtn, #reset-toggle-button").click(function() {
     target_property_valuations = [];
     target_property_count_buckets = [];
     target_primary_property_types = [];
+    target_branches = [];
 
     count_G = 0;
     count_WC = 0;
@@ -3214,6 +3333,7 @@ $("#resetFilterToastBtn, #reset-toggle-button").click(function() {
     $("#propertyCountBucketContactsId").val(target_property_count_buckets);
     $("#primaryPropertyTypeContactsId").val(target_primary_property_types);
     $("#hidden-area-filter-form").empty();
+    $("#hidden-branch-filter-form").empty();
     $('input:checkbox').each(function(el) {
         if($(el).is(':checked')) {
             $(el).prop('checked', false);
@@ -3509,7 +3629,6 @@ $(document).ready(function() {
 
     /** Push progressbar down */
 
-    
     initial_scroll = 145;
     window.addEventListener("scroll",function() { 
         if(window.scrollY < 120 && window.scrollY > 0) {
@@ -3526,9 +3645,5 @@ $(document).ready(function() {
         }
     },false);
 
-    
-    
-    
-    
 });
 

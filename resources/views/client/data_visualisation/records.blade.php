@@ -42,7 +42,9 @@
             <ul id="risk_category_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Risk Category</span></ul>
             <ul id="household_income_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Household Income</span></ul>
             <ul id="directors_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Directors</span></ul>
+            <ul id="branches_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Branches</span></ul>
             <ul id="no_filters" class="list-unstyled"><span class="filter-heading">No filters have been added</span></ul>
+            
         </div>
     </div>
     <br />
@@ -73,6 +75,7 @@
         <input type="hidden" id="primaryPropertyTypeContactsId" name="primaryPropertyTypeContacts[]">
         <input type="hidden" id="propertyValuationContactsId" name="propertyValuationContacts[]">
         <input type="hidden" id="lsmGroupContactsId" name="lsmGroupContacts[]">
+        <input type="hidden" id="branchContactsId" name="branchContacts[]">
         <!-- <button id="audienceSubmitBtn" class="btn btn-secondary btn-block" disabled="true" type="submit" /><i class="fas fa-users"></i>&nbsp;Sync Contacts</button> -->
         <button id="sidebarSubmitBtn" type="button" class="btn btn-secondary btn-block apply-changes-button" disabled="true" type="button" /><i class="fas fa-sync-alt"></i>&nbsp;Apply Filters</button>
         <button type="button" id="resetFilterToastBtn" class="btn btn-secondary btn-block" disabled="disabled"><i class="fas fa-undo-alt"></i>&nbsp;Reset Filters</button>
@@ -775,6 +778,52 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-12 col-md-2 d-flex align-items-center">
+        </div>
+        <div class="col-12 col-md-8 heading-row">
+            <h3 class="display-4 text-center">Custom Metrics <br /><small>Custom Business Metrics</small></h3>
+        </div>
+        <div class="col-12 col-md-2">
+        </div>        
+    </div>
+    <div class="row">
+        <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="branch-graph">
+            <div class="media">
+            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons/Category.png')}}"  class="mr-3 data-icon" alt="icon">
+                <div class="media-body">
+                    <h3 class="mt-3"><span>Branch</span>
+                <!-- Default dropright button -->
+                        <div class="btn-group dropright float-right">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-filter"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-form">
+                                <!-- Dropdown menu links -->
+                                <form style="margin: 12px;" id="branch-filter-form">
+                                    <div id="branch_filter">
+                                    <div class="text-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    </div>
+                                    </div> 
+                                    <button name="branch_submit" id="branchSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button d-none" disabled="true" type="button" />apply</button>
+                                </form>
+                            </div>
+                        </div>
+                        </h3>
+                </div>
+            </div>
+            <div class="graph-container" style="overflow-y: scroll; height: 256px; background-color: #f7f7f7;">
+                <div class="spinner-block">
+                    <div class="spinner spinner-3"></div>
+                </div>
+                <div id="branchChart" style="width: 100%;"></div>
+            </div>
+        </div>
+    </div>
+    
 </div>
 
 @section('modals')
@@ -874,5 +923,5 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="https://unpkg.com/lunr/lunr.js"></script>
-<script type="text/javascript" src="{{asset('js/data_visualisation_grouped.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/data_visualisation_grouped.js')}}"></script>
 @endsection

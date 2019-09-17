@@ -77,12 +77,13 @@ Route::post('meetpat-client/large-data/delete', 'MeetpatClientController@handle_
 Route::get('meetpat-client/get-records', 'DataVisualisationController@get_records')->name('get-client-records');
 // Grouped calls
 
-/** Begin */
+//** Begin */
 
 Route::get('meetpat-client/get-location-data', 'DataVisualisationController@get_location_data')->name('get-location-records')->middleware('auth:api');
 Route::get('meetpat-client/get-demographic-data', 'DataVisualisationController@get_demographic_data')->name('get-demographic-records')->middleware('auth:api');
 Route::get('meetpat-client/get-assets-data', 'DataVisualisationController@get_assets_data')->name('get-assets-records')->middleware('auth:api');
 Route::get('meetpat-client/get-financial-data', 'DataVisualisationController@get_financial_data')->name('get-financial-records')->middleware('auth:api');
+Route::get('meetpat-client/get-custom-metrics-data', 'DataVisualisationController@get_custom_variable_data')->name('get-custom-metrics-records')->middleware('auth:api');
 
 //** End */
 
