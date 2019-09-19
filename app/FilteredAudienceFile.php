@@ -29,5 +29,6 @@ class FilteredAudienceFile extends Model
                             ,'property_count_bucket'
                             ,'primary_property_type'
                             ,'lsm_group'
+                            ,'custom_variable_1'
 ];
 }
