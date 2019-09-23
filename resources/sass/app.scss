@@ -964,6 +964,21 @@ white-space: nowrap;
   right: 0px;
 }
 
+@media screen and (max-width: 320px)
+{
+  .apply-right-sidebar-button
+  {
+    top: 228px;
+  }
+
+  #reset-toggle-button
+  {
+    top: 175px;
+  }
+
+
+}
+
 .right-sidebar-button i 
 {
   font-size: 24px;
@@ -1298,6 +1313,19 @@ nav .dropdown-menu
 {
   padding: 6px;
   margin: 0px;
+}
+
+@media screen and (max-width: 475px) {
+  #progress_popup
+  {
+    padding-top: 160px;
+  }
+
+  #progress_popup .modal-content
+  {
+    max-width: 300px;
+    height: 120px;
+  }
 }
 
 #attributes_placeholder,

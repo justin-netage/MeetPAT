@@ -2934,6 +2934,11 @@ function DrawCustomMetricsCharts() {
         type: 'GET',
         data: data,
         success: function(data) {
+            if(!data["branches"].length)
+            {
+                $("#metrics-heading").hide();
+                $("#metrics-graphs").hide();
+            }
             $("#branch-graph .spinner-block").hide();    
             $("#branch_filter").empty();
     
@@ -3629,21 +3634,44 @@ $(document).ready(function() {
 
     /** Push progressbar down */
 
-    initial_scroll = 145;
-    window.addEventListener("scroll",function() { 
-        if(window.scrollY < 120 && window.scrollY > 0) {
-            
-            $('#progress_popup').css({"padding-top": initial_scroll - window.scrollY + "px"});
-        }
-        else if(window.scrollY > 120) {
-            $('#progress_popup').css({"padding-top": '25px'});
-            
-        }
-        else {
-            initial_scroll = 145;
-            $('#progress_popup').css({"padding-top": '145px'});
-        }
-    },false);
+    if($(window).width() <= 475) {
+        initial_scroll = 160;
+
+        window.addEventListener("scroll",function() { 
+            if(window.scrollY < 120 && window.scrollY > 0) {
+                
+                $('#progress_popup').css({"padding-top": initial_scroll - window.scrollY + "px"});
+            }
+            else if(window.scrollY > 120) {
+                $('#progress_popup').css({"padding-top": '25px'});
+                
+            }
+            else {
+                initial_scroll = 160;
+                $('#progress_popup').css({"padding-top": '160px'});
+            }
+        },false);
+
+    } else {
+        initial_scroll = 145;
+
+        window.addEventListener("scroll",function() { 
+            if(window.scrollY < 120 && window.scrollY > 0) {
+                
+                $('#progress_popup').css({"padding-top": initial_scroll - window.scrollY + "px"});
+            }
+            else if(window.scrollY > 120) {
+                $('#progress_popup').css({"padding-top": '25px'});
+                
+            }
+            else {
+                initial_scroll = 145;
+                $('#progress_popup').css({"padding-top": '145px'});
+            }
+        },false);
+    }
+    
+    
 
 });
 

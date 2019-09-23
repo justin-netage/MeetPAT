@@ -25,7 +25,7 @@
 
                         </div>
                         @csrf
-                        <a href="https://s3.amazonaws.com/dashboard.meetpat/public/sample/Template.csv">Download template file</a>
+                        <a href="https://s3.amazonaws.com/dashboard.meetpat/public/sample/MeetPAT Template.csv">Download template file</a>
                         <fieldset id="fieldsetId">
                             <input type="hidden" name="user_id"  id="userId" value="{{\Auth::user()->id}}">
                             <input type="hidden" name="file_id" id="fileId">
@@ -74,6 +74,6 @@
     crossorigin="anonymous"></script>
 <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
 <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
-<script type="text/javascript" src="{{asset('js/contact_upload.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/contact_upload.min.js')}}"></script>
 
 @endsection

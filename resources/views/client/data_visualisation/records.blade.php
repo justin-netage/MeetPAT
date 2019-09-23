@@ -778,7 +778,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" id="metrics-heading">
         <div class="col-12 col-md-2 d-flex align-items-center">
         </div>
         <div class="col-12 col-md-8 heading-row">
@@ -787,7 +787,7 @@
         <div class="col-12 col-md-2">
         </div>        
     </div>
-    <div class="row">
+    <div class="row" id="metrics-graphs">
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="branch-graph">
             <div class="media">
             <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons/Category.png')}}"  class="mr-3 data-icon" alt="icon">
@@ -923,5 +923,5 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="https://unpkg.com/lunr/lunr.js"></script>
-<script type="text/javascript" src="{{asset('js/data_visualisation_grouped.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/data_visualisation_grouped.min.js')}}"></script>
 @endsection
