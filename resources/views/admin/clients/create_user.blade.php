@@ -77,7 +77,7 @@
                             <span class="checkmark"></span>
                             </label>
                             <label class="container-label">Give user api key
-                            <input type="checkbox" name="give_api_key">
+                            <input type="checkbox" checked="checked" name="give_api_key">
                             <span class="checkmark"></span>
                             </label>                            
                         </div>
