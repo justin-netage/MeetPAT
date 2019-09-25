@@ -574,20 +574,24 @@ function changePage(page, data)
     listing_table.innerHTML = "";
 
     for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < data.length; i++) {
-        audience_file = data[i];
         
-        $("#userSavedFiles").append(
-            `<div class="col-9 mb-1" id="file_name_${audience_file.file_unique_name}">
-            <input id="input_${audience_file.file_unique_name}" class="form-control" name="${audience_file.file_unique_name}" value="${audience_file.file_name}" readonly>
-            </div>
-            <div class="col-3 mb-1" id="file_actions_${audience_file.file_unique_name}">
-                <div class="btn-group float-right" role="group" aria-label="Basic example">
-                    <a type="button" id="download_${audience_file.file_unique_name}" href="${audience_file.link}" class="btn btn-light" download><i class="fas fa-file-download"></i></a>
-                    <button type="button" id="edit_${audience_file.file_unique_name}" onclick="edit_file('${audience_file.file_unique_name}')" class="btn btn-light"><i class="far fa-edit"></i></button>
-                    <button type="button" id="delete_${audience_file.file_unique_name}" onclick="delete_file('${audience_file.file_unique_name}','${audience_file.file_name}');" class="btn btn-danger delete_file_btn"><i class="fas fa-trash-alt"></i></button>
+
+        if($("#userSavedFiles").length && data.length) {
+            audience_file = data[i];
+
+            $("#userSavedFiles").append(
+                `<div class="col-9 mb-1" id="file_name_${audience_file.file_unique_name}">
+                <input id="input_${audience_file.file_unique_name}" class="form-control" name="${audience_file.file_unique_name}" value="${audience_file.file_name}" readonly>
                 </div>
-            </div>`
-        )                   
+                <div class="col-3 mb-1" id="file_actions_${audience_file.file_unique_name}">
+                    <div class="btn-group float-right" role="group" aria-label="Basic example">
+                        <a type="button" id="download_${audience_file.file_unique_name}" href="${audience_file.link}" class="btn btn-light" download><i class="fas fa-file-download"></i></a>
+                        <button type="button" id="edit_${audience_file.file_unique_name}" onclick="edit_file('${audience_file.file_unique_name}')" class="btn btn-light"><i class="far fa-edit"></i></button>
+                        <button type="button" id="delete_${audience_file.file_unique_name}" onclick="delete_file('${audience_file.file_unique_name}','${audience_file.file_name}');" class="btn btn-danger delete_file_btn"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                </div>`
+            )
+        }                
 
     }
 
@@ -3392,7 +3396,7 @@ var get_saved_audiences = function() {
             });
             
         } else {
-            $("#userSavedFiles").append('<div class="col-12">You haved not saved any audiences yet.</div>');
+            $("#userSavedFiles").append('<div class="col-12"><div class="alert alert-info">You have not saved any audiences yet.</div></div>');
         }
 
         
