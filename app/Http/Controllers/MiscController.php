@@ -4,23 +4,50 @@ namespace MeetPAT\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+function generateStrongPassword($length = 9, $add_dashes = false, $available_sets = 'luds')
+    {
+        $sets = array();
+        if(strpos($available_sets, 'l') !== false)
+            $sets[] = 'abcdefghjkmnpqrstuvwxyz';
+        if(strpos($available_sets, 'u') !== false)
+            $sets[] = 'ABCDEFGHJKMNPQRSTUVWXYZ';
+        if(strpos($available_sets, 'd') !== false)
+            $sets[] = '23456789';
+        if(strpos($available_sets, 's') !== false)
+            $sets[] = '!@#$%&*?';
+        $all = '';
+        $password = '';
+        foreach($sets as $set)
+        {
+            $password .= $set[array_rand(str_split($set))];
+            $all .= $set;
+        }
+        $all = str_split($all);
+        for($i = 0; $i < $length - count($sets); $i++)
+            $password .= $all[array_rand($all)];
+        $password = str_shuffle($password);
+        if(!$add_dashes)
+            return $password;
+        $dash_len = floor(sqrt($length));
+        $dash_str = '';
+        while(strlen($password) > $dash_len)
+        {
+            $dash_str .= substr($password, 0, $dash_len) . '-';
+            $password = substr($password, $dash_len);
+        }
+        $dash_str .= $password;
+        return $dash_str;
+    }
+
 class MiscController extends Controller
 {
     //
+    
+
     public function generate_password()
     {
-        //Initialize the random password
-        $password = '';
-
-        //Initialize a random desired length
-        $desired_length = rand(8, 12);
-
-        for($length = 0; $length < $desired_length; $length++) {
-            //Append a random ASCII character (including symbols)
-            $password .= chr(rand(32, 126));
-        }
-     
-        return response()->json(['password' => $password]);
+             
+        return response()->json(['password' => generateStrongPassword(20)]);
     }
 
     public function bsapi()
