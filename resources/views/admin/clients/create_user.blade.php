@@ -8,7 +8,7 @@
                 <div class="card-header"><h1>{{ __('Create User') }}</h1></div>
 
                 <div class="card-body">
-                    <form method="POST" id="new-user-form" action="{{ route('create-user-save') }}" onsubmit="displayLoader();">
+                    <form method="POST" id="new-user-form" autocomplete="off" action="{{ route('create-user-save') }}" onsubmit="displayLoader();">
                         @csrf
                         <div class="form-group">
                             <label for="email">{{ __('First Name') }}</label>
@@ -35,7 +35,7 @@
                         <div class="form-group">
                             <label for="email">{{ __('E-Mail Address') }}</label>
 
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}">
+                                <input id="email" type="email" autocomplete="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}">
 
                                 @if ($errors->has('email'))
                                     <span class="invalid-feedback" role="alert">
@@ -48,7 +48,7 @@
                             <label for="password">{{ __('Password') }}</label>
 
                                 <div class="input-group">
-                                    <input type="password" id="PasswordInput" name="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }} PasswordInput" aria-describedby="passwordHelpBlock">
+                                    <input type="password" autocomplete="new-password" id="PasswordInput" name="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }} PasswordInput" aria-describedby="passwordHelpBlock">
                                     <div class="input-group-append">
                                         <button id="GeneratePassword" class="btn btn-outline-secondary view-password GeneratePassword" type="button" onclick="generatePassword(this);" data-toggle="tooltip" data-placement="top" title="generate password"><i class="fas fa-random"></i></button>
                                     </div>
@@ -68,12 +68,12 @@
 
                         <div class="form-group">
                             <label for="password-confirm">{{ __('Confirm Password') }}</label>
-                                <input id="password-confirm" type="password" class="form-control{{ $errors->has('password-confirm') ? ' is-invalid' : '' }}" name="password_confirmation">
+                                <input id="password-confirm" type="password" autocomplete="new-password" class="form-control{{ $errors->has('password-confirm') ? ' is-invalid' : '' }}" name="password_confirmation">
                         </div>
 
                         <div class="form-group mt-3">
                             <label class="container-label">Send password to user email address
-                            <input type="checkbox" checked="checked" name="send_email">
+                            <input type="checkbox" name="send_email">
                             <span class="checkmark"></span>
                             </label>
                             <label class="container-label">Give user api key
