@@ -83,7 +83,7 @@
                         </div>
 
                         <div class="form-group mb-0">
-                            <button type="submit" id="create_user" class="btn btn-primary">
+                            <button type="submit" id="create_user" class="btn btn-block btn-primary">
                                 {{ __('Create New User') }}
                             </button>
                         </div>
