@@ -65,7 +65,7 @@ function generatePassword() {
 // Change client active status.
 var set_status = function(status) {
     var users_id = status.getAttribute("data-user-id");
-    $("i", status).hide();
+    
     $(".spinner-border", status).removeClass("d-none");
     $.ajax({
         url: '/api/meetpat-admin/users/active-status-change',
@@ -76,14 +76,13 @@ var set_status = function(status) {
             $(".spinner-border", status).addClass("d-none");
             if(data.user_was_active) {
                 
-                $("i", status).removeClass("fa-toggle-on");
-                $("i", status).addClass("fa-toggle-off");
-                $("i", status).show();
+                $( status).removeClass("fa-toggle-on");
+                $(status).addClass("fa-toggle-off");
+                
             } else {
                 
-                $("i", status).removeClass("fa-toggle-off");
-                $("i", status).addClass("fa-toggle-on");
-                $("i", status).show();
+                $(status).removeClass("fa-toggle-off");
+                $(status).addClass("fa-toggle-on");
             }
         
         },

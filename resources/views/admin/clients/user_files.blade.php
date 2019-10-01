@@ -53,11 +53,11 @@
                                 <td class="text-center"><i class="far fa-times-circle"></i> file not found</td>
                             @endif
                         @endif
-                        <td class="text-center" data-file-id="{{$audience_file->id}}" onclick="delete_audience_file(this)">
+                        <td class="text-center">
                             <div class="spinner-border d-none" style="width: 24px; height: 24px;" role="status">
                                 <span class="sr-only">Loading...</span>
                             </div>
-                            <i class="far fa-trash-alt action-link"></i>
+                            <i class="far fa-trash-alt action-link" data-file-id="{{$audience_file->id}}" onclick="delete_audience_file(this)"></i>
                         </td>
                     </tr>
                 @endforeach

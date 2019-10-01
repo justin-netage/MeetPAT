@@ -39,14 +39,11 @@
                         <td class="text-center">{{$client->user_id}}</td>
                         <td>{{$client->name}}</td>
                         <td><a href="mailto:{{$client->email}}?Subject=MeetPAT" target="_top">{{$client->email}}</a></td>
-                        <td class="text-center" data-user-id="{{$client->user_id}}" onclick="set_status(this)">
-                            <div class="spinner-border d-none" style="width: 24px; height: 24px;" role="status">
-                                <span class="sr-only">Loading...</span>
-                            </div>
+                        <td class="text-center">
                             @if($client->active)
-                                <i class="fas fa-toggle-on"></i>
+                                <i class="fas fa-toggle-on" data-user-id="{{$client->user_id}}" onclick="set_status(this)"></i>
                             @else
-                                <i class="fas fa-toggle-off"></i>
+                                <i class="fas fa-toggle-off" data-user-id="{{$client->user_id}}" onclick="set_status(this)"></i>
                             @endif
                         </td>
                         <td class="text-center"><a href="/meetpat-admin/users/files/{{$client->user_id}}"><i class="fas fa-folder"></i></a></td>
@@ -69,6 +66,6 @@
 
 @section('scripts')
 <script type="text/javascript" src="https://cdn.datatables.net/w/bs4/dt-1.10.18/r-2.2.2/datatables.min.js" defer></script>
-<script type="text/javascript" src="{{asset('js/meetpat_clients.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/meetpat_clients.js')}}"></script>
 
 @endsection
