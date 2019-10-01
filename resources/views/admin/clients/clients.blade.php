@@ -66,6 +66,6 @@
 
 @section('scripts')
 <script type="text/javascript" src="https://cdn.datatables.net/w/bs4/dt-1.10.18/r-2.2.2/datatables.min.js" defer></script>
-<script type="text/javascript" src="{{asset('js/meetpat_clients.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/meetpat_clients.min.js')}}"></script>
 
 @endsection
