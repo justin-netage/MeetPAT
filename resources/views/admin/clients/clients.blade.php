@@ -50,8 +50,8 @@
                             @endif
                         </td>
                         <td class="text-center"><a href="/meetpat-admin/users/files/{{$client->user_id}}"><i class="fas fa-folder"></i></a></td>
-                        <td class="text-center" data-user-id="{{$client->user_id}}" onclick="open_edit(this)"><i class="fas fa-pen"></i></td>
-                        <td class="text-center" data-user-id="{{$client->user_id}}" onclick="open_settings(this)"><i class="fas fa-sliders-h"></i></td>
+                        <td class="text-center"><i class="fas fa-pen" data-user-id="{{$client->user_id}}" onclick="open_edit(this)"></i></td>
+                        <td class="text-center"><i class="fas fa-sliders-h" data-user-id="{{$client->user_id}}" onclick="open_settings(this)"></i></td>
                     </tr>
                 @endforeach
             </tbody>
