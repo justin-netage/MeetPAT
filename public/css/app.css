@@ -10758,10 +10758,6 @@ td .fas,
   background-color: #fff;
 }
 
-td {
-  vertical-align: middle !important;
-}
-
 .warning-text-bolder {
   font-weight: 900;
 }
@@ -11936,5 +11932,22 @@ nav .dropdown-menu {
 #attributes_placeholder,
 #records_placeholder {
   font-weight: bold;
+}
+
+#clients_table i:hover,
+#user_files i:hover {
+  cursor: pointer;
+  color: #545454;
+}
+
+.admin-dropdowns .dropdown-menu .dropdown-item:hover {
+  background-color: #00A3D9;
+  color: #fff;
+}
+
+.admin-dropdowns .active-item,
+.admin-dropdowns .active-item:hover {
+  background-color: #545454 !important;
+  color: #fff;
 }
 

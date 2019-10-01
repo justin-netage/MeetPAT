@@ -52,30 +52,53 @@
                     @else
                         @if(\Auth::user()->admin)
                         <!-- Administrators Navigation --> 
-                            @if(Request::path() == 'meetpat-admin/users')
-                            <li><a class="nav-link nav-link-active" href="{{ route('meetpat-users') }}"><i class="fas fa-users-cog"></i>&nbsp;Users</a></li>
-                            @else
-                            <li><a class="nav-link nav-link-inactive" href="{{ route('meetpat-users') }}"><i class="fas fa-users-cog"></i>&nbsp;Users</a></li>
-                            @endif
-                            @if(Request::path() == 'meetpat-admin/users/create')
-                            <li><a class="nav-link nav-link-active" href="{{ route('create-user') }}"><i class="fas fa-user-plus"></i>&nbsp;New User</a></li>
-                            @else
-                            <li><a class="nav-link nav-link-inactive" href="{{ route('create-user') }}"><i class="fas fa-user-plus"></i>&nbsp;New User</a></li>
-                            @endif
-                            @if(Request::path() == 'meetpat-admin/enriched-data-tracking')
-                            <li><a class="nav-link nav-link-active" href="{{ route('enriched-data-tracking') }}"><i class="fas fa-chart-area"></i></i>&nbsp;Enriched Data Tracking</a></li>
-                            @else
-                            <li><a class="nav-link nav-link-inactive" href="{{ route('enriched-data-tracking') }}"><i class="fas fa-chart-area"></i>&nbsp;Enriched Data Tracking</a></li>
-                            @endif
+                            <li class="nav-item dropdown admin-dropdowns">
+                                @if(Request::path() == 'meetpat-admin/clients' or Request::path() == 'meetpat-admin/clients/create')
+                                <a class="nav-link dropdown-toggle nav-link-active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-users"></i>&nbsp;Clients</a></a>
+                                @else
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-users"></i>&nbsp;Clients</a></a>
+                                @endif
+                                <div class="dropdown-menu">
+                                    @if(Request::path() == 'meetpat-admin/clients')
+                                    <a class="dropdown-item active-item" href="#"><i class="fas fa-users-cog"></i>&nbsp;Clients</a>
+                                    @else
+                                    <a class="dropdown-item" href="/meetpat-admin/clients"><i class="fas fa-users-cog"></i>&nbsp;Clients</a>
+                                    @endif
+
+                                    @if(Request::path() == 'meetpat-admin/clients/create')
+                                    <a class="dropdown-item active-item" href="#><i class="fas fa-user-plus"></i>&nbsp;Add Client</a>
+                                    @else
+                                    <a class="dropdown-item" href="/meetpat-admin/clients/create"><i class="fas fa-user-plus"></i>&nbsp;Add Client</a>
+                                    @endif                                    
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown admin-dropdowns">
+                                @if(Request::path() == 'meetpat-admin/resellers' or Request::path() == 'meetpat-admin/resellers/create')
+                                <a class="nav-link dropdown-toggle nav-link-active disabled" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-tie"></i>&nbsp;Resellers</a></a>
+
+                                @else
+                                <a class="nav-link dropdown-toggle disabled" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-tie"></i>&nbsp;Resellers</a></a>
+                                @endif
+                            
+                                <div class="dropdown-menu">
+                                    @if(Request::path() == 'meetpat-admin/resellers')
+                                    <a class="dropdown-item active-item" href="#"><i class="fas fa-users-cog"></i>&nbsp;Resellers</a>
+                                    @else
+                                    <a class="dropdown-item" href="/meetpat-admin/resellers"><i class="fas fa-users-cog"></i>&nbsp;Resellers</a>
+                                    @endif
+
+                                    @if(Request::path() == 'meetpat-admin/resellers/create')
+                                    <a class="dropdown-item active-item" href="#"><i class="fas fa-user-plus"></i>&nbsp;Add Reseller</a>
+                                    @else
+                                    <a class="dropdown-item" href="/meetpat-admin/resellers/create"><i class="fas fa-user-plus"></i>&nbsp;Add Reseller</a>
+                                    @endif                                    
+                                </div>
+                            </li>
                         @endif
                         
                         @if(\Auth::user()->client)
                         <!-- Clients Navigation --> 
-                            @if(Request::path() == 'meetpat-client')
-                            <!-- <li class="active"><a class="nav-link nav-link-active" href="{{ route('meetpat-client') }}"><i class="fas fa-home"></i>&nbsp;Home</a></li> -->
-                            @else
-                            <!-- <li><a class="nav-link nav-link-inactive" href="{{ route('meetpat-client') }}"><i class="fas fa-home"></i>&nbsp;Home</a></li> -->
-                            @endif
+                            
                             @if(Request::path() == 'meetpat-client/sync/facebook' or Request::path() == 'meetpat-client/sync/google')
                             <li class="nav-item dropdown active">
                                 <a class="nav-link dropdown-toggle nav-link-active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -95,23 +118,7 @@
                                 </div>
                             </li>
                             @else      
-                            <!-- <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-sync-alt"></i>&nbsp;Sync Platform
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                @if(Request::path() == 'meetpat-client/sync/facebook')
-                                    <a class="dropdown-item active" href="/meetpat-client/sync/facebook">{{ __('Facebook') }}</a>
-                                @else
-                                    <a class="dropdown-item" href="/meetpat-client/sync/facebook">{{ __('Facebook') }}</a>
-                                @endif
-                                @if(Request::path() == 'meetpat-client/sync/google')
-                                    <a class="dropdown-item active" href="/meetpat-client/sync/google">{{ __('Google') }}</a>
-                                @else
-                                    <a class="dropdown-item" href="/meetpat-client/sync/google">{{ __('Google') }}</a>
-                                @endif
-                                </div>
-                            </li> -->
+                            
                             @endif
                             @if(Request::path() == 'meetpat-client/upload-client-file-data')
                             <li class="active"><a class="nav-link nav-link-active" href="{{ route('upload-client-data') }}"><i class="fas fa-file-upload"></i>&nbsp;Upload Client Data</a></li>
@@ -125,46 +132,14 @@
                             @endif
                         @endif
                     @endguest
-                        
-                        @if(Request::path() == 'how-it-works')
-                        <!-- <li><a class="nav-link nav-link-active" href="{{ route('how-it-works') }}">How it works</a></li> -->
-                        @else
-                        <!-- <li><a class="nav-link nav-link-inactive" href="{{ route('how-it-works') }}">How it works</a></li> -->
-                        @endif
-                        @if(Request::path() == 'benefits')
-                        <!-- <li><a class="nav-link nav-link-active" href="{{ route('benefits') }}">Benefits</a></li> -->
-                        @else
-                        <!-- <li><a class="nav-link nav-link-inactive" href="{{ route('benefits') }}">Benefits</a></li> -->
-                        @endif
-                        @if(Request::path() == 'insights')
-                        <!-- <li><a class="nav-link nav-link-active" href="{{ route('insights') }}">Insights</a></li> -->
-                        @else
-                        <!-- <li><a class="nav-link nav-link-inactive" href="{{ route('insights') }}">Insights</a></li> -->
-                        @endif
-                        @if(Request::path() == 'onboarding')
-                        <!-- <li><a class="nav-link nav-link-active" href="{{ route('onboarding') }}">Onboarding</a></li> -->
-                        @else
-                        <!-- <li><a class="nav-link nav-link-inactive" href="{{ route('onboarding') }}">Onboarding</a></li> -->
-                        @endif
-                        @if(Request::path() == 'pricing')
-                        <!-- <li><a class="nav-link nav-link-active" href="{{ route('pricing') }}">Pricing</a></li> -->
-                        @else
-                        <!-- <li><a class="nav-link nav-link-inactive" href="{{ route('pricing') }}">Pricing</a></li> -->
-                        @endif
-                        
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
-                            <!-- <li class="nav-item"> -->
-                                @if(Request::path() == 'apply')
-                                <!-- <a class="nav-link nav-link-active" href="{{ route('apply') }}">{{ __('Apply') }}</a> -->
-                                @else
-                                <!-- <a class="nav-link nav-link-inactive" href="{{ route('apply') }}">{{ __('Apply') }}</a> -->
-                                @endif
-                            <!-- </li> -->
+
                             <li class="nav-item">
                                     @if(Request::path() == 'contact')
                                     <a class="nav-link nav-link-active" href="{{ route('contact') }}">{{ __('Contact') }}</a>
@@ -194,20 +169,17 @@
                                 </a>
                                 @endif
                                     <span class="dropdown-item account-name">{{\Auth::user()->name}}</span>
+                                    @if(\Auth::user()->client()->first())
                                     <a class="dropdown-item account-item" href="/meetpat-client/settings">
                                         Settings
                                     </a>
+                                    @endif
                                     <a class="dropdown-item account-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
-                                    <!-- <div class="dropdown-divider"></div> -->
-                                    <!-- @if(Request::path() == 'contact')
-                                    <a class="dropdown-item active" href="{{ route('contact') }}">{{ __('Contact') }}</a>
-                                    @else
-                                    <a class="dropdown-item" href="{{ route('contact') }}">{{ __('Contact') }}</a>
-                                    @endif -->
+                                    
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>

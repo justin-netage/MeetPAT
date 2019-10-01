@@ -32,7 +32,7 @@ class AdministratorController extends Controller
         return $user_count;
     }
     // create new client
-    public function create_user(Request $request)
+    public function create_client(Request $request)
     {
         $success_message = 'A new user has been added successfully.';
 
@@ -82,7 +82,7 @@ class AdministratorController extends Controller
         $user = \MeetPAT\User::find($request->user_id);
         $response = ["users_id" => $request->user_id, "sent_mail" => "false", "email_valid" => "false", "user_name_valid" => "false", "password_valid" => "false", "password_change" => "false"];
 
-        if (!filter_var($request->user_email, FILTER_VALIDATE_EMAIL) and !\App\User::where('email', $request->email)->first()) {
+        if (!filter_var($request->user_email, FILTER_VALIDATE_EMAIL) and !\MeetPAT\User::where('email', $user->email)->first()) {
             $response["email_valid"] = "false";
 
         } else {
@@ -221,9 +221,9 @@ class AdministratorController extends Controller
         return view('admin.clients.users', ['users' => $users]);
     }
 
-    public function create_user_view()
+    public function create_client_view()
     {
-        return view('admin.clients.create_user');
+        return view('admin.clients.create_client');
     }
 
     // route functions for user files to download
@@ -231,9 +231,10 @@ class AdministratorController extends Controller
     public function display_user_files($user_id)
     {   
         $user = \MeetPAT\User::find($user_id);
-        $client_audience_files = \MeetPAT\AudienceFile::where('user_id', $user_id)->get();
+        $user_api_token = \Auth::user()->api_token;
+        $client_audience_files = \MeetPAT\AudienceFile::where('user_id', $user_id)->orderBy('created_at', 'DESC')->get();
 
-        return view('admin.clients.user_files', ['audience_files' => $client_audience_files, 'user' => $user]);
+        return view('admin.clients.user_files', ['user_api_token' => $user_api_token, 'audience_files' => $client_audience_files, 'user' => $user]);
     }
 
     public function clear_user_uploads(Request $request) {
@@ -288,10 +289,10 @@ class AdministratorController extends Controller
             $file_exists = false;
             if(env('APP_ENV') == 'production')
             {
-                $file_exists = \Storage::disk('s3')->exists('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+                $file_exists = \Storage::disk('s3')->exists('client/client-records/user_id_' . $audience_file->user_id . '/' . $request->file_id . '.csv');
 
             } else {
-                $file_exists = \Storage::disk('local')->exists('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+                $file_exists = \Storage::disk('local')->exists('client/client-records/user_id_' . $audience_file->user_id . '/' . $request->file_id . '.csv');
 
             }
 
@@ -299,10 +300,10 @@ class AdministratorController extends Controller
             {
                 if(env('APP_ENV') == 'production')
                 {
-                    $file_deleted = \Storage::disk('s3')->delete('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+                    $file_deleted = \Storage::disk('s3')->delete('client/client-records/user_id_' . $audience_file->user_id . '/' . $request->file_id . '.csv');
                     $audience_file->delete();
                 } else {
-                    $file_deleted = \Storage::disk('local')->delete('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+                    $file_deleted = \Storage::disk('local')->delete('client/client-records/user_id_' . $audience_file->user_id . '/' . $request->file_id . '.csv');
                     $audience_file->delete();
                 }
 
@@ -337,7 +338,7 @@ class AdministratorController extends Controller
 
         $client_uploads = \MeetPAT\ClientUploads::where('user_id', $user->id)->first();
 
-        return response()->json(["status" => "success", "message" => "User similar audience credit limit has been updated.", "client_uploads" => $client_uploads], 200);
+        return response()->json(["status" => "success", "message" => "User credit limit has been updated.", "client_uploads" => $client_uploads], 200);
     }
 
     public function set_similar_audience_limit(Request $request) 
@@ -385,5 +386,92 @@ class AdministratorController extends Controller
 
         return response()->json(array("data" => $enriched_data_tracking, "request" => $request->toArray()));
     }
+
+    /** BEGIN Client Controllers */
+
+    public function all_clients(Request $request)
+    {
+        $user = \MeetPAT\User::where('api_token', $request->api_token)->first()->admin;
+
+        if($user) {
+            return array('data' => \MeetPAT\User::join('meetpat_clients', 'users.id', '=', 'meetpat_clients.user_id')->get());
+        } else {
+            return abort(401);
+        }
+    }
+
+    public function clients_view()
+    {
+        $user_api_token = \Auth::user()->api_token;
+        $clients = \MeetPAT\User::join('meetpat_clients', 'users.id', '=', 'meetpat_clients.user_id')->where('user_id', '!=', 72)->get();
+
+        return view('admin.clients.clients', ['user_api_token' => $user_api_token, 'clients' => $clients]);
+    }
+
+    public function get_client(Request $request)
+    {
+        $client = \MeetPAT\User::with(array('client', 'client_uploads'))->where('id', $request->user_id)->first();
+
+        return response()->json(array("client" => $client));
+    }
+
+    /** END Client Controllers */
+
+    /** BEGIN Reseller Controllers */
+
+    public function resellers_view()
+    {
+        return view('admin.resellers.resellers');
+    }
+
+    public function create_reseller_view()
+    {
+        return view('admin.resellers.create_reseller');
+    }
+
+    public function create_reseller(Request $request)
+    {
+        $success_message = 'A new reseller has been added successfully.';
+
+        $validatedData = $request->validate([
+            'firstname' => 'required|max:255',
+            'lastname' => 'required|max:255',
+            'email' => 'required|unique:users|max:255',
+            'password' => array(
+                                'required',
+                                'string',
+                                'min:8',
+                                'max: 20',
+                                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/',
+                                'confirmed'
+            )
+        ]);
+
+        if($request->give_api_key) {
+            $new_user = \MeetPAT\User::create(['name' => $request->firstname . ' ' . $request->lastname,
+                                               'email' => $request->email,
+                                               'password' => \Hash::make($request->password),
+                                               'api_token' => Str::random(60) ]);
+        } else {
+            $new_user = \MeetPAT\User::create(['name' => $request->firstname . ' ' . $request->lastname,
+                                               'email' => $request->email,
+                                               'password' => \Hash::make($request->password) ]);            
+                                            }
+
+        $new_client = \MeetPAT\Reseller::create(['user_id' => $new_user->id, 'active' => 1]);
+        
+        if($request->send_email)
+        {
+            $data = [ 'name' => $request->name, 'email' => $request->email, 'password' => $request->password, 'message' => ''];
+
+            \Mail::to($request->email)->send(new NewReseller($data));
+
+            $success_message = 'A new user has been added successfully and an email has been sent to the new users email address (' . $request->email. ').';
+        }
+
+        return back()->with('success', $success_message);
+    }
+
+    /** END Reseller Controllers */
 
 }

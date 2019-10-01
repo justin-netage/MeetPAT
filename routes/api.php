@@ -21,9 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/send-message', 'ContactController@send_message')->name('send-message');
 
-// End Administrator routes
 
-// Administrator routes
+/** BEGIN Administrator routes */
 // Note add ->middleware('auth')
 
 Route::get('/meetpat-admin/users', 'AdministratorController@users')->name('users');
@@ -31,18 +30,23 @@ Route::get('/meetpat-admin/users/count', 'AdministratorController@user_count')->
 
 Route::post('/meetpat-admin/users/create', 'AdministratorController@create_user')->name('create-user')->middleware('auth');
 Route::post('/meetpat-admin/users/edit', 'AdministratorController@edit_user')->name('edit-user');
-Route::post('/meetpat-admin/users/active-status-change', 'AdministratorController@active_change')->name('change-user-status');
+Route::post('/meetpat-admin/users/active-status-change', 'AdministratorController@active_change')->name('change-user-status')->middleware('auth:api');
 Route::post('/meetpat-admin/users/delete', 'AdministratorController@delete')->name('delete-user');
 
 Route::post('/meetpat-admin/users/unique-email', 'AdministratorController@unique_email')->name('unique-email');
 
+Route::get('/meetpat-admin/clients/all', 'AdministratorController@all_clients')->name('all-clients')->middleware('auth:api');
+Route::get('/meetpat-admin/client/get', 'AdministratorController@get_client')->name('get-client')->middleware('auth:api');
+
+Route::get('/meetpat-admin/resellers/all', 'AdministratorController@all_resellers')->name('all-resellers')->middleware('auth:api');
+
 // User settings
 Route::post('/meetpat-admin/settings/clear-uploads', 'AdministratorController@clear_user_uploads')->name('clear-uploads');
 Route::post('/meetpat-admin/settings/remove-affiliate', 'AdministratorController@remove_affiliate')->name('remove-affiliate');
-Route::post('/meetpat-admin/settings/updated-upload-limit', 'AdministratorController@set_upload_limit')->name('change-upload-limit');
+Route::post('/meetpat-admin/settings/updated-upload-limit', 'AdministratorController@set_upload_limit')->name('change-upload-limit')->middleware('auth:api');
 Route::post('/meetpat-admin/settings/updated-credit-limit', 'AdministratorController@set_similar_audience_limit')->name('change-credit-limit');
 
-Route::post('/meetpat-admin/delete-file', 'AdministratorController@delete_file')->name('delete-file');
+Route::post('/meetpat-admin/delete-file', 'AdministratorController@delete_file')->name('delete-file')->middleware('auth:api');
 
 // Enriched Data Tracking
 Route::get('/meetpat-admin/enriched-data-tracked-day', 'AdministratorController@get_enriched_data_tracking_day')->name('get-enriched-data-tracking-day');
@@ -54,7 +58,12 @@ Route::get('/meetpat-admin/enriched-data-tracked-monthly', 'AdministratorControl
 // Password Generator
 Route::get('/meetpat-admin/generate-password', 'MiscController@generate_password')->name('password-generator');
 
-// MeetPAT Client request handlers
+// TODO -> API routes for admin create reseller.
+
+/** END Administrator routes */
+
+/** BEGIN Client routes */
+
 Route::post('meetpat-client/upload-custom-audience', 'MeetpatClientController@upload_customers_handle')->name('upload-customers-request');
 Route::post('meetpat-client/upload-custom-audience/facebook', 'MeetpatClientController@facebook_custom_audience_handler')->name('upload-facebook-request');
 Route::post('meetpat-client/upload-custom-audience/google', 'MeetpatClientController@google_custom_audience_handler')->name('upload-google-request');
@@ -73,19 +82,15 @@ Route::post('meetpat-client/large-data/handler', 'DataVisualisationController@la
 Route::post('meetpat-client/large-data/upload', 'MeetpatClientController@handle_upload')->name('large-data-upload-handler');
 Route::post('meetpat-client/large-data/delete', 'MeetpatClientController@handle_delete_upload')->name('delete-data-upload-handler');
 
-
 Route::get('meetpat-client/get-records', 'DataVisualisationController@get_records')->name('get-client-records');
+
 // Grouped calls
-
-//** Begin */
-
 Route::get('meetpat-client/get-location-data', 'DataVisualisationController@get_location_data')->name('get-location-records')->middleware('auth:api');
 Route::get('meetpat-client/get-demographic-data', 'DataVisualisationController@get_demographic_data')->name('get-demographic-records')->middleware('auth:api');
 Route::get('meetpat-client/get-assets-data', 'DataVisualisationController@get_assets_data')->name('get-assets-records')->middleware('auth:api');
 Route::get('meetpat-client/get-financial-data', 'DataVisualisationController@get_financial_data')->name('get-financial-records')->middleware('auth:api');
 Route::get('meetpat-client/get-custom-metrics-data', 'DataVisualisationController@get_custom_variable_data')->name('get-custom-metrics-records')->middleware('auth:api');
 
-//** End */
 
 // Separate calls
 Route::get('meetpat-client/get-records/count', 'DataVisualisationController@get_records_count')->name('get-client-records-count');//->middleware('auth:api');
@@ -137,6 +142,8 @@ Route::post('/meetpat-client/settings/save-changes', 'MeetpatClientController@sa
 
 // Disconnect plarform
 Route::post('/meetpat-client/settings/disconnect-platform', 'MeetpatClientController@disconnect_platform')->name('disconnect-platform');
+
+/** END Client routes */
 
 // Barker Street Access
 

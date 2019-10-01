@@ -41,6 +41,11 @@ class User extends Authenticatable
         return $this->hasOne('\MeetPAT\MeetpatClient');
     }
 
+    public function reseller()
+    {
+        return $this->hasOne('\MeetPAT\Reseller');
+    }
+
     public function client_uploads()
     {
         return $this->hasOne('\MeetPAT\ClientUploads', 'user_id');

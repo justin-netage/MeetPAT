@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin' => \MeetPAT\Http\Middleware\Administrator::class,
+        'reseller' => \MeetPAT\Http\Middleware\Reseller::class,
         'client' => \MeetPAT\Http\Middleware\MeetpatClient::class,
         'cors' => \Barryvdh\Cors\HandleCors::class,
     ];

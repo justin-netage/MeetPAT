@@ -5,10 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-6 col-offset-3">
             <div class="card">
-                <div class="card-header"><h1>{{ __('Create User') }}</h1></div>
+                <div class="card-header"><h1>{{ __('Add Reseller') }}</h1></div>
 
                 <div class="card-body">
-                    <form method="POST" id="new-user-form" autocomplete="off" action="{{ route('create-user-save') }}" onsubmit="displayLoader();">
+                    <form method="POST" id="new-user-form" autocomplete="off" action="{{ route('create-reseller-save') }}" onsubmit="displayLoader();">
                         @csrf
                         <div class="form-group">
                             <label for="email">{{ __('First Name') }}</label>

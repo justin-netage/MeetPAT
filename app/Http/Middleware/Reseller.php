@@ -4,7 +4,7 @@ namespace MeetPAT\Http\Middleware;
 
 use Closure;
 
-class Administrator
+class Reseller
 {
     /**
      * Handle an incoming request.
@@ -15,12 +15,11 @@ class Administrator
      */
     public function handle($request, Closure $next)
     {
-        if(\Auth::user()->admin)
+        if(\Auth::user()->reseller and \Auth::user()->reseller->active)
         {
             return $next($request);
         } else {
             return abort(401);
         }
-
     }
 }

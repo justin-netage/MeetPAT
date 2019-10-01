@@ -41,7 +41,9 @@ class MeetpatClientController extends Controller
     {
         if(\Auth::user()->admin) {
             return redirect()->to('/meetpat-admin');
-        } else if(\Auth::user()->client->active) {
+        } else if(\Auth::user()->reseller and \Auth::user()->reseller->active) {
+            return redirect()->to('meetpat-reseller');
+        } else if(\Auth::user()->client and \Auth::user()->client->active) {
             return view('client.main');
         } else {
             abort(401);
@@ -1040,6 +1042,23 @@ class MeetpatClientController extends Controller
         }
 
         return response()->json($has_business_details);
+    }
+
+    public function client_details(Request $request)
+    {
+        $user = \Auth::user();
+
+        $has_business_details = $user->client_details;
+        
+        return view('client.dashboard.account_settings', ['has_business_details' => $has_business_details]);
+    }
+
+    public function save_client_details()
+    {
+        $user = \MeetPAT\User::find($request->user_id);
+        $has_business_details = $user->client_details;
+
+        return response()->json();
     }
 
     public function disconnect_platform(Request $request)

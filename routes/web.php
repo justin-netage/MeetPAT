@@ -41,24 +41,36 @@ Route::match(['get', 'post'], 'register', function(){
     return redirect(404);
 });
 
-// Administrator routes
+/** BEGIN Administrator routes */ 
 
 Route::get('/meetpat-admin', 'AdministratorController@main')->name('meetpat-admin')->middleware('auth')->middleware('admin');
 
 // Some User POST Routes are in the API routes file. ~/meetpat/routes/api.php
-// TODO ->middleware('auth');
 //Route::get('/meetpat-admin/users', 'AdministratorController@users_view')->name('meetpat-users')->middleware('auth')->middleware('admin');
 //New User Table using tabulator
 Route::get('/meetpat-admin/users', 'AdministratorController@users_view')->name('meetpat-users')->middleware('auth')->middleware('admin');
-
-Route::get('/meetpat-admin/users/create', 'AdministratorController@create_user_view')->name('create-user')->middleware('auth')->middleware('admin');
-
-Route::post('/meetpat-admin/users/create/save', 'AdministratorController@create_user')->name('create-user-save')->middleware('auth')->middleware('admin');
-
+Route::get('/meetpat-admin/clients/create', 'AdministratorController@create_client_view')->name('create-user')->middleware('auth')->middleware('admin');
+Route::post('/meetpat-admin/users/create/save', 'AdministratorController@create_client')->name('create-user-save')->middleware('auth')->middleware('admin');
 Route::get('/meetpat-admin/users/files/{user_id}', 'AdministratorController@display_user_files')->middleware('auth')->middleware('admin');
-
 Route::get('/meetpat-admin/enriched-data-tracking', 'AdministratorController@enriched_data_tracking')->name('enriched-data-tracking')->middleware('auth')->middleware('admin');
-// MeetPAT Client Routes
+
+Route::get('meetpat-admin/clients', 'AdministratorController@clients_view')->name('meetpat-clients')->middleware('auth')->middleware('admin');
+
+// TODO Create Reseller user form
+
+Route::get('/meetpat-admin/resellers', 'AdministratorController@resellers_view')->name('meetpat-resellers')->middleware('auth')->middleware('admin');
+Route::get('/meetpat-admin/resellers/create', 'AdministratorController@create_reseller_view')->name('create-reseller')->middleware('auth')->middleware('admin');
+Route::post('/meetpat-admin/resellers/create/save', 'AdministratorController@create_reseller')->name('create-reseller-save')->middleware('auth')->middleware('admin');
+
+/** END Administrator routes */
+
+/** BEGIN MeetPAT Reseller Routes */
+Route::get('/meetpat-reseller', 'ResellerController@main')->name('meetpat-reseller')->middleware('auth')->middleware('reseller');
+// TODO Reseller routes and controllers 
+
+/** END Reseller Routes */
+
+/** BEGIN MeetPAT Client Routes */
 
 Route::get('/meetpat-client', 'MeetpatClientController@main')->name('meetpat-client')->middleware('auth');
 
@@ -104,6 +116,8 @@ Route::get('/meetpat-client/filtered-audience-form/{user_id}/{filtered_list_id}'
 // Account Settings
 
 Route::get('/meetpat-client/settings', 'MeetpatClientController@account_settings')->name('account-settings')->middleware('auth')->middleware('client');
+
+/** END MeetPAT Client Routes */
 
 Route::get('/test-bsapi', 'MiscController@bsapi')->name('bsapi');
 Route::get('/test-bsapi-balances', 'MiscController@bsapi_balance')->name('bsapi-balances');
