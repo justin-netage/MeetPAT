@@ -75,4 +75,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('\MeetPAT\SavedFilteredAudienceFile', 'user_id');
     }
+
+    public function client_notification_detail()
+    {
+        return $this->hasOne('\MeetPAT\ClientNotificationDetail');
+    }
 }

@@ -94,31 +94,19 @@
                                     @endif                                    
                                 </div>
                             </li>
+                            @if(Request::path() == 'meetpat-admin/enriched-data-tracking')
+                            <li class="active"><a class="nav-link nav-link-active" href="/meetpat-admin/enriched-data-tracking"><i class="fas fa-chart-line"></i>&nbsp;Enriched Data Tracking</a></li>
+                            @else
+                            <li><a class="nav-link" href="/meetpat-admin/enriched-data-tracking"><i class="fas fa-chart-line"></i>&nbsp;Enriched Data Tracking</a></li>
+                            @endif
                         @endif
                         
                         @if(\Auth::user()->client)
                         <!-- Clients Navigation --> 
-                            
-                            @if(Request::path() == 'meetpat-client/sync/facebook' or Request::path() == 'meetpat-client/sync/google')
-                            <li class="nav-item dropdown active">
-                                <a class="nav-link dropdown-toggle nav-link-active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-sync-alt"></i>&nbsp;Sync Platform
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                @if(Request::path() == 'meetpat-client/sync/facebook')
-                                    <a class="dropdown-item active" href="/meetpat-client/sync/facebook">{{ __('Facebook') }}</a>
-                                @else
-                                    <a class="dropdown-item" href="/meetpat-client/sync/facebook">{{ __('Facebook') }}</a>
-                                @endif
-                                @if(Request::path() == 'meetpat-client/sync/google')
-                                    <a class="dropdown-item active" href="/meetpat-client/sync/google">{{ __('Google') }}</a>
-                                @else
-                                    <a class="dropdown-item" href="/meetpat-client/sync/google">{{ __('Google') }}</a>
-                                @endif
-                                </div>
-                            </li>
-                            @else      
-                            
+                            @if(Request::path() == '/')
+                            <li class="active"><a class="nav-link nav-link-active" href="/"><i class="fas fa-home"></i></a></li>
+                            @else
+                            <li><a class="nav-link" href="/"><i class="fas fa-home"></i></a></li>
                             @endif
                             @if(Request::path() == 'meetpat-client/upload-client-file-data')
                             <li class="active"><a class="nav-link nav-link-active" href="{{ route('upload-client-data') }}"><i class="fas fa-file-upload"></i>&nbsp;Upload Client Data</a></li>

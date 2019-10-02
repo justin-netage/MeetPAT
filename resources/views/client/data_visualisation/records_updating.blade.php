@@ -12,7 +12,7 @@
                 <div class="card-body" id="records-status">
                     <br />
                     <p>Updating large amounts of data can take time. Please be patient while your records are being processed.</p>
-                    <p>And email will be sent to <span style="color:#2196F3">{{Auth::user()->email}}</span> as soon as the process has completed.</p>
+                    <p>An email will be sent to <span style="color:#2196F3">{{Auth::user()->email}}</span> as soon as the process has completed.</p>
                     <br />
                     <div class="text-center mb-4" id="status-loader">
                         <div class="spinner-border text-info" role="status">

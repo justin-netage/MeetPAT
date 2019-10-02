@@ -597,7 +597,7 @@ div.filepond--item {
   margin-top: 25px;
 }
 
-.card .fa-chart-bar, .card .fa-graduation-cap, .card .fa-sliders-h, .card .fa-file-upload
+.card .fa-chart-bar, .card .fa-graduation-cap, .card .fa-sliders-h, .card .fa-file-upload, .card .fa-bell
 {
   font-size: 128px;
 }
@@ -676,7 +676,7 @@ div.filepond--item {
   .card-link {
     margin-bottom: 16px;
   }
-  a.card-link.card-link-secondary, a.card-link.card-link-success
+  a.card-link.card-link-primary, a.card-link.card-link-success
   {
     margin-left: 0px;
   }

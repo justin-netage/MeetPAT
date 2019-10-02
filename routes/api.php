@@ -139,6 +139,7 @@ Route::post('/meetpat-client/submit-audience/run-job-facebook', 'MeetpatClientCo
 
 //save settings
 Route::post('/meetpat-client/settings/save-changes', 'MeetpatClientController@save_settings')->name('save-settings');
+Route::post('/meetpat-client/settings/update', 'MeetpatClientController@update_notification_settings')->name('update-notification-settings')->middleware('auth:api');
 
 // Disconnect plarform
 Route::post('/meetpat-client/settings/disconnect-platform', 'MeetpatClientController@disconnect_platform')->name('disconnect-platform');

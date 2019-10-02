@@ -14,7 +14,7 @@ var months = new Array();
     months[11] = "December";
 
 var year = new Date().getFullYear();
-var month = new Date().getMonth() + 1;
+var month = new Date().getMonth();
 
 var drawDataCountChartDay = function(data) {
     google.charts.load('current', {'packages':['bar']});
@@ -31,7 +31,7 @@ var drawDataCountChartDay = function(data) {
         var chart_data = new google.visualization.arrayToDataTable(result);
 
         var options = {
-        title: 'Enriched Records From BSA (Day) ' + months[month - 1] + ' ' + year,
+        title: 'Enriched Records From BSA (Day) ' + months[month-1] + ' ' + year,
         curveType: 'function',
         legend: { position: 'bottom' },
         width: "80%",
@@ -57,22 +57,22 @@ var drawDataCountChartMonth = function(data) {
     function drawChart() {       
         
         var result = Object.keys(data["data"]).map(function(key) {
-            return [months[data["data"][key]["month"] - 1], parseInt(data["data"][key]["sent"]) ,parseInt(data["data"][key]["received"])];
+            return [months[data["data"][key]["month"] -1], parseInt(data["data"][key]["sent"]) ,parseInt(data["data"][key]["received"])];
         });
         result.unshift(['Month', 'Sent', 'Recieved']);
         
         var chart_data = new google.visualization.arrayToDataTable(result);
 
         var options = {
-        title: 'Enriched Records From BSA (Monthly) ' + year,
-        curveType: 'function',
-        legend: { position: 'bottom' },
-        width: "80%",
-        height: 256,
-        backgroundColor: '#f7f7f7',
-        titleTextStyle: {    
-            bold: true,       
-        }
+            title: 'Enriched Records From BSA (Monthly) ' + year,
+            curveType: 'function',
+            legend: { position: 'bottom' },
+            width: "80%",
+            height: 256,
+            backgroundColor: '#f7f7f7',
+            titleTextStyle: {    
+                bold: true,       
+            }
         };
 
         var chart = new google.charts.Bar(document.getElementById('chart-container-monthly'));
@@ -102,7 +102,7 @@ $(document).ready(function() {
             data: {year: year, month: month},
             success: function(data) {
                 drawDataCountChartMonth(data);
-    
+                console.log(data);
                 $(window).resize(function(){
                     drawDataCountChartMonth(data);
                   });
@@ -119,6 +119,7 @@ $(document).ready(function() {
             type: "GET",
             data: {year: year, month: month},
             success: function(data) {
+                console.log(data);
                 drawDataCountChartDay(data);
     
                 $(window).resize(function(){

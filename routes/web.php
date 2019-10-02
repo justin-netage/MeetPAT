@@ -116,6 +116,8 @@ Route::get('/meetpat-client/filtered-audience-form/{user_id}/{filtered_list_id}'
 // Account Settings
 
 Route::get('/meetpat-client/settings', 'MeetpatClientController@account_settings')->name('account-settings')->middleware('auth')->middleware('client');
+Route::get('/meetpat-client/settings/notifications', 'MeetpatClientController@notification_settings')->name('notification-settings')->middleware('auth')->middleware('client');
+
 
 /** END MeetPAT Client Routes */
 

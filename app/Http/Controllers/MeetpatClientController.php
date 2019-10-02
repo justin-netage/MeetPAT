@@ -998,18 +998,30 @@ class MeetpatClientController extends Controller
 
     // Settings
 
-    public function account_settings()
+    public function notification_settings()
     {
         $user = \Auth::user();
+        $user_notification_detail = $user->client_notification_detail;
 
-        $has_business_details = $user->client_details;
-        $has_facebook_ad_account = $user->facebook_ad_account;
-        $has_google_ad_account = $user->google_ad_account;
-        
-        return view('client.dashboard.account_settings', ['has_facebook_ad_account' => $has_facebook_ad_account,
-                                                          'has_google_ad_account' => $has_google_ad_account,
-                                                          'has_business_details' => $has_business_details
-                                                          ]);
+        return view('client.dashboard.settings.notifications', ['user_api_token' => $user->api_token, 'user_id' => $user->id, 'user_notification_detail' => $user_notification_detail]);
+    }
+
+    public function update_notification_settings(Request $request)
+    {
+        $user = \MeetPAT\User::find($request->user_id);
+
+        if($user->client_notification_detail) {
+            $user->client_notification_detail->update(['contact_first_name' => $request->first_name,'contact_last_name' => $request->last_name,'contact_email' => $request->email_address]);
+        } else {
+            \MeetPAT\ClientNotificationDetail::create(['contact_first_name' => $request->first_name,'contact_last_name' => $request->last_name,'contact_email' => $request->email_address, 'user_id' => $request->user_id]);
+        }
+
+        return response()->json(["status" => "success"]);
+    }
+
+    public function account_settings()
+    {        
+        return view('client.dashboard.settings.main');
     }
 
     public function save_settings(Request $request)

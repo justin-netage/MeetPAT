@@ -119,7 +119,7 @@ var open_edit = function(client) {
                 <div class="modal-body" id="modalBody">
                 <div class="d-flex justify-content-center">
                     <div class="spinner-border" role="status">
-                        <span class="sr-only">Loading...</span>
+                        <span class="sr-only">&nbsp;Loading...</span>
                         </div>
                     </div>
                 </div>
@@ -283,7 +283,7 @@ var open_edit = function(client) {
 
         $(this).html(`
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                <strong>Saving...</strong>
+                <strong>&nbsp;Saving...</strong>
             `);
 
         $(this).prop("disabled", 1);
@@ -412,13 +412,13 @@ var open_settings = function(client) {
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-8">
+                        <div class="col-6 col-md-8 col-sm-6 col-xs-6">
                             <input id="newUploadLimit" type="number" min="0" max="10000000" class="form-control" name="new_upload_limit" value="0">
                             <div class="invalid-feedback">
                                 A new limit cant be less than the current users uploads.
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-6 col-md-4 col-sm-6 col-xs-6">
                             <button id="saveNewUploadLimit" class="btn btn-primary btn-block float-right"><strong>Save</strong></button>
                         </div>
                     </div>
@@ -452,7 +452,7 @@ var open_settings = function(client) {
                 var confirmed = confirm("Are you sure that you want to change this users upload limit to " + numberWithCommas($("#newUploadLimit").val()) + "?");
 
                 if(confirmed == true) {
-                    $(this).html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> <strong>Saving...</strong>`);
+                    $(this).html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><strong>&nbsp;Saving...</strong>`);
                     $(this).prop("disabled", 1);
                     $("#resetUploads").prop("disabled", 1);
     
@@ -517,7 +517,7 @@ var open_settings = function(client) {
 
                     $(this).html(`
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            <strong>Resetting Uploads...</strong>`);
+                            <strong>&nbsp;Resetting Uploads...</strong>`);
 
                     var xhr_reset_uploads = $.ajax({
                         url: '/api/meetpat-admin/settings/clear-uploads',
