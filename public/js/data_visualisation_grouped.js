@@ -2958,29 +2958,50 @@ function DrawCustomMetricsCharts() {
         
                 data_branches.addRows(result_branches);
                 // Set chart options
-                var chart_options_branches = {
-                    'width':'100%',
-                    'fontSize': 10,
-                    'chartArea': {
-                        top: '20',
-                        width: '60%',
-                        height: '75%'
+                if(result_branches.length > 6) {
+                    var chart_options_branches = {
+                        'height': result_branches.length * 40,
+                        'width':'100%',
+                        'fontSize': 10,
+                        'chartArea': {
+                            top: '20',
+                            width: '60%',
+                            height: '100%'
+                            },
+                        'colors': ['#00A3D9'],
+                        'animation': {
+                            'startup':true,
+                            'duration': 1000,
+                            'easing': 'out'
                         },
-                    vAxis: {
-                        minValue: 0, 
-                        format: "short"
-                    }, 
-                    'colors': ['#00A3D9'],
-                    'animation': {
-                        'startup':true,
-                        'duration': 1000,
-                        'easing': 'out'
-                    },
-                    'legend': {
-                        position: 'none'
-                    },
-                    'backgroundColor': '#f7f7f7'
-                };
+                        'legend': {
+                            position: 'none'
+                        },
+                        'backgroundColor': '#f7f7f7'
+                    };
+                } else {
+                    var chart_options_branches = {
+                        //'height': result_municipality.length * 25,
+                        'width':'100%',
+                        'fontSize': 10,
+                        'chartArea': {
+                            top: '20',
+                            width: '60%',
+                            height: '100%'
+                            },
+                        'colors': ['#00A3D9'],
+                        'animation': {
+                            'startup':true,
+                            'duration': 1000,
+                            'easing': 'out'
+                        },
+                        'legend': {
+                            position: 'none'
+                        },
+                        'backgroundColor': '#f7f7f7'
+                    };
+                }
+                
                 for (var key in data["branches_distinct"]) {
                     if(target_branches.includes(data["branches_distinct"][key]["branch"])) {
                         $("#branch_filter").append(
