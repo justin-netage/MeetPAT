@@ -14,7 +14,7 @@ var months = new Array();
     months[11] = "December";
 
 var year = new Date().getFullYear();
-var month = new Date().getMonth();
+var month = new Date().getMonth() + 1;
 
 var drawDataCountChartDay = function(data) {
     google.charts.load('current', {'packages':['bar']});
@@ -31,7 +31,7 @@ var drawDataCountChartDay = function(data) {
         var chart_data = new google.visualization.arrayToDataTable(result);
 
         var options = {
-        title: 'Enriched Records From BSA (Day) ' + months[month-1] + ' ' + year,
+        title: 'Enriched Records From BSA (Day) ' + months[month] + ' ' + year,
         curveType: 'function',
         legend: { position: 'bottom' },
         width: "80%",
