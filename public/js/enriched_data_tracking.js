@@ -31,7 +31,7 @@ var drawDataCountChartDay = function(data) {
         var chart_data = new google.visualization.arrayToDataTable(result);
 
         var options = {
-        title: 'Enriched Records From BSA (Day) ' + months[month] + ' ' + year,
+        title: 'Enriched Records From BSA (Day) ' + months[month -1] + ' ' + year,
         curveType: 'function',
         legend: { position: 'bottom' },
         width: "80%",
