@@ -249,7 +249,7 @@ class AdministratorController extends Controller
                     if(\Storage::disk('s3')->exists('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv'))
                     {
                         $files_array->items()[$key]["download"] = \Storage::disk('s3')->temporaryUrl('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv', now()->addMinutes(5));
-                        $files_array->items()[$key]["size"] = round(\Storage::disk('local')->size('client/client-records/user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv') / 1024 / 1024, 2) . "MB";
+                        $files_array->items()[$key]["size"] = round(\Storage::disk('s3')->size('client/client-records/user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv') / 1024 / 1024, 2) . "MB";
                     } else {
                         $files_array->items()[$key]["download"] = "/404";
                         $files_array->items()[$key]["size"] = "N\A";
@@ -258,7 +258,7 @@ class AdministratorController extends Controller
                 } else {
                     if(\Storage::disk('local')->exists('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv'))
                     {
-                        $files_array->items()[$key]["download"] = \Storage::disk('s3')->temporaryUrl('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv', now()->addMinutes(5));
+                        $files_array->items()[$key]["download"] = \Storage::disk('local')->temporaryUrl('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv', now()->addMinutes(5));
                         $files_array->items()[$key]["size"] = round(\Storage::disk('local')->size('client/client-records/user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv') / 1024 / 1024, 2) . "MB";
                     } else {
                         $files_array->items()[$key]["download"] = "/404";
