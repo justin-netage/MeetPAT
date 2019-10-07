@@ -10,6 +10,7 @@
 <form id="user_token_form">
     <input type="hidden" id="ApiToken" name="api_token" value="{{$user_api_token}}">
     <input type="hidden" id="UserId" name="user_id" value="{{$user->id}}">
+    <input type="hidden" id="UserName" name="user_name" value="{{$user->name}}">
 </form>
 <!-- End -->
 
@@ -18,10 +19,10 @@
     <div class="row">
         <div class="col-12"></div>
     </div>
-    <div class="row">
+    <div class="row" id="userFilesTable">
         <div class="col-12">
             <div class="table-responsive" id="user_files">
-                <table id="grid-data-api" class="table table-condensed table-hover table-striped">
+                <table id="grid-data-api" class="table table-bordered table-condensed table-hover table-striped">
                     <thead>
                         <tr>
                             <th data-column-id="id" data-identifier="true">ID</th>
@@ -46,18 +47,23 @@
 <script type="text/javascript">
     var auth_token = $("#ApiToken").val();    
     var user_id = $("#UserId").val();
+    var user_name = $("#UserName").val();
 
     $(document).ready(function() {
         var grid = $("#grid-data-api").bootgrid({
-            columns: {
-                align: 'center'
+            labels: {
+                loading: "<div class=\"d-flex align-items-center\">" +
+                            "<strong>Loading...</strong>" +
+                            "<div class=\"spinner-border spinner-border-sm ml-auto\" role=\"status\" aria-hidden=\"true\"></div>" +
+                          "</div>"
             },
             ajax: true,
             url: "/api/meetpat-admin/clients/files",            
             post: function() {
-                $("#grid-data-api-footer").hide();
                 $(".actions button[title='Refresh']").html("<i class=\"fas fa-sync-alt\"></i>");
                 $(".actions .dropdown:last-child .dropdown-text").html("<i class=\"fas fa-th-list\"></i>");
+                $("#grid-data-api-footer").hide();
+                
                 if(!$(".input-group-prepend").length) {
                     $(".search .input-group").prepend("<div class=\"input-group-prepend\">" +
                                                     "<span class=\"input-group-text\" id=\"basic-addon1\"><i class=\"fas fa-search\"></i></span>" +
@@ -82,7 +88,11 @@
             $(".pagination li").addClass("page-item");
             $(".pagination li a").addClass("page-link");
             $("#grid-data-api-footer").show();
-
+            
+            if(!$(".user-table-heading").length) {
+                $("#grid-data-api-header .actionBar").prepend("<h3 class=\"float-left user-table-heading\">"+ user_name +"&nbsp;<small class=\"text-muted\"><i class=\"fas fa-folder-open\"></i></small></h3>");
+            }
+            
             grid.find(".command-delete").on("click", function(e) {
                 
                 var delete_file_confirm = confirm("Are you sure that you want to delete the selected file?");                
