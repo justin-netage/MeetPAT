@@ -11941,6 +11941,10 @@ nav .dropdown-menu {
   color: #545454;
 }
 
+#user_files table i {
+  text-align: center;
+}
+
 .admin-dropdowns .dropdown-menu .dropdown-item:hover {
   background-color: #00A3D9;
   color: #fff;
@@ -11955,5 +11959,12 @@ nav .dropdown-menu {
 .thead-primary {
   color: #fff;
   background-color: #00A3D9;
+}
+
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus {
+  cursor: pointer;
 }
 

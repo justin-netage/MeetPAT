@@ -37,6 +37,7 @@ Route::post('/meetpat-admin/users/unique-email', 'AdministratorController@unique
 
 Route::get('/meetpat-admin/clients/all', 'AdministratorController@all_clients')->name('all-clients')->middleware('auth:api');
 Route::get('/meetpat-admin/client/get', 'AdministratorController@get_client')->name('get-client')->middleware('auth:api');
+Route::post('/meetpat-admin/clients/files', 'AdministratorController@get_user_files')->name('get-user-files')->middleware('auth:api');
 
 Route::get('/meetpat-admin/resellers/all', 'AdministratorController@all_resellers')->name('all-resellers')->middleware('auth:api');
 

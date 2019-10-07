@@ -798,7 +798,7 @@
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-filter"></i>
                             </button>
-                            <div class="dropdown-menu dropdown-menu-form">
+                            <div class="dropdown-menu dropdown-menu-form" style="overflow-y: scroll; height: 256px; width: 256px;">
                                 <!-- Dropdown menu links -->
                                 <form style="margin: 12px;" id="branch-filter-form">
                                     <div id="branch_filter">

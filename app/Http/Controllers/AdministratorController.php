@@ -227,6 +227,85 @@ class AdministratorController extends Controller
     }
 
     // route functions for user files to download
+    public function get_user_files(Request $request)
+    {
+        $currentPage = $request->current;
+
+        \Illuminate\Pagination\Paginator::currentPageResolver(function () use ($currentPage) {
+            return $currentPage;
+        
+        });
+
+        if($request->searchPhrase)
+        {
+            $files_array = \MeetPAT\AudienceFile::select(["id","audience_name","file_source_origin", "file_unique_name", "created_at"])->where([['user_id', '=', $request->user_id], ['audience_name', 'ilike', '%'.$request->searchPhrase.'%']])->orderBy('created_at', 'desc')->paginate($request->rowCount);
+
+            foreach($files_array as $key=>$file)
+            {
+                $files_array->items()[$key]["audience_name"] = explode(" - ", $files_array->items()[$key]["audience_name"])[0];
+                $files_array->items()[$key]["file_source_origin"] = ucwords(str_replace("_", " ", $files_array->items()[$key]["file_source_origin"]));
+
+                if(env('APP_ENV') == 'production') {
+                    if(\Storage::disk('s3')->exists('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv'))
+                    {
+                        $files_array->items()[$key]["download"] = \Storage::disk('s3')->temporaryUrl('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv', now()->addMinutes(5));
+                        $files_array->items()[$key]["size"] = round(\Storage::disk('local')->size('client/client-records/user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv') / 1024 / 1024, 2) . "MB";
+                    } else {
+                        $files_array->items()[$key]["download"] = "/404";
+                        $files_array->items()[$key]["size"] = "N\A";
+                    }
+
+                } else {
+                    if(\Storage::disk('local')->exists('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv'))
+                    {
+                        $files_array->items()[$key]["download"] = \Storage::disk('s3')->temporaryUrl('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv', now()->addMinutes(5));
+                        $files_array->items()[$key]["size"] = round(\Storage::disk('local')->size('client/client-records/user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv') / 1024 / 1024, 2) . "MB";
+                    } else {
+                        $files_array->items()[$key]["download"] = "/404";
+                        $files_array->items()[$key]["size"] = "N\A";
+                    }
+                }
+
+                
+            }
+
+        } else {
+            $files_array = \MeetPAT\AudienceFile::select(["id","audience_name","file_source_origin", "file_unique_name", "created_at"])->where('user_id', $request->user_id)->orderBy('created_at', 'desc')->paginate($request->rowCount);
+            
+            foreach($files_array as $key=>$file)
+            {
+                $files_array->items()[$key]["audience_name"] = explode(" - ", $files_array->items()[$key]["audience_name"])[0];
+                $files_array->items()[$key]["file_source_origin"] = ucwords(str_replace("_", " ", $files_array->items()[$key]["file_source_origin"]));
+
+                if(env('APP_ENV') == 'production') {
+                    if(\Storage::disk('s3')->exists('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv'))
+                    {
+                        $files_array->items()[$key]["download"] = \Storage::disk('s3')->temporaryUrl('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv', now()->addMinutes(5));
+                        $files_array->items()[$key]["size"] = round(\Storage::disk('s3')->size('client/client-records/user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv') / 1024 / 1024, 2) . "MB";
+                    } else {
+                        $files_array->items()[$key]["download"] = "/404";
+                        $files_array->items()[$key]["size"] = "N\A";
+                    }
+                } else {
+                    if(\Storage::disk('local')->exists('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv'))
+                    {
+                        $files_array->items()[$key]["download"] = "/404";
+                        $files_array->items()[$key]["size"] = round(\Storage::disk('local')->size('client/client-records/user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv') / 1024 / 1024, 2) . "MB";
+                    } else {
+                        $files_array->items()[$key]["download"] = "/404";
+                        $files_array->items()[$key]["size"] = "N\A";
+                    }
+                }
+
+            }
+        }
+
+
+        
+
+        return response()->json(array("current" => $files_array->currentPage(), "rowCount" => $files_array->count(), "rows" => $files_array->items(), "total" => $files_array->total()));
+        
+    }
 
     public function display_user_files($user_id)
     {   

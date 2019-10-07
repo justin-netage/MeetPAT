@@ -1071,18 +1071,6 @@ white-space: nowrap;
   text-align: center;
 }
 
-// #sidebarSubmitBtn
-// {
-//   position: absolute;
-//   bottom: 54px;
-// }
-
-// #resetFilterToastBtn
-// {
-//   position: absolute;
-//   bottom: 8px;
-// }
-
 .sidebar-filters li
 {
   border-radius: 2px 2px 2px 2px;
@@ -1336,6 +1324,11 @@ nav .dropdown-menu
   color: #545454;
 }
 
+#user_files table i
+{
+  text-align: center;
+}
+
 .admin-dropdowns .dropdown-menu .dropdown-item:hover {
   background-color: #00A3D9;
   color: #fff;
@@ -1351,4 +1344,13 @@ nav .dropdown-menu
 {
   color: #fff;
   background-color: #00A3D9;
+}
+
+
+
+.pagination > li > a:hover, 
+.pagination > li > span:hover, 
+.pagination > li > a:focus, 
+.pagination > li > span:focus {
+    cursor: pointer;
 }
