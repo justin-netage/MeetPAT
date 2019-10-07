@@ -510,7 +510,7 @@ class MeetpatClientController extends Controller
               $temp[] = addslashes( $elt );
             }
            
-            $string = implode( ',', $temp ) . "\n";
+            $string = implode( ';', $temp ) . "\n";
            
             return $string;
            }
@@ -524,7 +524,7 @@ class MeetpatClientController extends Controller
             foreach( $arr as $key => $data ) {
                 $temp[] = $key;
             }
-            $csv = implode( ',', $temp ) . "\n";
+            $csv = implode( ';', $temp ) . "\n";
             
             ## Add the data from the first element
             $csv .= to_csv_line( $arr );
@@ -563,19 +563,28 @@ class MeetpatClientController extends Controller
         if($ext == 'csv') {
             $csv = readCSV($request->file('audience_file')); 
             if($csv[0] == ["FirstName","Surname","MobilePhone","Email", "IDNumber", "CustomVar1"]) {
+                $csv_array = readCSV($request->file('audience_file'), ",");
 
                 if(count($csv) > $uploads_left + 1) {
                     return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have <b>" . $uploads_left . "</b> uploads available. To increase your upload limit please contact your reseller."]);
                 }
 
+                $csv_p = new \ParseCsv\Csv();
+                        $csv_p->delimiter = ",";
+                        $csv_p->fields = ["FirstName","Surname","MobilePhone","Email", "IDNumber", "CustomVar1"];
+                        $csv_p->load_data($request->file('audience_file'));
+                        $csv_p->parse($request->file('audience_file'));
+
+                        $csv_str = to_csv($csv_p->data);
+
                 if(env('APP_ENV') == 'production')
                 {
                     $directory_used = \Storage::disk('s3')->makeDirectory('client/client-records/');
-                    $file_uploaded = \Storage::disk('s3')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", fopen($csv_file, 'r+'));
+                    $file_uploaded = \Storage::disk('s3')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
         
                 } else {
                     $directory_used = \Storage::disk('local')->makeDirectory('client/client-records/');
-                    $file_uploaded = \Storage::disk('local')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", fopen($csv_file, 'r+'));
+                    $file_uploaded = \Storage::disk('local')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
                 }
             } else {
                 $csv_array = readCSV($request->file('audience_file'), ";");
