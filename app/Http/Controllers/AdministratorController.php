@@ -248,7 +248,7 @@ class AdministratorController extends Controller
                 if(env('APP_ENV') == 'production') {
                     if(\Storage::disk('s3')->exists('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv'))
                     {
-                        $files_array->items()[$key]["download"] = \Storage::disk('s3')->temporaryUrl('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv', now()->addMinutes(5), ['Content-Type' => 'text/csv']);
+                        $files_array->items()[$key]["download"] = \Storage::disk('s3')->temporaryUrl('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv', now()->addMinutes(5), ['Content-Type' => 'text/csv', 'ResponseContentType' => 'text/csv']);
                         $files_array->items()[$key]["size"] = round(\Storage::disk('s3')->size('client/client-records/user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv') / 1024 / 1024, 2) . "MB";
                     } else {
                         $files_array->items()[$key]["download"] = "/404";
@@ -280,7 +280,7 @@ class AdministratorController extends Controller
                 if(env('APP_ENV') == 'production') {
                     if(\Storage::disk('s3')->exists('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv'))
                     {
-                        $files_array->items()[$key]["download"] = \Storage::disk('s3')->temporaryUrl('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv', now()->addMinutes(5), ['Content-Type' => 'text/csv']);
+                        $files_array->items()[$key]["download"] = \Storage::disk('s3')->temporaryUrl('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv', now()->addMinutes(5), ['Content-Type' => 'text/csv', 'ResponseContentType' => 'text/csv']);
                         $files_array->items()[$key]["size"] = round(\Storage::disk('s3')->size('client/client-records/user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv') / 1024 / 1024, 2) . "MB";
                     } else {
                         $files_array->items()[$key]["download"] = "/404";
