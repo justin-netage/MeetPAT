@@ -17,13 +17,21 @@ class DataVisualisationController extends Controller
         $user = \Auth::user();
         $records = \MeetPAT\EnrichedRecord::whereRaw("CAST(".$user->id." as text) = ANY(string_to_array(affiliated_users, ','))")->count();
         $user_jobs = \MeetPAT\RecordsJobQue::where('user_id', $user->id);
+        $user_update_jobs_pending = \MeetPAT\UpdateRecordsJobQueue::where([['user_id', '=', $user->id], ['status', '=', 'pending']])->count();
         $user_jobs_running = $user_jobs->where(function($q) {
             $q->where('status', 'pending')->orWhere('status', 'running');
         })->count();
         //$user_jobs_complete = \MeetPAT\RecordsJobQue::where(['user_id' => $user->id, 'status' => 'done'])->first();
 
-        if($user_jobs_running) {
-            return view('client.data_visualisation.records_updating');
+        if($user_jobs_running or $user_update_jobs_pending) {
+            if($user_jobs_running) {
+                return view('client.data_visualisation.records_updating');
+            } else if($user_update_jobs_pending) {
+                return view('client.dashboard.upload.updating');
+            } else {
+                return abort(500);
+            }
+            
         } else if($records) {
             return view('client.data_visualisation.records');
         } else {

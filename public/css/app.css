@@ -11282,7 +11282,8 @@ div.filepond--item {
 .card .fa-graduation-cap,
 .card .fa-sliders-h,
 .card .fa-file-upload,
-.card .fa-bell {
+.card .fa-bell,
+.card .fa-sync-alt {
   font-size: 128px;
 }
 

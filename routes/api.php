@@ -69,6 +69,14 @@ Route::post('meetpat-client/upload-custom-audience', 'MeetpatClientController@up
 Route::post('meetpat-client/upload-custom-audience/facebook', 'MeetpatClientController@facebook_custom_audience_handler')->name('upload-facebook-request');
 Route::post('meetpat-client/upload-custom-audience/google', 'MeetpatClientController@google_custom_audience_handler')->name('upload-google-request');
 
+// Update custom metric data
+
+Route::post('meetpat-client/update/custom-metrics/handler', 'MeetpatClientController@custom_metrics_handler')->name('custom-metrics-handler');
+Route::post('meetpat-client/update/custom-metrics/handle-file-upload', 'MeetpatClientController@handle_file_upload')->name('handle-update-file-upload');
+Route::post('meetpat-client/update/custom-metrics/handle-remove-upload', 'MeetpatClientController@handle_remove_upload')->name('handle-remove-upload');
+
+Route::get('meetpat-client/update/get-job-queue', 'MeetpatClientController@get_job_queue')->name('get-job-queue-status');
+
 //Route::post('meetpat-client/request-facebook-api', 'FacebookCustomerAudienceController@facebook_upload_handler')->name('facebook-request-api-handler');
 
 Route::post('meetpat-client/upload-google-custom-audience', 'GoogleCustomerAudienceController@upload_google_customers_handle')->name('google-upload-customers-request');

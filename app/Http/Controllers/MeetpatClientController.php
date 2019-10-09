@@ -566,7 +566,7 @@ class MeetpatClientController extends Controller
                 $csv_array = readCSV($request->file('audience_file'), ",");
 
                 if(count($csv) > $uploads_left + 1) {
-                    return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have <b>" . $uploads_left . "</b> uploads available. To increase your upload limit please contact your reseller."]);
+                    return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have <b>" . number_format($uploads_left) . "</b> uploads available. To increase your upload limit please contact your reseller."]);
                 }
 
                 $csv_p = new \ParseCsv\Csv();
@@ -618,7 +618,7 @@ class MeetpatClientController extends Controller
                                 array_pop($csv_array);
                             }
                         if(count($csv_array) > $uploads_left + 1) {
-                            return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have <b>" . $uploads_left . "</b> uploads available.  To increase your upload limit please contact your reseller.", "data" => count($csv_array)]);
+                            return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have <b>" . number_format($uploads_left) . "</b> uploads available.  To increase your upload limit please contact your reseller.", "data" => count($csv_array)]);
                         }
         
                         if(env('APP_ENV') == 'production')
@@ -1105,4 +1105,238 @@ class MeetpatClientController extends Controller
 
         return response()->json(['status' => '200', 'google_disconnected' => $google_disconnected, 'facebook_disconnected' => $facebook_disconnected]);
     }
+
+    /** Upload/Update audiences  BEGIN*/
+
+    public function upload_main() 
+    {
+
+        return view('client.dashboard.upload.main');
+    }
+
+    public function update_custom_metrics() 
+    {
+        return view('client.dashboard.upload.update_custom_metrics');
+    }
+
+    // API Routes
+
+    public function custom_metrics_handler(Request $request)
+    {
+        $actual_file = null;
+        $audience_names = [];
+        $audience_files = \MeetPAT\UpdateAudienceFile::where("user_id", $request->user_id)->get();
+
+        foreach($audience_files as $audience_file) 
+        {
+            array_push($audience_names, explode(" - ", $audience_file->audience_name)[0]);
+        }
+
+        if(!in_array($request->audience_name, $audience_names)) {
+            if(env('APP_ENV') == 'production') {
+                $actual_file = \Storage::disk('s3')->get('client/client-records-updates/user_id_' . $request->user_id . '/' . $request->file_id  . ".csv");
+            } else {
+                $actual_file = \Storage::disk('local')->get('client/client-records-updates/user_id_' . $request->user_id . '/' . $request->file_id  . ".csv");
+            }
+    
+            $array = array_map("str_getcsv", explode("\n", $actual_file));
+            unset($array[0]);
+            unset($array[sizeof($array)]);
+    
+            if($actual_file) {
+           
+                $audience_file = \MeetPAT\UpdateAudienceFile::create(['user_id' => $request->user_id, 'audience_name' => $request->audience_name . " - " . time(), 'file_unique_name' => $request->file_id]);
+                $created_job_que = \MeetPAT\UpdateRecordsJobQueue::create(
+                    ['user_id' => $request->user_id, 'audience_file_id' => $audience_file->id, 'status' => 'pending', 'records' => sizeof($array)]
+                );
+    
+            } else {
+                return response(array("status" => "error", "message" => "Server could not get file."));
+            }
+            //\MeetPAT\Jobs\EnrichRecords::dispatch();
+            return response()->json(array("status" => "success", "message" => "File uploaded successfully and queued for processing."));
+        } else {
+            return response()->json(array("status" => "error", "message" => "Audience File name has already been used."));
+        }        
+    }
+
+    public function handle_file_upload(Request $request)
+    {
+
+        function to_csv_line( $array ) {
+            $temp = array();
+            foreach( $array as $elt ) {
+              $temp[] = addslashes( $elt );
+            }
+           
+            $string = implode( ';', $temp ) . "\n";
+           
+            return $string;
+           }
+    
+        function to_csv( $array ) {
+            $csv;
+            
+            ## Grab the first element to build the header
+            $arr = array_pop( $array );
+            $temp = array();
+            foreach( $arr as $key => $data ) {
+                $temp[] = $key;
+            }
+            $csv = implode( ';', $temp ) . "\n";
+            
+            ## Add the data from the first element
+            $csv .= to_csv_line( $arr );
+            
+            ## Add the data for the rest
+            foreach( $array as $arr ) {   
+                $csv .= to_csv_line( $arr );
+            }
+            
+            return $csv;
+        }
+
+        $csv_file = $request->file('audience_file');
+        $fileName = uniqid();
+        $path = $_FILES['audience_file']['name'];
+        $ext = pathinfo($path, PATHINFO_EXTENSION);
+        $file_content = file_get_contents($csv_file);
+        $firstColumn = null;
+        $client_uploads = \MeetPAT\ClientUploads::where(['user_id' => $request->user_id])->first();
+        $uploads_left = 0;
+
+        if($client_uploads)
+        {
+            $uploads_left = $client_uploads->upload_limit;
+        }
+
+        function readCSV($csvFile, $delimiter=",") {
+            $file_handle = fopen($csvFile, 'r');
+            while (!feof($file_handle) ) {
+                $line_of_text[] = fgetcsv($file_handle, 0, $delimiter);
+            }
+            fclose($file_handle);
+            return $line_of_text;
+        }
+           
+        if($ext == 'csv') {
+            $csv = readCSV($request->file('audience_file')); 
+            if($csv[0] == ["FirstName","Surname","MobilePhone","Email", "IDNumber", "CustomVar1"]) {
+                $csv_array = readCSV($request->file('audience_file'), ",");
+
+                if(count($csv) > $uploads_left + 1) {
+                    return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have <b>" . number_format($uploads_left) . "</b> uploads available. To increase your upload limit please contact your reseller."]);
+                }
+
+                $csv_p = new \ParseCsv\Csv();
+                        $csv_p->delimiter = ",";
+                        $csv_p->fields = ["FirstName","Surname","MobilePhone","Email", "IDNumber", "CustomVar1"];
+                        $csv_p->load_data($request->file('audience_file'));
+                        $csv_p->parse($request->file('audience_file'));
+
+                        $csv_str = to_csv($csv_p->data);
+
+                if(env('APP_ENV') == 'production')
+                {
+                    $directory_used = \Storage::disk('s3')->makeDirectory('client/client-records-updates/');
+                    $file_uploaded = \Storage::disk('s3')->put('client/client-records-updates/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
+        
+                } else {
+                    $directory_used = \Storage::disk('local')->makeDirectory('client/client-records-updates/');
+                    $file_uploaded = \Storage::disk('local')->put('client/client-records-updates/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
+                }
+            } else {
+                $csv_array = readCSV($request->file('audience_file'), ";");
+
+                    if(count($csv_array[0]) == 6) {
+                        if(similar_text("FirstName", $csv_array[0][0]) >= 5
+                        and similar_text("Surname", $csv_array[0][1]) >= 5
+                        and similar_text("MobilePhone", $csv_array[0][2]) >= 5
+                        and similar_text("Email", $csv_array[0][3]) >= 5
+                        and similar_text("IDNumber", $csv_array[0][4]) >= 5
+                        and similar_text("CustomVar1", $csv_array[0][5]) >= 5
+                        )
+                        {
+                        //$parser = new \CsvParser\Parser(';', "'", "\n");
+                        $csv_p = new \ParseCsv\Csv();
+                        $csv_p->delimiter = ";";
+                        $csv_p->fields = ["FirstName","Surname","MobilePhone","Email", "IDNumber", "CustomVar1"];
+                        $csv_p->load_data($request->file('audience_file'));
+                        $csv_p->parse($request->file('audience_file'));
+
+                        $csv_str = to_csv($csv_p->data);
+                        
+                        while(end($csv_array) == false or end($csv_array) == [null]) {
+                            array_pop($csv_array);
+                        }
+
+                        if(count($csv_array) > $uploads_left + 1) {
+                            return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have <b>" . number_format($uploads_left) . "</b> uploads available.  To increase your upload limit please contact your reseller.", "data" => count($csv_array)]);
+                        }
+        
+                        if(env('APP_ENV') == 'production')
+                        {
+                            $directory_used = \Storage::disk('s3')->makeDirectory('client/client-records-updates/');
+                            $file_uploaded = \Storage::disk('s3')->put('client/client-records-updates/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
+                
+                        } else {
+                            $directory_used = \Storage::disk('local')->makeDirectory('client/client-records-updates/');
+                            $file_uploaded = \Storage::disk('local')->put('client/client-records-updates/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
+                        }
+                    } else {
+                        return response()->json(["status" => 500, "error" => "CSV File does not match template."]);
+                    }
+                } else {
+                    return response()->json(["status" => 500, "error" => "CSV File does not match template."]);
+                }
+                
+            }
+
+        } else {
+            return response()->json(["status" => 500]);
+        }
+        
+        return response()->json(["status" => 200,"file_id" => $fileName , "data" => count($csv_array)]);
+        
+    }
+
+    public function handle_remove_upload(Request $request)
+    {
+
+        $file_exists = null;
+
+        if(env('APP_ENV') == 'production') {
+            $file_exists = \Storage::disk('s3')->exists('client/client-records-updates/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+        } else {
+            $file_exists = \Storage::disk('local')->exists('client/client-records-updates/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+        }
+
+        if($file_exists) {
+            if(env('APP_ENV') == 'production') {
+                $file_exists = \Storage::disk('s3')->delete('client/client-records-updates/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+            } else {
+                $file_exists = \Storage::disk('local')->delete('client/client-records-updates/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+            }
+        } else {
+            return response(500);
+        }
+
+        return response(200);
+        
+    }
+
+    // Track Progress
+    public function get_job_queue(Request $request) {
+
+        $jobs = \MeetPAT\UpdateRecordsJobQue::where('user_id', $request->user_id)->with('audience_file')->orderBy('created_at', 'DESC')->take(2)->get();
+        $running_jobs = \MeetPAT\UpdateRecordsJobQue::where('user_id', $request->user_id)->where(function($q) {
+            $q->where('status', 'pending')->orWhere('status', 'running');
+        })->count();
+
+        return response()->json(["jobs" => $jobs, "jobs_running" => $running_jobs]);
+    
+    }
+
+
+    /** Upload/Update audiences END */
 }

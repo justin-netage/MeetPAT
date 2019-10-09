@@ -105,7 +105,9 @@ Route::get('/meetpat-client/update/google', 'MeetpatClientController@update_goog
 
 // Page to upload large file of client data
 
+Route::get('/meetpat-client/upload', 'MeetpatClientController@upload_main')->name('upload-main')->middleware('auth')->middleware('client');
 Route::get('/meetpat-client/upload-client-file-data', 'DataVisualisationController@large_data_upload_form')->name('upload-client-data')->middleware('auth')->middleware('client');
+Route::get('/meetpat-client/upload/update-custom-metrics', 'MeetpatClientController@update_custom_metrics')->name('update-custom-metrics')->middleware('auth')->middleware('client');
 
 // Routes for user filtered customer audience
 
