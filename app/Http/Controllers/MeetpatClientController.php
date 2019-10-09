@@ -1347,8 +1347,8 @@ class MeetpatClientController extends Controller
     // Track Progress
     public function get_job_queue(Request $request) {
 
-        $jobs = \MeetPAT\UpdateRecordsJobQue::where('user_id', $request->user_id)->with('audience_file')->orderBy('created_at', 'DESC')->take(2)->get();
-        $running_jobs = \MeetPAT\UpdateRecordsJobQue::where('user_id', $request->user_id)->where(function($q) {
+        $jobs = \MeetPAT\UpdateRecordsJobQueue::where('user_id', $request->user_id)->with('audience_file')->orderBy('created_at', 'DESC')->take(2)->get();
+        $running_jobs = \MeetPAT\UpdateRecordsJobQueue::where('user_id', $request->user_id)->where(function($q) {
             $q->where('status', 'pending')->orWhere('status', 'running');
         })->count();
 
