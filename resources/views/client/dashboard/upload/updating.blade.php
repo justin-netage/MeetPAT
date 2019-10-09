@@ -52,7 +52,7 @@ var user_id_number = $("#user_id").val();
 
     var check_job_status = window.setInterval(function() {
 
-        $.post("/api/meetpat-client/update/get-job-queue", {user_id: user_id_number}, function( data ) {
+        $.get("/api/meetpat-client/update/get-job-queue", {user_id: user_id_number}, function( data ) {
 
         }).fail(function(data) {
             console.log(data)

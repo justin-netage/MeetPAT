@@ -1116,7 +1116,26 @@ class MeetpatClientController extends Controller
 
     public function update_custom_metrics() 
     {
-        return view('client.dashboard.upload.update_custom_metrics');
+        $user = \Auth::user();
+        $user_jobs = \MeetPAT\RecordsJobQue::where('user_id', $user->id);
+        $user_update_jobs_pending = \MeetPAT\UpdateRecordsJobQueue::where([['user_id', '=', $user->id], ['status', '=', 'pending']])->count();
+        $user_jobs_running = $user_jobs->where(function($q) {
+            $q->where('status', 'pending')->orWhere('status', 'running');
+        })->count();
+        if($user_jobs_running or $user_update_jobs_pending)
+        {
+            if($user_jobs_running) {
+                return view('client.data_visualisation.records_updating');
+            } else if($user_update_jobs_pending) {
+                return view('client.dashboard.upload.updating');
+            } else {
+                return abort(500);
+            }
+            
+        } else {
+            return view('client.dashboard.upload.update_custom_metrics');
+        }
+        
     }
 
     // API Routes
