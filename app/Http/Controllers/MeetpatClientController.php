@@ -1429,11 +1429,11 @@ class MeetpatClientController extends Controller
             if(env('APP_ENV') == 'production') {
                 if(\Storage::disk('s3')->exists('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv'))
                 {
-                    $files_array->items()[$key]["download"] = \Storage::disk('s3')->temporaryUrl('client/client-records-updates/user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv', now()->addMinutes(5),
+                    $files_array->items()[$key]["download"] = \Storage::disk('s3')->temporaryUrl('client/saved-audiences/user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv', now()->addMinutes(5),
                      ['Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                       'ResponseContentType' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                       'ResponseContentDisposition' => 'attachment; filename=' . $files_array->items()[$key]["file_name"] . ".csv"]);
-                    $files_array->items()[$key]["size"] = round(\Storage::disk('s3')->size('client/client-records-updates/user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv') / 1024 / 1024, 2) . "MB";
+                    $files_array->items()[$key]["size"] = round(\Storage::disk('s3')->size('client/saved-audiences/user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv') / 1024 / 1024, 2) . "MB";
                 } else {
                     $files_array->items()[$key]["download"] = "/404";
                     $files_array->items()[$key]["size"] = "N\A";
@@ -1443,7 +1443,7 @@ class MeetpatClientController extends Controller
                 if(\Storage::disk('local')->exists('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv'))
                 {
                     $files_array->items()[$key]["download"] = "/404";
-                    $files_array->items()[$key]["size"] = round(\Storage::disk('local')->size('client/client-records-updates/user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv') / 1024 / 1024, 2) . "MB";
+                    $files_array->items()[$key]["size"] = round(\Storage::disk('local')->size('client/saved-audiences/user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv') / 1024 / 1024, 2) . "MB";
                 } else {
                     $files_array->items()[$key]["download"] = "/404";
                     $files_array->items()[$key]["size"] = "N\A";
