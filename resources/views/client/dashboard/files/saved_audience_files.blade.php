@@ -28,11 +28,12 @@
             <table class="table table-bordered table-striped table-hover table-sm">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th class="text-center">#</th>
                         <th>Date</th>
                         <th>File Name</th>
                         <th class="text-center">Size</th>
                         <th class="text-center">Download</th>
+                        <th class="text-center">Delete</th>
                     </tr>
                 </thead>
 
@@ -109,11 +110,12 @@
                     for(var key in data.data) {
                         $("#tableBody").append(
                             "<tr>" +
-                                "<td>" + (parseInt(key, 10) + 1) + "</td>" +
+                                "<td class=\"text-center\">" + (parseInt(key, 10) + 1) + "</td>" +
                                 "<td>" + data.data[key].created_at + "</td>" +
                                 "<td>" + data.data[key].file_name + "</td>" +
                                 "<td class=\"text-center\">" + data.data[key].size + "</td>" +
                                 "<td class=\"text-center\">" + "<a href=\"" + data.data[key].download + "\"><i class=\"fas fa-file-excel text-success\"></i></a></td>" +
+                                "<td class=\"text-center\">" + "<a href=\"#\" class=\"delete-file\" data-file-uuid=\"" + data.data[key].file_unique_name + "\" data-filename=\"" + data.data[key].file_name + "\"><i class=\"fas fa-trash-alt text-danger\"></i></a></td>" +
                             "</tr>" 
                         );
                     } 
@@ -169,7 +171,7 @@
                         $("#tableBody").html(
                             "<tr>" +
                                 "<td colspan=\"6\">" +
-                                    "<strong>No results found for \"" + $("#InputSearchTerm").val() + "\"</strong>" +
+                                    "<strong>No results found</strong>" +
                                 "</td>" +
                             "</tr>"
                         );
@@ -178,6 +180,31 @@
                     $(".page-link").click(function(event) {
                         event.preventDefault();
                         get_table_data($("#InputSearchTerm").val(), $(this).attr("data-page-number"));
+                    });
+
+                    $(".delete-file").click(function(event) {
+                        event.preventDefault();
+                        var confirmed = confirm("Are you sure that you would like to delete \"" + $(this).attr('data-filename') + "\"?");
+
+                            if(confirmed == true) {
+                                $(this).html(
+                                    "<div class=\"spinner-border spinner-border-sm\" role=\"status\">" +
+                                        "<span class=\"sr-only\">Loading...</span>" +
+                                    "</div>"
+                                )
+
+                                $.post("/api/meetpat-client/delete-saved-audience-file", {file_unique_name: $(this).attr('data-file-uuid'), user_id: user_id}, function() {
+
+                                    if(data.current_page) {
+                                        get_table_data($("#InputSearchTerm").val(), data.current_page);
+                                    } else {
+                                        get_table_data($("#InputSearchTerm").val(), 1);
+                                    }
+ 
+                                }).fail(function(error) {
+                                    console.log("error");
+                                });
+                            } 
                     });
 
              }).fail(function(error) {
@@ -189,7 +216,7 @@
             
         //setup before functions
         var typingTimer;                //timer identifier
-        var doneTypingInterval = 1000;  
+        var doneTypingInterval = 500;  
         var $input = $('#InputSearchTerm');
 
         //on keyup, start the countdown
@@ -207,10 +234,7 @@
         function doneTyping () {
             //do something
             if($("#InputSearchTerm").val().length >= 2 || $("#InputSearchTerm").val().length == 0) {
-                setTimeout(function(){
-                    //do what you need here
-                    get_table_data($("#InputSearchTerm").val());
-                }, 1000);
+                get_table_data($("#InputSearchTerm").val());
             }
         }
 

@@ -11284,9 +11284,9 @@ div.filepond--item {
 .card .fa-file-upload,
 .card .fa-bell,
 .card .fa-sync-alt,
-.fa-folder,
+.card .fa-folder,
 .fa-cloud-upload-alt,
-.fa-save {
+.card .fa-save {
   font-size: 128px;
 }
 

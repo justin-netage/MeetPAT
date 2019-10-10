@@ -2110,9 +2110,9 @@ function drawDemographicGraphs() {
                                     },
                                     'backgroundColor': '#f7f7f7'
                                 };
-                    
+                                
                                 for (var key in data["marital_statuses_distinct"]) {
-                                    if(target_marital_statuses.includes(data["marital_statuses_distinct"][key]["maritalStatus"].toLowerCase())) {
+                                    if(target_marital_statuses.includes(data["marital_statuses_distinct"][key]["maritalStatus"])) {
                                         $("#marital_status_filter").append(
                                             '<input type="checkbox" name="m_' + data["marital_statuses_distinct"][key]["maritalStatus"].toLowerCase() + '" id="m_' + data["marital_statuses_distinct"][key]["maritalStatus"].toLowerCase() + '_option' +'" value="' + data["marital_statuses_distinct"][key]["maritalStatus"] + '" class="css-checkbox" checked="checked"><label for="m_' + data["marital_statuses_distinct"][key]["maritalStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChangerMaritalStatus(data["marital_statuses_distinct"][key]["maritalStatus"]) + '</label><br />'
                                         );

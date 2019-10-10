@@ -28,7 +28,7 @@
             <table class="table table-bordered table-striped table-hover table-sm">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th class="text-center">#</th>
                         <th>Date</th>
                         <th>Audience Name</th>
                         <th>Original Data Source</th>
@@ -110,7 +110,7 @@
                     for(var key in data.data) {
                         $("#tableBody").append(
                             "<tr>" +
-                                "<td>" + (parseInt(key, 10) + 1) + "</td>" +
+                                "<td class=\"text-center\">" + (parseInt(key, 10) + 1) + "</td>" +
                                 "<td>" + data.data[key].created_at + "</td>" +
                                 "<td>" + data.data[key].audience_name + "</td>" +
                                 "<td>" + data.data[key].file_source_origin + "</td>" +
@@ -191,7 +191,7 @@
             
         //setup before functions
         var typingTimer;                //timer identifier
-        var doneTypingInterval = 1000;  
+        var doneTypingInterval = 500;  
         var $input = $('#InputSearchTerm');
 
         //on keyup, start the countdown
@@ -209,10 +209,7 @@
         function doneTyping () {
             //do something
             if($("#InputSearchTerm").val().length >= 2 || $("#InputSearchTerm").val().length == 0) {
-                setTimeout(function(){
-                    //do what you need here
-                    get_table_data($("#InputSearchTerm").val());
-                }, 1000);
+                get_table_data($("#InputSearchTerm").val());
             }
         }
 

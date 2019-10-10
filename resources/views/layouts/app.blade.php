@@ -161,6 +161,9 @@
                                     <a class="dropdown-item account-item" href="/meetpat-client/settings">
                                         Settings
                                     </a>
+                                    <a class="dropdown-item account-item" href="/meetpat-client/files">
+                                        Files
+                                    </a>
                                     @endif
                                     <a class="dropdown-item account-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
