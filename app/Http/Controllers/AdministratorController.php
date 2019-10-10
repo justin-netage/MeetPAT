@@ -368,10 +368,10 @@ class AdministratorController extends Controller
             $file_exists = false;
             if(env('APP_ENV') == 'production')
             {
-                $file_exists = \Storage::disk('s3')->exists('client/client-records/user_id_' . $audience_file->user_id . '/' . $request->file_id . '.csv');
+                $file_exists = \Storage::disk('s3')->exists('client/client-records/user_id_' . $audience_file->user_id . '/' . $audience_file->file_unique_name . '.csv');
 
             } else {
-                $file_exists = \Storage::disk('local')->exists('client/client-records/user_id_' . $audience_file->user_id . '/' . $request->file_id . '.csv');
+                $file_exists = \Storage::disk('local')->exists('client/client-records/user_id_' . $audience_file->user_id . '/' . $audience_file->file_unique_name . '.csv');
 
             }
 
@@ -379,10 +379,10 @@ class AdministratorController extends Controller
             {
                 if(env('APP_ENV') == 'production')
                 {
-                    $file_deleted = \Storage::disk('s3')->delete('client/client-records/user_id_' . $audience_file->user_id . '/' . $request->file_id . '.csv');
+                    $file_deleted = \Storage::disk('s3')->delete('client/client-records/user_id_' . $audience_file->user_id . '/' . $audience_file->file_unique_name . '.csv');
                     $audience_file->delete();
                 } else {
-                    $file_deleted = \Storage::disk('local')->delete('client/client-records/user_id_' . $audience_file->user_id . '/' . $request->file_id . '.csv');
+                    $file_deleted = \Storage::disk('local')->delete('client/client-records/user_id_' . $audience_file->user_id . '/' . $audience_file->file_unique_name . '.csv');
                     $audience_file->delete();
                 }
 

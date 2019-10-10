@@ -171,7 +171,7 @@
                         $("#tableBody").html(
                             "<tr>" +
                                 "<td colspan=\"6\">" +
-                                    "<strong>No results found for \"" + $("#InputSearchTerm").val() + "\"</strong>" +
+                                    "<strong>No results found</strong>" +
                                 "</td>" +
                             "</tr>"
                         );
