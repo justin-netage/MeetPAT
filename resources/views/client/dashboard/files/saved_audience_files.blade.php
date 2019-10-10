@@ -125,13 +125,13 @@
                         if(data.current_page == 1) {
                             $("#paginationContainer").append(
                             "<li class=\"page-item disabled\">" +
-                                "<a class=\"page-link\" href=\"#\" tabindex=\"-1\" aria-disabled=\"true\">Previous</a>" +
+                                "<a class=\"page-link\"  href=\"#\" tabindex=\"-1\" aria-disabled=\"true\">Previous</a>" +
                             "</li>"
                         );
                         } else {
                             $("#paginationContainer").append(
                             "<li class=\"page-item\">" +
-                                "<a class=\"page-link\" href=\"#\" tabindex=\"-1\" aria-disabled=\"false\">Previous</a>" +
+                                "<a class=\"page-link\" data-page-number=\"" + (data.current_page - 1) + "\" href=\"#\" tabindex=\"-1\" aria-disabled=\"false\">Previous</a>" +
                             "</li>"
                             );
                         }
@@ -162,7 +162,7 @@
                         } else {
                             $("#paginationContainer").append(
                                 "<li class=\"page-item\">" +
-                                    "<a class=\"page-link\" data-page-number=\"" + data.last_page + "\" href=\"#\" aria-disabled=\"false\">Next</a>" +
+                                    "<a class=\"page-link\" data-page-number=\"" + (data.current_page + 1) + "\" href=\"#\" aria-disabled=\"false\">Next</a>" +
                                 "</li>"   
                             )
                         }
