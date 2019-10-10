@@ -11283,7 +11283,10 @@ div.filepond--item {
 .card .fa-sliders-h,
 .card .fa-file-upload,
 .card .fa-bell,
-.card .fa-sync-alt {
+.card .fa-sync-alt,
+.fa-folder,
+.fa-cloud-upload-alt,
+.fa-save {
   font-size: 128px;
 }
 
@@ -11305,6 +11308,14 @@ div.filepond--item {
   margin: 0px;
 }
 
+.text-orange {
+  color: #FF7F00;
+}
+
+.border-orange {
+  border-color: #FF7F00;
+}
+
 .card-link-success .card:hover {
   background-color: #38C172;
   box-shadow: none;
@@ -11323,15 +11334,24 @@ div.filepond--item {
   border: none;
 }
 
+.card-link-orange .card:hover {
+  background-color: #FF7F00;
+  box-shadow: none;
+  border: none;
+}
+
 .card-link-secondary .card:hover p,
 .card-link-primary .card:hover p,
 .card-link-success .card:hover p,
+.card-link-orange .card:hover p,
 .card-link-success .card:hover i,
 .card-link-primary .card:hover i,
 .card-link-secondary .card:hover i,
+.card-link-orange .card:hover i,
 .card-link-success .card:hover .card-header,
 .card-link-primary .card:hover .card-header,
-.card-link-secondary .card:hover .card-header {
+.card-link-secondary .card:hover .card-header,
+.card-link-orange .card:hover .card-header {
   color: #fff;
 }
 
@@ -11347,6 +11367,10 @@ div.filepond--item {
   border-color: #6C757D;
 }
 
+.card-link-orange .card:hover .card-header {
+  border-color: #FF7F00;
+}
+
 .card-header {
   font-weight: bold;
   text-align: center;
@@ -11360,7 +11384,8 @@ div.filepond--item {
   }
 
   a.card-link.card-link-primary,
-  a.card-link.card-link-success {
+  a.card-link.card-link-success,
+  a.card-link.card-link-orange {
     margin-left: 0px;
   }
 
@@ -11967,5 +11992,28 @@ nav .dropdown-menu {
 .pagination > li > a:focus,
 .pagination > li > span:focus {
   cursor: pointer;
+}
+
+.loading:after {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  -webkit-animation: ellipsis steps(4, end) 900ms infinite;
+  animation: ellipsis steps(4, end) 900ms infinite;
+  content: "\2026";
+  /* ascii code for the ellipsis character */
+  width: 0px;
+}
+
+@keyframes ellipsis {
+  to {
+    width: 1.25em;
+  }
+}
+
+@-webkit-keyframes ellipsis {
+  to {
+    width: 1.25em;
+  }
 }
 

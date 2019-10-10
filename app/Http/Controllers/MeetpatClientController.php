@@ -1358,4 +1358,101 @@ class MeetpatClientController extends Controller
 
 
     /** Upload/Update audiences END */
+
+    /** Client files BEGIN */
+
+    public function files_main()
+    {
+        return view('client.dashboard.files.main');
+    }
+
+    public function files_uploaded()
+    {
+        return view('client.dashboard.files.uploaded_audience_files');
+    }
+
+    public function files_saved()
+    {
+        return view('client.dashboard.files.saved_audience_files');
+    }
+
+    // API functions
+
+    public function get_uploaded_files(Request $request)
+    {
+        $files_array = \MeetPAT\AudienceFile::select(["id","audience_name","file_source_origin", "file_unique_name", "created_at"])->where([['user_id', '=', $request->user_id]])->orderBy('created_at', 'desc')->paginate(10);
+
+        if($request->search_term) {
+            $files_array = \MeetPAT\AudienceFile::select(["id","audience_name","file_source_origin", "file_unique_name", "created_at"])->where([['user_id', '=', $request->user_id], ['audience_name', 'ilike', '%'.$request->search_term.'%']])->orderBy('created_at', 'desc')->paginate(10);
+        }
+
+        foreach($files_array as $key=>$file)
+        {
+            $files_array->items()[$key]["audience_name"] = explode(" - ", $files_array->items()[$key]["audience_name"])[0];
+            $files_array->items()[$key]["file_source_origin"] = ucwords(str_replace("_", " ", $files_array->items()[$key]["file_source_origin"]));
+
+            if(env('APP_ENV') == 'production') {
+                if(\Storage::disk('s3')->exists('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv'))
+                {
+                    $files_array->items()[$key]["download"] = \Storage::disk('s3')->temporaryUrl('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv', now()->addMinutes(5), ['Content-Type' => 'text/csv', 'ResponseContentType' => 'text/csv', 'ResponseContentDisposition' => 'attachment; filename=' . explode(" - ", $files_array->items()[$key]["audience_name"])[0] . ".csv"]);
+                    $files_array->items()[$key]["size"] = round(\Storage::disk('s3')->size('client/client-records/user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv') / 1024 / 1024, 2) . "MB";
+                } else {
+                    $files_array->items()[$key]["download"] = "/404";
+                    $files_array->items()[$key]["size"] = "N\A";
+                }
+    
+            } else {
+                if(\Storage::disk('local')->exists('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv'))
+                {
+                    $files_array->items()[$key]["download"] = "/404";
+                    $files_array->items()[$key]["size"] = round(\Storage::disk('local')->size('client/client-records/user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv') / 1024 / 1024, 2) . "MB";
+                } else {
+                    $files_array->items()[$key]["download"] = "/404";
+                    $files_array->items()[$key]["size"] = "N\A";
+                }
+            }
+        }
+
+        return response()->json($files_array);
+    }
+
+    public function get_saved_files(Request $request)
+    {
+        $files_array = \MeetPAT\SavedFilteredAudienceFile::select(["id","file_name", "file_unique_name", "created_at"])->where([['user_id', '=', $request->user_id]])->orderBy('created_at', 'desc')->paginate(10);
+
+        if($request->search_term) {
+            $files_array = \MeetPAT\SavedFilteredAudienceFile::select(["id","file_name", "file_unique_name", "created_at"])->where([['user_id', '=', $request->user_id], ['file_name', 'ilike', '%'.$request->search_term.'%']])->orderBy('created_at', 'desc')->paginate(10);
+        }
+
+        foreach($files_array as $key=>$file)
+        {
+            if(env('APP_ENV') == 'production') {
+                if(\Storage::disk('s3')->exists('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv'))
+                {
+                    $files_array->items()[$key]["download"] = \Storage::disk('s3')->temporaryUrl('client/client-records-updates/user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv', now()->addMinutes(5),
+                     ['Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                      'ResponseContentType' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                      'ResponseContentDisposition' => 'attachment; filename=' . $files_array->items()[$key]["file_name"] . ".csv"]);
+                    $files_array->items()[$key]["size"] = round(\Storage::disk('s3')->size('client/client-records-updates/user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv') / 1024 / 1024, 2) . "MB";
+                } else {
+                    $files_array->items()[$key]["download"] = "/404";
+                    $files_array->items()[$key]["size"] = "N\A";
+                }
+    
+            } else {
+                if(\Storage::disk('local')->exists('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv'))
+                {
+                    $files_array->items()[$key]["download"] = "/404";
+                    $files_array->items()[$key]["size"] = round(\Storage::disk('local')->size('client/client-records-updates/user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv') / 1024 / 1024, 2) . "MB";
+                } else {
+                    $files_array->items()[$key]["download"] = "/404";
+                    $files_array->items()[$key]["size"] = "N\A";
+                }
+            }
+        }
+
+        return response()->json($files_array);
+    }
+
+    /** Client file END */
 }

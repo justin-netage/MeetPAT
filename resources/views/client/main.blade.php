@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mb-5">
 
         <a class="card-link card-link-secondary" href="/meetpat-client/upload">
             <div class="card border-secondary">
@@ -21,6 +21,16 @@
                 <div class="card-body text-primary">
                     <h5 class="card-title text-center"><i class="far fa-chart-bar"></i></h5>
                     <p class="card-text">View your audience graphically on our Dashboard. Filter and save your target audiences.</p>
+                </div>
+            </div>
+        </a>
+
+        <a class="card-link card-link-orange" href="/meetpat-client/files">
+            <div class="card border-orange">
+                <div class="card-header">Files</div>
+                <div class="card-body text-orange">
+                    <h5 class="card-title text-center"><i class="fas fa-folder"></i></h5>
+                    <p class="card-text">View and download your saved audiences and previous file uploads.</p>
                 </div>
             </div>
         </a>

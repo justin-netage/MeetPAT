@@ -150,6 +150,10 @@ Route::post('/meetpat-client/submit-audience/run-job-facebook', 'MeetpatClientCo
 Route::post('/meetpat-client/settings/save-changes', 'MeetpatClientController@save_settings')->name('save-settings');
 Route::post('/meetpat-client/settings/update', 'MeetpatClientController@update_notification_settings')->name('update-notification-settings')->middleware('auth:api');
 
+// Audience files 
+Route::get('/meetpat-client/files/get-uploaded-audiences', 'MeetpatClientController@get_uploaded_files')->name('get-uploaded-audiences')->middleware('auth:api');
+Route::get('/meetpat-client/files/get-saved-audiences', 'MeetpatClientController@get_saved_files')->name('get-saved-audiences')->middleware('auth:api');
+
 // Disconnect plarform
 Route::post('/meetpat-client/settings/disconnect-platform', 'MeetpatClientController@disconnect_platform')->name('disconnect-platform');
 
