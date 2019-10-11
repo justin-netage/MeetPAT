@@ -33,6 +33,8 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
+use Carbon\Carbon;
+
 class MeetpatClientController extends Controller
 {
     // Main Pages
@@ -1390,6 +1392,7 @@ class MeetpatClientController extends Controller
         {
             $files_array->items()[$key]["audience_name"] = explode(" - ", $files_array->items()[$key]["audience_name"])[0];
             $files_array->items()[$key]["file_source_origin"] = ucwords(str_replace("_", " ", $files_array->items()[$key]["file_source_origin"]));
+            $files_array->items()[$key]["created_at"] = Carbon::parse($files_array->items()[$key]["created_at"])->addHour(2);
 
             if(env('APP_ENV') == 'production') {
                 if(\Storage::disk('s3')->exists('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv'))
@@ -1426,6 +1429,8 @@ class MeetpatClientController extends Controller
 
         foreach($files_array as $key=>$file)
         {
+            $files_array->items()[$key]["created_at"] = Carbon::parse($files_array->items()[$key]["created_at"])->addHour(2);
+
             if(env('APP_ENV') == 'production') {
                 if(\Storage::disk('s3')->exists('client/saved-audiences/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.xlsx'))
                 {

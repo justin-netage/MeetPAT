@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use MeetPAT\Mail\NewUser;
 use Illuminate\Support\Str;
 use DB;
+use Carbon\Carbon;
 
 
 class AdministratorController extends Controller
@@ -244,6 +245,7 @@ class AdministratorController extends Controller
             {
                 $files_array->items()[$key]["audience_name"] = explode(" - ", $files_array->items()[$key]["audience_name"])[0];
                 $files_array->items()[$key]["file_source_origin"] = ucwords(str_replace("_", " ", $files_array->items()[$key]["file_source_origin"]));
+                $files_array->items()[$key]["created_at"] = Carbon::parse($files_array->items()[$key]["created_at"])->addHour(2);
 
                 if(env('APP_ENV') == 'production') {
                     if(\Storage::disk('s3')->exists('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv'))
@@ -276,6 +278,7 @@ class AdministratorController extends Controller
             {
                 $files_array->items()[$key]["audience_name"] = explode(" - ", $files_array->items()[$key]["audience_name"])[0];
                 $files_array->items()[$key]["file_source_origin"] = ucwords(str_replace("_", " ", $files_array->items()[$key]["file_source_origin"]));
+                $files_array->items()[$key]["created_at"] = Carbon::parse($files_array->items()[$key]["created_at"])->addHour(2);
 
                 if(env('APP_ENV') == 'production') {
                     if(\Storage::disk('s3')->exists('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv'))
