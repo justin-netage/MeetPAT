@@ -446,7 +446,7 @@ class DataVisualisationController extends Controller
                         'client/saved-audiences/' . 'user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.xlsx', now()->addMinutes(1440),
                         ['Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                          'ResponseContentType' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                         'ResponseContentDisposition' => 'attachment; filename=' . $file["file_name"] . ".csv"]);
+                         'ResponseContentDisposition' => 'attachment; filename=' . $file["file_name"] . ".xlsx"]);
     
                 } else {
                     $file["link"] = "404";

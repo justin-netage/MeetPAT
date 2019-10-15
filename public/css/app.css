@@ -11385,7 +11385,8 @@ div.filepond--item {
 
   a.card-link.card-link-primary,
   a.card-link.card-link-success,
-  a.card-link.card-link-orange {
+  a.card-link.card-link-orange,
+  a.card-link.card-link-secondary {
     margin-left: 0px;
   }
 
