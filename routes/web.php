@@ -12,8 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('client.main')->middleware('auth');
-});
+    return view('client.main');
+})->middleware('auth');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -23,7 +23,7 @@ Route::get('/react', function () {
 
 // Client Communication Pages
 
-Route::get('/contact', 'ContactController@contact')->name('contact');
+Route::get('/contact', 'ContactController@contact')->name('contact')->middleware('auth');
 Route::get('/apply', 'ContactController@apply')->name('apply');
 
 // Information Pages
