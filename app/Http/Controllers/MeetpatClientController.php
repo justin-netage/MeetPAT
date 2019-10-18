@@ -572,10 +572,11 @@ class MeetpatClientController extends Controller
                 }
 
                 $csv_p = new \ParseCsv\Csv();
+                        $csv_p->encoding('UTF-8');
                         $csv_p->delimiter = ",";
                         $csv_p->fields = ["FirstName","Surname","MobilePhone","Email", "IDNumber", "CustomVar1"];
-                        $csv_p->load_data($request->file('audience_file'));
-                        $csv_p->parse($request->file('audience_file'));
+                        $csv_p->load_data(iconv("ISO-8859-1","UTF-8",$file_content));
+                        $csv_p->parse(iconv("ISO-8859-1","UTF-8",$file_content));
 
                         $csv_str = to_csv($csv_p->data);
 
@@ -602,10 +603,11 @@ class MeetpatClientController extends Controller
                         {
                         //$parser = new \CsvParser\Parser(';', "'", "\n");
                         $csv_p = new \ParseCsv\Csv();
+                        $csv_p->encoding('UTF-8');
                         $csv_p->delimiter = ";";
                         $csv_p->fields = ["FirstName","Surname","MobilePhone","Email", "IDNumber", "CustomVar1"];
-                        $csv_p->load_data($request->file('audience_file'));
-                        $csv_p->parse($request->file('audience_file'));
+                        $csv_p->load_data(iconv("ISO-8859-1","UTF-8",$file_content));
+                        $csv_p->parse(iconv("ISO-8859-1","UTF-8",$file_content));
 
                         $csv_str = to_csv($csv_p->data);
                         
