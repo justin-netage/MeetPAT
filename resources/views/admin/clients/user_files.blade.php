@@ -19,7 +19,13 @@
         <div class="col-12 col-md-6">
             <h3>Uploaded Audience Files</h3>
         </div>
-        <div class="col-12 col-md-6">
+        <div class="col-1">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <a href="/meetpat-admin/clients" type="button" class="btn btn-light"><i class="fas fa-arrow-left"></i></a>
+                <button type="button" id="refreshBtn" class="btn btn-light"><i class="fas fa-sync-alt"></i></button>
+            </div>
+        </div>
+        <div class="col-12 col-md-5">
         <div class="input-group mb-2">
             <div class="input-group-prepend">
                 <div class="input-group-text"><i class="fas fa-search"></i></div>
@@ -90,12 +96,20 @@
     }
 
     $(document).ready(function() {
+        var refresh_links = window.setInterval(function() { get_table_data($("#InputSearchTerm").val(), $("li.active a").text()) }, 300000);
         var get_table_data = function(search_term, page) {
+
+            window.clearInterval(refresh_links);
+            refresh_links = window.setInterval(function() { get_table_data($("#InputSearchTerm").val(), $("li.active a").text()) }, 300000);
+
             search_term = search_term || "";
             page = page || 1;
 
             $("#entriesInfo").empty();
             $("#paginationContainer").empty();
+
+            $("#refreshBtn").prop("disabled", 1);
+            $("#InputSearchTerm").prop("disabled", 1);
 
             $("#tableBody").html(
                 "<tr>" +
@@ -112,6 +126,8 @@
              {api_token: auth_token, user_id: user_id, page: page, search_term: search_term}, function(data, textStatus,jqXHR) {
 
                 $("#tableBody").empty();
+                $("#refreshBtn").prop("disabled", 0);
+                $("#InputSearchTerm").prop("disabled", 0);
 
                 if(data.data.length) {
                     for(var key in data.data) {
@@ -221,7 +237,11 @@
              });
         }
 
-        get_table_data();
+        get_table_data($("#InputSearchTerm").val(), $("li.active a").text());
+
+        $("#refreshBtn").click(function() {
+            get_table_data($("#InputSearchTerm").val(), $("li.active a").text());
+        });
             
         //setup before functions
         var typingTimer;                //timer identifier

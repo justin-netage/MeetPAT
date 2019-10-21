@@ -81,23 +81,23 @@ var keyChangerMaritalStatus = function(key_name) {
 var keyChangerPropertyType = function(key_name) {
     switch (key_name) {
         case "A":
-            return "(A) Farm";
+            return "Farm (A)";
         case "C":
-            return "(C) Complex";
+            return "Complex (C)";
         case "E":
-            return "(E) Land Parcel";
+            return "Land Parcel (E)";
         case "F":
-            return "(F) Land Parcel (Vacant)";   
+            return "Land Parcel (Vacant) (F)";   
         case "H":
-            return "(H) Agricultural Holding";
+            return "Agricultural Holding (H)";
         case "R":
-            return "(R) Trust";
+            return "Trust (R)";
         case "S":
-            return "(S) Sectional Title";
+            return "Sectional Title (S)";
         case "T":
-            return "(T) Town Authority";
+            return "Town Authority (T)";
         case "U":
-            return "(U) Sectional Title";
+            return "Sectional Title (U)";
         default:
             break;
     }
@@ -547,6 +547,14 @@ var close_side_bar = function() {
     }     
 }
 
+var open_side_bar = function() {
+    if($("#sidebar-toggle-button").hasClass("sidebar-button-in")) {
+        $("#sidebar-toggle-button").html('<i class="fas fa-arrow-right"></i>');
+        $('#right-options-sidebar').toggleClass("sidebar-in");
+        $('#sidebar-toggle-button').toggleClass("sidebar-button-in");
+    }   
+}
+
 var data_fetched = 0;
 
 var update_progress = function() {
@@ -874,7 +882,7 @@ function DrawLocationCharts() {
             } else if(data["count"][0]["count"] > 100000 && data["count"][0]["count"] < 300000) {
                 eta_file_process.html("a minute");
             } else {
-                eta_file_process.html("5 minutes or more");
+                eta_file_process.html("a few minutes");
             }
     
             $("#contacts-number .spinner-block").hide();
@@ -2396,9 +2404,11 @@ function DrawAssetsGraphs() {
                     data_primary_property_types.addColumn('string', 'Primary Property Type');
                     data_primary_property_types.addColumn('number', 'Records');
                     data_primary_property_types.addColumn({type: 'string', role: 'annotation'});
+                    data_primary_property_types.addColumn({type: 'string', role: 'tooltip'});
         
                     var result_primary_property_types = Object.keys(data["primary_property_types"]).map(function(key) {
-                        return [data["primary_property_types"][key]["primaryPropertyType"], data["primary_property_types"][key]["audience"], kFormatter(data["primary_property_types"][key]["audience"])];
+                        return [data["primary_property_types"][key]["primaryPropertyType"], data["primary_property_types"][key]["audience"],
+                         kFormatter(data["primary_property_types"][key]["audience"]), keyChangerPropertyType(data["primary_property_types"][key]["primaryPropertyType"])];
                     });
                 
                         data_primary_property_types.addRows(result_primary_property_types);
@@ -3147,7 +3157,7 @@ var apply_filters = function() {
 }
 
 $('.apply-filter-button, #sidebarSubmitBtn, #apply-toggle-button').click(function() {
-    close_side_bar();
+    open_side_bar();
     window.scrollTo(0, 0);
     checkForFilters();
 

@@ -568,7 +568,7 @@
                 <div class="media-body">
                     <h3 class="mt-3"><span>Primary Property Type</span>
                 <!-- Default dropright button -->
-                        <div class="btn-group dropright float-right">
+                        <div class="btn-group dropleft float-right">
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-filter"></i>
                             </button>
