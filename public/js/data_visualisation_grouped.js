@@ -78,6 +78,31 @@ var keyChangerMaritalStatus = function(key_name) {
     }
 }
 
+var keyChangerPropertyType = function(key_name) {
+    switch (key_name) {
+        case "A":
+            return "(A) Farm";
+        case "C":
+            return "(C) Complex";
+        case "E":
+            return "(E) Land Parcel";
+        case "F":
+            return "(F) Land Parcel (Vacant)";   
+        case "H":
+            return "(H) Agricultural Holding";
+        case "R":
+            return "(R) Trust";
+        case "S":
+            return "(S) Sectional Title";
+        case "T":
+            return "(T) Town Authority";
+        case "U":
+            return "(U) Sectional Title";
+        default:
+            break;
+    }
+}
+
 //Get province full name
 
 var get_province_name = function(code) {
@@ -2404,11 +2429,11 @@ function DrawAssetsGraphs() {
                         for (var key in data["primary_property_type_distinct"]) {
                             if(target_home_owners.includes(data["primary_property_type_distinct"][key]["primaryPropertyType"])) {
                                 $("#primary_property_type_filter").append(
-                                    '<input type="checkbox" name="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '" id="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '_option' +'" value="' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '" class="css-checkbox" checked="checked"><label for="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '_option' +'" class="css-label">' + data["primary_property_type_distinct"][key]["primaryPropertyType"] + '</label><br />'
+                                    '<input type="checkbox" name="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '" id="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '_option' +'" value="' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '" class="css-checkbox" checked="checked"><label for="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '_option' +'" class="css-label">' + keyChangerPropertyType(data["primary_property_type_distinct"][key]["primaryPropertyType"]) + '</label><br />'
                                 );
                             } else {
                                 $("#primary_property_type_filter").append(
-                                    '<input type="checkbox" name="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '" id="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '_option' +'" value="' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '" class="css-checkbox"><label for="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '_option' +'" class="css-label">' + data["primary_property_type_distinct"][key]["primaryPropertyType"] + '</label><br />'
+                                    '<input type="checkbox" name="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '" id="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '_option' +'" value="' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '" class="css-checkbox"><label for="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '_option' +'" class="css-label">' + keyChangerPropertyType(data["primary_property_type_distinct"][key]["primaryPropertyType"]) + '</label><br />'
                                 );
                             }
                             
@@ -2417,7 +2442,7 @@ function DrawAssetsGraphs() {
                                     
                                     var parent = this;
                 
-                                    $("#primary_property_type_filters").append('<li id="filter_pt_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ $(this).val().toUpperCase() +'<i class="fas fa-window-close float-right"></i></li>')
+                                    $("#primary_property_type_filters").append('<li id="filter_pt_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ keyChangerPropertyType($(this).val().toUpperCase()) +'<i class="fas fa-window-close float-right"></i></li>')
                                     $('#filter_pt_' + $(this).val().toLowerCase().replace(/ /g, "_") + ' i').click(function() {
                                         if($('#pt_' + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').length) {
                                             $('#filter_pt_' + $(parent).val().toLowerCase().replace(/ /g, "_")).remove();
