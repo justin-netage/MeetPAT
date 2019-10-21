@@ -17,7 +17,7 @@
         "cross-env": "^5.2",
         "jquery": ">=3.4.1",
         "laravel-mix": "^4.0",
-        "lodash": "^4.17.11",
+        "lodash": "^4.17.13",
         "popper.js": "^1.15",
         "react": "^16.8.6",
         "react-dom": "^16.8.6",
