@@ -42,7 +42,7 @@
             <ul id="risk_category_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Risk Category</span></ul>
             <ul id="household_income_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Household Income</span></ul>
             <ul id="directors_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Directors</span></ul>
-            <ul id="branches_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Branches</span></ul>
+            <ul id="branch_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Branches</span></ul>
             <ul id="no_filters" class="list-unstyled"><span class="filter-heading">No filters have been added</span></ul>
             
         </div>
@@ -79,8 +79,8 @@
         <!-- <button id="audienceSubmitBtn" class="btn btn-secondary btn-block" disabled="true" type="submit" /><i class="fas fa-users"></i>&nbsp;Sync Contacts</button> -->
         <button id="sidebarSubmitBtn" type="button" class="btn btn-secondary btn-block apply-changes-button" disabled="true" type="button" /><i class="fas fa-sync-alt"></i>&nbsp;Apply Filters</button>
         <button type="button" id="resetFilterToastBtn" class="btn btn-secondary btn-block" disabled="disabled"><i class="fas fa-undo-alt"></i>&nbsp;Reset Filters</button>
-        <button class="btn btn-secondary btn-block" type="button" data-toggle="modal" data-target="#SaveAudienceModal"><i class="far fa-save"></i>&nbsp;Save Audience</button>
-        <button class="btn btn-secondary btn-block" type="button" data-toggle="modal" data-target="#SavedAudiencesModal"><i class="far fa-save"></i>&nbsp;Saved Audience Files</button>
+        <button class="btn btn-secondary btn-block" id="saveAudienceBtn" type="button" data-toggle="modal" data-target="#SaveAudienceModal"><i class="far fa-save"></i>&nbsp;Save Audience</button>
+        <button class="btn btn-secondary btn-block" id="savedAudiencesBtn" type="button" data-toggle="modal" data-target="#SavedAudiencesModal"><i class="far fa-save"></i>&nbsp;Saved Audience Files</button>
 
     </form>    
 </div>
@@ -242,8 +242,12 @@
                                 </div>
                                 <div id="area_filter">
                                     <div id="lunr-search" style="display: none;">
-                                        <input type="text" class="form-control mb-2" id="areaSearchInput" autocomplete="off" placeholder="search for more areas...">
-                                        <span style="position:absolute; right: 40px; top:35px;"><i class="fas fa-search"></i></span>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text"><i class="fas fa-search"></i></div>
+                                            </div>
+                                            <input type="text" class="form-control" id="areaSearchInput" placeholder="search for areas">
+                                        </div>
                                         <ul id="lunr-results" class="list-unstyled"></ul>
                                     </div>
                                     <div class="text-center">
@@ -801,7 +805,19 @@
                             <div class="dropdown-menu dropdown-menu-form" style="overflow-y: scroll; height: 256px; width: 256px;">
                                 <!-- Dropdown menu links -->
                                 <form style="margin: 12px;" id="branch-filter-form">
+                                    <div id="hidden-branch-filter-form" style="display:none;">
+                                        <!-- selected areas from search -->
+                                    </div>
                                     <div id="branch_filter">
+                                    <div id="branch-lunr-search" style="display: none;">
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text"><i class="fas fa-search"></i></div>
+                                            </div>
+                                            <input type="text" class="form-control mb-2" id="branchSearchInput" placeholder="search for branches">
+                                        </div>    
+                                        <ul id="branch-lunr-results" class="list-unstyled"></ul>
+                                    </div>
                                     <div class="text-center">
                                     <div class="spinner-border" role="status">
                                         <span class="sr-only">Loading...</span>
