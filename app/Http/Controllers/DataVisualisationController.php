@@ -438,26 +438,26 @@ class DataVisualisationController extends Controller
             
             if(env('APP_ENV') == 'production')
             {
-                $file_exists = \Storage::disk('s3')->exists('client/saved-audiences/user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.xlsx');
+                $file_exists = \Storage::disk('s3')->exists('client/saved-audiences/user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.csv');
                 
                 if($file_exists)
                 {
                     $file["link"] = \Storage::disk('s3')->temporaryUrl(
-                        'client/saved-audiences/' . 'user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.xlsx', now()->addMinutes(1440),
-                        ['Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                         'ResponseContentType' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                         'ResponseContentDisposition' => 'attachment; filename=' . $file["file_name"] . ".xlsx"]);
+                        'client/saved-audiences/' . 'user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.csv', now()->addMinutes(1440),
+                        ['Content-Type' => 'text/csv',
+                         'ResponseContentType' => 'text/csv',
+                         'ResponseContentDisposition' => 'attachment; filename=' . $file["file_name"] . ".csv"]);
     
                 } else {
                     $file["link"] = "404";
                 }
 
             } else {
-                $file_exists = \Storage::disk('local')->exists('client/saved-audiences/user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.xlsx');
+                $file_exists = \Storage::disk('local')->exists('client/saved-audiences/user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.csv');
                 
                 if($file_exists)
                 {
-                    $file["link"] = \Storage::disk('local')->url('client/saved-audiences/' . 'user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.xlsx');
+                    $file["link"] = \Storage::disk('local')->url('client/saved-audiences/' . 'user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.csv');
     
                 } else {
                     $file["link"] = "404";
@@ -478,9 +478,9 @@ class DataVisualisationController extends Controller
         $file_deleted = $file->delete();
 
         if(env('APP_ENV') == 'production') {
-            $actual_file = \Storage::disk('s3')->delete('client/saved-audiences/user_id_' . $request->user_id . '/' . $request->file_unique_name  . ".xlsx");
+            $actual_file = \Storage::disk('s3')->delete('client/saved-audiences/user_id_' . $request->user_id . '/' . $request->file_unique_name  . ".csv");
         } else {
-            $actual_file = \Storage::disk('local')->delete('client/saved-audiences/user_id_' . $request->user_id . '/' . $request->file_unique_name  . ".xlsx");
+            $actual_file = \Storage::disk('local')->delete('client/saved-audiences/user_id_' . $request->user_id . '/' . $request->file_unique_name  . ".csv");
         }
 
         return response()->json(["message" => "successfully deleted file."]);

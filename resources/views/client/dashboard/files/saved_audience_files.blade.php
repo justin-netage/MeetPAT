@@ -129,7 +129,7 @@
                                 "<td>" + data.data[key].created_at + "</td>" +
                                 "<td>" + data.data[key].file_name + "</td>" +
                                 "<td class=\"text-center\">" + data.data[key].size + "</td>" +
-                                "<td class=\"text-center\">" + "<a href=\"" + data.data[key].download + "\"><i class=\"fas fa-file-excel text-success\"></i></a></td>" +
+                                "<td class=\"text-center\">" + "<a href=\"" + data.data[key].download + "\"><i class=\"fas fa-file-csv\"></i></a></td>" +
                                 "<td class=\"text-center\">" + "<a href=\"#\" class=\"delete-file\" data-file-uuid=\"" + data.data[key].file_unique_name + "\" data-filename=\"" + data.data[key].file_name + "\"><i class=\"fas fa-trash-alt text-danger\"></i></a></td>" +
                             "</tr>" 
                         );
