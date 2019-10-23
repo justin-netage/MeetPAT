@@ -19,6 +19,13 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-12 col-md-3 offset-md-9 mb-2">
+            <a href="/meetpat-admin/clients/create" class="btn btn-block btn-secondary">
+                <strong><i class="fas fa-user-plus"></i>&nbsp;&nbsp;Add Client</strong>
+            </a>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-12">
 
         <table id="clients_table" class="display table table-bordered table-hover table-striped mt-4 mb-4">

@@ -11286,7 +11286,9 @@ div.filepond--item {
 .card .fa-sync-alt,
 .card .fa-folder,
 .fa-cloud-upload-alt,
-.card .fa-save {
+.card .fa-save,
+.card .fa-users,
+.card .fa-chart-line {
   font-size: 128px;
 }
 
@@ -11390,10 +11392,8 @@ div.filepond--item {
     margin-left: 0px;
   }
 
-  .navbar-laravel,
-  .nav-link {
-    margin: 16px;
-    padding: 0px;
+  .navbar-nav li {
+    padding: 8px;
   }
 
   .data-graph-container h3 span {
@@ -11403,6 +11403,48 @@ div.filepond--item {
   .media .dropdown-toggle {
     padding: 6px;
     margin: 0px;
+  }
+}
+
+@media only screen and (orientation: landscape) and (max-width: 900px) {
+  .card-link {
+    margin-bottom: 8px;
+    margin-right: 4px;
+  }
+
+  a.card-link.card-link-primary,
+  a.card-link.card-link-success,
+  a.card-link.card-link-orange,
+  a.card-link.card-link-secondary {
+    margin-left: 0px;
+  }
+}
+
+@media only screen and (orientation: portrait) and (min-width: 768px) {
+  .card-link {
+    margin-bottom: 8px;
+    margin-right: 8px;
+  }
+
+  a.card-link.card-link-primary,
+  a.card-link.card-link-success,
+  a.card-link.card-link-orange,
+  a.card-link.card-link-secondary {
+    margin-left: 0px;
+  }
+}
+
+@media only screen and (orientation: landscape) and (min-width: 1024px) {
+  .card-link {
+    margin-bottom: 8px;
+    margin-right: 8px;
+  }
+
+  a.card-link.card-link-primary,
+  a.card-link.card-link-success,
+  a.card-link.card-link-orange,
+  a.card-link.card-link-secondary {
+    margin-left: 0px;
   }
 }
 

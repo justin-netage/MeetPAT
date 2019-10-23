@@ -47,6 +47,11 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
+                    @if(Request::path() == '/')
+                    <li class="active"><a class="nav-link nav-link-active" href="/"><i class="fas fa-home"></i></a></li>
+                    @else
+                    <li><a class="nav-link" href="/"><i class="fas fa-home"></i></a></li>
+                    @endif
                     @guest
 
                     @else
@@ -66,7 +71,7 @@
                                     @endif
 
                                     @if(Request::path() == 'meetpat-admin/clients/create')
-                                    <a class="dropdown-item active-item" href="#><i class="fas fa-user-plus"></i>&nbsp;Add Client</a>
+                                    <a class="dropdown-item active-item" href="#"><i class="fas fa-user-plus"></i>&nbsp;Add Client</a>
                                     @else
                                     <a class="dropdown-item" href="/meetpat-admin/clients/create"><i class="fas fa-user-plus"></i>&nbsp;Add Client</a>
                                     @endif                                    
