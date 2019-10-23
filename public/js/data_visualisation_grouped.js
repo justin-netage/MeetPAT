@@ -666,19 +666,14 @@ function changePage(page, data)
     if (page == 1) {
         if(!$("#btn_prev_item").hasClass('disabled')) {
             document.getElementById("btn_prev_item").classList.add("disabled");
-        } 
-        
-    } else {
-        document.getElementById("btn_prev_item").classList.remove("disabled");
+        }    
     }
 
     if (page == numPages(data)) {
         if(!$("#btn_next_item").hasClass('disabled')) {
             document.getElementById("btn_next_item").classList.add("disabled");
         }
-    } else {
-        document.getElementById("btn_next_item").classList.remove("disabled");
-    }
+    } 
 
     page_span.innerHTML = page + " of " + numPages(data);
 
@@ -752,20 +747,14 @@ var delete_file = function(file_unique_name, file_name) {
         if (current_page == 1) {
             if(!$("#btn_prev_item").hasClass('disabled')) {
                 document.getElementById("btn_prev_item").classList.add("disabled");
-            }
-            
-        } else {
-            document.getElementById("btn_prev_item").classList.remove("disabled");
+            }   
         }
     
         if (current_page == number_of_pages) {
             if(!$("#btn_next_item").hasClass('disabled')) {
                 document.getElementById("btn_next_item").classList.add("disabled");
-            }
-            
-        } else {
-            document.getElementById("btn_next_item").classList.remove("disabled");
-        }
+            }  
+        } 
     }
     $(".delete_file_btn").prop("disabled", true);
     $(".page-item").addClass("disabled");
