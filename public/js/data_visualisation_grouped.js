@@ -596,36 +596,69 @@ function changePage(page, data)
         if($("#userSavedFiles").length && data.length) {
             audience_file = data[i];
 
-            $("#userSavedFiles").append(
-                `<div class="col-9 mb-1" id="file_name_${audience_file.file_unique_name}">
-                <input id="input_${audience_file.file_unique_name}" class="form-control" name="${audience_file.file_unique_name}" value="${audience_file.file_name}" readonly>
-                </div>
-                <div class="col-3 mb-1" id="file_actions_${audience_file.file_unique_name}">
-                    <div class="btn-group float-right" role="group" aria-label="Basic example">
-                        <a id="download_${audience_file.file_unique_name}" href="${audience_file.link}" class="btn btn-light" download><i class="fas fa-file-download"></i></a>
-                        <button type="button" id="edit_${audience_file.file_unique_name}" onclick="edit_file('${audience_file.file_unique_name}')" class="btn btn-light"><i class="far fa-edit"></i></button>
-                        <button type="button" id="delete_${audience_file.file_unique_name}" onclick="delete_file('${audience_file.file_unique_name}','${audience_file.file_name}');" class="btn btn-danger delete_file_btn"><i class="fas fa-trash-alt"></i></button>
+            if(audience_file.link == '404') {
+                $("#userSavedFiles").append(
+                    `<div class="col-7 col-sm-9 col-md-9 mb-1" id="file_name_${audience_file.file_unique_name}">
+                    <input id="input_${audience_file.file_unique_name}" class="form-control" name="${audience_file.file_unique_name}" value="${audience_file.file_name}" readonly>
                     </div>
-                </div>`
-            )
+                    <div class="col-5 col-sm-3 col-md-3 mb-1" id="file_actions_${audience_file.file_unique_name}">
+                        <div class="btn-group float-right" role="group" aria-label="Basic example">
+                            <a id="download_${audience_file.file_unique_name}" href="#" class="btn btn-light disabled" download><i class="fas fa-exclamation-circle text-danger"></i></a>
+                            <button type="button" id="edit_${audience_file.file_unique_name}" onclick="edit_file('${audience_file.file_unique_name}')" class="btn btn-light"><i class="far fa-edit"></i></button>
+                            <button type="button" id="delete_${audience_file.file_unique_name}" onclick="delete_file('${audience_file.file_unique_name}','${audience_file.file_name}');" class="btn btn-danger delete_file_btn"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </div>`
+                )
+            } else {
+                $("#userSavedFiles").append(
+                    `<div class="col-7 col-sm-9 col-md-9 mb-1" id="file_name_${audience_file.file_unique_name}">
+                    <input id="input_${audience_file.file_unique_name}" class="form-control" name="${audience_file.file_unique_name}" value="${audience_file.file_name}" readonly>
+                    </div>
+                    <div class="col-5 col-sm-3 col-md-3 mb-1" id="file_actions_${audience_file.file_unique_name}">
+                        <div class="btn-group float-right" role="group" aria-label="Basic example">
+                            <a id="download_${audience_file.file_unique_name}" href="${audience_file.link}" class="btn btn-light" download><i class="fas fa-file-download"></i></a>
+                            <button type="button" id="edit_${audience_file.file_unique_name}" onclick="edit_file('${audience_file.file_unique_name}')" class="btn btn-light"><i class="far fa-edit"></i></button>
+                            <button type="button" id="delete_${audience_file.file_unique_name}" onclick="delete_file('${audience_file.file_unique_name}','${audience_file.file_name}');" class="btn btn-danger delete_file_btn"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </div>`
+                )
+            }
+
+            
         }                
 
     }
 
     data.forEach(function(audience_file) {
         if($("#input_" + audience_file.file_unique_name).length == 0) {
-            $("#userSavedFiles").append(
-                `<div class="col-9 mb-1 d-none" id="file_name_${audience_file.file_unique_name}">
-                <input id="input_${audience_file.file_unique_name}" class="form-control" name="${audience_file.file_unique_name}" value="${audience_file.file_name}" readonly>
-                </div>
-                <div class="col-3 mb-1 d-none" id="file_actions_${audience_file.file_unique_name}">
-                    <div class="btn-group float-right" role="group" aria-label="Basic example">
-                        <a id="download_${audience_file.file_unique_name}" href="${audience_file.link}" class="btn btn-light" download><i class="fas fa-file-download"></i></a>
-                        <button type="button" id="edit_${audience_file.file_unique_name}" onclick="edit_file('${audience_file.file_unique_name}')" class="btn btn-light"><i class="far fa-edit"></i></button>
-                        <button type="button" id="delete_${audience_file.file_unique_name}" onclick="delete_file('${audience_file.file_unique_name}','${audience_file.file_name}');" class="btn btn-danger delete_file_btn"><i class="fas fa-trash-alt"></i></button>
+            if(audience_file.link == '404') {
+                $("#userSavedFiles").append(
+                    `<div class="col-7 col-sm-9 col-md-9 mb-1 d-none" id="file_name_${audience_file.file_unique_name}">
+                    <input id="input_${audience_file.file_unique_name}" class="form-control" name="${audience_file.file_unique_name}" value="${audience_file.file_name}" readonly>
                     </div>
-                </div>`
-            )
+                    <div class="col-5 col-sm-3 col-md-3 mb-1 d-none" id="file_actions_${audience_file.file_unique_name}">
+                        <div class="btn-group float-right" role="group" aria-label="Basic example">
+                            <a id="download_${audience_file.file_unique_name}" href="#" class="btn btn-light disabled" download><i class="fas fa-exclamation-circle text-danger"></i></a>
+                            <button type="button" id="edit_${audience_file.file_unique_name}" onclick="edit_file('${audience_file.file_unique_name}')" class="btn btn-light"><i class="far fa-edit"></i></button>
+                            <button type="button" id="delete_${audience_file.file_unique_name}" onclick="delete_file('${audience_file.file_unique_name}','${audience_file.file_name}');" class="btn btn-danger delete_file_btn"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </div>`
+                )
+            } else {
+                $("#userSavedFiles").append(
+                    `<div class="col-7 col-sm-9 col-md-9 mb-1 d-none" id="file_name_${audience_file.file_unique_name}">
+                    <input id="input_${audience_file.file_unique_name}" class="form-control" name="${audience_file.file_unique_name}" value="${audience_file.file_name}" readonly>
+                    </div>
+                    <div class="col-5 col-sm-3 col-md-3 mb-1 d-none" id="file_actions_${audience_file.file_unique_name}">
+                        <div class="btn-group float-right" role="group" aria-label="Basic example">
+                            <a id="download_${audience_file.file_unique_name}" href="${audience_file.link}" class="btn btn-light" download><i class="fas fa-file-download"></i></a>
+                            <button type="button" id="edit_${audience_file.file_unique_name}" onclick="edit_file('${audience_file.file_unique_name}')" class="btn btn-light"><i class="far fa-edit"></i></button>
+                            <button type="button" id="delete_${audience_file.file_unique_name}" onclick="delete_file('${audience_file.file_unique_name}','${audience_file.file_name}');" class="btn btn-danger delete_file_btn"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </div>`
+                )
+            }
+            
         }
     });
     
@@ -644,6 +677,9 @@ function changePage(page, data)
     }
 
     page_span.innerHTML = page + " of " + numPages(data);
+
+    $("#paginationContainer").attr('data-current-page', page);
+    $("#paginationContainer").attr('data-number-of-pages', numPages(data));
 }
 
 function numPages(data)
@@ -716,17 +752,62 @@ var delete_file = function(file_unique_name, file_name) {
         }).fail(function(data) {
             $("#delete_" + file_unique_name).html(`<i class="fas fa-trash-alt"></i>`);
             $(".delete_file_btn").prop("disabled", false);
-            $(".page-item").removeClass("disabled");
+            var current_page = $("#paginationContainer").attr("data-current-page");
+            var number_of_pages = $("#paginationContainer").attr("data-number-of-pages");
+            
+            if (current_page == 1) {
+                document.getElementById("btn_prev_item").classList.add("disabled");
+            } else {
+                document.getElementById("btn_prev_item").classList.remove("disabled");
+            }
+        
+            if (current_page == number_of_pages) {
+                
+                document.getElementById("btn_next_item").classList.add("disabled");
+            } else {
+                document.getElementById("btn_next_item").classList.remove("disabled");
+            }
             console.log(data);
         }).done(function() {
             $("#delete_" + file_unique_name).html(`<i class="fas fa-trash-alt"></i>`);
             $(".delete_file_btn").prop("disabled", false);
-            $(".page-item").removeClass("disabled");
-            get_saved_audiences();
-        });
+
+            var current_page = $("#paginationContainer").attr("data-current-page");
+            var number_of_pages = $("#paginationContainer").attr("data-number-of-pages");
+            
+            if (current_page == 1) {
+                document.getElementById("btn_prev_item").classList.add("disabled");
+            } else {
+                document.getElementById("btn_prev_item").classList.remove("disabled");
+            }
+        
+            if (current_page == number_of_pages) {
+                
+                document.getElementById("btn_next_item").classList.add("disabled");
+            } else {
+                document.getElementById("btn_next_item").classList.remove("disabled");
+            }
+                get_saved_audiences();
+            });
     } else {
         $(".delete_file_btn").prop("disabled", false);
-        $(".page-item").removeClass("disabled");
+        
+        var current_page = $("#paginationContainer").attr("data-current-page");
+        var number_of_pages = $("#paginationContainer").attr("data-number-of-pages");
+        
+        if (current_page == 1) {
+            document.getElementById("btn_prev_item").classList.add("disabled");
+        } else {
+            document.getElementById("btn_prev_item").classList.remove("disabled");
+        }
+    
+        if (current_page == number_of_pages) {
+            
+            document.getElementById("btn_next_item").classList.add("disabled");
+        } else {
+            document.getElementById("btn_next_item").classList.remove("disabled");
+        }
+        
     } 
 
     
@@ -3603,6 +3684,7 @@ var get_saved_audiences = function() {
     )
     $.get('/api/meetpat-client/get-saved-audiences', {user_id: user_id_number}, function(data) {
         $("#userSavedFiles .d-flex").remove();
+        
         if(numPages(data) >= current_page) {
             changePage(current_page, data);
         } else {
@@ -3613,6 +3695,10 @@ var get_saved_audiences = function() {
     }).fail(function(data) {
         console.log(data);
     }).done(function(data) {
+
+        $("#paginationContainer").attr('data-current-page', current_page);
+        $("#paginationContainer").attr('data-number-of-pages', numPages(data));
+
         if(data.length)
         {
             $("#btn_prev").on("click", function(e) {

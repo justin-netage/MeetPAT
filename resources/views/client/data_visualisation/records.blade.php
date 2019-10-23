@@ -864,7 +864,7 @@
         </div>
 
         <nav class="mt-3">
-        <ul class="pagination justify-content-center">
+        <ul class="pagination justify-content-center" id="paginationContainer" data-current-page="1" data-number-of-pages="1">
             <li id="btn_prev_item" class="page-item"><a class="page-link" id="btn_prev" href="#">Previous</a></li>
             <li class="page-item"><a class="page-link" id="page_span" href="#">1</a></li>
             <li id="btn_next_item" class="page-item"><a class="page-link" id="btn_next" href="#">Next</a></li>
