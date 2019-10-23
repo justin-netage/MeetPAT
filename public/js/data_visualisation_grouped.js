@@ -570,6 +570,8 @@ var hide_progress = function() {
     setTimeout(function() {
         $("#progress_popup").hide();
     },1000);    
+
+    open_side_bar();
 }
 
 // Saved Audience Files methods
@@ -3391,7 +3393,7 @@ var apply_filters = function() {
 }
 
 $('.apply-filter-button, #sidebarSubmitBtn, #apply-toggle-button').click(function() {
-    open_side_bar();
+    
     window.scrollTo(0, 0);
     checkForFilters();
 

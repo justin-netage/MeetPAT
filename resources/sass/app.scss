@@ -1000,6 +1000,26 @@ white-space: nowrap;
 
 }
 
+@media screen and (orientation: landscape) and (max-width: 740px)
+{
+  .apply-right-sidebar-button, #reset-toggle-button
+  {
+    display: none;
+  }
+  #right-options-sidebar
+  {
+    overflow-y: auto;
+  }
+}
+
+@media screen and (orientation: portrait) and (max-width: 570px)
+{
+  #right-options-sidebar
+  {
+    overflow-y: auto;
+  }
+}
+
 .right-sidebar-button i 
 {
   font-size: 24px;
