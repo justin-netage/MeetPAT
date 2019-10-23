@@ -108,11 +108,6 @@
                         
                         @if(\Auth::user()->client)
                         <!-- Clients Navigation --> 
-                            @if(Request::path() == '/')
-                            <li class="active"><a class="nav-link nav-link-active" href="/"><i class="fas fa-home"></i></a></li>
-                            @else
-                            <li><a class="nav-link" href="/"><i class="fas fa-home"></i></a></li>
-                            @endif
                             @if(Request::path() == 'meetpat-client/upload')
                             <li class="active"><a class="nav-link nav-link-active" href="{{ route('upload-main') }}"><i class="fas fa-file-upload"></i>&nbsp;Upload Client Data</a></li>
                             @else
