@@ -16,7 +16,7 @@
         </div>
         <div class="col-4 col-md-2 col-lg-1">
             <div class="btn-group" role="group" aria-label="Basic example">
-                <a href="/meetpat-client/files" type="button" class="btn btn-light"><i class="fas fa-arrow-left"></i></a>
+                <a href="/meetpat-client/files" class="btn btn-light"><i class="fas fa-arrow-left"></i></a>
                 <a href="#" id="refreshBtn" class="btn btn-light"><i class="fas fa-sync-alt"></i></a>
             </div>
         </div>
