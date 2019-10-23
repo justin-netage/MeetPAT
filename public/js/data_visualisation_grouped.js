@@ -662,16 +662,20 @@ function changePage(page, data)
         }
     });
     
-
+    $(".page-item").removeClass("disabled");
     if (page == 1) {
-        document.getElementById("btn_prev_item").classList.add("disabled");
+        if(!$("#btn_prev_item").hasClass('disabled')) {
+            document.getElementById("btn_prev_item").classList.add("disabled");
+        } 
+        
     } else {
         document.getElementById("btn_prev_item").classList.remove("disabled");
     }
 
     if (page == numPages(data)) {
-        
-        document.getElementById("btn_next_item").classList.add("disabled");
+        if(!$("#btn_next_item").hasClass('disabled')) {
+            document.getElementById("btn_next_item").classList.add("disabled");
+        }
     } else {
         document.getElementById("btn_next_item").classList.remove("disabled");
     }
@@ -739,7 +743,30 @@ var no_same_file_names = function() {
 }
 
 var delete_file = function(file_unique_name, file_name) {
+    var current_page = $("#paginationContainer").attr("data-current-page");
+    var number_of_pages = $("#paginationContainer").attr("data-number-of-pages");
     var confirmed = confirm("Are you sure that you want to delete: " + file_name + "?");
+
+    var disable_enable_page_item = function() {
+        $(".page-item").removeClass("disabled");
+        if (current_page == 1) {
+            if(!$("#btn_prev_item").hasClass('disabled')) {
+                document.getElementById("btn_prev_item").classList.add("disabled");
+            }
+            
+        } else {
+            document.getElementById("btn_prev_item").classList.remove("disabled");
+        }
+    
+        if (current_page == number_of_pages) {
+            if(!$("#btn_next_item").hasClass('disabled')) {
+                document.getElementById("btn_next_item").classList.add("disabled");
+            }
+            
+        } else {
+            document.getElementById("btn_next_item").classList.remove("disabled");
+        }
+    }
     $(".delete_file_btn").prop("disabled", true);
     $(".page-item").addClass("disabled");
     if(confirmed == true) {
@@ -752,61 +779,20 @@ var delete_file = function(file_unique_name, file_name) {
         }).fail(function(data) {
             $("#delete_" + file_unique_name).html(`<i class="fas fa-trash-alt"></i>`);
             $(".delete_file_btn").prop("disabled", false);
-            var current_page = $("#paginationContainer").attr("data-current-page");
-            var number_of_pages = $("#paginationContainer").attr("data-number-of-pages");
-            
-            if (current_page == 1) {
-                document.getElementById("btn_prev_item").classList.add("disabled");
-            } else {
-                document.getElementById("btn_prev_item").classList.remove("disabled");
-            }
-        
-            if (current_page == number_of_pages) {
-                
-                document.getElementById("btn_next_item").classList.add("disabled");
-            } else {
-                document.getElementById("btn_next_item").classList.remove("disabled");
-            }
+                    
+            disable_enable_page_item();
             console.log(data);
         }).done(function() {
             $("#delete_" + file_unique_name).html(`<i class="fas fa-trash-alt"></i>`);
             $(".delete_file_btn").prop("disabled", false);
 
-            var current_page = $("#paginationContainer").attr("data-current-page");
-            var number_of_pages = $("#paginationContainer").attr("data-number-of-pages");
-            
-            if (current_page == 1) {
-                document.getElementById("btn_prev_item").classList.add("disabled");
-            } else {
-                document.getElementById("btn_prev_item").classList.remove("disabled");
-            }
-        
-            if (current_page == number_of_pages) {
-                
-                document.getElementById("btn_next_item").classList.add("disabled");
-            } else {
-                document.getElementById("btn_next_item").classList.remove("disabled");
-            }
+            disable_enable_page_item();
                 get_saved_audiences();
             });
     } else {
         $(".delete_file_btn").prop("disabled", false);
         
-        var current_page = $("#paginationContainer").attr("data-current-page");
-        var number_of_pages = $("#paginationContainer").attr("data-number-of-pages");
-        
-        if (current_page == 1) {
-            document.getElementById("btn_prev_item").classList.add("disabled");
-        } else {
-            document.getElementById("btn_prev_item").classList.remove("disabled");
-        }
-    
-        if (current_page == number_of_pages) {
-            
-            document.getElementById("btn_next_item").classList.add("disabled");
-        } else {
-            document.getElementById("btn_next_item").classList.remove("disabled");
-        }
+        disable_enable_page_item();
         
     } 
 
