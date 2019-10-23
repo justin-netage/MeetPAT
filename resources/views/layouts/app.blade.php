@@ -157,6 +157,15 @@
                                 </a>
                                 @endif
                                     <span class="dropdown-item account-name">{{\Auth::user()->name}}</span>
+                                    <span class="dropdown-item account-credits">Credits
+                                         @if(\Auth::user()->client)
+                                            @if(\Auth::user()->client_uploads)
+                                                <span class="badge badge-pill badge-primary">{{number_format(\Auth::user()->client_uploads->uploads)}}/{{number_format(\Auth::user()->client_uploads->upload_limit)}}</span>
+                                            @else
+                                                <span class="badge badge-pill badge-primary">0/0</span>
+                                            @endif
+                                        @endif
+                                    </span>
                                     @if(\Auth::user()->client()->first())
                                     <a class="dropdown-item account-item" href="/meetpat-client/settings">
                                         Settings
@@ -178,17 +187,6 @@
                                 </div>
 
                             </li>
-                            @if(\Auth::user()->client)
-                            <li class="nav-item">
-                                <a class="nav-link">credits used&nbsp;<span class="badge badge-pill badge-primary">
-                                @if(\Auth::user()->client_uploads)
-                                    {{\Auth::user()->client_uploads->uploads}} / {{\Auth::user()->client_uploads->upload_limit}}
-                                @else
-                                    0 / 0
-                                @endif
-                                </span></a>
-                            </li>
-                            @endif
                         @endguest
                     </ul>
                 </div>

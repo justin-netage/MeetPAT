@@ -14,13 +14,13 @@
         <div class="col-12 col-md-6">
             <h3>Uploaded Audience Files</h3>
         </div>
-        <div class="col-1">
+        <div class="col-4 col-md-2 col-lg-1">
             <div class="btn-group" role="group" aria-label="Basic example">
                 <a href="/meetpat-client/files" type="button" class="btn btn-light"><i class="fas fa-arrow-left"></i></a>
-                <button type="button" id="refreshBtn" class="btn btn-light"><i class="fas fa-sync-alt"></i></button>
+                <a href="#" id="refreshBtn" class="btn btn-light"><i class="fas fa-sync-alt"></i></a>
             </div>
         </div>
-        <div class="col-12 col-md-5">
+        <div class="col-8 col-md-4 col-lg-5">
         <div class="input-group mb-2">
             <div class="input-group-prepend">
                 <div class="input-group-text"><i class="fas fa-search"></i></div>
@@ -203,7 +203,8 @@
 
         get_table_data($("#InputSearchTerm").val(), $("li.active a").text());
 
-        $("#refreshBtn").click(function() {
+        $("#refreshBtn").click(function(event) {
+            event.preventDefault();
             get_table_data($("#InputSearchTerm").val(), $("li.active a").text());
         });        
             

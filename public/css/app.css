@@ -11906,7 +11906,9 @@ nav .dropdown-menu {
 }
 
 .account-name,
-.account-name:hover {
+.account-name:hover,
+.account-credits,
+.account-credits:hover {
   background-color: #545454;
   color: #fff;
 }
