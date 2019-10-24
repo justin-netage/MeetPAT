@@ -15,7 +15,7 @@ class AddCitizenshipIndicatorToFilteredAudienceFilesTable extends Migration
     {
         Schema::table('filtered_audience_files', function (Blueprint $table) {
             //
-            $table->enum('citizenship_indicator', ['Citizen', 'Resident', 'Unknown'])->nullable()->after('primary_property_type')->nullable();
+            $table->enum('citizenship_indicator', ['Citizen', 'Resident', '', 'Unknown'])->nullable()->after('primary_property_type')->nullable();
 
         });
     }

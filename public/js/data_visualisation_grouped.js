@@ -3542,7 +3542,7 @@ $('.apply-filter-button, #sidebarSubmitBtn, #apply-toggle-button').click(functio
     $("#GenderContactsId").val(target_genders);
     $("#populationContactsId").val(target_population_groups);
     $("#generationContactsId").val(target_generations);
-    $("#citizenVsResidentsContactsId").val(target_citizen_vs_residents);
+    $("#citizenshipIndicatorContactsId").val(target_citizen_vs_residents);
     $("#maritalStatusContactsId").val(target_marital_statuses);
     $("#homeOwnerContactsId").val(target_home_owners);
     $("#riskCategoryContactsId").val(target_risk_categories);
@@ -3614,7 +3614,7 @@ $("#resetFilterToastBtn, #reset-toggle-button").click(function() {
     $("#GenderContactsId").val(target_genders);
     $("#populationContactsId").val(target_population_groups);
     $("#generationContactsId").val(target_generations);
-    $("#citizenVsResidentsContactsId").val(target_citizen_vs_residents);
+    $("#citizenshipIndicatorContactsId").val(target_citizen_vs_residents);
     $("#maritalStatusContactsId").val(target_marital_statuses);
     $("#homeOwnerContactsId").val(target_home_owners);
     $("#riskCategoryContactsId").val(target_risk_categories);
