@@ -2036,21 +2036,11 @@ function drawDemographicGraphs() {
                                 data_citizen_vs_resident.addColumn('number', 'Records');
                                 data_citizen_vs_resident.addColumn({type: 'string', role: 'annotation'});
 
-                                if(data["citizens_vs_residents"][0]["citizens"] && data["citizens_vs_residents"][0]["residents"]) {
-                                    data_citizen_vs_resident.addRows([
-                                        ["citizens", data["citizens_vs_residents"][0]["citizens"], kFormatter(data["citizens_vs_residents"][0]["citizens"])],
-                                        ["residents", data["citizens_vs_residents"][0]["residents"], kFormatter(data["citizens_vs_residents"][0]["residents"])]
-                                    ]);
-                                } else if(data["citizens_vs_residents"][0]["residents"]) {
-                                    data_citizen_vs_resident.addRows([
-                                        ["residents", data["citizens_vs_residents"][0]["residents"], kFormatter(data["citizens_vs_residents"][0]["residents"])]
-                                    ]);
-                                
-                                } else {
-                                    data_citizen_vs_resident.addRows([
-                                        ["citizens", data["citizens_vs_residents"][0]["citizens"], kFormatter(data["citizens_vs_residents"][0]["citizens"])]
-                                    ]);
-                                }
+                                var result_citizen_vs_resident = Object.keys(data["citizens_vs_residents"]).map(function(key) {
+                                    return [data["citizens_vs_residents"][key]["citizenshipIndicator"], data["citizens_vs_residents"][key]["audience"], kFormatter(data["citizens_vs_residents"][key]["audience"])];
+                                });
+
+                                data_citizen_vs_resident.addRows(result_citizen_vs_resident);
                                 
                                 // Set chart options
                                 var chart_options_citizen_vs_resident = {
@@ -2076,26 +2066,26 @@ function drawDemographicGraphs() {
                                                 },
                                                 'backgroundColor': '#f7f7f7'
                                             };
-                                if(target_citizen_vs_residents.includes("citizen")) {
+                                if(target_citizen_vs_residents.includes("Citizen")) {
                                     $('#citizen_vs_resident_filter').append(
-                                        '<input type="checkbox" name="citizen" id="citizen_option" value="citizen" class="css-checkbox" checked="checked"><label for="citizen_option" class="css-label">Citizen</label><br />'
+                                        '<input type="checkbox" name="citizen" id="citizen_option" value="Citizen" class="css-checkbox" checked="checked"><label for="citizen_option" class="css-label">Citizen</label><br />'
 
                                     );
                                 } else {
                                     $('#citizen_vs_resident_filter').append(
-                                        '<input type="checkbox" name="citizen" id="citizen_option" value="citizen" class="css-checkbox"><label for="citizen_option" class="css-label">Citizen</label><br />'
+                                        '<input type="checkbox" name="citizen" id="citizen_option" value="Citizen" class="css-checkbox"><label for="citizen_option" class="css-label">Citizen</label><br />'
 
                                     );
                                 }
 
-                                if(target_citizen_vs_residents.includes('resident')) {
+                                if(target_citizen_vs_residents.includes('Resident')) {
                                     $("#citizen_vs_resident_filter").append(
-                                        '<input type="checkbox" name="resident" id="resident_option" value="resident" class="css-checkbox" checked="checked"><label for="resident_option" class="css-label">Resident</label><br />'
+                                        '<input type="checkbox" name="resident" id="resident_option" value="Resident" class="css-checkbox" checked="checked"><label for="resident_option" class="css-label">Resident</label><br />'
                         
                                         );
                                 } else {
                                     $("#citizen_vs_resident_filter").append(
-                                        '<input type="checkbox" name="resident" id="resident_option" value="resident" class="css-checkbox"><label for="resident_option" class="css-label">Resident</label><br />'
+                                        '<input type="checkbox" name="resident" id="resident_option" value="Resident" class="css-checkbox"><label for="resident_option" class="css-label">Resident</label><br />'
                         
                                         );
                                 }
@@ -2125,7 +2115,7 @@ function drawDemographicGraphs() {
                                 $('#resident_option').click(function(){
                                     if($('#resident_option').is(":checked")) { 
 
-                                        $("#generation_filters").append('<li id="filter_resident_option">Resident<i class="fas fa-window-close float-right"></i></li>');
+                                        $("#citizen_vs_resident_filters").append('<li id="filter_resident_option">Resident<i class="fas fa-window-close float-right"></i></li>');
                                         $('#filter_resident_option i').click(function() {
                                             if($('#filter_resident_option')) {
                                                 $('#filter_resident_option').remove();

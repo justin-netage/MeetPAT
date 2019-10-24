@@ -64,7 +64,7 @@
         <input type="hidden" id="GenderContactsId" name="GenderContacts[]">
         <input type="hidden" id="populationContactsId" name="populationContacts[]">
         <input type="hidden" id="generationContactsId" name="generationContacts[]">
-        <input type="hidden" id="citizenVsResidentsContactsId" name="citizenVsResidentsContacts[]">
+        <input type="hidden" id="citizenshipIndicatorContactsId" name="citizenshipIndicatorContacts[]">
         <input type="hidden" id="maritalStatusContactsId" name="maritalStatusContacts[]">
         <input type="hidden" id="homeOwnerContactsId" name="homeOwnerContacts[]">
         <input type="hidden" id="riskCategoryContactsId" name="riskCategoryContacts[]">

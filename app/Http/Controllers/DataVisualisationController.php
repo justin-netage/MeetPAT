@@ -166,7 +166,7 @@ class DataVisualisationController extends Controller
     public function get_location_data(Request $request) {
 
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/get-location-data?" . $query_params));
+        $records = json_decode(file_get_contents("http://127.0.0.1:8080/records/get-location-data?" . $query_params));
         
         return response()->json($records);
 
@@ -175,7 +175,7 @@ class DataVisualisationController extends Controller
     public function get_demographic_data(Request $request) {
 
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/get-demographic-data?" . $query_params));
+        $records = json_decode(file_get_contents("http://127.0.0.1:8080/records/get-demographic-data?" . $query_params));
         
         return response()->json($records);
 
@@ -184,7 +184,7 @@ class DataVisualisationController extends Controller
     public function get_assets_data(Request $request) {
 
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/get-assets-data?" . $query_params));
+        $records = json_decode(file_get_contents("http://127.0.0.1:8080/records/get-assets-data?" . $query_params));
         
         return response()->json($records);
 
@@ -193,7 +193,7 @@ class DataVisualisationController extends Controller
     public function get_financial_data(Request $request) {
 
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/get-financial-data?" . $query_params));
+        $records = json_decode(file_get_contents("http://127.0.0.1:8080/records/get-financial-data?" . $query_params));
         
         return response()->json($records);
 
@@ -202,7 +202,7 @@ class DataVisualisationController extends Controller
     public function get_custom_variable_data(Request $request) {
 
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/get-custom-variables?" . $query_params));
+        $records = json_decode(file_get_contents("http://127.0.0.1:8080/records/get-custom-variables?" . $query_params));
 
         return response()->json($records);
     }
@@ -211,7 +211,7 @@ class DataVisualisationController extends Controller
     public function get_records_count(Request $request)
     {
         $query_params = http_build_query($request->all());
-        $records_count = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/count?" . $query_params));
+        $records_count = json_decode(file_get_contents("http://127.0.0.1:8080/records/count?" . $query_params));
 
         return response($records_count[0]->count);
     }
@@ -219,7 +219,7 @@ class DataVisualisationController extends Controller
     public function get_municipalities(Request $request) {
 
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/municipality?" . $query_params));
+        $records = json_decode(file_get_contents("http://127.0.0.1:8080/records/municipality?" . $query_params));
         
         return response()->json($records);
 
@@ -228,7 +228,7 @@ class DataVisualisationController extends Controller
     public function get_provinces(Request $request)
     {
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/province?" . $query_params));
+        $records = json_decode(file_get_contents("http://127.0.0.1:8080/records/province?" . $query_params));
         
         return response()->json($records);
     }
@@ -236,7 +236,7 @@ class DataVisualisationController extends Controller
     public function get_ages(Request $request)
     {
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/age-group?" . $query_params));
+        $records = json_decode(file_get_contents("http://127.0.0.1:8080/records/age-group?" . $query_params));
 
         return response()->json($records);
     }
@@ -244,7 +244,7 @@ class DataVisualisationController extends Controller
     public function get_genders(Request $request)
     {
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/gender?" . $query_params));
+        $records = json_decode(file_get_contents("http://127.0.0.1:8080/records/gender?" . $query_params));
 
         return response()->json($records);
 
@@ -253,7 +253,7 @@ class DataVisualisationController extends Controller
     public function get_population_groups(Request $request)
     {
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/population-group?" . $query_params));
+        $records = json_decode(file_get_contents("http://127.0.0.1:8080/records/population-group?" . $query_params));
 
         return response()->json($records);
     }
@@ -262,7 +262,7 @@ class DataVisualisationController extends Controller
     {
         
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/home-ownership-status?" . $query_params));
+        $records = json_decode(file_get_contents("http://127.0.0.1:8080/records/home-ownership-status?" . $query_params));
 
         return response()->json($records);
     }
@@ -270,7 +270,7 @@ class DataVisualisationController extends Controller
     public function get_vechicle_owner(Request $request)
     {
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/vehicle-ownership-status?" . $query_params));
+        $records = json_decode(file_get_contents("http://127.0.0.1:8080/records/vehicle-ownership-status?" . $query_params));
 
         return response()->json($records);
     }
@@ -278,7 +278,7 @@ class DataVisualisationController extends Controller
     public function get_household_income(Request $request)
     {
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/income-bucket?" . $query_params));
+        $records = json_decode(file_get_contents("http://127.0.0.1:8080/records/income-bucket?" . $query_params));
 
         return response()->json($records);
     }
@@ -286,7 +286,7 @@ class DataVisualisationController extends Controller
     public function get_employer(Request $request)
     {
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/employer?" . $query_params));
+        $records = json_decode(file_get_contents("http://127.0.0.1:8080/records/employer?" . $query_params));
 
         return response()->json($records);
     }
@@ -294,7 +294,7 @@ class DataVisualisationController extends Controller
     public function get_risk_category(Request $request)
     {
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/risk-category?" . $query_params));
+        $records = json_decode(file_get_contents("http://127.0.0.1:8080/records/risk-category?" . $query_params));
 
         return response()->json($records);
 
@@ -303,7 +303,7 @@ class DataVisualisationController extends Controller
     public function get_lsm_group(Request $request)
     {
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/lsm-group?" . $query_params));
+        $records = json_decode(file_get_contents("http://127.0.0.1:8080/records/lsm-group?" . $query_params));
 
         return response()->json($records);
 
@@ -312,7 +312,7 @@ class DataVisualisationController extends Controller
     public function get_property_valuation(Request $request)
     {
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/property-valuation-bucket?" . $query_params));
+        $records = json_decode(file_get_contents("http://127.0.0.1:8080/records/property-valuation-bucket?" . $query_params));
 
         return response()->json($records);
 
@@ -322,7 +322,7 @@ class DataVisualisationController extends Controller
     {
         
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/property-count-bucket?" . $query_params));
+        $records = json_decode(file_get_contents("http://127.0.0.1:8080/records/property-count-bucket?" . $query_params));
 
         return response()->json($records);
     }
@@ -330,7 +330,7 @@ class DataVisualisationController extends Controller
     public function get_director_of_business(Request $request)
     {
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/directorship-status?" . $query_params));
+        $records = json_decode(file_get_contents("http://127.0.0.1:8080/records/directorship-status?" . $query_params));
 
         return response()->json($records);
 
@@ -340,7 +340,7 @@ class DataVisualisationController extends Controller
     public function get_citizens_and_residents(Request $request)
     {
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/citizen-vs-resident?" . $query_params));
+        $records = json_decode(file_get_contents("http://127.0.0.1:8080/records/citizen-vs-resident?" . $query_params));
 
         return response()->json($records[0]);
     }
@@ -348,7 +348,7 @@ class DataVisualisationController extends Controller
     public function get_generations(Request $request)
     {
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/generation?" . $query_params));
+        $records = json_decode(file_get_contents("http://127.0.0.1:8080/records/generation?" . $query_params));
 
         return response()->json($records);
     }
@@ -356,14 +356,14 @@ class DataVisualisationController extends Controller
     public function get_marital_statuses(Request $request)
     {
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/marital-status?" . $query_params));
+        $records = json_decode(file_get_contents("http://127.0.0.1:8080/records/marital-status?" . $query_params));
 
         return response()->json($records);
     }
 
     public function get_area(Request $request) {
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/area?" . $query_params));
+        $records = json_decode(file_get_contents("http://127.0.0.1:8080/records/area?" . $query_params));
 
         return response()->json($records);
         
@@ -371,7 +371,7 @@ class DataVisualisationController extends Controller
 
     public function get_primary_property_type(Request $request) {
         $query_params = http_build_query($request->all());
-        $records = json_decode(file_get_contents("https://ancient-depths-59870.herokuapp.com/records/primary-property-type?" . $query_params));
+        $records = json_decode(file_get_contents("http://127.0.0.1:8080/records/primary-property-type?" . $query_params));
 
         return response()->json($records);
         
@@ -408,7 +408,7 @@ class DataVisualisationController extends Controller
         $query_params["file_unique_name"] = $fileName;$query_params["file_id"] = $saved_audience->id;
         $query_params["province"] = check_empty($request["provinceContacts"][0]); $query_params["area"] = check_empty($request["areaContacts"][0]); $query_params["municipality"] = check_empty($request["municipalityContacts"][0]);
         $query_params["age_group"] = check_empty($request["AgeContacts"][0]); $query_params["gender"] = check_empty($request["GenderContacts"][0]); $query_params["population_group"] = check_empty($request["populationContacts"][0]);
-        $query_params["generation"] = check_empty($request["generationContacts"][0]); $query_params["citizen_vs_resident"] = check_empty($request["citizenVsResidentsContacts"][0]); $query_params["marital_status"] = check_empty($request["maritalStatusContacts"][0]);
+        $query_params["generation"] = check_empty($request["generationContacts"][0]); $query_params["citizenship_indicator"] = check_empty($request["citizenshipIndicatorContacts"][0]); $query_params["marital_status"] = check_empty($request["maritalStatusContacts"][0]);
         $query_params["home_ownership_status"] = check_empty($request["homeOwnerContacts"][0]); $query_params["risk_category"] = check_empty($request["riskCategoryContacts"][0]); $query_params["income_bucket"] = check_empty($request["houseHoldIncomeContacts"][0]);
         $query_params["directorship_status"] = check_empty($request["directorsContacts"][0]); $query_params["vehicle_ownership_status"] = check_empty($request["vehicleOwnerContacts"][0]); $query_params["property_count_bucket"] = check_empty($request["propertyCountBucketContacts"][0]);
         $query_params["property_valuation_bucket"] = check_empty($request["propertyValuationContacts"][0]); $query_params["lsm_group"] = check_empty($request["lsmGroupContacts"][0]);$query_params["primary_property_type"] = check_empty($request["primaryPropertyTypeContacts"][0]);

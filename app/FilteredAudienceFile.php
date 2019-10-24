@@ -21,7 +21,6 @@ class FilteredAudienceFile extends Model
                             ,'risk_category'
                             ,'income_bucket'
                             ,'directorship_status'
-                            ,'citizen_vs_resident'
                             ,'municipality'
                             ,'area'
                             ,'vehicle_ownership_status'
@@ -29,6 +28,7 @@ class FilteredAudienceFile extends Model
                             ,'property_count_bucket'
                             ,'primary_property_type'
                             ,'lsm_group'
+                            ,'citizenship_indicator'
                             ,'custom_variable_1'
 ];
 }
