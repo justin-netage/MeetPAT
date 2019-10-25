@@ -5,6 +5,23 @@
     <input type="hidden" id="user_id" value="{{\Auth::user()->id}}">
 </form>
 <div class="container">
+    @if(\MeetPAT\ThirdPartyService::find(1)->status == 'offline')
+    <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="alert alert-warning" role="alert">
+                    <p><i class="fas fa-exclamation-triangle"></i> &nbsp;Due to a high volume of queries, were are experiencing a temporary delay with processing.</p>
+                    <p>Please feel free to leave this page. We will notify you via email to 
+                    <strong>
+                        @if(Auth::user()->client_notification_detail)
+                        {{Auth::user()->client_notification_detail->contact_email}}
+                        @else
+                        {{Auth::user()->email}}
+                        @endif
+                    </strong> once your dashboard is ready.</p>
+                </div>
+            </div>
+        </div>
+    @endif
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
