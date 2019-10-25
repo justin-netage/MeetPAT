@@ -21,7 +21,13 @@
                     <form id="update-custom-audience" enctype="multipart/form-data" style="display:none;" novalidate>
                         <div class="alert alert-info">
                         <p>Please note that updating large numbers of records can take some time. During this process, you will not be able to access your dashboard or update more contacts until the process has completed.</p>
-                        <p>You can navigate away from this page. An email notification will be sent to <strong>{{\Auth::user()->email}}</strong>, once the process has completed.</p>
+                        <p>You can navigate away from this page. An email notification will be sent to <strong>
+                        @if(\Auth::user()->client_notification_detail)
+                        {{Auth::user()->client_notification_detail->contact_email}}
+                        @else
+                        {{Auth::user()->email}}
+                        @endif
+                        </strong>, once the process has completed.</p>
 
                         </div>
                         @csrf

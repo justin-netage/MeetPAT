@@ -21,7 +21,7 @@
         </div>
         <div class="col-1">
             <div class="btn-group" role="group" aria-label="Basic example">
-                <a href="/meetpat-admin/clients" type="button" class="btn btn-light"><i class="fas fa-arrow-left"></i></a>
+                <a href="/meetpat-admin/clients" class="btn btn-light"><i class="fas fa-arrow-left"></i></a>
                 <button type="button" id="refreshBtn" class="btn btn-light"><i class="fas fa-sync-alt"></i></button>
             </div>
         </div>
@@ -131,7 +131,20 @@
 
                 if(data.data.length) {
                     for(var key in data.data) {
-                        $("#tableBody").append(
+                        if(data.data[key].download == "/404") {
+                            $("#tableBody").append(
+                            "<tr>" +
+                                "<td class=\"text-center\">" + (parseInt(key, 10) + 1) + "</td>" +
+                                "<td>" + data.data[key].created_at + "</td>" +
+                                "<td>" + data.data[key].audience_name + "</td>" +
+                                "<td>" + data.data[key].file_source_origin + "</td>" +
+                                "<td class=\"text-center\">" + data.data[key].size + "</td>" +
+                                "<td class=\"text-center\">" + "<a href=\"#\"><i class=\"fas fa-exclamation-circle text-danger\"></i></a></td>" +
+                                "<td class=\"text-center\">" + "<a href=\"#\" class=\"delete-file\" data-file-id=\"" + data.data[key].id + "\" data-filename=\"" + data.data[key].audience_name + "\"><i class=\"fas fa-trash-alt text-danger\"></i></a></td>" +
+                            "</tr>" 
+                            );
+                        } else {
+                            $("#tableBody").append(
                             "<tr>" +
                                 "<td class=\"text-center\">" + (parseInt(key, 10) + 1) + "</td>" +
                                 "<td>" + data.data[key].created_at + "</td>" +
@@ -141,7 +154,9 @@
                                 "<td class=\"text-center\">" + "<a href=\"" + data.data[key].download + "\"><i class=\"fas fa-file-csv\"></i></a></td>" +
                                 "<td class=\"text-center\">" + "<a href=\"#\" class=\"delete-file\" data-file-id=\"" + data.data[key].id + "\" data-filename=\"" + data.data[key].audience_name + "\"><i class=\"fas fa-trash-alt text-danger\"></i></a></td>" +
                             "</tr>" 
-                        );
+                            );
+                        }
+                        
                     } 
 
                     $("#entriesInfo").html(data.from + " to " + data.to + " of " + data.total + " entries");
