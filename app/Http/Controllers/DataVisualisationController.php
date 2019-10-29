@@ -79,6 +79,7 @@ class DataVisualisationController extends Controller
         if(!in_array($request->audience_name, $audience_names)) {
             if(env('APP_ENV') == 'production') {
                 $actual_file = \Storage::disk('s3')->get('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id  . ".csv");
+                $queue_file = \Storage::disk('s3')->put('Temp/Enrichment/' . $request->file_id . '.csv', $actual_file);
             } else {
                 $actual_file = \Storage::disk('local')->get('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id  . ".csv");
             }
