@@ -29,7 +29,7 @@
 
                 <div class="card-body" id="records-status">
                     <br />
-                    <p>Updating large amounts of data can take time. Please be patient while your records are being processed.</p>
+                    <p>Updating large amounts of data can take time. Please be patient while your records are being processed. Feel free to navigate away from this page as the process is running in the background.</p>
                     @if(Auth::user()->client_notification_detail)
                     <p>An email will be sent to <span style="color:#2196F3">{{Auth::user()->client_notification_detail->contact_email}}</span> as soon as the process has completed.</p>
                     @else

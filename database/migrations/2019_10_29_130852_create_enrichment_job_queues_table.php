@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRunningTasksTable extends Migration
+class CreateEnrichmentJobQueuesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateRunningTasksTable extends Migration
      */
     public function up()
     {
-        Schema::create('running_tasks', function (Blueprint $table) {
+        Schema::create('enrichment_job_queues', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum("priority", ["low", "medium", "high"]);
-            $table->enum("task", ["file_job", "enrichment_upload", "enrichement_import"]);
+            $table->enum('uploaded_to_bsa', ["yes", "no"])->default("no");
+            $table->enum('has_record_matches', ["yes", "no"])->default("no");
+            $table->integer('record_job_id');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateRunningTasksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('running_tasks');
+        Schema::dropIfExists('enrichment_job_queues');
     }
 }
