@@ -13,6 +13,15 @@
 <!-- End -->
 
 <div class="container">
+    @if(\MeetPAT\ThirdPartyService::find(1)->status == 'offline')
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="alert alert-warning" role="alert">
+                <p><i class="fas fa-exclamation-triangle"></i> BSA's SFTP Server is currently offline.</p>
+            </div>
+        </div>
+    </div>
+    @endif
     <div class="row">
         <div class="col-12">
             <div id="mainAlertSection"></div>
