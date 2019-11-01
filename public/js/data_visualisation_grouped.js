@@ -1394,24 +1394,24 @@ function DrawLocationCharts() {
             $("#lunr-search").show();
             $("#area-filter-form .text-center").remove();
             shorter_result.forEach(function(result) {
-                if($('#area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                    $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox" checked="checked"><label for="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' 
+                if($('#area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').length) {
+                    $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox" checked="checked"><label for="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' 
                     + results_areas.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small> (' 
                     + get_province_name(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0]) + ')</label><br />');
-                    $('#area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
+                    $('#area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').click(function(){
                         
-                        if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
+                        if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').is(":checked")) { 
                             check_province(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0], true);
                             check_municipality(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0], true);
                             var parent = this;
-                            $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
-                            $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                            $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
+                            $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '" id="area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
+                            $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                            $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + ' i').click(function() {
                                 
-                                if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                                    $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                    $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
-                                    $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
+                                if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').length) {
+                                    $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")).remove();
+                                    $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').remove();
+                                    $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').prop("checked", false);
                                 }
                                 sub_province_count(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0]);
                                 sub_municipality_count(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0]);
@@ -1421,31 +1421,31 @@ function DrawLocationCharts() {
                             
                             check_province(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0], false);
                             check_municipality(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0], false);
-                            if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
-                                $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
+                            if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, ""))) {
+                                $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")).remove();
+                                $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').remove();
                             }
                         }
                         checkForFilters();
                     });                        
                 } else {
-                    $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox"><label for="area_' 
-                    + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' 
+                    $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox"><label for="area_' 
+                    + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' 
                     + results_areas.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small> (' 
                     + get_province_name(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0]) + ')</label><br />');
-                    $('#area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
+                    $('#area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').click(function(){
                         
-                        if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
+                        if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').is(":checked")) { 
                             check_province(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0], true);
                             check_municipality(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0], true);
                             var parent = this;
-                            $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
-                            $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                            $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
-                                if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                                    $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                    $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
-                                    $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
+                            $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '" id="area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
+                            $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                            $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + ' i').click(function() {
+                                if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').length) {
+                                    $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")).remove();
+                                    $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').remove();
+                                    $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').prop("checked", false);
                                 }
                                 sub_province_count(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0]);
                                 sub_municipality_count(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0]);
@@ -1456,9 +1456,9 @@ function DrawLocationCharts() {
                             
                             check_province(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0], false);
                             check_municipality(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0], false);
-                            if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
-                                $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
+                            if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, ""))) {
+                                $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")).remove();
+                                $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').remove();
 
                             }
                         }
@@ -1475,24 +1475,24 @@ function DrawLocationCharts() {
                     idx.search(this.value + "*").forEach(function(result) {
                         
                         if(result.score) {
-                            if($('#area_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                                $("#lunr-results").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox" checked="checked"><label for="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result.ref + '<small> ' 
+                            if($('#area_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').length) {
+                                $("#lunr-results").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '" id="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox" checked="checked"><label for="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" class="css-label">' + result.ref + '<small> ' 
                                 + results_areas.filter(obj => {if(obj.name === result.ref) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small> (' 
                                 + get_province_name(results_areas.filter(obj => {if(obj.name === result.ref) { return obj.province}}).map(function(obj) { return obj.province})[0]) + ')</label><br />');
-                                $('#area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
+                                $('#area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').click(function(){
                                     
-                                    if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
+                                    if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').is(":checked")) { 
                                         check_province(results_areas.filter(obj => {if(obj.name === result.ref) { return obj.province}}).map(function(obj) { return obj.province})[0], true);
                                         check_municipality(results_areas.filter(obj => {if(obj.name === result.ref) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0], true);
                                         var parent = this;
-                                        $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" checked="checked">');
-                                        $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                                        $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
+                                        $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '" id="area_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" value="' + result.ref + '" checked="checked">');
+                                        $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                        $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + ' i').click(function() {
                                         
-                                            if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                                                $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                                $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
-                                                $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
+                                            if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').length) {
+                                                $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")).remove();
+                                                $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').remove();
+                                                $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').prop("checked", false);
                                             }
                                             sub_province_count(results_areas.filter(obj => {if(obj.name === result.ref) { return obj.province}}).map(function(obj) { return obj.province})[0]);
                                             sub_municipality_count(results_areas.filter(obj => {if(obj.name === result.ref) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0]);
@@ -1502,30 +1502,30 @@ function DrawLocationCharts() {
                                         
                                         check_province(results_areas.filter(obj => {if(obj.name === result.ref) { return obj.province}}).map(function(obj) { return obj.province})[0], false);
                                         check_municipality(results_areas.filter(obj => {if(obj.name === result.ref) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0], false);
-                                        if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
-                                            $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                            $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
+                                        if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, ""))) {
+                                            $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")).remove();
+                                            $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').remove();
                                         }
                                     }
                                     checkForFilters();
                                 });                        
                             } else {
-                                $("#lunr-results").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox"><label for="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result.ref + '<small> ' 
+                                $("#lunr-results").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '" id="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox"><label for="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" class="css-label">' + result.ref + '<small> ' 
                                 + results_areas.filter(obj => {if(obj.name === result.ref) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small> (' 
                                 + get_province_name(results_areas.filter(obj => {if(obj.name === result.ref) { return obj.province}}).map(function(obj) { return obj.province})[0]) + ')</label><br />');
-                                $('#area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
-                                    if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
+                                $('#area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').click(function(){
+                                    if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').is(":checked")) { 
 
                                         check_province(results_areas.filter(obj => {if(obj.name === result.ref) { return obj.province}}).map(function(obj) { return obj.province})[0], true);
                                         check_municipality(results_areas.filter(obj => {if(obj.name === result.ref) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0], true);
                                         var parent = this;
-                                        $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" checked="checked">');
-                                        $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                                        $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
-                                            if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                                                $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                                $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
-                                                $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
+                                        $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '" id="area_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" value="' + result.ref + '" checked="checked">');
+                                        $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                        $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + ' i').click(function() {
+                                            if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').length) {
+                                                $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")).remove();
+                                                $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').remove();
+                                                $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').prop("checked", false);
                                             }
                                             sub_province_count(results_areas.filter(obj => {if(obj.name === result.ref) { return obj.province}}).map(function(obj) { return obj.province})[0]);
                                             sub_municipality_count(results_areas.filter(obj => {if(obj.name === result.ref) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0]);
@@ -1536,9 +1536,9 @@ function DrawLocationCharts() {
                                         
                                         check_province(results_areas.filter(obj => {if(obj.name === result.ref) { return obj.province}}).map(function(obj) { return obj.province})[0], false);
                                         check_municipality(results_areas.filter(obj => {if(obj.name === result.ref) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0], false);
-                                        if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
-                                            $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                            $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
+                                        if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, ""))) {
+                                            $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")).remove();
+                                            $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').remove();
 
                                         }
                                     }
@@ -1554,24 +1554,24 @@ function DrawLocationCharts() {
                     
                     shorter_result.forEach(function(result) {
                     
-                        if($('#area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                            $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox" checked="checked"><label for="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' 
+                        if($('#area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').length) {
+                            $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox" checked="checked"><label for="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' 
                             + results_areas.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small> (' 
                             + get_province_name(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0]) + ')</label><br />');
-                            $('#area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
+                            $('#area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').click(function(){
                                 
-                                if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
+                                if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').is(":checked")) { 
                                     check_province(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0], true);
                                     check_municipality(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0], true);
                                     var parent = this;
-                                    $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
-                                    $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                                    $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
+                                    $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '" id="area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
+                                    $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                    $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + ' i').click(function() {
                                         
-                                        if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                                            $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                            $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
-                                            $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
+                                        if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').length) {
+                                            $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")).remove();
+                                            $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').remove();
+                                            $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').prop("checked", false);
                                         }
                                         sub_province_count(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0]);
                                         sub_municipality_count(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0]);
@@ -1581,30 +1581,30 @@ function DrawLocationCharts() {
                                     check_province(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0], false);
                                     check_municipality(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0], false);
                 
-                                    if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
-                                        $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                        $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
+                                    if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, ""))) {
+                                        $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")).remove();
+                                        $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').remove();
                                     }
                                 }
                                 checkForFilters();
                             });                        
                         } else {
-                            $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox"><label for="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' 
+                            $("#lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '" id="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox"><label for="area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' 
                             + results_areas.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small> (' 
                             + get_province_name(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0]) + ')</label><br />');
-                            $('#area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
-                                if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
+                            $('#area_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').click(function(){
+                                if($('#area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').is(":checked")) { 
                                     
                                     check_province(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0], true);
                                     check_municipality(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0], true);
                                     var parent = this;
-                                    $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
-                                    $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                                    $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
-                                        if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                                            $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                            $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
-                                            $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
+                                    $("#hidden-area-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '" id="area_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
+                                    $("#area_filters").append('<li id="filter_area_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                    $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + ' i').click(function() {
+                                        if($('#area_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').length) {
+                                            $('#filter_area_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")).remove();
+                                            $('#area_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').remove();
+                                            $("#area_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').prop("checked", false);
                                         }
                                         sub_province_count(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0]);
                                         sub_municipality_count(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0]);
@@ -1615,9 +1615,9 @@ function DrawLocationCharts() {
                                     check_province(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.province}}).map(function(obj) { return obj.province})[0], false);
                                     check_municipality(results_areas.filter(obj => {if(obj.name === result[0]) { return obj.municipality}}).map(function(obj) { return obj.municipality})[0], false);
                 
-                                    if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
-                                        $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                        $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
+                                    if($('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, ""))) {
+                                        $('#filter_area_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")).remove();
+                                        $('#area_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').remove();
 
                                     }
                                 }
@@ -3111,50 +3111,50 @@ function DrawCustomMetricsCharts() {
                 $("#branch-lunr-search").show();
                 $("#branch-filter-form .text-center").remove();
                 short_branches_result.forEach(function(result) {
-                    if($('#branch_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
+                    if($('#branch_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').length) {
                      
-                        $("#branch-lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="branch_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox" checked="checked"><label for="branch_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' 
+                        $("#branch-lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '" id="branch_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox" checked="checked"><label for="branch_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' 
                             + results_branches.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
-                        $('#branch_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
+                        $('#branch_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').click(function(){
                             
-                            if($('#branch_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
+                            if($('#branch_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').is(":checked")) { 
                                 
                                 var parent = this;
-                                $("#hidden-branch-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="branch_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '" checked="checked">' + '<small> ' + results_branches.filter(obj => {if(obj.name === result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
-                                $("#branch_filters").append('<li id="filter_branch_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                                $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
+                                $("#hidden-branch-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '" id="branch_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" value="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" class="css-label">' + result[0] + '" checked="checked">' + '<small> ' + results_branches.filter(obj => {if(obj.name === result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
+                                $("#branch_filters").append('<li id="filter_branch_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + ' i').click(function() {
                                     
-                                    if($('#branch_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                                        $('#filter_branch_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                        $('#branch_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
-                                        $("#branch_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
+                                    if($('#branch_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').length) {
+                                        $('#filter_branch_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")).remove();
+                                        $('#branch_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').remove();
+                                        $("#branch_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').prop("checked", false);
                                     }
                                     checkForFilters();
                                 });
                             } else {
                                 
             
-                                if($('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
-                                    $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                    $('#branch_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
+                                if($('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, ""))) {
+                                    $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")).remove();
+                                    $('#branch_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').remove();
                                 }
                             }
                             checkForFilters();
                         });                        
                     } else {
-                        $("#branch-lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="branch_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox"><label for="branch_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' 
+                        $("#branch-lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '" id="branch_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox"><label for="branch_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' 
                         + results_branches.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
-                        $('#branch_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
-                            if($('#branch_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
+                        $('#branch_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').click(function(){
+                            if($('#branch_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').is(":checked")) { 
                                 
                                 var parent = this;
-                                $("#hidden-branch-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="branch_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
-                                $("#branch_filters").append('<li id="filter_branch_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                                $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
-                                    if($('#branch_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                                        $('#filter_branch_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                        $('#branch_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
-                                        $("#branch_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
+                                $("#hidden-branch-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '" id="branch_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
+                                $("#branch_filters").append('<li id="filter_branch_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + ' i').click(function() {
+                                    if($('#branch_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').length) {
+                                        $('#filter_branch_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")).remove();
+                                        $('#branch_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').remove();
+                                        $("#branch_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').prop("checked", false);
                                     }
                                     checkForFilters();
 
@@ -3162,9 +3162,9 @@ function DrawCustomMetricsCharts() {
                             } else {
                                 
             
-                                if($('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
-                                    $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                    $('#branch_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
+                                if($('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, ""))) {
+                                    $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")).remove();
+                                    $('#branch_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').remove();
 
                                 }
                             }
@@ -3183,53 +3183,53 @@ function DrawCustomMetricsCharts() {
                     idx_branches.search(this.value + "*").forEach(function(result) {
                         
                         if(result.score) {
-                            if($('#branch_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                                $("#branch-lunr-results").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox" checked="checked"><label for="branch_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result.ref + '<small> ' 
+                            if($('#branch_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').length) {
+                                $("#branch-lunr-results").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '" id="area_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox" checked="checked"><label for="branch_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" class="css-label">' + result.ref + '<small> ' 
                                 + results_branches.filter(obj => {if(obj.name === result.ref) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
-                                $('#branch_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
+                                $('#branch_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').click(function(){
                                     
-                                    if($('#branch_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
+                                    if($('#branch_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').is(":checked")) { 
                                         var parent = this;
-                                        $("#hidden-branch-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="branch_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" checked="checked">');
-                                        $("#branch_filters").append('<li id="filter_branch_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                                        $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
+                                        $("#hidden-branch-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '" id="branch_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" value="' + result.ref + '" checked="checked">');
+                                        $("#branch_filters").append('<li id="filter_branch_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                        $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + ' i').click(function() {
                                         
-                                            if($('#branch_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                                                $('#filter_branch_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                                $('#branch_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
-                                                $("#branch_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
+                                            if($('#branch_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').length) {
+                                                $('#filter_branch_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")).remove();
+                                                $('#branch_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').remove();
+                                                $("#branch_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').prop("checked", false);
                                             }
                                         });
                                     } else {
                                         
-                                        if($('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
-                                            $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                            $('#branch_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
+                                        if($('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, ""))) {
+                                            $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")).remove();
+                                            $('#branch_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').remove();
                                         }
                                     }
                                     checkForFilters();
                                 });                        
                             } else {
-                                $("#branch-lunr-results").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="branch_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox"><label for="branch_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result.ref + '<small> ' 
+                                $("#branch-lunr-results").append('<input type="checkbox" name="' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '" id="branch_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" value="' + result.ref + '" class="css-checkbox"><label for="branch_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" class="css-label">' + result.ref + '<small> ' 
                                 + results_branches.filter(obj => {if(obj.name === result.ref) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
-                                $('#branch_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
-                                    if($('#branch_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
+                                $('#branch_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').click(function(){
+                                    if($('#branch_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').is(":checked")) { 
 
                                         var parent = this;
-                                        $("#hidden-branch-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="branch_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result.ref + '" checked="checked">');
-                                        $("#branch_filters").append('<li id="filter_branch_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                                        $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
-                                            if($('#branch_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                                                $('#filter_branch_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                                $('#branch_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
-                                                $("#branch_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
+                                        $("#hidden-branch-filter-form").append('<input type="checkbox" name="hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '" id="branch_hidden_' + result.ref.toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" value="' + result.ref + '" checked="checked">');
+                                        $("#branch_filters").append('<li id="filter_branch_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                        $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + ' i').click(function() {
+                                            if($('#branch_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').length) {
+                                                $('#filter_branch_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")).remove();
+                                                $('#branch_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').remove();
+                                                $("#branch_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').prop("checked", false);
                                             }
                                         });
                                     } else {
                                         
-                                        if($('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
-                                            $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                            $('#branch_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
+                                        if($('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, ""))) {
+                                            $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")).remove();
+                                            $('#branch_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').remove();
 
                                         }
                                     }
@@ -3245,53 +3245,53 @@ function DrawCustomMetricsCharts() {
                     
                     short_branches_result.forEach(function(result) {
                     
-                        if($('#branch_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                            $("#branch-lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="branch_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox" checked="checked"><label for="branch_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' 
+                        if($('#branch_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').length) {
+                            $("#branch-lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '" id="branch_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox" checked="checked"><label for="branch_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' 
                             + results_branches.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
-                            $('#branch_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
+                            $('#branch_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').click(function(){
                                 
-                                if($('#branch_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
+                                if($('#branch_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').is(":checked")) { 
                                     var parent = this;
-                                    $("#hidden-branch-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="branch_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
-                                    $("#branch_filters").append('<li id="filter_branch_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                                    $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
+                                    $("#hidden-branch-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '" id="branch_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
+                                    $("#branch_filters").append('<li id="filter_branch_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                    $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + ' i').click(function() {
                                         
-                                        if($('#branch_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                                            $('#filter_branch_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                            $('#branch_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
-                                            $("#branch_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
+                                        if($('#branch_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').length) {
+                                            $('#filter_branch_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")).remove();
+                                            $('#branch_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').remove();
+                                            $("#branch_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').prop("checked", false);
                                         }
                                     });
                                 } else {
-                                    if($('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
-                                        $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                        $('#branch_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
+                                    if($('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, ""))) {
+                                        $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")).remove();
+                                        $('#branch_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').remove();
                                     }
                                 }
                                 checkForFilters();
                             });                        
                         } else {
-                            $("#branch-lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="branch_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox"><label for="branch_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' 
+                            $("#branch-lunr-results").append('<input type="checkbox" name="' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '" id="branch_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" value="' + result[0] + '" class="css-checkbox"><label for="branch_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" class="css-label">' + result[0] + '<small> ' 
                             + results_branches.filter(obj => {if(obj.name === result[0]) { return obj.count}}).map(function(obj) { return obj.count})[0] + '</small></label><br />');
-                            $('#branch_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').click(function(){
-                                if($('#branch_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').is(":checked")) { 
+                            $('#branch_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').click(function(){
+                                if($('#branch_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').is(":checked")) { 
                                     
                                     var parent = this;
-                                    $("#hidden-branch-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '" id="branch_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
-                                    $("#branch_filters").append('<li id="filter_branch_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                                    $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + ' i').click(function() {
-                                        if($('#branch_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').length) {
-                                            $('#filter_branch_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                            $('#branch_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
-                                            $("#branch_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').prop("checked", false);
+                                    $("#hidden-branch-filter-form").append('<input type="checkbox" name="hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '" id="branch_hidden_' + result[0].toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option' +'" value="' + result[0] + '" checked="checked">');
+                                    $("#branch_filters").append('<li id="filter_branch_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                    $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + ' i').click(function() {
+                                        if($('#branch_hidden_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').length) {
+                                            $('#filter_branch_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")).remove();
+                                            $('#branch_hidden_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').remove();
+                                            $("#branch_" + $(parent).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').prop("checked", false);
                                         }
 
                                     });
                                 } else {
                 
-                                    if($('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, ""))) {
-                                        $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "")).remove();
-                                        $('#branch_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&()]/g, "") + '_option').remove();
+                                    if($('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, ""))) {
+                                        $('#filter_branch_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "")).remove();
+                                        $('#branch_hidden_' + $(this).val().toLowerCase().replace(/ /g, "_").replace(/[\'&@()]/g, "") + '_option').remove();
 
                                     }
                                 }
