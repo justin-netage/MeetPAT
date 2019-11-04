@@ -3834,6 +3834,7 @@ $(document).ready(function() {
         
         if(no_same_file_names().length == 0) {
             $("#savedAudiencesForm .alerts").empty();
+            $("#SavedAudiencesModal button").prop("disabled", 1);
             var edit_form_data = {};
             var el_save = $(this);
             var already_disabled_next = $("#btn_next_item").hasClass("disabled");
@@ -3877,6 +3878,7 @@ $(document).ready(function() {
                 $(".delete_file_btn").prop("disabled", false);
                 el_save.prop("disabled", false);
                 el_save.html("Save Changes");
+                $("#SavedAudiencesModal button").prop("disabled", 0);
                 console.log(data);
             }).done(function(data) {
                 $(".delete_file_btn").prop("disabled", false);
@@ -3887,6 +3889,7 @@ $(document).ready(function() {
                     $("#btn_prev_item").removeClass("disabled");
                 }
                 get_saved_audiences();
+                $("#SavedAudiencesModal button").prop("disabled", 0);
                 el_save.prop("disabled", false);
                 el_save.html("Save Changes");
                 //console.log( data );
