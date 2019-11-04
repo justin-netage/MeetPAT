@@ -3765,6 +3765,8 @@ $(document).ready(function() {
             filter_form_data["file_name"] = $("#nameFile").val();
             //console.log(filter_form_data);
             $("#SaveAudienceModal button").prop("disabled", 1);
+            $("#SaveAudienceModal").modal({backdrop: 'static', keyboard: false});
+
             $("#downloadSubmitBtn").html(
                 '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
                 + '&nbsp;Saving...'
@@ -3788,6 +3790,7 @@ $(document).ready(function() {
                     </button>
                 </div>
                 `);
+                $("#SaveAudienceModal").modal({backdrop: true, keyboard: true});
                 $('#SavedAudiencesModal').modal('show');
                 console.log(data);
             }).done(function(data) {
@@ -3807,6 +3810,7 @@ $(document).ready(function() {
                             );
                             $('#SavedAudiencesModal').modal('show');
                             $("#SaveAudienceModal button").prop("disabled", 0);
+                            $("#SaveAudienceModal").modal({backdrop: true, keyboard: true});
                             get_saved_audiences();
                         }
                     });
