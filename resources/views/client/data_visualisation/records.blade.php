@@ -844,7 +844,7 @@
 
 @section('modals')
 <!-- Modal -->
-<div class="modal fade" id="SavedAudiencesModal" tabindex="-1" role="dialog" aria-labelledby="SavedAudiencesModalLabel" aria-hidden="true">
+<div class="modal fade" id="SavedAudiencesModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="SavedAudiencesModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
         <form id="savedAudiencesForm">
@@ -880,7 +880,7 @@
   </div>
 </div>
 
-<div class="modal fade" id="SaveAudienceModal" tabindex="-1" role="dialog" aria-labelledby="SaveAudienceModalLabel" aria-hidden="true">
+<div class="modal fade" id="SaveAudienceModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="SaveAudienceModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
   <form id="saveAudienceForm">
 
