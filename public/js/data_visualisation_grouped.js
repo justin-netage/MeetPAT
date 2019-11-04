@@ -3754,6 +3754,7 @@ $(document).ready(function() {
     });
 
     $("#downloadSubmitBtn").click(function() {
+        $("#SaveAudienceModal button").prop("disabled", 1);
         
         if(!file_name_exists($("#nameFile").val())) {
             $("#SaveAudienceModal .alerts").empty();
@@ -3791,8 +3792,6 @@ $(document).ready(function() {
                 $('#SavedAudiencesModal').modal('show');
                 console.log(data);
             }).done(function(data) {
-                
-                
 
                 var check_job_status = setInterval(function(){ 
                     $.post('/api/meetpat-client/saved-file-job-status', {id: data["job"]["id"]}, function(current_job) {
@@ -3808,6 +3807,7 @@ $(document).ready(function() {
                                 '<i class="far fa-save"></i>&nbsp;Save Contacts'
                             );
                             $('#SavedAudiencesModal').modal('show');
+                            $("#SaveAudienceModal button").prop("disabled", 0);
                             get_saved_audiences();
                         }
                     });
