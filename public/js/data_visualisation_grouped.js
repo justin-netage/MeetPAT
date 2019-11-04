@@ -3754,7 +3754,6 @@ $(document).ready(function() {
     });
 
     $("#downloadSubmitBtn").click(function() {
-        $("#SaveAudienceModal button").prop("disabled", 1);
         
         if(!file_name_exists($("#nameFile").val())) {
             $("#SaveAudienceModal .alerts").empty();
@@ -3765,7 +3764,7 @@ $(document).ready(function() {
     
             filter_form_data["file_name"] = $("#nameFile").val();
             //console.log(filter_form_data);
-            $("#downloadSubmitBtn").prop("disabled", true);
+            $("#SaveAudienceModal button").prop("disabled", 1);
             $("#downloadSubmitBtn").html(
                 '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
                 + '&nbsp;Saving...'
