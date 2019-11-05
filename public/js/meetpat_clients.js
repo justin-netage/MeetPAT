@@ -584,15 +584,5 @@ var open_settings = function(client) {
         xhr_settings_user.abort();
         $("#modalsContainer").empty();
     });
-}
-
-$(document).ready(function() {
-    
-    $('#clients_table').DataTable({
-        responsive: true
-    });
-    
-})
-
-    
+}   
     

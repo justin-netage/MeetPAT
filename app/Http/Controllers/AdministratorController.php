@@ -227,6 +227,29 @@ class AdministratorController extends Controller
         return view('admin.clients.create_client');
     }
 
+    public function get_users(Request $request)
+    {
+        $currentPage = $request->current;
+
+        if($request->search_term)
+        {
+            $users_array = \MeetPAT\User::select(["id", "name", "email", "created_at"])->where([['name', 'ilike', '%'.$request->search_term.'%']])->orWhere([['email', 'ilike', '%'.$request->search_term.'%']])->orderBy('created_at', 'desc')->paginate(10);
+
+        } else {
+            $users_array = \MeetPAT\User::select(["id", "name", "email", "created_at"])->orderBy('created_at', 'desc')->paginate(10);
+        }
+
+        foreach($users_array as $key => $user)
+        {
+            if($users_array->items()[$key]['client'] == null) {
+                unset($users_array[$key]);
+            }
+        }
+
+        return response()->json($users_array);
+
+    }
+
     // route functions for user files to download
     public function get_user_files(Request $request)
     {

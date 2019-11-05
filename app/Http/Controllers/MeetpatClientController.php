@@ -1384,10 +1384,12 @@ class MeetpatClientController extends Controller
 
     public function get_uploaded_files(Request $request)
     {
-        $files_array = \MeetPAT\AudienceFile::select(["id","audience_name","file_source_origin", "file_unique_name", "created_at"])->where([['user_id', '=', $request->user_id]])->orderBy('created_at', 'desc')->paginate(10);
+        
 
         if($request->search_term) {
             $files_array = \MeetPAT\AudienceFile::select(["id","audience_name","file_source_origin", "file_unique_name", "created_at"])->where([['user_id', '=', $request->user_id], ['audience_name', 'ilike', '%'.$request->search_term.'%']])->orderBy('created_at', 'desc')->paginate(10);
+        } else {
+            $files_array = \MeetPAT\AudienceFile::select(["id","audience_name","file_source_origin", "file_unique_name", "created_at"])->where([['user_id', '=', $request->user_id]])->orderBy('created_at', 'desc')->paginate(10);
         }
 
         foreach($files_array as $key=>$file)
@@ -1423,10 +1425,11 @@ class MeetpatClientController extends Controller
 
     public function get_saved_files(Request $request)
     {
-        $files_array = \MeetPAT\SavedFilteredAudienceFile::select(["id","file_name", "file_unique_name", "created_at"])->where([['user_id', '=', $request->user_id]])->orderBy('created_at', 'desc')->paginate(10);
-
+       
         if($request->search_term) {
             $files_array = \MeetPAT\SavedFilteredAudienceFile::select(["id","file_name", "file_unique_name", "created_at"])->where([['user_id', '=', $request->user_id], ['file_name', 'ilike', '%'.$request->search_term.'%']])->orderBy('created_at', 'desc')->paginate(10);
+        } else {
+            $files_array = \MeetPAT\SavedFilteredAudienceFile::select(["id","file_name", "file_unique_name", "created_at"])->where([['user_id', '=', $request->user_id]])->orderBy('created_at', 'desc')->paginate(10);
         }
 
         foreach($files_array as $key=>$file)

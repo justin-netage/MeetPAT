@@ -25,6 +25,8 @@ Route::post('/send-message', 'ContactController@send_message')->name('send-messa
 /** BEGIN Administrator routes */
 // Note add ->middleware('auth')
 
+Route::get('/meetpat-admin/get-users', 'AdministratorController@get_users')->name('get-users')->middleware('auth:api');
+
 Route::get('/meetpat-admin/users', 'AdministratorController@users')->name('users');
 Route::get('/meetpat-admin/users/count', 'AdministratorController@user_count')->name('user-count');
 
