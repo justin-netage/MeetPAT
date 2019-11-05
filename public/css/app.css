@@ -12079,3 +12079,7 @@ nav .dropdown-menu {
   }
 }
 
+#tableData td i:hover {
+  cursor: pointer;
+}
+

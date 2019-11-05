@@ -177,7 +177,7 @@
                                 "<td class=\"text-center\">" +
                                 "<i class=\"fas fa-toggle-on mr-0\" data-user-id=\"" + data.data[key].id + "\" onclick=\"set_status(this)\"></i>" +
                                 "</td>" +
-                                "<td class=\"text-center\"><a href=\"/meetpat-admin/users/files/" + data.data[key].id + "\"><i class=\"fas fa-folder\"></i></a></td>" +
+                                "<td class=\"text-center\"><a href=\"/meetpat-admin/users/files/" + data.data[key].id + "\"><i class=\"fas fa-folder mr-0\"></i></a></td>" +
                                 "<td class=\"text-center\"><i class=\"fas fa-pen mr-0\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_edit(this)\"></i></td>" +
                                 "<td class=\"text-center\"><i class=\"fas fa-sliders-h mr-0\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_settings(this)\"></i></td>" +
                             "</tr>"
@@ -196,8 +196,8 @@
                                         "<li><strong>Email</strong> " + data.data[key].email + "</li>" +
                                         "<li><strong>Active</strong> <i class=\"fas fa-toggle-on\" data-user-id=\"" + data.data[key].id + "\" onclick=\"set_status(this)\"></i> </li>" +
                                         "<li><strong>Files</strong> <a href=\"/meetpat-admin/users/files/" + data.data[key].id + "\"><i class=\"fas fa-folder\"></i></a></li>" +
-                                        "<li><strong>Edit</strong> <a href=\"#\"><i class=\"fas fa-exclamation-circle text-danger\"></i></a></li>" +
-                                        "<li><strong>Settings</strong> <i class=\"fas fa-pen\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_edit(this)\"></i></li>" +
+                                        "<li><strong>Edit</strong> <i class=\"fas fa-pen\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_edit(this)\"></i></li>" +
+                                        "<li><strong>Settings</strong> <i class=\"fas fa-sliders-h\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_settings(this)\"></i></li>" +
                                     "</ul>" +
                                 "</td>" +
                             "</tr>"
@@ -211,9 +211,9 @@
                                     "<td class=\"text-center\">" +
                                     "<i class=\"fas fa-toggle-off\" data-user-id=\"" + data.data[key].id + "\" onclick=\"set_status(this)\"></i>" +
                                     "</td>" +
-                                    "<td class=\"text-center\"><a href=\"/meetpat-admin/users/files/" + data.data[key].id + "\"><i class=\"fas fa-folder\"></i></a></td>" +
-                                    "<td class=\"text-center\"><i class=\"fas fa-pen\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_edit(this)\"></i></td>" +
-                                    "<td class=\"text-center\"><i class=\"fas fa-sliders-h\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_settings(this)\"></i></td>" +
+                                    "<td class=\"text-center\"><a href=\"/meetpat-admin/users/files/" + data.data[key].id + "\"><i class=\"fas fa-folder mr-0\"></i></a></td>" +
+                                    "<td class=\"text-center\"><i class=\"fas fa-pen mr-0\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_edit(this)\"></i></td>" +
+                                    "<td class=\"text-center\"><i class=\"fas fa-sliders-h mr-0\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_settings(this)\"></i></td>" +
                                 "</tr>"
                             );
 
@@ -230,8 +230,8 @@
                                             "<li><strong>Email</strong> " + data.data[key].email + "</li>" +
                                             "<li><strong>Active</strong> <i class=\"fas fa-toggle-off\" data-user-id=\"" + data.data[key].id + "\" onclick=\"set_status(this)\"></i> </li>" +
                                             "<li><strong>Files</strong> <a href=\"/meetpat-admin/users/files/" + data.data[key].id + "\"><i class=\"fas fa-folder\"></i></a></li>" +
-                                            "<li><strong>Edit</strong> <a href=\"#\"><i class=\"fas fa-exclamation-circle text-danger\"></i></a></li>" +
-                                            "<li><strong>Settings</strong> <i class=\"fas fa-pen\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_edit(this)\"></i></li>" +
+                                            "<li><strong>Edit</strong> <i class=\"fas fa-pen\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_edit(this)\"></i></li>" +
+                                            "<li><strong>Settings</strong> <i class=\"fas fa-sliders-h\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_settings(this)\"></i></li>" +
                                         "</ul>" +
                                     "</td>" +
                                 "</tr>"
