@@ -14,13 +14,13 @@
         <div class="col-12 col-md-6">
             <h3>Saved Audience Files</h3>
         </div>
-        <div class="col-4 col-md-2 col-lg-1">
+        <div class="col-3 col-md-2 col-lg-1">
             <div class="btn-group" role="group" aria-label="Basic example">
                 <a href="/meetpat-client/files" class="btn btn-light"><i class="fas fa-arrow-left"></i></a>
                 <a href="#" id="refreshBtn" class="btn btn-light"><i class="fas fa-sync-alt"></i></a>
             </div>
         </div>
-        <div class="col-8 col-md-4 col-lg-5">
+        <div class="col-9 col-md-4 col-lg-5">
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
                     <div class="input-group-text"><i class="fas fa-search"></i></div>
@@ -250,6 +250,14 @@
                         $("#tableBody").html(
                             "<tr>" +
                                 "<td colspan=\"6\">" +
+                                    "<strong>No results found</strong>" +
+                                "</td>" +
+                            "</tr>"
+                        );
+
+                        $("#mobileTableData tbody").html(
+                            "<tr>" +
+                                "<td colspan=\"2\">" +
                                     "<strong>No results found</strong>" +
                                 "</td>" +
                             "</tr>"

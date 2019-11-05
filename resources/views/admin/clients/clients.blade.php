@@ -26,13 +26,13 @@
         <div class="col-12 col-md-6">
             <h3>MeetPAT Clients</h3>
         </div>
-        <div class="col-1">
+        <div class="col-3 col-md-2 col-lg-1">
             <div class="btn-group" role="group" aria-label="Basic example">
-                <a href="/meetpat-admin/clients" class="btn btn-light"><i class="fas fa-arrow-left"></i></a>
+                <a href="/" class="btn btn-light"><i class="fas fa-arrow-left"></i></a>
                 <button type="button" id="refreshBtn" class="btn btn-light"><i class="fas fa-sync-alt"></i></button>
             </div>
         </div>
-        <div class="col-12 col-md-5">
+        <div class="col-9 col-md-4 col-lg-5">
         <div class="input-group mb-2">
             <div class="input-group-prepend">
                 <div class="input-group-text"><i class="fas fa-search"></i></div>
@@ -309,6 +309,14 @@
                         $("#tableBody").html(
                             "<tr>" +
                                 "<td colspan=\"7\">" +
+                                    "<strong>No results found</strong>" +
+                                "</td>" +
+                            "</tr>"
+                        );
+
+                        $("#mobileTableData tbody").html(
+                            "<tr>" +
+                                "<td colspan=\"2\">" +
                                     "<strong>No results found</strong>" +
                                 "</td>" +
                             "</tr>"
