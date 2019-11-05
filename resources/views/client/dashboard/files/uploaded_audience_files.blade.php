@@ -59,14 +59,21 @@
     <div class="row d-sm-none" id="mobileTableData">
         <table class="table table-bordered table-striped table-hover table-sm">
             <thead>
-                <tr>
-                    <th class="text-center"><i class="fas fa-equals"></i></th>
-                    <th class="text-center show-more">Audience Name</th>
+                <tr class="d-flex">
+                    <th class="text-center col-2"><i class="fas fa-equals"></i></th>
+                    <th class="text-center show-more col-10">Audience Name</th>
                 </tr>
             </thead>
 
             <tbody>
-                
+                <tr>
+                    <td colspan="2">
+                        <div class="d-flex align-items-center">
+                            <strong class="loading">Loading</strong>
+                            <div class="spinner-border ml-auto spinner-border-sm" role="status" aria-hidden="true"></div>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -160,13 +167,13 @@
                         );
 
                         $("#mobileTableData tbody").append(
-                            "<tr class=\"mainData\">" +
-                                "<td class=\"text-center show-more\"><i class=\"fas fa-plus-circle mr-0\"></i></td>" +
-                                "<td>" + data.data[key].audience_name + "</td>" +
+                            "<tr class=\"mainData d-flex\">" +
+                                "<td class=\"text-center show-more col-2\"><i class=\"fas fa-plus-circle mr-0\"></i></td>" +
+                                "<td class=\"col-10\">" + data.data[key].audience_name + "</td>" +
                             "</tr>" +
                             "<tr class=\"secondaryData d-none\">" +
-                                "<td></td>" +
-                                "<td>" +
+                                "<td class=\"col-2\"></td>" +
+                                "<td class=\"col-10\">" +
                                     "<ul class=\"list-unstyled\">" +
                                         "<li><strong>#</strong> " + (parseInt(key, 10) + 1) + "</li>" +
                                         "<li><strong>Date</strong> " + data.data[key].created_at + "</li>" +
@@ -188,12 +195,14 @@
                             $("i", this).addClass("fa-minus-circle");
 
                             $(this).next(".secondaryData", this).removeClass("d-none");
+                            $(this).next(".secondaryData").addClass("d-flex");
                         } else {
                             $("i", this).addClass("fa-plus-circle");
                             $("i", this).removeClass("fa-minus-circle");
                             $("i", this).removeClass("text-danger");
 
                             $(this).next(".secondaryData").addClass("d-none");
+                            $(this).next(".secondaryData", this).removeClass("d-flex");
                         }
                         
                     });
