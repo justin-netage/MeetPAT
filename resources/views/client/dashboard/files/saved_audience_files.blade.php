@@ -29,7 +29,7 @@
             </div>        
         </div>
     </div>
-    <div class="row d-none d-md-block" id="tableData">
+    <div class="row d-none d-sm-block" id="tableData">
         <div class="col-12 table-responsive">
             <table class="table table-bordered table-striped table-hover table-sm">
                 <thead>
@@ -61,7 +61,7 @@
             <thead>
                 <tr>
                     <th class="text-center"><i class="fas fa-equals"></i></th>
-                    <th class="text-center show-more">Audience Name</th>
+                    <th class="text-center show-more">File Name</th>
                 </tr>
             </thead>
 

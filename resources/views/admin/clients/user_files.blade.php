@@ -43,7 +43,7 @@
         </div>        
         </div>
     </div>
-    <div class="row" id="tableData">
+    <div class="row d-none d-sm-block" id="tableData">
         <div class="col-12 table-responsive">
             <table class="table table-bordered table-striped table-hover table-sm">
                 <thead>
@@ -70,6 +70,20 @@
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="row d-sm-none" id="mobileTableData">
+        <table class="table table-bordered table-striped table-hover table-sm">
+            <thead>
+                <tr>
+                    <th class="text-center"><i class="fas fa-equals"></i></th>
+                    <th class="text-center show-more">Audience Name</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                
+            </tbody>
+        </table>
     </div>
     <div class="row">
         <div class="col-12 col-md-9">
@@ -131,10 +145,22 @@
                 "</tr>"
             );
 
+            $("#mobileTableData tbody").html(
+                "<tr>" +
+                    "<td colspan=\"2\">" +
+                        "<div class=\"d-flex align-items-center\">" +
+                            "<strong class=\"loading\">Loading</strong>" +
+                            "<div class=\"spinner-border ml-auto spinner-border-sm\" role=\"status\" aria-hidden=\"true\"></div>" +
+                        "</div>" +
+                    "</td>" +
+                "</tr>"
+            );
+
             $.get("/api/meetpat-client/files/get-uploaded-audiences",
              {api_token: auth_token, user_id: user_id, page: page, search_term: search_term}, function(data, textStatus,jqXHR) {
 
                 $("#tableBody").empty();
+                $("#mobileTableData tbody").empty();
                 $("#refreshBtn").prop("disabled", 0);
                 $("#InputSearchTerm").prop("disabled", 0);
 
@@ -152,6 +178,26 @@
                                 "<td class=\"text-center\">" + "<a href=\"#\" class=\"delete-file\" data-file-id=\"" + data.data[key].id + "\" data-filename=\"" + data.data[key].audience_name + "\"><i class=\"fas fa-trash-alt text-danger\"></i></a></td>" +
                             "</tr>" 
                             );
+
+                            $("#mobileTableData tbody").append(
+                                "<tr class=\"mainData\">" +
+                                    "<td class=\"text-center show-more\"><i class=\"fas fa-plus-circle mr-0\"></i></td>" +
+                                    "<td>" + data.data[key].audience_name + "</td>" +
+                                "</tr>" +
+                                "<tr class=\"secondaryData d-none\">" +
+                                    "<td></td>" +
+                                    "<td>" +
+                                        "<ul class=\"list-unstyled\">" +
+                                            "<li><strong>#</strong> " + (parseInt(key, 10) + 1) + "</li>" +
+                                            "<li><strong>Date</strong> " + data.data[key].created_at + "</li>" +
+                                            "<li><strong data-toggle=\"tooltip\" title=\"Original Data Source\" data-trigger=\"click\">ODS</strong> " + data.data[key].file_source_origin + " </li>" +
+                                            "<li><strong>Size</strong> " + data.data[key].size + "</li>" +
+                                            "<li><strong>Download</strong> <a href=\"#\"><i class=\"fas fa-exclamation-circle text-danger\"></i></a></li>" +
+                                            "<li><strong>Delete</strong> <a href=\"#\" class=\"delete-file\" data-file-id=\"" + data.data[key].id + "\" data-filename=\"" + data.data[key].audience_name + "\"><i class=\"fas fa-trash-alt text-danger\"></i></a></li>" +
+                                        "</ul>" +
+                                    "</td>" +
+                                "</tr>"
+                            );
                         } else {
                             $("#tableBody").append(
                             "<tr>" +
@@ -164,9 +210,47 @@
                                 "<td class=\"text-center\">" + "<a href=\"#\" class=\"delete-file\" data-file-id=\"" + data.data[key].id + "\" data-filename=\"" + data.data[key].audience_name + "\"><i class=\"fas fa-trash-alt text-danger\"></i></a></td>" +
                             "</tr>" 
                             );
+
+                            $("#mobileTableData tbody").append(
+                                "<tr class=\"mainData\">" +
+                                    "<td class=\"text-center show-more\"><i class=\"fas fa-plus-circle mr-0\"></i></td>" +
+                                    "<td>" + data.data[key].audience_name + "</td>" +
+                                "</tr>" +
+                                "<tr class=\"secondaryData d-none\">" +
+                                    "<td></td>" +
+                                    "<td>" +
+                                        "<ul class=\"list-unstyled\">" +
+                                            "<li><strong>#</strong> " + (parseInt(key, 10) + 1) + "</li>" +
+                                            "<li><strong>Date</strong> " + data.data[key].created_at + "</li>" +
+                                            "<li><strong data-toggle=\"tooltip\" title=\"Original Data Source\" data-trigger=\"click\">ODS</strong> " + data.data[key].file_source_origin + " </li>" +
+                                            "<li><strong>Size</strong> " + data.data[key].size + "</li>" +
+                                            "<li><strong>Download</strong> <a href=\"" + data.data[key].download + "\"><i class=\"fas fa-file-csv\"></i></a></li>" +
+                                            "<li><strong>Delete</strong> <a href=\"#\" class=\"delete-file\" data-file-id=\"" + data.data[key].id + "\" data-filename=\"" + data.data[key].audience_name + "\"><i class=\"fas fa-trash-alt text-danger\"></i></a></li>" +                                
+                                        "</ul>" +
+                                    "</td>" +
+                                "</tr>"
+                            );
                         }
                         
                     } 
+
+                    $(".mainData" ).click(function() {
+        
+                        if($("i", this).hasClass("fa-plus-circle")) {
+                            $("i", this).removeClass("fa-plus-circle");
+                            $("i", this).addClass("text-danger");
+                            $("i", this).addClass("fa-minus-circle");
+
+                            $(this).next(".secondaryData", this).removeClass("d-none");
+                        } else {
+                            $("i", this).addClass("fa-plus-circle");
+                            $("i", this).removeClass("fa-minus-circle");
+                            $("i", this).removeClass("text-danger");
+
+                            $(this).next(".secondaryData").addClass("d-none");
+                        }
+                        
+                    });
 
                     $("#entriesInfo").html(data.from + " to " + data.to + " of " + data.total + " entries");
                     var pagination_range = getPagingRange(data.current_page, {total: data.last_page, length: 3});

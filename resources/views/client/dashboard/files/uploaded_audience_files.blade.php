@@ -29,7 +29,7 @@
         </div>        
         </div>
     </div>
-    <div class="row d-none d-md-block" id="tableData">
+    <div class="row d-none d-sm-block" id="tableData">
         <div class="col-12 table-responsive">
             <table class="table table-bordered table-striped table-hover table-sm">
                 <thead>
