@@ -178,7 +178,6 @@
                                     "<ul class=\"list-unstyled\">" +
                                         "<li><strong>#</strong> " + (parseInt(key, 10) + 1) + "</li>" +
                                         "<li><strong>Date</strong> " + data.data[key].created_at + "</li>" +
-                                        "<li><strong data-toggle=\"tooltip\" title=\"Original Data Source\" data-trigger=\"click\">ODS</strong> " + data.data[key].file_source_origin + " </li>" +
                                         "<li><strong>Size</strong> " + data.data[key].size + "</li>" +
                                         "<li><strong>Download</strong> <a href=\"" + data.data[key].download + "\"><i class=\"fas fa-file-csv\"></i></a></li>" +
                                         "<li><strong>Delete</strong> <a href=\"#\" class=\"delete-file\" data-file-uuid=\"" + data.data[key].file_unique_name + "\" data-filename=\"" + data.data[key].file_name + "\"><i class=\"fas fa-trash-alt text-danger\"></i></a></li>" +
