@@ -127,11 +127,8 @@
     }
 
     $(document).ready(function() {
-        var refresh_links = window.setInterval(function() { get_table_data($("#InputSearchTerm").val(), $("li.active a").text()) }, 300000);
-        var get_table_data = function(search_term, page) {
-
-            window.clearInterval(refresh_links);
-            refresh_links = window.setInterval(function() { get_table_data($("#InputSearchTerm").val(), $("li.active a").text()) }, 300000);
+        
+        var get_table_data = function(search_term, page) {            
 
             search_term = search_term || "";
             page = page || 1;
