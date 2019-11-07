@@ -2689,7 +2689,7 @@ function DrawFinancialCharts() {
                             
                             var parent = this;
         
-                            $("#risk_category_filters").append('<li id="filter_r_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                            $("#risk_category_filters").append('<li id="filter_r_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ capitalizeFLetter($(this).val().toLowerCase().replace(/[_]/g, " ")) +'<i class="fas fa-window-close float-right"></i></li>')
                             $('#filter_r_' + $(this).val().toLowerCase().replace(/ /g, "_") + ' i').click(function() {
                                 if($('#r_' + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').length) {
                                     $('#filter_r_' + $(parent).val().toLowerCase().replace(/ /g, "_")).remove();
