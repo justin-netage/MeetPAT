@@ -171,6 +171,7 @@
                 $("#mobileTableData tbody").empty();
                 $("#refreshBtn").prop("disabled", 0);
                 $("#InputSearchTerm").prop("disabled", 0);
+                $("#InputSearchTerm").focus();
                 
                 if(data.data.length) {
                     for(var key in data.data) {
