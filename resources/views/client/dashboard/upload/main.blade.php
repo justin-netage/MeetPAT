@@ -28,8 +28,23 @@
     </div>
 </div>
 
+<div role="alert" aria-live="assertive" aria-atomic="true" class="toast d-none d-sm-block" data-autohide="false" style="position: absolute; top: 175px; right: 0;">
+  <div class="toast-header">
+    <strong class="mr-auto"><i class="fas fa-download"></i>&nbsp;<a href="https://s3.amazonaws.com/dashboard.meetpat/public/sample/MeetPAT Template.csv">Download Template File</a></strong>
+    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</div>
+
 @endsection
 
 @section('scripts')
+<script>
+    $(document).ready(function() {
 
+        $('.toast').toast('show')
+
+    });
+</script>
 @endsection
