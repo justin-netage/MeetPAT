@@ -20,6 +20,6 @@
 Thanks,<br>
 {{ config('app.name') }}
 
-<img src="http://demo.meetpat.co.za/wp-content/uploads/site-logo.png" alt="MeetPAT Logo" />
+<a href="https://dashboard.meetpat.co.za/login"><img width='300' height='auto' src='https://s3.amazonaws.com/meetpat/public/images/site-logo.png' /></a>
 
 @endcomponent
