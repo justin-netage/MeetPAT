@@ -173,6 +173,9 @@ class DataVisualisationController extends Controller
                 return $value;
             }
         }
+        // Clear Prevoius jobs.
+        $previous_filter_jobs = \MeetPAT\FilterJobQueue::where([["user_id", "=", $request->user_id]]);
+        $previous_filter_jobs->delete();
 
         $new_job = \MeetPAT\FilterJobQueue::create([
             "user_id" => $request->user_id, "filter_type" => "filter", "status" => "processing",
