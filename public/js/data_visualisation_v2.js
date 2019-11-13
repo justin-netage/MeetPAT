@@ -3517,7 +3517,7 @@ $('.apply-filter-button, #sidebarSubmitBtn, #apply-toggle-button').click(functio
         data: {
                 user_id: user_id_number, provinces: target_provinces.join(","),
                 age_groups: target_ages.join(","), genders: target_genders.join(","), 
-                population_group: target_population_groups.join(","), generations: target_generations.join(","),
+                population_groups: target_population_groups.join(","), generations: target_generations.join(","),
                 marital_statuses: target_marital_statuses.join(","), home_ownership_statuses: target_home_owners.join(","),
                 risk_categories: target_risk_categories.join(","), income_buckets: target_incomes.join(","),
                 company_directorship_status: target_directors.join(","), citizens_vs_residents: target_citizen_vs_residents.join(","),
@@ -3546,7 +3546,7 @@ $('.apply-filter-button, #sidebarSubmitBtn, #apply-toggle-button').click(functio
                 }).fail(function(error) {
                     console.log(error);
                 }).done(function(job_data) {
-                    console.log(job_data);
+                    
                     if(job_data == "complete") {
                         filter_type = "filter";
                         return callback(job_data)
