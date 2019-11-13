@@ -159,6 +159,10 @@ Route::get('/meetpat-client/files/get-saved-audiences', 'MeetpatClientController
 // Disconnect plarform
 Route::post('/meetpat-client/settings/disconnect-platform', 'MeetpatClientController@disconnect_platform')->name('disconnect-platform');
 
+// Filter Job Queue
+Route::get('/meetpat-client/filter-job-status', 'DataVisualisationController@check_job_status')->name('check-filter-job-status')->middleware('auth:api');
+Route::post('/meetpat-client/submit-filter', 'DataVisualisationController@queue_filter_job')->name('queue-filter-job')->middleware('auth:api');
+
 /** END Client routes */
 
 // Barker Street Access
