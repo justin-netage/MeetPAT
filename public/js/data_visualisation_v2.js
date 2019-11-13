@@ -2720,11 +2720,11 @@ function DrawFinancialCharts() {
                     for (var key in data["lsm_groups_distinct"]) {
                         if(target_lsm_groups.includes(data["lsm_groups_distinct"][key]["lsmGroup"])) {
                             $("#lsm_group_filter").append(
-                                '<input type="checkbox" name="lsm_' + data["lsm_groups_distinct"][key]["lsmGroup"].toLowerCase() + '" id="lsm_' + data["lsm_groups_distinct"][key]["lsmGroup"].toLowerCase() + '_option' +'" value="' + data["lsm_groups_distinct"][key]["lsmGroup"].toLowerCase() + '" class="css-checkbox" checked="checked"><label for="lsm_' + data["lsm_groups_distinct"][key]["lsmGroup"].toLowerCase() + '_option' +'" class="css-label">' + data["lsm_groups_distinct"][key]["lsmGroup"].toLowerCase() + '</label><br />'
+                                '<input type="checkbox" name="lsm_' + data["lsm_groups_distinct"][key]["lsmGroup"].toLowerCase() + '" id="lsm_' + data["lsm_groups_distinct"][key]["lsmGroup"].toLowerCase() + '_option' +'" value="' + data["lsm_groups_distinct"][key]["lsmGroup"] + '" class="css-checkbox" checked="checked"><label for="lsm_' + data["lsm_groups_distinct"][key]["lsmGroup"].toLowerCase() + '_option' +'" class="css-label">' + data["lsm_groups_distinct"][key]["lsmGroup"].toLowerCase() + '</label><br />'
                             );
                         } else {
                             $("#lsm_group_filter").append(
-                                '<input type="checkbox" name="lsm_' + data["lsm_groups_distinct"][key]["lsmGroup"].toLowerCase() + '" id="lsm_' + data["lsm_groups_distinct"][key]["lsmGroup"].toLowerCase() + '_option' +'" value="' + data["lsm_groups_distinct"][key]["lsmGroup"].toLowerCase() + '" class="css-checkbox"><label for="lsm_' + data["lsm_groups_distinct"][key]["lsmGroup"].toLowerCase() + '_option' +'" class="css-label">' + data["lsm_groups_distinct"][key]["lsmGroup"].toLowerCase() + '</label><br />'
+                                '<input type="checkbox" name="lsm_' + data["lsm_groups_distinct"][key]["lsmGroup"].toLowerCase() + '" id="lsm_' + data["lsm_groups_distinct"][key]["lsmGroup"].toLowerCase() + '_option' +'" value="' + data["lsm_groups_distinct"][key]["lsmGroup"] + '" class="css-checkbox"><label for="lsm_' + data["lsm_groups_distinct"][key]["lsmGroup"].toLowerCase() + '_option' +'" class="css-label">' + data["lsm_groups_distinct"][key]["lsmGroup"].toLowerCase() + '</label><br />'
                             );
                         }
                         
