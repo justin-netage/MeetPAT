@@ -2620,7 +2620,7 @@ function DrawAssetsGraphs() {
 function DrawFinancialCharts() {
     data = {    user_id: user_id_number, province: target_provinces.join(","),
                 age_group: target_ages.join(","), gender: target_genders.join(","), 
-                population_group: target_population_groups.join(","), generation: target_generations.join(","),
+                population_groups: target_population_groups.join(","), generation: target_generations.join(","),
                 marital_status: target_marital_statuses.join(","), home_ownership_status: target_home_owners.join(","),
                 risk_category: target_risk_categories.join(","), income_bucket: target_incomes.join(","),
                 directorship_status: target_directors.join(","), citizen_vs_resident: target_citizen_vs_residents.join(","),
