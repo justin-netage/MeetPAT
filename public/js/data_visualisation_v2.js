@@ -2363,7 +2363,7 @@ function DrawAssetsGraphs() {
                                     'backgroundColor': '#f7f7f7'
                                 };
                     for (var key in data["property_counts_distinct"]) {
-                        if(target_home_owners.includes(data["property_counts_distinct"][key]["propertyCountBucket"])) {
+                        if(target_property_count_buckets.includes(data["property_counts_distinct"][key]["propertyCountBucket"])) {
                             $("#property_count_bucket_filter").append(
                                 '<input type="checkbox" name="pc_' + data["property_counts_distinct"][key]["propertyCountBucket"].toLowerCase() + '" id="pc_' + data["property_counts_distinct"][key]["propertyCountBucket"].toLowerCase() + '_option' +'" value="' + data["property_counts_distinct"][key]["propertyCountBucket"].toLowerCase() + '" class="css-checkbox" checked="checked"><label for="pc_' + data["property_counts_distinct"][key]["propertyCountBucket"].toLowerCase() + '_option' +'" class="css-label">' + data["property_counts_distinct"][key]["propertyCountBucket"].toLowerCase() + '</label><br />'
                             );
@@ -2444,7 +2444,7 @@ function DrawAssetsGraphs() {
                                         'backgroundColor': '#f7f7f7'
                                     };
                         for (var key in data["primary_property_type_distinct"]) {
-                            if(target_home_owners.includes(data["primary_property_type_distinct"][key]["primaryPropertyType"])) {
+                            if(target_primary_property_types.includes(data["primary_property_type_distinct"][key]["primaryPropertyType"])) {
                                 $("#primary_property_type_filter").append(
                                     '<input type="checkbox" name="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '" id="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '_option' +'" value="' + data["primary_property_type_distinct"][key]["primaryPropertyType"] + '" class="css-checkbox" checked="checked"><label for="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '_option' +'" class="css-label">' + keyChangerPropertyType(data["primary_property_type_distinct"][key]["primaryPropertyType"]) + '</label><br />'
                                 );
