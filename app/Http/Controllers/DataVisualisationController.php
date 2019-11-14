@@ -18,13 +18,14 @@ class DataVisualisationController extends Controller
         $records = \MeetPAT\EnrichedRecord::whereRaw("CAST(".$user->id." as text) = ANY(string_to_array(affiliated_users, ','))")->count();
         $user_jobs = \MeetPAT\RecordsJobQue::where('user_id', $user->id);
         $user_update_jobs_pending = \MeetPAT\UpdateRecordsJobQueue::where([['user_id', '=', $user->id], ['status', '=', 'pending']])->count();
+        $processing_all_records = \MeetPAT\FilterJobQueue::where([['user_id', '=', $user->id], ['status', '=', 'processing']])->count();
         $user_jobs_running = $user_jobs->where(function($q) {
             $q->where('status', 'pending')->orWhere('status', 'running');
         })->count();
         //$user_jobs_complete = \MeetPAT\RecordsJobQue::where(['user_id' => $user->id, 'status' => 'done'])->first();
 
-        if($user_jobs_running or $user_update_jobs_pending) {
-            if($user_jobs_running) {
+        if($user_jobs_running or $user_update_jobs_pending or $processing_all_records) {
+            if($user_jobs_running  or $processing_all_records) {
                 return view('client.data_visualisation.records_updating');
             } else if($user_update_jobs_pending) {
                 return view('client.dashboard.upload.updating');
@@ -420,7 +421,11 @@ class DataVisualisationController extends Controller
             $q->where('status', 'pending')->orWhere('status', 'running');
         })->count();
 
-        return response()->json(["jobs" => $jobs, "jobs_running" => $running_jobs]);
+        $running_processes = \MeetPAT\FilterJobQueue::where('user_id', $request->user_id)->where(function($q) {
+            $q->where('status', 'processing');
+        })->count();
+
+        return response()->json(["jobs" => $jobs, "jobs_running" => $running_jobs, "jobs_processing" => $running_processes]);
     
     }
 

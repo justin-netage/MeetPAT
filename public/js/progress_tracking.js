@@ -17,7 +17,7 @@ $(document).ready(function() {
                 window.clearInterval(check_job_status);
 
             }).done(function(data) {     
-                if(data["jobs_running"] == 0) {
+                if(data["jobs_running"] == 0 && data["jobs_processing"] == 0) {
 
                     window.clearInterval(check_job_status);
                     $("#loader").css("display", "block");
