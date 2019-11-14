@@ -18,7 +18,7 @@ $(document).ready(function() {
 
             }).done(function(data) {     
                 if(data["jobs_running"] == 0 && data["jobs_processing"] == 0) {
-
+                    $(".alert-box").html("<div class=\"alert alert-success\" role=\"alert\">The process has completed.</div>");
                     window.clearInterval(check_job_status);
                     $("#loader").css("display", "block");
 

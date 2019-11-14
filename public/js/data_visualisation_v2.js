@@ -3535,7 +3535,6 @@ $('.apply-filter-button, #sidebarSubmitBtn, #apply-toggle-button').click(functio
                     console.error(error);
                     return;
                 }
-                console.log(data);
             };
 
             request(callback);
