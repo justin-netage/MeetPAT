@@ -23,6 +23,10 @@ $(document).ready(function() {
                     $("#loader").css("display", "block");
 
                     window.location = '/meetpat-client/data-visualisation';
+                } else {
+                    if(data["jobs_running"] == 0 && data["jobs_processing"] != 0) {
+                        $(".alert-box").html("<div class=\"alert alert-primary\" role=\"alert\">The process is about to complete in a few seconds.</div>");
+                    }
                 }
             });
 

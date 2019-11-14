@@ -36,6 +36,7 @@
                     <p>An email will be sent to <span style="color:#2196F3">{{Auth::user()->email}}</span> as soon as the process has completed.</p>
                     @endif
                     <br />
+                    <div class="alert-box"></div>
                     <div class="text-center mb-4" id="status-loader">
                         <div class="spinner-border text-info" role="status">
                             <span class="sr-only">Loading...</span>
