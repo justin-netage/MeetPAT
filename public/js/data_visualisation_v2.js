@@ -2284,7 +2284,7 @@ function DrawAssetsGraphs() {
                                 'backgroundColor': '#f7f7f7'
                             };
                 for (var key in data["home_owners_distinct"]) {
-                    if(target_home_owners.includes(data["home_owners_distinct"][key]["homeOwnershipStatus"].toLowerCase())) {
+                    if(target_home_owners.includes(data["home_owners_distinct"][key]["homeOwnershipStatus"])) {
                         $("#home_owner_filter").append(
                             '<input type="checkbox" name="h_' + data["home_owners_distinct"][key]["homeOwnershipStatus"].toLowerCase() + '" id="h_' + data["home_owners_distinct"][key]["homeOwnershipStatus"].toLowerCase() + '_option' +'" value="' + data["home_owners_distinct"][key]["homeOwnershipStatus"] + '" class="css-checkbox" checked="checked"><label for="h_' + data["home_owners_distinct"][key]["homeOwnershipStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChanger(data["home_owners_distinct"][key]["homeOwnershipStatus"]) + '</label><br />'
                         );
