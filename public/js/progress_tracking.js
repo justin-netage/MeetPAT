@@ -18,14 +18,14 @@ $(document).ready(function() {
 
             }).done(function(data) {     
                 if(data["jobs_running"] == 0 && data["jobs_processing"] == 0) {
-                    $(".alert-box").html("<div class=\"alert alert-success\" role=\"alert\">The process has completed.</div>");
+                    $(".alert-box").html("<div class=\"alert alert-success\" role=\"alert\">The process has completed. <span class=\"loading\">Loading dashboard</span></div>");
                     window.clearInterval(check_job_status);
                     $("#loader").css("display", "block");
 
                     window.location = '/meetpat-client/data-visualisation';
                 } else {
                     if(data["jobs_running"] == 0 && data["jobs_processing"] != 0) {
-                        $(".alert-box").html("<div class=\"alert alert-primary\" role=\"alert\">The process is about to complete in a few seconds.</div>");
+                        $(".alert-box").html("<div class=\"alert alert-primary\" role=\"alert\">The process is about to complete in a few <span class=\"loading\">seconds</span></div>");
                     }
                 }
             });
