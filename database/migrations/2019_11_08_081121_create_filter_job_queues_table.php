@@ -18,7 +18,7 @@ class CreateFilterJobQueuesTable extends Migration
             $table->integer('user_id');
             $table->enum('filter_type', ['all_records', 'filter']);
             $table->integer('audience_filters_id')->nullable();
-            $table->enum('status', ['processing','complete']);
+            $table->enum('status', ['pending', 'processing','complete']);
             $table->string('provinces')->nullable()->default("");
             $table->string('municipalities')->nullable()->default("");
             $table->string('areas')->nullable()->default("");

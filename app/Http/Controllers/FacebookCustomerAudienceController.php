@@ -68,7 +68,7 @@ class FacebookCustomerAudienceController extends Controller
                     return redirect('/meetpat-client');
 
                 } else {
-                    \Session::flash('error', 'There was a problem linking your account please contact MeetPAT for asssistance.');
+                    \Session::flash('error', 'There was a problem linking your account please contact MeetPAT for assistance.');
                 }
             }
 
