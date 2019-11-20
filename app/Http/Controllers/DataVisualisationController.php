@@ -182,7 +182,7 @@ class DataVisualisationController extends Controller
             "user_id" => $request->user_id, "filter_type" => "filter", "status" => "pending",
             "provinces" => check_empty($request->provinces), "municipalities" => check_empty($request->municipalities), "areas" => check_empty($request->areas),
             "genders" => check_empty($request->genders), "population_groups" => check_empty($request->population_groups), "age_groups" => check_empty($request->age_groups),
-            "citizens_vs_residents" => check_empty($request->citizens_vs_residents), "marital_statuses" => check_empty($request->marital_statuses),
+            "generations" => check_empty($request->generations), "citizens_vs_residents" => check_empty($request->citizens_vs_residents), "marital_statuses" => check_empty($request->marital_statuses),
             "marital_statuses" => check_empty($request->marital_statuses), "home_ownership_statuses" => check_empty($request->home_ownership_statuses),
             "property_count_buckets" => check_empty($request->property_count_buckets), "vehicle_ownership_statuses" => check_empty($request->vehicle_ownership_statuses),
             "primary_property_types" => check_empty($request->primary_property_types), "risk_categories" => check_empty($request->risk_categories), "lsm_groups" =>check_empty($request->lsm_groups),
