@@ -20,14 +20,20 @@
                     </div>
                     <form id="upload-custom-audience" enctype="multipart/form-data" style="display:none;" novalidate>
                         <div class="alert alert-info">
-                        <p>Please note that uploading large numbers of records can take some time. During this process, you will not be able to access your dashboard or upload more contacts until the process has completed.</p>
-                        <p>You can navigate away from this page. An email notification will be sent to <strong>
-                        @if(\Auth::user()->client_notification_detail)
-                        {{Auth::user()->client_notification_detail->contact_email}}
-                        @else
-                        {{Auth::user()->email}}
-                        @endif
-                        </strong>, once the process has completed.</p>
+                        <ul>
+                            <li>Please note that uploading large numbers of records can take some time. During this process, you will not be able to access your dashboard or upload more contacts until the process has completed.</li>
+                            <li>
+                                In order to obtain the best results, the ideal minimum information required per contact is full name and cell phone number. The confidence level of the data for lists which contain only email addresses, or only cell numbers, will be reduced.
+                            </li>
+                            <li>You can navigate away from this page. An email notification will be sent to <strong>
+                            @if(\Auth::user()->client_notification_detail)
+                            {{Auth::user()->client_notification_detail->contact_email}}
+                            @else
+                            {{Auth::user()->email}}
+                            @endif
+                            </strong>, once the process has completed.</li>
+                        </ul>
+                        
 
                         </div>
                         @csrf
