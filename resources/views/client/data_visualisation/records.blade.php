@@ -566,7 +566,7 @@
                 <div id="propertyCountBucketChart" style="width: 100%;"></div>
             </div>
         </div>
-        <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="primary-property-type-graph">
+        <div class="col-12 col-lg-4 col-md-6 data-graph-container d-none" id="primary-property-type-graph">
             <div class="media">
             <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons-colour/Property Type.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
@@ -606,7 +606,7 @@
                 <div class="media-body">
                     <h3 class="mt-3"><span>Vehicle Owner</span>
                 <!-- Default dropright button -->
-                        <div class="btn-group dropright float-right">
+                        <div class="btn-group dropleft float-right">
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-filter"></i>
                             </button>

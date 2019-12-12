@@ -17,6 +17,16 @@ var keyChanger = function(key_name) {
     }
 }
 
+var unknownChanger = function(key_name) {
+    if(key_name == 'True' || key_name == 'true') {
+        return 'Owns Vehicle';
+    } else if(key_name == 'False' || key_name == 'false') {
+        return 'Unknown';
+    } else {
+        return key_name;
+    }
+}
+
 var keyChangerPrValBucket = function(key_name) {
     switch (key_name) {
         case 'R0 - R1 000 000':
@@ -2495,7 +2505,7 @@ function DrawAssetsGraphs() {
                             data_vehicle_owners.addColumn({type: 'string', role: 'annotation'});
 
                         var result_vehicle_owners = Object.keys(data["vehicle_owners"]).map(function(key) {
-                            return [keyChanger(data["vehicle_owners"][key]["vehicleOwnershipStatus"]), data["vehicle_owners"][key]["audience"], kFormatter(data["vehicle_owners"][key]["audience"])];
+                            return [unknownChanger(data["vehicle_owners"][key]["vehicleOwnershipStatus"]), data["vehicle_owners"][key]["audience"], kFormatter(data["vehicle_owners"][key]["audience"])];
                         });
                     
                             data_vehicle_owners.addRows(result_vehicle_owners);
@@ -2526,11 +2536,11 @@ function DrawAssetsGraphs() {
                             for (var key in data["vehicle_owners_distinct"]) {
                                 if(target_vehicle_owners.includes(data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"])) {
                                     $("#vehicle_owner_filter").append(
-                                        '<input type="checkbox" name="vo_' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '" id="vo_' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '_option' +'" value="' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"] + '" class="css-checkbox" checked="checked"><label for="vo_' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChanger(data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"]) + '</label><br />'
+                                        '<input type="checkbox" name="vo_' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '" id="vo_' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '_option' +'" value="' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"] + '" class="css-checkbox" checked="checked"><label for="vo_' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '_option' +'" class="css-label">' + unknownChanger(data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"]) + '</label><br />'
                                     );
                                 } else {
                                     $("#vehicle_owner_filter").append(
-                                        '<input type="checkbox" name="vo_' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '" id="vo_' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '_option' +'" value="' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"] + '" class="css-checkbox"><label for="vo_' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '_option' +'" class="css-label">' + keyChanger(data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"]) + '</label><br />'
+                                        '<input type="checkbox" name="vo_' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '" id="vo_' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '_option' +'" value="' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"] + '" class="css-checkbox"><label for="vo_' + data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"].toLowerCase() + '_option' +'" class="css-label">' + unknownChanger(data["vehicle_owners_distinct"][key]["vehicleOwnershipStatus"]) + '</label><br />'
                                     );
                                 }
                                 
@@ -2540,7 +2550,7 @@ function DrawAssetsGraphs() {
                                         
                                         var parent = this;
                     
-                                        $("#vehicle_owner_filters").append('<li id="filter_vo_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ keyChanger($(this).val()) +'<i class="fas fa-window-close float-right"></i></li>')
+                                        $("#vehicle_owner_filters").append('<li id="filter_vo_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ unknownChanger($(this).val()) +'<i class="fas fa-window-close float-right"></i></li>')
                                         $('#filter_vo_' + $(this).val().toLowerCase().replace(/ /g, "_") + ' i').click(function() {
                                             if($('#vo_' + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').length) {
                                                 $('#filter_vo_' + $(parent).val().toLowerCase().replace(/ /g, "_")).remove();
