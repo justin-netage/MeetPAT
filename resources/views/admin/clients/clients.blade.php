@@ -169,8 +169,8 @@
                 $("#refreshBtn").prop("disabled", 0);
                 $("#InputSearchTerm").prop("disabled", 0);
                 $("#InputSearchTerm").focus();
-                
-                if(data.data.length) {
+                console.log(Object.keys(data).length);
+                if(Object.keys(data).length) {
                     for(var key in data.data) {
                         
                         if(data.data[key].client.status = "true") {
