@@ -32,6 +32,8 @@
                             {{Auth::user()->email}}
                             @endif
                             </strong>, once the process has completed.</li>
+                            <li>Column headers must remain identical to the sample sheet.</li>
+                            <li>Any fields / columns for which you don't have data can be left blank.</li>
                         </ul>
                         
 
