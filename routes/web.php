@@ -23,8 +23,8 @@ Route::get('/react', function () {
 
 // Legal
 
-Route::get('/terms-of-use', function() {
-    return view('legal.terms_of_use');
+Route::get('/terms', function() {
+    return view('legal.terms');
 });
 
 Route::get('/privacy-policy', function() {

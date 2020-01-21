@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center" style="margin-bottom: 254px;">
 
         <a class="card-link card-link-success" href="/meetpat-client/settings/notifications">
             <div class="card border-success">

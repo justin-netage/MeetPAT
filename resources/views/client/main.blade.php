@@ -3,7 +3,7 @@
 @section('content')
 
 @if(\Auth::user()->client)
-<div class="container">
+<div class="container" style="margin-bottom: 320px;">
     <div class="row justify-content-center mb-5">
 
         <a class="card-link card-link-secondary" href="/meetpat-client/upload">

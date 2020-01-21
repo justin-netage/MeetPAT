@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container">
+<div class="container" style="margin-bottom: 320px;">
     <div class="row justify-content-center">
 
         <a class="card-link card-link-secondary" href="/meetpat-client/upload-client-file-data">

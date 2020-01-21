@@ -9,7 +9,7 @@
 </form>
 <!-- End -->
 
-<div class="container">
+<div class="container" style="margin-bottom: 254px;">
 
     <div class="row justify-content-center">
         <div class="col-md-6 col-offset-3">

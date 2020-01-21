@@ -9,7 +9,7 @@
 @section('content')
 
 <div class="container legal">
-<h1 class="text-center">MeetPAT Terms Of Use</h1>
+<h1 class="text-center">MeetPAT Terms</h1>
 <p class="text-center"><strong>Thank you for choosing MeetPAT for your Client Data Analysis needs. Your agreement with MeetPAT includes these terms, as well as any additional terms that may apply.</strong></p>
 <h3>1. The MeetPAT Service</h3>
 
@@ -42,7 +42,7 @@
 
 <h3>3. 3rd Party Applications</h3>
 <p>3.1 MeetPAT may integrate with other 3rd party systems, including Facebook, at the request of the user.</p>
-<p>3.2 These 3rd party applications may have their own terms of use and privacy policies, and your use of such applications will be governed by and subject to such terms etc.</p>
+<p>3.2 These 3rd party applications may have their own terms and privacy policies, and your use of such applications will be governed by and subject to such terms etc.</p>
 <p>3.3 You understand and accept that MeetPAT does not endorse, and is not liable for, the behaviour, features or content of any such 3rd party application.</p>
 
 <h3>4. Privacy and Security</h3>
