@@ -199,6 +199,13 @@
             @yield('content')
         </main>
     </div>
+    <nav class="navbar navbar-expand-lg sticky-bottom navbar-light bg-light">
+        <a class="navbar-brand" href="#"><img src="{{Storage::disk('s3')->url('meetpat/public/images/site-logo.png')}}" height="50px" width="auto" alt="meetpat-logo"></a>
+        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item"><a class="nav-link" href="/privacy-policy">Privacy Policy</a></li>
+            <li class="nav-item"><a class="nav-link" href="/terms-of-use">Terms of Use</a></li>
+        </ul>
+    </nav>
     @yield('modals')
     <script
         src="https://code.jquery.com/jquery-3.3.1.min.js"

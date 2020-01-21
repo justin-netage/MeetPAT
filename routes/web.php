@@ -21,6 +21,16 @@ Route::get('/react', function () {
     return view('react');
 });
 
+// Legal
+
+Route::get('/terms-of-use', function() {
+    return view('legal.terms_of_use');
+});
+
+Route::get('/privacy-policy', function() {
+    return view('legal.privacy_policy');
+});
+
 // Client Communication Pages
 
 Route::get('/contact', 'ContactController@contact')->name('contact')->middleware('auth');
