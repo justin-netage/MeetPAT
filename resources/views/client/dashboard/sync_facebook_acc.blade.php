@@ -5,24 +5,18 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6 col-offset-3">
-            @if(!\Auth::user()->facebook_ad_account)
-            <a href="{{$login_url}}" class="btn btn-primary btn-lg btn-block rounded-0 shadow-block shadow-block">
-                Authorize Facebook AD Account &nbsp;<i class="fas fa-mouse-pointer"></i>
-            </a>
-            @else
-            <button id="deauthorizeFacebook" data-token="{{\Auth::user()->api_token}}" class="btn btn-danger btn-lg btn-block rounded-0 shadow-block shadow-block">
-                Deauthorize Facebook AD Account &nbsp;<i class="fas fa-plug"></i>
-            </button>
-            @endif
-        </div>
-    </div>
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-offset-3">
             <div class="card">
                 <div class="card-header"><h1 id="card-title">{{ __('Sync Facebook Account') }} &nbsp;<i class="fab fa-facebook"></i> </h1></div>
                     <div class="card-body">
-                        <div id="progress-sync"></div>
-                        <!-- Make route /google/authenticate-code and add controller to save google ads account and access code -->
+                        @if(!\Auth::user()->facebook_ad_account)
+                        <a href="{{$login_url}}" class="btn btn-primary btn-lg btn-block rounded-0 shadow-block shadow-block mb-2">
+                            Authorize Facebook AD Account &nbsp;<i class="fas fa-mouse-pointer"></i>
+                        </a>
+                        @else
+                        <button id="deauthorizeFacebook" data-token="{{\Auth::user()->api_token}}" class="btn btn-danger btn-lg btn-block rounded-0 shadow-block shadow-block mb-3">
+                            Deauthorize Facebook AD Account &nbsp;<i class="fas fa-plug"></i>
+                        </button>
+                        @endif
                         <form id="upload-custom-audience" method="post" action="/facebook-account-update/add-ad-account-id" onsubmit="displayLoader();">
                         @csrf
                         <div class="form-group">
@@ -40,7 +34,7 @@
                             @endif
                         </div>
                         <div class="form-group mb-0">
-                            <button type="submit" id="submit_id" class="btn btn-primary">
+                            <button type="submit" id="submit_id" class="btn btn-lg btn-primary btn-block">
                                 {{ __('Submit ID') }}
                             </button>
                         </div>
