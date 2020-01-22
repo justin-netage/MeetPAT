@@ -193,7 +193,7 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4" style="min-height: 650px">
             @include('flash-message')
 
             @yield('content')

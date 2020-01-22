@@ -599,7 +599,8 @@ div.filepond--item {
 
 .card .fa-chart-bar, .card .fa-graduation-cap, .card .fa-sliders-h,
 .card .fa-file-upload, .card .fa-bell, .card .fa-sync-alt, .card .fa-folder,
-.fa-cloud-upload-alt, .card .fa-save, .card .fa-users, .card .fa-chart-line
+.fa-cloud-upload-alt, .card .fa-save, .card .fa-users, .card .fa-chart-line,
+.card .fa-facebook-f
 {
   font-size: 128px;
 }
@@ -631,9 +632,19 @@ div.filepond--item {
   color: #FF7F00;
 }
 
+.text-facebook
+{
+  color: #3b5998;
+}
+
 .border-orange
 {
   border-color: #FF7F00;
+}
+
+.border-facebook
+{
+  border-color: #3b5998;
 }
 
 .card-link-success .card:hover
@@ -655,6 +666,13 @@ div.filepond--item {
   border: none;
 }
 
+.card-link-facebook .card:hover
+{
+  background-color: #3b5998;
+  box-shadow: none;
+  border: none;
+}
+
 .card-link-orange .card:hover
 {
   background-color: #FF7F00;
@@ -663,9 +681,11 @@ div.filepond--item {
 }
 
 .card-link-secondary .card:hover p,.card-link-primary .card:hover p,.card-link-success .card:hover p, .card-link-orange .card:hover p, 
+.card-link-facebook .card:hover p,
 .card-link-success .card:hover i, .card-link-primary .card:hover i,.card-link-secondary .card:hover i,.card-link-orange .card:hover i,
+.card-link-facebook .card:hover i,
 .card-link-success .card:hover .card-header, .card-link-primary .card:hover .card-header,.card-link-secondary .card:hover .card-header,
-.card-link-orange .card:hover .card-header
+.card-link-orange .card:hover .card-header, .card-link-facebook .card:hover .card-header
 {
   color: #fff;
 }
@@ -687,6 +707,11 @@ div.filepond--item {
 .card-link-orange .card:hover .card-header
 {
   border-color: #FF7F00;
+}
+
+.card-link-facebook .card:hover .card-header
+{
+  border-color: #3b5998;
 }
 
 .card-header
