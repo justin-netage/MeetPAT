@@ -5,9 +5,15 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6 col-offset-3">
+            @if(!\Auth::user()->facebook_ad_account)
             <a href="{{$login_url}}" class="btn btn-primary btn-lg btn-block rounded-0 shadow-block shadow-block">
-                Sign in with your Facebook AD Account
+                Authorize Facebook AD Account &nbsp;<i class="fas fa-mouse-pointer"></i>
             </a>
+            @else
+            <button id="deauthorizeFacebook" data-token="{{\Auth::user()->api_token}}" class="btn btn-danger btn-lg btn-block rounded-0 shadow-block shadow-block">
+                Deauthorize Facebook AD Account &nbsp;<i class="fas fa-plug"></i>
+            </button>
+            @endif
         </div>
     </div>
     <div class="row justify-content-center">
@@ -21,7 +27,12 @@
                         @csrf
                         <div class="form-group">
                             <label for="ad_account_id">{{__('Facebook Ad Account ID') }}</label>
+                            @if(\Auth::user()->facebook_ad_account)
+                            <input type="text" name="ad_account_id" id="ad_account_id" placeholder="1234567890123456" value="{{\Auth::user()->facebook_ad_account->ad_account_id}}" class="form-control{{ $errors->has('ad_account_id') ? ' is-invalid' : '' }}" autofocus>
+                            @else
                             <input type="text" name="ad_account_id" id="ad_account_id" placeholder="1234567890123456" value="{{ old('ad_account_id') }}" class="form-control{{ $errors->has('ad_account_id') ? ' is-invalid' : '' }}" autofocus>
+                            @endif
+
                             @if ($errors->has('ad_account_id'))
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $errors->first('ad_account_id') }}</strong>
@@ -46,7 +57,29 @@
 @section('scripts')
 <script type="text/javascript">
     var displayLoader = function () {
-            $("#loader").css("display", "block");
-        };
+        $("#loader").css("display", "block");
+    };
+    $("#deauthorizeFacebook").click(function() {
+        $("#deauthorizeFacebook").prop("disabled", 1);
+        $("#deauthorizeFacebook").html(
+                
+                "<span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\"></span>"
+                +"&nbsp;&nbsp;Deauthorizing..."
+            )
+        $.post("/api/meetpat-client/sync/facebook/deauthorize", {"api_token": $("#deauthorizeFacebook").data("token")},function(data) {
+            
+            console.log(data);
+        }).fail(function(error) {
+            $("#deauthorizeFacebook").html("Deauthorize Facebook AD Account &nbsp;<i class=\"fas fa-plug\"></i>");
+            $("#deauthorizeFacebook").prop("disabled", 0);
+            console.log(error);
+        }).done(function() {
+            $("#deauthorizeFacebook").removeClass("btn-danger");
+            $("#deauthorizeFacebook").addClass("btn-success");
+            $("#deauthorizeFacebook").html("Done");
+
+            location.reload();
+        });
+    });
 </script>
 @endsection

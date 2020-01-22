@@ -37,6 +37,7 @@
                         <th class="text-center">#</th>
                         <th>Date</th>
                         <th>File Name</th>
+                        <th class="text-center">Upload</th>
                         <th class="text-center">Size</th>
                         <th class="text-center">Download</th>
                         <th class="text-center">Delete</th>
@@ -126,7 +127,7 @@
 
             $("#tableBody").html(
                 "<tr>" +
-                    "<td colspan=\"6\">" +
+                    "<td colspan=\"7\">" +
                         "<div class=\"d-flex align-items-center\">" +
                             "<strong class=\"loading\">Loading</strong>" +
                             "<div class=\"spinner-border ml-auto spinner-border-sm\" role=\"status\" aria-hidden=\"true\"></div>" +
@@ -162,6 +163,7 @@
                                 "<td class=\"text-center\">" + (parseInt(key, 10) + 1) + "</td>" +
                                 "<td>" + data.data[key].created_at + "</td>" +
                                 "<td>" + data.data[key].file_name + "</td>" +
+                                "<td class=\"text-center\"><button class=\"btn\"><i class=\"fab fa-facebook-f\"></i></button></td>" +
                                 "<td class=\"text-center\">" + data.data[key].size + "</td>" +
                                 "<td class=\"text-center\">" + "<a href=\"" + data.data[key].download + "\"><i class=\"fas fa-file-csv\"></i></a></td>" +
                                 "<td class=\"text-center\">" + "<a href=\"#\" class=\"delete-file\" data-file-uuid=\"" + data.data[key].file_unique_name + "\" data-filename=\"" + data.data[key].file_name + "\"><i class=\"fas fa-trash-alt text-danger\"></i></a></td>" +
@@ -180,6 +182,7 @@
                                         "<li><strong>#</strong> " + (parseInt(key, 10) + 1) + "</li>" +
                                         "<li><strong>Date</strong> " + data.data[key].created_at + "</li>" +
                                         "<li><strong>Size</strong> " + data.data[key].size + "</li>" +
+                                        "<li><strong>Upload</strong><td><button class=\"btn btn-success\"><i class=\"fab fa-facebook-f\"></i></button></td></li>" +
                                         "<li><strong>Download</strong> <a href=\"" + data.data[key].download + "\"><i class=\"fas fa-file-csv\"></i></a></li>" +
                                         "<li><strong>Delete</strong> <a href=\"#\" class=\"delete-file\" data-file-uuid=\"" + data.data[key].file_unique_name + "\" data-filename=\"" + data.data[key].file_name + "\"><i class=\"fas fa-trash-alt text-danger\"></i></a></li>" +
                                     "</ul>" +

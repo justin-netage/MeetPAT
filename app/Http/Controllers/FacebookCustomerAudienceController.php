@@ -53,8 +53,8 @@ class FacebookCustomerAudienceController extends Controller
           
           if ($_SESSION['facebook_access_token']) {
 
-            if($user->ad_account) {
-                $user->ad_account->update(['access_token' => $_SESSION['facebook_access_token']]);
+            if($user->facebook_ad_account) {
+                $user->facebook_ad_account->update(['access_token' => $_SESSION['facebook_access_token']]);
                 $_SESSION['facebook_access_token'] = null;
 
                 return redirect('/meetpat-client');
@@ -198,7 +198,7 @@ class FacebookCustomerAudienceController extends Controller
       // Main variables
       $job = \MeetPAT\FacebookJobQue::find($request->job_id);
       $user = \MeetPAT\User::find($job->user_id);
-      $client_facebook = $user->ad_account();
+      $client_facebook = $user->facebook_ad_account();
       // methods
 
       function get_percentage($total, $number)
@@ -227,6 +227,13 @@ class FacebookCustomerAudienceController extends Controller
     public function download_sample_file()
     {
       return \Storage::disk('s3')->url('meetpat/public/sample/example_audience_file.csv');
+    }
+
+    public function deauthorize(Request $request)
+    {
+      $user = \MeetPAT\User::find((\MeetPAT\User::where('api_token', $request->api_token)->get()[0]->id))->facebook_ad_account->delete();
+
+      return "success";
     }
     
 }

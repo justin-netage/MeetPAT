@@ -163,7 +163,11 @@ Route::post('/meetpat-client/settings/disconnect-platform', 'MeetpatClientContro
 Route::get('/meetpat-client/filter-job-status', 'DataVisualisationController@check_job_status')->name('check-filter-job-status')->middleware('auth:api');
 Route::post('/meetpat-client/submit-filter', 'DataVisualisationController@queue_filter_job')->name('queue-filter-job')->middleware('auth:api');
 
+// Platform Authorizations
+Route::post('/meetpat-client/sync/facebook/deauthorize', 'FacebookCustomerAudienceController@deauthorize')->name('deauthorize-facebook')->middleware('auth:api');
+
 /** END Client routes */
+
 
 // Barker Street Access
 
