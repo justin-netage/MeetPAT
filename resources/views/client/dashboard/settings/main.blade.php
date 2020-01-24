@@ -20,7 +20,7 @@
                 <div class="card-header">Synch Platform</div>
                 <div class="card-body text-facebook">
                     <h5 class="card-title text-center"><i class="fab fa-facebook-f"></i></h5>
-                    <p class="card-text">Synch your account with facebook to upload your custom audiences.</p>
+                    <p class="card-text">Synch your account with facebook to upload your customer list.</p>
                 </div>
             </div>
         </a>

@@ -8,10 +8,10 @@
 
         <a class="card-link card-link-secondary" href="/meetpat-client/upload">
             <div class="card border-secondary">
-                <div class="card-header">Upload Client Data</div>
+                <div class="card-header">Upload Contacts</div>
                 <div class="card-body text-secondary">
                     <h5 class="card-title text-center"><i class="fas fa-file-upload"></i></h5>
-                    <p class="card-text">Upload your audience file to view in MeetPAT Dashboard or update existing audience variables.</p>
+                    <p class="card-text">Upload your contacts to view in the MeetPAT Dashboard or update existing contact variables.</p>
                 </div>
             </div>
         </a>
@@ -31,7 +31,7 @@
                 <div class="card-header">Files</div>
                 <div class="card-body text-orange">
                     <h5 class="card-title text-center"><i class="fas fa-folder"></i></h5>
-                    <p class="card-text">View and download your saved audiences and previous file uploads.</p>
+                    <p class="card-text">View and download your saved audiences, or upload them to a customer list.</p>
                 </div>
             </div>
         </a>
@@ -41,7 +41,7 @@
                 <div class="card-header">Account Settings</div>
                 <div class="card-body text-success">
                     <h5 class="card-title text-center"><i class="fas fa-sliders-h"></i></h5>
-                    <p class="card-text">Update your profile and notification settings.</p>
+                    <p class="card-text">Update your notification settings and sync your account with your Ad account.</p>
                 </div>
             </div>
         </a>

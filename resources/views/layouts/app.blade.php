@@ -109,9 +109,9 @@
                         @if(\Auth::user()->client)
                         <!-- Clients Navigation --> 
                             @if(Request::path() == 'meetpat-client/upload')
-                            <li class="active"><a class="nav-link nav-link-active" href="{{ route('upload-main') }}"><i class="fas fa-file-upload"></i>&nbsp;Upload Client Data</a></li>
+                            <li class="active"><a class="nav-link nav-link-active" href="{{ route('upload-main') }}"><i class="fas fa-file-upload"></i>&nbsp;Upload Contacts</a></li>
                             @else
-                            <li><a class="nav-link nav-link-inactive" href="{{ route('upload-main') }}"><i class="fas fa-file-upload"></i></i>&nbsp;Upload Client Data</a></li>
+                            <li><a class="nav-link nav-link-inactive" href="{{ route('upload-main') }}"><i class="fas fa-file-upload"></i></i>&nbsp;Upload Contacts</a></li>
                             @endif
                             @if(Request::path() == 'meetpat-client/data-visualisation')
                             <li class="active"><a class="nav-link nav-link-active" href="{{ route('meetpat-data-visualisation') }}"><i class="fas fa-chart-line"></i>&nbsp;Dashboard</a></li>
@@ -200,7 +200,7 @@
         </main>
     </div>
     <nav class="navbar navbar-expand-lg sticky-bottom navbar-light bg-light">
-        <a class="navbar-brand" href="#"><img src="{{Storage::disk('s3')->url('meetpat/public/images/site-logo.png')}}" height="50px" width="auto" alt="meetpat-logo"></a>
+        <a class="navbar-brand" href="#"><img src="{{Storage::disk('s3')->url('meetpat/public/images/site-logo.png')}}" height="50px" width="auto" alt="footer-meetpat-logo"></a>
         <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             <li class="nav-item"><a class="nav-link" href="/privacy-policy">Privacy Policy</a></li>
             <li class="nav-item"><a class="nav-link" href="/terms">Terms</a></li>
