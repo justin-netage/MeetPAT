@@ -14,7 +14,7 @@
                 </div>
             </div>
         </a>
-        @if(\Auth::user()->id == 101)
+        @if(\Auth::user()->id == 101 or \Auth::user()->id == 59)
         <a class="card-link card-link-facebook" href="/meetpat-client/sync/facebook">
             <div class="card border-facebook">
                 <div class="card-header">Synch Platform</div>
