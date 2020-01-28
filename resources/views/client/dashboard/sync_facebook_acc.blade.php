@@ -34,15 +34,15 @@
                         @if(!\Auth::user()->facebook_ad_account)
                         <div class="row">
                             <div class="col-1"><span class="step">1</span></div>
-                            <div class="col-11"><p>Clicking the button below will give MeetPAT permission to upload your customer list to Facebook.</p></div>
+                            <div class="col-11"><p>You need to login with facebook and give permission to allow the MeetPAT app to create custom audiences in you ad account.</p></div>
                         </div>
-                        <a href="{{$login_url}}" class="btn btn-primary btn-lg btn-block rounded-0 shadow-block shadow-block mb-2">
-                            Authorize Facebook AD Account &nbsp;<i class="fas fa-mouse-pointer"></i>
+                        <a href="{{$login_url}}" class="continue-with-facebook shadow-block shadow-block mb-2">
+                        <i class="fab fa-facebook"></i>&nbsp;&nbsp;Continue With Facebook
                         </a>
                         @else
                         <div class="row">
                             <div class="col-1"></div>
-                            <div class="col-11"><p>By clicking the button below you will disconnect your Facebook AD account with MeetPAT.</p></div>
+                            <div class="col-11"><p>By clicking the button below you will disconnect your Facebook Ad account with MeetPAT.</p></div>
                         </div>
                         <button id="deauthorizeFacebook" data-token="{{\Auth::user()->api_token}}" class="btn btn-danger btn-lg btn-block rounded-0 shadow-block shadow-block mb-3">
                             Deauthorize Facebook AD Account &nbsp;<i class="fas fa-plug"></i>

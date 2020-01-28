@@ -1489,3 +1489,21 @@ nav .dropdown-menu
 #tableData td i:hover{
   cursor: pointer;
 }
+
+.continue-with-facebook
+{
+  height: 40px;
+  width: 400px;
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #3b5998;
+  font-size: 24px;
+  border-radius: 5px;
+  padding: 8px 16px 8px 16px;
+}
+
+a.continue-with-facebook:hover
+{
+  color: #fff;
+  text-decoration: none;
+}
