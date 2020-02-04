@@ -138,3 +138,5 @@ Route::get('/meetpat-client/files/saved-audience-files', 'MeetpatClientControlle
 
 Route::get('/test-bsapi', 'MiscController@bsapi')->name('bsapi');
 Route::get('/test-bsapi-balances', 'MiscController@bsapi_balance')->name('bsapi-balances');
+
+//Route::get('/test-facebook-custom-audience', 'FacebookCustomerAudienceController@create_custom_audience')->name('test-upload');

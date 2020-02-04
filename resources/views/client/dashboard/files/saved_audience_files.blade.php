@@ -158,12 +158,13 @@
 
                 if(data.data.length) {
                     for(var key in data.data) {
+                        
                         $("#tableBody").append(
                             "<tr>" +
                                 "<td class=\"text-center\">" + (parseInt(key, 10) + 1) + "</td>" +
                                 "<td>" + data.data[key].created_at + "</td>" +
                                 "<td>" + data.data[key].file_name + "</td>" +
-                                "<td class=\"text-center\"><button class=\"btn\"><i class=\"fab fa-facebook-f\"></i></button></td>" +
+                                "<td class=\"text-center\"><button class=\"btn upload-to-fb\" data-filter-id=\"" + data.data[key].id + "\"><i class=\"fab fa-facebook-f\"></i></button></td>" +
                                 "<td class=\"text-center\">" + data.data[key].size + "</td>" +
                                 "<td class=\"text-center\">" + "<a href=\"" + data.data[key].download + "\"><i class=\"fas fa-file-csv\"></i></a></td>" +
                                 "<td class=\"text-center\">" + "<a href=\"#\" class=\"delete-file\" data-file-uuid=\"" + data.data[key].file_unique_name + "\" data-filename=\"" + data.data[key].file_name + "\"><i class=\"fas fa-trash-alt text-danger\"></i></a></td>" +
@@ -209,6 +210,17 @@
                             $(this).next(".secondaryData").removeClass("d-flex");
                         }
                         
+                    });
+
+                    $(".upload-to-fb").click(function() {
+                        filtered_audience_id = $(this).data("filter-id");
+
+                        $.post("/api/meetpat-client/facebook/custom-audience/create", {user_id: user_id, filtered_audience_id: filtered_audience_id}, function(data) {
+                            console.log(data);
+                        }).fail(function(error) {
+                            console.log(error);
+                        });
+
                     });
 
                     $("#entriesInfo").html(data.from + " to " + data.to + " of " + data.total + " entries");

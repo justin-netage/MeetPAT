@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "245bedddfaf906e118387e84a9a972b7",
+    "content-hash": "b0569938149a0fff6daf5cf4779bad25",
     "packages": [
         {
             "name": "amphp/amp",
@@ -557,12 +557,12 @@
             "version": "v0.11.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/barryvdh/laravel-cors.git",
+                "url": "https://github.com/fruitcake/laravel-cors.git",
                 "reference": "c95ac944f2f20a17949aae6645692dfd3b402bca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-cors/zipball/c95ac944f2f20a17949aae6645692dfd3b402bca",
+                "url": "https://api.github.com/repos/fruitcake/laravel-cors/zipball/c95ac944f2f20a17949aae6645692dfd3b402bca",
                 "reference": "c95ac944f2f20a17949aae6645692dfd3b402bca",
                 "shasum": ""
             },
@@ -1211,16 +1211,16 @@
         },
         {
             "name": "facebook/php-ads-sdk",
-            "version": "3.2.5",
+            "version": "4.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facebook/facebook-php-business-sdk.git",
-                "reference": "ad7ba2351341b12a86ae68927e1e043af893909c"
+                "reference": "792bcd033bc93d1b8c23052e742b957bf74023fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facebook/facebook-php-business-sdk/zipball/ad7ba2351341b12a86ae68927e1e043af893909c",
-                "reference": "ad7ba2351341b12a86ae68927e1e043af893909c",
+                "url": "https://api.github.com/repos/facebook/facebook-php-business-sdk/zipball/792bcd033bc93d1b8c23052e742b957bf74023fe",
+                "reference": "792bcd033bc93d1b8c23052e742b957bf74023fe",
                 "shasum": ""
             },
             "require-dev": {
@@ -1244,7 +1244,7 @@
                 "page",
                 "sdk"
             ],
-            "time": "2018-12-13T19:04:01+00:00"
+            "time": "2019-10-24T18:19:52+00:00"
         },
         {
             "name": "fideloper/proxy",
@@ -5576,6 +5576,7 @@
                 "psr",
                 "psr-7"
             ],
+            "abandoned": "laminas/laminas-diactoros",
             "time": "2018-09-05T19:29:37+00:00"
         }
     ],

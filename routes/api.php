@@ -166,6 +166,9 @@ Route::post('/meetpat-client/submit-filter', 'DataVisualisationController@queue_
 // Platform Authorizations
 Route::post('/meetpat-client/sync/facebook/deauthorize', 'FacebookCustomerAudienceController@deauthorize')->name('deauthorize-facebook')->middleware('auth:api');
 
+// Create Custom Audience/List
+Route::post('/meetpat-client/facebook/custom-audience/create', 'FacebookCustomerAudienceController@create_custom_audience')->name('create-custom-audience')->middleware('auth:api');
+
 /** END Client routes */
 
 

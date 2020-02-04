@@ -235,5 +235,86 @@ class FacebookCustomerAudienceController extends Controller
 
       return "success";
     }
+
+    public function create_custom_audience(Request $request)
+    {
+      $user = \MeetPAT\User::find($request->user_id);
+      $saved_filtered_audience_file = \MeetPAT\SavedFilteredAudienceFile::find($request->filtered_audience_id);
+      $add_acc = $user->facebook_ad_account;
+      $access_token = $add_acc->access_token;
+      $app_secret = env('FACEBOOK_APP_SECRET');
+      $app_id = env('FACEBOOK_APP_ID');
+      $id = "act_" . $add_acc->ad_account_id;
+
+      $file_exists = \Storage::disk('s3')->exists('client/client-records/user_id_' . $user->id . '/' . $saved_filtered_audience_file->file_id  . ".csv");
+
+      if($file_exists)
+      {
+        $saved_audience_file = \Storage::disk('s3')->get('client/client-records/user_id_' . $user->id . '/' . $saved_filtered_audience_file->file_unique_name  . ".csv");
+        $api = Api::init($app_id, $app_secret, $access_token);
+        $api->setLogger(new CurlLogger());
+
+        $fields = array(
+        );
+
+        $params = array(
+          'name' => $saved_filtered_audience_file->file_name,
+          'subtype' => 'CUSTOM',
+          'description' => '',
+          'customer_file_source' => 'BOTH_USER_AND_PARTNER_PROVIDED',
+        );
+
+        $result = json_encode((new AdAccount($id))->createCustomAudience(
+          $fields,
+          $params
+        )->exportAllData(), JSON_PRETTY_PRINT);
+
+        $saved_filtered_audience_file->update(["fb_audience_id", $result->id]);
+
+        if(array_key_exists("id", $result)) {
+          $curl = curl_init('https://graph.facebook.com/v5.0/' . $result->id .  '/users');
+
+          // File Data
+          $csv_p = new \ParseCsv\Csv();
+          $csv_p->encoding('UTF-8');
+          $csv_p->delimiter = ";";
+          //$csv_p->fields = ["FirstName","Surname","MobilePhone","Email", "IDNumber", "CustomVar1"];
+          $csv_p->load_data(iconv("ISO-8859-1","UTF-8", $saved_filtered_audience_file));
+          $csv_p->parse(iconv("ISO-8859-1","UTF-8", $saved_filtered_audience_file));
+
+          $data = array("schema" => array("FN", "LN", "PHONE", "EMAIL"), "data" => array());
+          $data_array = array();
+
+          foreach($csv_p->data as $info) {
+            $info["MobilePhone"] = substr($info["MobilePhone"], 1);
+            array_push($data_array, array_slice(array_values($info), 0, 4));
+          }
+
+          $data["data"] = $data_array;
+          
+          curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
+          curl_setopt($curl, CURLOPT_POSTFIELDS, 'payload=' . json_encode($data));
+          curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);      
+          curl_setopt($curl, CURLINFO_HEADER_OUT, true);                                                                
+          curl_setopt($curl, CURLOPT_HTTPHEADER, array(                                                                          
+              'Content-Type: application/json')                                                                       
+          );                                              
+
+          $curl_result = curl_exec($curl);
+          $info = curl_getinfo($curl);
+          curl_close($curl);
+
+          return response()->json($curl_result);
+
+        } else {
+
+          return response()->json(array("error" => "Synch Error", "message" => "There's is an issue with the synced account. Either the ad account ID is incorrect or the account is not linked with a business."));
+        }
+
+      } else {
+        return response()->json(array("error" => "File not found.", "message" => "The requested file could not be found on the server."));
+      }
+
+    }
     
 }
