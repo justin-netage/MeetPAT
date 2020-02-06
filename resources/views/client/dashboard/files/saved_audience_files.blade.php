@@ -94,6 +94,12 @@
 
 @endsection
 
+@section('modals')
+
+<div id="uploadToFBContainer"></div>
+
+@endsection
+
 @section('scripts')
 <script>
     var user_id = $("#UserId").val();
@@ -215,10 +221,42 @@
                     $(".upload-to-fb").click(function() {
                         filtered_audience_id = $(this).data("filter-id");
 
-                        $.post("/api/meetpat-client/facebook/custom-audience/create", {user_id: user_id, filtered_audience_id: filtered_audience_id}, function(data) {
-                            console.log(data);
+                        $("#uploadToFBContainer").html(
+                                "<div class=\"modal mt-5\" id=\"modalUploadToFB-" + filtered_audience_id + "\" tabindex=\"-1\" role=\"dialog\">" +
+                                    "<div class=\"modal-dialog\" role=\"document\">" +
+                                        "<div class=\"modal-content\">" +
+                                        "<div class=\"modal-body\">" +
+                                            "<div class=\"d-flex align-items-center\">" +
+                                                "<strong class=\"text-facebook\">Uploading audience to facebook...</strong>" +
+                                                "<div class=\"spinner-container spinner-border spinner-border-sm ml-auto\" role=\"status\" aria-hidden=\"true\"></div>" +
+                                            "</div><hr />" +
+                                            "<p class=\"help-text\"><strong>Please note that once the upload has completed it will still take up to an hour (or more) for facebook to get matches.</strong></p>" +
+                                        "</div>" +
+                                        "</div>" +
+                                    "</div>" +
+                                "</div>"
+                            );
+
+                            $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id).modal({
+                                backdrop: 'static',
+                                keyboard: false,
+                                show: true
+                            });
+
+                        $.post("/api/meetpat-client/facebook/custom-audience/create", {user_id: user_id, filtered_audience_id: filtered_audience_id, api_token: auth_token}, function(data) {
+                            
+                            setTimeout(() => {
+                                $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id).modal('hide');
+                            }, 2000);
+
+                            $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .spinner-container").removeClass('spinner-border').removeClass('spinner-border-sm').html('<i class="fas fa-check-circle text-success"></i>');
+                            
+                            
                         }).fail(function(error) {
                             console.log(error);
+                            $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .spinner-container").removeClass('spinner-border').removeClass('spinner-border-sm').html('<i type="button" class="text-danger fas fa-times-circle close"  data-dismiss="modal" aria-label="Close"></i>');
+                            
+                            $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .help-text").html('<strong class="text-danger">An Error occured. Make sure that your Ad Account ID is correct and linked with a business account. Contact MeetPAT Support for more assistance</strong>')
                         });
 
                     });

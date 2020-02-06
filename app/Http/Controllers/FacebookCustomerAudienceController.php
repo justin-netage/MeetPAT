@@ -7,6 +7,7 @@ use Facebook\Facebook;
 use FacebookAds\Api;
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
+use FacebookAds\Object\User;
 use FacebookAds\Object\AdAccount;
 use FacebookAds\Object\CustomAudience;
 use FacebookAds\Logger\CurlLogger;
@@ -238,6 +239,13 @@ class FacebookCustomerAudienceController extends Controller
 
     public function create_custom_audience(Request $request)
     {
+
+      // hash function
+      function normalizeAndHash($value)
+      {
+          return hash('sha256', strtolower(trim($value)));
+      }
+
       $user = \MeetPAT\User::find($request->user_id);
       $saved_filtered_audience_file = \MeetPAT\SavedFilteredAudienceFile::find($request->filtered_audience_id);
       $add_acc = $user->facebook_ad_account;
@@ -246,11 +254,22 @@ class FacebookCustomerAudienceController extends Controller
       $app_id = env('FACEBOOK_APP_ID');
       $id = "act_" . $add_acc->ad_account_id;
 
-      $file_exists = \Storage::disk('s3')->exists('client/client-records/user_id_' . $user->id . '/' . $saved_filtered_audience_file->file_id  . ".csv");
+      if(env('APP_ENV') == 'production')
+      {
+        $file_exists = \Storage::disk('s3')->exists('client/saved-audiences/user_id_' . $user->id . '/' . $saved_filtered_audience_file->file_unique_name  . ".csv");
+      } else {
+        $file_exists = \Storage::disk('local')->exists('client/saved-audiences/user_id_' . $user->id . '/' . $saved_filtered_audience_file->file_unique_name  . ".csv");
+      }
 
       if($file_exists)
       {
-        $saved_audience_file = \Storage::disk('s3')->get('client/client-records/user_id_' . $user->id . '/' . $saved_filtered_audience_file->file_unique_name  . ".csv");
+        if(env('APP_ENV') == 'production')
+        {
+          $saved_audience_file = \Storage::disk('s3')->get('client/saved-audiences/user_id_' . $user->id . '/' . $saved_filtered_audience_file->file_unique_name  . ".csv");
+        } else {
+          $saved_audience_file = \Storage::disk('local')->get('client/saved-audiences/user_id_' . $user->id . '/' . $saved_filtered_audience_file->file_unique_name  . ".csv");
+        }
+        
         $api = Api::init($app_id, $app_secret, $access_token);
         $api->setLogger(new CurlLogger());
 
@@ -268,43 +287,54 @@ class FacebookCustomerAudienceController extends Controller
           $fields,
           $params
         )->exportAllData(), JSON_PRETTY_PRINT);
-
-        $saved_filtered_audience_file->update(["fb_audience_id", $result->id]);
+        
+        $result = json_decode($result, true);
+        
+        $saved_filtered_audience_file->update(["fb_audience_id", $result["id"]]);
 
         if(array_key_exists("id", $result)) {
-          $curl = curl_init('https://graph.facebook.com/v5.0/' . $result->id .  '/users');
 
           // File Data
           $csv_p = new \ParseCsv\Csv();
           $csv_p->encoding('UTF-8');
           $csv_p->delimiter = ";";
           //$csv_p->fields = ["FirstName","Surname","MobilePhone","Email", "IDNumber", "CustomVar1"];
-          $csv_p->load_data(iconv("ISO-8859-1","UTF-8", $saved_filtered_audience_file));
-          $csv_p->parse(iconv("ISO-8859-1","UTF-8", $saved_filtered_audience_file));
+          $csv_p->load_data(iconv("ISO-8859-1","UTF-8", $saved_audience_file));
+          $csv_p->parse(iconv("ISO-8859-1","UTF-8", $saved_audience_file));
+          
+          $array_chunks = array_chunk($csv_p->data, 10000, false);
 
-          $data = array("schema" => array("FN", "LN", "PHONE", "EMAIL"), "data" => array());
-          $data_array = array();
+          $uploads = count($array_chunks);
+          $records = count($csv_p->data);
+         
+          foreach($array_chunks as $chunk) {
+            $data_array = array();
 
-          foreach($csv_p->data as $info) {
-            $info["MobilePhone"] = substr($info["MobilePhone"], 1);
-            array_push($data_array, array_slice(array_values($info), 0, 4));
+            foreach($chunk as $info) {
+  
+                $info["FirstName"] = normalizeAndHash($info["FirstName"]);
+                $info["Surname"] = normalizeAndHash($info["Surname"]);
+                $info["MobilePhone"] = normalizeAndHash(substr($info["MobilePhone"], 1));
+                $info["Email"] = normalizeAndHash($info["Email"]);
+  
+                array_push($data_array, array_slice(array_values($info), 0, 4));
+              
+            }
+  
+            $fields_users = array(
+            );
+            $params_users = array(
+              'payload' => array('schema' => array("FN", "LN", "PHONE", "EMAIL"),'data' => $data_array),
+            );
+  
+            $result_users = json_encode((new CustomAudience($result["id"]))->createUser(
+              $fields_users,
+              $params_users
+            )->exportAllData(), JSON_PRETTY_PRINT);
+
           }
 
-          $data["data"] = $data_array;
-          
-          curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
-          curl_setopt($curl, CURLOPT_POSTFIELDS, 'payload=' . json_encode($data));
-          curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);      
-          curl_setopt($curl, CURLINFO_HEADER_OUT, true);                                                                
-          curl_setopt($curl, CURLOPT_HTTPHEADER, array(                                                                          
-              'Content-Type: application/json')                                                                       
-          );                                              
-
-          $curl_result = curl_exec($curl);
-          $info = curl_getinfo($curl);
-          curl_close($curl);
-
-          return response()->json($curl_result);
+          return response()->json(array("success" => "Process Complete", "message" => "Upload has successfully completed."));
 
         } else {
 

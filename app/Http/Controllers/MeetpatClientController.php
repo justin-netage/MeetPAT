@@ -128,7 +128,7 @@ class MeetpatClientController extends Controller
 
           } else {
 
-            $permissions = ['ads_management'];
+            $permissions = ['ads_management', 'ads_read', 'business_management'];
             $loginUrl = $helper->getReAuthenticationUrl('https://dashboard.meetpat.co.za/meetpat-client/sync/facebook', $permissions);
             // echo '<a href="' . $loginUrl . '">Log in with Facebook</a>';
           }
