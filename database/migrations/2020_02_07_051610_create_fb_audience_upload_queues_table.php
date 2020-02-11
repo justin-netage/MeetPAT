@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFbAudienceUploadQueueTable extends Migration
+class CreateFbAudienceUploadQueuesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateFbAudienceUploadQueueTable extends Migration
      */
     public function up()
     {
-        Schema::create('fb_audience_upload_queue', function (Blueprint $table) {
+        Schema::create('fb_audience_upload_queues', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
             $table->string('custom_audience_id');
@@ -33,6 +33,6 @@ class CreateFbAudienceUploadQueueTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fb_audience_upload_queue');
+        Schema::dropIfExists('fb_audience_upload_queues');
     }
 }

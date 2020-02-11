@@ -240,111 +240,96 @@ class FacebookCustomerAudienceController extends Controller
     public function create_custom_audience(Request $request)
     {
 
-      // hash function
-      function normalizeAndHash($value)
-      {
-          return hash('sha256', strtolower(trim($value)));
-      }
-
       $user = \MeetPAT\User::find($request->user_id);
-      $saved_filtered_audience_file = \MeetPAT\SavedFilteredAudienceFile::find($request->filtered_audience_id);
-      $add_acc = $user->facebook_ad_account;
-      $access_token = $add_acc->access_token;
-      $app_secret = env('FACEBOOK_APP_SECRET');
-      $app_id = env('FACEBOOK_APP_ID');
-      $id = "act_" . $add_acc->ad_account_id;
+      
+        if($user->facebook_ad_account and $user->facebook_ad_account->ad_account_id) {
 
-      if(env('APP_ENV') == 'production')
-      {
-        $file_exists = \Storage::disk('s3')->exists('client/saved-audiences/user_id_' . $user->id . '/' . $saved_filtered_audience_file->file_unique_name  . ".csv");
-      } else {
-        $file_exists = \Storage::disk('local')->exists('client/saved-audiences/user_id_' . $user->id . '/' . $saved_filtered_audience_file->file_unique_name  . ".csv");
-      }
+          $saved_filtered_audience_file = \MeetPAT\SavedFilteredAudienceFile::find($request->filtered_audience_id);
+          $add_acc = $user->facebook_ad_account;
+          $access_token = $add_acc->access_token;
+          $app_secret = env('FACEBOOK_APP_SECRET');
+          $app_id = env('FACEBOOK_APP_ID');
+          $id = "act_" . $add_acc->ad_account_id;
 
-      if($file_exists)
-      {
-        if(env('APP_ENV') == 'production')
-        {
-          $saved_audience_file = \Storage::disk('s3')->get('client/saved-audiences/user_id_' . $user->id . '/' . $saved_filtered_audience_file->file_unique_name  . ".csv");
-        } else {
-          $saved_audience_file = \Storage::disk('local')->get('client/saved-audiences/user_id_' . $user->id . '/' . $saved_filtered_audience_file->file_unique_name  . ".csv");
-        }
-        
-        $api = Api::init($app_id, $app_secret, $access_token);
-        $api->setLogger(new CurlLogger());
-
-        $fields = array(
-        );
-
-        $params = array(
-          'name' => $saved_filtered_audience_file->file_name,
-          'subtype' => 'CUSTOM',
-          'description' => '',
-          'customer_file_source' => 'BOTH_USER_AND_PARTNER_PROVIDED',
-        );
-
-        $result = json_encode((new AdAccount($id))->createCustomAudience(
-          $fields,
-          $params
-        )->exportAllData(), JSON_PRETTY_PRINT);
-        
-        $result = json_decode($result, true);
-        
-        $saved_filtered_audience_file->update(["fb_audience_id", $result["id"]]);
-
-        if(array_key_exists("id", $result)) {
-
-          // File Data
-          $csv_p = new \ParseCsv\Csv();
-          $csv_p->encoding('UTF-8');
-          $csv_p->delimiter = ";";
-          //$csv_p->fields = ["FirstName","Surname","MobilePhone","Email", "IDNumber", "CustomVar1"];
-          $csv_p->load_data(iconv("ISO-8859-1","UTF-8", $saved_audience_file));
-          $csv_p->parse(iconv("ISO-8859-1","UTF-8", $saved_audience_file));
-          
-          $array_chunks = array_chunk($csv_p->data, 10000, false);
-
-          $uploads = count($array_chunks);
-          $records = count($csv_p->data);
-         
-          foreach($array_chunks as $chunk) {
-            $data_array = array();
-
-            foreach($chunk as $info) {
-  
-                $info["FirstName"] = normalizeAndHash($info["FirstName"]);
-                $info["Surname"] = normalizeAndHash($info["Surname"]);
-                $info["MobilePhone"] = normalizeAndHash(substr($info["MobilePhone"], 1));
-                $info["Email"] = normalizeAndHash($info["Email"]);
-  
-                array_push($data_array, array_slice(array_values($info), 0, 4));
-              
-            }
-  
-            $fields_users = array(
-            );
-            $params_users = array(
-              'payload' => array('schema' => array("FN", "LN", "PHONE", "EMAIL"),'data' => $data_array),
-            );
-  
-            $result_users = json_encode((new CustomAudience($result["id"]))->createUser(
-              $fields_users,
-              $params_users
-            )->exportAllData(), JSON_PRETTY_PRINT);
-
+          if(env('APP_ENV') == 'production')
+          {
+            $file_exists = \Storage::disk('s3')->exists('client/saved-audiences/user_id_' . $user->id . '/' . $saved_filtered_audience_file->file_unique_name  . ".csv");
+          } else {
+            $file_exists = \Storage::disk('local')->exists('client/saved-audiences/user_id_' . $user->id . '/' . $saved_filtered_audience_file->file_unique_name  . ".csv");
           }
 
-          return response()->json(array("success" => "Process Complete", "message" => "Upload has successfully completed."));
+          if($file_exists)
+          {
+            if(env('APP_ENV') == 'production')
+            {
+              $saved_audience_file = \Storage::disk('s3')->get('client/saved-audiences/user_id_' . $user->id . '/' . $saved_filtered_audience_file->file_unique_name  . ".csv");
+            } else {
+              $saved_audience_file = \Storage::disk('local')->get('client/saved-audiences/user_id_' . $user->id . '/' . $saved_filtered_audience_file->file_unique_name  . ".csv");
+            }
+            
+            $api = Api::init($app_id, $app_secret, $access_token);
+            $api->setLogger(new CurlLogger());
+
+            $fields = array(
+            );
+
+            $params = array(
+              'name' => $saved_filtered_audience_file->file_name,
+              'subtype' => 'CUSTOM',
+              'description' => 'MeetPAT',
+              'customer_file_source' => 'BOTH_USER_AND_PARTNER_PROVIDED',
+            );
+
+            $result = json_encode((new AdAccount($id))->createCustomAudience(
+              $fields,
+              $params
+            )->exportAllData(), JSON_PRETTY_PRINT);
+            
+            $result = json_decode($result, true);
+            
+            $saved_filtered_audience_file->update(["fb_audience_id", $result["id"]]);
+
+            if(array_key_exists("id", $result)) {
+
+              // File Data
+              $csv_p = new \ParseCsv\Csv();
+              $csv_p->encoding('UTF-8');
+              $csv_p->delimiter = ";";
+              //$csv_p->fields = ["FirstName","Surname","MobilePhone","Email", "IDNumber", "CustomVar1"];
+              $csv_p->load_data(iconv("ISO-8859-1","UTF-8", $saved_audience_file));
+              $csv_p->parse(iconv("ISO-8859-1","UTF-8", $saved_audience_file));
+              
+              $array_chunks = array_chunk($csv_p->data, 10000, false);
+
+              $batches = count($array_chunks);
+              $records = count($csv_p->data);
+
+              $new_custom_audience = \MeetPAT\FbAudienceUploadQueue::create(
+                array('user_id' => $user->id,
+                      'custom_audience_id' => $result["id"],
+                      'saved_audience_file_id' => $saved_filtered_audience_file->id,
+                      'status' => 'pending',
+                      'batches' => $batches,
+                      'batches_complete' => 0,
+                      'total_records' => $records
+                )
+              );
+
+              return response()->json(array("status" => "success", "status-text" => "Job Queued", "message" => "Upload has been queued to process."));
+
+            } else {
+
+              return response()->json(array("status" => "error", "status-text" => "Synch Error", "message" => "There's is an issue with the synced account. Either the ad account ID is incorrect or the account is not linked with a business."));
+            }
+
+          } else {
+            return response()->json(array("status" => "error", "status-text" => "File not found.", "message" => "The requested file could not be found on the server."));
+          }
 
         } else {
-
-          return response()->json(array("error" => "Synch Error", "message" => "There's is an issue with the synced account. Either the ad account ID is incorrect or the account is not linked with a business."));
+          return response()->json(array("status" => "error", "status-text" => "FB Ad Account", "Facebook Ad Account has not been linked."));
         }
 
-      } else {
-        return response()->json(array("error" => "File not found.", "message" => "The requested file could not be found on the server."));
       }
-
-    }
     
 }
