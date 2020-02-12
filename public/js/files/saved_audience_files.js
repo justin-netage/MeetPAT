@@ -17,6 +17,7 @@ $(document).ready(function() {
         console.log(Date.now());
         $.get("/api/meetpat-client/files/get-saved-audiences",
             {api_token: auth_token, user_id: user_id, page: 1, search_term: ''} ,function(data, textStatus,jqXHR) {
+            
             if(data.data.length) {
                     for(var key in data.data) {
                         if(data.data[key].fb_audience_upload_job.length) {
@@ -144,7 +145,7 @@ $(document).ready(function() {
 
         $.get("/api/meetpat-client/files/get-saved-audiences",
             {api_token: auth_token, user_id: user_id, page: page, search_term: search_term}, function(data, textStatus,jqXHR) {
-
+                
             $("#tableBody").empty();
             $("#mobileTableData tbody").empty();
             $("#refreshBtn").prop("disabled", 0);
