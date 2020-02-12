@@ -476,32 +476,18 @@ class DataVisualisationController extends Controller
         foreach($files as $file)
         {
             
-            if(env('APP_ENV') == 'production')
+            $file_exists = \Storage::disk('s3')->exists('client/saved-audiences/user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.csv');
+            
+            if($file_exists)
             {
-                $file_exists = \Storage::disk('s3')->exists('client/saved-audiences/user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.csv');
-                
-                if($file_exists)
-                {
-                    $file["link"] = \Storage::disk('s3')->temporaryUrl(
-                        'client/saved-audiences/' . 'user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.csv', now()->addMinutes(1440),
-                        ['Content-Type' => 'text/csv',
-                         'ResponseContentType' => 'text/csv',
-                         'ResponseContentDisposition' => 'attachment; filename=' . $file["file_name"] . ".csv"]);
-    
-                } else {
-                    $file["link"] = "404";
-                }
+                $file["link"] = \Storage::disk('s3')->temporaryUrl(
+                    'client/saved-audiences/' . 'user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.csv', now()->addMinutes(1440),
+                    ['Content-Type' => 'text/csv',
+                        'ResponseContentType' => 'text/csv',
+                        'ResponseContentDisposition' => 'attachment; filename=' . $file["file_name"] . ".csv"]);
 
             } else {
-                $file_exists = \Storage::disk('local')->exists('client/saved-audiences/user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.csv');
-                
-                if($file_exists)
-                {
-                    $file["link"] = \Storage::disk('local')->url('client/saved-audiences/' . 'user_id_' . $file["user_id"] . '/' . $file["file_unique_name"] . '.csv');
-    
-                } else {
-                    $file["link"] = "404";
-                }
+                $file["link"] = "404";
             }
 
             array_push($new_array, $file);

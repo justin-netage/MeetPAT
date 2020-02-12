@@ -870,6 +870,11 @@
             <li id="btn_next_item" class="page-item"><a class="page-link" id="btn_next" href="#">Next</a></li>
         </ul>
         </nav>
+        <div class="row">
+            <div class="col-12">
+            <a href="/meetpat-client/files/saved-audience-files" target="_blank">Upload saved audiences to you facebook custom audience lists. &nbsp;&nbsp; <i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
