@@ -16,7 +16,7 @@ $(document).ready(function() {
     var check_pending_jobs = window.setInterval(function() {
         console.log(Date.now());
         $.get("/api/meetpat-client/files/get-saved-audiences",
-            {api_token: auth_token, user_id: user_id, page: 1, search_term: ''} ,function(data, textStatus,jqXHR) {
+            {api_token: auth_token, user_id: user_id, page: '', search_term: ''} ,function(data, textStatus,jqXHR) {
             
             if(data.data.length) {
                     for(var key in data.data) {
