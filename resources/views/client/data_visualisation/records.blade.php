@@ -872,7 +872,7 @@
         </nav>
         <div class="row">
             <div class="col-12">
-            <a href="/meetpat-client/files/saved-audience-files" target="_blank">Upload saved audiences to you facebook custom audience lists. &nbsp;&nbsp; <i class="fas fa-external-link-alt"></i></a>
+            <a href="/meetpat-client/files/saved-audience-files" target="_blank">Upload saved audiences to you facebook custom audience lists. <i class="fas fa-external-link-alt"></i></a>
             </div>
         </div>
       </div>
@@ -944,5 +944,5 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="https://unpkg.com/lunr/lunr.js"></script>
-<script type="text/javascript" src="{{asset('js/data_visualisation_v2.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/data-visualization/data_visualisation_v2.min.js')}}"></script>
 @endsection

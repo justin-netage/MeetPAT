@@ -125,7 +125,7 @@ Route::get('meetpat-client/get-records/property-count-bucket', 'DataVisualisatio
 Route::get('meetpat-client/get-records/primary-property-type', 'DataVisualisationController@get_primary_property_type')->name('get-primary-property-type')->middleware('auth:api');
 Route::get('meetpat-client/get-records/employers', 'DataVisualisationController@get_employer')->name('get-employers')->middleware('auth:api');
 
-Route::get('meetpat-client/get-saved-audiences', 'DataVisualisationController@get_saved_audiences')->name('get-audience-files');
+Route::get('meetpat-client/get-saved-audiences', 'DataVisualisationController@get_saved_audiences')->name('get-audience-files')->middleware('auth:api');
 Route::post('meetpat-client/filtered-audience/save', 'DataVisualisationController@save_filtered_audience')->name('save-filtered-audience');
 Route::post('meetpat-client/delete-saved-audience-file', 'DataVisualisationController@delete_filtered_audience_file')->name('delete-filtered-audience-file');
 Route::post('meetpat-client/save-filename-edits', 'DataVisualisationController@save_file_names')->name('save-filtered-audience-file-names');
