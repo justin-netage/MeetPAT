@@ -1585,3 +1585,12 @@ a.continue-with-facebook:hover
     background: rgba(59, 89, 152, 0.25);
   }
 }
+
+@media only screen and (max-width: 414px) {
+  .bars3 {
+    margin: 0px 0px 0px 0px;
+    left: 65px;
+    bottom: 95px;
+
+  }
+}

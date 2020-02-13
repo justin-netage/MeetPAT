@@ -14,7 +14,7 @@ function getPagingRange(current, {min = 1, total = 20, length = 5} = {}) {
 $(document).ready(function() {
     // check if there are pending jobs 
     var check_pending_jobs = window.setInterval(function() {
-        console.log(Date.now());
+    
         $.get("/api/meetpat-client/files/get-saved-audiences",
             {api_token: auth_token, user_id: user_id, page: '', search_term: ''} ,function(data, textStatus,jqXHR) {
             
@@ -26,7 +26,7 @@ $(document).ready(function() {
 
                             for(var job_key in data.data[key].fb_audience_upload_job) {
                                 
-                                if(data.data[key].fb_audience_upload_job[job_key].status == 'pending' || data.data[key].fb_audience_upload_job[job_key].status == 'processing')
+                                if(data.data[key].fb_audience_upload_job[job_key].status == 'pending' || data.data[key].fb_audience_upload_job[job_key].status === 'processing')
                                 {
                                     has_pending_job = true;
                                 } 
@@ -34,7 +34,9 @@ $(document).ready(function() {
 
                             if(has_pending_job) {
                                 $("#uploadToFb-" + data.data[key].id).html("<div><div class=\"bars3\" title=\"uploading\"><span></span><span></span><span></span><span></span><span></span</div></div>");
+                                $("#mobileUploadToFb-" + data.data[key].id).html("<strong>Upload</strong> <div><div class=\"bars3\" data-filter-id=\"" + data.data[key].id + "\"><span></span><span></span><span></span><span></span><span></span></div></div>");
                             } else {
+                                $("#mobileUploadToFb-" + data.data[key].id).html("<strong>Upload</strong> <i class=\"fab upload-to-fb fa-facebook-square text-facebook\" data-filter-id=\"" + data.data[key].id + "\"></i>");
                                 $("#uploadToFb-" + data.data[key].id).html("<i class=\"fab upload-to-fb fa-facebook-square text-facebook\" data-filter-id=\"" + data.data[key].id + "\"></i>");
                             }
                         }
@@ -78,6 +80,7 @@ $(document).ready(function() {
 
                                 if(data["status"] == "success") {
                                     $("#uploadToFb-" + filtered_audience_id).html("<div><div class=\"bars3\" title=\"uploading\"><span></span><span></span><span></span><span></span><span></span</div></div>");
+                                    $("#mobileUploadToFb-" + filtered_audience_id).html("<strong>Upload</strong> <div><div class=\"bars3\" data-filter-id=\"" + filtered_audience_id + "\"><span></span><span></span><span></span><span></span><span></span></div></div>");
                                     $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .spinner-container").removeClass('spinner-border').removeClass('spinner-border-sm').html('<i class="fas fa-check-circle text-success"></i>');
                                     $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .modal-body strong").removeClass('loading');
                                     setTimeout(() => {
@@ -157,6 +160,7 @@ $(document).ready(function() {
                 for(var key in data.data) {
                     
                     fb_upload_html = "<td id=\"uploadToFb-" + data.data[key].id + "\" class=\"text-center\"><i class=\"fab upload-to-fb fa-facebook-square text-facebook\" data-filter-id=\"" + data.data[key].id + "\"></i></td>";
+                    mobile_fb_upload_html = "<li id=\"mobileUploadToFb-" + data.data[key].id + "\"><strong>Upload</strong> <i class=\"fab upload-to-fb fa-facebook-square text-facebook\" data-filter-id=\"" + data.data[key].id + "\"></i></li>"
                     
                     if(data.data[key].fb_audience_upload_job.length) {
                         
@@ -164,13 +168,14 @@ $(document).ready(function() {
 
                         for(var job_key in data.data[key].fb_audience_upload_job)
                         {
-                            if(data.data[key].fb_audience_upload_job[job_key].status === 'pending') {
+                            if(data.data[key].fb_audience_upload_job[job_key].status === 'pending' || data.data[key].fb_audience_upload_job[job_key].status === 'processing') {
                                 has_job_in_queue = true;
                             } 
                         }
 
                         if(has_job_in_queue) {
                             fb_upload_html = "<td id=\"uploadToFb-" + data.data[key].id + "\" class=\"text-center\"><div><div class=\"bars3\" data-filter-id=\"" + data.data[key].id + "\"><span></span><span></span><span></span><span></span><span></span></div></div></td>";
+                            mobile_fb_upload_html = "<li id=\"mobileUploadToFb-" + data.data[key].id + "\"><strong>Upload</strong> <div><div class=\"bars3\" data-filter-id=\"" + data.data[key].id + "\"><span></span><span></span><span></span><span></span><span></span></div></div></li>"
                         }
 
                     } 
@@ -199,7 +204,7 @@ $(document).ready(function() {
                                     "<li><strong>#</strong> " + (parseInt(key, 10) + 1) + "</li>" +
                                     "<li><strong>Date</strong> " + data.data[key].created_at + "</li>" +
                                     "<li><strong>Size</strong> " + data.data[key].size + "</li>" +
-                                    "<li><strong>Upload</strong><td><button class=\"btn btn-success\"><i class=\"fab fa-facebook-f\"></i></button></td></li>" +
+                                     mobile_fb_upload_html +
                                     "<li><strong>Download</strong> <a href=\"" + data.data[key].download + "\"><i class=\"fas fa-file-csv\"></i></a></li>" +
                                     "<li><strong>Delete</strong> <a href=\"#\" class=\"delete-file\" data-file-uuid=\"" + data.data[key].file_unique_name + "\" data-filename=\"" + data.data[key].file_name + "\"><i class=\"fas fa-trash-alt text-danger\"></i></a></li>" +
                                 "</ul>" +
@@ -268,6 +273,7 @@ $(document).ready(function() {
                             
                             if(data["status"] == "success") {
                                 $("#uploadToFb-" + filtered_audience_id).html("<div><div class=\"bars3\" title=\"uploading\"><span></span><span></span><span></span><span></span><span></span</div></div>");
+                                $("#mobileUploadToFb-" + filtered_audience_id).html("<strong>Upload</strong> <div><div class=\"bars3\" data-filter-id=\"" + filtered_audience_id + "\"><span></span><span></span><span></span><span></span><span></span></div></div>");
                                 $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .spinner-container").removeClass('spinner-border').removeClass('spinner-border-sm').html('<i class="fas fa-check-circle text-success"></i>');
                                 $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .modal-body strong").removeClass('loading');
                                 setTimeout(() => {

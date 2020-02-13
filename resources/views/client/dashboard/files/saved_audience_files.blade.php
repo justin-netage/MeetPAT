@@ -36,7 +36,7 @@
                         <th class="text-center">#</th>
                         <th>Date</th>
                         <th>File Name</th>
-                        <th id="QOProducts" class="text-center">Upload</th>
+                        <th class="text-center">Upload</th>
                         <th class="text-center">Size</th>
                         <th class="text-center">Download</th>
                         <th class="text-center">Delete</th>
@@ -45,7 +45,7 @@
 
                 <tbody id="tableBody">
                     <tr>
-                        <td colspan="6">
+                        <td colspan="7">
                             <div class="d-flex align-items-center">
                                 <strong class="loading">Loading</strong>
                                 <div class="spinner-border ml-auto spinner-border-sm" role="status" aria-hidden="true"></div>

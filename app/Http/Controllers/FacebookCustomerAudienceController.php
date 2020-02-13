@@ -250,22 +250,12 @@ class FacebookCustomerAudienceController extends Controller
           $app_secret = env('FACEBOOK_APP_SECRET');
           $app_id = env('FACEBOOK_APP_ID');
           $id = "act_" . $add_acc->ad_account_id;
-
-          if(env('APP_ENV') == 'production')
-          {
-            $file_exists = \Storage::disk('s3')->exists('client/saved-audiences/user_id_' . $user->id . '/' . $saved_filtered_audience_file->file_unique_name  . ".csv");
-          } else {
-            $file_exists = \Storage::disk('local')->exists('client/saved-audiences/user_id_' . $user->id . '/' . $saved_filtered_audience_file->file_unique_name  . ".csv");
-          }
-
+          
+          $file_exists = \Storage::disk('s3')->exists('client/saved-audiences/user_id_' . $user->id . '/' . $saved_filtered_audience_file->file_unique_name  . ".csv");
+          
           if($file_exists)
           {
-            if(env('APP_ENV') == 'production')
-            {
-              $saved_audience_file = \Storage::disk('s3')->get('client/saved-audiences/user_id_' . $user->id . '/' . $saved_filtered_audience_file->file_unique_name  . ".csv");
-            } else {
-              $saved_audience_file = \Storage::disk('local')->get('client/saved-audiences/user_id_' . $user->id . '/' . $saved_filtered_audience_file->file_unique_name  . ".csv");
-            }
+            $saved_audience_file = \Storage::disk('s3')->get('client/saved-audiences/user_id_' . $user->id . '/' . $saved_filtered_audience_file->file_unique_name  . ".csv");
             
             $api = Api::init($app_id, $app_secret, $access_token);
             $api->setLogger(new CurlLogger());
