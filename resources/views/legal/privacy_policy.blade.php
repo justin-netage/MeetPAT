@@ -11,16 +11,21 @@
 <div class="container legal">
 <h1 class="text-center">MeetPAT Privacy Policy</h1>
 <p><strong>This privacy policy (“Privacy Policy”) applies to any personally identifiable information submitted by, or otherwise obtained from, you in connection with the MeetPAT application and website, and the treatment thereof. By using or otherwise accessing the Application, you acknowledge that you accept the practices and policies outlined in this Privacy Policy. 
-Personal Information Collection</strong></p>
+</strong></p>
+<h3>Personal Information Collection</h3>
 
-<h3>MeetPAT collects the following types of information from users:</h3>
+<h4>MeetPAT collects the following types of information from users:</h4>
+<br />
 
-<h5>Supplied Information</h5>
-<p>We may receive and store any information you submit to the website or application, (or otherwise authorize us to obtain from, for example, your Facebook account. This information may include your name, email address, gender, IP address, browser information, username, demographic information, and any other information necessary for us to provide the services of the application.</p> 
+<div class="ml-5">
+    <h5>Supplied Information</h5>
+    <p>We may receive and store any information you submit to the website or application, (or otherwise authorize us to obtain from, for example, your Facebook account. This information may include your name, email address, gender, IP address, browser information, username, demographic information, and any other information necessary for us to provide the services of the application.</p> 
 
-<h5>Automatically Collected Information</h5>
+    <h5>Automatically Collected Information</h5>
 
-<p>We receive and store certain types of usage related information whenever you interact with MeetPAT. For example, we may automatically receive and record information regarding your computer’s IP address, browser information, session length, etc.</p> 
+    <p>We receive and store certain types of usage related information whenever you interact with MeetPAT. For example, we may automatically receive and record information regarding your computer’s IP address, browser information, session length, etc.</p> 
+
+</div>
 
 <h3>How Information Is Used</h3>
 
