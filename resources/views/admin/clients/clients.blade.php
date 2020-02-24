@@ -214,7 +214,7 @@
                                     "<td>" + data.data[key].name + "</td>" +
                                     "<td><a href=\"mailto:" + data.data[key].email + "?Subject=MeetPAT\" target=\"_top\">" + data.data[key].email + "</a></td>" +
                                     "<td class=\"text-center\">" +
-                                    "<i class=\"fas fa-toggle-off\" data-user-id=\"" + data.data[key].id + "\" onclick=\"set_status(this)\"></i>" +
+                                    "<i class=\"fas fa-toggle-off mr-0\" data-user-id=\"" + data.data[key].id + "\" onclick=\"set_status(this)\"></i>" +
                                     "</td>" +
                                     "<td class=\"text-center\"><a href=\"/meetpat-admin/users/files/" + data.data[key].id + "\"><i class=\"fas fa-folder mr-0\"></i></a></td>" +
                                     "<td class=\"text-center\"><i class=\"fas fa-pen mr-0\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_edit(this)\"></i></td>" +
