@@ -56,14 +56,17 @@ class AdministratorController extends Controller
                                                'email' => $request->email,
                                                'password' => \Hash::make($request->password),
                                                'api_token' => Str::random(60) ]);
+
+            $new_client = \MeetPAT\MeetpatClient::create(['user_id' => $new_user->id, 'active' => 1]);
+            $uploads = \MeetPAT\ClientUploads::create(["user_id" => $new_user->id, "upload_limit" => 10000, "uploads" => 0]);
         } else {
             $new_user = \MeetPAT\User::create(['name' => $request->firstname . ' ' . $request->lastname,
                                                'email' => $request->email,
-                                               'password' => \Hash::make($request->password) ]);            
-                                            }
-
-        $new_client = \MeetPAT\MeetpatClient::create(['user_id' => $new_user->id, 'active' => 1]);
-        $uploads = \MeetPAT\ClientUploads::create(["user_id" => $new_user->id, "upload_limit" => 10000, "uploads" => 0]);
+                                               'password' => \Hash::make($request->password) ]);
+                                                           
+            $new_client = \MeetPAT\MeetpatClient::create(['user_id' => $new_user->id, 'active' => 1]);
+            $uploads = \MeetPAT\ClientUploads::create(["user_id" => $new_user->id, "upload_limit" => 10000, "uploads" => 0]);
+        }
         
         if($request->send_email)
         {

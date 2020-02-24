@@ -169,11 +169,11 @@
                 $("#refreshBtn").prop("disabled", 0);
                 $("#InputSearchTerm").prop("disabled", 0);
                 $("#InputSearchTerm").focus();
-                console.log(Object.keys(data).length);
+                
                 if(Object.keys(data).length) {
                     for(var key in data.data) {
                         
-                        if(data.data[key].client.status = "true") {
+                        if(data.data[key].client.active == true) {
                         $("#tableBody").append(
                             "<tr>" +
                                 "<td class=\"text-center\">" + data.data[key].id + "</td>" +
