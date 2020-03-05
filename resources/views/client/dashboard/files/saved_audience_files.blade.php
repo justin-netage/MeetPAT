@@ -36,7 +36,8 @@
                         <th class="text-center">#</th>
                         <th>Date</th>
                         <th>File Name</th>
-                        <th class="text-center">Upload</th>
+                        <th class="text-center">Facebook</th>
+                        <th class="text-center">Google</th>
                         <th class="text-center">Size</th>
                         <th class="text-center">Download</th>
                         <th class="text-center">Delete</th>

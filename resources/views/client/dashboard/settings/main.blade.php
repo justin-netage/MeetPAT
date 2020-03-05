@@ -15,13 +15,24 @@
         </a>
         <a class="card-link card-link-facebook" href="/meetpat-client/sync/facebook">
             <div class="card border-facebook">
-                <div class="card-header">Synch Platform</div>
+                <div class="card-header">Synch With Facebook</div>
                 <div class="card-body text-facebook">
                     <h5 class="card-title text-center"><i class="fab fa-facebook-f"></i></h5>
                     <p class="card-text">Synch your account with facebook to upload your customer list.</p>
                 </div>
             </div>
         </a>
+        @if(\Auth::user()->id == 101)
+        <a class="card-link card-link-google" href="/meetpat-client/sync/google">
+            <div class="card border-google">
+                <div class="card-header">Synch With Google</div>
+                <div class="card-body text-google">
+                    <h5 class="card-title text-center"><i class="fab fa-google"></i></h5>
+                    <p class="card-text">Synch your account with google to upload your custom audience.</p>
+                </div>
+            </div>
+        </a>
+        @endif
     </div>
 </div>
 

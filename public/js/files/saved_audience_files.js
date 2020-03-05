@@ -33,10 +33,10 @@ $(document).ready(function() {
                             }
 
                             if(has_pending_job) {
-                                $("#uploadToFb-" + data.data[key].id).html("<div><div class=\"bars3\" title=\"uploading\"><span></span><span></span><span></span><span></span><span></span</div></div>");
-                                $("#mobileUploadToFb-" + data.data[key].id).html("<strong>Upload</strong> <div><div class=\"bars3\" data-filter-id=\"" + data.data[key].id + "\"><span></span><span></span><span></span><span></span><span></span></div></div>");
+                                $("#uploadToFb-" + data.data[key].id).html("<div><div class=\"bars3\" title=\"uploading\"><span></span><span></span><span></span><span></span><span></span></div></div>");
+                                $("#mobileUploadToFb-" + data.data[key].id).html("<strong>Facebook</strong> <div><div class=\"bars3\" data-filter-id=\"" + data.data[key].id + "\"><span></span><span></span><span></span><span></span><span></span></div></div>");
                             } else {
-                                $("#mobileUploadToFb-" + data.data[key].id).html("<strong>Upload</strong> <i class=\"fab upload-to-fb fa-facebook-square text-facebook\" data-filter-id=\"" + data.data[key].id + "\"></i>");
+                                $("#mobileUploadToFb-" + data.data[key].id).html("<strong>Facebook</strong> <i class=\"fab upload-to-fb fa-facebook-square text-facebook\" data-filter-id=\"" + data.data[key].id + "\"></i>");
                                 $("#uploadToFb-" + data.data[key].id).html("<i class=\"fab upload-to-fb fa-facebook-square text-facebook\" data-filter-id=\"" + data.data[key].id + "\"></i>");
                             }
                         }
@@ -79,8 +79,8 @@ $(document).ready(function() {
                             $.post("/api/meetpat-client/facebook/custom-audience/create", {user_id: user_id, filtered_audience_id: filtered_audience_id, api_token: auth_token}, function(data) {
 
                                 if(data["status"] == "success") {
-                                    $("#uploadToFb-" + filtered_audience_id).html("<div><div class=\"bars3\" title=\"uploading\"><span></span><span></span><span></span><span></span><span></span</div></div>");
-                                    $("#mobileUploadToFb-" + filtered_audience_id).html("<strong>Upload</strong> <div><div class=\"bars3\" data-filter-id=\"" + filtered_audience_id + "\"><span></span><span></span><span></span><span></span><span></span></div></div>");
+                                    $("#uploadToFb-" + filtered_audience_id).html("<div><div class=\"bars3\" title=\"uploading\"><span></span><span></span><span></span><span></span><span></span></div></div>");
+                                    $("#mobileUploadToFb-" + filtered_audience_id).html("<strong>Facebook</strong> <div><div class=\"bars3\" data-filter-id=\"" + filtered_audience_id + "\"><span></span><span></span><span></span><span></span><span></span></div></div>");
                                     $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .spinner-container").removeClass('spinner-border').removeClass('spinner-border-sm').html('<i class="fas fa-check-circle text-success"></i>');
                                     $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .modal-body strong").removeClass('loading');
                                     setTimeout(() => {
@@ -126,7 +126,7 @@ $(document).ready(function() {
 
         $("#tableBody").html(
             "<tr>" +
-                "<td colspan=\"7\">" +
+                "<td colspan=\"8\">" +
                     "<div class=\"d-flex align-items-center\">" +
                         "<strong class=\"loading\">Loading</strong>" +
                         "<div class=\"spinner-border ml-auto spinner-border-sm\" role=\"status\" aria-hidden=\"true\"></div>" +
@@ -160,7 +160,7 @@ $(document).ready(function() {
                 for(var key in data.data) {
                     
                     fb_upload_html = "<td id=\"uploadToFb-" + data.data[key].id + "\" class=\"text-center\"><i class=\"fab upload-to-fb fa-facebook-square text-facebook\" data-filter-id=\"" + data.data[key].id + "\"></i></td>";
-                    mobile_fb_upload_html = "<li id=\"mobileUploadToFb-" + data.data[key].id + "\"><strong>Upload</strong> <i class=\"fab upload-to-fb fa-facebook-square text-facebook\" data-filter-id=\"" + data.data[key].id + "\"></i></li>"
+                    mobile_fb_upload_html = "<li id=\"mobileUploadToFb-" + data.data[key].id + "\"><strong>Facebook</strong> <i class=\"fab upload-to-fb fa-facebook-square text-facebook\" data-filter-id=\"" + data.data[key].id + "\"></i></li>"
                     
                     if(data.data[key].fb_audience_upload_job.length) {
                         
@@ -175,7 +175,7 @@ $(document).ready(function() {
 
                         if(has_job_in_queue) {
                             fb_upload_html = "<td id=\"uploadToFb-" + data.data[key].id + "\" class=\"text-center\"><div><div class=\"bars3\" data-filter-id=\"" + data.data[key].id + "\"><span></span><span></span><span></span><span></span><span></span></div></div></td>";
-                            mobile_fb_upload_html = "<li id=\"mobileUploadToFb-" + data.data[key].id + "\"><strong>Upload</strong> <div><div class=\"bars3\" data-filter-id=\"" + data.data[key].id + "\"><span></span><span></span><span></span><span></span><span></span></div></div></li>"
+                            mobile_fb_upload_html = "<li id=\"mobileUploadToFb-" + data.data[key].id + "\"><strong>Facebook</strong> <div><div class=\"bars3\" data-filter-id=\"" + data.data[key].id + "\"><span></span><span></span><span></span><span></span><span></span></div></div></li>"
                         }
 
                     } 
@@ -186,6 +186,7 @@ $(document).ready(function() {
                             "<td>" + data.data[key].created_at + "</td>" +
                             "<td class=\"text-truncate\" style=\"max-width: 125px;\" title=\"" + data.data[key].file_name + "\">" + data.data[key].file_name + "</td>" +
                                 fb_upload_html +
+                            "<td class=\"text-center\"><span class=\"google-upload-btn\" id=\"uploadToGoogle-\" " + data.data[key].id + "><img src=\"https://s3.amazonaws.com/dashboard.meetpat/public/images/brands/Google-512.png\" /></span></td>" +
                             "<td class=\"text-center\">" + data.data[key].size + "</td>" +
                             "<td class=\"text-center\">" + "<a href=\"" + data.data[key].download + "\"><i class=\"fas fa-file-csv\"></i></a></td>" +
                             "<td class=\"text-center\">" + "<a href=\"#\" class=\"delete-file\" data-file-uuid=\"" + data.data[key].file_unique_name + "\" data-filename=\"" + data.data[key].file_name + "\"><i class=\"fas fa-trash-alt text-danger\"></i></a></td>" +
@@ -272,8 +273,8 @@ $(document).ready(function() {
                         $.post("/api/meetpat-client/facebook/custom-audience/create", {user_id: user_id, filtered_audience_id: filtered_audience_id, api_token: auth_token}, function(data) {
                             
                             if(data["status"] == "success") {
-                                $("#uploadToFb-" + filtered_audience_id).html("<div><div class=\"bars3\" title=\"uploading\"><span></span><span></span><span></span><span></span><span></span</div></div>");
-                                $("#mobileUploadToFb-" + filtered_audience_id).html("<strong>Upload</strong> <div><div class=\"bars3\" data-filter-id=\"" + filtered_audience_id + "\"><span></span><span></span><span></span><span></span><span></span></div></div>");
+                                $("#uploadToFb-" + filtered_audience_id).html("<div><div class=\"bars3\" title=\"uploading\"><span></span><span></span><span></span><span></span><span></span></div></div>");
+                                $("#mobileUploadToFb-" + filtered_audience_id).html("<strong>Facebook</strong> <div><div class=\"bars3\" data-filter-id=\"" + filtered_audience_id + "\"><span></span><span></span><span></span><span></span><span></span></div></div>");
                                 $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .spinner-container").removeClass('spinner-border').removeClass('spinner-border-sm').html('<i class="fas fa-check-circle text-success"></i>');
                                 $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .modal-body strong").removeClass('loading');
                                 setTimeout(() => {
@@ -349,7 +350,7 @@ $(document).ready(function() {
             } else {
                     $("#tableBody").html(
                         "<tr>" +
-                            "<td colspan=\"6\">" +
+                            "<td colspan=\"8\">" +
                                 "<strong>No results found</strong>" +
                             "</td>" +
                         "</tr>"
