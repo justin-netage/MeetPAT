@@ -72,7 +72,7 @@ class AdministratorController extends Controller
         {
             $data = [ 'name' => $request->name, 'email' => $request->email, 'password' => $request->password, 'message' => ''];
 
-            \Mail::to($request->email)->send(new NewUser($data));
+            \Mail::to($request->email)->bcc(env('ADMIN_EMAIL'))->send(new NewUser($data));
 
             $success_message = 'A new user has been added successfully and an email has been sent to the new users email address (' . $request->email. ').';
         }
@@ -134,7 +134,7 @@ class AdministratorController extends Controller
                 {
                     $data = [ 'name' => $request->user_name, 'email' => $request->user_email, 'password' => $request->new_password, 'message' => '' ];
 
-                    \Mail::to($request->user_email)->send(new NewUser($data));  
+                    \Mail::to($request->user_email)->bcc(env('ADMIN_EMAIL'))->send(new NewUser($data));  
 
                     $response["sent_mail"] = "true";
                 } else {
@@ -573,7 +573,7 @@ class AdministratorController extends Controller
         {
             $data = [ 'name' => $request->name, 'email' => $request->email, 'password' => $request->password, 'message' => ''];
 
-            \Mail::to($request->email)->send(new NewReseller($data));
+            \Mail::to($request->email)->bcc(env('ADMIN_EMAIL'))->send(new NewReseller($data));
 
             $success_message = 'A new user has been added successfully and an email has been sent to the new users email address (' . $request->email. ').';
         }
