@@ -23,12 +23,12 @@ class ApiController extends Controller
 
             if($file_exists)
             {
-                if(env('APP_ENV') == 'production')
-                {
-                    $actual_file = \Storage::disk('sftp')->get('Output/' . $request->output_file_name . '.csv');
-                } else {
-                    $actual_file = \Storage::disk('local')->get('Output/' . $request->output_file_name . '.csv');
-                }
+                // if(env('APP_ENV') == 'production')
+                // {
+                //     $actual_file = \Storage::disk('sftp')->get('Output/' . $request->output_file_name . '.csv');
+                // } else {
+                //     $actual_file = \Storage::disk('local')->get('Output/' . $request->output_file_name . '.csv');
+                // }
                 
                 /**
                  * Use csv parser to get file data information.
