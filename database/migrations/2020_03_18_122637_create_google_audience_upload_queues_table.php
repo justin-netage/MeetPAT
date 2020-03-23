@@ -19,7 +19,7 @@ class CreateGoogleAudienceUploadQueuesTable extends Migration
             $table->string('custom_audience_id');
             $table->integer('saved_audience_file_id');
             $table->enum('status', ['pending', 'processing', 'complete']);
-            $table->integer('total_records');
+            $table->integer('total_records')->nullable();
             $table->timestamps();
         });
     }

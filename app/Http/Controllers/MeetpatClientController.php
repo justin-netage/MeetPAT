@@ -1418,9 +1418,9 @@ class MeetpatClientController extends Controller
     {
        
         if($request->search_term) {
-            $files_array = \MeetPAT\SavedFilteredAudienceFile::select(["id","file_name", "file_unique_name", "created_at"])->with('fb_audience_upload_job')->where([['user_id', '=', $request->user_id], ['file_name', 'ilike', '%'.$request->search_term.'%']])->orderBy('created_at', 'desc')->paginate(10);
+            $files_array = \MeetPAT\SavedFilteredAudienceFile::select(["id","file_name", "file_unique_name", "created_at"])->with(array('fb_audience_upload_job', 'google_audience_upload_job'))->where([['user_id', '=', $request->user_id], ['file_name', 'ilike', '%'.$request->search_term.'%']])->orderBy('created_at', 'desc')->paginate(10);
         } else {
-            $files_array = \MeetPAT\SavedFilteredAudienceFile::select(["id","file_name", "file_unique_name", "created_at"])->with('fb_audience_upload_job')->where([['user_id', '=', $request->user_id]])->orderBy('created_at', 'desc')->paginate(10);
+            $files_array = \MeetPAT\SavedFilteredAudienceFile::select(["id","file_name", "file_unique_name", "created_at"])->with(array('fb_audience_upload_job', 'google_audience_upload_job'))->where([['user_id', '=', $request->user_id]])->orderBy('created_at', 'desc')->paginate(10);
         }
 
         foreach($files_array as $key=>$file)

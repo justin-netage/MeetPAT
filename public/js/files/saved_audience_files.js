@@ -17,95 +17,160 @@ $(document).ready(function() {
     
         $.get("/api/meetpat-client/files/get-saved-audiences",
             {api_token: auth_token, user_id: user_id, page: '', search_term: ''} ,function(data, textStatus,jqXHR) {
-            
+            console.log(data);
             if(data.data.length) {
-                    for(var key in data.data) {
-                        if(data.data[key].fb_audience_upload_job.length) {
+                for(var key in data.data) {
+                    if(data.data[key].fb_audience_upload_job.length) {
 
-                            var has_pending_job = false;
+                        var has_pending_job = false;
 
-                            for(var job_key in data.data[key].fb_audience_upload_job) {
-                                
-                                if(data.data[key].fb_audience_upload_job[job_key].status == 'pending' || data.data[key].fb_audience_upload_job[job_key].status === 'processing')
-                                {
-                                    has_pending_job = true;
-                                } 
-                            }
+                        for(var job_key in data.data[key].fb_audience_upload_job) {
+                            
+                            if(data.data[key].fb_audience_upload_job[job_key].status == 'pending' || data.data[key].fb_audience_upload_job[job_key].status === 'processing')
+                            {
+                                has_pending_job = true;
+                            } 
+                        }
 
-                            if(has_pending_job) {
-                                $("#uploadToFb-" + data.data[key].id).html("<div><div class=\"bars3\" title=\"uploading\"><span></span><span></span><span></span><span></span><span></span></div></div>");
-                                $("#mobileUploadToFb-" + data.data[key].id).html("<strong>Facebook</strong> <div><div class=\"bars3\" data-filter-id=\"" + data.data[key].id + "\"><span></span><span></span><span></span><span></span><span></span></div></div>");
-                            } else {
-                                $("#mobileUploadToFb-" + data.data[key].id).html("<strong>Facebook</strong> <i class=\"fab upload-to-fb fa-facebook-square text-facebook\" data-filter-id=\"" + data.data[key].id + "\"></i>");
-                                $("#uploadToFb-" + data.data[key].id).html("<i class=\"fab upload-to-fb fa-facebook-square text-facebook\" data-filter-id=\"" + data.data[key].id + "\"></i>");
-                            }
+                        if(has_pending_job) {
+                            $("#uploadToFb-" + data.data[key].id).html("<div><div class=\"bars3\" title=\"uploading\"><span></span><span></span><span></span><span></span><span></span></div></div>");
+                            $("#mobileUploadToFb-" + data.data[key].id).html("<strong>Facebook</strong> <div><div class=\"bars3\" data-filter-id=\"" + data.data[key].id + "\"><span></span><span></span><span></span><span></span><span></span></div></div>");
+                        } else {
+                            $("#mobileUploadToFb-" + data.data[key].id).html("<strong>Facebook</strong> <i class=\"fab upload-to-fb fa-facebook-square text-facebook\" data-filter-id=\"" + data.data[key].id + "\"></i>");
+                            $("#uploadToFb-" + data.data[key].id).html("<i class=\"fab upload-to-fb fa-facebook-square text-facebook\" data-filter-id=\"" + data.data[key].id + "\"></i>");
                         }
                     }
+                }
 
-                    $(".upload-to-fb").unbind();
+                // Facebook Upload Audience Button
+                $(".upload-to-fb").unbind();
 
-                    $(".upload-to-fb").click(function() {
-                        filtered_audience_id = $(this).data("filter-id");
-                        var confirmed = confirm("Are you sure that you want to upload \"" + $("#uploadToFb-" + filtered_audience_id).prev().html() + "\" to you custom audience lists?");
-                        if(confirmed) {
-                            $("#uploadToFBContainer").html(
-                                "<div class=\"modal mt-5\" id=\"modalUploadToFB-" + filtered_audience_id + "\" tabindex=\"-1\" role=\"dialog\">" +
-                                    "<div class=\"modal-dialog\" role=\"document\">" +
-                                        "<div class=\"modal-content\">" +
-                                        "<div class=\"modal-header\">" +
-                                            "<h5 class=\"modal-title\">Facebook Custom Audience Upload</h5>" +
-                                            "<button type=\"button\" class=\"close d-none\" data-dismiss=\"modal\" aria-label=\"Close\">" +
-                                            "<span aria-hidden=\"true\">&times;</span>" +
-                                            "</button>" +
-                                        "</div>" +
-                                        "<div class=\"modal-body\">" +
-                                            "<div class=\"d-flex align-items-center\">" +
-                                                "<strong class=\"text-facebook loading\">Processing data for upload</strong>" +
-                                                "<div class=\"spinner-container spinner-border spinner-border-sm ml-auto\" role=\"status\" aria-hidden=\"true\"></div>" +
-                                            "</div>" +
-                                            "<div id=\"help-text\"><div class=\"alert alert-info mt-2\"><strong>Info</strong> - Please note that once the upload has completed it will still take up to an hour (or more) for facebook to get matches.</div></div>" +
-                                        "</div>" +
-                                        "</div>" +
+                $(".upload-to-fb").click(function() {
+                    filtered_audience_id = $(this).data("filter-id");
+                    var confirmed = confirm("Are you sure that you want to upload \"" + $("#uploadToFb-" + filtered_audience_id).prev().html() + "\" to you custom audience lists?");
+                    if(confirmed) {
+                        $("#uploadToFBContainer").html(
+                            "<div class=\"modal mt-5\" id=\"modalUploadToFB-" + filtered_audience_id + "\" tabindex=\"-1\" role=\"dialog\">" +
+                                "<div class=\"modal-dialog\" role=\"document\">" +
+                                    "<div class=\"modal-content\">" +
+                                    "<div class=\"modal-header\">" +
+                                        "<h5 class=\"modal-title\">Facebook Custom Audience Upload</h5>" +
+                                        "<button type=\"button\" class=\"close d-none\" data-dismiss=\"modal\" aria-label=\"Close\">" +
+                                        "<span aria-hidden=\"true\">&times;</span>" +
+                                        "</button>" +
                                     "</div>" +
-                                "</div>"
-                            );
+                                    "<div class=\"modal-body\">" +
+                                        "<div class=\"d-flex align-items-center\">" +
+                                            "<strong class=\"text-facebook loading\">Processing data for upload</strong>" +
+                                            "<div class=\"spinner-container spinner-border spinner-border-sm ml-auto\" role=\"status\" aria-hidden=\"true\"></div>" +
+                                        "</div>" +
+                                        "<div id=\"help-text\"><div class=\"alert alert-info mt-2\"><strong>Info</strong> - Please note that once the upload has completed it will still take up to an hour (or more) for facebook to get matches.</div></div>" +
+                                    "</div>" +
+                                    "</div>" +
+                                "</div>" +
+                            "</div>"
+                        );
 
-                            $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id).modal({
-                                backdrop: 'static',
-                                keyboard: false,
-                                show: true
-                            });
-                            
-                            $.post("/api/meetpat-client/facebook/custom-audience/create", {user_id: user_id, filtered_audience_id: filtered_audience_id, api_token: auth_token}, function(data) {
+                        $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id).modal({
+                            backdrop: 'static',
+                            keyboard: false,
+                            show: true
+                        });
+                        
+                        $.post("/api/meetpat-client/facebook/custom-audience/create", {user_id: user_id, filtered_audience_id: filtered_audience_id, api_token: auth_token}, function(data) {
 
-                                if(data["status"] == "success") {
-                                    $("#uploadToFb-" + filtered_audience_id).html("<div><div class=\"bars3\" title=\"uploading\"><span></span><span></span><span></span><span></span><span></span></div></div>");
-                                    $("#mobileUploadToFb-" + filtered_audience_id).html("<strong>Facebook</strong> <div><div class=\"bars3\" data-filter-id=\"" + filtered_audience_id + "\"><span></span><span></span><span></span><span></span><span></span></div></div>");
-                                    $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .spinner-container").removeClass('spinner-border').removeClass('spinner-border-sm').html('<i class="fas fa-check-circle text-success"></i>');
-                                    $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .modal-body strong").removeClass('loading');
-                                    setTimeout(() => {
-                                        $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id).modal('hide');
-                                    }, 2000);
-                                } else {
-                                    $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .spinner-container").removeClass('spinner-border').removeClass('spinner-border-sm').html('<i class="text-warning fas fa-exclamation-triangle"></i>');
-                                    $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .modal-body #help-text").html('<div class="alert alert-warning mt-2"><strong>Warning</strong> - Your account has not been linked with a Facebook Ad Account. Follow this <a href="/meetpat-client/sync/facebook">link</a> to connect your Facebook Ad Account</div>');
-                                    $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .modal-body strong").removeClass('loading');
-                                    $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .modal-header button").removeClass('d-none');
-                                }
-
-                            }).fail(function(error) {
-                                
-                                $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .spinner-container").removeClass('spinner-border').removeClass('spinner-border-sm').html('<i class="text-danger fas fa-times-circle"></i>');
-                                $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .modal-body #help-text").html('<div class="alert alert-danger mt-2"><strong>Error</strong> - Make sure that your Ad Account ID is correct and linked with a business account. Contact MeetPAT Support for more assistance</div>');
+                            if(data["status"] == "success") {
+                                $("#uploadToFb-" + filtered_audience_id).html("<div><div class=\"bars3\" title=\"uploading\"><span></span><span></span><span></span><span></span><span></span></div></div>");
+                                $("#mobileUploadToFb-" + filtered_audience_id).html("<strong>Facebook</strong> <div><div class=\"bars3\" data-filter-id=\"" + filtered_audience_id + "\"><span></span><span></span><span></span><span></span><span></span></div></div>");
+                                $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .spinner-container").removeClass('spinner-border').removeClass('spinner-border-sm').html('<i class="fas fa-check-circle text-success"></i>');
+                                $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .modal-body strong").removeClass('loading');
+                                setTimeout(() => {
+                                    $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id).modal('hide');
+                                }, 2000);
+                            } else {
+                                $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .spinner-container").removeClass('spinner-border').removeClass('spinner-border-sm').html('<i class="text-warning fas fa-exclamation-triangle"></i>');
+                                $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .modal-body #help-text").html('<div class="alert alert-warning mt-2"><strong>Warning</strong> - Your account has not been linked with a Facebook Ad Account. Follow this <a href="/meetpat-client/sync/facebook">link</a> to connect your Facebook Ad Account</div>');
                                 $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .modal-body strong").removeClass('loading');
                                 $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .modal-header button").removeClass('d-none');
-                                console.log(error);
-                            });
+                            }
+
+                        }).fail(function(error) {
+                            
+                            $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .spinner-container").removeClass('spinner-border').removeClass('spinner-border-sm').html('<i class="text-danger fas fa-times-circle"></i>');
+                            $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .modal-body #help-text").html('<div class="alert alert-danger mt-2"><strong>Error</strong> - Make sure that your Ad Account ID is correct and linked with a business account. Contact MeetPAT Support for more assistance</div>');
+                            $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .modal-body strong").removeClass('loading');
+                            $("#uploadToFBContainer #modalUploadToFB-" + filtered_audience_id + " .modal-header button").removeClass('d-none');
+                            console.log(error);
+                        });
+                    }
+
+                });
+
+            }
+
+            // Google Upload Auidence button
+            $(".upload-to-google").unbind();
+
+            $(".upload-to-google").click(function() {
+                filtered_audience_id = $(this).data("filter-id"); 
+                var confirmed = confirm("Are you sure that you want to upload \"" + $("#fileName-" + filtered_audience_id).html() + "\" to you custom audience lists?");
+                if(confirmed) {
+                    $("#uploadToFBContainer").html(
+                        "<div class=\"modal mt-5\" id=\"modalUploadToGoogle-" + filtered_audience_id + "\" tabindex=\"-1\" role=\"dialog\">" +
+                            "<div class=\"modal-dialog\" role=\"document\">" +
+                                "<div class=\"modal-content\">" +
+                                "<div class=\"modal-header\">" +
+                                    "<h5 class=\"modal-title\">Google Custom Audience Upload</h5>" +
+                                    "<button type=\"button\" class=\"close d-none\" data-dismiss=\"modal\" aria-label=\"Close\">" +
+                                    "<span aria-hidden=\"true\">&times;</span>" +
+                                    "</button>" +
+                                "</div>" +
+                                "<div class=\"modal-body\">" +
+                                    "<div class=\"d-flex align-items-center\">" +
+                                        "<strong class=\"text-facebook loading\">Processing data for upload</strong>" +
+                                        "<div class=\"spinner-container spinner-border spinner-border-sm ml-auto\" role=\"status\" aria-hidden=\"true\"></div>" +
+                                    "</div>" +
+                                    "<div id=\"help-text\"><div class=\"alert alert-info mt-2\"><strong>Info</strong> - Please note that once the upload has completed it will still take up to an hour (or more) for facebook to get matches.</div></div>" +
+                                "</div>" +
+                                "</div>" +
+                            "</div>" +
+                        "</div>"
+                    );
+
+                    $("#uploadToGoogleContainer #modalUploadToGoogle-" + filtered_audience_id).modal({
+                        backdrop: 'static',
+                        keyboard: false,
+                        show: true
+                    });
+                    
+                    $.post("/api/meetpat-client/google/custom-audience/create", {user_id: user_id, filtered_audience_id: filtered_audience_id, api_token: auth_token}, function(data) {
+
+                        if(data["status"] == "success") {
+                            $("#uploadToGoogle-" + filtered_audience_id).html("<div><div class=\"bars3-google\" title=\"uploading\"><span></span><span></span><span></span><span></span><span></span></div></div>");
+                            $("#mobileUploadToGoogle-" + filtered_audience_id).html("<strong>Google</strong> <div><div class=\"bars3-google\" data-filter-id=\"" + filtered_audience_id + "\"><span></span><span></span><span></span><span></span><span></span></div></div>");
+                            $("#uploadToGoogleContainer #modalUploadToGoogle-" + filtered_audience_id + " .spinner-container").removeClass('spinner-border').removeClass('spinner-border-sm').html('<i class="fas fa-check-circle text-success"></i>');
+                            $("#uploadToGoogleContainer #modalUploadToGoogle-" + filtered_audience_id + " .modal-body strong").removeClass('loading');
+                            setTimeout(() => {
+                                $("#uploadToGoogleContainer #modalUploadToGoogle-" + filtered_audience_id).modal('hide');
+                            }, 2000);
+                        } else {
+                            $("#uploadToGoogleContainer #modalUploadToGoogle-" + filtered_audience_id + " .spinner-container").removeClass('spinner-border').removeClass('spinner-border-sm').html('<i class="text-warning fas fa-exclamation-triangle"></i>');
+                            $("#uploadToGoogleContainer #modalUploadToGoogle-" + filtered_audience_id + " .modal-body #help-text").html('<div class="alert alert-warning mt-2"><strong>Warning</strong> - Your account has not been linked with a Google Ad Account. Follow this <a href="/meetpat-client/sync/google">link</a> to connect your Google Ad Account</div>');
+                            $("#uploadToGoogleContainer #modalUploadToGoogle-" + filtered_audience_id + " .modal-body strong").removeClass('loading');
+                            $("#uploadToGoogleContainer #modalUploadToGoogle-" + filtered_audience_id + " .modal-header button").removeClass('d-none');
                         }
 
+                    }).fail(function(error) {
+                        
+                        $("#uploadToGoogleContainer #modalUploadToGoogle-" + filtered_audience_id + " .spinner-container").removeClass('spinner-border').removeClass('spinner-border-sm').html('<i class="text-danger fas fa-times-circle"></i>');
+                        $("#uploadToGoogleContainer #modalUploadToGoogle-" + filtered_audience_id + " .modal-body #help-text").html('<div class="alert alert-danger mt-2"><strong>Error</strong> - Make sure that your Ad Account ID is correct and linked with a business account. Contact MeetPAT Support for more assistance</div>');
+                        $("#uploadToGoogleContainer #modalUploadToGoogle-" + filtered_audience_id + " .modal-body strong").removeClass('loading');
+                        $("#uploadToGoogleContainer #modalUploadToGoogle-" + filtered_audience_id + " .modal-header button").removeClass('d-none');
+                        console.log(error);
                     });
-
                 }
+
+            });
 
         }).fail(function(error) {
             console.log(error);
@@ -148,7 +213,7 @@ $(document).ready(function() {
 
         $.get("/api/meetpat-client/files/get-saved-audiences",
             {api_token: auth_token, user_id: user_id, page: page, search_term: search_term}, function(data, textStatus,jqXHR) {
-                
+                console.log(data);
             $("#tableBody").empty();
             $("#mobileTableData tbody").empty();
             $("#refreshBtn").prop("disabled", 0);
@@ -162,6 +227,9 @@ $(document).ready(function() {
                     fb_upload_html = "<td id=\"uploadToFb-" + data.data[key].id + "\" class=\"text-center\"><i class=\"fab upload-to-fb fa-facebook-square text-facebook\" data-filter-id=\"" + data.data[key].id + "\"></i></td>";
                     mobile_fb_upload_html = "<li id=\"mobileUploadToFb-" + data.data[key].id + "\"><strong>Facebook</strong> <i class=\"fab upload-to-fb fa-facebook-square text-facebook\" data-filter-id=\"" + data.data[key].id + "\"></i></li>"
                     
+                    google_upload_html = "<td class=\"text-center\"><span class=\"google-upload-btn upload-to-google\" id=\"uploadToGoogle-" + data.data[key].id + "\" data-filter-id=\"" + data.data[key].id + "\"><img src=\"https://s3.amazonaws.com/dashboard.meetpat/public/images/brands/Google-512.png\" /></span></td>"
+                    mobile_google_upload_html = "<li id=\"mobileUploadToGoogle-" + data.data[key].id + "\"><strong>Google</strong> <img class=\"upload-to-google\" src=\"https://s3.amazonaws.com/dashboard.meetpat/public/images/brands/Google-512.png\" /></li>"
+
                     if(data.data[key].fb_audience_upload_job.length) {
                         
                         var has_job_in_queue = false;
@@ -179,14 +247,32 @@ $(document).ready(function() {
                         }
 
                     } 
+
+                    if(data.data[key].google_audience_upload_job.length) {
+                        
+                        var has_job_in_queue_ad = false;
+
+                        for(var job_key in data.data[key].google_audience_upload_job)
+                        {
+                            if(data.data[key].google_audience_upload_job[job_key].status === 'pending' || data.data[key].google_audience_upload_job[job_key].status === 'processing') {
+                                has_job_in_queue = true;
+                            } 
+                        }
+
+                        if(has_job_in_queue_ad) {
+                            google_upload_html = "<td id=\"uploadToGoogle-" + data.data[key].id + "\" class=\"text-center\"><div><div class=\"bars3-google\" data-filter-id=\"" + data.data[key].id + "\"><span></span><span></span><span></span><span></span><span></span></div></div></td>";
+                            mobile_google_upload_html = "<li id=\"mobileUploadToGoogle-" + data.data[key].id + "\"><strong>Google</strong> <div><div class=\"bars3-google\" data-filter-id=\"" + data.data[key].id + "\"><span></span><span></span><span></span><span></span><span></span></div></div></li>"
+                        }
+
+                    }
                     
                     $("#tableBody").append(
                         "<tr>" +
                             "<td class=\"text-center\">" + (parseInt(key, 10) + 1) + "</td>" +
                             "<td>" + data.data[key].created_at + "</td>" +
-                            "<td class=\"text-truncate\" style=\"max-width: 125px;\" title=\"" + data.data[key].file_name + "\">" + data.data[key].file_name + "</td>" +
+                            "<td id=\"fileName-" + data.data[key].id + "\" class=\"text-truncate\" style=\"max-width: 125px;\" title=\"" + data.data[key].file_name + "\">" + data.data[key].file_name + "</td>" +
                                 fb_upload_html +
-                            "<td class=\"text-center\"><span class=\"google-upload-btn\" id=\"uploadToGoogle-\" " + data.data[key].id + "><img src=\"https://s3.amazonaws.com/dashboard.meetpat/public/images/brands/Google-512.png\" /></span></td>" +
+                                google_upload_html +
                             "<td class=\"text-center\">" + data.data[key].size + "</td>" +
                             "<td class=\"text-center\">" + "<a href=\"" + data.data[key].download + "\"><i class=\"fas fa-file-csv\"></i></a></td>" +
                             "<td class=\"text-center\">" + "<a href=\"#\" class=\"delete-file\" data-file-uuid=\"" + data.data[key].file_unique_name + "\" data-filename=\"" + data.data[key].file_name + "\"><i class=\"fas fa-trash-alt text-danger\"></i></a></td>" +
@@ -206,6 +292,7 @@ $(document).ready(function() {
                                     "<li><strong>Date</strong> " + data.data[key].created_at + "</li>" +
                                     "<li><strong>Size</strong> " + data.data[key].size + "</li>" +
                                      mobile_fb_upload_html +
+                                     mobile_google_upload_html +
                                     "<li><strong>Download</strong> <a href=\"" + data.data[key].download + "\"><i class=\"fas fa-file-csv\"></i></a></li>" +
                                     "<li><strong>Delete</strong> <a href=\"#\" class=\"delete-file\" data-file-uuid=\"" + data.data[key].file_unique_name + "\" data-filename=\"" + data.data[key].file_name + "\"><i class=\"fas fa-trash-alt text-danger\"></i></a></li>" +
                                 "</ul>" +
@@ -227,12 +314,13 @@ $(document).ready(function() {
                         $("i", this).addClass("fa-plus-circle");
                         $("i", this).removeClass("fa-minus-circle");
                         $("i", this).removeClass("text-danger");
-
                         $(this).next(".secondaryData").addClass("d-none");
                         $(this).next(".secondaryData").removeClass("d-flex");
                     }
                     
                 });
+
+                // Facebook Upload Audience button
 
                 $(".upload-to-fb").unbind();
 
@@ -298,6 +386,70 @@ $(document).ready(function() {
 
                     }
                     
+                });
+
+                // Google Upload Auidence button
+                $(".upload-to-google").unbind();
+
+                $(".upload-to-google").click(function() {
+                    filtered_audience_id = $(this).data("filter-id");
+                    var confirmed = confirm("Are you sure that you want to upload \"" + $("#fileName-" + filtered_audience_id).html() + "\" to you custom audience lists?");
+                    if(confirmed) {
+                        $("#uploadToGoogleContainer").html(
+                            "<div class=\"modal mt-5\" id=\"modalUploadToGoogle-" + filtered_audience_id + "\" tabindex=\"-1\" role=\"dialog\">" +
+                                "<div class=\"modal-dialog\" role=\"document\">" +
+                                    "<div class=\"modal-content\">" +
+                                    "<div class=\"modal-header\">" +
+                                        "<h5 class=\"modal-title\">Google Custom Audience Upload</h5>" +
+                                        "<button type=\"button\" class=\"close d-none\" data-dismiss=\"modal\" aria-label=\"Close\">" +
+                                        "<span aria-hidden=\"true\">&times;</span>" +
+                                        "</button>" +
+                                    "</div>" +
+                                    "<div class=\"modal-body\">" +
+                                        "<div class=\"d-flex align-items-center\">" +
+                                            "<strong class=\"text-facebook loading\">Processing data for upload</strong>" +
+                                            "<div class=\"spinner-container spinner-border spinner-border-sm ml-auto\" role=\"status\" aria-hidden=\"true\"></div>" +
+                                        "</div>" +
+                                        "<div id=\"help-text\"><div class=\"alert alert-info mt-2\"><strong>Info</strong> - Please note that once the upload has completed it will still take up to an hour (or more) for facebook to get matches.</div></div>" +
+                                    "</div>" +
+                                    "</div>" +
+                                "</div>" +
+                            "</div>"
+                        );
+
+                        $("#uploadToGoogleContainer #modalUploadToGoogle-" + filtered_audience_id).modal({
+                            backdrop: 'static',
+                            keyboard: false,
+                            show: true
+                        });
+                        
+                        $.post("/api/meetpat-client/google/custom-audience/create", {user_id: user_id, filtered_audience_id: filtered_audience_id, api_token: auth_token}, function(data) {
+
+                            if(data["status"] == "success") {
+                                $("#uploadToGoogle-" + filtered_audience_id).html("<div><div class=\"bars3-google\" title=\"uploading\"><span></span><span></span><span></span><span></span><span></span></div></div>");
+                                $("#mobileUploadToGoogle-" + filtered_audience_id).html("<strong>Google</strong> <div><div class=\"bars3-google\" data-filter-id=\"" + filtered_audience_id + "\"><span></span><span></span><span></span><span></span><span></span></div></div>");
+                                $("#uploadToGoogleContainer #modalUploadToGoogle-" + filtered_audience_id + " .spinner-container").removeClass('spinner-border').removeClass('spinner-border-sm').html('<i class="fas fa-check-circle text-success"></i>');
+                                $("#uploadToGoogleContainer #modalUploadToGoogle-" + filtered_audience_id + " .modal-body strong").removeClass('loading');
+                                setTimeout(() => {
+                                    $("#uploadToGoogleContainer #modalUploadToGoogle-" + filtered_audience_id).modal('hide');
+                                }, 2000);
+                            } else {
+                                $("#uploadToGoogleContainer #modalUploadToGoogle-" + filtered_audience_id + " .spinner-container").removeClass('spinner-border').removeClass('spinner-border-sm').html('<i class="text-warning fas fa-exclamation-triangle"></i>');
+                                $("#uploadToGoogleContainer #modalUploadToGoogle-" + filtered_audience_id + " .modal-body #help-text").html('<div class="alert alert-warning mt-2"><strong>Warning</strong> - Your account has not been linked with a Google Ad Account. Follow this <a href="/meetpat-client/sync/google">link</a> to connect your Google Ad Account</div>');
+                                $("#uploadToGoogleContainer #modalUploadToGoogle-" + filtered_audience_id + " .modal-body strong").removeClass('loading');
+                                $("#uploadToGoogleContainer #modalUploadToGoogle-" + filtered_audience_id + " .modal-header button").removeClass('d-none');
+                            }
+
+                        }).fail(function(error) {
+                            
+                            $("#uploadToGoogleContainer #modalUploadToGoogle-" + filtered_audience_id + " .spinner-container").removeClass('spinner-border').removeClass('spinner-border-sm').html('<i class="text-danger fas fa-times-circle"></i>');
+                            $("#uploadToGoogleContainer #modalUploadToGoogle-" + filtered_audience_id + " .modal-body #help-text").html('<div class="alert alert-danger mt-2"><strong>Error</strong> - Make sure that your Ad Account ID is correct and linked with a business account. Contact MeetPAT Support for more assistance</div>');
+                            $("#uploadToGoogleContainer #modalUploadToGoogle-" + filtered_audience_id + " .modal-body strong").removeClass('loading');
+                            $("#uploadToGoogleContainer #modalUploadToGoogle-" + filtered_audience_id + " .modal-header button").removeClass('d-none');
+                            console.log(error);
+                        });
+                    }
+
                 });
 
                 $("#entriesInfo").html(data.from + " to " + data.to + " of " + data.total + " entries");

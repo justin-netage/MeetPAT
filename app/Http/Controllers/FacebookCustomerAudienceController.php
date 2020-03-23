@@ -245,11 +245,11 @@ class FacebookCustomerAudienceController extends Controller
         if($user->facebook_ad_account and $user->facebook_ad_account->ad_account_id) {
 
           $saved_filtered_audience_file = \MeetPAT\SavedFilteredAudienceFile::find($request->filtered_audience_id);
-          $add_acc = $user->facebook_ad_account;
-          $access_token = $add_acc->access_token;
+          $ad_acc = $user->facebook_ad_account;
+          $access_token = $ad_acc->access_token;
           $app_secret = env('FACEBOOK_APP_SECRET');
           $app_id = env('FACEBOOK_APP_ID');
-          $id = "act_" . $add_acc->ad_account_id;
+          $id = "act_" . $ad_acc->ad_account_id;
           
           $file_exists = \Storage::disk('s3')->exists('client/saved-audiences/user_id_' . $user->id . '/' . $saved_filtered_audience_file->file_unique_name  . ".csv");
           

@@ -1534,14 +1534,21 @@ a.continue-with-facebook:hover
   text-decoration: none;
 }
 
-.bars3 {
+.bars3, .bars3-google {
   display: block;
   position: absolute;
   /* top: 50%;
   left: 50%;
   height: 50px;
   width: 50px;*/
+}
+
+.bars3 {
   margin: 5px 0 0 40px; 
+}
+
+.bars3-google {
+  margin: 5px 0 0 20px; 
 }
 
 .bars3 span {
@@ -1555,28 +1562,55 @@ a.continue-with-facebook:hover
           animation: bars3 2s  infinite ease-in;
 }
 
-.bars3 span:nth-child(2) {
+.bars3-google span {
+  position: absolute;
+  display: block;
+  /* bottom: 10px; */
+  width: 9px;
+  height: 15px;
+  -webkit-animation: bars3-google 2s  infinite ease-in;
+          animation: bars3-google 2s  infinite ease-in;
+}
+
+.bars3 span:nth-child(2), .bars3-google span:nth-child(2) {
   left: 11px;
   -webkit-animation-delay: 0.2s;
           animation-delay: 0.2s;
 }
 
-.bars3 span:nth-child(3) {
+.bars3 span:nth-child(3), .bars3-google span:nth-child(3) {
   left: 22px;
   -webkit-animation-delay: 0.4s;
           animation-delay: 0.4s;
 }
 
-.bars3 span:nth-child(4) {
+.bars3 span:nth-child(4), .bars3-google span:nth-child(4) {
   left: 33px;
   -webkit-animation-delay: 0.6s;
           animation-delay: 0.6s;
 }
 
-.bars3 span:nth-child(5) {
+.bars3 span:nth-child(5), .bars3-google span:nth-child(5) {
   left: 44px;
   -webkit-animation-delay: 0.8s;
           animation-delay: 0.8s;
+}
+
+.bars3-google span:nth-child(2) {
+  background: rgba(59, 89, 152);
+}
+
+.bars3-google span:nth-child(3) {
+  background: #DB4437;
+}
+
+.bars3-google span:nth-child(4) {
+  background:rgba(244, 180, 0);
+}
+
+.bars3-google span:nth-child(5) {
+  background: rgba(15, 157, 88);
+
 }
 
 @keyframes bars3 {
@@ -1616,3 +1650,43 @@ a.continue-with-facebook:hover
 
   }
 }
+
+@keyframes bars3-google {
+  0% {
+    background: rgba(59, 89, 152, 0.25);
+  }
+  25% {
+    background: #DB4437;
+  }
+  50% {
+    background:rgba(244, 180, 0, 0.25);
+  }
+  100% {
+    background: rgba(15, 157, 88, 0.25);
+  }
+}
+
+@-webkit-keyframes bars3-google {
+  0% {
+    background: rgba(59, 89, 152, 0.25);
+  }
+  25% {
+    background: #DB4437;
+  }
+  50% {
+    background: rgba(244, 180, 0, 0.25);
+  }
+  100% {
+    background: rgba(15, 157, 88, 0.25);
+  }
+}
+  
+@media only screen and (max-width: 414px) {
+  .bars3-google {
+    margin: 0px 0px 0px 0px;
+    left: 65px;
+    bottom: 95px;
+
+  }
+}
+

@@ -97,6 +97,7 @@
 @section('modals')
 
 <div id="uploadToFBContainer"></div>
+<div id="uploadToGoogleContainer"></div>
 
 @endsection
 
