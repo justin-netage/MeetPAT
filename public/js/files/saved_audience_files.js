@@ -342,10 +342,10 @@ $(document).ready(function() {
                                     "</div>" +
                                     "<div class=\"modal-body\">" +
                                         "<div class=\"d-flex align-items-center\">" +
-                                            "<strong class=\"text-facebook loading\">Processing data for upload</strong>" +
+                                            "<strong class=\"loading\">Processing data for upload</strong>" +
                                             "<div class=\"spinner-container spinner-border spinner-border-sm ml-auto\" role=\"status\" aria-hidden=\"true\"></div>" +
                                         "</div>" +
-                                        "<div id=\"help-text\"><div class=\"alert alert-info mt-2\"><strong>Info</strong> - Please note that once the upload has completed it will still take up to an hour (or more) for facebook to get matches.</div></div>" +
+                                        "<div id=\"help-text\"><div class=\"alert alert-info mt-2\"><strong>Info</strong> - Please note that once the upload has completed it will still take up to an hour (or more) for facebook to get matches depending on the audience size.</div></div>" +
                                     "</div>" +
                                     "</div>" +
                                 "</div>" +
@@ -407,10 +407,10 @@ $(document).ready(function() {
                                     "</div>" +
                                     "<div class=\"modal-body\">" +
                                         "<div class=\"d-flex align-items-center\">" +
-                                            "<strong class=\"text-facebook loading\">Processing data for upload</strong>" +
+                                            "<strong class=\"loading\">Processing data for upload</strong>" +
                                             "<div class=\"spinner-container spinner-border spinner-border-sm ml-auto\" role=\"status\" aria-hidden=\"true\"></div>" +
                                         "</div>" +
-                                        "<div id=\"help-text\"><div class=\"alert alert-info mt-2\"><strong>Info</strong> - Please note that once the upload has completed it will still take up to an hour (or more) for facebook to get matches.</div></div>" +
+                                        "<div id=\"help-text\"><div class=\"alert alert-info mt-2\"><strong>Info</strong> - Please note that once the upload has completed it will still take up to an hour (or more) for google to get matches depending on the audience size.</div></div>" +
                                     "</div>" +
                                     "</div>" +
                                 "</div>" +
