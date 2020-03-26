@@ -35,6 +35,8 @@ use Illuminate\Validation\Rule;
 
 use Carbon\Carbon;
 
+ini_set("memory_limit","128M");
+
 class MeetpatClientController extends Controller
 {
     // Main Pages
@@ -539,11 +541,13 @@ class MeetpatClientController extends Controller
             return $csv;
         }
 
-        $csv_file = $request->file('audience_file');
+        $path_s3 = $request->file('audience_file')->store('/client/temp', 's3');
+        //$csv_file = \Storage::disk('s3')->get($path);
+        $file_url = \Storage::disk('s3')->temporaryUrl($path_s3, now()->addMinutes(60));
         $fileName = uniqid();
         $path = $_FILES['audience_file']['name'];
         $ext = pathinfo($path, PATHINFO_EXTENSION);
-        $file_content = file_get_contents($csv_file);
+        $file_content = file_get_contents($file_url);
         $firstColumn = null;
         $client_uploads = \MeetPAT\ClientUploads::where(['user_id' => $request->user_id])->first();
         $uploads_left = 10000;
@@ -563,9 +567,9 @@ class MeetpatClientController extends Controller
         }
            
         if($ext == 'csv') {
-            $csv = readCSV($request->file('audience_file')); 
+            $csv = readCSV($file_url); 
             if($csv[0] == ["FirstName","Surname","MobilePhone","Email", "IDNumber", "CustomVar1"]) {
-                $csv_array = readCSV($request->file('audience_file'), ",");
+                $csv_array = $csv;
 
                 if(count($csv) > $uploads_left + 1) {
                     return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have <b>" . number_format($uploads_left) . "</b> uploads available. To increase your upload limit please contact your reseller."]);
@@ -590,7 +594,7 @@ class MeetpatClientController extends Controller
                     $file_uploaded = \Storage::disk('local')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
                 }
             } else {
-                $csv_array = readCSV($request->file('audience_file'), ";");
+                $csv_array = readCSV($file_url, ";");
 
                     if(count($csv_array[0]) == 6) {
                         if(similar_text("FirstName", $csv_array[0][0]) >= 5
@@ -618,10 +622,13 @@ class MeetpatClientController extends Controller
                         // while(end($csv_array)) {
                         //     array_pop($csv_array);
                         // }
-                            while(end($csv_array) == false or end($csv_array) == [null]) {
-                                array_pop($csv_array);
-                            }
+                        
+                        while(end($csv_array) == false or end($csv_array) == [null]) {
+                            array_pop($csv_array);
+                        }
+
                         if(count($csv_array) > $uploads_left + 1) {
+                            \Storage::disk('s3')->delete($path_s3);
                             return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have <b>" . number_format($uploads_left) . "</b> uploads available.  To increase your upload limit please contact your reseller.", "data" => count($csv_array)]);
                         }
         
@@ -635,23 +642,30 @@ class MeetpatClientController extends Controller
                             $file_uploaded = \Storage::disk('local')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
                         }
                     } else {
+                        \Storage::disk('s3')->delete($path_s3);
                         return response()->json(["status" => 500, "error" => "CSV File does not match template."]);
                     }
                 } else {
+                    \Storage::disk('s3')->delete($path_s3);
                     return response()->json(["status" => 500, "error" => "CSV File does not match template."]);
                 }
                 
             }
 
         } else {
+            \Storage::disk('s3')->delete($path_s3);
             return response()->json(["status" => 500]);
         }
         
-        return response()->json(["status" => 200,"file_id" => $fileName , "data" => count($csv_array)]);
+        \Storage::disk('s3')->delete($path_s3);
+        return response()->json(["status" => 200,"file_id" => $fileName , "data" => count($csv_array), "temp_path" => $path_s3]);
+        
 
     }
     public function handle_delete_upload(Request $request)
     {
+        // TODO: Delete temp file as well from s3
+        
         $file_exists = null;
 
         if(env('APP_ENV') == 'production') {

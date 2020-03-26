@@ -43,6 +43,7 @@
                         <fieldset id="fieldsetId">
                             <input type="hidden" name="user_id"  id="userId" value="{{\Auth::user()->id}}">
                             <input type="hidden" name="file_id" id="fileId">
+                            <input type="hidden" name="temp_file" id="tempFile" value="">
                             <input type="file" name="audience_file" class="filepond" id="audience_file">
                             <div class="invalid-feedback alert alert-danger" id="no-file" role="alert">
                                 <strong id="invalid-file">Please choose a valid .csv audience file to upload</strong>
