@@ -35,7 +35,7 @@ use Illuminate\Validation\Rule;
 
 use Carbon\Carbon;
 
-ini_set("memory_limit","128M");
+ini_set("memory_limit","2048M");
 
 class MeetpatClientController extends Controller
 {
