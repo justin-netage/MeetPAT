@@ -16,7 +16,7 @@
                 //console.log(e)
             })
         }), FilePond.setOptions({
-            maxFileSize: "20MB",
+            maxFileSize: "4MB",
             required: !0,
             server: {
                 url: site_url,
