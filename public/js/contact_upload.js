@@ -13,10 +13,10 @@
             $.post("/api/meetpat-client/large-data/delete?file_id=" + $("#fileId").val() + "&user_id=" + $("#userId").val(), function(e) {}).done(function(i) {
                 e()
             }).fail(function(e) {
-                console.log(e)
+                //console.log(e)
             })
         }), FilePond.setOptions({
-            maxFileSize: "4MB",
+            maxFileSize: "20MB",
             required: !0,
             server: {
                 url: site_url,
@@ -31,7 +31,7 @@
                         console.log(e), $("#submit_audience").prop("disabled", !0)
                     },
                     onload: function(t) {
-                        console.log(t), t = JSON.parse(t), "csv" != i.getFile().fileExtension ? ($("#no-file").show(), i.removeFile()) : $("#no-file").hide(), "500" != t.status ? $("#fileId").val(t.file_id) : (i.removeFile(), $("#no-file").show(), t.error && $("#no-file").html(t.error)), e()
+                        /*console.log(t),*/ t = JSON.parse(t), "csv" != i.getFile().fileExtension ? ($("#no-file").show(), i.removeFile()) : $("#no-file").hide(), "500" != t.status ? $("#fileId").val(t.file_id) : (i.removeFile(), $("#no-file").show(), t.error && $("#no-file").html(t.error)), e()
                     }
                 }
             }
