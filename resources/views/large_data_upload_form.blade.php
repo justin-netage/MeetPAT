@@ -43,8 +43,13 @@
                         <fieldset id="fieldsetId">
                             <input type="hidden" name="user_id"  id="userId" value="{{\Auth::user()->id}}">
                             <input type="hidden" name="file_id" id="fileId">
-                            <input type="hidden" name="temp_file" id="tempFile" value="">
+                            <input type="hidden" name="auth_token" id="authToken" value="{{\Auth::user()->api_token}}">
                             <input type="file" name="audience_file" class="filepond" id="audience_file">
+                            <div class="checking-file" id="fileCheckerPlaceholder">
+                                <div class="d-flex align-items-center">
+                                    <!-- file checking status -->
+                                </div>
+                            </div>
                             <div class="invalid-feedback alert alert-danger" id="no-file" role="alert">
                                 <strong id="invalid-file">Please choose a valid .csv audience file to upload</strong>
                             </div>
@@ -87,9 +92,10 @@
     src="https://code.jquery.com/jquery-3.3.1.min.js"
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
-<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
-<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
-<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+<script type="text/javascript" src="https://unpkg.com/papaparse@5.1.1/papaparse.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
+<script type="text/javascript" src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+<script type="text/javascript" src="https://unpkg.com/filepond/dist/filepond.js"></script>
 <script type="text/javascript" src="{{asset('js/contact_upload.min.js')}}"></script>
 
 @endsection

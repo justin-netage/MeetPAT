@@ -506,166 +506,191 @@ class MeetpatClientController extends Controller
         return view('client.dashboard.update_google_acc', []);
     }
 
+    public function get_user_uploads(Request $request) {
+        $user = \MeetPAT\User::find($request->user_id);        
+
+        if($user->client_uploads and $user->api_token == $request->api_token) {
+            return response()->json($user->client_uploads);
+        } else {
+            return response()->json("Authorization Failed.", 401);
+        }
+        
+    }
+
     public function handle_upload(Request $request)
     {
-        function to_csv_line( $array ) {
-            $temp = array();
-            foreach( $array as $elt ) {
-              $temp[] = addslashes( $elt );
-            }
-           
-            $string = implode( ';', $temp ) . "\n";
-           
-            return $string;
-           }
-    
-        function to_csv( $array ) {
-            $csv;
-            
-            ## Grab the first element to build the header
-            $arr = array_pop( $array );
-            $temp = array();
-            foreach( $arr as $key => $data ) {
-                $temp[] = $key;
-            }
-            $csv = implode( ';', $temp ) . "\n";
-            
-            ## Add the data from the first element
-            $csv .= to_csv_line( $arr );
-            
-            ## Add the data for the rest
-            foreach( $array as $arr ) {   
-                $csv .= to_csv_line( $arr );
-            }
-            
-            return $csv;
-        }
-
-        $path_s3 = $request->file('audience_file')->store('/client/temp', 's3');
-        //$csv_file = \Storage::disk('s3')->get($path);
-        $file_url = \Storage::disk('s3')->temporaryUrl($path_s3, now()->addMinutes(60));
         $fileName = uniqid();
-        $path = $_FILES['audience_file']['name'];
-        $ext = pathinfo($path, PATHINFO_EXTENSION);
-        $file_content = file_get_contents($file_url);
-        $firstColumn = null;
-        $client_uploads = \MeetPAT\ClientUploads::where(['user_id' => $request->user_id])->first();
-        $uploads_left = 10000;
 
-        if($client_uploads)
-        {
-            $uploads_left = $client_uploads->upload_limit - $client_uploads->uploads;
-        }
-
-        function readCSV($csvFile, $delimiter=",") {
-            $file_handle = fopen($csvFile, 'r');
-            while (!feof($file_handle) ) {
-                $line_of_text[] = fgetcsv($file_handle, 0, $delimiter);
-            }
-            fclose($file_handle);
-            return $line_of_text;
-        }
-           
-        if($ext == 'csv') {
-            $csv = readCSV($file_url); 
-            if($csv[0] == ["FirstName","Surname","MobilePhone","Email", "IDNumber", "CustomVar1"]) {
-                $csv_array = $csv;
-
-                if(count($csv) > $uploads_left + 1) {
-                    return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have <b>" . number_format($uploads_left) . "</b> uploads available. To increase your upload limit please contact your reseller."]);
-                }
-
-                $csv_p = new \ParseCsv\Csv();
-                        $csv_p->encoding('UTF-8');
-                        $csv_p->delimiter = ",";
-                        $csv_p->fields = ["FirstName","Surname","MobilePhone","Email", "IDNumber", "CustomVar1"];
-                        $csv_p->load_data(iconv("ISO-8859-1","UTF-8",$file_content));
-                        $csv_p->parse(iconv("ISO-8859-1","UTF-8",$file_content));
-
-                        $csv_str = to_csv($csv_p->data);
-
-                if(env('APP_ENV') == 'production')
-                {
-                    $directory_used = \Storage::disk('s3')->makeDirectory('client/client-records/');
-                    $file_uploaded = \Storage::disk('s3')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
-        
-                } else {
-                    $directory_used = \Storage::disk('local')->makeDirectory('client/client-records/');
-                    $file_uploaded = \Storage::disk('local')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
-                }
-            } else {
-                $csv_array = readCSV($file_url, ";");
-
-                    if(count($csv_array[0]) == 6) {
-                        if(similar_text("FirstName", $csv_array[0][0]) >= 5
-                        and similar_text("Surname", $csv_array[0][1]) >= 5
-                        and similar_text("MobilePhone", $csv_array[0][2]) >= 5
-                        and similar_text("Email", $csv_array[0][3]) >= 5
-                        and similar_text("IDNumber", $csv_array[0][4]) >= 5
-                        and similar_text("CustomVar1", $csv_array[0][5]) >= 5
-                        )
-                        {
-                        //$parser = new \CsvParser\Parser(';', "'", "\n");
-                        $csv_p = new \ParseCsv\Csv();
-                        $csv_p->encoding('UTF-8');
-                        $csv_p->delimiter = ";";
-                        $csv_p->fields = ["FirstName","Surname","MobilePhone","Email", "IDNumber", "CustomVar1"];
-                        $csv_p->load_data(iconv("ISO-8859-1","UTF-8",$file_content));
-                        $csv_p->parse(iconv("ISO-8859-1","UTF-8",$file_content));
-
-                        $csv_str = to_csv($csv_p->data);
-                        
-                        // $csv = $parser->fromString($file_content);
-                        // $parser->fieldDelimiter = ",";
-                        // $parser->fieldEnclosure = "";
-                        // $csv_str = $parser->toString($csv);
-                        // while(end($csv_array)) {
-                        //     array_pop($csv_array);
-                        // }
-                        
-                        while(end($csv_array) == false or end($csv_array) == [null]) {
-                            array_pop($csv_array);
-                        }
-
-                        if(count($csv_array) > $uploads_left + 1) {
-                            \Storage::disk('s3')->delete($path_s3);
-                            return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have <b>" . number_format($uploads_left) . "</b> uploads available.  To increase your upload limit please contact your reseller.", "data" => count($csv_array)]);
-                        }
-        
-                        if(env('APP_ENV') == 'production')
-                        {
-                            $directory_used = \Storage::disk('s3')->makeDirectory('client/client-records/');
-                            $file_uploaded = \Storage::disk('s3')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
-                
-                        } else {
-                            $directory_used = \Storage::disk('local')->makeDirectory('client/client-records/');
-                            $file_uploaded = \Storage::disk('local')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
-                        }
-                    } else {
-                        \Storage::disk('s3')->delete($path_s3);
-                        return response()->json(["status" => 500, "error" => "CSV File does not match template."]);
-                    }
-                } else {
-                    \Storage::disk('s3')->delete($path_s3);
-                    return response()->json(["status" => 500, "error" => "CSV File does not match template."]);
-                }
-                
-            }
-
+        if(env('APP_ENV') == 'production') {
+            $directory_used = \Storage::disk('s3')->makeDirectory('client/client-records/');
+            $path_s3 = $request->file('audience_file')->storeAs('/client/client-records/user_id_' . $request->user_id, $fileName  . ".csv" ,'s3');
         } else {
-            \Storage::disk('s3')->delete($path_s3);
-            return response()->json(["status" => 500]);
+            $directory_used = \Storage::disk('local')->makeDirectory('client/client-records/');
+            $path_s3 = $request->file('audience_file')->storeAs('/client/client-records/user_id_' . $request->user_id, $fileName  . ".csv" ,'local');
         }
         
-        \Storage::disk('s3')->delete($path_s3);
-        return response()->json(["status" => 200,"file_id" => $fileName , "data" => count($csv_array), "temp_path" => $path_s3]);
+        return response()->json(["status" => 200,"file_id" => $fileName]);
+    }
+
+    // public function handle_upload(Request $request)
+    // {
+    //     function to_csv_line( $array ) {
+    //         $temp = array();
+    //         foreach( $array as $elt ) {
+    //           $temp[] = addslashes( $elt );
+    //         }
+           
+    //         $string = implode( ';', $temp ) . "\n";
+           
+    //         return $string;
+    //        }
+    
+    //     function to_csv( $array ) {
+    //         $csv;
+            
+    //         ## Grab the first element to build the header
+    //         $arr = array_pop( $array );
+    //         $temp = array();
+    //         foreach( $arr as $key => $data ) {
+    //             $temp[] = $key;
+    //         }
+    //         $csv = implode( ';', $temp ) . "\n";
+            
+    //         ## Add the data from the first element
+    //         $csv .= to_csv_line( $arr );
+            
+    //         ## Add the data for the rest
+    //         foreach( $array as $arr ) {   
+    //             $csv .= to_csv_line( $arr );
+    //         }
+            
+    //         return $csv;
+    //     }
+
+    //     $path_s3 = $request->file('audience_file')->store('/client/temp', 's3');
+    //     //$csv_file = \Storage::disk('s3')->get($path);
+    //     $file_url = \Storage::disk('s3')->temporaryUrl($path_s3, now()->addMinutes(60));
+    //     $fileName = uniqid();
+    //     $path = $_FILES['audience_file']['name'];
+    //     $ext = pathinfo($path, PATHINFO_EXTENSION);
+    //     $file_content = file_get_contents($file_url);
+    //     $firstColumn = null;
+    //     $client_uploads = \MeetPAT\ClientUploads::where(['user_id' => $request->user_id])->first();
+    //     $uploads_left = 10000;
+
+    //     if($client_uploads)
+    //     {
+    //         $uploads_left = $client_uploads->upload_limit - $client_uploads->uploads;
+    //     }
+
+    //     function readCSV($csvFile, $delimiter=",") {
+    //         $file_handle = fopen($csvFile, 'r');
+    //         while (!feof($file_handle) ) {
+    //             $line_of_text[] = fgetcsv($file_handle, 0, $delimiter);
+    //         }
+    //         fclose($file_handle);
+    //         return $line_of_text;
+    //     }
+           
+    //     if($ext == 'csv') {
+    //         $csv = readCSV($file_url); 
+    //         if($csv[0] == ["FirstName","Surname","MobilePhone","Email", "IDNumber", "CustomVar1"]) {
+    //             $csv_array = $csv;
+
+    //             if(count($csv) > $uploads_left + 1) {
+    //                 return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have <b>" . number_format($uploads_left) . "</b> uploads available. To increase your upload limit please contact your reseller."]);
+    //             }
+
+    //             $csv_p = new \ParseCsv\Csv();
+    //                     $csv_p->encoding('UTF-8');
+    //                     $csv_p->delimiter = ",";
+    //                     $csv_p->fields = ["FirstName","Surname","MobilePhone","Email", "IDNumber", "CustomVar1"];
+    //                     $csv_p->load_data(iconv("ISO-8859-1","UTF-8",$file_content));
+    //                     $csv_p->parse(iconv("ISO-8859-1","UTF-8",$file_content));
+
+    //                     $csv_str = to_csv($csv_p->data);
+
+    //             if(env('APP_ENV') == 'production')
+    //             {
+    //                 $directory_used = \Storage::disk('s3')->makeDirectory('client/client-records/');
+    //                 $file_uploaded = \Storage::disk('s3')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
+        
+    //             } else {
+    //                 $directory_used = \Storage::disk('local')->makeDirectory('client/client-records/');
+    //                 $file_uploaded = \Storage::disk('local')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
+    //             }
+    //         } else {
+    //             $csv_array = readCSV($file_url, ";");
+
+    //                 if(count($csv_array[0]) == 6) {
+    //                     if(similar_text("FirstName", $csv_array[0][0]) >= 5
+    //                     and similar_text("Surname", $csv_array[0][1]) >= 5
+    //                     and similar_text("MobilePhone", $csv_array[0][2]) >= 5
+    //                     and similar_text("Email", $csv_array[0][3]) >= 5
+    //                     and similar_text("IDNumber", $csv_array[0][4]) >= 5
+    //                     and similar_text("CustomVar1", $csv_array[0][5]) >= 5
+    //                     )
+    //                     {
+    //                     //$parser = new \CsvParser\Parser(';', "'", "\n");
+    //                     $csv_p = new \ParseCsv\Csv();
+    //                     $csv_p->encoding('UTF-8');
+    //                     $csv_p->delimiter = ";";
+    //                     $csv_p->fields = ["FirstName","Surname","MobilePhone","Email", "IDNumber", "CustomVar1"];
+    //                     $csv_p->load_data(iconv("ISO-8859-1","UTF-8",$file_content));
+    //                     $csv_p->parse(iconv("ISO-8859-1","UTF-8",$file_content));
+
+    //                     $csv_str = to_csv($csv_p->data);
+                        
+    //                     // $csv = $parser->fromString($file_content);
+    //                     // $parser->fieldDelimiter = ",";
+    //                     // $parser->fieldEnclosure = "";
+    //                     // $csv_str = $parser->toString($csv);
+    //                     // while(end($csv_array)) {
+    //                     //     array_pop($csv_array);
+    //                     // }
+                        
+    //                     while(end($csv_array) == false or end($csv_array) == [null]) {
+    //                         array_pop($csv_array);
+    //                     }
+
+    //                     if(count($csv_array) > $uploads_left + 1) {
+    //                         \Storage::disk('s3')->delete($path_s3);
+    //                         return response()->json(["status" => 500, "error" => "Your file contains more contacts than you have available for upload. You have <b>" . number_format($uploads_left) . "</b> uploads available.  To increase your upload limit please contact your reseller.", "data" => count($csv_array)]);
+    //                     }
+        
+    //                     if(env('APP_ENV') == 'production')
+    //                     {
+    //                         $directory_used = \Storage::disk('s3')->makeDirectory('client/client-records/');
+    //                         $file_uploaded = \Storage::disk('s3')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
+                
+    //                     } else {
+    //                         $directory_used = \Storage::disk('local')->makeDirectory('client/client-records/');
+    //                         $file_uploaded = \Storage::disk('local')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", $csv_str);
+    //                     }
+    //                 } else {
+    //                     \Storage::disk('s3')->delete($path_s3);
+    //                     return response()->json(["status" => 500, "error" => "CSV File does not match template."]);
+    //                 }
+    //             } else {
+    //                 \Storage::disk('s3')->delete($path_s3);
+    //                 return response()->json(["status" => 500, "error" => "CSV File does not match template."]);
+    //             }
+                
+    //         }
+
+    //     } else {
+    //         \Storage::disk('s3')->delete($path_s3);
+    //         return response()->json(["status" => 500]);
+    //     }
+        
+    //     \Storage::disk('s3')->delete($path_s3);
+    //     return response()->json(["status" => 200,"file_id" => $fileName , "data" => count($csv_array), "temp_path" => $path_s3]);
         
 
-    }
+    // }
+
     public function handle_delete_upload(Request $request)
-    {
-        // TODO: Delete temp file as well from s3
-        
+    {        
         $file_exists = null;
 
         if(env('APP_ENV') == 'production') {

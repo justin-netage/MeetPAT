@@ -171,6 +171,9 @@ Route::post('/meetpat-client/facebook/custom-audience/create', 'FacebookCustomer
 Route::post('/meetpat-client/google/custom-audience/create', 'GoogleCustomAudienceController@create_custom_audience')->name('create-custom-audience-google')->middleware('auth:api');
 /** END Client routes */
 
+// Upload audience file to MeetPAT
+Route::get('/meetpat-client/large-data/uploads-available', 'MeetpatClientController@get_user_uploads')->name('get-user-uploads')->middleware('auth:api');
+
 
 // Barker Street Access
 
