@@ -84,7 +84,7 @@
                         step: undefined,
                         complete: function(data) {
                             i.setOptions({disabled: false});
-                            console.log(data);
+                            
                             if(i.getFile().file.name.split('.')[1] == 'csv') {
 
                                 if(data.meta.delimiter == ';') {

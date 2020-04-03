@@ -178,3 +178,7 @@ Route::get('/meetpat-client/large-data/uploads-available', 'MeetpatClientControl
 // Barker Street Access
 
 Route::post('/file-ready', 'ApiController@file_ready')->middleware('auth:api')->name('file-updated');
+
+// S3 Credentials
+
+Route::get('/get-aws-credentials', 'ApiController@get_aws_credentials')->middleware('auth:api')->name('get-aws-credentials');

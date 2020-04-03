@@ -82,4 +82,21 @@ class ApiController extends Controller
         //\MeetPAT\Jobs\ProcessFile::dispatch();
         return response()->json(array("status" => "success", "message" => "File ready and queued for processing."), 200);
     }
+
+    public function get_aws_credentials(Request $request) {
+
+        $user = \MeetPAT\User::where("api_token", $request->api_token)->get();
+
+        if($user)
+        {
+            return response()->json(array(
+                "SECRET_KEY" => env("UPLOAD_SECRET_KEY"),
+                "ACCESS_ID" => env("UPLOAD_ACCESS_ID"),
+            ), 200);
+        } else {
+            return response()->json(array("message" => "Unauthorized"), 401);
+        }
+
+        return response()->json(array("message" => "bad request"), 400);
+    }
 }

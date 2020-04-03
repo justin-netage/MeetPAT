@@ -274,7 +274,6 @@
         }
 
         var upload_file = function(file) {
-            // Check Number of records first
 
             $("#drop_zone .fileUploadBox").css('background-color', "#fff");
             $("#drop_zone").removeClass("no-file-dropped");
@@ -293,122 +292,138 @@
                 "</div>"
             );
 
-            var albumBucketName = "meetpat.fileuploads";
-            var bucketRegion = "us-east-1";
+            // Check Number of records first
+            $.get('/api/get-aws-credentials', { api_token: $("#authToken").val() }, function(data) {
 
-            AWS.config.region = bucketRegion; // Region
-            AWS.config.update({
-                accessKeyId: "AKIAWOWOCPEDYCWGDRFD",
-                secretAccessKey: "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"
-            });
-        
-            AWS.config.credentials.get(function() {
-                
-                var s3 = new AWS.S3({
-                    apiVersion: "2006-03-01",
-                    params: { Bucket: albumBucketName }
+                var albumBucketName = "meetpat.fileuploads";
+                var bucketRegion = "us-east-1";
+
+                AWS.config.region = bucketRegion; // Region
+                AWS.config.update({
+                    accessKeyId: data["ACCESS_ID"],
+                    secretAccessKey: data["SECRET_KEY"]
                 });
-            });
-
-            var fileName = file.name;
-            //var albumPhotosKey = encodeURIComponent(albumName) + "//";
-            var uuid = uniqid(13);
-            var fileKey = uuid + ".csv";
-
-            // Use S3 ManagedUpload class as it supports multipart uploads
-            var upload = new AWS.S3.ManagedUpload({
-                params: {
-                Bucket: albumBucketName,
-                Key: 'new_files/' + fileKey,
-                Body: file,
-                ACL: "public-read"
-                }
-            });
-
-            $("#drop_zone .fileUploadBox .file-abort").append("<div class=\"cancelUpload\"><i class=\"text-danger fas fa-times-circle\"></i></div>");
-
-            $(".cancelUpload").click(function() {
-                $("#drop_zone .fileUploadBox .progress-bar").addClass('bg-danger');
-                upload.abort();
-            });
-
-            upload.on('httpUploadProgress', function (progress) {
             
-                percentage = Math.round(((progress.loaded/progress.total) * 100), 2);
-                
-                $("#drop_zone .fileUploadBox .progress-bar").width(percentage.toString() + "%");
-                $("#drop_zone .fileUploadBox .progress-bar").attr("aria-valuenow", percentage);
-                $("#drop_zone .fileUploadBox .size-progress").html(formatBytes(progress.loaded) + " MB of " + formatBytes(progress.total) + " MB");
-                if(progress.loaded == progress.total) {
-                    $("#drop_zone .fileUploadBox .upload-progress").html("99%");
-                } else {
-                    $("#drop_zone .fileUploadBox .upload-progress").html("Uploading... " + percentage + "%");
-                }
-
-            });
-
-            var promise = upload.promise();
-            promise.then(
-                function(data) {
-                
-                    $("#drop_zone .fileUploadBox .progress-bar").addClass('bg-success');
-                    $("#drop_zone .fileUploadBox .upload-progress").html("100%");
-                    $(".cancelUpload").unbind();
-                    $(".cancelUpload").click(function() {
-                        delete_file(fileKey);
+                AWS.config.credentials.get(function() {
+                    
+                    var s3 = new AWS.S3({
+                        apiVersion: "2006-03-01",
+                        params: { Bucket: albumBucketName }
                     });
+                });
 
-                    $("#fileId").val(uuid);
+                var fileName = file.name;
+                //var albumPhotosKey = encodeURIComponent(albumName) + "//";
+                var uuid = uniqid(13);
+                var fileKey = uuid + ".csv";
 
-                },
-                function(err) {
-                    //console.log(err, err.stack);
+                // Use S3 ManagedUpload class as it supports multipart uploads
+                var upload = new AWS.S3.ManagedUpload({
+                    params: {
+                    Bucket: albumBucketName,
+                    Key: 'new_files/' + fileKey,
+                    Body: file,
+                    ACL: "public-read"
+                    }
+                });
+
+                $("#drop_zone .fileUploadBox .file-abort").append("<div class=\"cancelUpload\"><i class=\"text-danger fas fa-times-circle\"></i></div>");
+
+                $(".cancelUpload").click(function() {
                     $("#drop_zone .fileUploadBox .progress-bar").addClass('bg-danger');
-                    $("#drop_zone").addClass("no-file-dropped");
-                    $("#drop_zone").html(
-                        "<div class=\"fileUploadBox d-flex flex-column justify-content-center\"><strong class=\"text-center\">Drag and drop your file here. <button type=\"button\" id=\"browseBtn\" class=\"btn btn-link\">Browse</button></strong></div>"
-                    )
-                    // after error
-                    bind_browse_btn();
+                    upload.abort();
+                });
+
+                upload.on('httpUploadProgress', function (progress) {
                 
-                }
-            );
+                    percentage = Math.round(((progress.loaded/progress.total) * 100), 2);
+                    
+                    $("#drop_zone .fileUploadBox .progress-bar").width(percentage.toString() + "%");
+                    $("#drop_zone .fileUploadBox .progress-bar").attr("aria-valuenow", percentage);
+                    $("#drop_zone .fileUploadBox .size-progress").html(formatBytes(progress.loaded) + " MB of " + formatBytes(progress.total) + " MB");
+                    if(progress.loaded == progress.total) {
+                        $("#drop_zone .fileUploadBox .upload-progress").html("99%");
+                    } else {
+                        $("#drop_zone .fileUploadBox .upload-progress").html("Uploading... " + percentage + "%");
+                    }
+
+                });
+
+                var promise = upload.promise();
+                promise.then(
+                    function(data) {
+                    
+                        $("#drop_zone .fileUploadBox .progress-bar").addClass('bg-success');
+                        $("#drop_zone .fileUploadBox .upload-progress").html("100%");
+                        $(".cancelUpload").unbind();
+                        $(".cancelUpload").click(function() {
+                            $(".cancelUpload").html("<div class=\"spinner-border spinner-border-sm\" role=\"status\"><span class=\"sr-only\">Loading...</span></div>");
+                            delete_file(fileKey);
+                        });
+
+                        $("#fileId").val(uuid);
+
+                    },
+                    function(err) {
+                        //console.log(err, err.stack);
+                        $("#drop_zone .fileUploadBox .progress-bar").addClass('bg-danger');
+                        $("#drop_zone").addClass("no-file-dropped");
+                        $("#drop_zone").html(
+                            "<div class=\"fileUploadBox d-flex flex-column justify-content-center\"><strong class=\"text-center\">Drag and drop your file here. <button type=\"button\" id=\"browseBtn\" class=\"btn btn-link\">Browse</button></strong></div>"
+                        )
+                        // after error
+                        bind_browse_btn();
+                    
+                    }
+                );
+
+
+            }).fail(function(error) {
+                console.log(error);
+            });           
            
         }
 
         var delete_file = function(file_key) {
-            var albumBucketName = "meetpat.fileuploads";
-            var bucketRegion = "us-east-1";
+            
+            $.get('/api/get-aws-credentials', { api_token: $("#authToken").val() }, function(data) {
 
-            AWS.config.region = bucketRegion; // Region
-            AWS.config.update({
-                accessKeyId: "AKIAWOWOCPEDYCWGDRFD",
-                secretAccessKey: "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"
-            });
-        
-                           
-            var s3 = new AWS.S3({
-                apiVersion: "2006-03-01",
-                params: { Bucket: albumBucketName }
-            });
+                var albumBucketName = "meetpat.fileuploads";
+                var bucketRegion = "us-east-1";
 
-            s3.deleteObject({
-                Bucket: albumBucketName,
-                Key: 'new_files/' + file_key
-                }
-            , function(err, data) {
-                if (err) { 
-                    //console.log(err, err.stack);
-                } else {
-                    $("#drop_zone").addClass("no-file-dropped");
-                    $("#drop_zone").html(
-                        "<div class=\"fileUploadBox d-flex flex-column justify-content-center\"><strong class=\"text-center\">Drag and drop your file here. <button type=\"button\" id=\"browseBtn\" class=\"btn btn-link\">Browse</button></strong></div>"
-                    );
-                    $("#fileId").val("");
-                    // after delete/ cancel
-                    bind_browse_btn();
-                }                  
-            });
+                AWS.config.region = bucketRegion; // Region
+                AWS.config.update({
+                    accessKeyId: data["ACCESS_ID"],
+                    secretAccessKey: data["SECRET_KEY"]
+                });
+            
+                            
+                var s3 = new AWS.S3({
+                    apiVersion: "2006-03-01",
+                    params: { Bucket: albumBucketName }
+                });
+
+                s3.deleteObject({
+                    Bucket: albumBucketName,
+                    Key: 'new_files/' + file_key
+                    }
+                , function(err, data) {
+                    if (err) { 
+                        //console.log(err, err.stack);
+                    } else {
+                        $("#drop_zone").addClass("no-file-dropped");
+                        $("#drop_zone").html(
+                            "<div class=\"fileUploadBox d-flex flex-column justify-content-center\"><strong class=\"text-center\">Drag and drop your file here. <button type=\"button\" id=\"browseBtn\" class=\"btn btn-link\">Browse</button></strong></div>"
+                        );
+                        $("#fileId").val("");
+                        // after delete/ cancel
+                        bind_browse_btn();
+                    }                  
+                });
+
+            }).fail(function(error) {
+                console.log(error);
+            })
         }
 
         // Initial
