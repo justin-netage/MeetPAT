@@ -47,7 +47,7 @@
         }),
         
         FilePond.setOptions({
-            maxFileSize: "4MB",
+            maxFileSize: "5MB",
             required: !0,
             dropValidation: true,
             instantUpload: false,
@@ -93,95 +93,12 @@
         
                                         if(uploads_left >= (data.data.length - 1)) {
                                             
-                                            invalid_rows = [];
-                                            var regex_email = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,})$/
-                                            var regex_name = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*/
-                                            var regex_valid_phone = /^[0-9+]+$/
-                                            var regex_valid_id = /^[0-9]+$/
+                                            $("#fileCheckerPlaceholder .d-flex").html(
+                                                "<strong>Check complete</strong>" +
+                                                "<div class=\"ml-auto\"><i class=\"fas text-success fa-check-circle\"></i></div>"
+                                            );
+                                            i.processFiles(); 
                                             
-                                            // TODO: Create JSON Object instead... run process server side as queued job to fix file and return bad rows temp file.  
-                                            for (let index = 1; index < data.data.length; index++) {
-                                                const element = data.data[index];
-
-                                                if(element.length != 6) {
-                                                    invalid_rows.push(element);
-                                                } else {
-                                                    if(element[2] === ""  && element[3] === "" ) {
-                                                        invalid_rows.push(element);
-                                                    } else {
-                                                        // Check first name
-                                                        if(!regex_name.test(element[0])) {
-                                                            if(element[0] !== "") {
-                                                                if(!invalid_rows.includes(element)) {
-                                                                    invalid_rows.push(element);
-                                                                }
-                                                            }
-                                                        } 
-
-                                                        // Check lastname name
-                                                        if(!regex_name.test(element[1])) {
-                                                            if(element[1] !== "") {
-                                                                if(!invalid_rows.includes(element)) {
-                                                                    invalid_rows.push(element);
-                                                                }
-                                                            }
-                                                        }
-
-                                                        // Check phone number
-                                                        if(!regex_valid_phone.test(element[2])) {
-                                                            if(element[2] !== "") {
-                                                                if(!invalid_rows.includes(element)) {
-                                                                    invalid_rows.push(element);
-                                                                }
-                                                            }
-                                                        }
-
-                                                        // Check Email
-                                                        if(!regex_email.test(element[3])) {
-                                                            if(element[3] !== "") {
-                                                                if(!invalid_rows.includes(element)) {
-                                                                    invalid_rows.push(element);
-                                                                }
-                                                            }
-                                                        }
-
-                                                        // Check ID
-                                                        if(!regex_valid_id.test(element[4])) {
-                                                            if(element[4] !== "") {
-                                                                if(!invalid_rows.includes(element)) {
-                                                                    invalid_rows.push(element);
-                                                                }
-                                                            }
-                                                        }
-
-                                                        // Check CustomVar1
-                                                        if(!regex_name.test(element[5])) {
-                                                            if(element[5] !== "") {
-                                                                if(!invalid_rows.includes(element)) {
-                                                                    invalid_rows.push(element);
-                                                                }
-                                                            }
-                                                        }
-
-                                                    }
-                                                }
-                                                
-                                            }
-
-                                            if(invalid_rows.length) {
-                                                $("#fileCheckerPlaceholder").hide();
-                                                i.removeFiles();
-                                                $("#no-file").show();
-                                                $("#invalid-file").html('<strong>Error!</strong> Audience failed to upload. There are <strong> ' + invalid_rows.length + '</strong> bad rows in the file.');
-    
-                                            } else {
-                                                $("#fileCheckerPlaceholder .d-flex").html(
-                                                    "<strong>Check complete</strong>" +
-                                                    "<div class=\"ml-auto\"><i class=\"fas text-success fa-check-circle\"></i></div>"
-                                                );
-                                                i.processFiles(); 
-                                            }
-
                                         } else {
                                             $("#fileCheckerPlaceholder").hide();
                                             i.removeFiles();
