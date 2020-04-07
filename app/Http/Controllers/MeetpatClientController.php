@@ -1485,5 +1485,45 @@ class MeetpatClientController extends Controller
         return response()->json($files_array);
     }
 
+    /** New file checking process */
+
+    public function add_to_file_check_queue(Request $request) 
+    {
+        $new_file_checker_job = \MeetPAT\FixFileJobQueue::create(array(
+            "user_id" => $request->user_id,
+            "file_uuid" => $request->uuid,
+            "status" => "pending"
+        )); 
+
+        return response()->json($new_file_checker_job);
+    }
+
+    public function check_file_job(Request $request)
+    {
+        $job = \MeetPAT\FixFileJobQueue::find($request->job_id);
+        $status = "pending";
+        $message = "No message";
+
+        if($job->status == "error") {
+            if(!$job->valid_csv) {
+                $message = "Invalid csv file.";
+            } else {
+                if(!$job->matches_template) {
+                    $message = "File does not match template. <a href=\"https://s3.amazonaws.com/dashboard.meetpat/public/sample/MeetPAT Template.csv\">Download</a> the template file. Make sure that your csv is using a comma or semicolon delimiter.";
+                } else {
+                    $client_uploads = \MeetPAT\User::find($job->user_id)->client_uploads;
+                    $uploads_left = $client_uploads->upload_limit - $client_uploads->uploads;
+
+                    if($job->over_limit) {
+                        $message = "File contains more rows than you have available to upload. You have <strong>" . number_format($uploads_left) . "</strong> left. Contact your reseller to increase your limit.";
+                    }
+                }
+            }
+
+        }
+
+        return response()->json(array("job" => $job, "message" => $message));
+    }
+
     /** Client file END */
 }

@@ -173,7 +173,8 @@ Route::post('/meetpat-client/google/custom-audience/create', 'GoogleCustomAudien
 
 // Upload audience file to MeetPAT
 Route::get('/meetpat-client/large-data/uploads-available', 'MeetpatClientController@get_user_uploads')->name('get-user-uploads')->middleware('auth:api');
-
+Route::post('/meetpat-client/large-data/check-file', 'MeetpatClientController@add_to_file_check_queue')->name('add-to-file-check-queue')->middleware('auth:api');
+Route::get('/meetpat-client/check-file-job', 'MeetpatClientController@check_file_job')->name('check-file-job')->middleware('auth:api');
 
 // Barker Street Access
 

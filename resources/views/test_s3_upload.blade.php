@@ -24,10 +24,11 @@
         background-color: rgba(25, 25, 25, 0.1);
     }
 
-    .file-abort .fa-times-circle
+    .fileUploadBox .file-abort .fa-times-circle, .fileUploadBox .fa-undo-alt
     {
         cursor: pointer;
     }
+
 }
 </style>
 @endsection
@@ -112,6 +113,7 @@
 @endsection
 
 @section('scripts')
+<!-- TODO:  remove papaparse and perform all checks serverside with queued job -->
 <script type="text/javascript" src="https://unpkg.com/papaparse@5.1.1/papaparse.min.js"></script>
 <script src="https://sdk.amazonaws.com/js/aws-sdk-2.650.0.min.js"></script>
 <script>
@@ -150,9 +152,9 @@
             return uuid;
         }
 
-        var file_checker = function(file) {
-            $("#no-file").hide();
-            $("#drop_zone").addClass("no-file-dropped");
+        var file_checker = function(uuid) {
+            $("#drop_zone .fileUploadBox").css('background-color', "#fff");
+            $("#drop_zone").removeClass("no-file-dropped");
             $("#drop_zone").html(
                 "<div class=\"fileUploadBox d-flex flex-column justify-content-center\">" +
                     "<div class=\"d-flex justify-content-between\">" +
@@ -161,103 +163,69 @@
                     "</div>" +
                 "</div>"
             );
-                $.get("/api/meetpat-client/large-data/uploads-available", {user_id: $("#userId").val(), api_token: $("#authToken").val()},(results) => {
-                    // Helper Methods
-                    function numberWithCommas(x) {
-                        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                    }
-                    function arrays_equal(a,b) { return !!a && !!b && !(a<b || b<a); }
 
-                    var config = {
-                        delimiter: "",	// auto-detect
-                        newline: "",	// auto-detect
-                        quoteChar: '"',
-                        escapeChar: '"',
-                        header: false,
-                        transformHeader: undefined,
-                        dynamicTyping: false,
-                        preview: 0,
-                        encoding: "",
-                        worker: false,
-                        comments: false,
-                        step: undefined,
-                        complete: function(data) {
-                            
-                            if(file.name.split('.')[1] == 'csv') {
+            $.post("/api/meetpat-client/large-data/check-file", { user_id: $("#userId").val(), uuid: uuid, api_token: $("#authToken").val()}, (data) => {
+                //console.log(data);
 
-                                if(data.meta.delimiter == ';') {
-                                    if(arrays_equal(data.data[0], ["FirstName", "Surname", "MobilePhone", "Email", "IDNumber", "CustomVar1"])) {
-                                        uploads_left = results.upload_limit - results.uploads;
-        
-                                        if(uploads_left >= (data.data.length - 1)) {
-                                            
-                                            upload_file(file);
-                                            
-                                        } else {
-                                            
-                                            $("#drop_zone").addClass("no-file-dropped");
-                                            $("#drop_zone").html(
-                                                "<div class=\"fileUploadBox d-flex flex-column justify-content-center\"><strong class=\"text-center\">Drag and drop your file here. <button type=\"button\" id=\"browseBtn\" class=\"btn btn-link\">Browse</button></strong></div>"
-                                            )
-                                            
-                                            bind_browse_btn();
-                                            $("#no-file").show();
-                                            $("#invalid-file").html('<strong>Error!</strong> Audience failed to upload. You have <strong>' + numberWithCommas(uploads_left) + '</strong> available. The file you uploaded contains ' + numberWithCommas(data.data.length - 1) + '. Contact your reseller to increase your limit.');
-                                        }
-                                    } else {
-                                       
-                                        $("#drop_zone").addClass("no-file-dropped");
-                                        $("#drop_zone").html(
-                                            "<div class=\"fileUploadBox d-flex flex-column justify-content-center\"><strong class=\"text-center\">Drag and drop your file here. <button type=\"button\" id=\"browseBtn\" class=\"btn btn-link\">Browse</button></strong></div>"
-                                        )
-                                        
-                                        bind_browse_btn();
-                                        $("#no-file").show();
-                                        $("#invalid-file").html('<strong>Error!</strong> File does not match template.');
-                                    }
-                                } else {
-                                    
-                                    $("#drop_zone").addClass("no-file-dropped");
-                                    $("#drop_zone").html(
-                                        "<div class=\"fileUploadBox d-flex flex-column justify-content-center\"><strong class=\"text-center\">Drag and drop your file here. <button type=\"button\" id=\"browseBtn\" class=\"btn btn-link\">Browse</button></strong></div>"
-                                    )
-                                    
-                                    bind_browse_btn();
-                                    $("#no-file").show();
-                                    $("#invalid-file").html('<strong>Error!</strong> Please use the semicolon (;) delimiter.');
-                                }
+                const check_job = setInterval(() => {
+                    $.get("/api/meetpat-client/check-file-job", { api_token: $("#authToken").val(), job_id: data.id}, (data) => {
+                        
+                        if(data.status == 'complete') {
+                            console.log("file check complete.");
+                        } else if(data.job.status == "error") {
+                            clearInterval(check_job);
+                            $("#drop_zone").html(
+                                "<div class=\"fileUploadBox d-flex flex-column justify-content-center\">" +
+                                    "<div class=\"d-flex justify-content-between\">" +
+                                        "<strong class=\"loading\">Resetting file uploader</strong>" +
+                                        "<div class=\"spinner-border spinner-border-sm ml-auto\" role=\"status\" aria-hidden=\"true\"></div>" +
+                                    "</div>" +
+                                "</div>"
+                            ); 
+                            delete_file(uuid + ".csv", 'fixed_files/');                           
+                            bind_browse_btn();
+                            $("#no-file").show();
+                            $("#invalid-file").html('<strong>Error!</strong> ' + data.message);
 
-                            } else {
+                        } else if (data.job.status == "complete") {    
+                            clearInterval(check_job);
+                            $("#drop_zone").html(
+                                "<div class=\"fileUploadBox d-flex flex-column justify-content-center\">" +
+                                    "<div class=\"d-flex justify-content-between\">" +
+                                        "<strong>Check complete</strong>" +
+                                        "<div><i class=\"fas text-success fa-check-circle\"></i>&nbsp;<i class=\"fas fa-undo-alt\"></i></div>" +
+                                    "</div>" +
+                                "</div>"
+                            );      
                                 
-                                $("#drop_zone").addClass("no-file-dropped");
+                            $(".fa-undo-alt").unbind();
+                            $(".fa-undo-alt").click(function() {
                                 $("#drop_zone").html(
-                                    "<div class=\"fileUploadBox d-flex flex-column justify-content-center\"><strong class=\"text-center\">Drag and drop your file here. <button type=\"button\" id=\"browseBtn\" class=\"btn btn-link\">Browse</button></strong></div>"
-                                )
-                                
-                                bind_browse_btn();
-                                $("#no-file").show();
-                                $("#invalid-file").html('<strong>Error!</strong> File is not a csv.');
-                            }
-                            
-                        },
-                        error: undefined,
-                        download: false,
-                        downloadRequestHeaders: undefined,
-                        downloadRequestBody: undefined,
-                        skipEmptyLines: true,
-                        chunk: undefined,
-                        fastMode: undefined,
-                        beforeFirstChunk: undefined,
-                        withCredentials: undefined,
-                        transform: undefined,
-                        delimitersToGuess: [',', '\t', '|', ';', Papa.RECORD_SEP, Papa.UNIT_SEP]
-                    }
-    
-                    var parsed_file = Papa.parse(file,config);
-                    
-                }).fail((error) => {
-                    //console.log(error);
-                });
+                                    "<div class=\"fileUploadBox d-flex flex-column justify-content-center\">" +
+                                        "<div class=\"d-flex justify-content-between\">" +
+                                            "<strong class=\"loading\">Resetting file uploader</strong>" +
+                                            "<div class=\"spinner-border spinner-border-sm ml-auto\" role=\"status\" aria-hidden=\"true\"></div>" +
+                                        "</div>" +
+                                    "</div>"
+                                ); 
+                                delete_file(uuid + ".csv", 'fixed_files/');
+
+                            });
+                        } else {
+                            console.log(data.job.status);
+                        }
+
+                    }).fail((error) => {
+                        console.log(error);
+                    });
+
+
+                }, 5000);
+
+                
+            }).fail((error) => {
+                console.log(error);
+            });
         }
 
         var bind_browse_btn = function() {
@@ -269,7 +237,7 @@
             });
 
             $("#browseFile").on('change', function(e) {
-                file_checker(e.target.files[0]);
+                upload_file(e.target.files[0]);
             });
         }
 
@@ -292,8 +260,9 @@
                 "</div>"
             );
 
-            // Check Number of records first
-            $.get('/api/get-aws-credentials', { api_token: $("#authToken").val() }, function(data) {
+            if(file.name.split('.')[1] == 'csv') {
+                
+                $.get('/api/get-aws-credentials', { api_token: $("#authToken").val() }, function(data) {
 
                 var albumBucketName = "meetpat.fileuploads";
                 var bucketRegion = "us-east-1";
@@ -303,7 +272,7 @@
                     accessKeyId: data["ACCESS_ID"],
                     secretAccessKey: data["SECRET_KEY"]
                 });
-            
+
                 AWS.config.credentials.get(function() {
                     
                     var s3 = new AWS.S3({
@@ -335,7 +304,7 @@
                 });
 
                 upload.on('httpUploadProgress', function (progress) {
-                
+
                     percentage = Math.round(((progress.loaded/progress.total) * 100), 2);
                     
                     $("#drop_zone .fileUploadBox .progress-bar").width(percentage.toString() + "%");
@@ -358,8 +327,10 @@
                         $(".cancelUpload").unbind();
                         $(".cancelUpload").click(function() {
                             $(".cancelUpload").html("<div class=\"spinner-border spinner-border-sm\" role=\"status\"><span class=\"sr-only\">Loading...</span></div>");
-                            delete_file(fileKey);
+                            delete_file(fileKey, 'new_files/');
                         });
+
+                        file_checker(uuid);
 
                         $("#fileId").val(uuid);
 
@@ -378,13 +349,24 @@
                 );
 
 
-            }).fail(function(error) {
-                console.log(error);
-            });           
+                }).fail(function(error) {
+                    console.log(error);
+                });
+
+            } else {
+                $("#drop_zone").addClass("no-file-dropped");
+                $("#drop_zone").html(
+                    "<div class=\"fileUploadBox d-flex flex-column justify-content-center\"><strong class=\"text-center\">Drag and drop your file here. <button type=\"button\" id=\"browseBtn\" class=\"btn btn-link\">Browse</button></strong></div>"
+                )
+                
+                bind_browse_btn();
+                $("#no-file").show();
+                $("#invalid-file").html('<strong>Error!</strong> File is not a csv.');
+            }
            
         }
 
-        var delete_file = function(file_key) {
+        var delete_file = function(file_key, path) {
             
             $.get('/api/get-aws-credentials', { api_token: $("#authToken").val() }, function(data) {
 
@@ -405,7 +387,7 @@
 
                 s3.deleteObject({
                     Bucket: albumBucketName,
-                    Key: 'new_files/' + file_key
+                    Key: path + file_key
                     }
                 , function(err, data) {
                     if (err) { 
@@ -430,7 +412,7 @@
         bind_browse_btn();
 
         $("#drop_zone").on('drop', function(ev) {
-            
+            $("#no-file").hide();
             // Prevent default behavior (Prevent file from being opened)
             ev.preventDefault();
 
@@ -440,7 +422,7 @@
                     if (ev.originalEvent.dataTransfer.items[0].kind === 'file') {
                         var file = ev.originalEvent.dataTransfer.items[0].getAsFile();
                         
-                        file_checker(file);
+                        upload_file(file);
                     }
                 
             } 
