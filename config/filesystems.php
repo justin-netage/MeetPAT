@@ -66,6 +66,14 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
         ],
+        'upload_s3' => [
+            'driver' => 's3',
+            'key' => env('UPLOAD_ACCESS_ID'),
+            'secret' => env('UPLOAD_SECRET_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
+            'bucket' => env('UPLOAD_BUCKET'),
+            'url' => env('AWS_URL'),
+        ],
         'sftp' => [
             'driver' => 'sftp',
             'host' => env('BSA_SFTP_URL'),

@@ -76,7 +76,10 @@
                             <!-- <input type="file" name="audience_file" class="filepond" id="audience_file"> -->
                             
                             <div class="invalid-feedback alert alert-danger" id="no-file" role="alert">
-                                <strong id="invalid-file">Please choose a valid .csv audience file to upload</strong>
+                                <div id="invalid-file">Please choose a valid .csv audience file to upload</div>
+                            </div>
+                            <div class="invalid-feedback alert alert-warning" id="file-warning" role="alert">
+                                <div id="file-warning-feedback"><strong>Warning!</strong> your file has bad rows that can not be uploaded.</div>
                             </div>
                             <br />
                             <div class="form-group">
@@ -152,6 +155,10 @@
             return uuid;
         }
 
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
         var file_checker = function(uuid) {
             $("#drop_zone .fileUploadBox").css('background-color', "#fff");
             $("#drop_zone").removeClass("no-file-dropped");
@@ -170,9 +177,7 @@
                 const check_job = setInterval(() => {
                     $.get("/api/meetpat-client/check-file-job", { api_token: $("#authToken").val(), job_id: data.id}, (data) => {
                         
-                        if(data.status == 'complete') {
-                            console.log("file check complete.");
-                        } else if(data.job.status == "error") {
+                        if(data.job.status == "error") {
                             clearInterval(check_job);
                             $("#drop_zone").html(
                                 "<div class=\"fileUploadBox d-flex flex-column justify-content-center\">" +
@@ -185,10 +190,19 @@
                             delete_file(uuid + ".csv", 'fixed_files/');                           
                             bind_browse_btn();
                             $("#no-file").show();
-                            $("#invalid-file").html('<strong>Error!</strong> ' + data.message);
+                            $("#invalid-file").html('<strong><i class="fas fa-exclamation-circle"></i>&nbsp;Error!</strong> ' + data.message);
 
                         } else if (data.job.status == "complete") {    
                             clearInterval(check_job);
+
+                            if(data.job.bad_rows_count) {
+                                $("#file-warning").show();
+                                $("#file-warning-feedback").html(
+                                    "<strong><i class=\"fas fa-exclamation-triangle\"></i>&nbsp;Warning</strong>" +
+                                    " Your file contains <strong>" + numberWithCommas(data.job.bad_rows_count) + "</strong> bad rows that will not be submitted." 
+                                )
+                            }
+                            
                             $("#drop_zone").html(
                                 "<div class=\"fileUploadBox d-flex flex-column justify-content-center\">" +
                                     "<div class=\"d-flex justify-content-between\">" +
@@ -200,6 +214,9 @@
                                 
                             $(".fa-undo-alt").unbind();
                             $(".fa-undo-alt").click(function() {
+                                $("#no-file").hide();
+                                $("#file-warning").hide();
+
                                 $("#drop_zone").html(
                                     "<div class=\"fileUploadBox d-flex flex-column justify-content-center\">" +
                                         "<div class=\"d-flex justify-content-between\">" +
@@ -211,9 +228,7 @@
                                 delete_file(uuid + ".csv", 'fixed_files/');
 
                             });
-                        } else {
-                            console.log(data.job.status);
-                        }
+                        } 
 
                     }).fail((error) => {
                         console.log(error);
@@ -361,7 +376,7 @@
                 
                 bind_browse_btn();
                 $("#no-file").show();
-                $("#invalid-file").html('<strong>Error!</strong> File is not a csv.');
+                $("#invalid-file").html('<strong><i class="fas fa-exclamation-circle"></i>&nbsp; Error!</strong> File format is not .csv. Format is .' + file.name.split('.')[1]);
             }
            
         }
@@ -413,6 +428,7 @@
 
         $("#drop_zone").on('drop', function(ev) {
             $("#no-file").hide();
+            $("#file-warning").hide();
             // Prevent default behavior (Prevent file from being opened)
             ev.preventDefault();
 
@@ -436,6 +452,28 @@
         })
         $("#drop_zone").on('dragleave dragend', function() {
             $("#drop_zone .fileUploadBox").css('background-color', "rgba(25, 25, 25, 0.1)");
+        });
+
+        $("form#upload-custom-audience").submit(function(e) {
+            e.preventDefault();
+            var i = new FormData(this);
+            $("#submit_audience").prop("disabled", !0), $("#submit_audience").html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;Submitting...'), $("#fieldsetId").prop("disabled", !0), $.ajax({
+                url: "/api/meetpat-client/large-data/handler",
+                type: "POST",
+                data: i,
+                success: function(e) {
+                    "success" == e.status ? ($("#loader").css("display", "none"), $("#submit_audience").html("Done"), $("#alert-section").empty(), $("#alert-section").append('<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Success!</strong> Clients have been uploaded successfully.<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> </div>'), window.location = "/meetpat-client/data-visualisation") : ($("#audience_name").removeClass("is-valid"), $("#audience_name").addClass("is-invalid"), document.getElementById("audience_name").setCustomValidity("invalid"), $("#submit_audience").prop("disabled", !1), $("#submit_audience").html("Submit"), $("#fieldsetId").prop("disabled", !1), $("#alert-section").empty(), $("#alert-section").append('<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Error!</strong> Clients failed to upload. ' + e.message + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> </div>'))
+                },
+                complete: function(e) {},
+                error: function(e) {
+                    $("#submit_audience").prop("disabled", !1), $("#submit_audience").html("Submit"), $("#alert-section").empty(), $("#alert-section").append('<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Error!</strong> Clients failed to upload.<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> </div>'), $("#fieldsetId").prop("disabled", !1)
+                },
+                cache: !1,
+                contentType: !1,
+                processData: !1
+            })
+        }), $("#audience_name").on("change keyup select", function() {
+            $(this).val().match(/^[a-zA-Z 0-9]{2,}$/) ? ($(this).addClass("is-valid"), $(this).removeClass("is-invalid"), this.setCustomValidity("")) : ($(this).removeClass("is-valid"), $(this).addClass("is-invalid"), this.setCustomValidity("invalid")), e()
         })
     });
 </script>
