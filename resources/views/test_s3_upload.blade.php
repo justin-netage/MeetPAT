@@ -193,6 +193,12 @@
                             $("#invalid-file").html('<strong><i class="fas fa-exclamation-circle"></i>&nbsp;Error!</strong> ' + data.message);
 
                         } else if (data.job.status == "complete") {    
+                            if($("#audience_name").val()) {
+                                $("#submit_audience").prop("disabled", false);
+                            } else {
+                                $("#submit_audience").prop("disabled", true);
+                            }
+
                             clearInterval(check_job);
 
                             if(data.job.bad_rows_count) {
@@ -214,6 +220,8 @@
                                 
                             $(".fa-undo-alt").unbind();
                             $(".fa-undo-alt").click(function() {
+                                $("#submit_audience").prop("disabled", true);
+                                $("#fileId").val("");
                                 $("#no-file").hide();
                                 $("#file-warning").hide();
 
@@ -314,6 +322,8 @@
                 $("#drop_zone .fileUploadBox .file-abort").append("<div class=\"cancelUpload\"><i class=\"text-danger fas fa-times-circle\"></i></div>");
 
                 $(".cancelUpload").click(function() {
+                    $("#submit_audience").prop("disabled", true);
+                    $("#fileId").val("");
                     $("#drop_zone .fileUploadBox .progress-bar").addClass('bg-danger');
                     upload.abort();
                 });
@@ -351,7 +361,7 @@
 
                     },
                     function(err) {
-                        //console.log(err, err.stack);
+                        console.log(err, err.stack);
                         $("#drop_zone .fileUploadBox .progress-bar").addClass('bg-danger');
                         $("#drop_zone").addClass("no-file-dropped");
                         $("#drop_zone").html(
@@ -473,8 +483,17 @@
                 processData: !1
             })
         }), $("#audience_name").on("change keyup select", function() {
-            $(this).val().match(/^[a-zA-Z 0-9]{2,}$/) ? ($(this).addClass("is-valid"), $(this).removeClass("is-invalid"), this.setCustomValidity("")) : ($(this).removeClass("is-valid"), $(this).addClass("is-invalid"), this.setCustomValidity("invalid")), e()
-        })
+            if($(this).val().match(/^[a-zA-Z 0-9]{2,}$/)) {
+                if($("#fileId").val()) {
+                    $("#submit_audience").prop("disabled", false);
+                } else {
+                    $("#submit_audience").prop("disabled", true);
+                }
+                $(this).addClass("is-valid"), $(this).removeClass("is-invalid"), this.setCustomValidity("")
+            } else {
+                $(this).removeClass("is-valid"), $(this).addClass("is-invalid"), this.setCustomValidity("invalid")
+            }
+        });
     });
 </script>
 

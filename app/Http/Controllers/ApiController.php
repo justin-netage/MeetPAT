@@ -12,36 +12,10 @@ class ApiController extends Controller
     {
         if($request->output_file_name)
         {
-            if(env('APP_ENV') == 'production')
-            {
-                $file_exists = \Storage::disk('sftp')->exists('Output/' . $request->output_file_name . '.csv');
-
-            } else {
-                $file_exists = \Storage::disk('local')->exists('Output/' . $request->output_file_name . '.csv');
-
-            }
+            $file_exists = \Storage::disk('bsa_s3')->exists('ready/' . $request->output_file_name . '.csv');
 
             if($file_exists)
             {
-                // if(env('APP_ENV') == 'production')
-                // {
-                //     $actual_file = \Storage::disk('sftp')->get('Output/' . $request->output_file_name . '.csv');
-                // } else {
-                //     $actual_file = \Storage::disk('local')->get('Output/' . $request->output_file_name . '.csv');
-                // }
-                
-                /**
-                 * Use csv parser to get file data information.
-                 */
-                // $csv = new \ParseCsv\Csv();
-                // $csv->delimiter = "|";
-                // $csv->parse($actual_file);
-                // // $parser = new \CsvParser\Parser('|', "'", "\n");
-                // // $file_data = $parser->fromString($actual_file);
-                // // $file_data_array = $parser->toArray($file_data);
-                // $file_data_array = $csv->data;
-                // $array = array_map("str_getcsv", explode("\n", $actual_file));
-                //          unset($array[0]);
 
                 $filname_arr = explode('_', $request->output_file_name);
 
