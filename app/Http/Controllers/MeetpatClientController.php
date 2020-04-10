@@ -1506,10 +1506,10 @@ class MeetpatClientController extends Controller
 
         if($job->status == "error") {
             if(!$job->valid_csv) {
-                $message = "Invalid csv file.";
+                $message = "Invalid csv file. Make sure that your csv file is using a <strong>comma</strong> or <strong>semicolon</strong> delimiter and that your headers match the templates.";
             } else {
                 if(!$job->matches_template) {
-                    $message = "File does not match template. <a href=\"https://s3.amazonaws.com/dashboard.meetpat/public/sample/MeetPAT Template.csv\">Download</a> the template file. Make sure that your csv file is using a comma or semicolon delimiter.";
+                    $message = "File does not match template. <a href=\"https://s3.amazonaws.com/dashboard.meetpat/public/sample/MeetPAT Template.csv\"><strong>Download</strong></a> the template file. Make sure that your csv file is using a <strong>comma</strong> or <strong>semicolon</strong> delimiter and that your headers match the templates.";
                 } else {
                     $client_uploads = \MeetPAT\User::find($job->user_id)->client_uploads;
                     $uploads_left = $client_uploads->upload_limit - $client_uploads->uploads;
