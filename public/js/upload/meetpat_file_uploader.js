@@ -107,8 +107,7 @@ $(document).ready(function() {
                         $(".fa-undo-alt").click(function() {
                             $("#submit_audience").prop("disabled", true);
                             $("#fileId").val("");
-                            $("#no-file").hide();
-                            $("#file-warning").hide();
+                            $("#no-file, #file-warning").hide();
 
                             $("#drop_zone").html(
                                 "<div class=\"fileUploadBox d-flex flex-column justify-content-center\">" +
@@ -146,6 +145,7 @@ $(document).ready(function() {
 
         $("#browseFile").on('change', function(e) {
             upload_file(e.target.files[0]);
+            $("#no-file, #file-warning").hide();
         });
     }
 
@@ -333,8 +333,7 @@ $(document).ready(function() {
     bind_browse_btn();
 
     $("#drop_zone").on('drop', function(ev) {
-        $("#no-file").hide();
-        $("#file-warning").hide();
+        $("#no-file, #file-warning").hide();
         // Prevent default behavior (Prevent file from being opened)
         ev.preventDefault();
 
