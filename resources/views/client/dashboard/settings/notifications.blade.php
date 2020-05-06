@@ -57,9 +57,9 @@
                             <div class="form-group col-md-12">
                                 <label for="inputEmailAddress">Email Address</label>
                                 @if($user_notification_detail and $user_notification_detail->contact_email)
-                                <input type="email" name="email_address" class="form-control" value="{{$user_notification_detail->contact_email}}" id="inputEmailAddress" placeholder="example@example.com" />
+                                <input type="email" name="email_address" class="form-control" value="{{$user_notification_detail->contact_email}}" id="inputEmailAddress" placeholder="{{$user_notification_detail->contact_email}}" />
                                 @else
-                                <input type="email" name="email_address" class="form-control" id="inputEmailAddress" placeholder="example@example.com" />
+                                <input type="email" name="email_address" class="form-control" id="inputEmailAddress" placeholder="{{\Auth::user()->email}}" />
                                 @endif
                                 <div class="invalid-feedback">
                                     This field is required.

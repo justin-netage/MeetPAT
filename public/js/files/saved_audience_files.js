@@ -17,27 +17,48 @@ $(document).ready(function() {
     
         $.get("/api/meetpat-client/files/get-saved-audiences",
             {api_token: auth_token, user_id: user_id, page: '', search_term: ''} ,function(data, textStatus,jqXHR) {
-            console.log(data);
+            //console.log(data);
             if(data.data.length) {
                 for(var key in data.data) {
                     if(data.data[key].fb_audience_upload_job.length) {
 
-                        var has_pending_job = false;
+                        var has_pending_job_fb = false;
 
                         for(var job_key in data.data[key].fb_audience_upload_job) {
                             
-                            if(data.data[key].fb_audience_upload_job[job_key].status == 'pending' || data.data[key].fb_audience_upload_job[job_key].status === 'processing')
+                            if(data.data[key].fb_audience_upload_job[job_key].status == 'pending' || data.data[key].fb_audience_upload_job[job_key].status == 'processing')
                             {
-                                has_pending_job = true;
+                                has_pending_job_fb = true;
                             } 
                         }
 
-                        if(has_pending_job) {
+                        if(has_pending_job_fb) {
                             $("#uploadToFb-" + data.data[key].id).html("<div><div class=\"bars3\" title=\"uploading\"><span></span><span></span><span></span><span></span><span></span></div></div>");
                             $("#mobileUploadToFb-" + data.data[key].id).html("<strong>Facebook</strong> <div><div class=\"bars3\" data-filter-id=\"" + data.data[key].id + "\"><span></span><span></span><span></span><span></span><span></span></div></div>");
                         } else {
                             $("#mobileUploadToFb-" + data.data[key].id).html("<strong>Facebook</strong> <i class=\"fab upload-to-fb fa-facebook-square text-facebook\" data-filter-id=\"" + data.data[key].id + "\"></i>");
                             $("#uploadToFb-" + data.data[key].id).html("<i class=\"fab upload-to-fb fa-facebook-square text-facebook\" data-filter-id=\"" + data.data[key].id + "\"></i>");
+                        }
+                    }
+
+                    if(data.data[key].google_audience_upload_job.length) {
+
+                        var has_pending_job_g = false;
+
+                        for(var job_key in data.data[key].google_audience_upload_job) {
+
+                            if(data.data[key].google_audience_upload_job[job_key].status == 'pending' || data.data[key].google_audience_upload_job[job_key].status == 'processing')
+                            {
+                                has_pending_job_g = true;
+                            }
+                        }
+                        
+                        if(has_pending_job_g) {
+                            $("#uploadToGoogle-" + data.data[key].id).html("<div><div class=\"bars3-google\" title=\"uploading\"><span></span><span></span><span></span><span></span><span></span></div></div>");
+                            $("#mobileUploadToGoogle-" + data.data[key].id).html("<strong>Google</strong> <div><div class=\"bars3-google\" data-filter-id=\"" + data.data[key].id + "\"><span></span><span></span><span></span><span></span><span></span></div></div>");
+                        } else {
+                            $("#mobileUploadToGoogle-" + data.data[key].id).html("<strong>Google</strong> <img class=\"upload-to-google\" src=\"https://s3.amazonaws.com/dashboard.meetpat/public/images/brands/Google-512.png\" />");
+                            $("#uploadToGoogle-" + data.data[key].id).html("<img class=\"upload-to-google\" src=\"https://s3.amazonaws.com/dashboard.meetpat/public/images/brands/Google-512.png\" />");
                         }
                     }
                 }
@@ -213,7 +234,7 @@ $(document).ready(function() {
 
         $.get("/api/meetpat-client/files/get-saved-audiences",
             {api_token: auth_token, user_id: user_id, page: page, search_term: search_term}, function(data, textStatus,jqXHR) {
-                console.log(data);
+                //console.log(data);
             $("#tableBody").empty();
             $("#mobileTableData tbody").empty();
             $("#refreshBtn").prop("disabled", 0);
@@ -255,7 +276,7 @@ $(document).ready(function() {
                         for(var job_key in data.data[key].google_audience_upload_job)
                         {
                             if(data.data[key].google_audience_upload_job[job_key].status === 'pending' || data.data[key].google_audience_upload_job[job_key].status === 'processing') {
-                                has_job_in_queue = true;
+                                has_job_in_queue_ad = true;
                             } 
                         }
 

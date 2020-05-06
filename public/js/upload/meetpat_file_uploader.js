@@ -123,7 +123,7 @@ $(document).ready(function() {
                     } 
 
                 }).fail((error) => {
-                    console.log(error);
+                    // console.log(error);
                 });
 
 
@@ -131,7 +131,7 @@ $(document).ready(function() {
 
             
         }).fail((error) => {
-            console.log(error);
+            // console.log(error);
         });
     }
 
@@ -247,7 +247,7 @@ $(document).ready(function() {
         
                         },
                         function(err) {
-                            console.log(err, err.stack);
+                            // console.log(err, err.stack);
                             $("#drop_zone .fileUploadBox .progress-bar").addClass('bg-danger');
                             $("#drop_zone").addClass("no-file-dropped");
                             $("#drop_zone").html(
@@ -261,7 +261,7 @@ $(document).ready(function() {
         
         
                     }).fail(function(error) {
-                        console.log(error);
+                        // console.log(error);
                     });
             } else {
                 $("#drop_zone").addClass("no-file-dropped");
@@ -325,7 +325,7 @@ $(document).ready(function() {
             });
 
         }).fail(function(error) {
-            console.log(error);
+            // console.log(error);
         })
     }
 
