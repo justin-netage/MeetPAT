@@ -118,6 +118,6 @@
 @section('scripts')
 <!-- TODO:  remove papaparse and perform all checks serverside with queued job -->
 <script src="https://sdk.amazonaws.com/js/aws-sdk-2.650.0.min.js"></script>
-<script src="{{asset('js/upload/meetpat_file_uploader.min.js')}}"></script>
+<script src="{{asset('js/upload/meetpat_file_uploader.js')}}"></script>
 
 @endsection
