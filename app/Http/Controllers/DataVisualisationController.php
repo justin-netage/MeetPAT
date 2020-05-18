@@ -71,39 +71,44 @@ class DataVisualisationController extends Controller
         $actual_file = null;
         $audience_names = [];
         $audience_files = \MeetPAT\AudienceFile::where("user_id", $request->user_id)->get();
+        $has_job_running = \MeetPAT\RecordsJobQue::where("status", "pending")->orWhere("status", "running")->where("user_id", $request->user_id)->get();
 
         foreach($audience_files as $audience_file) 
         {
             array_push($audience_names, explode(" - ", $audience_file->audience_name)[0]);
         }
 
-        if(!in_array($request->audience_name, $audience_names)) {
-            if(env('APP_ENV') == 'production') {
-                $actual_file = \Storage::disk('upload_s3')->get('fixed_files/' . $request->file_id . ".csv");
-                $queue_file = \Storage::disk('s3')->put('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id  . ".csv", $actual_file);
-                $actual_file = \Storage::disk('s3')->copy('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id  . ".csv", 'Temp/Enrichment/' . $request->file_id . '.csv');
+        if(!$has_job_running->count()) {
+            if(!in_array($request->audience_name, $audience_names)) {
+                if(env('APP_ENV') == 'production') {
+                    $actual_file = \Storage::disk('upload_s3')->get('fixed_files/' . $request->file_id . ".csv");
+                    $queue_file = \Storage::disk('s3')->put('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id  . ".csv", $actual_file);
+                    $actual_file = \Storage::disk('s3')->copy('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id  . ".csv", 'Temp/Enrichment/' . $request->file_id . '.csv');
+                } else {
+                    $actual_file = \Storage::disk('local')->get('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id  . ".csv");
+                }
+        
+                // $array = array_map("str_getcsv", explode("\n", $actual_file));
+                // unset($array[0]);
+                // unset($array[sizeof($array)]);
+        
+                if($actual_file) {
+               
+                    $audience_file = \MeetPAT\AudienceFile::create(['user_id' => $request->user_id, 'audience_name' => $request->audience_name . " - " . time(), 'file_unique_name' => $request->file_id, 'file_source_origin' => $request->file_source_origin]);
+                    $created_job_que = \MeetPAT\RecordsJobQue::create(
+                        ['user_id' => $request->user_id, 'audience_file_id' => $audience_file->id, 'status' => 'pending', 'records' => 0, 'records_completed' => 0]
+                    );
+        
+                } else {
+                    return response(array("status" => "error", "message" => "Server could not get file."));
+                }
+                //\MeetPAT\Jobs\EnrichRecords::dispatch();
+                return response()->json(array("status" => "success", "message" => "File uploaded successfully and queued for processing."));
             } else {
-                $actual_file = \Storage::disk('local')->get('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id  . ".csv");
+                return response()->json(array("status" => "error", "message" => "Audience File name has already been used."));
             }
-    
-            // $array = array_map("str_getcsv", explode("\n", $actual_file));
-            // unset($array[0]);
-            // unset($array[sizeof($array)]);
-    
-            if($actual_file) {
-           
-                $audience_file = \MeetPAT\AudienceFile::create(['user_id' => $request->user_id, 'audience_name' => $request->audience_name . " - " . time(), 'file_unique_name' => $request->file_id, 'file_source_origin' => $request->file_source_origin]);
-                $created_job_que = \MeetPAT\RecordsJobQue::create(
-                    ['user_id' => $request->user_id, 'audience_file_id' => $audience_file->id, 'status' => 'pending', 'records' => 0, 'records_completed' => 0]
-                );
-    
-            } else {
-                return response(array("status" => "error", "message" => "Server could not get file."));
-            }
-            //\MeetPAT\Jobs\EnrichRecords::dispatch();
-            return response()->json(array("status" => "success", "message" => "File uploaded successfully and queued for processing."));
         } else {
-            return response()->json(array("status" => "error", "message" => "Audience File name has already been used."));
+            return response()->json(array("status" => "error", "message" => "A file is already being processed at the moment. Refresh this window."));
         }
 
     }
