@@ -142,6 +142,6 @@ Route::get('/test-bsapi-balances', 'MiscController@bsapi_balance')->name('bsapi-
 
 /* Temp Route */
 
-Route::get('/test/s3-upload', 'MiscController@test_s3_upload')->name('test-s3-upload')->middleware('auth');
+Route::get('/test/s3-upload', 'MiscController@test_s3_upload')->name('test-s3-upload')->middleware('auth')->middleware('client');
 
 //Route::get('/test-facebook-custom-audience', 'FacebookCustomerAudienceController@create_custom_audience')->name('test-upload');
