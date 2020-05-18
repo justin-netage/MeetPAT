@@ -75,6 +75,7 @@ $(document).ready(function() {
                         delete_file(uuid + ".csv", 'fixed_files/');                           
                         bind_browse_btn();
                         $("#no-file").show();
+                        $("#file-warning").hide();
                         $("#invalid-file").html('<strong><i class="fas fa-exclamation-circle"></i>&nbsp;Error!</strong> ' + data.message);
 
                     } else if (data.job.status == "complete") {    

@@ -60,7 +60,7 @@ class DataVisualisationController extends Controller
             }
             
         } else {
-            return view('large_data_upload_form');
+            return view('enrich_data_upload');
         }
         
     }
