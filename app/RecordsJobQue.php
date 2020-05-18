@@ -13,4 +13,14 @@ class RecordsJobQue extends Model
     {
         return $this->belongsTo('\MeetPAT\AudienceFile', 'audience_file_id');
     }
+
+    public function process_tracking()
+    {
+        return $this->hasMany('\MeetPAT\ProcessTracking', 'job_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('\MeetPAT\User');
+    }
 }

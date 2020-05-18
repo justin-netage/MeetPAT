@@ -236,17 +236,10 @@ class AdministratorController extends Controller
 
         if($request->search_term)
         {
-            $users_array = \MeetPAT\User::select(["id", "name", "email", "created_at"])->where([['name', 'ilike', '%'.$request->search_term.'%']])->orWhere([['email', 'ilike', '%'.$request->search_term.'%']])->orderBy('created_at', 'desc')->paginate(10);
+            $users_array = \MeetPAT\User::select(["id", "name", "email", "created_at"])->has('client')->with('client')->where([['name', 'ilike', '%'.$request->search_term.'%']])->orWhere([['email', 'ilike', '%'.$request->search_term.'%']])->orderBy('created_at', 'desc')->paginate(10);
 
         } else {
-            $users_array = \MeetPAT\User::select(["id", "name", "email", "created_at"])->orderBy('created_at', 'desc')->paginate(10);
-        }
-
-        foreach($users_array as $key => $user)
-        {
-            if($users_array->items()[$key]['client'] == null) {
-                unset($users_array[$key]);
-            }
+            $users_array = \MeetPAT\User::select(["id", "name", "email", "created_at"])->has('client')->with('client')->orderBy('created_at', 'desc')->paginate(10);
         }
 
         return response()->json($users_array);
@@ -582,5 +575,28 @@ class AdministratorController extends Controller
     }
 
     /** END Reseller Controllers */
+
+    public function running_jobs() 
+    {
+
+        return view('admin.running_jobs');
+
+    }
+
+    public function get_running_jobs(Request $request)
+    {
+        $is_admin = \MeetPAT\User::find(\MeetPAT\User::where("api_token", $request["api_token"])->get()[0]->id)->admin()->get();
+        
+        if($is_admin) {
+            $user = \MeetPAT\User::where("api_token", $request->api_token)->get();
+            $jobs = \MeetPAT\RecordsJobQue::with(array('process_tracking', 'user'))->whereDate('created_at', '>' , Carbon::now()->subMonth())->orderBy('created_at', 'desc')->get();
+            
+            return response()->json($jobs);
+        } else {
+
+            return abort(401);
+        }
+        
+    }
 
 }

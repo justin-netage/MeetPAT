@@ -81,6 +81,16 @@
             </div>
         </a>
 
+        <a class="card-link card-link-danger" href="/meetpat-admin/running-jobs">
+            <div class="card border-danger">
+                <div class="card-header">Running Jobs</div>
+                <div class="card-body text-danger">
+                    <h5 class="card-title text-center"><i class="fas fa-database"></i></h5>
+                    <p class="card-text">View current and previous jobs.</p>
+                </div>
+            </div>
+        </a>
+
     </div>
 </div>
 @else

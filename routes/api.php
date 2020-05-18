@@ -55,15 +55,21 @@ Route::post('/meetpat-admin/delete-file', 'AdministratorController@delete_file')
 Route::get('/meetpat-admin/enriched-data-tracked-day', 'AdministratorController@get_enriched_data_tracking_day')->name('get-enriched-data-tracking-day');
 Route::get('/meetpat-admin/enriched-data-tracked-monthly', 'AdministratorController@get_enriched_data_tracking_monthly')->name('get-enriched-data-tracking-monthly');
 
+// Running Jobs
+// TODO: route to get jobs ( default is running jobs ) GET
+Route::get('/meetpat-admin/running-jobs', 'AdministratorController@get_running_jobs')->name('get-running-jobs')->middleware('auth:api');
+// TODO: route to action job ( Cancel ) if file has not been sent to BSA yet POST
+// TODO: route to action job ( Restart ) if completed or canceled POST
+// TODO: route to get job results ( current and complete ) GET
 
-// End Administrator routes
+
+
+/** END Administrator routes */
 
 // Password Generator
 Route::get('/meetpat-admin/generate-password', 'MiscController@generate_password')->name('password-generator');
 
 // TODO -> API routes for admin create reseller.
-
-/** END Administrator routes */
 
 /** BEGIN Client routes */
 
