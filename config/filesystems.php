@@ -68,8 +68,8 @@ return [
         ],
         'upload_s3' => [
             'driver' => 's3',
-            'key' => env('UPLOAD_ACCESS_ID'),
-            'secret' => env('UPLOAD_SECRET_KEY'),
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
             'region' => env('AWS_DEFAULT_REGION'),
             'bucket' => env('UPLOAD_BUCKET'),
             'url' => env('AWS_URL'),
