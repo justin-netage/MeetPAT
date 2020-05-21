@@ -3,6 +3,10 @@ Date.prototype.addHours = function(h) {
     return this;
   }
 
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 $(document).ready(function() {
 
     var api_token = $("#ApiToken").val();
@@ -38,14 +42,23 @@ $(document).ready(function() {
                     for( var p_key in data[key]["process_tracking"] ) {
                         if( data[key]["process_tracking"][p_key]["job"] == "matches_import" ) {
                             if(data[key]["process_tracking"][p_key]["status"] == "complete") {
-                                pt_matches = "<i class=\"fas fa-check-circle text-success\"></i>";
+                                if(data[key]["process_tracking"][p_key]["records_result"]) {
+                                    pt_matches = numberWithCommas(data[key]["process_tracking"][p_key]["records_result"]);
+                                } else {
+                                    pt_matches = "<i class=\"fas fa-check-circle text-success\"></i>";
+                                }
+                                
                             } else {
                                 pt_matches = data[key]["process_tracking"][p_key]["status"];
                             }
                             
                         } else if( data[key]["process_tracking"][p_key]["job"] == "enriched_import" ) {
                             if(data[key]["process_tracking"][p_key]["status"] == "complete") {
-                                pt_enrichment = "<i class=\"fas fa-check-circle text-success\"></i>";
+                                if(data[key]["process_tracking"][p_key]["records_result"]) {
+                                    pt_enrichment = numberWithCommas(data[key]["process_tracking"][p_key]["records_result"]);
+                                } else {
+                                    pt_enrichment = "<i class=\"fas fa-check-circle text-success\"></i>";
+                                }
                             } else {
                                 pt_enrichment = data[key]["process_tracking"][p_key]["status"];
                             }

@@ -53,12 +53,13 @@
                     <th class="text-center">Files</th>  
                     <th class="text-center">Edit</th>
                     <th class="text-center">Settings</th>
+                    <th class="text-center">Delete</th>
                     </tr>
                 </thead>
 
                 <tbody id="tableBody">
                     <tr>
-                        <td colspan="6">
+                        <td colspan="8">
                             <div class="d-flex align-items-center">
                                 <strong class="loading">Loading</strong>
                                 <div class="spinner-border ml-auto spinner-border-sm" role="status" aria-hidden="true"></div>
@@ -141,7 +142,7 @@
 
             $("#tableBody").html(
                 "<tr>" +
-                    "<td colspan=\"7\">" +
+                    "<td colspan=\"8\">" +
                         "<div class=\"d-flex align-items-center\">" +
                             "<strong class=\"loading\">Loading</strong>" +
                             "<div class=\"spinner-border ml-auto spinner-border-sm\" role=\"status\" aria-hidden=\"true\"></div>" +
@@ -185,6 +186,7 @@
                                 "<td class=\"text-center\"><a href=\"/meetpat-admin/users/files/" + data.data[key].id + "\"><i class=\"fas fa-folder mr-0\"></i></a></td>" +
                                 "<td class=\"text-center\"><i class=\"fas fa-pen mr-0\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_edit(this)\"></i></td>" +
                                 "<td class=\"text-center\"><i class=\"fas fa-sliders-h mr-0\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_settings(this)\"></i></td>" +
+                                "<td class=\"text-center\"><i class=\"fas fa-trash-alt mr-0 text-danger\" data-user-id=\"" + data.data[key].id + "\" onclick=\"delete_user(this)\"></i></td>" +
                             "</tr>"
                         );
 
@@ -203,6 +205,7 @@
                                         "<li><strong>Files</strong> <a href=\"/meetpat-admin/users/files/" + data.data[key].id + "\"><i class=\"fas fa-folder\"></i></a></li>" +
                                         "<li><strong>Edit</strong> <i class=\"fas fa-pen\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_edit(this)\"></i></li>" +
                                         "<li><strong>Settings</strong> <i class=\"fas fa-sliders-h\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_settings(this)\"></i></li>" +
+                                        "<li><strong>Delete</strong> <i class=\"fas fa-trash-alt mr-0 text-danger\" data-user-id=\"" + data.data[key].id + "\" onclick=\"delete_user(this)\"></i></li>" +
                                     "</ul>" +
                                 "</td>" +
                             "</tr>"
@@ -219,6 +222,7 @@
                                     "<td class=\"text-center\"><a href=\"/meetpat-admin/users/files/" + data.data[key].id + "\"><i class=\"fas fa-folder mr-0\"></i></a></td>" +
                                     "<td class=\"text-center\"><i class=\"fas fa-pen mr-0\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_edit(this)\"></i></td>" +
                                     "<td class=\"text-center\"><i class=\"fas fa-sliders-h mr-0\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_settings(this)\"></i></td>" +
+                                    "<td class=\"text-center\"><i class=\"fas fa-trash-alt text-danger mr-0\" data-user-id=\"" + data.data[key].id + "\" onclick=\"delete_user(this)\"></i></td>" +
                                 "</tr>"
                             );
 
@@ -237,7 +241,8 @@
                                             "<li><strong>Files</strong> <a href=\"/meetpat-admin/users/files/" + data.data[key].id + "\"><i class=\"fas fa-folder\"></i></a></li>" +
                                             "<li><strong>Edit</strong> <i class=\"fas fa-pen\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_edit(this)\"></i></li>" +
                                             "<li><strong>Settings</strong> <i class=\"fas fa-sliders-h\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_settings(this)\"></i></li>" +
-                                        "</ul>" +
+                                            "<li><strong>Delete</strong> <i class=\"fas fa-trash-alt mr-0 text-danger\" data-user-id=\"" + data.data[key].id + "\" onclick=\"delete_user(this)\"></i></li>" +
+                                            "</ul>" +
                                     "</td>" +
                                 "</tr>"
                             );
@@ -315,7 +320,7 @@
                 } else {
                         $("#tableBody").html(
                             "<tr>" +
-                                "<td colspan=\"7\">" +
+                                "<td colspan=\"8\">" +
                                     "<strong>No results found</strong>" +
                                 "</td>" +
                             "</tr>"

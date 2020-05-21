@@ -71,7 +71,7 @@ class DataVisualisationController extends Controller
         $actual_file = null;
         $audience_names = [];
         $audience_files = \MeetPAT\AudienceFile::where("user_id", $request->user_id)->get();
-        $has_job_running = \MeetPAT\RecordsJobQue::where("status", "pending")->orWhere("status", "running")->where("user_id", $request->user_id)->get();
+        $has_job_running = \MeetPAT\RecordsJobQue::where([["status" , "=", "pending"], ["user_id", "=", $request->user_id]])->orWhere([["status" , "=", "running"], ["user_id", "=", $request->user_id]])->get();
 
         foreach($audience_files as $audience_file) 
         {
