@@ -160,9 +160,9 @@
                                          @if(\Auth::user()->client)
                                          <span class="dropdown-item account-credits">Credits
                                             @if(\Auth::user()->client_uploads)
-                                                <span class="badge badge-pill badge-primary">{{number_format(\Auth::user()->client_uploads->uploads)}}/{{number_format(\Auth::user()->client_uploads->upload_limit)}}</span>
+                                                <span class="badge badge-pill badge-primary">{{number_format(\Auth::user()->client_uploads->upload_limit - \Auth::user()->client_uploads->uploads)}}</span>
                                             @else
-                                                <span class="badge badge-pill badge-primary">0/0</span>
+                                                <span class="badge badge-pill badge-primary">0</span>
                                             @endif
                                         </span>
                                         @endif

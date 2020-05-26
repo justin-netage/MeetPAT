@@ -22,7 +22,6 @@ class DataVisualisationController extends Controller
         $user_jobs_running = $user_jobs->where(function($q) {
             $q->where('status', 'pending')->orWhere('status', 'running');
         })->count();
-        //$user_jobs_complete = \MeetPAT\RecordsJobQue::where(['user_id' => $user->id, 'status' => 'done'])->first();
 
         if($user_jobs_running or $user_update_jobs_pending or $processing_all_records) {
             if($user_jobs_running  or $processing_all_records) {
