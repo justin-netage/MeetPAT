@@ -11,7 +11,7 @@
         "barryvdh/laravel-cors": "^0.11.3",
         "doctrine/dbal": "^2.9",
         "facebook/graph-sdk": "^5.7",
-        "facebook/php-ads-sdk": "^4.0",
+        "facebook/php-ads-sdk": "^6.0",
         "fideloper/proxy": "^4.0",
         "google/apiclient": "^2.0",
         "googleads/googleads-php-lib": "^38.0",
