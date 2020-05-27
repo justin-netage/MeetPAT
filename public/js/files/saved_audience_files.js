@@ -29,16 +29,16 @@ $(document).ready(function() {
                             if(data.data[key].fb_audience_upload_job[job_key].status == 'pending' || data.data[key].fb_audience_upload_job[job_key].status == 'processing')
                             {
                                 has_pending_job_fb = true;
-                            } 
+                            } else if(data.data[key].fb_audience_upload_job[job_key].status == 'complete') {
+                                $("#uploadToFb-" + data.data[key].id).html("<div><div title=\"complete\"><i class=\"fas fa-check-circle text-success mt-1\"></i></div></div>");
+                                $("#mobileUploadToFb-" + data.data[key].id).html("<strong>Facebook</strong> <div><div data-filter-id=\"" + data.data[key].id + "\"><i class=\"fas fa-check-circle text-success mt-1\"></i></div></div>");
+                            }
                         }
 
                         if(has_pending_job_fb) {
                             $("#uploadToFb-" + data.data[key].id).html("<div><div class=\"bars3\" title=\"uploading\"><span></span><span></span><span></span><span></span><span></span></div></div>");
                             $("#mobileUploadToFb-" + data.data[key].id).html("<strong>Facebook</strong> <div><div class=\"bars3\" data-filter-id=\"" + data.data[key].id + "\"><span></span><span></span><span></span><span></span><span></span></div></div>");
-                        } else {
-                            $("#mobileUploadToFb-" + data.data[key].id).html("<strong>Facebook</strong> <i class=\"fab upload-to-fb fa-facebook-square text-facebook\" data-filter-id=\"" + data.data[key].id + "\"></i>");
-                            $("#uploadToFb-" + data.data[key].id).html("<i class=\"fab upload-to-fb fa-facebook-square text-facebook\" data-filter-id=\"" + data.data[key].id + "\"></i>");
-                        }
+                        } 
                     }
 
                     if(data.data[key].google_audience_upload_job.length) {
@@ -50,15 +50,16 @@ $(document).ready(function() {
                             if(data.data[key].google_audience_upload_job[job_key].status == 'pending' || data.data[key].google_audience_upload_job[job_key].status == 'processing')
                             {
                                 has_pending_job_g = true;
+                            } else if(data.data[key].google_audience_upload_job[job_key].status == 'complete') {
+                                $("#uploadToGoogle-" + data.data[key].id).html("<div><div title=\"complete\"><i class=\"fas fa-check-circle text-success mt-1\"></i></div></div>");
+                                $("#mobileUploadToGoogle-" + data.data[key].id).html("<strong>Google</strong> <div><div data-filter-id=\"" + data.data[key].id + "\"><i class=\"fas fa-check-circle text-success mt-1\"></i></div></div>");
+    
                             }
                         }
                         
                         if(has_pending_job_g) {
                             $("#uploadToGoogle-" + data.data[key].id).html("<div><div class=\"bars3-google\" title=\"uploading\"><span></span><span></span><span></span><span></span><span></span></div></div>");
                             $("#mobileUploadToGoogle-" + data.data[key].id).html("<strong>Google</strong> <div><div class=\"bars3-google\" data-filter-id=\"" + data.data[key].id + "\"><span></span><span></span><span></span><span></span><span></span></div></div>");
-                        } else {
-                            $("#mobileUploadToGoogle-" + data.data[key].id).html("<strong>Google</strong> <img class=\"upload-to-google\" src=\"https://s3.amazonaws.com/dashboard.meetpat/public/images/brands/Google-512.png\" />");
-                            $("#uploadToGoogle-" + data.data[key].id).html("<img class=\"upload-to-google\" src=\"https://s3.amazonaws.com/dashboard.meetpat/public/images/brands/Google-512.png\" />");
                         }
                     }
                 }
@@ -260,8 +261,8 @@ $(document).ready(function() {
                             if(data.data[key].fb_audience_upload_job[job_key].status === 'pending' || data.data[key].fb_audience_upload_job[job_key].status === 'processing') {
                                 has_job_in_queue = true;
                             } else if(data.data[key].fb_audience_upload_job[job_key].status === 'complete') {
-                                fb_upload_html = "<td id=\"uploadToFb-" + data.data[key].id + "\" class=\"text-center\"><div><div data-filter-id=\"" + data.data[key].id + "\"><i class=\"fas fa-check-circle text-success\"></i></div></div></td>";
-                                mobile_fb_upload_html = "<li id=\"mobileUploadToFb-" + data.data[key].id + "\"><strong>Facebook</strong> <div><div data-filter-id=\"" + data.data[key].id + "\"><i class=\"fas fa-check-circle text-success\"></i></div></div></li>"
+                                fb_upload_html = "<td id=\"uploadToFb-" + data.data[key].id + "\" class=\"text-center\"><div><div data-filter-id=\"" + data.data[key].id + "\"><i class=\"fas fa-check-circle mt-1 text-success\"></i></div></div></td>";
+                                mobile_fb_upload_html = "<li id=\"mobileUploadToFb-" + data.data[key].id + "\"><strong>Facebook</strong> <div><div data-filter-id=\"" + data.data[key].id + "\"><i class=\"fas fa-check-circle text-success mt-1\"></i></div></div></li>"
     
                             }
                         }
@@ -282,8 +283,8 @@ $(document).ready(function() {
                             if(data.data[key].google_audience_upload_job[job_key].status === 'pending' || data.data[key].google_audience_upload_job[job_key].status === 'processing') {
                                 has_job_in_queue_ad = true;
                             } else if (data.data[key].google_audience_upload_job[job_key].status === 'complete') {
-                                google_upload_html = "<td id=\"uploadToGoogle-" + data.data[key].id + "\" class=\"text-center\"><div><div class=\"bars3-google\" data-filter-id=\"" + data.data[key].id + "\"><i class=\"fas fa-check-circle text-success\"></i></div></div></td>";
-                                mobile_google_upload_html = "<li id=\"mobileUploadToGoogle-" + data.data[key].id + "\"><strong>Google</strong> <div><div class=\"bars3-google\" data-filter-id=\"" + data.data[key].id + "\"><i class=\"fas fa-check-circle text-success\"></i></div></div></li>"
+                                google_upload_html = "<td id=\"uploadToGoogle-" + data.data[key].id + "\" class=\"text-center\"><div><div class=\"bars3-google\" data-filter-id=\"" + data.data[key].id + "\"><i class=\"fas fa-check-circle text-success mt-1\"></i></div></div></td>";
+                                mobile_google_upload_html = "<li id=\"mobileUploadToGoogle-" + data.data[key].id + "\"><strong>Google</strong> <div><div class=\"bars3-google\" data-filter-id=\"" + data.data[key].id + "\"><i class=\"fas fa-check-circle text-success mt-1\"></i></div></div></li>"
     
                             }
                         }
