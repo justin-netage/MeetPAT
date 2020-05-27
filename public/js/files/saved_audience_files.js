@@ -259,7 +259,11 @@ $(document).ready(function() {
                         {
                             if(data.data[key].fb_audience_upload_job[job_key].status === 'pending' || data.data[key].fb_audience_upload_job[job_key].status === 'processing') {
                                 has_job_in_queue = true;
-                            } 
+                            } else if(data.data[key].fb_audience_upload_job[job_key].status === 'pending') {
+                                fb_upload_html = "<td id=\"uploadToFb-" + data.data[key].id + "\" class=\"text-center\"><div><div data-filter-id=\"" + data.data[key].id + "\"><i class=\"fas fa-check-circle text-success\"></i></div></div></td>";
+                                mobile_fb_upload_html = "<li id=\"mobileUploadToFb-" + data.data[key].id + "\"><strong>Facebook</strong> <div><div data-filter-id=\"" + data.data[key].id + "\"><i class=\"fas fa-check-circle text-success\"></i></div></div></li>"
+    
+                            }
                         }
 
                         if(has_job_in_queue) {
@@ -277,7 +281,11 @@ $(document).ready(function() {
                         {
                             if(data.data[key].google_audience_upload_job[job_key].status === 'pending' || data.data[key].google_audience_upload_job[job_key].status === 'processing') {
                                 has_job_in_queue_ad = true;
-                            } 
+                            } else if (data.data[key].google_audience_upload_job[job_key].status === 'complete') {
+                                google_upload_html = "<td id=\"uploadToGoogle-" + data.data[key].id + "\" class=\"text-center\"><div><div class=\"bars3-google\" data-filter-id=\"" + data.data[key].id + "\"><i class=\"fas fa-check-circle text-success\"></i></div></div></td>";
+                                mobile_google_upload_html = "<li id=\"mobileUploadToGoogle-" + data.data[key].id + "\"><strong>Google</strong> <div><div class=\"bars3-google\" data-filter-id=\"" + data.data[key].id + "\"><i class=\"fas fa-check-circle text-success\"></i></div></div></li>"
+    
+                            }
                         }
 
                         if(has_job_in_queue_ad) {
