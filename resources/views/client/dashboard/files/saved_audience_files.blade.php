@@ -46,7 +46,7 @@
 
                 <tbody id="tableBody">
                     <tr>
-                        <td colspan="7">
+                        <td colspan="8">
                             <div class="d-flex align-items-center">
                                 <strong class="loading">Loading</strong>
                                 <div class="spinner-border ml-auto spinner-border-sm" role="status" aria-hidden="true"></div>

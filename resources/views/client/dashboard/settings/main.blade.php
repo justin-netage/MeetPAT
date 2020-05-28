@@ -22,7 +22,6 @@
                 </div>
             </div>
         </a>
-        @if(\Auth::user()->id == 101)
         <a class="card-link card-link-google" href="/meetpat-client/sync/google">
             <div class="card border-google">
                 <div class="card-header">Synch With Google</div>
@@ -32,7 +31,6 @@
                 </div>
             </div>
         </a>
-        @endif
     </div>
 </div>
 
