@@ -283,8 +283,8 @@ $(document).ready(function() {
                             if(data.data[key].google_audience_upload_job[job_key].status === 'pending' || data.data[key].google_audience_upload_job[job_key].status === 'processing') {
                                 has_job_in_queue_ad = true;
                             } else if (data.data[key].google_audience_upload_job[job_key].status === 'complete') {
-                                google_upload_html = "<td id=\"uploadToGoogle-" + data.data[key].id + "\" class=\"text-center\"><div><div class=\"bars3-google\" data-filter-id=\"" + data.data[key].id + "\"><i class=\"fas fa-check-circle text-success mt-1\"></i></div></div></td>";
-                                mobile_google_upload_html = "<li id=\"mobileUploadToGoogle-" + data.data[key].id + "\"><strong>Google</strong> <div><div class=\"bars3-google\" data-filter-id=\"" + data.data[key].id + "\"><i class=\"fas fa-check-circle text-success mt-1\"></i></div></div></li>"
+                                google_upload_html = "<td id=\"uploadToGoogle-" + data.data[key].id + "\" class=\"text-center\"><div><div data-filter-id=\"" + data.data[key].id + "\"><i class=\"fas fa-check-circle text-success mt-1\"></i></div></div></td>";
+                                mobile_google_upload_html = "<li id=\"mobileUploadToGoogle-" + data.data[key].id + "\"><strong>Google</strong> <div><div data-filter-id=\"" + data.data[key].id + "\"><i class=\"fas fa-check-circle text-success mt-1\"></i></div></div></li>"
     
                             }
                         }
