@@ -13,18 +13,16 @@
                         <input type="hidden" name="user_id" id="user_id" value="{{\Auth::user()->id}}">
                         <div class="form-group">
                             <label for="adwords_id">{{__('Google Ads Account ID') }}</label>
-                            <input type="text" name="adwords_id" id="adwords-id" placeholder="123-456-7890" autocomplete="off" value="{{ old('adwords_id') }}" class="form-control{{ $errors->has('adwords_id') ? ' is-invalid' : '' }}" autofocus>
+                            <input type="text" name="adwords_id" id="adwords-id" placeholder="xxx-xxx-xxxx" autocomplete="off" value="{{ old('adwords_id') }}" class="form-control{{ $errors->has('adwords_id') ? ' is-invalid' : '' }}" autofocus>
                             <span class="invalid-feedback" role="alert">
                                 <strong>Your Google Ads Account ID is required and must be in the correct format</strong>
                             </span>
                         </div>
-                        <div class="input-group mb-3">
+                        <div class="input mb-3">
                             <label for="auth_code" class="w-100">{{ __('Authorization Code') }}</label>
-
+                            <a href="{{$auth_uri}}" target="_blank" class="btn btn-outline-danger mb-2" id="button-addon2">Get Code</a>
                             <input id="auth-code" name="auth_code" type="text" placeholder="Enter your Authorization Code" max="1000" autocomplete="off" class="form-control{{ $errors->has('auth_code') ? ' is-invalid' : '' }}" name="auth_code" value="{{ old('auth_code') }}">
-                            <div class="input-group-append">
-                                <a href="{{$auth_uri}}" target="_blank" class="btn btn-outline-danger shadow-block" id="button-addon2">Get Code</a>
-                            </div>
+                            
                             <span class="invalid-feedback" role="alert">
                                 <strong>Please get your authorization code from Google by clicking "Get Code. Then copy and paste it."</strong>
                             </span>

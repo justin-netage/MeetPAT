@@ -70,6 +70,7 @@ $(document).ready(function() {
                 $(".upload-to-fb").click(function() {
                     filtered_audience_id = $(this).data("filter-id");
                     var confirmed = confirm("Are you sure that you want to upload \"" + $("#uploadToFb-" + filtered_audience_id).prev().html() + "\" to you custom audience lists?");
+                    // console.log(confirmed);
                     if(confirmed) {
                         $("#uploadToFBContainer").html(
                             "<div class=\"modal mt-5\" id=\"modalUploadToFB-" + filtered_audience_id + "\" tabindex=\"-1\" role=\"dialog\">" +
@@ -136,6 +137,7 @@ $(document).ready(function() {
             $(".upload-to-google").click(function() {
                 filtered_audience_id = $(this).data("filter-id"); 
                 var confirmed = confirm("Are you sure that you want to upload \"" + $("#fileName-" + filtered_audience_id).html() + "\" to you custom audience lists?");
+                // console.log(confirmed);
                 if(confirmed) {
                     $("#uploadToFBContainer").html(
                         "<div class=\"modal mt-5\" id=\"modalUploadToGoogle-" + filtered_audience_id + "\" tabindex=\"-1\" role=\"dialog\">" +
@@ -358,7 +360,7 @@ $(document).ready(function() {
                     var filtered_audience_id = $(this).data("filter-id");
 
                     var confirmed = confirm("Are you sure that you want to upload \"" + $("#uploadToFb-" + filtered_audience_id).prev().html() + "\" to you custom audience lists?");
-
+                    // console.log(confirmed);
                     if(confirmed) {
                         $("#uploadToFBContainer").html(
                             "<div class=\"modal mt-5\" id=\"modalUploadToFB-" + filtered_audience_id + "\" tabindex=\"-1\" role=\"dialog\">" +
@@ -424,6 +426,7 @@ $(document).ready(function() {
                 $(".upload-to-google").click(function() {
                     filtered_audience_id = $(this).data("filter-id");
                     var confirmed = confirm("Are you sure that you want to upload \"" + $("#fileName-" + filtered_audience_id).html() + "\" to you custom audience lists?");
+                    // console.log(confirmed);
                     if(confirmed) {
                         $("#uploadToGoogleContainer").html(
                             "<div class=\"modal mt-5\" id=\"modalUploadToGoogle-" + filtered_audience_id + "\" tabindex=\"-1\" role=\"dialog\">" +
