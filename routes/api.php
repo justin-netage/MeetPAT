@@ -33,7 +33,7 @@ Route::get('/meetpat-admin/users/count', 'AdministratorController@user_count')->
 Route::post('/meetpat-admin/users/create', 'AdministratorController@create_user')->name('create-user')->middleware('auth');
 Route::post('/meetpat-admin/users/edit', 'AdministratorController@edit_user')->name('edit-user');
 Route::post('/meetpat-admin/users/active-status-change', 'AdministratorController@active_change')->name('change-user-status')->middleware('auth:api');
-Route::post('/meetpat-admin/users/delete', 'AdministratorController@delete')->name('delete-user');
+Route::post('/meetpat-admin/users/delete', 'AdministratorController@delete_user')->name('delete-user');
 
 Route::post('/meetpat-admin/users/unique-email', 'AdministratorController@unique_email')->name('unique-email');
 

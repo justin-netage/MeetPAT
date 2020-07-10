@@ -107,7 +107,7 @@ var open_edit = function(client) {
     var users_id = client.getAttribute("data-user-id");
 
     $("#modalsContainer").html(`
-        <div class="modal" tabindex="-1" id="editModal" role="dialog">
+        <div class="modal" data-backdrop="static" data-keyboard="false" tabindex="-1" id="editModal" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
@@ -357,7 +357,7 @@ var open_settings = function(client) {
     var users_id = client.getAttribute("data-user-id");
 
     $("#modalsContainer").html(`
-        <div class="modal" tabindex="-1" id="settingsModal" role="dialog">
+        <div class="modal" data-backdrop="static" data-keyboard="false" tabindex="-1" id="settingsModal" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
@@ -586,3 +586,115 @@ var open_settings = function(client) {
     });
 }   
     
+var delete_user = function(client) {
+    var user_id = client.getAttribute("data-user-id");
+    var user_name = client.getAttribute("data-user-name");
+
+    $("#modalsContainer").html(`
+        <form id="clientSettingsForm" onsubmit="return false;" novalidate="">
+            <div class="modal fade" id="deleteClientModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="deleteClientModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">  
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteClientModalLabel">Delete Client (${user_name})</h5>
+                        <button type="button" id="closeModal" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modalBody">
+                        <label>Confrim client name to delete</label>
+                        <input name="user_name" class="form-control" id="deleteClient-${user_id}" placeholder="Enter Client Name" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closeBtn" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" id="deleteClientBtn" class="btn btn-danger">Delete Client</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </form>`
+    );
+    $("#deleteClientModal").modal("show");
+    $("#deleteClientBtn").prop("disabled", 1);
+
+    $("#deleteClientBtn").click(function() {
+        $("#deleteClientBtn").prop("disabled", 1);
+        $("#closeBtn").prop("disabled", 1);
+        $("#closeModal").prop("disabled", 1);
+        $("#deleteClientBtn").html(`
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <strong>&nbsp;Requesting...</strong>
+        `);
+        var xhr_delete_user = $.ajax({
+            url: '/api/meetpat-admin/users/delete',
+            method: 'POST',
+            data: {
+                user_id: user_id,
+                user_name: user_name
+            },
+            success: function(data) {
+                
+                if(data.status == "success") {
+                    $("#deleteClientBtn").html("Done");
+                    $("#deleteClientBtn").removeClass("btn-danger");
+                    $("#deleteClientBtn").addClass("btn-success");
+                    $("#closeBtn").prop("disabled", 0);
+                    $("#closeModal").prop("disabled", 0);
+                    $("#modalBody .alert").remove();
+                    $("#modalBody").prepend(`
+                        <div class="alert alert-success" role="alert"><strong>Success</strong> - Client queued for removal.</div>
+                    `);
+                    $("#client-" + user_id).remove();
+                    $("#client-mobile-heading-" + user_id).remove();
+                    $("#client-mobile-body-" + user_id).remove();
+                    $("#refreshBtn").click();
+                } else {
+                    $("#modalBody .alert").remove();
+                    $("#modalBody").prepend(`
+                        <div class="alert alert-danger" role="alert"><strong>Error</strong> - An error occured getting user data. Reload the current page or contact support for assistance.</div>
+                    `);
+                    $("#deleteClientBtn").prop("disabled", 0);
+                    $("#closeBtn").prop("disabled", 0);
+                    $("#closeModal").prop("disabled", 0);
+                    $("#deleteClientBtn").html("Delete Client");
+                }
+            },
+            error: function(error) {
+                $("#modalBody .alert").remove();
+                $("#modalBody").prepend(`
+                    <div class="alert alert-danger" role="alert"><strong>Error</strong> - An error occured getting user data. Reload the current page or contact support for assistance.</div>
+                `);
+                $("#deleteClientBtn").prop("disabled", 0);
+                $("#closeBtn").prop("disabled", 0);
+                $("#closeModal").prop("disabled", 0);
+                $("#deleteClientBtn").html("Delete Client");
+                console.log(error);
+            }
+        });
+
+        $('#deleteClientModal').on('hidden.bs.modal', function () {
+            xhr_delete_user.abort();
+            $("#modalsContainer").empty();
+        });
+    });
+
+    $("#deleteClient-" + user_id).on('keyup', function() {
+        if($(this).val() == user_name) {
+            $(this).removeClass('is-invalid');
+            $("#deleteClientBtn").prop("disabled", 0);
+            if(!$(this).hasClass('is-valid')) {
+                $(this).addClass("is-valid");
+            }
+        } else if ($(this).val().length == 0) {
+            $("#deleteClientBtn").prop("disabled", 1);
+            $(this).removeClass('is-invalid');
+            
+        } else {
+            $(this).removeClass('is-valid');
+            $("#deleteClientBtn").prop("disabled", 1);
+            if(!$(this).hasClass('is-invalid')) {
+                $(this).addClass("is-invalid");
+            }
+        }
+    });
+}

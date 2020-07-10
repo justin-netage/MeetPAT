@@ -236,10 +236,13 @@ class AdministratorController extends Controller
 
         if($request->search_term)
         {
-            $users_array = \MeetPAT\User::select(["id", "name", "email", "created_at"])->has('client')->with('client')->where([['name', 'ilike', '%'.$request->search_term.'%']])->orWhere([['email', 'ilike', '%'.$request->search_term.'%']])->orderBy('created_at', 'desc')->paginate(10);
+            $users_array = \MeetPAT\User::select(["id", "name", "email", "created_at"])->has('client')->doesnthave('client_removal')
+                            ->with('client')->where([['name', 'ilike', '%'.$request->search_term.'%']])->has('client')->doesnthave('client_removal')
+                            ->orWhere([['email', 'ilike', '%'.$request->search_term.'%']])->has('client')->doesnthave('client_removal')
+                            ->orderBy('created_at', 'desc')->paginate(10);
 
         } else {
-            $users_array = \MeetPAT\User::select(["id", "name", "email", "created_at"])->has('client')->with('client')->orderBy('created_at', 'desc')->paginate(10);
+            $users_array = \MeetPAT\User::select(["id", "name", "email", "created_at"])->has('client')->doesnthave('client_removal')->with('client')->orderBy('created_at', 'desc')->paginate(10);
         }
 
         return response()->json($users_array);
@@ -597,6 +600,26 @@ class AdministratorController extends Controller
             return abort(401);
         }
         
+    }
+
+    public function delete_user(Request $request)
+    {
+        $user = \MeetPAT\User::where(["name" => $request->user_name, "id" => $request->user_id])->get();
+                
+        if($user) {
+            $user_update = \MeetPAT\User::find($user[0]->id);
+            $user_update->email = "";
+            $user_update->save();
+            $user_update->client->update(['active' => 0 ]);
+            
+            $create_job = \MeetPAT\DeleteUserJobQueue::create(["user_id" => $user[0]->id, "status" => "pending"]);
+                        
+        } else {
+            return response()->json(["status" => "error", "message" => "The selected user has no records in the database."]);
+        }
+
+        
+        return response()->json(["status" => "success", "message" => "Success. Client Queued for Deletion"]);
     }
 
 }

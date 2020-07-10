@@ -80,4 +80,9 @@ class User extends Authenticatable
     {
         return $this->hasOne('\MeetPAT\ClientNotificationDetail');
     }
+
+    public function client_removal()
+    {
+        return $this->hasOne('\MeetPAT\DeleteUserJobQueue', 'user_id');
+    }
 }

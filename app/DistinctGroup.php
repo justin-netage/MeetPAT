@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class DistinctGroup extends Model
 {
     //
-    protected $filable = [
+    protected $fillable = [
         'user_id',
         'contact_category',
         'gender',

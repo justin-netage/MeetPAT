@@ -113,7 +113,7 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="{{asset('js/meetpat_clients.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/meetpat_clients.js')}}"></script>
 <script type="text/javascript">
     var auth_token = $("#ApiToken").val();    
 
@@ -171,12 +171,12 @@
                 $("#InputSearchTerm").prop("disabled", 0);
                 $("#InputSearchTerm").focus();
                 
-                if(Object.keys(data).length) {
+                if(Object.keys(data).length && data.data.length) {
                     for(var key in data.data) {
                         
                         if(data.data[key].client.active == true) {
                         $("#tableBody").append(
-                            "<tr>" +
+                            "<tr id=\"client-" + data.data[key].id + "\">" +
                                 "<td class=\"text-center\">" + data.data[key].id + "</td>" +
                                 "<td>" + data.data[key].name + "</td>" +
                                 "<td><a href=\"mailto:" + data.data[key].email + "?Subject=MeetPAT\" target=\"_top\">" + data.data[key].email + "</a></td>" +
@@ -186,16 +186,16 @@
                                 "<td class=\"text-center\"><a href=\"/meetpat-admin/users/files/" + data.data[key].id + "\"><i class=\"fas fa-folder mr-0\"></i></a></td>" +
                                 "<td class=\"text-center\"><i class=\"fas fa-pen mr-0\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_edit(this)\"></i></td>" +
                                 "<td class=\"text-center\"><i class=\"fas fa-sliders-h mr-0\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_settings(this)\"></i></td>" +
-                                "<td class=\"text-center\"><i class=\"fas fa-trash-alt mr-0 text-danger\" data-user-id=\"" + data.data[key].id + "\" onclick=\"delete_user(this)\"></i></td>" +
+                                "<td class=\"text-center\"><i class=\"fas fa-trash-alt mr-0 text-danger\" data-user-id=\"" + data.data[key].id + "\" data-user-name=\"" + data.data[key].name + "\" onclick=\"delete_user(this)\"></i></td>" +
                             "</tr>"
                         );
 
                         $("#mobileTableData tbody").append(
-                            "<tr class=\"mainData d-flex\">" +
+                            "<tr id=\"client-mobile-heading-" + data.data[key].id + "\" class=\"mainData d-flex\">" +
                                 "<td class=\"text-center show-more col-2\"><i class=\"fas fa-plus-circle mr-0\"></i></td>" +
                                 "<td class=\"col-10\">" + data.data[key].name + "</td>" +
                             "</tr>" +
-                            "<tr class=\"secondaryData d-none\">" +
+                            "<tr id=\"client-mobile-body-" + data.data[key].id + "\" class=\"secondaryData d-none\">" +
                                 "<td class=\"col-2\"></td>" +
                                 "<td class=\"col-10\">" +
                                     "<ul class=\"list-unstyled\">" +
@@ -205,7 +205,7 @@
                                         "<li><strong>Files</strong> <a href=\"/meetpat-admin/users/files/" + data.data[key].id + "\"><i class=\"fas fa-folder\"></i></a></li>" +
                                         "<li><strong>Edit</strong> <i class=\"fas fa-pen\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_edit(this)\"></i></li>" +
                                         "<li><strong>Settings</strong> <i class=\"fas fa-sliders-h\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_settings(this)\"></i></li>" +
-                                        "<li><strong>Delete</strong> <i class=\"fas fa-trash-alt mr-0 text-danger\" data-user-id=\"" + data.data[key].id + "\" onclick=\"delete_user(this)\"></i></li>" +
+                                        "<li><strong>Delete</strong> <i class=\"fas fa-trash-alt mr-0 text-danger\" data-user-id=\"" + data.data[key].id + "\" data-user-name=\"" + data.data[key].name + "\" onclick=\"delete_user(this)\"></i></li>" +
                                     "</ul>" +
                                 "</td>" +
                             "</tr>"
@@ -222,7 +222,7 @@
                                     "<td class=\"text-center\"><a href=\"/meetpat-admin/users/files/" + data.data[key].id + "\"><i class=\"fas fa-folder mr-0\"></i></a></td>" +
                                     "<td class=\"text-center\"><i class=\"fas fa-pen mr-0\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_edit(this)\"></i></td>" +
                                     "<td class=\"text-center\"><i class=\"fas fa-sliders-h mr-0\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_settings(this)\"></i></td>" +
-                                    "<td class=\"text-center\"><i class=\"fas fa-trash-alt text-danger mr-0\" data-user-id=\"" + data.data[key].id + "\" onclick=\"delete_user(this)\"></i></td>" +
+                                    "<td class=\"text-center\"><i class=\"fas fa-trash-alt text-danger mr-0\" data-user-id=\"" + data.data[key].id + "\" data-user-name=\"" + data.data[key].name + "\" onclick=\"delete_user(this)\"></i></td>" +
                                 "</tr>"
                             );
 
@@ -241,7 +241,7 @@
                                             "<li><strong>Files</strong> <a href=\"/meetpat-admin/users/files/" + data.data[key].id + "\"><i class=\"fas fa-folder\"></i></a></li>" +
                                             "<li><strong>Edit</strong> <i class=\"fas fa-pen\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_edit(this)\"></i></li>" +
                                             "<li><strong>Settings</strong> <i class=\"fas fa-sliders-h\" data-user-id=\"" + data.data[key].id + "\" onclick=\"open_settings(this)\"></i></li>" +
-                                            "<li><strong>Delete</strong> <i class=\"fas fa-trash-alt mr-0 text-danger\" data-user-id=\"" + data.data[key].id + "\" onclick=\"delete_user(this)\"></i></li>" +
+                                            "<li><strong>Delete</strong> <i class=\"fas fa-trash-alt mr-0 text-danger\" data-user-id=\"" + data.data[key].id + "\" data-user-name=\"" + data.data[key].name + "\" onclick=\"delete_user(this)\"></i></li>" +
                                             "</ul>" +
                                     "</td>" +
                                 "</tr>"
