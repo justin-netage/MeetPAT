@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="row d-none d-sm-block" id="tableData">
-        <div class="col-12 table-responsive">
+        <div class="col-12">
             <table class="table table-bordered table-striped table-hover table-sm">
                 <thead>
                     <tr>
@@ -38,8 +38,8 @@
                         <th>File Name</th>
                         <th class="text-center">Facebook</th>
                         <th class="text-center">Google</th>
-                        <th class="text-center">Size</th>
-                        <th class="text-center">Download</th>
+                        <!-- <th class="text-center">Size</th> -->
+                        <!-- <th class="text-center">Download</th> -->
                         <th class="text-center">Delete</th>
                     </tr>
                 </thead>

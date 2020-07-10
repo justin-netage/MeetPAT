@@ -305,8 +305,8 @@ $(document).ready(function() {
                             "<td id=\"fileName-" + data.data[key].id + "\" class=\"text-truncate\" style=\"max-width: 125px;\" title=\"" + data.data[key].file_name + "\">" + data.data[key].file_name + "</td>" +
                                 fb_upload_html +
                                 google_upload_html +
-                            "<td class=\"text-center\">" + data.data[key].size + "</td>" +
-                            "<td class=\"text-center\">" + "<a href=\"" + data.data[key].download + "\"><i class=\"fas fa-file-csv\"></i></a></td>" +
+                            // "<td class=\"text-center\">" + data.data[key].size + "</td>" +
+                            // "<td class=\"text-center\">" + "<a href=\"" + data.data[key].download + "\"><i class=\"fas fa-file-csv\"></i></a></td>" +
                             "<td class=\"text-center\">" + "<a href=\"#\" class=\"delete-file\" data-file-uuid=\"" + data.data[key].file_unique_name + "\" data-filename=\"" + data.data[key].file_name + "\"><i class=\"fas fa-trash-alt text-danger\"></i></a></td>" +
                         "</tr>" 
                     );
@@ -322,10 +322,10 @@ $(document).ready(function() {
                                 "<ul class=\"list-unstyled\">" +
                                     "<li><strong>#</strong> " + (parseInt(key, 10) + 1) + "</li>" +
                                     "<li><strong>Date</strong> " + data.data[key].created_at + "</li>" +
-                                    "<li><strong>Size</strong> " + data.data[key].size + "</li>" +
+                                    // "<li><strong>Size</strong> " + data.data[key].size + "</li>" +
                                      mobile_fb_upload_html +
                                      mobile_google_upload_html +
-                                    "<li><strong>Download</strong> <a href=\"" + data.data[key].download + "\"><i class=\"fas fa-file-csv\"></i></a></li>" +
+                                    // "<li><strong>Download</strong> <a href=\"" + data.data[key].download + "\"><i class=\"fas fa-file-csv\"></i></a></li>" +
                                     "<li><strong>Delete</strong> <a href=\"#\" class=\"delete-file\" data-file-uuid=\"" + data.data[key].file_unique_name + "\" data-filename=\"" + data.data[key].file_name + "\"><i class=\"fas fa-trash-alt text-danger\"></i></a></li>" +
                                 "</ul>" +
                             "</td>" +
