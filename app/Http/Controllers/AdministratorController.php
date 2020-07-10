@@ -608,7 +608,7 @@ class AdministratorController extends Controller
                 
         if($user) {
             $user_update = \MeetPAT\User::find($user[0]->id);
-            $user_update->email = "";
+            $user_update->email = null;
             $user_update->save();
             $user_update->client->update(['active' => 0 ]);
             
