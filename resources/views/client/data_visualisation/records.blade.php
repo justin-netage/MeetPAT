@@ -872,7 +872,7 @@
         </nav>
         <div class="row">
             <div class="col-12">
-            <a href="/meetpat-client/files/saved-audience-files" target="_blank">Upload saved audiences to you facebook custom audience lists. <i class="fas fa-external-link-alt"></i></a>
+            <a href="/meetpat-client/files/saved-audience-files" target="_blank">Upload saved audiences to Facebook or Google custom audience lists. <i class="fas fa-external-link-alt"></i></a>
             </div>
         </div>
       </div>
