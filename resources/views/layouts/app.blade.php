@@ -118,6 +118,11 @@
                             @else
                             <li><a class="nav-link nav-link-inactive" href="{{ route('meetpat-data-visualisation') }}"><i class="fas fa-chart-line"></i>&nbsp;Dashboard</a></li>
                             @endif
+                            @if(Request::path() == 'meetpat-client/files/saved-audience-files')
+                            <li class="active"><a class="nav-link nav-link-active" href="{{ route('client-saved-files') }}"><i class="fas fa-save"></i>&nbsp;Saved Audiences</a></li>
+                            @else
+                            <li><a class="nav-link nav-link-inactive" href="{{ route('client-saved-files') }}"><i class="fas fa-save"></i></i>&nbsp;Saved Audiences</a></li>
+                            @endif
                         @endif
                     @endguest
 
