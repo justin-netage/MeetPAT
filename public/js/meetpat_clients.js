@@ -602,7 +602,7 @@ var delete_user = function(client) {
                         </button>
                     </div>
                     <div class="modal-body" id="modalBody">
-                        <label>Confrim client name to delete</label>
+                        <label>Confirm client name to delete</label>
                         <input name="user_name" class="form-control" id="deleteClient-${user_id}" placeholder="Enter Client Name" />
                     </div>
                     <div class="modal-footer">

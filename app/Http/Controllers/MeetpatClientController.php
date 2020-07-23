@@ -1438,14 +1438,14 @@ class MeetpatClientController extends Controller
             $files_array->items()[$key]["created_at"] = Carbon::parse($files_array->items()[$key]["created_at"])->addHour(2);
 
             
-            // if(\Storage::disk('s3')->exists('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv'))
-            // {
-            //     $files_array->items()[$key]["download"] = \Storage::disk('s3')->temporaryUrl('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv', now()->addMinutes(60), ['Content-Type' => 'text/csv', 'ResponseContentType' => 'text/csv', 'ResponseContentDisposition' => 'attachment; filename=' . explode(" - ", $files_array->items()[$key]["audience_name"])[0] . ".csv"]);
-            //     $files_array->items()[$key]["size"] = round(\Storage::disk('s3')->size('client/client-records/user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv') / 1024 / 1024, 2) . "MB";
-            // } else {
+            if(\Storage::disk('s3')->exists('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv'))
+            {
+                $files_array->items()[$key]["download"] = \Storage::disk('s3')->temporaryUrl('client/client-records/' . 'user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv', now()->addMinutes(60), ['Content-Type' => 'text/csv', 'ResponseContentType' => 'text/csv', 'ResponseContentDisposition' => 'attachment; filename=' . explode(" - ", $files_array->items()[$key]["audience_name"])[0] . ".csv"]);
+                $files_array->items()[$key]["size"] = round(\Storage::disk('s3')->size('client/client-records/user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv') / 1024 / 1024, 2) . "MB";
+            } else {
                 $files_array->items()[$key]["download"] = "/404";
                 $files_array->items()[$key]["size"] = "N\A";
-            // }
+            }
     
             
         }

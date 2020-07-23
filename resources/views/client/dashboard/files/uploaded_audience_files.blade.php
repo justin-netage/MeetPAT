@@ -38,8 +38,8 @@
                         <th>Date</th>
                         <th>Audience Name</th>
                         <th>Original Data Source</th>
-                        <!-- <th class="text-center">Size</th> -->
-                        <!-- <th class="text-center">Download</th> -->
+                        <th class="text-center">Size</th>
+                        <th class="text-center">Download</th>
                     </tr>
                 </thead>
 
@@ -162,8 +162,8 @@
                                 "<td>" + data.data[key].created_at + "</td>" +
                                 "<td>" + data.data[key].audience_name + "</td>" +
                                 "<td>" + data.data[key].file_source_origin + "</td>" +
-                                // "<td class=\"text-center\">" + data.data[key].size + "</td>" +
-                                // "<td class=\"text-center\">" + "<a href=\"" + data.data[key].download + "\"><i class=\"fas fa-file-csv\"></i></a></td>" +
+                                "<td class=\"text-center\">" + data.data[key].size + "</td>" +
+                                "<td class=\"text-center\">" + "<a href=\"" + data.data[key].download + "\"><i class=\"fas fa-file-csv\"></i></a></td>" +
                             "</tr>" 
                         );
 
@@ -179,8 +179,8 @@
                                         "<li><strong>#</strong> " + (parseInt(key, 10) + 1) + "</li>" +
                                         "<li><strong>Date</strong> " + data.data[key].created_at + "</li>" +
                                         "<li><strong data-toggle=\"tooltip\" title=\"Original Data Source\" data-trigger=\"click\">ODS</strong> " + data.data[key].file_source_origin + " </li>" +
-                                        // "<li><strong>Size</strong> " + data.data[key].size + "</li>" +
-                                        // "<li><strong>Download</strong> <a href=\"" + data.data[key].download + "\"><i class=\"fas fa-file-csv\"></i></a></li>" +
+                                        "<li><strong>Size</strong> " + data.data[key].size + "</li>" +
+                                        "<li><strong>Download</strong> <a href=\"" + data.data[key].download + "\"><i class=\"fas fa-file-csv\"></i></a></li>" +
                                     "</ul>" +
                                 "</td>" +
                             "</tr>"
