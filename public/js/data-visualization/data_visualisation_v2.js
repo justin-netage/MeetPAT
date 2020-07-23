@@ -1653,6 +1653,16 @@ function DrawLocationCharts() {
 
 }
 
+/** Temp Function to fix naming. Remove When database is migrated */
+var fix_naming = function(name) {
+    if(name == "Fourties") {
+        return "Forties";
+    } else {
+        return name;
+    }
+}
+/** */
+
 function drawDemographicGraphs() {
 
     data = { user_id: user_id_number, filter_type: filter_type, api_token: user_auth_token };
@@ -1673,7 +1683,7 @@ function drawDemographicGraphs() {
             data_ages.addColumn({type: 'string', role: 'annotation'});
     
             var result_ages = Object.keys(data["ages"]).map(function(key) {
-                return [data["ages"][key]["ageGroup"], data["ages"][key]["audience"], kFormatter(data["ages"][key]["audience"])];
+                return [fix_naming(data["ages"][key]["ageGroup"]), data["ages"][key]["audience"], kFormatter(data["ages"][key]["audience"])];
               });
         
                 data_ages.addRows(result_ages);
@@ -1702,11 +1712,11 @@ function drawDemographicGraphs() {
                 for (var key in data["ages_distinct"]) {
                     if(target_ages.includes(data["ages_distinct"][key]["ageGroup"])) {
                         $("#age_filter").append(
-                            '<input type="checkbox" name="' + data["ages_distinct"][key]["ageGroup"].toLowerCase().replace(/ /g, "_").replace("+", "plus") + '" id="age_' + data["ages_distinct"][key]["ageGroup"].toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option' +'" value="' + data["ages_distinct"][key]["ageGroup"] + '" class="css-checkbox" checked="checked"><label for="age_' + data["ages_distinct"][key]["ageGroup"].toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option' +'" class="css-label">' + data["ages_distinct"][key]["ageGroup"] + '</label><br />'
+                            '<input type="checkbox" name="' + data["ages_distinct"][key]["ageGroup"].toLowerCase().replace(/ /g, "_").replace("+", "plus") + '" id="age_' + data["ages_distinct"][key]["ageGroup"].toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option' +'" value="' + data["ages_distinct"][key]["ageGroup"] + '" class="css-checkbox" checked="checked"><label for="age_' + data["ages_distinct"][key]["ageGroup"].toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option' +'" class="css-label">' + fix_naming(data["ages_distinct"][key]["ageGroup"]) + '</label><br />'
                         );
                     } else {
                         $("#age_filter").append(
-                            '<input type="checkbox" name="' + data["ages_distinct"][key]["ageGroup"].toLowerCase().replace(/ /g, "_").replace("+", "plus") + '" id="age_' + data["ages_distinct"][key]["ageGroup"].toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option' +'" value="' + data["ages_distinct"][key]["ageGroup"] + '" class="css-checkbox"><label for="age_' + data["ages_distinct"][key]["ageGroup"].toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option' +'" class="css-label">' + data["ages_distinct"][key]["ageGroup"] + '</label><br />'
+                            '<input type="checkbox" name="' + data["ages_distinct"][key]["ageGroup"].toLowerCase().replace(/ /g, "_").replace("+", "plus") + '" id="age_' + data["ages_distinct"][key]["ageGroup"].toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option' +'" value="' + data["ages_distinct"][key]["ageGroup"] + '" class="css-checkbox"><label for="age_' + data["ages_distinct"][key]["ageGroup"].toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option' +'" class="css-label">' + fix_naming(data["ages_distinct"][key]["ageGroup"]) + '</label><br />'
                         );
                     }
 
@@ -1715,7 +1725,7 @@ function drawDemographicGraphs() {
                             
                             var parent = this;
         
-                            $("#age_filters").append('<li id="filter_age_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace("+", "plus") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                            $("#age_filters").append('<li id="filter_age_' + $(this).attr("name").toLowerCase().replace(/ /g, "_").replace("+", "plus") + '">'+ fix_naming($(this).val()) +'<i class="fas fa-window-close float-right"></i></li>')
                             $('#filter_age_' + $(this).val().toLowerCase().replace(/ /g, "_").replace("+", "plus") + ' i').click(function() {
                                 if($('#age_' + $(parent).attr("name").toLowerCase().replace(/ /g, "_").replace("+", "plus") + '_option').length) {
                                     $('#filter_age_' + $(parent).val().toLowerCase().replace(/ /g, "_").replace("+", "plus")).remove();
