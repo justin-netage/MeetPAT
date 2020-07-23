@@ -1844,11 +1844,11 @@ function drawDemographicGraphs() {
                             case "B":
                                 return "Black";
                             case "W":
-                                return "White";
+                                return "Caucasian";
                             case "C":
                                 return "Coloured";
                             case "A":
-                                return "Asian";
+                                return "Asian/Indian";
                             default:
                                 return "Unkown";
                         }
