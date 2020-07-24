@@ -93,8 +93,8 @@ return [
         'cruises' => [
             'driver' => 'ftp',
             'host' => 'DynamicPricingFeed.rccl.com',
-            'username' => 'CONCITK',
-            'password' => 'k6d8NMUbW27L3x1',
+            'username' => env('cruises_usr'),
+            'password' => env('cruises_pwd'),
             'ssl' => true,
             'port' => 36360
         ]
