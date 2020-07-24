@@ -27,7 +27,7 @@
         "sendgrid/sendgrid": "^7.2",
         "stilliard/csvparser": "1.1.5",
         "tom-lingham/searchy": "^2.0",
-        "ftp": "*"
+        "ext-ftp": "*"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
