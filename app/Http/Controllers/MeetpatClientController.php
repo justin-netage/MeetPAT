@@ -1071,9 +1071,9 @@ class MeetpatClientController extends Controller
         return response()->json(["status" => "success"]);
     }
 
-    public function account_settings()
+    public function business_details()
     {        
-        return view('client.dashboard.settings.main');
+        return view('client.dashboard.settings.business_details');
     }
 
     public function save_settings(Request $request)

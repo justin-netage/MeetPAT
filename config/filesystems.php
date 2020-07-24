@@ -89,6 +89,14 @@ return [
             'password' => env('BSA_SFTP_PASSWORD'),
             'port' => 22,
             
+        ],
+        'cruises' => [
+            'driver' => 'ftp',
+            'host' => 'DynamicPricingFeed.rccl.com',
+            'username' => 'CONCITK',
+            'password' => 'k6d8NMUbW27L3x1',
+            'ssl' => true,
+            'port' => 36360
         ]
 
     ],

@@ -31,6 +31,15 @@
                 </div>
             </div>
         </a>
+        <!-- <a class="card-link card-link-secondary" href="/meetpat-client/settings/business-details">
+            <div class="card border-secondary">
+                <div class="card-header">Synch With Google</div>
+                <div class="card-body text-secondary">
+                    <h5 class="card-title text-center"><i class="fas fa-file-invoice"></i></h5>
+                    <p class="card-text">Update business Details.</p>
+                </div>
+            </div>
+        </a> -->
     </div>
 </div>
 

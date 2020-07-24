@@ -90,4 +90,12 @@ class MiscController extends Controller
         return response()->json(json_decode($result, true)); 
     }
 
+    public function test() 
+    {
+        
+        $files = \Storage::disk('cruises')->allFiles('/');
+
+        return $files;
+    }
+
 }
