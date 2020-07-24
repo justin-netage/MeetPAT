@@ -92,10 +92,22 @@ class MiscController extends Controller
 
     public function test() 
     {
-        
-        $files = \Storage::disk('cruises')->allFiles('/Itinerary');
+        $conn_id = ftp_ssl_connect('DynamicPricingFeed.rccl.com', 36360);
 
-        return $files;
+        // login with username and password
+        $login_result = ftp_login($conn_id, env('cruises_usr'), env('cruises_pwd'));
+
+        if (!$login_result) {
+            // PHP will already have raised an E_WARNING level message in this case
+            die("can't login");
+        }
+
+        echo ftp_pwd($conn_id); // /
+
+        // close the ssl connection
+        ftp_close($conn_id);
+
+        return var_dump($login_result);
     }
 
 }
