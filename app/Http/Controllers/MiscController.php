@@ -93,7 +93,7 @@ class MiscController extends Controller
     public function test() 
     {
         
-        $files = \Storage::disk('cruises')->allFiles('/');
+        $files = \Storage::disk('cruises')->allFiles('/Itinerary');
 
         return $files;
     }
