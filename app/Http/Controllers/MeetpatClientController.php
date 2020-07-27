@@ -1073,7 +1073,11 @@ class MeetpatClientController extends Controller
 
     public function business_details()
     {        
-        return view('client.dashboard.settings.business_details');
+        $user = \Auth::user();
+
+        $has_business_details = $user->client_details;
+
+        return view('client.dashboard.settings.business_details', ['has_business_details' => $has_business_details]);
     }
 
     public function save_settings(Request $request)
@@ -1115,6 +1119,11 @@ class MeetpatClientController extends Controller
         $has_business_details = $user->client_details;
         
         return view('client.dashboard.account_settings', ['has_business_details' => $has_business_details]);
+    }
+
+    public function settings() {
+
+        return view('client.dashboard.settings.main');
     }
 
     public function save_client_details()

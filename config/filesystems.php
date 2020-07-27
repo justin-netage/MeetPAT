@@ -90,14 +90,6 @@ return [
             'port' => 22,
             
         ],
-        'cruises' => [
-            'driver' => 'ftp',
-            'host' => 'DynamicPricingFeed.rccl.com',
-            'username' => env('cruises_usr'),
-            'password' => env('cruises_pwd'),
-            'ssl' => true,
-            'port' => 36360
-        ]
 
     ],
 
