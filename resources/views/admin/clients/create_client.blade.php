@@ -52,7 +52,17 @@
                                     </span>
                                 @endif
                         </div>
+                        <div class="form-group">
+                            <label for="business_name">{{ __('Business Name') }}</label>
 
+                                <input id="business_name" type="text" class="form-control{{ $errors->has('business_name') ? ' is-invalid' : '' }}" name="business_name" value="{{ old('business_name') }}">
+
+                                @if ($errors->has('business_name'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('business_name') }}</strong>
+                                    </span>
+                                @endif
+                        </div>
                         <div class="form-group">
                             <label for="password">{{ __('Password') }}</label>
 

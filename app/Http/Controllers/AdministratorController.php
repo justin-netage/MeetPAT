@@ -40,6 +40,7 @@ class AdministratorController extends Controller
         $validatedData = $request->validate([
             'firstname' => 'required|max:255',
             'lastname' => 'required|max:255',
+            'business_name' => 'required|max:255',
             'email' => 'required|unique:users|max:255',
             'password' => array(
                                 'required',
@@ -59,6 +60,22 @@ class AdministratorController extends Controller
 
             $new_client = \MeetPAT\MeetpatClient::create(['user_id' => $new_user->id, 'active' => 1]);
             $uploads = \MeetPAT\ClientUploads::create(["user_id" => $new_user->id, "upload_limit" => 10000, "uploads" => 0]);
+
+            $client_details = \MeetPAT\MeetpatClientDetail::create(['user_id' => $new_user->id,
+                                                    'business_registered_name' => $request->business_name,
+                                                    'contact_first_name' => '',
+                                                    'contact_last_name' => '',
+                                                    'contact_email_address' => '',
+                                                    'business_contact_number' => '',
+                                                    'business_registration_number' => '',
+                                                    'business_vat_number' => '',
+                                                    'business_postal_address' => '',
+                                                    'business_physical_address' => '',
+                                                    'client_first_name' => '',
+                                                    'client_last_name' => '',
+                                                    'client_contact_number' => '',
+                                                    'client_email_address' => '',
+                                                    'client_postal_address' => '']);
         } else {
             $new_user = \MeetPAT\User::create(['name' => $request->firstname . ' ' . $request->lastname,
                                                'email' => $request->email,
@@ -66,6 +83,22 @@ class AdministratorController extends Controller
                                                            
             $new_client = \MeetPAT\MeetpatClient::create(['user_id' => $new_user->id, 'active' => 1]);
             $uploads = \MeetPAT\ClientUploads::create(["user_id" => $new_user->id, "upload_limit" => 10000, "uploads" => 0]);
+
+            $client_details = \MeetPAT\MeetpatClientDetail::create(['user_id' => $new_user->id,
+                                                    'business_registered_name' => $request->business_name,
+                                                    'contact_first_name' => '',
+                                                    'contact_last_name' => '',
+                                                    'contact_email_address' => '',
+                                                    'business_contact_number' => '',
+                                                    'business_registration_number' => '',
+                                                    'business_vat_number' => '',
+                                                    'business_postal_address' => '',
+                                                    'business_physical_address' => '',
+                                                    'client_first_name' => '',
+                                                    'client_last_name' => '',
+                                                    'client_contact_number' => '',
+                                                    'client_email_address' => '',
+                                                    'client_postal_address' => '']);
         }
         
         if($request->send_email)
