@@ -164,7 +164,7 @@
 
             $.get("/api/meetpat-admin/get-users",
              {api_token: auth_token, page: page, search_term: search_term}, function(data, textStatus,jqXHR) {
-
+                // console.log(data);
                 $("#tableBody").empty();
                 $("#mobileTableData tbody").empty();
                 $("#refreshBtn").prop("disabled", 0);
@@ -174,11 +174,18 @@
                 if(Object.keys(data).length && data.data.length) {
                     for(var key in data.data) {
                         
+
+                        if(data.data[key].client_details) {
+                            business_name = data.data[key].client_details.business_registered_name;
+                        } else {
+                            business_name = data.data[key].name;
+                        }
+
                         if(data.data[key].client.active == true) {
                         $("#tableBody").append(
                             "<tr id=\"client-" + data.data[key].id + "\">" +
                                 "<td class=\"text-center\">" + data.data[key].id + "</td>" +
-                                "<td>" + data.data[key].name + "</td>" +
+                                "<td>" + business_name + "</td>" +
                                 "<td><a href=\"mailto:" + data.data[key].email + "?Subject=MeetPAT\" target=\"_top\">" + data.data[key].email + "</a></td>" +
                                 "<td class=\"text-center\">" +
                                 "<i class=\"fas fa-toggle-on mr-0\" data-user-id=\"" + data.data[key].id + "\" onclick=\"set_status(this)\"></i>" +
@@ -193,7 +200,7 @@
                         $("#mobileTableData tbody").append(
                             "<tr id=\"client-mobile-heading-" + data.data[key].id + "\" class=\"mainData d-flex\">" +
                                 "<td class=\"text-center show-more col-2\"><i class=\"fas fa-plus-circle mr-0\"></i></td>" +
-                                "<td class=\"col-10\">" + data.data[key].name + "</td>" +
+                                "<td class=\"col-10\">" + business_name + "</td>" +
                             "</tr>" +
                             "<tr id=\"client-mobile-body-" + data.data[key].id + "\" class=\"secondaryData d-none\">" +
                                 "<td class=\"col-2\"></td>" +
@@ -214,7 +221,7 @@
                             $("#tableBody").append(
                                 "<tr>" +
                                     "<td class=\"text-center\">" + data.data[key].id + "</td>" +
-                                    "<td>" + data.data[key].name + "</td>" +
+                                    "<td>" + business_name + "</td>" +
                                     "<td><a href=\"mailto:" + data.data[key].email + "?Subject=MeetPAT\" target=\"_top\">" + data.data[key].email + "</a></td>" +
                                     "<td class=\"text-center\">" +
                                     "<i class=\"fas fa-toggle-off mr-0\" data-user-id=\"" + data.data[key].id + "\" onclick=\"set_status(this)\"></i>" +
@@ -229,7 +236,7 @@
                             $("#mobileTableData tbody").append(
                                 "<tr class=\"mainData d-flex\">" +
                                     "<td class=\"text-center show-more col-2\"><i class=\"fas fa-plus-circle mr-0\"></i></td>" +
-                                    "<td class=\"col-10\">" + data.data[key].name + "</td>" +
+                                    "<td class=\"col-10\">" + business_name + "</td>" +
                                 "</tr>" +
                                 "<tr class=\"secondaryData d-none\">" +
                                     "<td class=\"col-2\"></td>" +

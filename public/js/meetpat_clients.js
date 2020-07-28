@@ -140,7 +140,13 @@ var open_edit = function(client) {
         data: {api_token: auth_token, user_id: users_id},
         method: 'GET',
         success: function(data) {
-            
+            console.log(data);
+            var business_name = "";
+
+            if(data.client.client_details) {
+                business_name = data.client.client_details.business_registered_name;
+            }
+
             $("#modalBody").html(`
             <form id="clientEditForm" autocomplete="off" onsubmit="return false;" novalidate="">
                 <div class="row">
@@ -155,11 +161,15 @@ var open_edit = function(client) {
                     <div class="col-12">
                         <div class="form-group">
                             <label class="form-label" for="clientName">User Name</label>
-                            <input id="clientName" name="clientName" class="form-control is-valid" type="text" value="${data.client.name}" autofocus/>
+                            <input id="clientName" name="clientName" class="form-control" type="text" value="${data.client.name}" autofocus/>
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="clientEmail">Email Address</label>
-                            <input id="clientEmail" autocomplete="email" name="clientEmail" class="form-control is-valid" type="email" value="${data.client.email}" />
+                            <input id="clientEmail" autocomplete="email" name="clientEmail" class="form-control" type="email" value="${data.client.email}" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="clientBusinessName">Business Name</label>
+                            <input id="clientBusinessName" autocomplete="text" name="businessName" class="form-control" type="text" value="${business_name}" />
                         </div>
                         <div class="form-group d-flex justify-content-end">
                             <button class="btn ChangePasswordBtn PasswordInput collapsed btn-warning" type="button" id="ChangePasswordBtn" data-toggle="collapse" data-target=".collapsePasswordChange" aria-expanded="false" aria-controls="collapseExample" value="">Change Password</button>
@@ -200,7 +210,7 @@ var open_edit = function(client) {
             </form>
             `);
 
-            $('#clientName').on('keyup change', function() {
+            $('#clientName, #clientBusinessName').on('keyup change', function() {
 
                 if($(this).val().length < 2 || !$(this).val().match(/^[a-zA-Z0-9]([_a-zA-Z0-9-& ])*[a-zA-Z0-9]$/g)) {
                     $(this).removeClass('is-valid');
@@ -289,13 +299,14 @@ var open_edit = function(client) {
         $(this).prop("disabled", 1);
         var user_name = $("input[name='clientName']").val();
         var user_email = $("input[name='clientEmail']").val();
+        var business_name = $("input[name='businessName']").val();
         var new_password = $("input[name='new_password']").val();
         var send_mail = $("input[name='send_mail']").is(':checked');
 
         var xhr_save_details = $.ajax({
             url: '/api/meetpat-admin/users/edit',
             method: 'POST',
-            data: {user_id: users_id, user_name: user_name, user_email: user_email, new_password: new_password, send_mail: send_mail},
+            data: {user_id: users_id, user_name: user_name, user_email: user_email, business_name: business_name, new_password: new_password, send_mail: send_mail},
             success: function(data) {
 
                 if(data.sent_mail == "true") {
@@ -335,7 +346,7 @@ var open_edit = function(client) {
                 `)
                 $("#saveEditClient").html("<strong>Save Changes</strong>");
                 $("#saveEditClient").prop("disabled", 0);
-                //console.log(error);
+                console.log(error);
             }
         });
 

@@ -146,6 +146,28 @@ class AdministratorController extends Controller
             $user->save();
         }
 
+        if($user and $request->business_name) {
+            if($user->client_details) {
+                $user->client_details->update(["business_registered_name" => $request->business_name]);
+            } else {
+                \MeetPAT\MeetpatClientDetail::create(['user_id' => $user->id,
+                                                      'business_registered_name' => $request->business_name,
+                                                      'contact_first_name' => '',
+                                                      'contact_last_name' => '',
+                                                      'contact_email_address' => '',
+                                                      'business_contact_number' => '',
+                                                      'business_registration_number' => '',
+                                                      'business_vat_number' => '',
+                                                      'business_postal_address' => '',
+                                                      'business_physical_address' => '',
+                                                      'client_first_name' => '',
+                                                      'client_last_name' => '',
+                                                      'client_contact_number' => '',
+                                                      'client_email_address' => '',
+                                                      'client_postal_address' => '']);
+            }
+        }
+
         return $response;
 
     }
@@ -237,12 +259,12 @@ class AdministratorController extends Controller
         if($request->search_term)
         {
             $users_array = \MeetPAT\User::select(["id", "name", "email", "created_at"])->has('client')->doesnthave('client_removal')
-                            ->with('client')->where([['name', 'ilike', '%'.$request->search_term.'%']])->has('client')->doesnthave('client_removal')
+                            ->with(array('client', 'client_details'))->where([['name', 'ilike', '%'.$request->search_term.'%']])->has('client')->doesnthave('client_removal')
                             ->orWhere([['email', 'ilike', '%'.$request->search_term.'%']])->has('client')->doesnthave('client_removal')
                             ->orderBy('created_at', 'desc')->paginate(10);
 
         } else {
-            $users_array = \MeetPAT\User::select(["id", "name", "email", "created_at"])->has('client')->doesnthave('client_removal')->with('client')->orderBy('created_at', 'desc')->paginate(10);
+            $users_array = \MeetPAT\User::select(["id", "name", "email", "created_at"])->has('client')->doesnthave('client_removal')->with(array('client', 'client_details'))->orderBy('created_at', 'desc')->paginate(10);
         }
 
         return response()->json($users_array);
@@ -515,7 +537,7 @@ class AdministratorController extends Controller
 
     public function get_client(Request $request)
     {
-        $client = \MeetPAT\User::with(array('client', 'client_uploads'))->where('id', $request->user_id)->first();
+        $client = \MeetPAT\User::with(array('client', 'client_uploads', 'client_details'))->where('id', $request->user_id)->first();
 
         return response()->json(array("client" => $client));
     }
