@@ -258,16 +258,22 @@ class AdministratorController extends Controller
 
         if($request->search_term)
         {
-            $users_array = \MeetPAT\User::select(["id", "name", "email", "created_at"])->has('client')->doesnthave('client_removal')
-                            ->with(array('client', 'client_details'))->where([['name', 'ilike', '%'.$request->search_term.'%']])->has('client')->doesnthave('client_removal')
-                            ->orWhere([['email', 'ilike', '%'.$request->search_term.'%']])->has('client')->doesnthave('client_removal')
-                            ->orderBy('created_at', 'desc')->paginate(10);
+            $users_array = \MeetPAT\User::select(["id", "name", "email", "created_at"])->with(array('client', 'client_details'))
+            ->whereHas('client_details', function($query) use ($request) { 
+                $query->where('business_registered_name', 'ilike', '%' . $request->search_term . '%');})->has('client')->doesnthave('client_removal')
+            ->orWhere('email', 'ilike', '%' . $request->search_term . '%')->has('client')->doesnthave('client_removal')
+            ->orWhere('name', 'ilike', '%' . $request->search_term . '%')->has('client')->doesnthave('client_removal')
+            ->orderBy('created_at', 'desc')->paginate(10);
 
         } else {
             $users_array = \MeetPAT\User::select(["id", "name", "email", "created_at"])->has('client')->doesnthave('client_removal')->with(array('client', 'client_details'))->orderBy('created_at', 'desc')->paginate(10);
         }
 
         return response()->json($users_array);
+        
+        $users = \MeetPAT\User::has('client_details')->with(["client_details" => function($client_details) {
+            $client_details->where('meetpat_client_details.business_registered_name', '!=', null);
+        }])->get();
 
     }
 
