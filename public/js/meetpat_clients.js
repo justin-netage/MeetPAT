@@ -417,7 +417,15 @@ var open_settings = function(client) {
                             <div class="form-group">
                                 <label class="form-label" for="clientUploadLimit">Upload Limit</label>
                                 <div class="progress">
-                                    <div class="progress-bar" id="userUploadsPercentage" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0/0</div>
+                                    <div class="progress-bar" id="userUploadsPercentage" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="row justify-content-between">
+                                    <div class="col-4">
+                                        <small id="recordsDetail"></small>
+                                    </div>
+                                    <div class="col-4">
+                                        <small id="recordsPercentage" class="float-right"></small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -443,7 +451,9 @@ var open_settings = function(client) {
             `);
 
             $("#userUploadsPercentage").width(((data.client.client_uploads.uploads/data.client.client_uploads.upload_limit)*100) + "%");
-            $("#userUploadsPercentage").html(data.client.client_uploads.uploads + "/" + data.client.client_uploads.upload_limit);
+            // $("#userUploadsPercentage").html(((data.client.client_uploads.uploads/data.client.client_uploads.upload_limit)*100) + "%");
+            $("#recordsDetail").html(numberWithCommas(data.client.client_uploads.uploads) + "/" + numberWithCommas(data.client.client_uploads.upload_limit));
+            $("#recordsPercentage").html(((data.client.client_uploads.uploads/data.client.client_uploads.upload_limit)*100).toFixed() + "%");
             $("#newUploadLimit").val(data.client.client_uploads.upload_limit);
             $("#newUploadLimit").attr({"min": data.client.client_uploads.uploads});
             $("#newUploadLimit").on('change keyup', function() {
