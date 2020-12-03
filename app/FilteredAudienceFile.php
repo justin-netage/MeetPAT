@@ -30,5 +30,7 @@ class FilteredAudienceFile extends Model
                             ,'lsm_group'
                             ,'citizenship_indicator'
                             ,'custom_variable_1'
+                            ,'custom_variable_2'
+                            
 ];
 }

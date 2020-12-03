@@ -43,6 +43,7 @@
             <ul id="household_income_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Household Income</span></ul>
             <ul id="directors_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Directors</span></ul>
             <ul id="branch_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Branches</span></ul>
+            <ul id="campaign_filters" class="list-unstyled" style="display:none;"><span class="filter-heading">Campaigns</span></ul>
             <ul id="no_filters" class="list-unstyled"><span class="filter-heading">No filters have been added</span></ul>
             
         </div>
@@ -76,6 +77,7 @@
         <input type="hidden" id="propertyValuationContactsId" name="propertyValuationContacts[]">
         <input type="hidden" id="lsmGroupContactsId" name="lsmGroupContacts[]">
         <input type="hidden" id="branchContactsId" name="branchContacts[]">
+        <input type="hidden" id="campaignContactsId" name="campaignContacts[]">
         <!-- <button id="audienceSubmitBtn" class="btn btn-secondary btn-block" disabled="true" type="submit" /><i class="fas fa-users"></i>&nbsp;Sync Contacts</button> -->
         <button id="sidebarSubmitBtn" type="button" class="btn btn-secondary btn-block apply-changes-button" disabled="true" type="button" /><i class="fas fa-sync-alt"></i>&nbsp;Apply Filters</button>
         <button type="button" id="resetFilterToastBtn" class="btn btn-secondary btn-block" disabled="disabled"><i class="fas fa-undo-alt"></i>&nbsp;Reset Filters</button>
@@ -800,7 +802,7 @@
                 <!-- Default dropright button -->
                         <div class="btn-group dropright float-right">
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-filter"></i>
+                                <i class="fas fa-search"></i>&nbsp;<i class="fas fa-filter"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-form" style="overflow-y: scroll; height: 256px; width: 256px;">
                                 <!-- Dropdown menu links -->
@@ -836,6 +838,52 @@
                     <div class="spinner spinner-3"></div>
                 </div>
                 <div id="branchChart" style="width: 100%;"></div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="campaign-graph">
+            <div class="media">
+            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons/Category.png')}}"  class="mr-3 data-icon" alt="icon">
+                <div class="media-body">
+                    <h3 class="mt-3"><span>Campaign</span>
+                <!-- Default dropright button -->
+                        <div class="btn-group dropright float-right">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search"></i>&nbsp;<i class="fas fa-filter"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-form" style="overflow-y: scroll; height: 256px; width: 256px;">
+                                <!-- Dropdown menu links -->
+                                <form style="margin: 12px;" id="campaign-filter-form">
+                                    <div id="hidden-campaign-filter-form" style="display:none;">
+                                        <!-- selected areas from search -->
+                                    </div>
+                                    <div id="campaign_filter">
+                                    <div id="campaign-lunr-search" style="display: none;">
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text"><i class="fas fa-search"></i></div>
+                                            </div>
+                                            <input type="text" class="form-control mb-2" id="campaignSearchInput" placeholder="search for campaigns">
+                                        </div>    
+                                        <ul id="campaign-lunr-results" class="list-unstyled"></ul>
+                                    </div>
+                                    <div class="text-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    </div>
+                                    </div> 
+                                    <button name="campaign_submit" id="campaignSubmitBtn" class="btn btn-primary btn-sm btn-block apply-filter-button d-none" disabled="true" type="button" />apply</button>
+                                </form>
+                            </div>
+                        </div>
+                        </h3>
+                </div>
+            </div>
+            <div class="graph-container" style="overflow-y: scroll; height: 256px; background-color: #f7f7f7;">
+                <div class="spinner-block">
+                    <div class="spinner spinner-3"></div>
+                </div>
+                <div id="campaignChart" style="width: 100%;"></div>
             </div>
         </div>
     </div>
@@ -944,5 +992,5 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="https://unpkg.com/lunr/lunr.js"></script>
-<script type="text/javascript" src="{{asset('js/data-visualization/data_visualisation_v2.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/data-visualization/data_visualisation_v2.js')}}"></script>
 @endsection

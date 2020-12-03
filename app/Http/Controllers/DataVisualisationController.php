@@ -79,13 +79,13 @@ class DataVisualisationController extends Controller
 
         if(!$has_job_running->count()) {
             if(!in_array($request->audience_name, $audience_names)) {
-                if(env('APP_ENV') == 'production') {
+                // if(env('APP_ENV') == 'production') {
                     $actual_file = \Storage::disk('upload_s3')->get('fixed_files/' . $request->file_id . ".csv");
                     $queue_file = \Storage::disk('s3')->put('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id  . ".csv", $actual_file);
                     $actual_file = \Storage::disk('s3')->copy('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id  . ".csv", 'Temp/Enrichment/' . $request->file_id . '.csv');
-                } else {
-                    $actual_file = \Storage::disk('local')->get('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id  . ".csv");
-                }
+                // } else {
+                //     $actual_file = \Storage::disk('local')->get('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id  . ".csv");
+                // }
         
                 // $array = array_map("str_getcsv", explode("\n", $actual_file));
                 // unset($array[0]);
@@ -123,15 +123,15 @@ class DataVisualisationController extends Controller
         if($ext == 'csv') {
   
 
-            if(env('APP_ENV') == 'production')
-            {
+            // if(env('APP_ENV') == 'production')
+            // {
                 $directory_used = \Storage::disk('s3')->makeDirectory('client/client-records/');
                 $file_uploaded = \Storage::disk('s3')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", fopen($csv_file, 'r+'));
     
-            } else {
-                $directory_used = \Storage::disk('local')->makeDirectory('client/client-records/');
-                $file_uploaded = \Storage::disk('local')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", fopen($csv_file, 'r+'));
-            }
+            // } else {
+                // $directory_used = \Storage::disk('local')->makeDirectory('client/client-records/');
+                // $file_uploaded = \Storage::disk('local')->put('client/client-records/user_id_' . $request->user_id . '/' . $fileName  . ".csv", fopen($csv_file, 'r+'));
+            // }
 
         } else {
             return response()->json(["status" => 500, "error" => "Invalid CSV File"]);
@@ -146,18 +146,18 @@ class DataVisualisationController extends Controller
     {
         $file_exists = null;
 
-        if(env('APP_ENV') == 'production') {
+        // if(env('APP_ENV') == 'production') {
             $file_exists = \Storage::disk('s3')->exists('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
-        } else {
-            $file_exists = \Storage::disk('local')->exists('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
-        }
+        // } else {
+            // $file_exists = \Storage::disk('local')->exists('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+        // }
 
         if($file_exists) {
-            if(env('APP_ENV') == 'production') {
+            // if(env('APP_ENV') == 'production') {
                 $file_exists = \Storage::disk('s3')->delete('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
-            } else {
-                $file_exists = \Storage::disk('local')->delete('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
-            }
+            // } else {
+                // $file_exists = \Storage::disk('local')->delete('client/client-records/user_id_' . $request->user_id . '/' . $request->file_id . '.csv');
+            // }
         } else {
             return response(500);
         }
@@ -457,7 +457,7 @@ class DataVisualisationController extends Controller
         $query_params["home_ownership_status"] = check_empty($request["homeOwnerContacts"][0]); $query_params["risk_category"] = check_empty($request["riskCategoryContacts"][0]); $query_params["income_bucket"] = check_empty($request["houseHoldIncomeContacts"][0]);
         $query_params["directorship_status"] = check_empty($request["directorsContacts"][0]); $query_params["vehicle_ownership_status"] = check_empty($request["vehicleOwnerContacts"][0]); $query_params["property_count_bucket"] = check_empty($request["propertyCountBucketContacts"][0]);
         $query_params["property_valuation_bucket"] = check_empty($request["propertyValuationContacts"][0]); $query_params["lsm_group"] = check_empty($request["lsmGroupContacts"][0]);$query_params["primary_property_type"] = check_empty($request["primaryPropertyTypeContacts"][0]);
-        $query_params["custom_variable_1"] = check_empty($request["branchContacts"][0]);
+        $query_params["custom_variable_1"] = check_empty($request["branchContacts"][0]); $query_params["custom_variable_2"] = check_empty($request["campaignContacts"][0]);
         
         $filtered_audience = \MeetPAT\FilteredAudienceFile::create($query_params);
         // Queue file to be saved.
@@ -508,11 +508,11 @@ class DataVisualisationController extends Controller
         $file = \MeetPAT\SavedFilteredAudienceFile::where([["file_unique_name", '=', $request->file_unique_name], ["user_id", "=", $request->user_id ]])->first();
         $file_deleted = $file->delete();
 
-        if(env('APP_ENV') == 'production') {
+        // if(env('APP_ENV') == 'production') {
             $actual_file = \Storage::disk('s3')->delete('client/saved-audiences/user_id_' . $request->user_id . '/' . $request->file_unique_name  . ".csv");
-        } else {
-            $actual_file = \Storage::disk('local')->delete('client/saved-audiences/user_id_' . $request->user_id . '/' . $request->file_unique_name  . ".csv");
-        }
+        // } else {
+            // $actual_file = \Storage::disk('local')->delete('client/saved-audiences/user_id_' . $request->user_id . '/' . $request->file_unique_name  . ".csv");
+        // }
 
         return response()->json(["message" => "successfully deleted file."]);
     }

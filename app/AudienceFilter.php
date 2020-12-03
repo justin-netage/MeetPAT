@@ -31,5 +31,6 @@ class AudienceFilter extends Model
                             'primary_property_type',
                             'citizenship_indicator',
                             'custom_variable_1',
+                            'custom_variable_2'
                             ];
 }

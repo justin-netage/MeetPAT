@@ -27,6 +27,8 @@ class DistinctGroup extends Model
         'vehicle_ownership_status',
         'age_group',
         'citizenship_indicator',
-        'custom_variable_1'
+        'custom_variable_1',
+        'custom_variable_2'
+        
     ];
 }

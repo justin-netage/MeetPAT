@@ -58,6 +58,8 @@ class EnrichedRecord extends Model
                             'InputPhone',
                             'InputEmail',
                             'CitizenshipIndicator',
-                            'affiliated_users'
+                            'affiliated_users',
+                            'custom_variable_1',
+                            'custom_variable_2'
     ];
 }
