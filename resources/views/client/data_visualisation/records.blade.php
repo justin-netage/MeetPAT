@@ -856,16 +856,16 @@
                                     <div id="hidden-campaign-filter-form" style="display:none;">
                                         <!-- selected areas from search -->
                                     </div>
-                                    <div id="campaign_filter">
-                                    <div id="campaign-lunr-search" style="display: none;">
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text"><i class="fas fa-search"></i></div>
-                                            </div>
-                                            <input type="text" class="form-control mb-2" id="campaignSearchInput" placeholder="search for campaigns">
-                                        </div>    
-                                        <ul id="campaign-lunr-results" class="list-unstyled"></ul>
-                                    </div>
+                                    <div id="campaign_filters">
+                                        <div id="campaign-lunr-search" style="display: none;">
+                                            <div class="input-group mb-2">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text"><i class="fas fa-search"></i></div>
+                                                </div>
+                                                <input type="text" class="form-control mb-2" id="campaignSearchInput" placeholder="search for campaigns">
+                                            </div>    
+                                            <ul id="campaign-lunr-results" class="list-unstyled"></ul>
+                                        </div>
                                     <div class="text-center">
                                     <div class="spinner-border" role="status">
                                         <span class="sr-only">Loading...</span>
