@@ -842,7 +842,7 @@
         </div>
         <div class="col-12 col-lg-4 col-md-6 data-graph-container" id="campaign-graph">
             <div class="media">
-            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons/Category.png')}}"  class="mr-3 data-icon" alt="icon">
+            <img src="{{Storage::disk('s3')->url('dashboard.meetpat/public/images/data-icons/Campaign_Icon.png')}}"  class="mr-3 data-icon" alt="icon">
                 <div class="media-body">
                     <h3 class="mt-3"><span>Campaign</span>
                 <!-- Default dropright button -->

@@ -15,7 +15,7 @@
             </div>
         </a>
 
-        <a class="card-link card-link-secondary" href="/meetpat-client/upload/update-custom-metrics">
+        <!-- <a class="card-link card-link-secondary" href="/meetpat-client/upload/update-custom-metrics">
             <div class="card border-secondary">
                 <div class="card-header">Update Audience</div>
                 <div class="card-body text-secondary">
@@ -23,7 +23,7 @@
                     <p class="card-text">Update your current audience custom metric data.</p>
                 </div>
             </div>
-        </a>
+        </a> -->
 
     </div>
 </div>
