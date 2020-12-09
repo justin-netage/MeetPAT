@@ -191,7 +191,7 @@ class DataVisualisationController extends Controller
             "marital_statuses" => check_empty($request->marital_statuses), "home_ownership_statuses" => check_empty($request->home_ownership_statuses),
             "property_count_buckets" => check_empty($request->property_count_buckets), "vehicle_ownership_statuses" => check_empty($request->vehicle_ownership_statuses),
             "primary_property_types" => check_empty($request->primary_property_types), "risk_categories" => check_empty($request->risk_categories), "lsm_groups" =>check_empty($request->lsm_groups),
-            "income_buckets" => check_empty($request->income_buckets), "company_directorship_status" => check_empty($request->company_directorship_status), "custom_variable_1" => check_empty($request->custom_variable_1)
+            "income_buckets" => check_empty($request->income_buckets), "company_directorship_status" => check_empty($request->company_directorship_status), "custom_variable_1" => check_empty($request->custom_variable_1), "custom_variable_2" => check_empty($request->custom_variable_2)
         ]);
 
         return response()->json($new_job);

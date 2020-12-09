@@ -856,7 +856,7 @@
                                     <div id="hidden-campaign-filter-form" style="display:none;">
                                         <!-- selected areas from search -->
                                     </div>
-                                    <div id="campaign_filters">
+                                    <div id="campaign_filter">
                                         <div id="campaign-lunr-search" style="display: none;">
                                             <div class="input-group mb-2">
                                                 <div class="input-group-prepend">
