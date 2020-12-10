@@ -31,7 +31,9 @@ class FilterJobQueue extends Model
                             'income_buckets',
                             'company_directorship_status',
                             'custom_variable_1',
-                            'custom_variable_2'
+                            'custom_variable_2',
+                            'custom_variable_3',
+                            'custom_variable_4'
                             ];
 
 }

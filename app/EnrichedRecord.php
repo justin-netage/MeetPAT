@@ -60,6 +60,8 @@ class EnrichedRecord extends Model
                             'CitizenshipIndicator',
                             'affiliated_users',
                             'custom_variable_1',
-                            'custom_variable_2'
+                            'custom_variable_2',
+                            'custom_variable_3',
+                            'custom_variable_4'
     ];
 }

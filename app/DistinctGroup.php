@@ -28,7 +28,9 @@ class DistinctGroup extends Model
         'age_group',
         'citizenship_indicator',
         'custom_variable_1',
-        'custom_variable_2'
+        'custom_variable_2',
+        'custom_variable_3',
+        'custom_variable_4'
         
     ];
 }
