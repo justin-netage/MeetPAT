@@ -191,7 +191,8 @@ class DataVisualisationController extends Controller
             "marital_statuses" => check_empty($request->marital_statuses), "home_ownership_statuses" => check_empty($request->home_ownership_statuses),
             "property_count_buckets" => check_empty($request->property_count_buckets), "vehicle_ownership_statuses" => check_empty($request->vehicle_ownership_statuses),
             "primary_property_types" => check_empty($request->primary_property_types), "risk_categories" => check_empty($request->risk_categories), "lsm_groups" =>check_empty($request->lsm_groups),
-            "income_buckets" => check_empty($request->income_buckets), "company_directorship_status" => check_empty($request->company_directorship_status), "custom_variable_1" => check_empty($request->custom_variable_1), "custom_variable_2" => check_empty($request->custom_variable_2)
+            "income_buckets" => check_empty($request->income_buckets), "company_directorship_status" => check_empty($request->company_directorship_status), "custom_variable_1" => check_empty($request->custom_variable_1),
+            "custom_variable_2" => check_empty($request->custom_variable_2), "custom_variable_3" => check_empty($request->custom_variable_3), "custom_variable_4" => check_empty($request->custom_variable_4)
         ]);
 
         return response()->json($new_job);
@@ -457,7 +458,7 @@ class DataVisualisationController extends Controller
         $query_params["home_ownership_status"] = check_empty($request["homeOwnerContacts"][0]); $query_params["risk_category"] = check_empty($request["riskCategoryContacts"][0]); $query_params["income_bucket"] = check_empty($request["houseHoldIncomeContacts"][0]);
         $query_params["directorship_status"] = check_empty($request["directorsContacts"][0]); $query_params["vehicle_ownership_status"] = check_empty($request["vehicleOwnerContacts"][0]); $query_params["property_count_bucket"] = check_empty($request["propertyCountBucketContacts"][0]);
         $query_params["property_valuation_bucket"] = check_empty($request["propertyValuationContacts"][0]); $query_params["lsm_group"] = check_empty($request["lsmGroupContacts"][0]);$query_params["primary_property_type"] = check_empty($request["primaryPropertyTypeContacts"][0]);
-        $query_params["custom_variable_1"] = check_empty($request["branchContacts"][0]); $query_params["custom_variable_2"] = check_empty($request["campaignContacts"][0]);
+        $query_params["custom_variable_1"] = check_empty($request["branchContacts"][0]); $query_params["custom_variable_2"] = check_empty($request["campaignContacts"][0]); $query_params["custom_variable_3"] = check_empty($request["sourceContacts"][0]); $query_params["custom_variable_4"] = check_empty($request["otherContacts"][0]);
         
         $filtered_audience = \MeetPAT\FilteredAudienceFile::create($query_params);
         // Queue file to be saved.
