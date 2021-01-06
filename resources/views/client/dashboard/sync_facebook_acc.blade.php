@@ -53,7 +53,7 @@
                             <div class="col-1"><span class="step">2</span></div>
                             <div class="col-11">
                                 <p>MeetPAT needs your AD Account ID to create a customer list after you've authorized the app with Facebook. You will find the AD account ID on the 
-                                    <a href="https://business.facebook.com/adsmanager/manage/campaigns">Ads Manager Page</a> in the top left corner. click on the drop down to see the full ID.
+                                    <a href="https://business.facebook.com/adsmanager/manage/campaigns" target="_blank">Ads Manager Campaigns Page</a> in the top left corner. click on the drop down to see the full ID.
                                 </p>
                             </div>
                         </div>

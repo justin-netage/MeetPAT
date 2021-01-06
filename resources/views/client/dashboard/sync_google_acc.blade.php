@@ -14,6 +14,7 @@
                         <div class="form-group">
                             <label for="adwords_id">{{__('Google Ads Account ID') }}</label>
                             <input type="text" name="adwords_id" id="adwords-id" placeholder="xxx-xxx-xxxx" autocomplete="off" value="{{ old('adwords_id') }}" class="form-control{{ $errors->has('adwords_id') ? ' is-invalid' : '' }}" autofocus>
+                            <span class="form-text text-muted">Your Google Ads Account ID can be found in the top right corner next to your account name after <a href="https://ads.google.com" target="_blank">signing in</a>.</span>
                             <span class="invalid-feedback" role="alert">
                                 <strong>Your Google Ads Account ID is required and must be in the correct format</strong>
                             </span>
