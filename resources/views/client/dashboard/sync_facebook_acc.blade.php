@@ -126,6 +126,12 @@
     var displayLoader = function () {
         $("#loader").css("display", "block");
     };
+
+    $("#submit_id").click(function() { 
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    });
+
     $("#deauthorizeFacebook").click(function() {
         $("#deauthorizeFacebook").prop("disabled", 1);
         $("#deauthorizeFacebook").html(

@@ -136,6 +136,11 @@ $(document).ready(function() {
         });
     }
 
+    $("#submit_audience").click(function() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    });
+
     var bind_browse_btn = function() {
         $("#browseBtn").unbind();
         $("#browseFile").unbind();
