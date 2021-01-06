@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-6 col-offset-3">
             <div class="card">
-                <div class="card-header"><h1 id="card-title">{{ __('Sync Google Account') }} &nbsp;<i class="fab fa-google"></i> </h1></div>
+                <div class="card-header"><h1 id="card-title">{{ __('Sync Google Ads Account') }} &nbsp;<i class="fab fa-google"></i> </h1></div>
                     <div id="alert-section"></div>
                     <div class="card-body">
                         <form id="upload-custom-audience" onsubmit="this.preventDefault();" novalidate>

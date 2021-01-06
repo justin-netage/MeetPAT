@@ -29,7 +29,7 @@
     <div class="row justify-content-center">
         <div class="col-md-6 col-offset-3">
             <div class="card">
-                <div class="card-header"><h1 id="card-title">{{ __('Sync Facebook Account') }} &nbsp;<i class="fab fa-facebook"></i> </h1></div>
+                <div class="card-header"><h1 id="card-title">{{ __('Sync Facebook Ads Account') }} &nbsp;<i class="fab fa-facebook"></i> </h1></div>
                     <div class="card-body">
                         @if(!\Auth::user()->facebook_ad_account)
                         <div class="row">
