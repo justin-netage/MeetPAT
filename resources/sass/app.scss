@@ -1886,10 +1886,29 @@ a.continue-with-facebook:hover
 
 /* End Loaders */
 
-td .fa-check-circle, td .fa-times-circle
+td .fa-check-circle, td .fa-times-circle, td .fa-window-close, td .fa-sync-alt, td .fa-ban
 {
   margin-right: 0px;
   font-size: 20px;
+  margin-top: 3px;
+}
+td .fa-sync-alt
+{
+  color:rgba(0, 0, 0, 0.3);
+}
+td .fa-window-close 
+{
+  color: #6c757d;
+}
+
+td .fa-window-close:hover
+{
+  cursor: pointer;
+}
+
+td .fa-window-close:hover, td .fa-ban
+{
+  color: #e3342f;
 }
 
 td .fa-check-circle:hover, td .fa-times-circle:hover

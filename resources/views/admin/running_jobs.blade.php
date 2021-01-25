@@ -8,13 +8,26 @@
     <input type="hidden" id="UserId" name="user_id" value="{{\Auth::user()->id}}">
 </form>
 <!-- End -->
+<div class="container">
+    
+</div>
 <div class="container" id="tableContainer">
-    <div class="row" id="tableControlls">
+    <div class="row">
         <div class="col-12 col-md-6">
-            <h3>Running Jobs</h3>
+            <div class="col-12 col-md-6">
+                <h3>Running Jobs</h3>
+            </div>
         </div>
+    </div>
+    <div class="row" id="alertContainer">
         <div class="col-12">
-            <div class="btn-group float-right" ro   le="group" aria-label="Basic example">
+
+        </div>
+    </div>
+    <div class="row" id="tableControlls">
+        
+        <div class="col-12">
+            <div class="btn-group float-right" role="group" aria-label="Basic example">
                 <a href="/" class="btn btn-light"><i class="fas fa-arrow-left"></i></a>
                 <a href="#" id="refreshBtn" class="btn btn-light"><i class="fas fa-sync-alt"></i></a>
             </div>
@@ -31,12 +44,13 @@
                         <th class="text-center">Matches</th>
                         <th class="text-center">Enriched</th>
                         <th class="text-center">Status</th>
+                        <th class="text-center">Cancel</th>
                     </tr>
                 </thead>
 
                 <tbody id="tableBody">
                     <tr>
-                        <td colspan="6">
+                        <td colspan="7">
                             <div class="d-flex align-items-center">
                                 <strong class="loading">Loading</strong>
                                 <div class="spinner-border ml-auto spinner-border-sm" role="status" aria-hidden="true"></div>
@@ -49,6 +63,10 @@
     </div>
 </div>
 
+@endsection
+
+@section('modals')
+<div id="modalsContainer"></div>
 @endsection
 
 @section('scripts')

@@ -650,17 +650,50 @@ class AdministratorController extends Controller
     public function get_running_jobs(Request $request)
     {
         $is_admin = \MeetPAT\User::find(\MeetPAT\User::where("api_token", $request["api_token"])->get()[0]->id)->admin()->get();
+
+        $cancelled_jobs = \MeetPAT\CancelledJob::pluck('job_id')->all();
         
         if($is_admin) {
             $user = \MeetPAT\User::where("api_token", $request->api_token)->get();
-            $jobs = \MeetPAT\RecordsJobQue::with(array('process_tracking', 'user'))->whereDate('created_at', '>' , Carbon::now()->subMonth())->orderBy('created_at', 'desc')->get();
-            
+            $jobs = \MeetPAT\RecordsJobQue::with(array("process_tracking", "user"))->whereNotIn("id", $cancelled_jobs)->whereDate('created_at', '>' , Carbon::now()->subMonth())->orderBy('created_at', 'desc')->get();
             return response()->json($jobs);
         } else {
 
             return abort(401);
         }
         
+    }
+
+    public function cancel_job(Request $request)
+    {
+        $user = \MeetPAT\User::find(\MeetPAT\User::where("api_token", $request["api_token"])->get()[0]->id);
+        $is_admin = $user->admin()->get();
+
+        if($is_admin) {
+
+            $records_job = \MeetPAT\RecordsJobQue::find($request["job_id"]);
+            
+            if($records_job and $records_job->status == "pending") {
+                $records_job->update(array("status" => "done"));
+            
+            } else if($records_job->status == "running") {
+                $process_trackings = \MeetPAT\ProcessTracking::where('job_id', '=', $records_job->job_id)->get();
+
+                if($process_trackings) {
+                    $process_trackings->update(array("status" => "complete"));
+                }
+
+                $records_job->update(array("status" == "done"));
+            } else {
+                abort(400);
+            }
+
+            \MeetPAT\CancelledJob::create(array("job_id" => $records_job->id, "admin_id" => $user->id));
+
+            return response("success", 200);
+        } else {
+            return abort(401);
+        }
     }
 
     public function delete_user(Request $request)

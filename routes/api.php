@@ -58,6 +58,7 @@ Route::get('/meetpat-admin/enriched-data-tracked-monthly', 'AdministratorControl
 // Running Jobs
 // TODO: route to get jobs ( default is running jobs ) GET
 Route::get('/meetpat-admin/running-jobs', 'AdministratorController@get_running_jobs')->name('get-running-jobs')->middleware('auth:api');
+Route::post('/meetpat-admin/cancel-job', 'AdministratorController@cancel_job')->name('cancel-running-job')->middleware('auth:api');
 // TODO: route to action job ( Cancel ) if file has not been sent to BSA yet POST
 // TODO: route to action job ( Restart ) if completed or canceled POST
 // TODO: route to get job results ( current and complete ) GET
