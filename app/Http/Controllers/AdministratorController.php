@@ -677,9 +677,9 @@ class AdministratorController extends Controller
                 $records_job->update(array("status" => "done"));
             
             } else if($records_job->status == "running") {
-                $process_trackings = \MeetPAT\ProcessTracking::where('job_id', '=', $records_job->job_id)->get();
+                $process_trackings = \MeetPAT\ProcessTracking::where('job_id', '=', $records_job->job_id);
 
-                if($process_trackings) {
+                if($process_trackings->get()) {
                     $process_trackings->update(array("status" => "complete"));
                 }
 
