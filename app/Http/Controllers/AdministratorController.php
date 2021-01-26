@@ -683,7 +683,7 @@ class AdministratorController extends Controller
                     $process_trackings->update(array("status" => "complete"));
                 }
 
-                $records_job->update(array("status" == "done"));
+                $records_job->update(array("status" => "done"));
             } else {
                 abort(400);
             }
