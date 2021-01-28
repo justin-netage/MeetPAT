@@ -655,7 +655,7 @@ class AdministratorController extends Controller
         
         if($is_admin) {
             $user = \MeetPAT\User::where("api_token", $request->api_token)->get();
-            $jobs = \MeetPAT\RecordsJobQue::with(array("process_tracking", "user"))->whereNotIn("id", $cancelled_jobs)->whereDate('created_at', '>' , Carbon::now()->subMonth())->orderBy('created_at', 'desc')->get();
+            $jobs = \MeetPAT\RecordsJobQue::with(array("process_tracking", "user"))->whereDate('created_at', '>' , Carbon::now()->subMonth())->orderBy('created_at', 'desc')->get()->whereNotIn("records_job_ques.id", $cancelled_jobs);
             return response()->json($jobs);
         } else {
 
