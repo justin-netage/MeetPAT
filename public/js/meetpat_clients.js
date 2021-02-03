@@ -533,13 +533,14 @@ var open_settings = function(client) {
            
             $(".magic-link").click(function() {
                 var client_id = $(this).data('user-id');
-                console.log();
+                $(this).prop("disabled", 1);
+                $(this).append("&nbsp;<i class=\"fas fa-sync-alt fa-spin\"></i>");
                 var link = $.ajax({
                     url: '/api/meetpat-admin/clients/get-magic-link',
                     data: {api_token: auth_token, client_id: client_id},
                     method: 'GET',
                     success: function(data) {
-                        console.log(data);
+                        window.location = data;
                     }
                 });
             });

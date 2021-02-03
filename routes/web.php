@@ -134,7 +134,7 @@ Route::get('/meetpat-client/settings/notifications', 'MeetpatClientController@no
 
 // Client Files
 Route::get('/meetpat-client/files', 'MeetpatClientController@files_main')->name('client-files')->middleware('auth')->middleware('client');
-Route::get('/meetpat-client/files/uploaded-audience-files', 'MeetpatClientController@files_uploaded')->name('client-uploaded-files')->middleware('auth')->middleware('client');
+// Route::get('/meetpat-client/files/uploaded-audience-files', 'MeetpatClientController@files_uploaded')->name('client-uploaded-files')->middleware('auth')->middleware('client');
 Route::get('/meetpat-client/files/saved-audience-files', 'MeetpatClientController@files_saved')->name('client-saved-files')->middleware('auth')->middleware('client');
 /** END MeetPAT Client Routes */
 
