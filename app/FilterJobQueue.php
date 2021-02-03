@@ -23,7 +23,7 @@ class FilterJobQueue extends Model
                             'marital_statuses',
                             'home_ownership_statuses',
                             'property_count_buckets',
-                            'property_valuation_bucket',
+                            'property_valuation_buckets',
                             'primary_property_types',
                             'vehicle_ownership_statuses',
                             'risk_categories',

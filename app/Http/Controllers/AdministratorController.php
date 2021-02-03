@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use DB;
 use Carbon\Carbon;
 
+use Grosv\LaravelPasswordlessLogin\LoginUrl;
 
 class AdministratorController extends Controller
 {
@@ -664,6 +665,28 @@ class AdministratorController extends Controller
         
     }
 
+    public function get_magic_link(Request $request) {
+        $user = \MeetPAT\User::find(\MeetPAT\User::where('api_token', $request["api_token"])->get()[0]->id);
+        $is_admin = $user->admin()->get();
+
+        $client = \MeetPAT\User::find($request["client_id"]);
+
+        if($is_admin) {
+            if($client) {
+                $generator = new LoginUrl($client);
+                $generator->setRedirectUrl('/meetpat-client/settings');
+                $url = $generator->generate();
+                return $url;
+            } else {
+                return abort(400);
+            }
+
+            
+        } else {
+            return abort(401);
+        }
+    }
+
     public function cancel_job(Request $request)
     {
         $user = \MeetPAT\User::find(\MeetPAT\User::where("api_token", $request["api_token"])->get()[0]->id);
@@ -681,6 +704,8 @@ class AdministratorController extends Controller
 
                 if($process_trackings->get()) {
                     $process_trackings->update(array("status" => "complete"));
+
+                    \MeetPAT\CancelJobQueue::create(array("job_id" => $request["job_id"], "status" => "pending"));
                 }
 
                 $records_job->update(array("status" => "done"));

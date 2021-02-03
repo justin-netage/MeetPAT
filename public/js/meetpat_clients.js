@@ -385,6 +385,7 @@ var open_settings = function(client) {
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" data-user-id="${users_id}" class="btn btn-info magic-link"><strong><i class="fas fa-sign-in-alt"></i>&nbsp;Login User</strong></button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><strong>Close</strong></button>
                 </div>
                 </div>
@@ -528,6 +529,21 @@ var open_settings = function(client) {
                 }
                 
             });
+
+           
+            $(".magic-link").click(function() {
+                var client_id = $(this).data('user-id');
+                console.log();
+                var link = $.ajax({
+                    url: '/api/meetpat-admin/clients/get-magic-link',
+                    data: {api_token: auth_token, client_id: client_id},
+                    method: 'GET',
+                    success: function(data) {
+                        console.log(data);
+                    }
+                });
+            });
+          
 
             $("#resetUploads").click(function() {
                 var confirmed = confirm("Are you sure that you want to set this users uploads back to 0?");
