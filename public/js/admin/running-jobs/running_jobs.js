@@ -101,7 +101,7 @@ $(document).ready(function() {
                     "<tr>" +
                         "<td class=\"text-center\">" + (parseInt(key) + 1) + "</td>" +
                         "<td>" + 
-                            created_at.getFullYear() + "-" + months[created_at.getMonth()] + "-" + created_at.getDate() + " " +
+                            created_at.getFullYear() + "-" + months[created_at.getMonth()] + "-" + ('0' + created_at.getDate()).slice(-2) + " " +
                             ('0' + created_at.getHours()).slice(-2) + ":" + ('0' + created_at.getMinutes()).slice(-2) + ":" + ('0' + created_at.getSeconds()).slice(-2) + 
                         "</td>" +
                         "<td>" + data[key]["user"]["name"] + "</td>" +
