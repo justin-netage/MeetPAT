@@ -86,7 +86,7 @@
         <button id="sidebarSubmitBtn" type="button" class="btn btn-secondary btn-block apply-changes-button" disabled="true" type="button" /><i class="fas fa-sync-alt"></i>&nbsp;Apply Filters</button>
         <button type="button" id="resetFilterToastBtn" class="btn btn-secondary btn-block" disabled="disabled"><i class="fas fa-undo-alt"></i>&nbsp;Reset Filters</button>
         <button class="btn btn-secondary btn-block" id="saveAudienceBtn" type="button" data-toggle="modal" data-target="#SaveAudienceModal"><i class="far fa-save"></i>&nbsp;Save Audience</button>
-        <button class="btn btn-secondary btn-block" id="savedAudiencesBtn" type="button" data-toggle="modal" data-target="#SavedAudiencesModal"><i class="far fa-save"></i>&nbsp;Saved Audience Files</button>
+        <button class="btn btn-secondary btn-block" id="savedAudiencesBtn" type="button" data-toggle="modal" data-target="#SavedAudiencesModal"><i class="far fa-save"></i>&nbsp;Saved Audiences</button>
 
     </form>    
 </div>
@@ -1016,7 +1016,7 @@
         </nav>
         <div class="row">
             <div class="col-12">
-            <a href="/meetpat-client/files/saved-audience-files" target="_blank">Upload saved audiences to Facebook or Google custom audience lists. <i class="fas fa-external-link-alt"></i></a>
+            <a href="/meetpat-client/audiences/saved-audiences" target="_blank">Upload saved audiences to Facebook or Google custom audience lists. <i class="fas fa-external-link-alt"></i></a>
             </div>
         </div>
       </div>
