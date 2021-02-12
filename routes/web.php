@@ -133,9 +133,9 @@ Route::get('/meetpat-client/settings/business-details', 'MeetpatClientController
 Route::get('/meetpat-client/settings/notifications', 'MeetpatClientController@notification_settings')->name('notification-settings')->middleware('auth')->middleware('client');
 
 // Client Files
-Route::get('/meetpat-client/files', 'MeetpatClientController@files_main')->name('client-files')->middleware('auth')->middleware('client');
+Route::get('/meetpat-client/audiences', 'MeetpatClientController@files_main')->name('client-audiences')->middleware('auth')->middleware('client');
 // Route::get('/meetpat-client/files/uploaded-audience-files', 'MeetpatClientController@files_uploaded')->name('client-uploaded-files')->middleware('auth')->middleware('client');
-Route::get('/meetpat-client/files/saved-audience-files', 'MeetpatClientController@files_saved')->name('client-saved-files')->middleware('auth')->middleware('client');
+Route::get('/meetpat-client/audiences/saved-audiences', 'MeetpatClientController@files_saved')->name('client-saved-audiences')->middleware('auth')->middleware('client');
 /** END MeetPAT Client Routes */
 
 Route::get('/test-bsapi', 'MiscController@bsapi')->name('bsapi');

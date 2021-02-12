@@ -26,12 +26,12 @@
             </div>
         </a>
 
-        <a class="card-link card-link-orange" href="/meetpat-client/files">
+        <a class="card-link card-link-orange" href="/meetpat-client/audiences">
             <div class="card border-orange">
-                <div class="card-header">Files</div>
+                <div class="card-header">Audiences</div>
                 <div class="card-body text-orange">
                     <h5 class="card-title text-center"><i class="fas fa-folder"></i></h5>
-                    <p class="card-text">View and download your saved audiences, or upload them to a customer list.</p>
+                    <p class="card-text">View and upload your audiences to a customer list.</p>
                 </div>
             </div>
         </a>

@@ -11,11 +11,11 @@
 <div class="container" id="tableContainer">
     <div class="row" id="tableControls">
         <div class="col-12 col-md-6">
-            <h3>Saved Audience Files</h3>
+            <h3>Saved Audiences</h3>
         </div>
         <div class="col-3 col-md-2 col-lg-1">
             <div class="btn-group" role="group" aria-label="Basic example">
-                <a href="/meetpat-client/files" class="btn btn-light"><i class="fas fa-arrow-left"></i></a>
+                <a href="/meetpat-client/audiences" class="btn btn-light"><i class="fas fa-arrow-left"></i></a>
                 <a href="#" id="refreshBtn" class="btn btn-light"><i class="fas fa-sync-alt"></i></a>
             </div>
         </div>
@@ -35,7 +35,7 @@
                     <tr>
                         <th class="text-center">#</th>
                         <th>Date</th>
-                        <th>File Name</th>
+                        <th>Audience Name</th>
                         <th class="text-center">Facebook</th>
                         <th class="text-center">Google</th>
                         <!-- <th class="text-center">Size</th> -->
