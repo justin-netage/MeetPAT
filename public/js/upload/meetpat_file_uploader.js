@@ -151,12 +151,11 @@ $(document).ready(function() {
 
         $("#browseFile").on('change', function(e) {
             upload_file(e.target.files[0]);
-            $("#no-file, #file-warning").hide();
         });
     }
 
     var upload_file = function(file) {
-
+        $("#no-file, #file-warning").hide();
         $("#drop_zone .fileUploadBox").css('background-color', "#fff");
         $("#drop_zone").removeClass("no-file-dropped");
         $("#drop_zone").html(
@@ -277,7 +276,7 @@ $(document).ready(function() {
                 
                 bind_browse_btn();
                 $("#no-file").show();
-                $("#invalid-file").html('<strong><i class="fas fa-exclamation-circle"></i>&nbsp; Error!</strong> File size can\'t be greater that <strong>10MB</strong>. Current file size is <strong>' + formatBytes(file.size) + '</strong>');
+                $("#invalid-file").html('<strong><i class="fas fa-exclamation-circle"></i>&nbsp; Error!</strong> File size can\'t be greater than <strong>10MB</strong>. Current file size is <strong>' + formatBytes(file.size) + '</strong>');
             }
 
         } else {
