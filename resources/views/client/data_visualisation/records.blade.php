@@ -1040,23 +1040,20 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-      <div class="alert alert-warning" role="alert">
-        Your filtered audiences will be saved as a CSV file.
-      </div>      
-      <div class="alerts"></div> 
-      <div class="form-group">
-          <label for="nameFile">Name File</label>
-          <div class="input-group">
-            <input type="text" id="nameFile" name="name_file" class="form-control" placeholder="filename">
-            <div class="invalid-feedback">
-            Please use letters, numbers and underscores instead of spaces.
+      <div class="modal-body">     
+        <div class="alerts"></div> 
+        <div class="form-group">
+            <label for="nameFile">Name File</label>
+            <div class="input-group">
+                <input type="text" id="nameFile" name="name_file" class="form-control" placeholder="filename">
+                <div class="invalid-feedback">
+                Please use letters, numbers and underscores instead of spaces.
+                </div>
             </div>
-          </div>
-      </div> 
-      <div class="alert alert-primary" id="alert-eta" role="alert">
-      This process could take <span id="eta_file_process"></span>. Please be patient.
-      </div> 
+        </div> 
+        <div class="alert alert-primary" id="alert-eta" role="alert">
+        This process could take <span id="eta_file_process"></span>. Please be patient.
+        </div> 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
