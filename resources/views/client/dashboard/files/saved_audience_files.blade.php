@@ -35,8 +35,8 @@
                     <tr>
                         <th class="text-center">#</th>
                         <th>Date</th>
-                        <th>Name</th>
-                        <th class="text-center">Size</th>
+                        <th>File Name</th>
+                        <th class="text-center">List Size</th>
                         <th class="text-center">Facebook</th>
                         <th class="text-center">Google</th>
                         <!-- <th class="text-center">Size</th> -->
