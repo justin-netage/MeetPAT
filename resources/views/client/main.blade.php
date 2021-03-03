@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row justify-content-center mb-5">
 
-        <a class="card-link card-link-secondary" href="/meetpat-client/upload">
+        <a class="card-link card-link-secondary" href="{{ route('upload-client-data') }}">
             <div class="card border-secondary">
                 <div class="card-header">Upload Contacts</div>
                 <div class="card-body text-secondary">
