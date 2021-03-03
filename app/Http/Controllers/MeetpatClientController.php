@@ -1474,7 +1474,7 @@ class MeetpatClientController extends Controller
         foreach($files_array as $key=>$file)
         {
             $files_array->items()[$key]["created_at"] = Carbon::parse($files_array->items()[$key]["created_at"])->addHour(2);
-
+            $files_array->items()[$key]["audience_file"] = $files_array->items()[$key]->save_file_job;
             // if(\Storage::disk('s3')->exists('client/saved-audiences/user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv'))
             // {
             //     $files_array->items()[$key]["download"] = \Storage::disk('s3')->temporaryUrl('client/saved-audiences/user_id_' . $request->user_id . '/' . $files_array[$key]["file_unique_name"] . '.csv', now()->addMinutes(60),

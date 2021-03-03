@@ -26,7 +26,7 @@
             </div>
         </a>
 
-        <a class="card-link card-link-orange" href="/meetpat-client/audiences">
+        <a class="card-link card-link-orange" href="/meetpat-client/audiences/saved-audiences">
             <div class="card border-orange">
                 <div class="card-header">Audiences</div>
                 <div class="card-body text-orange">

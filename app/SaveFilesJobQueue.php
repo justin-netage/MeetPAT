@@ -8,4 +8,5 @@ class SaveFilesJobQueue extends Model
 {
     //
     protected $fillable = ["user_id", "status", "saved_file_id", "saved_filters_id", "number_of_records"];
+    protected $casts = ["saved_file_id" => "integer", "saved_filters_id" => 'integer'];
 }

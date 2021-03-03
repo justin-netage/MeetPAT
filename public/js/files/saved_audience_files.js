@@ -11,13 +11,17 @@ function getPagingRange(current, {min = 1, total = 20, length = 5} = {}) {
     return Array.from({length: length}, (el, i) => start + i);
 }
 
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 $(document).ready(function() {
     // check if there are pending jobs 
     var check_pending_jobs = window.setInterval(function() {
     
         $.get("/api/meetpat-client/files/get-saved-audiences",
             {api_token: auth_token, user_id: user_id, page: '', search_term: ''} ,function(data, textStatus,jqXHR) {
-            //console.log(data);
+            console.log(data);
             if(data.data.length) {
                 for(var key in data.data) {
                     if(data.data[key].fb_audience_upload_job.length) {
@@ -237,7 +241,7 @@ $(document).ready(function() {
 
         $.get("/api/meetpat-client/files/get-saved-audiences",
             {api_token: auth_token, user_id: user_id, page: page, search_term: search_term}, function(data, textStatus,jqXHR) {
-                //console.log(data);
+            // console.log(data);
             $("#tableBody").empty();
             $("#mobileTableData tbody").empty();
             $("#refreshBtn").prop("disabled", 0);
@@ -303,6 +307,7 @@ $(document).ready(function() {
                             "<td class=\"text-center\">" + (parseInt(key, 10) + 1) + "</td>" +
                             "<td>" + data.data[key].created_at + "</td>" +
                             "<td id=\"fileName-" + data.data[key].id + "\" class=\"text-truncate\" style=\"max-width: 125px;\" title=\"" + data.data[key].file_name + "\">" + data.data[key].file_name + "</td>" +
+                            "<td id=\"numberOfRecords-" + data.data[key].id + "\" class=\"text-center\" style=\"max-width: 125px;\" title\"number of records\">" + numberWithCommas(data.data[key].audience_file.number_of_records) + "</td>" +
                                 fb_upload_html +
                                 google_upload_html +
                             // "<td class=\"text-center\">" + data.data[key].size + "</td>" +
@@ -321,8 +326,8 @@ $(document).ready(function() {
                             "<td class=\"col-10\">" +
                                 "<ul class=\"list-unstyled\">" +
                                     "<li><strong>#</strong> " + (parseInt(key, 10) + 1) + "</li>" +
+                                    "<li><strong>Audience</strong> " + numberWithCommas(data.data[key].audience_file.number_of_records) + "</li>" +
                                     "<li><strong>Date</strong> " + data.data[key].created_at + "</li>" +
-                                    // "<li><strong>Size</strong> " + data.data[key].size + "</li>" +
                                      mobile_fb_upload_html +
                                      mobile_google_upload_html +
                                     // "<li><strong>Download</strong> <a href=\"" + data.data[key].download + "\"><i class=\"fas fa-file-csv\"></i></a></li>" +

@@ -175,7 +175,7 @@
                                     <a class="dropdown-item account-item" href="/meetpat-client/settings">
                                         Settings
                                     </a>
-                                    <a class="dropdown-item account-item" href="/meetpat-client/audiences">
+                                    <a class="dropdown-item account-item" href="/meetpat-client/audiences/saved-audiences">
                                         Audiences
                                     </a>
                                     @endif
