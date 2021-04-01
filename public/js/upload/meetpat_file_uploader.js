@@ -142,15 +142,18 @@ $(document).ready(function() {
     });
 
     var bind_browse_btn = function() {
-        $("#browseBtn").unbind();
-        $("#browseFile").unbind();
+        $("#browseBtn").off();
+        $("#browseFile").off();
 
         $("#browseBtn").click(function() {
             $("#browseFile").click();
         });
 
         $("#browseFile").on('change', function(e) {
-            upload_file(e.target.files[0]);
+            if($(this).val()) {
+                upload_file(e.target.files[0]);
+            }
+            
         });
     }
 
