@@ -104,7 +104,7 @@ $(document).ready(function() {
                             "</div>"
                         );      
                             
-                        $(".fa-undo-alt").unbind();
+                        $(".fa-undo-alt").off();
                         $(".fa-undo-alt").click(function() {
                             $("#submit_audience").prop("disabled", true);
                             $("#fileId").val("");
@@ -178,7 +178,7 @@ $(document).ready(function() {
 
         if(file.name.split('.')[1] == 'csv') {
             
-            if(!(file.size > 10000000)) {
+            if(!(file.size > 10485760)) {
                 $.get('/api/get-aws-credentials', { api_token: $("#authToken").val() }, function(data) {
 
                     var albumBucketName = "meetpat.fileuploads";
@@ -243,7 +243,7 @@ $(document).ready(function() {
                         
                             $("#drop_zone .fileUploadBox .progress-bar").addClass('bg-success');
                             $("#drop_zone .fileUploadBox .upload-progress").html("100%");
-                            $(".cancelUpload").unbind();
+                            $(".cancelUpload").off();
                             $(".cancelUpload").click(function() {
                                 $(".cancelUpload").html("<div class=\"spinner-border spinner-border-sm\" role=\"status\"><span class=\"sr-only\">Loading...</span></div>");
                                 delete_file(fileKey, 'new_files/');
