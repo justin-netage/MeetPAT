@@ -3882,7 +3882,7 @@ function DrawCustomMetricsCharts() {
 
         // Campaigns chart. Custom Variable 3
 
-        if(!data["sources"].length) {
+        if(!data["others"].length) {
             $("#other-graph").hide();
         }
         
