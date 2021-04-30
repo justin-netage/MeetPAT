@@ -59,7 +59,7 @@ class AdministratorController extends Controller
                                                'password' => \Hash::make($request->password),
                                                'api_token' => Str::random(60) ]);
 
-            $new_client = \MeetPAT\MeetpatClient::create(['user_id' => $new_user->id, 'active' => 1]);
+            $new_client = \MeetPAT\MeetpatClient::create(['user_id' => $new_user->id, 'active' => 1, 'reseller_id' => $request->reseller_id]);
             $uploads = \MeetPAT\ClientUploads::create(["user_id" => $new_user->id, "upload_limit" => 10000, "uploads" => 0]);
 
             $client_details = \MeetPAT\MeetpatClientDetail::create(['user_id' => $new_user->id,
@@ -265,6 +265,33 @@ class AdministratorController extends Controller
         return response()->json(['message' => $status_message, 'user_type' => $user_type, 'user_was_active' => $user_was_active]);
     }
 
+    public function reseller_active_change(Request $request)
+    {
+        $user = \MeetPAT\User::find($request->user_id);
+        $status_message = 'An Error has ocured. Please contact us for support.';
+        $user_type = 'none';
+        $user_was_active = 0;
+
+        if($user and $user->reseller) {
+            $status_message = 'User is a client.';
+            $user_type = 'client';
+
+            if($user->reseller->active)
+            {
+                $user_was_active = 1;
+                $user->reseller->update(['active' => 0 ]);
+            } else {
+                $user->reseller->update(['active' => 1 ]);
+            }
+            
+        } else {
+            $status_message = 'User not found';
+        }
+
+        return response()->json(['message' => $status_message, 'user_type' => $user_type, 'user_was_active' => $user_was_active]);
+
+    }
+
     // Views
 
     // public function users_view()
@@ -283,7 +310,7 @@ class AdministratorController extends Controller
 
     public function create_client_view()
     {
-        return view('admin.clients.create_client');
+        return view('admin.clients.create_client', array('route' => 'create-user-save'));
     }
 
     public function get_users(Request $request)
@@ -298,17 +325,31 @@ class AdministratorController extends Controller
             ->orWhere('email', 'ilike', '%' . $request->search_term . '%')->has('client')->doesnthave('client_removal')
             ->orWhere('name', 'ilike', '%' . $request->search_term . '%')->has('client')->doesnthave('client_removal')
             ->orderBy('created_at', 'desc')->paginate(10);
-
         } else {
             $users_array = \MeetPAT\User::select(["id", "name", "email", "created_at"])->has('client')->doesnthave('client_removal')->with(array('client', 'client_details'))->orderBy('created_at', 'desc')->paginate(10);
         }
 
         return response()->json($users_array);
-        
-        $users = \MeetPAT\User::has('client_details')->with(["client_details" => function($client_details) {
-            $client_details->where('meetpat_client_details.business_registered_name', '!=', null);
-        }])->get();
 
+    }
+
+    public function get_reseller_users(Request $request)
+    {
+        $currentPage = $request->current;
+
+        if($request->search_term)
+        {
+            $reseller_users_array = \MeetPAT\User::select(["id", "name", "email", "created_at"])->with(array("reseller"))
+            ->whereHas('client_details', function($query) use ($request) { 
+                $query->where('business_registered_name', 'ilike', '%' . $request->search_term . '%');})->has('reseller')->doesnthave('client_removal')
+            ->orWhere('email', 'ilike', '%' . $request->search_term . '%')->has('reseller')->doesnthave('client_removal')
+            ->orWhere('name', 'ilike', '%' . $request->search_term . '%')->has('reseller')->doesnthave('client_removal')
+            ->orderBy('created_at', 'desc')->paginate(10);
+        } else {
+            $reseller_users_array = \MeetPAT\User::select(["id", "name", "email", "created_at"])->has('reseller')->doesnthave('client_removal')->with(array('reseller'))->orderBy('created_at', 'desc')->paginate(10);
+        }
+
+        return response()->json($reseller_users_array);
     }
 
     // route functions for user files to download
@@ -586,9 +627,24 @@ class AdministratorController extends Controller
 
     /** BEGIN Reseller Controllers */
 
+    public function all_resellers(Request $request)
+    {
+        $user = \MeetPAT\User::where('api_token', $request->api_token)->first()->admin;
+
+        if($user) {
+            return array('data' => \MeetPAT\User::join('resellers', 'users.id', '=', 'resellers.user_id')->get());
+        } else {
+            return abort(401);
+        }
+    }
+
     public function resellers_view()
     {
-        return view('admin.resellers.resellers');
+        $user_api_token = \Auth::user()->api_token;
+        $clients = \MeetPAT\User::join('resellers', 'users.id', '=', 'resellers.user_id')->where('user_id', '!=', 72)->get();
+
+        return view('admin.resellers.resellers', ['user_api_token' => $user_api_token, 'clients' => $clients]);
+
     }
 
     public function create_reseller_view()
@@ -739,6 +795,18 @@ class AdministratorController extends Controller
 
         
         return response()->json(["status" => "success", "message" => "Success. Client Queued for Deletion"]);
+    }
+
+    public function delete_reseller(Request $reqeust)
+    {
+        $reseller = \Meetpat\User::where(["name" => $request->user_name, "id" => $request->user_id])->get();
+
+        if($reseller) {
+            $reseller_update = \MeetPAT\User::find($reseller[0]->id);
+            $reseller_update->email = "removed_" . Carbon::now()->timestamp . "_" . $reseller_update->email;
+            $reseller_update->save();
+            $reseller_update->reseller->update(['active' => 0]); 
+        }
     }
 
 }

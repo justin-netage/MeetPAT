@@ -79,7 +79,7 @@
                             </li>
                             <li class="nav-item dropdown admin-dropdowns">
                                 @if(Request::path() == 'meetpat-admin/resellers' or Request::path() == 'meetpat-admin/resellers/create')
-                                <a class="nav-link dropdown-toggle nav-link-active disabled" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-tie"></i>&nbsp;Resellers</a></a>
+                                <a class="nav-link dropdown-toggle nav-link-active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-tie"></i>&nbsp;Resellers</a></a>
 
                                 @else
                                 <a class="nav-link dropdown-toggle disabled" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-tie"></i>&nbsp;Resellers</a></a>
@@ -124,6 +124,30 @@
                             <li><a class="nav-link nav-link-inactive" href="{{ route('client-saved-audiences') }}"><i class="fas fa-save"></i></i>&nbsp;Saved Audiences</a></li>
                             @endif
                         @endif
+
+                        @if(\Auth::user()->reseller)
+                        <li class="nav-item dropdown admin-dropdowns">
+                                @if(Request::path() == 'meetpat-reseller/clients' or Request::path() == 'meetpat-admin/clients/create')
+                                <a class="nav-link dropdown-toggle nav-link-active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-users"></i>&nbsp;Clients</a></a>
+                                @else
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-users"></i>&nbsp;Clients</a></a>
+                                @endif
+                                <div class="dropdown-menu">
+                                    @if(Request::path() == 'meetpat-reseller/clients')
+                                    <a class="dropdown-item active-item" href="#"><i class="fas fa-users-cog"></i>&nbsp;Clients</a>
+                                    @else
+                                    <a class="dropdown-item" href="/meetpat-reseller/clients"><i class="fas fa-users-cog"></i>&nbsp;Clients</a>
+                                    @endif
+
+                                    @if(Request::path() == 'meetpat-reseller/clients/create')
+                                    <a class="dropdown-item active-item" href="#"><i class="fas fa-user-plus"></i>&nbsp;Add Client</a>
+                                    @else
+                                    <a class="dropdown-item" href="/meetpat-reseller/clients/create"><i class="fas fa-user-plus"></i>&nbsp;Add Client</a>
+                                    @endif                                    
+                                </div>
+                            </li>
+                        @endif
+
                     @endguest
 
                     </ul>

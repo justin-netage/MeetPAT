@@ -17,8 +17,9 @@
                 <div class="card-header"><h1>{{ __('Add Client') }}</h1></div>
 
                 <div class="card-body">
-                    <form method="POST" id="new-user-form" autocomplete="off" action="{{ route('create-user-save') }}" onsubmit="displayLoader();">
+                    <form method="POST" id="new-user-form" autocomplete="off" action="{{ route($route) }}" onsubmit="displayLoader();">
                         @csrf
+                        <input type="hidden" name="reseller_id" value="{{\Auth::user()->id}}">
                         <div class="form-group">
                             <label for="email">{{ __('First Name') }}</label>
 

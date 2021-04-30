@@ -67,8 +67,6 @@ Route::get('/meetpat-admin/running-jobs', 'AdministratorController@running_jobs'
 
 Route::get('meetpat-admin/clients', 'AdministratorController@clients_view')->name('meetpat-clients')->middleware('auth')->middleware('admin');
 
-// TODO Create Reseller user form
-
 Route::get('/meetpat-admin/resellers', 'AdministratorController@resellers_view')->name('meetpat-resellers')->middleware('auth')->middleware('admin');
 Route::get('/meetpat-admin/resellers/create', 'AdministratorController@create_reseller_view')->name('create-reseller')->middleware('auth')->middleware('admin');
 Route::post('/meetpat-admin/resellers/create/save', 'AdministratorController@create_reseller')->name('create-reseller-save')->middleware('auth')->middleware('admin');
@@ -77,7 +75,9 @@ Route::post('/meetpat-admin/resellers/create/save', 'AdministratorController@cre
 
 /** BEGIN MeetPAT Reseller Routes */
 Route::get('/meetpat-reseller', 'ResellerController@main')->name('meetpat-reseller')->middleware('auth')->middleware('reseller');
-// TODO Reseller routes and controllers 
+Route::get('/meetpat-reseller/clients/create', 'ResellerController@create_client_view')->name('reseller-create-client')->middleware('auth')->middleware('reseller');
+Route::post('/meetpat-reseller/clients/save', 'ResellerController@save_client')->name('reseller-save-client')->middleware('auth')->middleware('reseller');
+Route::get('/meetpat-reseller/clients', 'ResellerController@clients_view')->name('reseller-clients')->middleware('auth')->middleware('reseller');
 
 /** END Reseller Routes */
 

@@ -22,10 +22,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/send-message', 'ContactController@send_message')->name('send-message');
 
 
-/** BEGIN Administrator routes */
+/** BEGIN Administrator Routes */
 // Note add ->middleware('auth')
 
 Route::get('/meetpat-admin/get-users', 'AdministratorController@get_users')->name('get-users')->middleware('auth:api');
+Route::get('/meetpat-admin/get-resellers', 'AdministratorController@get_reseller_users')->name('get-resellers')->middleware('auth:api');
 
 Route::get('/meetpat-admin/users', 'AdministratorController@users')->name('users');
 Route::get('/meetpat-admin/users/count', 'AdministratorController@user_count')->name('user-count');
@@ -35,6 +36,11 @@ Route::post('/meetpat-admin/users/edit', 'AdministratorController@edit_user')->n
 Route::post('/meetpat-admin/users/active-status-change', 'AdministratorController@active_change')->name('change-user-status')->middleware('auth:api');
 Route::post('/meetpat-admin/users/delete', 'AdministratorController@delete_user')->name('delete-user');
 
+Route::post('/meetpat-admin/resellers/create', 'AdministratorController@create_reseller')->name('create-reseller')->middleware('auth');
+Route::post('/meetpat-admin/resellers/edit', 'AdministratorController@edit_reseller')->name('edit-reseller');
+Route::post('/meetpat-admin/resellers/active-status-change', 'Administrator@reseller_active_change')->name('change-reseller-status')->middleware('auth:api');
+Route::post('/meetpat-admin/resellers/delete', 'AdministratorController@delete_reseller')->name('delete-reseller');
+
 Route::post('/meetpat-admin/users/unique-email', 'AdministratorController@unique_email')->name('unique-email');
 
 Route::get('/meetpat-admin/clients/all', 'AdministratorController@all_clients')->name('all-clients')->middleware('auth:api');
@@ -43,6 +49,8 @@ Route::post('/meetpat-admin/clients/files', 'AdministratorController@get_user_fi
 Route::get('/meetpat-admin/clients/get-magic-link', 'AdministratorController@get_magic_link')->name('get-magic-link')->middleware('auth:api');
 
 Route::get('/meetpat-admin/resellers/all', 'AdministratorController@all_resellers')->name('all-resellers')->middleware('auth:api');
+Route::get('/meetpat-admin/reseller/get', 'AdministratorController@get_reseller')->name('get-reseller')->middleware('auth:api');
+Route::post('/meetpat-admin/reseller/clients', 'AdministratorController@get_reseller_clients')->name('get-resellers-clients')->middleware('auth:api');
 
 // User settings
 Route::post('/meetpat-admin/settings/clear-uploads', 'AdministratorController@clear_user_uploads')->name('clear-uploads');
@@ -57,16 +65,20 @@ Route::get('/meetpat-admin/enriched-data-tracked-day', 'AdministratorController@
 Route::get('/meetpat-admin/enriched-data-tracked-monthly', 'AdministratorController@get_enriched_data_tracking_monthly')->name('get-enriched-data-tracking-monthly');
 
 // Running Jobs
-// TODO: route to get jobs ( default is running jobs ) GET
 Route::get('/meetpat-admin/running-jobs', 'AdministratorController@get_running_jobs')->name('get-running-jobs')->middleware('auth:api');
 Route::post('/meetpat-admin/cancel-job', 'AdministratorController@cancel_job')->name('cancel-running-job')->middleware('auth:api');
-// TODO: route to action job ( Cancel ) if file has not been sent to BSA yet POST
-// TODO: route to action job ( Restart ) if completed or canceled POST
-// TODO: route to get job results ( current and complete ) GET
 
 
+/** END Administrator Routes */
 
-/** END Administrator routes */
+/** Reseller Routes */
+
+Route::get('/meetpat-reseller/get-clients', 'ResellerController@get_clients')->name('get-clients')->middleware('auth:api');
+
+
+/** END Reseller Routes */
+
+
 
 // Password Generator
 Route::get('/meetpat-admin/generate-password', 'MiscController@generate_password')->name('password-generator');

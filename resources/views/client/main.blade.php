@@ -93,9 +93,28 @@
 
     </div>
 </div>
+@elseif(\Auth::user()->reseller)
+
+<div class="container">
+    <div class="row justify-content-center mb-5">
+
+        <a class="card-link card-link-secondary" href="/meetpat-reseller/clients">
+            <div class="card border-secondary">
+                <div class="card-header">Clients</div>
+                <div class="card-body text-secondary">
+                    <h5 class="card-title text-center"><i class="fas fa-users"></i></i></h5>
+                    <p class="card-text">View clients and change their configurations.</p>
+                </div>
+            </div>
+        </a>
+
+    </div>
+</div>
+
 @else
 
-None
+Your account has no affiliation with MeetPAT please contact us if you think there has been a mistake.
+
 @endif
 
 @endsection

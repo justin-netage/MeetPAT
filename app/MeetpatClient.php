@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class MeetpatClient extends Model
 {
     //
-    protected $fillable = ['user_id', 'active'];
+    protected $fillable = ['user_id', 'active', 'reseller_id'];
 }
