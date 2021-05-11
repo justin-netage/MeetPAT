@@ -86,7 +86,6 @@
                                 <label>Original Data Source</label>
                                 <select name="file_source_origin" class="form-control" id="origin-of-upload">
                                     <option value="directly_from_customers">Customers</option>
-                                    <option value="from_partners">From Partners</option>
                                 </select>
                             </div>
                             <div class="form-group">
