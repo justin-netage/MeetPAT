@@ -46,6 +46,16 @@
 @section('scripts')
 <script type="text/javascript">
     $(document).ready(function() {
+
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const auth_code = urlParams.get('code');
+        console.log(auth_code);
+
+        if(auth_code) {
+            $('#auth-code').val(auth_code);
+        }
+
         var checkForm = function() {
             
             if($('#adwords-id').is(':invalid') || $('#auth-code').is(':invalid')) {
