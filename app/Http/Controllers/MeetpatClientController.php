@@ -153,7 +153,7 @@ class MeetpatClientController extends Controller
         $oauth2 = new OAuth2(
             [
                 'authorizationUri' => 'https://accounts.google.com/o/oauth2/v2/auth',
-                'redirectUri' => 'urn:ietf:wg:oauth:2.0:oob',
+                'redirectUri' => 'https://dashboard.meetpat.co.za/meetpat-client/sync/google',
                 'tokenCredentialUri' => CredentialsLoader::TOKEN_CREDENTIAL_URI,
                 'clientId' => env('GOOGLE_CLIENT_ID'),
                 'clientSecret' => env('GOOGLE_CLIENT_SECRET'),
@@ -187,7 +187,7 @@ class MeetpatClientController extends Controller
         $oauth2 = new OAuth2(
             [
                 'authorizationUri' => 'https://accounts.google.com/o/oauth2/v2/auth',
-                'redirectUri' => 'urn:ietf:wg:oauth:2.0:oob',
+                'redirectUri' => 'https://dashboard.meetpat.co.za/meetpat-client/sync/google',
                 'tokenCredentialUri' => CredentialsLoader::TOKEN_CREDENTIAL_URI,
                 'clientId' => env('GOOGLE_CLIENT_ID'),
                 'clientSecret' => env('GOOGLE_CLIENT_SECRET'),
