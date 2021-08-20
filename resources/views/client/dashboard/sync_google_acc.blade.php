@@ -47,15 +47,6 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        const auth_code = urlParams.get('code');
-        console.log(auth_code);
-
-        if(auth_code) {
-            $('#auth-code').val(auth_code);
-        }
-
         var checkForm = function() {
             
             if($('#adwords-id').is(':invalid') || $('#auth-code').is(':invalid')) {
@@ -67,6 +58,17 @@
             }
 
         }
+
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const auth_code = urlParams.get('code');
+        console.log(auth_code);
+
+        if(auth_code) {
+            $('#auth-code').val(auth_code);
+            checkForm();
+        }
+
         document.getElementById('adwords-id').setCustomValidity('Invalid');
         document.getElementById('auth-code').setCustomValidity('Invalid');
 
