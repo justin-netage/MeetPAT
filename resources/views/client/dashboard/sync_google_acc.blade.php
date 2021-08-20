@@ -67,6 +67,16 @@
 
         if(auth_code) {
             $('#auth-code').val(auth_code);
+            if($("#auth-code").val().length > 0) {
+                this.setCustomValidity('');
+                $(this).addClass('is-valid');
+                $(this).removeClass('is-invalid');
+            } else {
+                this.setCustomValidity('Invalid');
+                $(this).removeClass('is-valid');
+                $(this).addClass('is-invalid');
+            }
+            
             checkForm();
         }
 
