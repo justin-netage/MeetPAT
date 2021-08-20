@@ -19,11 +19,6 @@
                                 <strong>Please get your authorization code from Google by clicking "Get Code. Then copy and paste it."</strong>
                             </span>
                         </div>
-                        <div class="form-group mb-0">
-                            <button type="button" id="submit_id" disabled="disabled" class="btn btn-primary">
-                                {{ __('Submit') }}
-                            </button>
-                        </div>
                         <input type="hidden" name="user_id" id="user_id" value="{{\Auth::user()->id}}">
                         <div class="form-group">
                             <label for="adwords_id">{{__('Google Ads Account ID') }}</label>
@@ -32,6 +27,11 @@
                             <span class="invalid-feedback" role="alert">
                                 <strong>Your Google Ads Account ID is required and must be in the correct format</strong>
                             </span>
+                        </div>
+                        <div class="form-group mb-0">
+                            <button type="button" id="submit_id" disabled="disabled" class="btn btn-primary">
+                                {{ __('Submit') }}
+                            </button>
                         </div>
                     </form>
                     </div>
@@ -68,13 +68,13 @@
         if(auth_code) {
             $('#auth-code').val(auth_code);
             if($("#auth-code").val().length > 0) {
-                this.setCustomValidity('');
-                $(this).addClass('is-valid');
-                $(this).removeClass('is-invalid');
+                $('#auth-code').get(0).setCustomValidity('');
+                $('#auth-code').addClass('is-valid');
+                $('#auth-code').removeClass('is-invalid');
             } else {
-                this.setCustomValidity('Invalid');
-                $(this).removeClass('is-valid');
-                $(this).addClass('is-invalid');
+                $('#auth-code').get(0).setCustomValidity('Invalid');
+                $('#auth-code').removeClass('is-valid');
+                $('#auth-code').addClass('is-invalid');
             }
             
             checkForm();
