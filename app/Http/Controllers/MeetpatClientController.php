@@ -204,13 +204,13 @@ class MeetpatClientController extends Controller
         $authToken = $oauth2->fetchAuthToken();
 
         if($authToken) {
-            return response()->json(["authToken" => $authToken]);
-            // $has_ad_account = \MeetPAT\GoogleAdwordsAccount::where('user_id', $user->id)->first();
-            // if(!$has_ad_account) {
-            //     \MeetPAT\GoogleAdwordsAccount::create(['user_id' => $user->id, 'ad_account_id' => $request->adwords_id, 'access_token' => $authToken['refresh_token'] ]);
-            // } else {
-            //     $has_ad_account->update(['ad_account_id' => $request->adwords_id, 'access_token' => $authToken['refresh_token'] ]);
-            // }
+            
+            $has_ad_account = \MeetPAT\GoogleAdwordsAccount::where('user_id', $user->id)->first();
+            if(!$has_ad_account) {
+                \MeetPAT\GoogleAdwordsAccount::create(['user_id' => $user->id, 'ad_account_id' => $request->adwords_id, 'access_token' => $authToken['access_token'] ]);
+            } else {
+                $has_ad_account->update(['ad_account_id' => $request->adwords_id, 'access_token' => $authToken['access_token'] ]);
+            }
 
             // \Session::flash('success', 'Your account has been authorized successfully.');
 
