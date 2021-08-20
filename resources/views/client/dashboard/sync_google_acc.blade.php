@@ -47,13 +47,14 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
+        document.getElementById('adwords-id').setCustomValidity('Invalid');
+        document.getElementById('auth-code').setCustomValidity('Invalid');
+
         var checkForm = function() {
             
             if($('#adwords-id').is(':invalid') || $('#auth-code').is(':invalid')) {
                 $("#submit_id").prop('disabled', true);
             } else if($('#adwords-id').is(':valid') && $('#auth-code').is(':valid')) {
-                $("#submit_id").prop('disabled', false);
-            } else {
                 $("#submit_id").prop('disabled', false);
             }
 
@@ -68,9 +69,6 @@
             $('#auth-code').val(auth_code);
             checkForm();
         }
-
-        document.getElementById('adwords-id').setCustomValidity('Invalid');
-        document.getElementById('auth-code').setCustomValidity('Invalid');
 
         $("#submit_id").on('click', function() {
             $("#submit_id").html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;&nbsp;Submitting...')
