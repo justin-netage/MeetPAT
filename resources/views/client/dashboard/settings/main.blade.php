@@ -18,7 +18,7 @@
                 <div class="card-header">Synch With Facebook</div>
                 <div class="card-body text-facebook">
                     <h5 class="card-title text-center"><i class="fab fa-facebook-f"></i></h5>
-                    <p class="card-text">Synch your account with facebook to upload your customer list.</p>
+                    <p class="card-text">Synch your account with Facebook to upload your customer list.</p>
                 </div>
             </div>
         </a>
@@ -27,7 +27,7 @@
                 <div class="card-header">Synch With Google</div>
                 <div class="card-body text-google">
                     <h5 class="card-title text-center"><i class="fab fa-google"></i></h5>
-                    <p class="card-text">Synch your account with google to upload your custom audience.</p>
+                    <p class="card-text">Synch your account with Google Ads to upload your custom audience.</p>
                 </div>
             </div>
         </a>
