@@ -10,21 +10,21 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
-        "@babel/preset-react": "^7.10.4",
-        "axios": "^0.19.2",
+        "@babel/preset-react": "^7.14.5",
+        "axios": "^0.21.3",
         "babel-preset-react": "^6.24.1",
-        "bootstrap": "^4.5.0",
+        "bootstrap": "^4.6.0",
         "cross-env": "^5.2.1",
-        "jquery": "^3.5.1",
+        "jquery": "^3.6.0",
         "laravel-mix": "^4.1.4",
-        "lodash": "^4.17.19",
+        "lodash": "^4.17.21",
         "popper.js": "^1.16.1",
-        "react": "^16.13.1",
-        "react-dom": "^16.13.1",
+        "react": "^16.14.0",
+        "react-dom": "^16.14.0",
         "resolve-url-loader": "^2.3.2",
-        "sass": "^1.26.10",
+        "sass": "^1.39.0",
         "sass-loader": "^7.3.1",
-        "tar": "^6.0.2"
+        "tar": "^6.1.11"
     },
     "dependencies": {
         "flipclock": "^0.7.8",
@@ -32,7 +32,7 @@
         "fuse.js": "^3.6.1",
         "react-bootstrap": "^0.32.4",
         "react-pose": "^4.0.10",
-        "react-spinners": "^0.5.12",
+        "react-spinners": "^0.11.0",
         "request": "^2.88.2"
     }
 }
