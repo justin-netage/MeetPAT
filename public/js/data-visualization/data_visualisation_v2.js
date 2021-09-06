@@ -2428,84 +2428,84 @@ function DrawAssetsGraphs() {
                     update_progress();
 
                     // Primary Property Type
-                    $("#primary-property-type-graph .spinner-block").hide();    
-                    $("#primary_property_type_filter").empty();
+                    // $("#primary-property-type-graph .spinner-block").hide();    
+                    // $("#primary_property_type_filter").empty();
         
-                    var data_primary_property_types = new google.visualization.DataTable();
-                    data_primary_property_types.addColumn('string', 'Primary Property Type');
-                    data_primary_property_types.addColumn('number', 'Records');
-                    data_primary_property_types.addColumn({type: 'string', role: 'annotation'});
-                    data_primary_property_types.addColumn({type: 'string', role: 'tooltip'});
+                    // var data_primary_property_types = new google.visualization.DataTable();
+                    // data_primary_property_types.addColumn('string', 'Primary Property Type');
+                    // data_primary_property_types.addColumn('number', 'Records');
+                    // data_primary_property_types.addColumn({type: 'string', role: 'annotation'});
+                    // data_primary_property_types.addColumn({type: 'string', role: 'tooltip'});
         
-                    var result_primary_property_types = Object.keys(data["primary_property_types"]).map(function(key) {
-                        return [data["primary_property_types"][key]["primaryPropertyType"], data["primary_property_types"][key]["audience"],
-                         kFormatter(data["primary_property_types"][key]["audience"]), keyChangerPropertyType(data["primary_property_types"][key]["primaryPropertyType"])];
-                    });
+                    // var result_primary_property_types = Object.keys(data["primary_property_types"]).map(function(key) {
+                    //     return [data["primary_property_types"][key]["primaryPropertyType"], data["primary_property_types"][key]["audience"],
+                    //      kFormatter(data["primary_property_types"][key]["audience"]), keyChangerPropertyType(data["primary_property_types"][key]["primaryPropertyType"])];
+                    // });
                 
-                        data_primary_property_types.addRows(result_primary_property_types);
-                        // Set chart options
-                        var chart_options_primary_property_types = {
-                                        'width':'100%',
-                                        'fontSize': 10,
-                                        'chartArea': {
-                                            top: '20',
-                                            width: '60%',
-                                            height: '75%'
-                                            },
-                                        vAxis: {
-                                            minValue: 0, 
-                                            format: "short"
-                                        }, 
-                                        'colors': ['#00A3D9'],
-                                        'animation': {
-                                            'startup':true,
-                                            'duration': 1000,
-                                            'easing': 'out'
-                                        },
-                                        'legend': {
-                                            position: 'none'
-                                        },
-                                        'backgroundColor': '#f7f7f7'
-                                    };
-                        for (var key in data["primary_property_type_distinct"]) {
-                            if(target_primary_property_types.includes(data["primary_property_type_distinct"][key]["primaryPropertyType"])) {
-                                $("#primary_property_type_filter").append(
-                                    '<input type="checkbox" name="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '" id="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '_option' +'" value="' + data["primary_property_type_distinct"][key]["primaryPropertyType"] + '" class="css-checkbox" checked="checked"><label for="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '_option' +'" class="css-label">' + keyChangerPropertyType(data["primary_property_type_distinct"][key]["primaryPropertyType"]) + '</label><br />'
-                                );
-                            } else {
-                                $("#primary_property_type_filter").append(
-                                    '<input type="checkbox" name="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '" id="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '_option' +'" value="' + data["primary_property_type_distinct"][key]["primaryPropertyType"] + '" class="css-checkbox"><label for="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '_option' +'" class="css-label">' + keyChangerPropertyType(data["primary_property_type_distinct"][key]["primaryPropertyType"]) + '</label><br />'
-                                );
-                            }
+                    //     data_primary_property_types.addRows(result_primary_property_types);
+                    //     // Set chart options
+                    //     var chart_options_primary_property_types = {
+                    //                     'width':'100%',
+                    //                     'fontSize': 10,
+                    //                     'chartArea': {
+                    //                         top: '20',
+                    //                         width: '60%',
+                    //                         height: '75%'
+                    //                         },
+                    //                     vAxis: {
+                    //                         minValue: 0, 
+                    //                         format: "short"
+                    //                     }, 
+                    //                     'colors': ['#00A3D9'],
+                    //                     'animation': {
+                    //                         'startup':true,
+                    //                         'duration': 1000,
+                    //                         'easing': 'out'
+                    //                     },
+                    //                     'legend': {
+                    //                         position: 'none'
+                    //                     },
+                    //                     'backgroundColor': '#f7f7f7'
+                    //                 };
+                    //     for (var key in data["primary_property_type_distinct"]) {
+                    //         if(target_primary_property_types.includes(data["primary_property_type_distinct"][key]["primaryPropertyType"])) {
+                    //             $("#primary_property_type_filter").append(
+                    //                 '<input type="checkbox" name="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '" id="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '_option' +'" value="' + data["primary_property_type_distinct"][key]["primaryPropertyType"] + '" class="css-checkbox" checked="checked"><label for="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '_option' +'" class="css-label">' + keyChangerPropertyType(data["primary_property_type_distinct"][key]["primaryPropertyType"]) + '</label><br />'
+                    //             );
+                    //         } else {
+                    //             $("#primary_property_type_filter").append(
+                    //                 '<input type="checkbox" name="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '" id="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '_option' +'" value="' + data["primary_property_type_distinct"][key]["primaryPropertyType"] + '" class="css-checkbox"><label for="pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase() + '_option' +'" class="css-label">' + keyChangerPropertyType(data["primary_property_type_distinct"][key]["primaryPropertyType"]) + '</label><br />'
+                    //             );
+                    //         }
                             
-                            $('#pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase().replace(/ /g, "_") + '_option').click(function(){
-                                if($('#pt_' + $(this).val().toLowerCase().replace(/ /g, "_") + '_option').is(":checked")) { 
+                    //         $('#pt_' + data["primary_property_type_distinct"][key]["primaryPropertyType"].toLowerCase().replace(/ /g, "_") + '_option').click(function(){
+                    //             if($('#pt_' + $(this).val().toLowerCase().replace(/ /g, "_") + '_option').is(":checked")) { 
                                     
-                                    var parent = this;
+                    //                 var parent = this;
                 
-                                    $("#primary_property_type_filters").append('<li id="filter_pt_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ keyChangerPropertyType($(this).val().toUpperCase()) +'<i class="fas fa-window-close float-right"></i></li>')
-                                    $('#filter_pt_' + $(this).val().toLowerCase().replace(/ /g, "_") + ' i').click(function() {
-                                        if($('#pt_' + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').length) {
-                                            $('#filter_pt_' + $(parent).val().toLowerCase().replace(/ /g, "_")).remove();
-                                            $("#pt_" + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').prop("checked", false);
-                                        }
-                                        checkForFilters();
+                    //                 $("#primary_property_type_filters").append('<li id="filter_pt_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ keyChangerPropertyType($(this).val().toUpperCase()) +'<i class="fas fa-window-close float-right"></i></li>')
+                    //                 $('#filter_pt_' + $(this).val().toLowerCase().replace(/ /g, "_") + ' i').click(function() {
+                    //                     if($('#pt_' + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').length) {
+                    //                         $('#filter_pt_' + $(parent).val().toLowerCase().replace(/ /g, "_")).remove();
+                    //                         $("#pt_" + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').prop("checked", false);
+                    //                     }
+                    //                     checkForFilters();
         
-                                    });
-                                } else {
+                    //                 });
+                    //             } else {
                                     
                 
-                                    if($('#filter_pt_' + $(this).val().toLowerCase().replace(/ /g, "_") )) {
-                                        $('#filter_pt_' + $(this).val().toLowerCase().replace(/ /g, "_") ).remove();
-                                    }
-                                }
-                                checkForFilters();
+                    //                 if($('#filter_pt_' + $(this).val().toLowerCase().replace(/ /g, "_") )) {
+                    //                     $('#filter_pt_' + $(this).val().toLowerCase().replace(/ /g, "_") ).remove();
+                    //                 }
+                    //             }
+                    //             checkForFilters();
         
-                            });
-                        }              
-                        // Instantiate and draw our chart, passing in some options.
-                        var chart_primary_property_types = new google.visualization.BarChart(document.getElementById('primaryPropertyTypeChart'));
-                            chart_primary_property_types.draw(data_primary_property_types, chart_options_primary_property_types);  
+                    //         });
+                    //     }              
+                    //     // Instantiate and draw our chart, passing in some options.
+                    //     var chart_primary_property_types = new google.visualization.BarChart(document.getElementById('primaryPropertyTypeChart'));
+                    //         chart_primary_property_types.draw(data_primary_property_types, chart_options_primary_property_types);  
 
                         update_progress();
                     
