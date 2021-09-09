@@ -59,10 +59,10 @@ class CreateEnrichedDataTable extends Migration
             $table->string("Employer")->nullable();
             $table->boolean("VehicleOwnershipStatus")->nullable();
             $table->string("CreditRiskCategory", 9)->nullable();
-            $table->json("custom_varialbe_1")->nullable()->default("{}");
-            $table->json("custom_varialbe_2")->nullable()->default("{}");
-            $table->json("custom_varialbe_3")->nullable()->default("{}");
-            $table->json("custom_varialbe_4")->nullable()->default("{}");
+            $table->json("custom_variable_1")->nullable()->default("{}");
+            $table->json("custom_variable_2")->nullable()->default("{}");
+            $table->json("custom_variable_3")->nullable()->default("{}");
+            $table->json("custom_variable_4")->nullable()->default("{}");
             $table->string("InputIdn", 13)->nullable();
             $table->string("InputFirstName")->nullable();
             $table->string("InputSurname")->nullable();
