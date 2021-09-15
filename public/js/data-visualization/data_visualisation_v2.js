@@ -1,3 +1,63 @@
+var edit_file = function(file_unique_name) {
+    if($("#input_" + file_unique_name).attr("readonly"))
+    {
+        $("#input_" + file_unique_name).removeAttr("readonly");
+    } else {
+        $("#input_" + file_unique_name).attr("readonly", true);
+    }
+}
+
+var delete_file = function(file_unique_name, file_name) {
+    var current_page = $("#paginationContainer").attr("data-current-page");
+    var number_of_pages = $("#paginationContainer").attr("data-number-of-pages");
+    var confirmed = confirm("Are you sure that you want to delete: " + file_name + "?");
+
+    var disable_enable_page_item = function() {
+        $(".page-item").removeClass("disabled");
+        if (current_page == 1) {
+            if(!$("#btn_prev_item").hasClass('disabled')) {
+                document.getElementById("btn_prev_item").classList.add("disabled");
+            }   
+        }
+    
+        if (current_page == number_of_pages) {
+            if(!$("#btn_next_item").hasClass('disabled')) {
+                document.getElementById("btn_next_item").classList.add("disabled");
+            }  
+        } 
+    }
+    $(".delete_file_btn").prop("disabled", true);
+    $(".page-item").addClass("disabled");
+    if(confirmed == true) {
+        $("#delete_" + file_unique_name).html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span class="sr-only">Loading...</span>`);
+        $.post('/api/meetpat-client/delete-saved-audience-file', {user_id: user_id_number, file_unique_name: file_unique_name}, function(data) {
+            $("#file_name_" + file_unique_name).remove();
+            $("#file_actions_" + file_unique_name).remove();
+            
+            //console.log(data);
+        }).fail(function(data) {
+            $("#delete_" + file_unique_name).html(`<i class="fas fa-trash-alt"></i>`);
+            $(".delete_file_btn").prop("disabled", false);
+                    
+            disable_enable_page_item();
+            console.log(data);
+        }).done(function() {
+            $("#delete_" + file_unique_name).html(`<i class="fas fa-trash-alt"></i>`);
+            $(".delete_file_btn").prop("disabled", false);
+
+            disable_enable_page_item();
+                get_saved_audiences();
+            });
+    } else {
+        $(".delete_file_btn").prop("disabled", false);
+        
+        disable_enable_page_item();
+        
+    } 
+
+    
+}
+
 $(document).ready(function() {
     // Load Google Chart Library
     google.charts.load('current', {'packages':['corechart', 'geochart', 'bar'],
@@ -696,15 +756,6 @@ $(document).ready(function() {
         return Math.ceil(data.length / records_per_page);
     }
 
-    var edit_file = function(file_unique_name) {
-        if($("#input_" + file_unique_name).attr("readonly"))
-        {
-            $("#input_" + file_unique_name).removeAttr("readonly");
-        } else {
-            $("#input_" + file_unique_name).attr("readonly", true);
-        }
-    }
-
     function find_duplicate_in_array(arra1) {
         var object = {};
         var result = [];
@@ -745,57 +796,6 @@ $(document).ready(function() {
         })
             
         return find_duplicate_in_array(inputs_array);
-    }
-
-    var delete_file = function(file_unique_name, file_name) {
-        var current_page = $("#paginationContainer").attr("data-current-page");
-        var number_of_pages = $("#paginationContainer").attr("data-number-of-pages");
-        var confirmed = confirm("Are you sure that you want to delete: " + file_name + "?");
-
-        var disable_enable_page_item = function() {
-            $(".page-item").removeClass("disabled");
-            if (current_page == 1) {
-                if(!$("#btn_prev_item").hasClass('disabled')) {
-                    document.getElementById("btn_prev_item").classList.add("disabled");
-                }   
-            }
-        
-            if (current_page == number_of_pages) {
-                if(!$("#btn_next_item").hasClass('disabled')) {
-                    document.getElementById("btn_next_item").classList.add("disabled");
-                }  
-            } 
-        }
-        $(".delete_file_btn").prop("disabled", true);
-        $(".page-item").addClass("disabled");
-        if(confirmed == true) {
-            $("#delete_" + file_unique_name).html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span class="sr-only">Loading...</span>`);
-            $.post('/api/meetpat-client/delete-saved-audience-file', {user_id: user_id_number, file_unique_name: file_unique_name}, function(data) {
-                $("#file_name_" + file_unique_name).remove();
-                $("#file_actions_" + file_unique_name).remove();
-                
-                //console.log(data);
-            }).fail(function(data) {
-                $("#delete_" + file_unique_name).html(`<i class="fas fa-trash-alt"></i>`);
-                $(".delete_file_btn").prop("disabled", false);
-                        
-                disable_enable_page_item();
-                console.log(data);
-            }).done(function() {
-                $("#delete_" + file_unique_name).html(`<i class="fas fa-trash-alt"></i>`);
-                $(".delete_file_btn").prop("disabled", false);
-
-                disable_enable_page_item();
-                    get_saved_audiences();
-                });
-        } else {
-            $(".delete_file_btn").prop("disabled", false);
-            
-            disable_enable_page_item();
-            
-        } 
-
-        
     }
 
     // Selected Targets Arrays
