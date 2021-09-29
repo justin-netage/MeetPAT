@@ -111,7 +111,7 @@ class AdministratorController extends Controller
             $success_message = 'A new user has been added successfully and an email has been sent to the new users email address (' . $request->email. ').';
         }
 
-        $create_user_table_partition = DB::statement("CREATE TABLE duplicate_enriched_records_user_" . $new_user->id . " OF duplicate_enriched_records VALUES IN (" . $new_user->id . ");");
+        $create_user_table_partition =  DB::statement("CREATE TABLE duplicate_enriched_records_user_" . $new_user->id . " PARTITION OF duplicate_enriched_records FOR VALUES IN (" . $new_user->id . ");");
 
         return back()->with('success', $success_message);
     }
