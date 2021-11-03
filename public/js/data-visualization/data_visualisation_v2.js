@@ -4790,7 +4790,7 @@ $(document).ready(function() {
                             get_saved_audiences();
                         }
                     });
-                }, 3000);
+                }, 1000);
                                    
 
             });
