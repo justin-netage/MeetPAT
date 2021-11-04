@@ -56,6 +56,10 @@ MeetPAT allows you to access the following information about you for the purpose
  <li>Application specific data</li> 
 </ul>
 
+<h3>Deletion Of Personal Information</h3>
+
+<p>In accordance with the relevant legislation and policies, you can request that MeetPAT delete any personal information held.  In order to request such deletion, you can contact us on <a href="mailto:info@meetpat.co.za">info@meetpat.co.za</a> with the relevant information. In addition, you can remove any Facebook / Google profile information by manually unlinking your account from MeetPAT in your account settings.
+</p>
 <h3>Changes To This Policy</h3>
 
 <p>MeetPAT may amend this Privacy Policy from time to time. Use of information we collect now is subject to the Privacy Policy in effect at the time such information is used. If we make changes in the way we use personal information, we will notify you by posting an announcement on our Site or sending you an email. Users are bound by any changes to the Privacy Policy when he or she uses or otherwise accesses the Application after such changes have been first posted.</p> 
