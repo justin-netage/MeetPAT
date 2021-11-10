@@ -781,8 +781,17 @@ class AdministratorController extends Controller
 
     public function delete_user(Request $request)
     {
+        
         $user = \MeetPAT\User::where(["name" => $request->user_name, "id" => $request->user_id])->get();
                 
+        $userToLogout = \MeetPAT\User::find($user[0]->id);
+        \Auth::setUser($userToLogout);
+        \Auth::logout();
+
+        DB::table('sessions')
+        ->whereUserId($user[0]->id)
+        ->delete();
+
         if($user) {
             $user_update = \MeetPAT\User::find($user[0]->id);
             $user_update->email = "removed_" . Carbon::now()->timestamp . "_" . $user_update->email;
