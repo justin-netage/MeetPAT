@@ -18,13 +18,9 @@ var keyChanger = function(key_name) {
 }
 
 var keyChangerHomeOwner = function(key_name) {
-    if(key_name == 'True' || key_name == 'true') {
+    if(key_name == 'True' || key_name == 'true' || key_name == 't') {
         return 'Home-Owner';
-    } else if(key_name == 'False' || key_name == 'false') {
-        return 'Not a Home-Owner';
-    } else if(key_name = 't') {
-        return 'Home-Owner';
-    } else if(key_name = 'f') {
+    } else if(key_name == 'False' || key_name == 'false' || key_name == 'f') {
         return 'Not a Home-Owner';
     } else {
         return key_name;
@@ -32,13 +28,9 @@ var keyChangerHomeOwner = function(key_name) {
 }
 
 var keyChangerDirector = function(key_name) {
-    if(key_name == 'True' || key_name == 'true') {
+    if(key_name == 'True' || key_name == 'true' || key_name == 't') {
         return 'Company Director';
-    } else if(key_name == 'False' || key_name == 'false') {
-        return 'Not a Company Director';
-    } else if(key_name = 't') {
-        return 'Company Director';
-    } else if(key_name = 'f') {
+    } else if(key_name == 'False' || key_name == 'false' || key_name == 'f') {
         return 'Not a Company Director';
     } else {
         return key_name;
@@ -46,13 +38,9 @@ var keyChangerDirector = function(key_name) {
 }
 
 var keyChangerVehicleOwner = function(key_name) {
-    if(key_name == 'True' || key_name == 'true') {
+    if(key_name == 'True' || key_name == 'true' || key_name == 't') {
         return 'Vehicle-Owner';
-    } else if(key_name == 'False' || key_name == 'false') {
-        return 'Not a Vehicle-Owner';
-    } else if(key_name = 't') {
-        return 'Vehicle-Owner';
-    } else if(key_name = 'f') {
+    } else if(key_name == 'False' || key_name == 'false' || key_name == 'f') {
         return 'Not a Vehicle-Owner';
     } else {
         return key_name;
