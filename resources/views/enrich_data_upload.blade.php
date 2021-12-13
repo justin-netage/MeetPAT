@@ -82,9 +82,9 @@
                                 <div id="file-warning-feedback"><strong>Warning!</strong> your file has bad rows that can not be uploaded.</div>
                             </div>
                             <br />
-                            <div class="form-group">
+                            <div class="form-group d-none">
                                 <label>Original Data Source</label>
-                                <select name="file_source_origin" class="form-control" id="origin-of-upload">
+                                <select name="file_source_origin" class="form-control" id="origin-of-upload" hidden>
                                     <option value="directly_from_customers">Customers</option>
                                 </select>
                             </div>

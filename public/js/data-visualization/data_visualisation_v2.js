@@ -110,9 +110,9 @@ var keyChangerGender = function(key_name) {
 }
 
 var keyChangerMaritalStatus = function(key_name) {
-    if(key_name == "True" || key_name == "true") {
+    if(key_name == "True" || key_name == "true" || key_name == 't') {
         return 'Married';
-    } else if(key_name == "False" || key_name == "false") {
+    } else if(key_name == "False" || key_name == "false" || key_name == 'f') {
         return 'Not Married';
     } else {
         return key_name;

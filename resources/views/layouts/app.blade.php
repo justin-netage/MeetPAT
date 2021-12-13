@@ -32,7 +32,7 @@
     </div>
 </div>
 <!-- Beta Ribbon  -->
-<div class="corner-ribbon top-left shadow">Beta</div>
+<!-- <div class="corner-ribbon top-left shadow">Beta</div> -->
 <!-- -->
     <div id="app">
         <nav class="navbar sticky-top navbar-expand-md navbar-light navbar-laravel">
