@@ -2008,8 +2008,6 @@ function drawDemographicGraphs() {
                                 i++;
                             }
                         };
-
-                        console.log(result_generations_obj);
                     
                         data_generations.addRows(result_generations_obj);
                         // Set chart options
@@ -3033,7 +3031,7 @@ function DrawCustomMetricsCharts() {
         type: 'GET',
         data: data,
         success: function(data) {
-            if(!data["branches"].length && !data["campaigns"].length)
+            if(!data["branches"].length && !data["campaigns"].length && !data["sources"].length && !data["others"].length)
             {
                 $("#metrics-heading").hide();
                 $("#metrics-graphs").hide();
