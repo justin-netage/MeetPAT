@@ -2037,39 +2037,41 @@ function drawDemographicGraphs() {
                                         'backgroundColor': '#f7f7f7'
                                     };
                             for (var key in data["generations_distinct"]) {
-                                if(target_generations.includes(data["generations_distinct"][key]["generation"])) {
-                                    $("#generation_filter").append(
-                                        '<input type="checkbox" name="gen_' + data["generations_distinct"][key]["generation"] + '" id="gen_' + data["generations_distinct"][key]["generation"].toLowerCase().replace(/ /g, "_") + '_option' +'" value="' + data["generations_distinct"][key]["generation"] + '" class="css-checkbox" checked="checked"><label for="gen_' + data["generations_distinct"][key]["generation"].toLowerCase().replace(/ /g, "_") + '_option' +'" class="css-label">' + data["generations_distinct"][key]["generation"] + '</label><br />'
-                                    );
-                                } else {
-                                    $("#generation_filter").append(
-                                        '<input type="checkbox" name="gen_' + data["generations_distinct"][key]["generation"] + '" id="gen_' + data["generations_distinct"][key]["generation"].toLowerCase().replace(/ /g, "_") + '_option' +'" value="' + data["generations_distinct"][key]["generation"] + '" class="css-checkbox"><label for="gen_' + data["generations_distinct"][key]["generation"].toLowerCase().replace(/ /g, "_") + '_option' +'" class="css-label">' + data["generations_distinct"][key]["generation"] + '</label><br />'
-                                    );
-                                }
-                                $('#gen_' + data["generations_distinct"][key]["generation"].toLowerCase().replace(/ /g, "_") + '_option').click(function(){
-                                    if($('#gen_' + $(this).val().toLowerCase().replace(/ /g, "_") + '_option').is(":checked")) { 
-                                        
-                                        var parent = this;
-                    
-                                        $("#generation_filters").append('<li id="filter_gen_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
-                                        $('#filter_gen_' + $(this).val().toLowerCase().replace(/ /g, "_") + ' i').click(function() {
-                                            if($('#gen_' + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').length) {
-                                                $('#filter_gen_' + $(parent).val().toLowerCase().replace(/ /g, "_")).remove();
-                                                $("#gen_" + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').prop("checked", false);
-                                            }
-                                            checkForFilters();
-
-                                        });
+                                if(data["generations_distinct"][key]["generation"] != "Unkown") {
+                                    if(target_generations.includes(data["generations_distinct"][key]["generation"])) {
+                                        $("#generation_filter").append(
+                                            '<input type="checkbox" name="gen_' + data["generations_distinct"][key]["generation"] + '" id="gen_' + data["generations_distinct"][key]["generation"].toLowerCase().replace(/ /g, "_") + '_option' +'" value="' + data["generations_distinct"][key]["generation"] + '" class="css-checkbox" checked="checked"><label for="gen_' + data["generations_distinct"][key]["generation"].toLowerCase().replace(/ /g, "_") + '_option' +'" class="css-label">' + data["generations_distinct"][key]["generation"] + '</label><br />'
+                                        );
                                     } else {
-                                        
-                    
-                                        if($('#filter_gen_' + $(this).val().toLowerCase().replace(/ /g, "_") )) {
-                                            $('#filter_gen_' + $(this).val().toLowerCase().replace(/ /g, "_") ).remove();
-                                        }
+                                        $("#generation_filter").append(
+                                            '<input type="checkbox" name="gen_' + data["generations_distinct"][key]["generation"] + '" id="gen_' + data["generations_distinct"][key]["generation"].toLowerCase().replace(/ /g, "_") + '_option' +'" value="' + data["generations_distinct"][key]["generation"] + '" class="css-checkbox"><label for="gen_' + data["generations_distinct"][key]["generation"].toLowerCase().replace(/ /g, "_") + '_option' +'" class="css-label">' + data["generations_distinct"][key]["generation"] + '</label><br />'
+                                        );
                                     }
-                                    checkForFilters();
-
-                                });
+                                    $('#gen_' + data["generations_distinct"][key]["generation"].toLowerCase().replace(/ /g, "_") + '_option').click(function(){
+                                        if($('#gen_' + $(this).val().toLowerCase().replace(/ /g, "_") + '_option').is(":checked")) { 
+                                            
+                                            var parent = this;
+                        
+                                            $("#generation_filters").append('<li id="filter_gen_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ $(this).val() +'<i class="fas fa-window-close float-right"></i></li>')
+                                            $('#filter_gen_' + $(this).val().toLowerCase().replace(/ /g, "_") + ' i').click(function() {
+                                                if($('#gen_' + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').length) {
+                                                    $('#filter_gen_' + $(parent).val().toLowerCase().replace(/ /g, "_")).remove();
+                                                    $("#gen_" + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').prop("checked", false);
+                                                }
+                                                checkForFilters();
+    
+                                            });
+                                        } else {
+                                            
+                        
+                                            if($('#filter_gen_' + $(this).val().toLowerCase().replace(/ /g, "_") )) {
+                                                $('#filter_gen_' + $(this).val().toLowerCase().replace(/ /g, "_") ).remove();
+                                            }
+                                        }
+                                        checkForFilters();
+    
+                                    }); 
+                                }
                     
                             }            
                             // Instantiate and draw our chart, passing in some options.
