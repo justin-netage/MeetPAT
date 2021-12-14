@@ -1997,8 +1997,21 @@ function drawDemographicGraphs() {
                         var result_generations = Object.keys(data["generations"]).map(function(key) {
                             return [data["generations"][key]["generation"], data["generations"][key]["audience"], kFormatter(data["generations"][key]["audience"])];
                         });
+
+
+                        result_generations_obj = [];
+                        var i = 0;
+                        for (const key in result_generations) {
+                            
+                            if(result_generations[key][0] != "Unknown") {
+                                result_generations_obj[i] = result_generations[key];
+                                i++;
+                            }
+                        };
+
+                        console.log(result_generations_obj);
                     
-                        data_generations.addRows(result_generations);
+                        data_generations.addRows(result_generations_obj);
                         // Set chart options
                         var chart_options_generations = {
                                         'width':'100%',
@@ -3018,7 +3031,6 @@ function DrawCustomMetricsCharts() {
         type: 'GET',
         data: data,
         success: function(data) {
-            
             if(!data["branches"].length && !data["campaigns"].length)
             {
                 $("#metrics-heading").hide();
