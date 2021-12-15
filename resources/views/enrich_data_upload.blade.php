@@ -59,6 +59,7 @@
                             <li>Column headers must remain identical to the sample sheet.</li>
                             <li>Any fields / columns for which you don't have data can be left blank.</li>
                             <li>PLEASE NOTE: The size limit for uploaded files is 10Mb. (Approx 100,000 Rows.) If your file is larger than this, you will need to split it into smaller files.</li>
+                            <li>In order to upload, your spreadsheet must be saved as a CSV (comma delimited) file.</li>
                         </ul>
                         
 
