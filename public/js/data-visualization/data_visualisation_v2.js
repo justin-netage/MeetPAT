@@ -2367,7 +2367,7 @@ function DrawAssetsGraphs() {
                             
                             var parent = this;
         
-                            $("#home_owner_filters").append('<li id="filter_h_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ keyChanger($(this).val()) +'<i class="fas fa-window-close float-right"></i></li>')
+                            $("#home_owner_filters").append('<li id="filter_h_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ keyChangerHomeOwner($(this).val()) +'<i class="fas fa-window-close float-right"></i></li>')
                             $('#filter_h_' + $(this).val().toLowerCase().replace(/ /g, "_") + ' i').click(function() {
                                 if($('#h_' + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').length) {
                                     $('#filter_h_' + $(parent).val().toLowerCase().replace(/ /g, "_")).remove();
@@ -2608,7 +2608,7 @@ function DrawAssetsGraphs() {
                                         
                                         var parent = this;
                     
-                                        $("#vehicle_owner_filters").append('<li id="filter_vo_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ unknownChanger($(this).val()) +'<i class="fas fa-window-close float-right"></i></li>')
+                                        $("#vehicle_owner_filters").append('<li id="filter_vo_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ keyChangerVehicleOwner($(this).val()) +'<i class="fas fa-window-close float-right"></i></li>')
                                         $('#filter_vo_' + $(this).val().toLowerCase().replace(/ /g, "_") + ' i').click(function() {
                                             if($('#vo_' + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').length) {
                                                 $('#filter_vo_' + $(parent).val().toLowerCase().replace(/ /g, "_")).remove();
@@ -2963,7 +2963,7 @@ function DrawFinancialCharts() {
                             
                             var parent = this;
         
-                            $("#directors_filters").append('<li id="filter_d_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ keyChanger($(this).val()) +'<i class="fas fa-window-close float-right"></i></li>')
+                            $("#directors_filters").append('<li id="filter_d_' + $(this).val().toLowerCase().replace(/ /g, "_") + '">'+ keyChangerDirector($(this).val()) +'<i class="fas fa-window-close float-right"></i></li>')
                             $('#filter_d_' + $(this).val().toLowerCase().replace(/ /g, "_") + ' i').click(function() {
                                 if($('#d_' + $(parent).val().toLowerCase().replace(/ /g, "_") + '_option').length) {
                                     $('#filter_d_' + $(parent).val().toLowerCase().replace(/ /g, "_")).remove();
